@@ -1,42 +1,42 @@
 name: Grief Report
 description: Report a potential grief at a specific location
 title: Grief Report
-labels: Grief Report
+labels: [ Grief Report ]
 body:
-- type: input
-  attributes:
-    label: My Minecraft username
-    placeholder: JasonHorkles
-  validations:
-    required: true
+  - type: input
+    attributes:
+      label: My Minecraft username
+      placeholder: JasonHorkles
+    validations:
+      required: true
 
-- type: dropdown
-  attributes:
-    label: World of the grief
-    description: Your current world can be found in the player tab list
-    options:
-      - Survival
-      - Survival (Nether)
-      - Survival (Player Shops)
-      - Survival (The End)
-      - Minigames-A
-      - Minigames-E
-      - Minigames-T
-      - Plots
-      - Utility
-  validations:
-    required: true
+  - type: dropdown
+    attributes:
+      label: World of the grief
+      description: Your current world can be found in the player tab list
+      options:
+        - Survival
+        - Survival (Nether)
+        - Survival (Player Shops)
+        - Survival (The End)
+        - Minigames-A
+        - Minigames-E
+        - Minigames-T
+        - Plots
+        - Utility
+    validations:
+      required: true
 
-- type: input
-  attributes:
-    label: The coordinates at the location of the grief
-    placeholder: "-3956, 72, 593"
-  validations:
-    required: true
+  - type: input
+    attributes:
+      label: The coordinates at the location of the grief
+      placeholder: "-3956, 72, 593"
+    validations:
+      required: true
 
-- type: textarea
-  attributes:
-    label: What happened
-    description: You may provide screenshots of the damage
-  validations:
-    required: true
+  - type: textarea
+    attributes:
+      label: What happened
+      description: You may provide screenshots of the damage
+    validations:
+      required: true

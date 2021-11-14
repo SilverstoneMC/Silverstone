@@ -1,66 +1,66 @@
 name: Download Request
 description: Request to download a part of a world
 title: Download Request
-labels: Download Request
+labels: [ Download Request ]
 body:
-- type: markdown
-  attributes:
-    value: |
-      ## If you'd like to download an entire world instead of a region, please DM `Jason H#0552` on Discord. Warning: The main world folder is very large! (~85GB)
+  - type: markdown
+    attributes:
+      value: |
+        ## If you'd like to download an entire world instead of a region, please DM `Jason H#0552` on Discord. Warning: The main world folder is very large! (~85GB)
 
-- type: input
-  attributes:
-    label: My Minecraft username
-    placeholder: JasonHorkles
-  validations:
-    required: true
+  - type: input
+    attributes:
+      label: My Minecraft username
+      placeholder: JasonHorkles
+    validations:
+      required: true
 
-- type: input
-  attributes:
-    label: My Discord username and tag
-    placeholder: Jason H#0552
-  validations:
-    required: true
+  - type: input
+    attributes:
+      label: My Discord username and tag
+      placeholder: Jason H#0552
+    validations:
+      required: true
 
-- type: input
-  attributes:
-    label: The first x & z coordinates of the area
-    description: This should be one corner of the area you want to save
-    placeholder: "-3956, 593"
-  validations:
-    required: true
+  - type: input
+    attributes:
+      label: The first x & z coordinates of the area
+      description: This should be one corner of the area you want to save
+      placeholder: "-3956, 593"
+    validations:
+      required: true
 
-- type: input
-  attributes:
-    label: The second x & z coordinates of the area
-    description: This should be the opposite corner of the area you want to save
-    placeholder: "-4218, 762"
-  validations:
-    required: true
+  - type: input
+    attributes:
+      label: The second x & z coordinates of the area
+      description: This should be the opposite corner of the area you want to save
+      placeholder: "-4218, 762"
+    validations:
+      required: true
 
-- type: dropdown
-  attributes:
-    label: World of the area I'd like to save
-    description: Your current world can be found in the player tab list
-    options:
-      - Main
-      - Main (Nether)
-      - Main (The End)
-      - Minigames-A
-      - Minigames-E
-      - Minigames-T
-      - Player Shops
-      - Plots
-      - Utility
-  validations:
-    required: true
+  - type: dropdown
+    attributes:
+      label: World of the area I'd like to save
+      description: Your current world can be found in the player tab list
+      options:
+        - Main
+        - Main (Nether)
+        - Main (The End)
+        - Minigames-A
+        - Minigames-E
+        - Minigames-T
+        - Player Shops
+        - Plots
+        - Utility
+    validations:
+      required: true
 
-- type: dropdown
-  attributes:
-    label: How would you like the download?
-    options:
-      - Schematic File (.schem)
-      - Region File (.mca)
-      - Both
-  validations:
-    required: true
+  - type: dropdown
+    attributes:
+      label: How would you like the download?
+      options:
+        - Schematic File (.schem)
+        - Region File (.mca)
+        - Both
+    validations:
+      required: true

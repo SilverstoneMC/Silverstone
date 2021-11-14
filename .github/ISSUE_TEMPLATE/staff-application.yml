@@ -1,112 +1,112 @@
 name: Staff Application
 description: Apply for the moderator position
 title: Staff Application
-labels: Staff Application
+labels: [ Staff Application ]
 body:
-- type: markdown
-  attributes:
-    value: |
-      ## If an application is declined, you may submit one again in 6 months.
-      ### If the application isn't responded to quickly, it may be because we want to give it some more time before making a decision. Be patient.
-      ### The requirements can be found [here](https://github.com/SilverstoneMC/Silverstone/wiki/Moderator-Requirements)
+  - type: markdown
+    attributes:
+      value: |
+        ## If an application is declined, you may submit one again in 6 months.
+        ### If the application isn't responded to quickly, it may be because we want to give it some more time before making a decision. Be patient.
+        ### The requirements can be found [here](https://github.com/SilverstoneMC/Silverstone/wiki/Moderator-Requirements)
 
-- type: dropdown
-  attributes:
-    label: "Am I re-submitting my application?"
-    options:
-      - "Yes"
-      - "No"
-  validations:
-    required: true
+  - type: dropdown
+    attributes:
+      label: "Am I re-submitting my application?"
+      options:
+        - "Yes"
+        - "No"
+    validations:
+      required: true
 
-- type: input
-  attributes:
-    label: My Minecraft username
-    placeholder: JasonHorkles
-  validations:
-    required: true
+  - type: input
+    attributes:
+      label: My Minecraft username
+      placeholder: JasonHorkles
+    validations:
+      required: true
 
-- type: input
-  attributes:
-    label: My Discord username & tag
-    placeholder: Jason H#0552
-  validations:
-    required: true
+  - type: input
+    attributes:
+      label: My Discord username & tag
+      placeholder: Jason H#0552
+    validations:
+      required: true
 
-- type: input
-  attributes:
-    label: My current rank
-    description: Shown in the player tab list
-    placeholder: owner
-  validations:
-    required: true
+  - type: input
+    attributes:
+      label: My current rank
+      description: Shown in the player tab list
+      placeholder: owner
+    validations:
+      required: true
 
-- type: input
-  attributes:
-    label: My total time played on the server (in hours)
-    description: "Type `/ptt` in-game for the time played"
-    placeholder: "32"
-  validations:
-    required: true
+  - type: input
+    attributes:
+      label: My total time played on the server (in hours)
+      description: "Type `/ptt` in-game for the time played"
+      placeholder: "32"
+    validations:
+      required: true
 
-- type: input
-  attributes:
-    label: My current age
-    description: "DM it to `Jason H#0552` on Discord if you don't want this public"
-    placeholder: "19"
-  validations:
-    required: false
+  - type: input
+    attributes:
+      label: My current age
+      description: "DM it to `Jason H#0552` on Discord if you don't want this public"
+      placeholder: "19"
+    validations:
+      required: false
 
-- type: textarea
-  attributes:
-    label: Why I want to be a staff member
-  validations:
-    required: true
+  - type: textarea
+    attributes:
+      label: Why I want to be a staff member
+    validations:
+      required: true
 
-- type: input
-  attributes:
-    label: "How often am I / will I be active on the Minecraft server?"
-  validations:
-    required: true
+  - type: input
+    attributes:
+      label: "How often am I / will I be active on the Minecraft server?"
+    validations:
+      required: true
 
-- type: input
-  attributes:
-    label: "How often am I / will I be active in the Discord server?"
-  validations:
-    required: true
+  - type: input
+    attributes:
+      label: "How often am I / will I be active in the Discord server?"
+    validations:
+      required: true
 
-- type: dropdown
-  attributes:
-    label: "On a scale of 1-10, how good of a staff member do I think I'd be?"
-    options:
-      - 1 (Terrible)
-      - 2
-      - 3
-      - 4
-      - 5
-      - 6
-      - 7
-      - 8
-      - 9
-      - 10 (Fantastic)
-  validations:
-    required: true
+  - type: dropdown
+    attributes:
+      label: "On a scale of 1-10, how good of a staff member do I think I'd be?"
+      options:
+        - "1 (Terrible)"
+        - "2"
+        - "3"
+        - "4"
+        - "5"
+        - "6"
+        - "7"
+        - "8"
+        - "9"
+        - "10 (Fantastic)"
+    validations:
+      required: true
 
-- type: input
-  attributes:
-    label: "Do I feel like I'm worthy of being a Silverstone staff member?"
-  validations:
-    required: true
+  - type: input
+    attributes:
+      label: "Do I feel like I'm worthy of being a Silverstone staff member?"
+    validations:
+      required: true
 
-- type: input
-  attributes:
-    label: "Do I swear I'll do my best to follow and enforce the server rules at all times?"
-  validations:
-    required: true
+  - type: input
+    attributes:
+      label: "Do I swear I'll do my best to follow and enforce the server rules at all times?"
+    validations:
+      required: true
 
-- type: textarea
-  attributes:
-    label: Explanation
-    description: "Write a paragraph with a minimum of 75 words explaining why you think you should be a moderator"
-  validations:
-    required: true
+  - type: textarea
+    attributes:
+      label: Explanation
+      description: "Write a paragraph with a minimum of 75 words explaining why you think you should be a moderator"
+    validations:
+      required: true
