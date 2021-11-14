@@ -1,0 +1,103 @@
+server: "main"
+
+# Lore for the buy GUI
+buyGUI:
+  Member:
+    1:
+      - "This is on the first page"
+    2:
+      - "This is on the second page"
+  VIP:
+    1:
+      - ""
+    2:
+      - ""
+  VIP+:
+    1:
+      - ""
+    2:
+      - ""
+  MVP:
+    1:
+      - ""
+    2:
+      - ""
+  Donate:
+    1:
+      - ""
+
+socialGUI:
+  Discord:
+    skullID: ""
+    message: ""
+  GitHub:
+    skullID: ""
+    message: ""
+  Instagram:
+    skullID: ""
+    message: ""
+  Twitch:
+    skullID: ""
+    message: ""
+  Twitter:
+    skullID: ""
+    message: ""
+  YouTube:
+    skullID: ""
+    message: ""
+
+# The rules for the server
+rules:
+  # The text to add before the rule number when sending a player a rule
+  rule-prefix: "&2Rule "
+  number-of-rules: 11
+  header:
+    - "&3 ---------- &aRules &3----------"
+  1: "Rule 1"
+  # Rule 2 is hard coded
+  3: "Rule 3"
+  4: "Rule 4"
+  5: "Rule 5"
+  6: "Rule 6"
+  7: "Rule 7"
+  8: "Rule 8"
+  9: "Rule 9"
+  10: "Rule 10"
+  11: "Rule 11"
+  footer:
+    - ""
+  # The rules to show in the GUI menu
+  GUI:
+    1:
+      - "Line 1"
+      - "Line 2"
+    2:
+      - "Line 1"
+      - "Line 2"
+    3:
+      - "Line 1"
+      - "Line 2"
+    4:
+      - "Line 1"
+      - "Line 2"
+    5:
+      - "Line 1"
+      - "Line 2"
+    6:
+      - "Line 1"
+      - "Line 2"
+    7:
+      - "Line 1"
+      - "Line 2"
+    8:
+      - "Line 1"
+      - "Line 2"
+    9:
+      - "Line 1"
+      - "Line 2"
+    10:
+      - "Line 1"
+      - "Line 2"
+    11:
+      - "Line 1"
+      - "Line 2"

@@ -1,0 +1,534 @@
+# Use placeholder {player} for the player's name
+reasons:
+  # Hacking category
+  block:
+    add:
+      1:
+        - "hopecommander kick {player} FastBreak hack or related [Rule 2 - Warning 1/6]"
+        - "hopecommander bc &b{player} &ahas been kicked for &bFastBreak hack or related &3[Warning 1/6]"
+      2:
+        - "hopecommander tempban {player} 1h FastBreak hack [Rule 2 - Warning 2/6]"
+        - "hopecommander bc &b{player} &ahas been tempbanned [1h] for &bFastBreak hack or related &3[Warning 2/6]"
+      3:
+        - "hopecommander tempban {player} 1d FastBreak hack [Rule 2 - Warning 3/6]"
+        - "hopecommander bc &b{player} &ahas been tempbanned [1d] for &bFastBreak hack or related &3[Warning 3/6]"
+      4:
+        - "hopecommander tempban {player} 7d FastBreak hack [Rule 2 - Warning 4/6]"
+        - "hopecommander bc &b{player} &ahas been tempbanned [7d] for &bFastBreak hack or related &3[Warning 4/6]"
+      5:
+        - "hopecommander tempban {player} 1mo FastBreak hack [Rule 2 - Warning 5/6]"
+        - "hopecommander bc &b{player} &ahas been tempbanned [1mo] for &bFastBreak hack or related &3[Warning 5/6]"
+      6:
+        - "hopecommander ban {player} FastBreak hack [Rule 2 - Warning 6/6]"
+        - "hopecommander bc &b{player} &ahas been banned for &bFastBreak hack or related &3[Warning 6/6]"
+    remove:
+      1:
+        - "say block"
+  hitbox:
+    add:
+      1:
+        - "hopecommander kick {player} Hitbox / Reach hack [Rule 2 - Warning 1/6]"
+        - "hopecommander bc &b{player} &ahas been kicked for &bHitbox / Reach hack &3[Warning 1/6]"
+      2:
+        - "jail {player} hitbox 1h"
+        - "hopecommander bc &b{player} &ahas been jailed [1h] for &bHitbox / Reach hack &3[Warning 2/6]"
+      3:
+        - "jail {player} hitbox 1d"
+        - "hopecommander bc &b{player} &ahas been jailed [1d] for &bHitbox / Reach hack &3[Warning 3/6]"
+      4:
+        - "hopecommander tempban {player} 7d Hitbox / Reach hack [Rule 2 - Warning 4/6]"
+        - "hopecommander bc &b{player} &ahas been tempbanned [7d] for &bHitbox / Reach hack &3[Warning 4/6]"
+      5:
+        - "hopecommander tempban {player} 1mo Hitbox / Reach hack [Rule 2 - Warning 5/6]"
+        - "hopecommander bc &b{player} &ahas been tempbanned [1mo] for &bHitbox / Reach hack &3[Warning 5/6]"
+      6:
+        - "hopecommander ban {player} Hitbox / Reach hack [Rule 2 - Warning 6/6]"
+        - "hopecommander bc &b{player} &ahas been banned for &bHitbox / Reach hack &3[Warning 6/6]"
+    remove:
+      1:
+        - "say hitbox"
+  interact:
+    add:
+      1:
+        - "hopecommander kick {player} Illegal interactions with blocks/entities [Rule 2 - Warning 1/6]"
+        - "hopecommander bc &b{player} &ahas been kicked for &bIllegal interactions with blocks/entities &3[Warning 1/6]"
+      2:
+        - "jail {player} interact 1h"
+        - "hopecommander bc &b{player} &ahas been jailed [1h] for &bIllegal interactions with blocks/entities &3[Warning 2/6]"
+      3:
+        - "jail {player} interact 1d"
+        - "hopecommander bc &b{player} &ahas been jailed [1d] for &bIllegal interactions with blocks/entities &3[Warning 3/6]"
+      4:
+        - "hopecommander tempban {player} 7d Illegal interactions with blocks/entities [Rule 2 - Warning 4/6]"
+        - "hopecommander bc &b{player} &ahas been tempbanned [7d] for &bIllegal interactions with blocks/entities &3[Warning 4/6]"
+      5:
+        - "hopecommander tempban {player} 1mo Illegal interactions with blocks/entities [Rule 2 - Warning 5/6]"
+        - "hopecommander bc &b{player} &ahas been tempbanned [1mo] for &bIllegal interactions with blocks/entities &3[Warning 5/6]"
+      6:
+        - "hopecommander ban {player} Illegal interactions with blocks/entities [Rule 2 - Warning 6/6]"
+        - "hopecommander bc &b{player} &ahas been banned for &bIllegal interactions with blocks/entities &3[Warning 6/6]"
+    remove:
+      1:
+        - "say interact"
+  jesus:
+    add:
+      1:
+        - "hopecommander kick {player} Jesus hack or related [Rule 2 - Warning 1/6]"
+        - "hopecommander bc &b{player} &ahas been kicked for &bJesus hack or related &3[Warning 1/6]"
+      2:
+        - "jail {player} jesus 1h"
+        - "hopecommander bc &b{player} &ahas been jailed [1h] for &bJesus hack or related &3[Warning 2/6]"
+      3:
+        - "jail {player} jesus 1d"
+        - "hopecommander bc &b{player} &ahas been jailed [1d] for &bJesus hack or related &3[Warning 3/6]"
+      4:
+        - "hopecommander tempban {player} 7d Jesus hack or related [Rule 2 - Warning 4/6]"
+        - "hopecommander bc &b{player} &ahas been tempbanned [7d] for &bJesus hack or related &3[Warning 4/6]"
+      5:
+        - "hopecommander tempban {player} 1mo Jesus hack or related [Rule 2 - Warning 5/6]"
+        - "hopecommander bc &b{player} &ahas been tempbanned [1mo] for &bJesus hack or related &3[Warning 5/6]"
+      6:
+        - "hopecommander ban {player} Jesus hack or related [Rule 2 - Warning 6/6]"
+        - "hopecommander bc &b{player} &ahas been banned for &bJesus hack or related &3[Warning 6/6]"
+    remove:
+      1:
+        - ""
+  killaura:
+    add:
+      1:
+        - "hopecommander kick {player} KillAura hack or related [Rule 2 - Warning 1/6]"
+        - "hopecommander bc &b{player} &ahas been kicked for &bKillAura hack or related &3[Warning 1/6]"
+      2:
+        - "jail {player} killaura 1h"
+        - "hopecommander bc &b{player} &ahas been jailed [1h] for &bKillAura hack or related &3[Warning 2/6]"
+      3:
+        - "jail {player} killaura 1d"
+        - "hopecommander bc &b{player} &ahas been jailed [1d] for &bKillAura hack or related &3[Warning 3/6]"
+      4:
+        - "hopecommander tempban {player} 7d KillAura hack or related [Rule 2 - Warning 4/6]"
+        - "hopecommander bc &b{player} &ahas been tempbanned [7d] for &bKillAura hack or related &3[Warning 4/6]"
+      5:
+        - "hopecommander tempban {player} 1mo KillAura hack or related [Rule 2 - Warning 5/6]"
+        - "hopecommander bc &b{player} &ahas been tempbanned [1mo] for &bKillAura hack or related &3[Warning 5/6]"
+      6:
+        - "hopecommander ban {player} KillAura hack or related [Rule 2 - Warning 6/6]"
+        - "hopecommander bc &b{player} &ahas been banned for &bKillAura hack or related &3[Warning 6/6]"
+    remove:
+      1:
+        - ""
+  move:
+    add:
+      1:
+        - "hopecommander kick {player} Speed / Fly / abnormal movement hack [Rule 2 - Warning 1/5]"
+        - "hopecommander bc &b{player} &ahas been kicked for &bSpeed / Fly / abnormal movement hack &3[Warning 1/5]"
+      2:
+        - "hopecommander tempban {player} 1d Speed / Fly / abnormal movement hack [Rule 2 - Warning 2/5]"
+        - "hopecommander bc &b{player} &ahas been tempbanned [1d] for &bSpeed / Fly / abnormal movement hack &3[Warning 2/5]"
+      3:
+        - "hopecommander tempban {player} 7d Speed / Fly / abnormal movement hack [Rule 2 - Warning 3/5]"
+        - "hopecommander bc &b{player} &ahas been tempbanned [7d] for &bSpeed / Fly / abnormal movement hack &3[Warning 3/5]"
+      4:
+        - "hopecommander tempban {player} 1mo Speed / Fly / abnormal movement hack [Rule 2 - Warning 4/5]"
+        - "hopecommander bc &b{player} &ahas been tempbanned [1mo] for &bSpeed / Fly / abnormal movement hack &3[Warning 4/5]"
+      5:
+        - "hopecommander ban {player} Speed / Fly / abnormal movement hack [Rule 2 - Warning 5/5]"
+        - "hopecommander bc &b{player} &ahas been banned for &bSpeed / Fly / abnormal movement hack &3[Warning 5/5]"
+    remove:
+      1:
+        - ""
+  scaffold:
+    add:
+      1:
+        - "hopecommander kick {player} Scaffold / Bridge hack or related [Rule 2 - Warning 1/6]"
+        - "hopecommander bc &b{player} &ahas been kicked for &bScaffold / Bridge hack or related &3[Warning 1/6]"
+      2:
+        - "jail {player} scaffold 1h"
+        - "hopecommander bc &b{player} &ahas been jailed [1h] for &bScaffold / Bridge hack or related &3[Warning 2/6]"
+      3:
+        - "jail {player} scaffold 1d"
+        - "hopecommander bc &b{player} &ahas been jailed [1d] for &bScaffold / Bridge hack or related &3[Warning 3/6]"
+      4:
+        - "hopecommander tempban {player} 7d Scaffold / Bridge hack or related [Rule 2 - Warning 4/6]"
+        - "hopecommander bc &b{player} &ahas been tempbanned [7d] for &bScaffold / Bridge hack or related &3[Warning 4/6]"
+      5:
+        - "hopecommander tempban {player} 1mo Scaffold / Bridge hack or related [Rule 2 - Warning 5/6]"
+        - "hopecommander bc &b{player} &ahas been tempbanned [1mo] for &bScaffold / Bridge hack or related &3[Warning 5/6]"
+      6:
+        - "hopecommander ban {player} Scaffold / Bridge hack or related [Rule 2 - Warning 6/6]"
+        - "hopecommander bc &b{player} &ahas been banned for &bScaffold / Bridge hack or related &3[Warning 6/6]"
+    remove:
+      1:
+        - ""
+  vehicle:
+    add:
+      1:
+        - "hopecommander kick {player} Vehicle Speed / Flight hack [Rule 2 - Warning 1/6]"
+        - "hopecommander bc &b{player} &ahas been kicked for &bVehicle Speed / Flight hack &3[Warning 1/6]"
+      2:
+        - "jail {player} vehicle 1h"
+        - "hopecommander bc &b{player} &ahas been jailed [1h] for &bVehicle Speed / Flight hack &3[Warning 2/6]"
+      3:
+        - "jail {player} vehicle 1d"
+        - "hopecommander bc &b{player} &ahas been jailed [1d] for &bVehicle Speed / Flight hack &3[Warning 3/6]"
+      4:
+        - "hopecommander tempban {player} 7d Vehicle Speed / Flight hack [Rule 2 - Warning 4/6]"
+        - "hopecommander bc &b{player} &ahas been tempbanned [7d] for &bVehicle Speed / Flight hack &3[Warning 4/6]"
+      5:
+        - "hopecommander tempban {player} 1mo Vehicle Speed / Flight hack [Rule 2 - Warning 5/6]"
+        - "hopecommander bc &b{player} &ahas been tempbanned [1mo] for &bVehicle Speed / Flight hack &3[Warning 5/6]"
+      6:
+        - "hopecommander ban {player} Vehicle Speed / Flight hack [Rule 2 - Warning 6/6]"
+        - "hopecommander bc &b{player} &ahas been banned for &bVehicle Speed / Flight hack &3[Warning 6/6]"
+    remove:
+      1:
+        - ""
+  velocity:
+    add:
+      1:
+        - "hopecommander kick {player} Velocity / Anti-Knockback hack [Rule 2 - Warning 1/6]"
+        - "hopecommander bc &b{player} &ahas been kicked for &bVelocity / Anti-Knockback hack &3[Warning 1/6]"
+      2:
+        - "hopecommander kick {player} Velocity / Anti-Knockback hack [Rule 2 - Warning 2/6]"
+        - "hopecommander bc &b{player} &ahas been kicked for &bVelocity / Anti-Knockback hack &3[Warning 2/6]"
+      3:
+        - "hopecommander tempban {player} 1d Velocity / Anti-Knockback hack [Rule 2 - Warning 4/6]"
+        - "hopecommander bc &b{player} &ahas been tempbanned [1d] for &bVelocity / Anti-Knockback hack &3[Warning 4/6]"
+      4:
+        - "hopecommander tempban {player} 7d Velocity / Anti-Knockback hack [Rule 2 - Warning 4/6]"
+        - "hopecommander bc &b{player} &ahas been tempbanned [7d] for &bVelocity / Anti-Knockback hack &3[Warning 4/6]"
+      5:
+        - "hopecommander tempban {player} 1mo Velocity / Anti-Knockback hack [Rule 2 - Warning 5/6]"
+        - "hopecommander bc &b{player} &ahas been tempbanned [1mo] for &bVelocity / Anti-Knockback hack &3[Warning 5/6]"
+      6:
+        - "hopecommander ban {player} Velocity / Anti-Knockback hack [Rule 2 - Warning 6/6]"
+        - "hopecommander bc &b{player} &ahas been banned for &bVelocity / Anti-Knockback hack &3[Warning 6/6]"
+    remove:
+      1:
+        - ""
+  xray:
+    add:
+      1:
+        - "hopecommander tempban {player} 1d X-Ray hack / resource pack [Rule 3 - Warning 1/4]"
+        - "hopecommander bc &b{player} &ahas been tempbanned [1d] for &bX-Ray hack / resource pack &3[Warning 1/4]"
+      2:
+        - "hopecommander tempban {player} 7d X-Ray hack / resource pack [Rule 3 - Warning 2/4]"
+        - "hopecommander bc &b{player} &ahas been tempbanned [7d] for &bX-Ray hack / resource pack &3[Warning 2/4]"
+      3:
+        - "hopecommander tempban {player} 1mo X-Ray hack / resource pack [Rule 3 - Warning 3/4]"
+        - "hopecommander bc &b{player} &ahas been tempbanned [1mo] for &bX-Ray hack / resource pack &3[Warning 3/4]"
+      4:
+        - "hopecommander ban {player} X-Ray hack / resource pack [Rule 3 - Warning 4/4]"
+        - "hopecommander bc &b{player} &ahas been banned for &bX-Ray hack / resource pack &3[Warning 4/4]"
+    remove:
+      1:
+        - ""
+  malicioushacks:
+    add:
+      1:
+        - "hopecommander kick {player} Malicious hacks [Rule 2 - Warning 1/6]"
+        - "hopecommander bc &b{player} &ahas been kicked for &bmalicious hacks &3[Warning 1/6]"
+      2:
+        - "jail {player} malicious 1h"
+        - "hopecommander bc &b{player} &ahas been jailed [1h] for &bmalicious hacks &3[Warning 2/6]"
+      3:
+        - "jail {player} malicious 1d"
+        - "hopecommander bc &b{player} &ahas been jailed [1d] for &bmalicious hacks &3[Warning 3/6]"
+      4:
+        - "hopecommander tempban {player} 7d Malicious hacks [Rule 2 - Warning 4/6]"
+        - "hopecommander bc &b{player} &ahas been tempbanned [7d] for &bmalicious hacks &3[Warning 4/6]"
+      5:
+        - "hopecommander tempban {player} 1mo Malicious hacks [Rule 2 - Warning 5/6]"
+        - "hopecommander bc &b{player} &ahas been tempbanned [1mo] for &bmalicious hacks &3[Warning 5/6]"
+      6:
+        - "hopecommander ban {player} Malicious hacks [Rule 2 - Warning 6/6]"
+        - "hopecommander bc &b{player} &ahas been banned for &bmalicious hacks &3[Warning 6/6]"
+    remove:
+      1:
+        - ""
+  # Chat category
+  chat:
+    add:
+      1:
+        - "hopecommander tempmute {player} 15m Chat abuse [Rules 1 | 4 | 5 | 8 | 9 | 10 - Warning 1/7]"
+        - "hopecommander bc &b{player} &ahas been muted for &b15 minutes &3[Warning 1/7]"
+      2:
+        - "hopecommander tempmute {player} 30m Chat abuse [Rules 1 | 4 | 5 | 8 | 9 | 10 - Warning 2/7]"
+        - "hopecommander bc &b{player} &ahas been muted for &b30 minutes &3[Warning 2/7]"
+      3:
+        - "hopecommander tempmute {player} 1h Chat abuse [Rules 1 | 4 | 5 | 8 | 9 | 10 - Warning 3/7]"
+        - "hopecommander bc &b{player} &ahas been muted for &b1 hour &3[Warning 3/7]"
+      4:
+        - "hopecommander tempmute {player} 1d Chat abuse [Rules 1 | 4 | 5 | 8 | 9 | 10 - Warning 4/7]"
+        - "hopecommander bc &b{player} &ahas been muted for &b1 day &3[Warning 4/7]"
+      5:
+        - "hopecommander tempmute {player} 7d Chat abuse [Rules 1 | 4 | 5 | 8 | 9 | 10 - Warning 5/7]"
+        - "hopecommander bc &b{player} &ahas been muted for &b7 days &3[Warning 5/7]"
+      6:
+        - "hopecommander tempmute {player} 1mo Chat abuse [Rules 1 | 4 | 5 | 8 | 9 | 10 - Warning 6/7]"
+        - "hopecommander bc &b{player} &ahas been muted for &b1 month &3[Warning 6/7]"
+      7:
+        - "hopecommander mute {player} Chat abuse [Rules 1 | 4 | 5 | 8 | 9 | 10 - Warning 7/7]"
+        - "hopecommander bc &b{player} &ahas been permanently muted &3[Warning 7/7]"
+    remove:
+      1:
+        - ""
+  nickname:
+    add:
+      1:
+        - "hopecommander resetname {player}"
+        - "lp user {player} parent addtemp nonick 7d"
+        - "hopecommander bc &b{player} &acan no longer change their nickname for &b7 days &3[Warning 1/4]"
+      2:
+        - "hopecommander resetname {player}"
+        - "lp user {player} parent addtemp nonick 14d"
+        - "hopecommander bc &b{player} &acan no longer change their nickname for &b14 days &3[Warning 2/4]"
+      3:
+        - "hopecommander resetname {player}"
+        - "lp user {player} parent addtemp nonick 1mo"
+        - "hopecommander bc &b{player} &acan no longer change their nickname for &b1 month &3[Warning 3/4]"
+      4:
+        - "hopecommander resetname {player}"
+        - "lp user {player} parent add nonick"
+        - "hopecommander bc &b{player} &acan no longer change their nickname &3[Warning 4/4]"
+    remove:
+      1:
+        - ""
+  # Other category
+  afk:
+    add:
+      1:
+        - "hopecommander kick {player} Anti-AFK machine / macro [Rule 6]"
+        - "hopecommander bc &b{player} &ahas been kicked for &busing an anti-AFK machine / macro"
+      2:
+        - "hopecommander tempban {player} 30m Anti-AFK machine / macro [Rule 6]"
+        - "hopecommander bc &b{player} &ahas been tempbanned [30m] for &busing an anti-AFK machine / macro"
+      3:
+        - "hopecommander tempban {player} 1h Anti-AFK machine / macro [Rule 6]"
+        - "hopecommander bc &b{player} &ahas been tempbanned [1h] for &busing an anti-AFK machine / macro"
+      4:
+        - "hopecommander tempban {player} 6h Anti-AFK machine / macro [Rule 6]"
+        - "hopecommander bc &b{player} &ahas been tempbanned [6h] for &busing an anti-AFK machine / macro"
+      5:
+        - "hopecommander tempban {player} 12h Anti-AFK machine / macro [Rule 6]"
+        - "hopecommander bc &b{player} &ahas been tempbanned [12h] for &busing an anti-AFK machine / macro"
+      6:
+        - "hopecommander tempban {player} 1d Anti-AFK machine / macro [Rule 6]"
+        - "hopecommander bc &b{player} &ahas been tempbanned [1d] for &busing an anti-AFK machine / macro"
+    remove:
+      1:
+        - ""
+  exploits:
+    add:
+      1:
+        - "jail {player} exploits 12h"
+        - "hopecommander bc &b{player} &ahas been jailed [12h] for &bexploits / cheating &3[Warning 1/5]"
+      2:
+        - "jail {player} exploits 1d"
+        - "hopecommander bc &b{player} &ahas been jailed [1d] for &bexploits / cheating &3[Warning 2/5]"
+      3:
+        - "hopecommander tempban {player} 7d Exploits / cheating [Rule 3 - Warning 3/5]"
+        - "hopecommander bc &b{player} &ahas been tempbanned [7d] for &bexploits / cheating &3[Warning 3/5]"
+      4:
+        - "hopecommander tempban {player} 1mo Exploits / cheating [Rule 3 - Warning 4/5]"
+        - "hopecommander bc &b{player} &ahas been tempbanned [1mo] for &bexploits / cheating &3[Warning 4/5]"
+      5:
+        - "hopecommander ban {player} Exploits / cheating [Rule 3 - Warning 5/5]"
+        - "hopecommander bc &b{player} &ahas been banned for &bexploits / cheating &3[Warning 5/5]"
+    remove:
+      1:
+        - ""
+  griefing:
+    add:
+      1:
+        - "jail {player} griefing 1d"
+        - "hopecommander bc &b{player} &ahas been jailed [1d] for &bgriefing &3[Warning 1/4]"
+      2:
+        - "hopecommander tempban {player} 7d Griefing [Rules 3 | 11 - Warning 2/4]"
+        - "hopecommander bc &b{player} &ahas been tempbanned [7d] for &bgriefing &3[Warning 2/4]"
+      3:
+        - "hopecommander tempban {player} 1mo Griefing [Rules 3 | 11 - Warning 3/4]"
+        - "hopecommander bc &b{player} &ahas been tempbanned [1mo] for &bgriefing &3[Warning 3/4]"
+      4:
+        - "hopecommander ban {player} Griefing [Rules 3 | 11 - Warning 4/4]"
+        - "hopecommander bc &b{player} &ahas been banned for &bgriefing &3[Warning 4/4]"
+    remove:
+      1:
+        - ""
+  skin:
+    add:
+      1:
+        - "jail {player} skin 1d"
+        - "hopecommander bc &b{player} &ahas been jailed [1d] for &busing an inappropriate skin &3[Warning 1/6]"
+      2:
+        - "jail {player} skin 7d"
+        - "hopecommander bc &b{player} &ahas been jailed [7d] for &busing an inappropriate skin &3[Warning 2/6]"
+      3:
+        - "hopecommander tempban {player} 14d Inappropriate skin [Rule 5 - Warning 3/6]"
+        - "hopecommander bc &b{player} &ahas been tempbanned [14d] for &busing an inappropriate skin &3[Warning 3/6]"
+      4:
+        - "hopecommander tempban {player} 30d Inappropriate skin [Rule 5 - Warning 4/6]"
+        - "hopecommander bc &b{player} &ahas been tempbanned [30d] for &busing an inappropriate skin &3[Warning 4/6]"
+      5:
+        - "hopecommander tempban {player} 60d Inappropriate skin [Rule 5 - Warning 5/6]"
+        - "hopecommander bc &b{player} &ahas been tempbanned [60d] for &busing an inappropriate skin &3[Warning 5/6]"
+      6:
+        - "hopecommander ban {player} Inappropriate skin [Rule 5 - Warning 6/6]"
+        - "hopecommander bc &b{player} &ahas been banned for &busing an inappropriate skin &3[Warning 6/6]"
+    remove:
+      1:
+        - ""
+  joinleavespam:
+    add:
+      1:
+        - "hopecommander tempban {player} 30s Join / Leave spam"
+        - "hopecommander bc &b{player} &ahas been tempbanned [30s] for &bjoin / leave spam"
+      2:
+        - "hopecommander tempban {player} 1m Join / Leave spam"
+        - "hopecommander bc &b{player} &ahas been tempbanned [1m] for &bjoin / leave spam"
+      3:
+        - "hopecommander tempban {player} 10m Join / Leave spam"
+        - "hopecommander bc &b{player} &ahas been tempbanned [10m] for &bjoin / leave spam"
+      4:
+        - "hopecommander tempban {player} 30m Join / Leave spam"
+        - "hopecommander bc &b{player} &ahas been tempbanned [30m] for &bjoin / leave spam"
+      5:
+        - "hopecommander tempban {player} 1h Join / Leave spam"
+        - "hopecommander bc &b{player} &ahas been tempbanned [1h] for &bjoin / leave spam"
+      6:
+        - "hopecommander tempban {player} 1d Join / Leave spam"
+        - "hopecommander bc &b{player} &ahas been tempbanned [1d] for &bjoin / leave spam"
+    remove:
+      1:
+        - ""
+  lag:
+    add:
+      1:
+        - "jail {player} lag 1h"
+        - "hopecommander bc &b{player} &ahas been jailed [1h] for &blag machines &3[Warning 1/6]"
+      2:
+        - "jail {player} lag 12h"
+        - "hopecommander bc &b{player} &ahas been jailed [12h] for &blag machines &3[Warning 2/6]"
+      3:
+        - "jail {player} lag 1d"
+        - "hopecommander bc &b{player} &ahas been jailed [1d] for &blag machines &3[Warning 3/6]"
+      4:
+        - "hopecommander tempban {player} 7d Lag machines [Warning 4/6]"
+        - "hopecommander bc &b{player} &ahas been tempbanned [7d] for &blag machines &3[Warning 4/6]"
+      5:
+        - "hopecommander tempban {player} 1mo Lag machines [Warning 5/6]"
+        - "hopecommander bc &b{player} &ahas been tempbanned [1mo] for &blag machines &3[Warning 5/6]"
+      6:
+        - "hopecommander ban {player} Lag machines [Warning 6/6]"
+        - "hopecommander bc &b{player} &ahas been banned for &blag machines &3[Warning 6/6]"
+    remove:
+      1:
+        - ""
+  plot:
+    add:
+      1:
+        - "hopecommander kick {player} Plot abuse [Warning 1/5]"
+        - "hopecommander bc &b{player} &ahas been kicked for &bplot abuse &3[Warning 1/5]"
+      2:
+        - "spawn {player}"
+        - "lp user {player} parent addtemp noplots 1d"
+        - "hopecommander bc &b{player} &ahas been tempbanned from the plots for &b1 day &3[Warning 2/5]"
+      3:
+        - "spawn {player}"
+        - "lp user {player} parent addtemp noplots 7d"
+        - "hopecommander bc &b{player} &ahas been tempbanned from the plots for &b7 days &3[Warning 3/5]"
+      4:
+        - "spawn {player}"
+        - "lp user {player} parent addtemp noplots 1mo"
+        - "hopecommander bc &b{player} &ahas been tempbanned from the plots for &b1 month &3[Warning 4/5]"
+      5:
+        - "spawn {player}"
+        - "lp user {player} parent add noplots"
+        - "hopecommander bc &b{player} &ahas been permanently banned from the plots &3[Warning 5/5]"
+    remove:
+      1:
+        - ""
+  other:
+    add:
+      1:
+        - "hopecommander kick {player} Violating rules - Ask a moderator for more info [Warning 1/7]"
+        - "hopecommander bc &b{player} &ahas been kicked for &bviolating rules &3[Warning 1/7]"
+      2:
+        - "jail {player} other 1h"
+        - "hopecommander bc &b{player} &ahas been jailed [1h] for &bviolating rules &3[Warning 2/7]"
+      3:
+        - "jail {player} other 12h"
+        - "hopecommander bc &b{player} &ahas been jailed [12h] for &bviolating rules &3[Warning 3/7]"
+      4:
+        - "jail {player} other 1d"
+        - "hopecommander bc &b{player} &ahas been jailed [1d] for &bviolating rules &3[Warning 4/7]"
+      5:
+        - "hopecommander tempban {player} 7d Violating rules [Warning 5/7]"
+        - "hopecommander bc &b{player} &ahas been tempbanned [7d] for &bviolating rules &3[Warning 5/7]"
+      6:
+        - "hopecommander tempban {player} 1mo Violating rules [Warning 6/7]"
+        - "hopecommander bc &b{player} &ahas been tempbanned [1mo] for &bviolating rules &3[Warning 6/7]"
+      7:
+        - "hopecommander ban {player} Violating rules [Warning 7/7]"
+        - "hopecommander bc &b{player} &ahas been banned for &bviolating rules &3[Warning 7/7]"
+    remove:
+      1:
+        - ""
+  punishevasion:
+    add:
+      1:
+        - "jail {player} punishevasion 1d"
+        - "hopecommander bc &b{player} &ahas been jailed [1d] for &bpunishment evasion &3[Warning 1/6]"
+      2:
+        - "jail {player} punishevasion 7d"
+        - "hopecommander bc &b{player} &ahas been jailed [7d] for &bpunishment evasion &3[Warning 2/6]"
+      3:
+        - "hopecommander tempban {player} 14d Punishment evasion [Warning 3/6]"
+        - "hopecommander bc &b{player} &ahas been tempbanned [14d] for &bpunishment evasion &3[Warning 3/6]"
+      4:
+        - "hopecommander tempban {player} 30d Punishment evasion [Warning 4/6]"
+        - "hopecommander bc &b{player} &ahas been tempbanned [30d] for &bpunishment evasion &3[Warning 4/6]"
+      5:
+        - "hopecommander tempban {player} 60d Punishment evasion [Warning 5/6]"
+        - "hopecommander bc &b{player} &ahas been tempbanned [60d] for &bpunishment evasion &3[Warning 5/6]"
+      6:
+        - "hopecommander ban {player} Punishment evasion [Warning 6/6]"
+        - "hopecommander bc &b{player} &ahas been banned for &bpunishment evasion &3[Warning 6/6]"
+    remove:
+      1:
+        - ""
+  banevasion:
+    add:
+      1:
+        - "hopecommander ban {player} Ban evasion"
+        - "hopecommander banip {player} Ban evasion"
+        - "hopecommander bc &b{player} &ahas been banned for &bban evasion"
+    remove:
+      1:
+        - ""
+  owner:
+    add:
+      1:
+        - "hopecommander ban {player} Illegal permission detected"
+        - "hopecommander banip {player} Illegal permission detected"
+        - "hopecommander bc &b{player} &ahas been banned for &bban evasion"
+        - "relay watchdog :warning: <@&667793980318154783>, player `{player}` was auto banned for having an owner permission! :warning:"
+        - "relay watchdog :warning: <@&667793980318154783>, player `{player}` was auto banned for having an owner permission! :warning:"
+        - "relay watchdog :warning: <@&667793980318154783>, player `{player}` was auto banned for having an owner permission! :warning:"
+    remove:
+      1:
+        - ""
+  testing:
+    add:
+      1:
+        - "say added to {player} 1"
+      2:
+        - "say added to {player} 2"
+    remove:
+      1:
+        - "say removed from {player} 1-1"
+        - "say removed from {player} 1-2"
+        - "say removed from {player} 1-3"
+      2:
+        - "say removed from {player} 2-1"
+        - "say removed from {player} 2-2"
+        - "say removed from {player} 2-3"

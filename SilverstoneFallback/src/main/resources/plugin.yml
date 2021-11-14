@@ -1,0 +1,17 @@
+main: me.jasonhorkles.silverstonefallback.SilverstoneFallback
+name: SilverstoneFallback
+description: The main plugin for the fallback server.
+version: %VERSION%
+author: JasonHorkles
+api-version: 1.17
+softdepend:
+  - ViaVersion
+
+commands:
+  exit:
+    aliases: [ spawn, back, home ]
+    description: "Exit the server"
+  silverstonefallback:
+    aliases: [ ssf ]
+    usage: "/silverstonefallback reload"
+    permission: silverstone.admin

@@ -1,0 +1,117 @@
+main: me.jasonhorkles.silverstoneglobal.SilverstoneGlobal
+name: SilverstoneGlobal
+description: The main plugin for Silverstone to provide commands and features across the network.
+version: %VERSION%
+author: JasonHorkles
+api-version: 1.17
+softdepend:
+  - DiscordSRV
+  - PremiumVanish
+depend:
+  - LuckPerms
+
+commands:
+  bclag:
+    permission: silverstone.admin
+  bcnolag:
+    permission: silverstone.admin
+  bcrestart:
+    permission: silverstone.admin
+  bcshutdown:
+    permission: silverstone.admin
+  buy:
+    aliases: [ ranks, donate ]
+  chatcolor:
+    permission: silverstone.chatcolor
+  chatsounds:
+    permission: silverstone.chatsounds
+  discord:
+    description: "A social command"
+  effects:
+    permission: silverstone.trialmod
+  facepalm:
+    description: "Facepalm emote"
+  forcerestart:
+    permission: silverstone.admin
+  freezeserver:
+    permission: silverstone.owner
+    usage: "§cUsage: /freezeserver <seconds> confirm"
+  github:
+    description: "A social command"
+  instagram:
+    description: "A social command"
+  joinleavesounds:
+    permission: silverstone.jlsounds
+  listops:
+    aliases: [ oplist ]
+    permission: silverstone.admin
+  localchat:
+    aliases: [ lc, local ]
+    permission: silverstone.admin
+    usage: "§cUsage: /localchat <message>"
+  monitortps:
+    aliases: [ tpsmonitor ]
+    permission: silverstone.admin
+    usage: "Usage: /monitortps [interval]"
+  nv:
+    aliases: [ nightvision ]
+    permission: silverstone.nightvision
+  quickrestart:
+    permission: silverstone.admin
+  restart:
+    aliases: [ cancelrestart ]
+    permission: silverstone.admin
+  restartwhenempty:
+    permission: silverstone.admin
+  rules:
+    description: "Shows the server's rules"
+  schedulerestart:
+    permission: silverstone.admin
+  shrug:
+    description: "Shrug emote"
+  silverstoneglobal:
+    aliases: [ ssg ]
+    permission: silverstone.admin
+    usage: "Usage: /ssg reload"
+  social:
+    description: "Open the social GUI!"
+  tableflip:
+    description: "Tableflip emote"
+  twitch:
+    description: "A social command"
+  twitter:
+    description: "A social command"
+  updatecommands:
+    description: "Updates available commands"
+  youtube:
+    description: "A social command"
+  optifine:
+    description: "OptiFine command"
+
+permissions:
+  silverstone.admin:
+    default: op
+  silverstone.chatcolor:
+    default: op
+  silverstone.chatsounds.enabled:
+    default: false
+  silverstone.chatsounds:
+    default: false
+  silverstone.console:
+    default: op
+  silverstone.jlsounds.enabled:
+    default: false
+  silverstone.jlsounds:
+    default: op
+  silverstone.moderator:
+    default: op
+  silverstone.mvp:
+    default: false
+  silverstone.nightvision:
+    default: op
+  silverstone.owner:
+    default: op
+  silverstone.trialmod:
+    default: op
+  silverstone.vip+:
+    default: false

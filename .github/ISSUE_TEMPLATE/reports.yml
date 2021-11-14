@@ -1,0 +1,37 @@
+name: Report a Player
+description: Report anyone breaking rules
+title: Player Report
+labels: Report
+body:
+- type: input
+  attributes:
+    label: My Minecraft username
+    placeholder: JasonHorkles
+  validations:
+    required: true
+
+- type: input
+  attributes:
+    label: The offender's Minecraft username
+    placeholder: TNG_Panda
+  validations:
+    required: true
+
+- type: textarea
+  attributes:
+    label: What they did
+  validations:
+    required: true
+
+- type: textarea
+  attributes:
+    label: Evidence
+    description: "Provide a video or screenshots of the player violating the rules"
+  validations:
+    required: true
+
+- type: textarea
+  attributes:
+    label: Any additional notes
+  validations:
+    required: false

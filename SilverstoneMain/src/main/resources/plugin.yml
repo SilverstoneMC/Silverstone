@@ -1,0 +1,135 @@
+main: me.jasonhorkles.silverstonemain.SilverstoneMain
+name: SilverstoneMain
+description: The secondary plugin for Silverstone to provide commands and features for the main server.
+version: %VERSION%
+author: JasonHorkles
+api-version: 1.17
+softdepend:
+  - DiscordSRV
+  - Essentials
+  - LuckPerms
+  - Multiverse-Core
+  - PremiumVanish
+depend:
+  - Matrix
+
+commands:
+  allowend:
+    description: "Allows the player to enter The End"
+  doublejump:
+    permission: silverstone.console
+    usage: "§cUsage: /doublejump <player> <count>"
+  dragon:
+    aliases: [ istheenderdragonstillalive, enderdragon ]
+  enablecollision:
+    usage: "§cYou can't be in a minigame world to do that!"
+  firework:
+    permission: silverstone.admin
+  fixlight:
+    aliases: [ fixlighting, recalculatelighting ]
+    permission: silverstone.fixlight
+  flyingcourse:
+    description: "Reset the player if they touch an illegal block"
+    permission: silverstone.console
+    usage: "/flyingcourse <player>"
+  gettingstarted:
+    description: "Get started message"
+  help:
+    description: "Get help"
+  homec:
+    permission: silverstone.owner
+  homes?:
+    description: "Show how many homes the player can set"
+  hsheartbeat:
+    permission: silverstone.console
+  hsrandomtaunt:
+    permission: silverstone.console
+  hsresettauntpoints:
+    permission: silverstone.console
+  htp:
+    aliases: [ howtoplay ]
+    description: "GUI for how to play the minigames"
+  keepinv:
+    description: "Toggle keepInventory"
+  kitpvp:
+    permission: silverstone.minigames.kitpvp
+  live:
+    permission: silverstone.owner
+  minigame:
+    aliases: [ game, whatminigameshouldiplay ]
+    description: "Choose a random minigame!"
+  plots?:
+    description: "Show how many plots the player can claim"
+  rank:
+    description: "Check your ranks"
+  regenend:
+    description: "Regenerate The End"
+  relay:
+    permission: silverstone.console
+  safk:
+    description: "Silently toggle AFK"
+    permission: silverstone.moderator
+  silverstonemain:
+    aliases: [ ssm ]
+    permission: silverstone.admin
+    usage: "§cUsage: /ssm reload"
+  spectate:
+    aliases: [ spec ]
+    permission: silverstone.trialmod
+    usage: "§cUsage: /spectate <player>"
+  stopmusic:
+    description: "Stop the currently playing music"
+  taunt:
+    permission: silverstone.minigames.hideseek.taunt
+  tips:
+    description: "Link to the tips page"
+  tntrun:
+    permission: silverstone.console
+    usage: "/tntrun <player>"
+  togglemusic:
+    aliases: [ disablemusic, enablemusic ]
+    description: "Toggle auto music"
+  tpchunk:
+    permission: silverstone.admin
+    usage: "§cUsage: /tpchunk <x> <z> [world]"
+  tpregion:
+    permission: silverstone.admin
+    usage: "§cUsage: /tpregion <x> <z> [world]"
+  watch:
+    permission: silverstone.trialmod
+    usage: "§cUsage: /watch <player>"
+  zfcfinish:
+    description: "Ran when the flying course is completed"
+    permission: silverstone.minigames.flyingcourse
+    usage: "§cYou must be in adventure mode for that."
+  znewbiekit:
+    permission: silverstone.console
+    usage: "/znewbiekit <player>"
+
+permissions:
+  silverstone.ignoreclaims:
+    default: false
+  silverstone.joinleavespam.bypass:
+    default: op
+  silverstone.live:
+    default: false
+  silverstone.minigames.flyingcourse.easy:
+    default: false
+  silverstone.minigames.flyingcourse.hard:
+    default: false
+  silverstone.minigames.flyingcourse.medium:
+    default: false
+  silverstone.minigames.flyingcourse.multiplayer:
+    default: false
+  silverstone.minigames.flyingcourse:
+    default: false
+    description: Allow using `/zfinish` command
+  silverstone.minigames.hideseek.taunt.bypasscooldown:
+    default: false
+  silverstone.minigames.hideseek.taunt:
+    default: op
+  silverstone.minigames.kitpvp:
+    default: false
+  silverstone.minigames.pvp:
+    default: false
+    description: Will heal players with this perm on kill

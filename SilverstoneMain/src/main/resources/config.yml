@@ -1,0 +1,24 @@
+empty-minigame-world: mini_empty
+terrain-minigame-world: mini_terrain
+amplified-minigame-world: mini_amplified
+end-world: survival_the_end
+
+fc-speed-boost-multiplier: 1.075
+
+join-leave-spam:
+  # After how long in seconds the leave count should expire
+  expire-after: 25
+  # After how many joins and leaves should the player be warned?
+  leaves: 4
+  # What should we warn them for?
+  warn: "joinleavespam"
+
+death:
+  # The amount to take from a player with keepInventory on
+  withdraw: 50.00
+
+random-game:
+  singleplayer:
+    - Game1
+  multiplayer:
+    - Game2

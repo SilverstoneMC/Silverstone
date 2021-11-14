@@ -1,0 +1,90 @@
+name: Builder Application
+description: Apply for the builder rank
+title: Builder Application
+labels: Builder Application
+body:
+- type: markdown
+  attributes:
+    value: |
+      ## If an application is declined, you may submit one again in 1 month.
+      ### If the application isn't responded to quickly, it may be because we want to give it some more time before making a decision. Be patient.
+
+- type: dropdown
+  attributes:
+    label: "Am I re-submitting my application?"
+    options:
+      - "Yes"
+      - "No"
+  validations:
+    required: true
+
+- type: input
+  attributes:
+    label: My Minecraft username
+    placeholder: JasonHorkles
+  validations:
+    required: true
+
+- type: input
+  attributes:
+    label: My Discord username & tag
+    description: Optional, would only be used for better communication
+    placeholder: Jason H#0552
+  validations:
+    required: false
+
+- type: input
+  attributes:
+    label: My current rank
+    description: Shown in the player tab list
+    placeholder: owner
+  validations:
+    required: true
+
+- type: textarea
+  attributes:
+    label: Why I want to be a builder
+  validations:
+    required: true
+
+- type: dropdown
+  attributes:
+    label: "On a scale of 1-10, how good of a builder do I think I'd be?"
+    options:
+      - 1 (Terrible)
+      - 2
+      - 3
+      - 4
+      - 5
+      - 6
+      - 7
+      - 8
+      - 9
+      - 10 (Fantastic)
+  validations:
+    required: true
+
+- type: input
+  attributes:
+    label: "Do I feel like I'm worthy of being a Silverstone builder?"
+  validations:
+    required: true
+
+- type: input
+  attributes:
+    label: "Will I help build projects for the server when requested?"
+  validations:
+    required: true
+
+- type: input
+  attributes:
+    label: "Do I swear I'll do my best to follow the server rules at all times?"
+  validations:
+    required: true
+
+- type: textarea
+  attributes:
+    label: Images
+    description: "Upload 3 or more images of your builds from both off and on the Silverstone server"
+  validations:
+    required: true

@@ -1,0 +1,29 @@
+name: Modification Request
+description: Have a mod that isn't whitelisted on the server? Request to have it added here!
+labels: Mod Request
+body:
+- type: markdown
+  attributes:
+    value: |
+      ### Before submitting your request, make sure it complies with the mod restrictions [here](https://rebrand.ly/SilverstoneMods)
+
+- type: input
+  attributes:
+    label: The mod's ID
+    description: "The mod ID can be found by going into the Mod menu and clicking your mod's name. See https://i.imgur.com/hIhKjTy.png for an example."
+    placeholder: ambientsounds
+  validations:
+    required: true
+
+- type: input
+  attributes:
+    label: Link to the mod
+    placeholder: "https://www.curseforge.com/minecraft/mc-mods/ambientsounds"
+  validations:
+    required: true
+
+- type: textarea
+  attributes:
+    label: Why I think the mod should be whitelisted
+  validations:
+    required: true
