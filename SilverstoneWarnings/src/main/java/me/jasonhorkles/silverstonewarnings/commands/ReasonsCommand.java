@@ -5,13 +5,14 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
 @SuppressWarnings("ConstantConditions")
 public record ReasonsCommand(JavaPlugin plugin) implements CommandExecutor {
 
-    public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+    public boolean onCommand(CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
         sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&c&lAvailable warning reasons:"));
 
         ArrayList<String> reasonList = new ArrayList<>(plugin.getConfig()

@@ -13,6 +13,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.util.Vector;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
@@ -20,7 +21,7 @@ import java.util.*;
 public record FlyingCourse(JavaPlugin plugin) implements CommandExecutor {
     private static final Scoreboard fctop = Bukkit.getScoreboardManager().getMainScoreboard().getObjective("FCTop").getScoreboard();
 
-    public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+    public boolean onCommand(@NotNull CommandSender sender, Command cmd, @NotNull String label, String[] args) {
         if (cmd.getName().equalsIgnoreCase("zfcfinish")) {
             if (!(sender instanceof Player player)) {
                 sender.sendMessage(ChatColor.RED + "Sorry, but only players can do that.");

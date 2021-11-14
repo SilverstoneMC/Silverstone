@@ -8,10 +8,11 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.jetbrains.annotations.NotNull;
 
 public class GettingStarted implements CommandExecutor {
 
-    public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+    public boolean onCommand(CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
         sender.sendMessage(Component.text("\nGETTING STARTED")
                 .color(TextColor.fromHexString("#18d958"))
                 .decorate(TextDecoration.BOLD));

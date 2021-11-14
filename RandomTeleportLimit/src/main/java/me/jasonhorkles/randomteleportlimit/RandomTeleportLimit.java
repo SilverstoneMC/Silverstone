@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.NotNull;
 
 @SuppressWarnings("ConstantConditions")
 public class RandomTeleportLimit extends JavaPlugin implements Listener {
@@ -28,7 +29,7 @@ public class RandomTeleportLimit extends JavaPlugin implements Listener {
         pluginManager.registerEvents(new RTPLimit(this), this);
     }
 
-    public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
         if (args.length > 0) if (args[0].equalsIgnoreCase("reload")) {
             // No perm message
             if (sender.hasPermission("rtplimit.reload")) {

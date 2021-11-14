@@ -17,6 +17,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.util.Vector;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 import java.util.List;
@@ -33,7 +34,7 @@ public class DoubleJump implements CommandExecutor, Listener {
     private static final Map<Player, Integer> jumps = new HashMap<>();
     private final Map<String, Long> cooldowns = new HashMap<>();
 
-    public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
         if (args.length > 1) {
             List<Entity> selector = Bukkit.selectEntities(sender, args[0]);
             try {

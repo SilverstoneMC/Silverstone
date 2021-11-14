@@ -27,9 +27,11 @@ import org.bukkit.metadata.MetadataValue;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.plugin.messaging.PluginMessageListener;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.UUID;
 
+@SuppressWarnings("UnstableApiUsage")
 public class ChatnSounds implements CommandExecutor, Listener, PluginMessageListener {
 
     final LuckPerms luckPerms = SilverstoneGlobal.getInstance().getLuckPerms();
@@ -40,7 +42,7 @@ public class ChatnSounds implements CommandExecutor, Listener, PluginMessageList
         this.plugin = plugin;
     }
 
-    public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
         if (!(sender instanceof Player player)) {
             sender.sendMessage(ChatColor.RED + "Sorry, but only players can do that.");
             return true;
@@ -105,7 +107,7 @@ public class ChatnSounds implements CommandExecutor, Listener, PluginMessageList
     }
 
     @Override
-    public void onPluginMessageReceived(String channel, Player player, byte[] message) {
+    public void onPluginMessageReceived(String channel, @NotNull Player player, byte[] message) {
         if (!channel.equals("silverstone:pluginmsg")) return;
         ByteArrayDataInput in = ByteStreams.newDataInput(message);
         String subchannel = in.readUTF();

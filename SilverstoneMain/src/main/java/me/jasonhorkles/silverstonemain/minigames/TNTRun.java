@@ -12,6 +12,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -28,7 +29,7 @@ public record TNTRun(JavaPlugin plugin) implements CommandExecutor {
         task.runTaskLater(plugin, 15);
     }
 
-    public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
         if (args.length > 0) {
             List<Entity> selector = Bukkit.selectEntities(sender, args[0]);
             try {

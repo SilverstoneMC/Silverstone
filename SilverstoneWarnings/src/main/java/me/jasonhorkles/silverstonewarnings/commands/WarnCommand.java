@@ -22,6 +22,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.jetbrains.annotations.NotNull;
 
 import java.awt.Color;
 import java.util.*;
@@ -65,7 +66,7 @@ public class WarnCommand implements CommandExecutor, Listener {
         task.runTask(plugin);
     }
 
-    public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
         // If console does the command
         if (!(sender instanceof Player)) switch (args.length) {
             case 0:

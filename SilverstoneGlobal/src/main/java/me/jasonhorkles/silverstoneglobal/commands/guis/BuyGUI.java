@@ -19,6 +19,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,11 +34,11 @@ public class BuyGUI implements CommandExecutor, Listener {
         BuyGUI.plugin = plugin;
     }
 
-    private static Inventory defaultInv;
-    private static Inventory inv1;
-    private static Inventory inv2;
-    private static Inventory inv3;
-    private static Inventory inv4;
+    public static Inventory defaultInv;
+    public static Inventory inv1;
+    public static Inventory inv2;
+    public static Inventory inv3;
+    public static Inventory inv4;
 
     public void closeInv(Player player) {
         BukkitRunnable task = new BukkitRunnable() {
@@ -61,7 +62,7 @@ public class BuyGUI implements CommandExecutor, Listener {
         task.runTask(plugin);
     }
 
-    public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
         if (!(sender instanceof Player player)) {
             sender.sendMessage(ChatColor.RED + "Sorry, but only players can do that.");
             return true;
@@ -76,10 +77,9 @@ public class BuyGUI implements CommandExecutor, Listener {
     public void onClick(InventoryClickEvent event) {
 
         Player player = (Player) event.getWhoClicked();
+        Inventory inventory = event.getInventory();
 
-        if (!event.getInventory().equals(defaultInv) && !event.getInventory().equals(inv1) && !event.getInventory()
-                .equals(inv2) && !event.getInventory()
-                .equals(inv3) && !event.getInventory().equals(inv4))
+        if (!inventory.equals(defaultInv) && !inventory.equals(inv1) && !inventory.equals(inv2) && !inventory.equals(inv3) && !inventory.equals(inv4))
             return;
         if (event.getCurrentItem() == null) return;
         if (event.getCurrentItem().getItemMeta() == null) return;
@@ -151,341 +151,83 @@ public class BuyGUI implements CommandExecutor, Listener {
         }
     }
 
-    // Default inventory items
-    public static void createDefaultInv() {
+    public static Inventory createInv(int page) {
+        int member = 1;
+        int vip = 1;
+        int vipPlus = 1;
+        int mvp = 1;
+        switch (page) {
+            case 1 -> member = 2;
+            case 2 -> vip = 2;
+            case 3 -> vipPlus = 2;
+            case 4 -> mvp = 2;
+        }
 
-        defaultInv = Bukkit.createInventory(null, 27, Component.text("Available Ranks")
+        Inventory inventory = Bukkit.createInventory(null, 27, Component.text("Available Ranks")
                 .color(TextColor.fromHexString("#048a3e"))
                 .decorate(TextDecoration.BOLD));
 
         ItemStack item = new ItemStack(Material.BLACK_STAINED_GLASS_PANE);
         ItemMeta meta = item.getItemMeta();
+        List<Component> lore = new ArrayList<>();
 
         // Fill items
         meta.displayName(Component.text(ChatColor.BOLD + ""));
-        List<String> lore = new ArrayList<>();
-        meta.setLore(lore);
         item.setItemMeta(meta);
         IntStream.rangeClosed(0, 26)
                 .boxed()
                 .collect(Collectors.toList())
-                .forEach(slot -> defaultInv.setItem(slot, item));
+                .forEach(slot -> inventory.setItem(slot, item));
 
         // Member
         item.setType(Material.IRON_INGOT);
         meta.displayName(Component.text(ChatColor.AQUA + "" + ChatColor.BOLD + "Member"));
-        for (String customLore : plugin.getConfig().getStringList("buyGUI.Member.1"))
-            lore.add(ChatColor.translateAlternateColorCodes('&', customLore));
-        meta.setLore(lore);
+        for (String customLore : plugin.getConfig().getStringList("buyGUI.Member." + member))
+            lore.add(Component.text(ChatColor.translateAlternateColorCodes('&', customLore)));
+        meta.lore(lore);
         item.setItemMeta(meta);
-        defaultInv.setItem(11, item);
+        inventory.setItem(11, item);
 
         // VIP
         item.setType(Material.EMERALD);
         meta.displayName(Component.text(ChatColor.AQUA + "" + ChatColor.BOLD + "VIP"));
         lore.clear();
-        for (String customLore : plugin.getConfig().getStringList("buyGUI.VIP.1"))
-            lore.add(ChatColor.translateAlternateColorCodes('&', customLore));
-        meta.setLore(lore);
+        for (String customLore : plugin.getConfig().getStringList("buyGUI.VIP." + vip))
+            lore.add(Component.text(ChatColor.translateAlternateColorCodes('&', customLore)));
+        meta.lore(lore);
         item.setItemMeta(meta);
-        defaultInv.setItem(12, item);
+        inventory.setItem(12, item);
 
         // VIP+
         item.setType(Material.DIAMOND);
         meta.displayName(Component.text(ChatColor.AQUA + "" + ChatColor.BOLD + "VIP+"));
         lore.clear();
-        for (String customLore : plugin.getConfig().getStringList("buyGUI.VIP+.1"))
-            lore.add(ChatColor.translateAlternateColorCodes('&', customLore));
-        meta.setLore(lore);
+        for (String customLore : plugin.getConfig().getStringList("buyGUI.VIP+." + vipPlus))
+            lore.add(Component.text(ChatColor.translateAlternateColorCodes('&', customLore)));
+        meta.lore(lore);
         item.setItemMeta(meta);
-        defaultInv.setItem(13, item);
+        inventory.setItem(13, item);
 
         // MVP
         item.setType(Material.NETHERITE_INGOT);
         meta.displayName(Component.text(ChatColor.AQUA + "" + ChatColor.BOLD + "MVP"));
         lore.clear();
-        for (String customLore : plugin.getConfig().getStringList("buyGUI.MVP.1"))
-            lore.add(ChatColor.translateAlternateColorCodes('&', customLore));
-        meta.setLore(lore);
+        for (String customLore : plugin.getConfig().getStringList("buyGUI.MVP." + mvp))
+            lore.add(Component.text(ChatColor.translateAlternateColorCodes('&', customLore)));
+        meta.lore(lore);
         item.setItemMeta(meta);
-        defaultInv.setItem(14, item);
+        inventory.setItem(14, item);
 
         // Donate
         item.setType(Material.WRITABLE_BOOK);
         meta.displayName(Component.text(ChatColor.AQUA + "" + ChatColor.BOLD + "Donate"));
         lore.clear();
         for (String customLore : plugin.getConfig().getStringList("buyGUI.Donate.1"))
-            lore.add(ChatColor.translateAlternateColorCodes('&', customLore));
-        meta.setLore(lore);
+            lore.add(Component.text(ChatColor.translateAlternateColorCodes('&', customLore)));
+        meta.lore(lore);
         item.setItemMeta(meta);
-        defaultInv.setItem(15, item);
-    }
+        inventory.setItem(15, item);
 
-    // Member item
-    public static void createInv1() {
-
-        inv1 = Bukkit.createInventory(null, 27, Component.text("Available Ranks")
-                .color(TextColor.fromHexString("#048a3e"))
-                .decorate(TextDecoration.BOLD));
-
-        ItemStack item = new ItemStack(Material.BLACK_STAINED_GLASS_PANE);
-        ItemMeta meta = item.getItemMeta();
-
-        // Fill items
-        meta.displayName(Component.text(ChatColor.BOLD + ""));
-        List<String> lore = new ArrayList<>();
-        meta.setLore(lore);
-        item.setItemMeta(meta);
-        IntStream.rangeClosed(0, 26).boxed().collect(Collectors.toList()).forEach(slot -> inv1.setItem(slot, item));
-
-        // Member
-        item.setType(Material.IRON_INGOT);
-        meta.displayName(Component.text(ChatColor.AQUA + "" + ChatColor.BOLD + "Member"));
-        for (String customLore : plugin.getConfig().getStringList("buyGUI.Member.2"))
-            lore.add(ChatColor.translateAlternateColorCodes('&', customLore));
-        meta.setLore(lore);
-        item.setItemMeta(meta);
-        inv1.setItem(11, item);
-
-        // VIP
-        item.setType(Material.EMERALD);
-        meta.displayName(Component.text(ChatColor.AQUA + "" + ChatColor.BOLD + "VIP"));
-        lore.clear();
-        for (String customLore : plugin.getConfig().getStringList("buyGUI.VIP.1"))
-            lore.add(ChatColor.translateAlternateColorCodes('&', customLore));
-        meta.setLore(lore);
-        item.setItemMeta(meta);
-        inv1.setItem(12, item);
-
-        // VIP+
-        item.setType(Material.DIAMOND);
-        meta.displayName(Component.text(ChatColor.AQUA + "" + ChatColor.BOLD + "VIP+"));
-        lore.clear();
-        for (String customLore : plugin.getConfig().getStringList("buyGUI.VIP+.1"))
-            lore.add(ChatColor.translateAlternateColorCodes('&', customLore));
-        meta.setLore(lore);
-        item.setItemMeta(meta);
-        inv1.setItem(13, item);
-
-        // MVP
-        item.setType(Material.NETHERITE_INGOT);
-        meta.displayName(Component.text(ChatColor.AQUA + "" + ChatColor.BOLD + "MVP"));
-        lore.clear();
-        for (String customLore : plugin.getConfig().getStringList("buyGUI.MVP.1"))
-            lore.add(ChatColor.translateAlternateColorCodes('&', customLore));
-        meta.setLore(lore);
-        item.setItemMeta(meta);
-        inv1.setItem(14, item);
-
-        // Donate
-        item.setType(Material.WRITABLE_BOOK);
-        meta.displayName(Component.text(ChatColor.AQUA + "" + ChatColor.BOLD + "Donate"));
-        lore.clear();
-        for (String customLore : plugin.getConfig().getStringList("buyGUI.Donate.1"))
-            lore.add(ChatColor.translateAlternateColorCodes('&', customLore));
-        meta.setLore(lore);
-        item.setItemMeta(meta);
-        inv1.setItem(15, item);
-    }
-
-    // VIP item
-    public static void createInv2() {
-
-        inv2 = Bukkit.createInventory(null, 27, Component.text("Available Ranks")
-                .color(TextColor.fromHexString("#048a3e"))
-                .decorate(TextDecoration.BOLD));
-
-        ItemStack item = new ItemStack(Material.BLACK_STAINED_GLASS_PANE);
-        ItemMeta meta = item.getItemMeta();
-
-        // Fill items
-        meta.displayName(Component.text(ChatColor.BOLD + ""));
-        List<String> lore = new ArrayList<>();
-        meta.setLore(lore);
-        item.setItemMeta(meta);
-        IntStream.rangeClosed(0, 26).boxed().collect(Collectors.toList()).forEach(slot -> inv2.setItem(slot, item));
-
-        // Member
-        item.setType(Material.IRON_INGOT);
-        meta.displayName(Component.text(ChatColor.AQUA + "" + ChatColor.BOLD + "Member"));
-        for (String customLore : plugin.getConfig().getStringList("buyGUI.Member.1"))
-            lore.add(ChatColor.translateAlternateColorCodes('&', customLore));
-        meta.setLore(lore);
-        item.setItemMeta(meta);
-        inv2.setItem(11, item);
-
-        // VIP
-        item.setType(Material.EMERALD);
-        meta.displayName(Component.text(ChatColor.AQUA + "" + ChatColor.BOLD + "VIP"));
-        lore.clear();
-        for (String customLore : plugin.getConfig().getStringList("buyGUI.VIP.2"))
-            lore.add(ChatColor.translateAlternateColorCodes('&', customLore));
-        meta.setLore(lore);
-        item.setItemMeta(meta);
-        inv2.setItem(12, item);
-
-        // VIP+
-        item.setType(Material.DIAMOND);
-        meta.displayName(Component.text(ChatColor.AQUA + "" + ChatColor.BOLD + "VIP+"));
-        lore.clear();
-        for (String customLore : plugin.getConfig().getStringList("buyGUI.VIP+.1"))
-            lore.add(ChatColor.translateAlternateColorCodes('&', customLore));
-        meta.setLore(lore);
-        item.setItemMeta(meta);
-        inv2.setItem(13, item);
-
-        // MVP
-        item.setType(Material.NETHERITE_INGOT);
-        meta.displayName(Component.text(ChatColor.AQUA + "" + ChatColor.BOLD + "MVP"));
-        lore.clear();
-        for (String customLore : plugin.getConfig().getStringList("buyGUI.MVP.1"))
-            lore.add(ChatColor.translateAlternateColorCodes('&', customLore));
-        meta.setLore(lore);
-        item.setItemMeta(meta);
-        inv2.setItem(14, item);
-
-        // Donate
-        item.setType(Material.WRITABLE_BOOK);
-        meta.displayName(Component.text(ChatColor.AQUA + "" + ChatColor.BOLD + "Donate"));
-        lore.clear();
-        for (String customLore : plugin.getConfig().getStringList("buyGUI.Donate.1"))
-            lore.add(ChatColor.translateAlternateColorCodes('&', customLore));
-        meta.setLore(lore);
-        item.setItemMeta(meta);
-        inv2.setItem(15, item);
-    }
-
-    // VIP+ item
-    public static void createInv3() {
-
-        inv3 = Bukkit.createInventory(null, 27, Component.text("Available Ranks")
-                .color(TextColor.fromHexString("#048a3e"))
-                .decorate(TextDecoration.BOLD));
-
-        ItemStack item = new ItemStack(Material.BLACK_STAINED_GLASS_PANE);
-        ItemMeta meta = item.getItemMeta();
-
-        // Fill items
-        meta.displayName(Component.text(ChatColor.BOLD + ""));
-        List<String> lore = new ArrayList<>();
-        meta.setLore(lore);
-        item.setItemMeta(meta);
-        IntStream.rangeClosed(0, 26).boxed().collect(Collectors.toList()).forEach(slot -> inv3.setItem(slot, item));
-
-        // Member
-        item.setType(Material.IRON_INGOT);
-        meta.displayName(Component.text(ChatColor.AQUA + "" + ChatColor.BOLD + "Member"));
-        for (String customLore : plugin.getConfig().getStringList("buyGUI.Member.1"))
-            lore.add(ChatColor.translateAlternateColorCodes('&', customLore));
-        meta.setLore(lore);
-        item.setItemMeta(meta);
-        inv3.setItem(11, item);
-
-        // VIP
-        item.setType(Material.EMERALD);
-        meta.displayName(Component.text(ChatColor.AQUA + "" + ChatColor.BOLD + "VIP"));
-        lore.clear();
-        for (String customLore : plugin.getConfig().getStringList("buyGUI.VIP.1"))
-            lore.add(ChatColor.translateAlternateColorCodes('&', customLore));
-        meta.setLore(lore);
-        item.setItemMeta(meta);
-        inv3.setItem(12, item);
-
-        // VIP+
-        item.setType(Material.DIAMOND);
-        meta.displayName(Component.text(ChatColor.AQUA + "" + ChatColor.BOLD + "VIP+"));
-        lore.clear();
-        for (String customLore : plugin.getConfig().getStringList("buyGUI.VIP+.2"))
-            lore.add(ChatColor.translateAlternateColorCodes('&', customLore));
-        meta.setLore(lore);
-        item.setItemMeta(meta);
-        inv3.setItem(13, item);
-
-        // MVP
-        item.setType(Material.NETHERITE_INGOT);
-        meta.displayName(Component.text(ChatColor.AQUA + "" + ChatColor.BOLD + "MVP"));
-        lore.clear();
-        for (String customLore : plugin.getConfig().getStringList("buyGUI.MVP.1"))
-            lore.add(ChatColor.translateAlternateColorCodes('&', customLore));
-        meta.setLore(lore);
-        item.setItemMeta(meta);
-        inv3.setItem(14, item);
-
-        // Donate
-        item.setType(Material.WRITABLE_BOOK);
-        meta.displayName(Component.text(ChatColor.AQUA + "" + ChatColor.BOLD + "Donate"));
-        lore.clear();
-        for (String customLore : plugin.getConfig().getStringList("buyGUI.Donate.1"))
-            lore.add(ChatColor.translateAlternateColorCodes('&', customLore));
-        meta.setLore(lore);
-        item.setItemMeta(meta);
-        inv3.setItem(15, item);
-    }
-
-    // MVP item
-    public static void createInv4() {
-
-        inv4 = Bukkit.createInventory(null, 27, Component.text("Available Ranks")
-                .color(TextColor.fromHexString("#048a3e"))
-                .decorate(TextDecoration.BOLD));
-
-        ItemStack item = new ItemStack(Material.BLACK_STAINED_GLASS_PANE);
-        ItemMeta meta = item.getItemMeta();
-
-        // Fill items
-        meta.displayName(Component.text(ChatColor.BOLD + ""));
-        List<String> lore = new ArrayList<>();
-        meta.setLore(lore);
-        item.setItemMeta(meta);
-        IntStream.rangeClosed(0, 26).boxed().collect(Collectors.toList()).forEach(slot -> inv4.setItem(slot, item));
-
-        // Member
-        item.setType(Material.IRON_INGOT);
-        meta.displayName(Component.text(ChatColor.AQUA + "" + ChatColor.BOLD + "Member"));
-        for (String customLore : plugin.getConfig().getStringList("buyGUI.Member.1"))
-            lore.add(ChatColor.translateAlternateColorCodes('&', customLore));
-        meta.setLore(lore);
-        item.setItemMeta(meta);
-        inv4.setItem(11, item);
-
-        // VIP
-        item.setType(Material.EMERALD);
-        meta.displayName(Component.text(ChatColor.AQUA + "" + ChatColor.BOLD + "VIP"));
-        lore.clear();
-        for (String customLore : plugin.getConfig().getStringList("buyGUI.VIP.1"))
-            lore.add(ChatColor.translateAlternateColorCodes('&', customLore));
-        meta.setLore(lore);
-        item.setItemMeta(meta);
-        inv4.setItem(12, item);
-
-        // VIP+
-        item.setType(Material.DIAMOND);
-        meta.displayName(Component.text(ChatColor.AQUA + "" + ChatColor.BOLD + "VIP+"));
-        lore.clear();
-        for (String customLore : plugin.getConfig().getStringList("buyGUI.VIP+.1"))
-            lore.add(ChatColor.translateAlternateColorCodes('&', customLore));
-        meta.setLore(lore);
-        item.setItemMeta(meta);
-        inv4.setItem(13, item);
-
-        // MVP
-        item.setType(Material.NETHERITE_INGOT);
-        meta.displayName(Component.text(ChatColor.AQUA + "" + ChatColor.BOLD + "MVP"));
-        lore.clear();
-        for (String customLore : plugin.getConfig().getStringList("buyGUI.MVP.2"))
-            lore.add(ChatColor.translateAlternateColorCodes('&', customLore));
-        meta.setLore(lore);
-        item.setItemMeta(meta);
-        inv4.setItem(14, item);
-
-        // Donate
-        item.setType(Material.WRITABLE_BOOK);
-        meta.displayName(Component.text(ChatColor.AQUA + "" + ChatColor.BOLD + "Donate"));
-        lore.clear();
-        for (String customLore : plugin.getConfig().getStringList("buyGUI.Donate.1"))
-            lore.add(ChatColor.translateAlternateColorCodes('&', customLore));
-        meta.setLore(lore);
-        item.setItemMeta(meta);
-        inv4.setItem(15, item);
+        return inventory;
     }
 }

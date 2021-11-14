@@ -17,6 +17,7 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.jetbrains.annotations.NotNull;
 
 @SuppressWarnings("ConstantConditions")
 public class SilverstoneMain extends JavaPlugin implements Listener {
@@ -46,7 +47,8 @@ public class SilverstoneMain extends JavaPlugin implements Listener {
         data.saveDefaultConfig();
 
         RegisteredServiceProvider<LuckPerms> provider = Bukkit.getServicesManager().getRegistration(LuckPerms.class);
-        if (provider != null) provider.getProvider();
+        if (provider != null) //noinspection ResultOfMethodCallIgnored
+            provider.getProvider();
 
         if (getServer().getPluginManager().getPlugin("DiscordSRV") != null)
             DiscordSRV.api.subscribe(new DiscordReady(this));
@@ -130,7 +132,7 @@ public class SilverstoneMain extends JavaPlugin implements Listener {
         task.runTaskTimerAsynchronously(this, 600, 20);
     }
 
-    public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
         if (args.length > 0) if (args[0].equalsIgnoreCase("reload")) {
             saveDefaultConfig();
             data.saveDefaultConfig();

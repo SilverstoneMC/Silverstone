@@ -14,6 +14,7 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.jetbrains.annotations.NotNull;
 
 @SuppressWarnings("ConstantConditions")
 public class SilverstoneGlobal extends JavaPlugin implements Listener {
@@ -33,7 +34,8 @@ public class SilverstoneGlobal extends JavaPlugin implements Listener {
         luckPerms = getServer().getServicesManager().load(LuckPerms.class);
 
         RegisteredServiceProvider<LuckPerms> provider = Bukkit.getServicesManager().getRegistration(LuckPerms.class);
-        if (provider != null) provider.getProvider();
+        if (provider != null) //noinspection ResultOfMethodCallIgnored
+            provider.getProvider();
 
         saveDefaultConfig();
 
@@ -83,11 +85,11 @@ public class SilverstoneGlobal extends JavaPlugin implements Listener {
         pluginManager.registerEvents(new TimeOut(), this);
         pluginManager.registerEvents(new NightVision(), this);
 
-        BuyGUI.createDefaultInv();
-        BuyGUI.createInv1();
-        BuyGUI.createInv2();
-        BuyGUI.createInv3();
-        BuyGUI.createInv4();
+        BuyGUI.defaultInv = BuyGUI.createInv(0);
+        BuyGUI.inv1 = BuyGUI.createInv(1);
+        BuyGUI.inv2 = BuyGUI.createInv(2);
+        BuyGUI.inv3 = BuyGUI.createInv(3);
+        BuyGUI.inv4 = BuyGUI.createInv(4);
         new ChatColorGUI(this).createDefaultInv();
         Rules.createInv();
         SocialGUI.createInv();
@@ -110,15 +112,15 @@ public class SilverstoneGlobal extends JavaPlugin implements Listener {
         this.getServer().getMessenger().unregisterIncomingPluginChannel(this);
     }
 
-    public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
         if (args.length > 0) if (args[0].equalsIgnoreCase("reload")) {
             saveDefaultConfig();
             reloadConfig();
-            BuyGUI.createDefaultInv();
-            BuyGUI.createInv1();
-            BuyGUI.createInv2();
-            BuyGUI.createInv3();
-            BuyGUI.createInv4();
+            BuyGUI.defaultInv = BuyGUI.createInv(0);
+            BuyGUI.inv1 = BuyGUI.createInv(1);
+            BuyGUI.inv2 = BuyGUI.createInv(2);
+            BuyGUI.inv3 = BuyGUI.createInv(3);
+            BuyGUI.inv4 = BuyGUI.createInv(4);
             Rules.createInv();
             SocialGUI.createInv();
             sender.sendMessage(ChatColor.GREEN + "SilverstoneGlobal reloaded!");

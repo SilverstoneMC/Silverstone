@@ -22,6 +22,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Field;
 import java.util.UUID;
@@ -50,7 +51,7 @@ public class SocialGUI implements CommandExecutor, Listener {
     }
 
     @SuppressWarnings("ConstantConditions")
-    public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+    public boolean onCommand(@NotNull CommandSender sender, Command cmd, @NotNull String label, String[] args) {
         switch (cmd.getName().toLowerCase()) {
             case "social" -> {
                 if (!(sender instanceof Player player)) {

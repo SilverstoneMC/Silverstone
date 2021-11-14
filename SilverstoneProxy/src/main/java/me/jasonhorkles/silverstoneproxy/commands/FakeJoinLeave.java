@@ -17,6 +17,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
+@SuppressWarnings("UnstableApiUsage")
 public class FakeJoinLeave extends Command {
 
     private final Plugin plugin = SilverstoneProxy.getInstance();

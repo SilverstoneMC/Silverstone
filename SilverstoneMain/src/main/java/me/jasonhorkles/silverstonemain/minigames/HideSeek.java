@@ -6,6 +6,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.text.format.TextDecoration;
+import net.kyori.adventure.title.Title;
 import org.bukkit.*;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -29,6 +30,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Field;
 import java.util.*;
@@ -61,14 +63,14 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
                 @Override
                 public void run() {
                     if (player.hasPermission("silverstone.minigames.hideseek.taunt"))
-                        player.sendTitle(" ", ChatColor.RED + "You may now taunt again.", -1, -1, -1);
+                        player.showTitle(Title.title(Component.text(" "), Component.text("You may now taunt again.").color(NamedTextColor.RED), Title.DEFAULT_TIMES));
                 }
             };
             task.runTaskLater(plugin, 300);
         }
     }
 
-    public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+    public boolean onCommand(@NotNull CommandSender sender, Command cmd, @NotNull String label, String[] args) {
         if (cmd.getName().equalsIgnoreCase("taunt")) {
             if (!(sender instanceof Player player)) {
                 sender.sendMessage(ChatColor.RED + "Sorry, but only players can do that.");

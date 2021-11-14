@@ -16,6 +16,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.jetbrains.annotations.NotNull;
 
 @SuppressWarnings({"UnstableApiUsage", "ConstantConditions"})
 public record Restart(JavaPlugin plugin) implements CommandExecutor {
@@ -23,7 +24,7 @@ public record Restart(JavaPlugin plugin) implements CommandExecutor {
     private static boolean restarting = false;
     private static String server = null;
 
-    public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
         if (plugin.getConfig().getString("server").equalsIgnoreCase("main")) server = "fallback";
         else server = "main";
 

@@ -24,6 +24,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -43,7 +44,7 @@ public record KitPvPGUI(JavaPlugin plugin) implements CommandExecutor, Listener 
         task.runTask(plugin);
     }
 
-    public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
         if (!(sender instanceof Player player)) {
             sender.sendMessage(ChatColor.RED + "Sorry, but only players can do that.");
             return true;
