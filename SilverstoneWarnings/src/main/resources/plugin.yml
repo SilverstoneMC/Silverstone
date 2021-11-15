@@ -24,6 +24,7 @@ commands:
     usage: "§cUsage: §7/ssw §8<§7remove <reason> <player> [-s] §8|§7 clear <[reason]|all> <player> [-s] §8|§7 reload§8>"
     permission: sswarnings.command
   reasons:
+    aliases: [ categories ]
     description: "Show the available warning reasons"
     permission: sswarnings.command
   warnlist:
