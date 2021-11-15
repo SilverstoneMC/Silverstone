@@ -102,6 +102,12 @@ public class SilverstoneWarnings extends JavaPlugin implements Listener {
                     if ((count - 1) == 0) data.getConfig().set("data." + uuid + "." + args[1], null);
                     else data.getConfig().set("data." + uuid + "." + args[1], count - 1);
                     data.saveConfig();
+
+                    if (data.getConfig().get("data." + uuid) == null) {
+                        data.getConfig().set("data." + uuid, null);
+                        data.saveConfig();
+                    }
+
                     getLogger().info(ChatColor.translateAlternateColorCodes('&', "&7" + sender.getName() + " &cremoved 1 &7" + args[1] + " &cwarning from &7" + offlinePlayer
                             .getName()));
 

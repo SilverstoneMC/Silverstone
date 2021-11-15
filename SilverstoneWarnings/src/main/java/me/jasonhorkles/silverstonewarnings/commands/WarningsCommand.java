@@ -36,17 +36,6 @@ public class WarningsCommand implements CommandExecutor {
                 return true;
             }
 
-        if (SilverstoneWarnings.queue.getConfig()
-                .getConfigurationSection("queue." + uuid)
-                .getKeys(false)
-                .size() == 0 && SilverstoneWarnings.data.getConfig()
-                .getConfigurationSection("data." + uuid)
-                .getKeys(false)
-                .size() == 0) {
-            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&b" + offlinePlayer.getName() + " &ahas no warnings!"));
-            return true;
-        }
-
         sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&c&l" + offlinePlayer.getName() + "'s warnings:"));
         // If any warnings already exist
         if (SilverstoneWarnings.data.getConfig().contains("data." + uuid))
