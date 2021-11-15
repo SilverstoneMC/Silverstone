@@ -103,7 +103,7 @@ public class SilverstoneWarnings extends JavaPlugin implements Listener {
                     else data.getConfig().set("data." + uuid + "." + args[1], count - 1);
                     data.saveConfig();
 
-                    if (data.getConfig().get("data." + uuid) == null) {
+                    if (data.getConfig().getConfigurationSection("data." + uuid).getKeys(false).isEmpty()) {
                         data.getConfig().set("data." + uuid, null);
                         data.saveConfig();
                     }
