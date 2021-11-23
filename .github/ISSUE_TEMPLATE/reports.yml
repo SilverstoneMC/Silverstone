@@ -13,7 +13,7 @@ body:
   - type: input
     attributes:
       label: The offender's Minecraft username
-      placeholder: TNG_Panda
+      placeholder: Acealation
     validations:
       required: true
 

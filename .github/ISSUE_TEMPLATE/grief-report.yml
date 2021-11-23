@@ -17,20 +17,14 @@ body:
       options:
         - Survival
         - Survival (Nether)
-        - Survival (Player Shops)
         - Survival (The End)
-        - Minigames-A
-        - Minigames-E
-        - Minigames-T
-        - Plots
-        - Utility
     validations:
       required: true
 
   - type: input
     attributes:
       label: The coordinates at the location of the grief
-      placeholder: "-3956, 72, 593"
+      placeholder: "666, 69, 420"
     validations:
       required: true
 
