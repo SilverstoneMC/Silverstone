@@ -22,3 +22,11 @@ random-game:
     - Game1
   multiplayer:
     - Game2
+
+# Max times a player can RTP
+rtp:
+  mvp: 30
+  vip+: 20
+  vip: 15
+  member: 10
+  default: 5

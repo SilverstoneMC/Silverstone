@@ -1,6 +1,6 @@
 main: me.jasonhorkles.silverstonemain.SilverstoneMain
 name: SilverstoneMain
-description: The secondary plugin for Silverstone to provide commands and features for the main server.
+description: Provides features for the Main Silverstone server.
 version: %VERSION%
 author: JasonHorkles
 api-version: 1.17
@@ -10,6 +10,7 @@ softdepend:
   - LuckPerms
   - Multiverse-Core
   - PremiumVanish
+  - RandomTeleport
 depend:
   - Matrix
 
@@ -66,6 +67,10 @@ commands:
     description: "Regenerate The End"
   relay:
     permission: silverstone.console
+  rtplimit:
+    description: "Check a player's RTP usages"
+    permission: silverstone.trialmod
+    usage: "§cUsage: /rtplimit check <player>"
   safk:
     description: "Silently toggle AFK"
     permission: silverstone.moderator
@@ -133,3 +138,14 @@ permissions:
   silverstone.minigames.pvp:
     default: false
     description: Will heal players with this perm on kill
+  silverstone.rtplimit.bypass:
+    default: op
+    description: Bypass the RTP limit
+  silverstone.rtplimit.member:
+    default: false
+  silverstone.rtplimit.mvp:
+    default: false
+  silverstone.rtplimit.vip+:
+    default: false
+  silverstone.rtplimit.vip:
+    default: false

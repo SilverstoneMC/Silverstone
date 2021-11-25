@@ -1,7 +1,0 @@
-# Max times a player can RTP
-RTP:
-  mvp: 30
-  vip+: 20
-  vip: 15
-  member: 10
-  default: 5

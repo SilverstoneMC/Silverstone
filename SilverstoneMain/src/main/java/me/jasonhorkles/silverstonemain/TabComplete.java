@@ -13,15 +13,24 @@ import java.util.List;
 
 public class TabComplete implements TabCompleter, Listener {
 
-    final List<String> arguments = new ArrayList<>();
+    final List<String> arguments1 = new ArrayList<>();
+    final List<String> arguments2 = new ArrayList<>();
 
     public List<String> onTabComplete(@NotNull CommandSender sender, Command cmd, @NotNull String label, String[] args) {
         if (cmd.getName().equalsIgnoreCase("silverstonemain")) {
-            if (arguments.isEmpty()) arguments.add("reload");
+            if (arguments1.isEmpty()) arguments1.add("reload");
 
             List<String> result = new ArrayList<>();
             if (args.length == 1) {
-                for (String a : arguments) if (a.toLowerCase().startsWith(args[0].toLowerCase())) result.add(a);
+                for (String a : arguments1) if (a.toLowerCase().startsWith(args[0].toLowerCase())) result.add(a);
+                return result;
+            }
+        } else if (cmd.getName().equalsIgnoreCase("rtplimit")) {
+            if (arguments2.isEmpty()) arguments2.add("check");
+
+            List<String> result = new ArrayList<>();
+            if (args.length == 1) {
+                for (String a : arguments2) if (a.toLowerCase().startsWith(args[0].toLowerCase())) result.add(a);
                 return result;
             }
         }

@@ -47,7 +47,7 @@ public class SilverstoneMain extends JavaPlugin implements Listener {
         data.saveDefaultConfig();
 
         RegisteredServiceProvider<LuckPerms> provider = Bukkit.getServicesManager().getRegistration(LuckPerms.class);
-        if (provider != null) //noinspection ResultOfMethodCallIgnored
+        if (provider != null)
             provider.getProvider();
 
         if (getServer().getPluginManager().getPlugin("DiscordSRV") != null)
@@ -76,6 +76,7 @@ public class SilverstoneMain extends JavaPlugin implements Listener {
         getCommand("rank").setExecutor(new Rank());
         getCommand("regenend").setExecutor(new End(this));
         getCommand("relay").setExecutor(new DiscordRelay(this));
+        getCommand("rtplimit").setExecutor(new RTPLimit(this));
         getCommand("safk").setExecutor(new AFK());
         getCommand("spectate").setExecutor(new Spectate(this));
         getCommand("stopmusic").setExecutor(new Music());
@@ -89,6 +90,7 @@ public class SilverstoneMain extends JavaPlugin implements Listener {
         getCommand("zfcfinish").setExecutor(new FlyingCourse(this));
         getCommand("znewbiekit").setExecutor(new NewbieKit(this));
 
+        getCommand("rtplimit").setTabCompleter(new TabComplete());
         getCommand("silverstonemain").setTabCompleter(new TabComplete());
 
         PluginManager pluginManager = this.getServer().getPluginManager();
@@ -111,6 +113,7 @@ public class SilverstoneMain extends JavaPlugin implements Listener {
         pluginManager.registerEvents(new PlotClaim(), this);
         pluginManager.registerEvents(new PvP(), this);
         pluginManager.registerEvents(new QuitEvent(this), this);
+        pluginManager.registerEvents(new RTPLimit(this), this);
         pluginManager.registerEvents(new TabComplete(), this);
         pluginManager.registerEvents(new Tips(this), this);
         pluginManager.registerEvents(new Void(this), this);
