@@ -199,8 +199,6 @@ public class WarnCommand implements CommandExecutor, Listener {
 
         Player player = (Player) event.getWhoClicked();
 
-        System.out.println(target.get(player));
-
         if (event.getInventory().equals(mainInv)) switch (event.getRawSlot()) {
             case 2 -> openInv(player, hackInv);
             case 4 -> openInv(player, chatInv);
