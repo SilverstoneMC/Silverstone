@@ -17,6 +17,7 @@ import org.jetbrains.annotations.NotNull;
 public record RTPLimit(JavaPlugin plugin) implements CommandExecutor, Listener {
 
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
+        if (args.length < 1) return false;
         if (args[0].equalsIgnoreCase("check")) {
             // If player defined
             if (args.length > 1) {
