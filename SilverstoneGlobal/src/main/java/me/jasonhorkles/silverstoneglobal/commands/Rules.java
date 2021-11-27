@@ -2,12 +2,8 @@ package me.jasonhorkles.silverstoneglobal.commands;
 
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
-import me.jasonhorkles.silverstoneglobal.SilverstoneGlobal;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.event.ClickEvent;
-import net.kyori.adventure.text.format.NamedTextColor;
-import net.kyori.adventure.text.format.TextColor;
-import net.kyori.adventure.text.format.TextDecoration;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -23,27 +19,20 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
+import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-@SuppressWarnings("deprecation")
-public class Rules implements CommandExecutor, Listener {
-
-    private static SilverstoneGlobal plugin;
-
-    public Rules(SilverstoneGlobal plugin) {
-        Rules.plugin = plugin;
-    }
+@SuppressWarnings({"deprecation", "ConstantConditions"})
+public record Rules(JavaPlugin plugin) implements CommandExecutor, Listener {
 
     private static Inventory inv;
-    private static Player playerTarget;
+    private static final Map<Player, Player> target = new HashMap<>();
 
     public void closeInv(Player player) {
         BukkitRunnable task = new BukkitRunnable() {
@@ -51,6 +40,7 @@ public class Rules implements CommandExecutor, Listener {
             public void run() {
                 player.closeInventory();
                 player.playSound(player.getLocation(), Sound.UI_BUTTON_CLICK, 1, 1);
+                target.remove(player);
             }
         };
         task.runTask(plugin);
@@ -58,7 +48,7 @@ public class Rules implements CommandExecutor, Listener {
 
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
         if (args.length > 0) {
-            playerTarget = Bukkit.getPlayer(args[0]);
+            Player playerTarget = Bukkit.getPlayer(args[0]);
             // If player is null, cancel the command
             if (playerTarget == null) {
                 sender.sendMessage(ChatColor.RED + "Please provide an online player!");
@@ -69,40 +59,31 @@ public class Rules implements CommandExecutor, Listener {
                 playerTarget.performCommand("rules");
                 for (Player online : Bukkit.getOnlinePlayers())
                     if (online.hasPermission("silverstone.trialmod"))
-                        online.sendMessage(ChatColor.translateAlternateColorCodes('&', "&cThe rules have been sent to &7" + playerTarget
-                                .getName()));
+                        online.sendMessage(ChatColor.translateAlternateColorCodes('&', "&cThe rules have been sent to &7" + playerTarget.getName()));
                 sender.sendMessage(ChatColor.YELLOW + "The rules have been sent to " + ChatColor.AQUA + playerTarget.getName());
                 return true;
             }
+
+            target.put(player, playerTarget);
+
             if (sender.hasPermission("silverstone.trialmod")) {
                 player.openInventory(inv);
                 return true;
             }
         }
+
         // Send rules
         for (String header : plugin.getConfig().getStringList("rules.header"))
-            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', header));
+            sender.sendMessage(MiniMessage.miniMessage()
+                    .parse(header));
         for (int x = 1; x <= plugin.getConfig().getInt("rules.number-of-rules"); x++)
-            if (x == 2) sender.sendMessage(Component.text()
-                    .content("2").color(NamedTextColor.DARK_GREEN)
-                    .append(Component.text()
-                            .content(" | ")
-                            .color(NamedTextColor.GRAY))
-                    .append(Component.text()
-                            .content("Hacked and ")
-                            .color(TextColor.fromHexString("#23B8CF")))
-                    .append(Component.text()
-                            .content("other modified clients*")
-                            .color(TextColor.fromHexString("#15E8E8"))
-                            .decoration(TextDecoration.UNDERLINED, true)
-                            .clickEvent(ClickEvent.openUrl("https://github.com/JasonHorkles/Silverstone/wiki/Modifications")))
-                    .append(Component.text()
-                            .content(" are prohibited")
-                            .color(TextColor.fromHexString("#23B8CF"))));
-            else sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "" + plugin.getConfig()
-                    .getString("rules." + x)));
+            sender.sendMessage(MiniMessage.miniMessage()
+                    .parse(plugin.getConfig()
+                            .getString("rules.rule-prefix")
+                            .replace("{#}", String.valueOf(x)) + plugin.getConfig().getString("rules." + x)));
         for (String footer : plugin.getConfig().getStringList("rules.footer"))
-            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', footer));
+            sender.sendMessage(MiniMessage.miniMessage()
+                    .parse(footer));
         return true;
     }
 
@@ -115,107 +96,38 @@ public class Rules implements CommandExecutor, Listener {
         event.setCancelled(true);
 
         Player player = (Player) event.getWhoClicked();
-        int rule = 1;
+        Player playerTarget = target.get(player);
+        int rule;
 
         // Send rule to player
         switch (event.getRawSlot()) {
-            case 10 -> {
-                // 1
-                playerTarget.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfig()
-                        .getString("rules.rule-prefix") + plugin.getConfig().getString("rules.1")));
-                closeInv(player);
-            }
-            case 11 -> {
-                // 2
-                playerTarget.sendMessage(Component.text()
-                        .content("2").color(NamedTextColor.DARK_GREEN)
-                        .append(Component.text()
-                                .content(" | ")
-                                .color(NamedTextColor.GRAY))
-                        .append(Component.text()
-                                .content("Hacked and ")
-                                .color(TextColor.fromHexString("#23B8CF")))
-                        .append(Component.text()
-                                .content("other modified clients*")
-                                .color(TextColor.fromHexString("#15E8E8"))
-                                .decoration(TextDecoration.UNDERLINED, true)
-                                .clickEvent(ClickEvent.openUrl("https://github.com/JasonHorkles/Silverstone/wiki/Modifications")))
-                        .append(Component.text()
-                                .content(" are prohibited")
-                                .color(TextColor.fromHexString("#23B8CF"))));
-                rule = 2;
-                closeInv(player);
-            }
-            case 12 -> {
-                // 3
-                playerTarget.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfig()
-                        .getString("rules.rule-prefix") + plugin.getConfig().getString("rules.3")));
-                rule = 3;
-                closeInv(player);
-            }
-            case 13 -> {
-                // 4
-                playerTarget.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfig()
-                        .getString("rules.rule-prefix") + plugin.getConfig().getString("rules.4")));
-                rule = 4;
-                closeInv(player);
-            }
-            case 14 -> {
-                // 5
-                playerTarget.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfig()
-                        .getString("rules.rule-prefix") + plugin.getConfig().getString("rules.5")));
-                rule = 5;
-                closeInv(player);
-            }
-            case 15 -> {
-                // 6
-                playerTarget.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfig()
-                        .getString("rules.rule-prefix") + plugin.getConfig().getString("rules.6")));
-                rule = 6;
-                closeInv(player);
-            }
-            case 16 -> {
-                // 7
-                playerTarget.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfig()
-                        .getString("rules.rule-prefix") + plugin.getConfig().getString("rules.7")));
-                rule = 7;
-                closeInv(player);
-            }
-            case 19 -> {
-                // 8
-                playerTarget.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfig()
-                        .getString("rules.rule-prefix") + plugin.getConfig().getString("rules.8")));
-                rule = 8;
-                closeInv(player);
-            }
-            case 20 -> {
-                // 9
-                playerTarget.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfig()
-                        .getString("rules.rule-prefix") + plugin.getConfig().getString("rules.9")));
-                rule = 9;
-                closeInv(player);
-            }
-            case 21 -> {
-                // 10
-                playerTarget.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfig()
-                        .getString("rules.rule-prefix") + plugin.getConfig().getString("rules.10")));
-                rule = 10;
-                closeInv(player);
-            }
-            case 22 -> {
-                // 11
-                playerTarget.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfig()
-                        .getString("rules.rule-prefix") + plugin.getConfig().getString("rules.11")));
-                rule = 11;
-                closeInv(player);
-            }
+            case 10 -> rule = 1;
+            case 11 -> rule = 2;
+            case 12 -> rule = 3;
+            case 13 -> rule = 4;
+            case 14 -> rule = 5;
+            case 15 -> rule = 6;
+            case 16 -> rule = 7;
+            case 19 -> rule = 8;
+            case 20 -> rule = 9;
+            case 21 -> rule = 10;
+            case 22 -> rule = 11;
             case 25 -> {
                 // All
                 playerTarget.performCommand("rules");
                 rule = -1;
-                closeInv(player);
+            }
+            default -> {
+                return;
             }
         }
+
+        if (rule > 0) playerTarget.sendMessage(MiniMessage.miniMessage()
+                .parse("<dark_green>Rule " + plugin.getConfig()
+                        .getString("rules.rule-prefix")
+                        .replace("{#}", String.valueOf(rule)) + plugin.getConfig().getString("rules." + rule)));
+
+        closeInv(player);
 
         // Send message to players with silverstone.trialmod perm
         if (rule == -1) {
@@ -231,7 +143,7 @@ public class Rules implements CommandExecutor, Listener {
 
 
     // Inventory items
-    public static void createInv() {
+    public void createInv() {
 
         inv = Bukkit.createInventory(null, 36, Component.text(ChatColor.translateAlternateColorCodes('&', "&4&lSend Rule")));
 

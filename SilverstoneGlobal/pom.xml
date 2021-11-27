@@ -6,7 +6,7 @@
 
     <groupId>me.jasonhorkles</groupId>
     <artifactId>SilverstoneGlobal</artifactId>
-    <version>5.2.7</version>
+    <version>5.2.11</version>
 
     <packaging>jar</packaging>
     <build>
@@ -45,6 +45,32 @@
                         </replacement>
                     </replacements>
                 </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.3.0-SNAPSHOT</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <relocations>
+                                <relocation>
+                                    <pattern>net.kyori.adventure.text.minimessage</pattern>
+                                    <shadedPattern>me.jasonhorkles.silverstoneglobal.shaded.minimessage</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>net.kyori.adventure.sound</pattern>
+                                    <shadedPattern>me.jasonhorkles.silverstoneglobal.shaded.sound</shadedPattern>
+                                </relocation>
+                            </relocations>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
 
             <plugin>
@@ -88,6 +114,12 @@
             <artifactId>paper-api</artifactId>
             <version>1.17.1-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>net.kyori</groupId>
+            <artifactId>adventure-text-minimessage</artifactId>
+            <version>4.2.0-SNAPSHOT</version>
         </dependency>
 
         <dependency>

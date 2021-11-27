@@ -49,12 +49,12 @@ socialGUI:
 # The rules for the server
 rules:
   # The text to add before the rule number when sending a player a rule
-  rule-prefix: "&2Rule "
+  rule-prefix: "<dark_green>{#} <gray>| <#23B8CF>"
   number-of-rules: 11
   header:
-    - "&3 ---------- &aRules &3----------"
+    - "<dark_aqua> ---------- <green>Rules <dark_aqua>----------"
   1: "Rule 1"
-  # Rule 2 is hard coded
+  2: "Rule 2"
   3: "Rule 3"
   4: "Rule 4"
   5: "Rule 5"

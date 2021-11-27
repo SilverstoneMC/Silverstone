@@ -34,7 +34,7 @@ public class SilverstoneGlobal extends JavaPlugin implements Listener {
         luckPerms = getServer().getServicesManager().load(LuckPerms.class);
 
         RegisteredServiceProvider<LuckPerms> provider = Bukkit.getServicesManager().getRegistration(LuckPerms.class);
-        if (provider != null) //noinspection ResultOfMethodCallIgnored
+        if (provider != null)
             provider.getProvider();
 
         saveDefaultConfig();
@@ -91,7 +91,7 @@ public class SilverstoneGlobal extends JavaPlugin implements Listener {
         BuyGUI.inv3 = BuyGUI.createInv(3);
         BuyGUI.inv4 = BuyGUI.createInv(4);
         new ChatColorGUI(this).createDefaultInv();
-        Rules.createInv();
+        new Rules(this).createInv();
         SocialGUI.createInv();
 
         new Security(this).check();
@@ -121,7 +121,7 @@ public class SilverstoneGlobal extends JavaPlugin implements Listener {
             BuyGUI.inv2 = BuyGUI.createInv(2);
             BuyGUI.inv3 = BuyGUI.createInv(3);
             BuyGUI.inv4 = BuyGUI.createInv(4);
-            Rules.createInv();
+            new Rules(this).createInv();
             SocialGUI.createInv();
             sender.sendMessage(ChatColor.GREEN + "SilverstoneGlobal reloaded!");
             return true;
