@@ -48,6 +48,11 @@ public record JoinEvent(JavaPlugin plugin) implements Listener {
 
         for (MetadataValue meta : player.getMetadata("vanished"))
             if (meta.asBoolean()) {
+                int nonStaff = 0;
+                for (Player players : Bukkit.getOnlinePlayers())
+                    if (!players.hasPermission("silverstone.trialmod")) nonStaff++;
+                if (nonStaff == 0) return;
+
                 TextChannel discord = DiscordSRV.getPlugin().getDestinationTextChannelForGameChannelName("silentjoins");
                 EmbedBuilder embed = new EmbedBuilder();
                 embed.setAuthor(player.getName() + " silently joined the server", null, "https://crafatar.com/avatars/" + player
@@ -55,6 +60,7 @@ public record JoinEvent(JavaPlugin plugin) implements Listener {
                 embed.setColor(new Color(36, 197, 19));
 
                 discord.sendMessageEmbeds(embed.build()).queue();
+                break;
             }
     }
 }
