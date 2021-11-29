@@ -22,6 +22,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntitySpawnEvent;
 import org.bukkit.event.player.PlayerChangedWorldEvent;
+import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerPortalEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -42,6 +43,7 @@ public class End implements CommandExecutor, Listener {
     }
 
     private final Map<String, Long> endBounce = new HashMap<>();
+    private final Map<Player, Long> ranBackCommand = new HashMap<>();
 
     final LuckPerms luckPerms = SilverstoneMain.getInstance().getLuckPerms();
     final MultiverseCore mv = SilverstoneMain.getInstance().getMVCore();
@@ -109,6 +111,12 @@ public class End implements CommandExecutor, Listener {
             sender.sendMessage(ChatColor.GREEN + "You may now enter The End.");
         }
         return true;
+    }
+
+    @EventHandler
+    public void onBack(PlayerCommandPreprocessEvent event) {
+        if (event.getMessage().toLowerCase().startsWith("/back"))
+            ranBackCommand.put(event.getPlayer(), System.currentTimeMillis() + 5000);
     }
 
     @EventHandler
@@ -215,20 +223,17 @@ public class End implements CommandExecutor, Listener {
     public void enterEnd(PlayerChangedWorldEvent event) {
         Player player = event.getPlayer();
         String end = plugin.getConfig().getString("end-world");
-        if (player.getGameMode().equals(GameMode.SURVIVAL)) {
-            BukkitRunnable task = new BukkitRunnable() {
-                @Override
-                public void run() {
-                    if (player.getWorld().getName().equalsIgnoreCase(end)) {
-                        player.teleportAsync(Bukkit.getWorld(end)
-                                .getHighestBlockAt(0, 0)
-                                .getLocation()
-                                .add(0.5, 1, 0.5));
-                        player.sendMessage(ChatColor.RED + "Please note that The End will reset every 2 weeks on Saturday, keepInventory is off, and you cannot exit the world without dying unless the dragon has been defeated.");
-                    }
-                }
-            };
-            task.runTaskLater(plugin, 10);
+
+        if (player.getGameMode().equals(GameMode.SURVIVAL) && player.getWorld().getName().equalsIgnoreCase(end)) {
+            if (ranBackCommand.containsKey(player))
+                if (ranBackCommand.get(player) >= System.currentTimeMillis()) return;
+                else ranBackCommand.remove(player);
+
+            player.teleportAsync(Bukkit.getWorld(end)
+                    .getHighestBlockAt(0, 0)
+                    .getLocation()
+                    .add(0.5, 1, 0.5));
+            player.sendMessage(ChatColor.RED + "Please note that The End will reset every 2 weeks on Saturday, keepInventory is off, and you cannot exit the world without dying unless the dragon has been defeated.");
 
             player.setInvulnerable(true);
             BukkitRunnable invulnerable = new BukkitRunnable() {

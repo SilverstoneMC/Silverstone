@@ -149,6 +149,12 @@ public record FlyingCourse(JavaPlugin plugin) implements CommandExecutor {
         Map<OfflinePlayer, Integer> mediumScores = new HashMap<>();
         Map<OfflinePlayer, Integer> hardScores = new HashMap<>();
 
+        // Stop if there's no data
+        try {
+            config.getConfigurationSection("data").getKeys(false);
+        } catch (NullPointerException ignored) {
+            return;
+        }
         for (String uuid : config.getConfigurationSection("data").getKeys(false)) {
             if (config.contains("data." + uuid + ".flyingcourse.easy"))
                 easyScores.put(Bukkit.getOfflinePlayer(UUID.fromString(uuid)), config.getInt("data." + uuid + ".flyingcourse.easy"));

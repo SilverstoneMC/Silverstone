@@ -11,6 +11,7 @@ softdepend:
   - Multiverse-Core
   - PremiumVanish
   - RandomTeleport
+  - DeluxeSellwands
 depend:
   - Matrix
 
@@ -110,6 +111,8 @@ commands:
   znewbiekit:
     permission: silverstone.console
     usage: "/znewbiekit <player>"
+  togglesellstickconfirmation:
+    description: "Enable/disable the Sell Stick confirmation"
 
 permissions:
   silverstone.ignoreclaims:

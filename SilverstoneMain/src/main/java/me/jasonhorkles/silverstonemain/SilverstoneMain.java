@@ -22,9 +22,9 @@ import org.jetbrains.annotations.NotNull;
 @SuppressWarnings("ConstantConditions")
 public class SilverstoneMain extends JavaPlugin implements Listener {
 
-    private LuckPerms luckPerms;
-    private MultiverseCore core;
     private IEssentials essentials;
+    private LuckPerms luckPerms;
+    private MultiverseCore multiverse;
 
     public static DataManager data;
 
@@ -37,9 +37,9 @@ public class SilverstoneMain extends JavaPlugin implements Listener {
     @Override
     public void onEnable() {
         instance = this;
-        luckPerms = getServer().getServicesManager().load(LuckPerms.class);
-        core = (MultiverseCore) getServer().getPluginManager().getPlugin("Multiverse-Core");
         essentials = (IEssentials) getServer().getPluginManager().getPlugin("Essentials");
+        luckPerms = getServer().getServicesManager().load(LuckPerms.class);
+        multiverse = (MultiverseCore) getServer().getPluginManager().getPlugin("Multiverse-Core");
 
         data = new DataManager(this);
 
@@ -84,6 +84,7 @@ public class SilverstoneMain extends JavaPlugin implements Listener {
         getCommand("tips").setExecutor(new Tips(this));
         getCommand("tntrun").setExecutor(new TNTRun(this));
         getCommand("togglemusic").setExecutor(new Music());
+        getCommand("togglesellstickconfirmation").setExecutor(new SellStickConfirmation(this));
         getCommand("tpchunk").setExecutor(new TP());
         getCommand("tpregion").setExecutor(new TP());
         getCommand("watch").setExecutor(new Spectate(this));
@@ -114,6 +115,7 @@ public class SilverstoneMain extends JavaPlugin implements Listener {
         pluginManager.registerEvents(new PvP(), this);
         pluginManager.registerEvents(new QuitEvent(this), this);
         pluginManager.registerEvents(new RTPLimit(this), this);
+        pluginManager.registerEvents(new SellStickConfirmation(this), this);
         pluginManager.registerEvents(new TabComplete(), this);
         pluginManager.registerEvents(new Tips(this), this);
         pluginManager.registerEvents(new Void(this), this);
@@ -149,15 +151,15 @@ public class SilverstoneMain extends JavaPlugin implements Listener {
         return false;
     }
 
+    public IEssentials getEssentials() {
+        return essentials;
+    }
+
     public LuckPerms getLuckPerms() {
         return luckPerms;
     }
 
     public MultiverseCore getMVCore() {
-        return core;
-    }
-
-    public IEssentials getEssentials() {
-        return essentials;
+        return multiverse;
     }
 }
