@@ -19,7 +19,6 @@ import java.util.*;
 
 @SuppressWarnings("ConstantConditions")
 public record FlyingCourse(JavaPlugin plugin) implements CommandExecutor {
-    private static final Scoreboard fctop = Bukkit.getScoreboardManager().getMainScoreboard().getObjective("FCTop").getScoreboard();
 
     public boolean onCommand(@NotNull CommandSender sender, Command cmd, @NotNull String label, String[] args) {
         if (cmd.getName().equalsIgnoreCase("zfcfinish")) {
@@ -144,6 +143,12 @@ public record FlyingCourse(JavaPlugin plugin) implements CommandExecutor {
     }
 
     public void updateFCScoreboard() {
+        if (Bukkit.getScoreboardManager().getMainScoreboard().getObjective("FCTop") == null) {
+            plugin.getLogger().severe("Couldn't find the scoreboard objective 'FCTop'!");
+            return;
+        }
+
+        Scoreboard fctop = Bukkit.getScoreboardManager().getMainScoreboard().getObjective("FCTop").getScoreboard();
         FileConfiguration config = SilverstoneMain.data.getConfig();
         Map<OfflinePlayer, Integer> easyScores = new HashMap<>();
         Map<OfflinePlayer, Integer> mediumScores = new HashMap<>();
@@ -178,25 +183,32 @@ public record FlyingCourse(JavaPlugin plugin) implements CommandExecutor {
         fctop.getObjective("FCTop").getScore(ChatColor.translateAlternateColorCodes('&', "&a&lEasy:")).setScore(score);
         for (OfflinePlayer player : easyScores.keySet()) {
             if (x >= 3) break;
-            fctop.getObjective("FCTop").getScore(ChatColor.translateAlternateColorCodes('&', "&2" + player.getName() + ": &b" + easyScores.get(player)))
+            fctop.getObjective("FCTop")
+                    .getScore(ChatColor.translateAlternateColorCodes('&', "&2" + player.getName() + ": &b" + easyScores.get(player)))
                     .setScore(--score);
             x++;
         }
 
         x = 0;
-        fctop.getObjective("FCTop").getScore(ChatColor.translateAlternateColorCodes('&', "&e&lMedium:")).setScore(--score);
+        fctop.getObjective("FCTop")
+                .getScore(ChatColor.translateAlternateColorCodes('&', "&e&lMedium:"))
+                .setScore(--score);
         for (OfflinePlayer player : mediumScores.keySet()) {
             if (x >= 3) break;
-            fctop.getObjective("FCTop").getScore(ChatColor.translateAlternateColorCodes('&', "&6" + player.getName() + ": &b" + mediumScores.get(player)))
+            fctop.getObjective("FCTop")
+                    .getScore(ChatColor.translateAlternateColorCodes('&', "&6" + player.getName() + ": &b" + mediumScores.get(player)))
                     .setScore(--score);
             x++;
         }
 
         x = 0;
-        fctop.getObjective("FCTop").getScore(ChatColor.translateAlternateColorCodes('&', "&4&lHard:")).setScore(--score);
+        fctop.getObjective("FCTop")
+                .getScore(ChatColor.translateAlternateColorCodes('&', "&4&lHard:"))
+                .setScore(--score);
         for (OfflinePlayer player : hardScores.keySet()) {
             if (x >= 3) break;
-            fctop.getObjective("FCTop").getScore(ChatColor.translateAlternateColorCodes('&', "&c" + player.getName() + ": &b" + hardScores.get(player)))
+            fctop.getObjective("FCTop")
+                    .getScore(ChatColor.translateAlternateColorCodes('&', "&c" + player.getName() + ": &b" + hardScores.get(player)))
                     .setScore(--score);
             x++;
         }
