@@ -8,6 +8,11 @@
     <artifactId>SilverstoneProxy</artifactId>
     <version>2.4.0</version>
 
+    <properties>
+        <maven.compiler.release>17</maven.compiler.release>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
     <packaging>jar</packaging>
     <build>
         <finalName>${project.artifactId}</finalName>
@@ -17,7 +22,7 @@
                 <artifactId>maven-jar-plugin</artifactId>
                 <version>2.3.1</version>
                 <configuration>
-                    <outputDirectory>D:\OneDrive\Documents\Intellij\Outputs</outputDirectory>
+                    <outputDirectory>F:\Intellij Outputs</outputDirectory>
                 </configuration>
             </plugin>
 
@@ -63,12 +68,6 @@
             </plugin>
         </plugins>
     </build>
-
-    <properties>
-        <maven.compiler.source>16</maven.compiler.source>
-        <maven.compiler.target>16</maven.compiler.target>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
 
     <repositories>
         <repository>
