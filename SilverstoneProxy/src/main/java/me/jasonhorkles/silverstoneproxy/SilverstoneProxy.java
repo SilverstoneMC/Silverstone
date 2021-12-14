@@ -30,7 +30,9 @@ public class SilverstoneProxy extends Plugin implements Listener {
         pluginManager.registerCommand(this, new Report());
         pluginManager.registerCommand(this, new Restart());
         pluginManager.registerCommand(this, new Say());
-        pluginManager.registerCommand(this, new VersionMsg());
+        pluginManager.registerCommand(this, new GlobalMsg());
+
+        pluginManager.registerListener(this, new JoinEvent());
 
         getProxy().registerChannel("silverstone:pluginmsg");
     }
