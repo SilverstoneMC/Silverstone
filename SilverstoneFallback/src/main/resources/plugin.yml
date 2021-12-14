@@ -1,4 +1,4 @@
-main: me.jasonhorkles.silverstonefallback.SilverstoneFallback
+main: net.silverstonemc.silverstonefallback.SilverstoneFallback
 name: SilverstoneFallback
 description: The main plugin for the fallback server.
 version: %VERSION%

@@ -1,4 +1,4 @@
-main: me.jasonhorkles.silverstonewarnings.SilverstoneWarnings
+main: net.silverstonemc.silverstonewarnings.SilverstoneWarnings
 name: SilverstoneWarnings
 description: The warning system for Silverstone
 version: %VERSION%

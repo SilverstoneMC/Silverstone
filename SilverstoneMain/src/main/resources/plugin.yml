@@ -1,4 +1,4 @@
-main: me.jasonhorkles.silverstonemain.SilverstoneMain
+main: net.silverstonemc.silverstonemain.SilverstoneMain
 name: SilverstoneMain
 description: Provides features for the Main Silverstone server.
 version: %VERSION%

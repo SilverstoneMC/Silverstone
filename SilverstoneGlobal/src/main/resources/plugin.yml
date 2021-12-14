@@ -1,9 +1,9 @@
-main: me.jasonhorkles.silverstoneglobal.SilverstoneGlobal
+main: net.silverstonemc.silverstoneglobal.SilverstoneGlobal
 name: SilverstoneGlobal
 description: The main plugin for Silverstone to provide commands and features across the network.
 version: %VERSION%
 author: JasonHorkles
-api-version: 1.17
+api-version: 1.18
 softdepend:
   - DiscordSRV
   - PremiumVanish
@@ -85,8 +85,6 @@ commands:
     description: "Updates available commands"
   youtube:
     description: "A social command"
-  optifine:
-    description: "OptiFine command"
 
 permissions:
   silverstone.admin:

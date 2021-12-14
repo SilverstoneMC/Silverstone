@@ -4,12 +4,13 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>me.jasonhorkles</groupId>
+    <groupId>net.silverstonemc</groupId>
     <artifactId>SilverstoneGlobal</artifactId>
-    <version>5.2.11</version>
+    <version>5.3.0</version>
 
     <properties>
-        <maven.compiler.release>17</maven.compiler.release>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
@@ -66,11 +67,11 @@
                             <relocations>
                                 <relocation>
                                     <pattern>net.kyori.adventure.text.minimessage</pattern>
-                                    <shadedPattern>me.jasonhorkles.silverstoneglobal.shaded.minimessage</shadedPattern>
+                                    <shadedPattern>net.silverstonemc.silverstoneglobal.shaded.minimessage</shadedPattern>
                                 </relocation>
                                 <relocation>
                                     <pattern>net.kyori.adventure.sound</pattern>
-                                    <shadedPattern>me.jasonhorkles.silverstoneglobal.shaded.sound</shadedPattern>
+                                    <shadedPattern>net.silverstonemc.silverstoneglobal.shaded.sound</shadedPattern>
                                 </relocation>
                             </relocations>
                         </configuration>
@@ -111,7 +112,7 @@
         <dependency>
             <groupId>io.papermc.paper</groupId>
             <artifactId>paper-api</artifactId>
-            <version>1.18-R0.1-SNAPSHOT</version>
+            <version>1.18.1-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
 

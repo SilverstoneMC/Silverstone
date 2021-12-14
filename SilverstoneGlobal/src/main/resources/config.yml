@@ -1,4 +1,5 @@
-server: "main"
+# main, creative, minigames, building (#serverSpecific)
+server: ""
 
 # Lore for the buy GUI
 buyGUI:

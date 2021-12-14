@@ -4,12 +4,13 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>me.jasonhorkles</groupId>
+    <groupId>net.silverstonemc</groupId>
     <artifactId>SilverstoneMain</artifactId>
     <version>2.9.2</version>
 
     <properties>
-        <maven.compiler.release>17</maven.compiler.release>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
@@ -100,7 +101,7 @@
         <dependency>
             <groupId>io.papermc.paper</groupId>
             <artifactId>paper-api</artifactId>
-            <version>1.18-R0.1-SNAPSHOT</version>
+            <version>1.18.1-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
 
@@ -140,7 +141,7 @@
         </dependency>
 
         <dependency>
-            <groupId>me.jasonhorkles</groupId>
+            <groupId>net.silverstonemc</groupId>
             <artifactId>Matrix</artifactId>
             <version>0</version>
             <scope>system</scope>
@@ -155,7 +156,7 @@
         </dependency>
 
         <dependency>
-            <groupId>me.jasonhorkles</groupId>
+            <groupId>net.silverstonemc</groupId>
             <artifactId>RandomTeleport</artifactId>
             <version>0</version>
             <scope>system</scope>
@@ -163,7 +164,7 @@
         </dependency>
 
         <dependency>
-            <groupId>me.jasonhorkles</groupId>
+            <groupId>net.silverstonemc</groupId>
             <artifactId>DeluxeSellwands</artifactId>
             <version>0</version>
             <scope>system</scope>
