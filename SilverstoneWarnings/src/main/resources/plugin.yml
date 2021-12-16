@@ -3,7 +3,7 @@ name: SilverstoneWarnings
 description: The warning system for Silverstone
 version: %VERSION%
 author: JasonHorkles
-api-version: 1.17
+api-version: 1.18
 softdepend:
   - DiscordSRV
 

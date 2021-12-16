@@ -6,7 +6,7 @@
 
     <groupId>net.silverstonemc</groupId>
     <artifactId>SilverstoneWarnings</artifactId>
-    <version>1.11.6</version>
+    <version>1.11.7</version>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
@@ -86,7 +86,7 @@
         <dependency>
             <groupId>io.papermc.paper</groupId>
             <artifactId>paper-api</artifactId>
-            <version>1.18-R0.1-SNAPSHOT</version>
+            <version>1.18.1-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
 
