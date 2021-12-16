@@ -25,7 +25,6 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.Color;
-import java.util.List;
 import java.util.*;
 import java.util.stream.IntStream;
 
