@@ -23,7 +23,7 @@ public class JoinEvent implements Listener {
         if (version < 755) {
             event.setCancelled(true);
             event.getPlayer()
-                    .disconnect(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&', "&cThe server isn't compatible with your client version!\n\n&7Please update to at least Minecraft 1.17 to join.")));
+                    .disconnect(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&', "&cYour client isn't compatible with the server!\n\n&7Please update to at least Minecraft 1.17 to join.")));
             return;
         }
 
