@@ -1,0 +1,10 @@
+main: net.silverstonemc.silverstonemain.SilverstoneCreative
+name: SilverstoneCreative
+description: Designed for the Creative server
+version: %VERSION%
+author: JasonHorkles
+api-version: 1.18
+
+commands:
+  plots?:
+    description: "Shows how many plots the player can claim"
