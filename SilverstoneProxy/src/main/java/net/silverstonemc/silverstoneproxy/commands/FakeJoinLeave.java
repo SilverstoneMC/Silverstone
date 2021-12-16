@@ -80,18 +80,27 @@ public class FakeJoinLeave extends Command {
         out.write(msgbytes.toByteArray());
 
         if (plugin.getProxy().getServerInfo("main").getPlayers().size() > 0) {
-            ProxiedPlayer mainMessenger = Iterables.getFirst(plugin.getProxy()
+            ProxiedPlayer messenger = Iterables.getFirst(plugin.getProxy()
                     .getServerInfo("main")
                     .getPlayers(), null);
-            assert mainMessenger != null;
-            mainMessenger.getServer().getInfo().sendData("silverstone:pluginmsg", out.toByteArray());
+            assert messenger != null;
+            messenger.getServer().getInfo().sendData("silverstone:pluginmsg", out.toByteArray());
         }
-        if (plugin.getProxy().getServerInfo("fallback").getPlayers().size() > 0) {
-            ProxiedPlayer fallbackMessenger = Iterables.getFirst(plugin.getProxy()
-                    .getServerInfo("fallback")
+
+        if (plugin.getProxy().getServerInfo("creative").getPlayers().size() > 0) {
+            ProxiedPlayer messenger = Iterables.getFirst(plugin.getProxy()
+                    .getServerInfo("creative")
                     .getPlayers(), null);
-            assert fallbackMessenger != null;
-            fallbackMessenger.getServer().getInfo().sendData("silverstone:pluginmsg", out.toByteArray());
+            assert messenger != null;
+            messenger.getServer().getInfo().sendData("silverstone:pluginmsg", out.toByteArray());
+        }
+
+        if (plugin.getProxy().getServerInfo("minigames").getPlayers().size() > 0) {
+            ProxiedPlayer messenger = Iterables.getFirst(plugin.getProxy()
+                    .getServerInfo("minigames")
+                    .getPlayers(), null);
+            assert messenger != null;
+            messenger.getServer().getInfo().sendData("silverstone:pluginmsg", out.toByteArray());
         }
     }
 }

@@ -35,7 +35,7 @@ public class KeepInv implements CommandExecutor {
         if (player.getWorld().getName().toLowerCase().contains("survival") && !player.getWorld()
                 .getName()
                 .toLowerCase()
-                .contains("the_end") && player.getGameMode().equals(GameMode.SURVIVAL))
+                .endsWith("the_end") && player.getGameMode().equals(GameMode.SURVIVAL))
             if (player.hasPermission("essentials.keepinv")) {
                 BukkitRunnable task = new BukkitRunnable() {
                     @Override
@@ -51,7 +51,7 @@ public class KeepInv implements CommandExecutor {
                         user.data().add(InheritanceNode.builder(group).build());
                         luckPerms.getUserManager().saveUser(user);
 
-                        player.sendMessage(ChatColor.GREEN + "keepInventory deactivated!");
+                        player.sendMessage(ChatColor.GREEN + "KeepInventory deactivated!");
                     }
                 };
                 task.runTaskAsynchronously(plugin);
@@ -82,16 +82,16 @@ public class KeepInv implements CommandExecutor {
                                     user.data().remove(InheritanceNode.builder(group).build());
                                     luckPerms.getUserManager().saveUser(user);
 
-                                    player.sendMessage(ChatColor.GREEN + "keepInventory activated!");
+                                    player.sendMessage(ChatColor.GREEN + "KeepInventory activated!");
                                 }
                             };
                             task.runTaskAsynchronously(plugin);
-                        } else player.sendMessage(ChatColor.RED + "keepInventory was not activated because you moved!");
+                        } else player.sendMessage(ChatColor.RED + "KeepInventory was not activated because you moved!");
                     }
                 };
                 delay.runTaskLater(plugin, 60);
             }
-        else player.sendMessage(ChatColor.RED + "You must be in the Survival or Survival (Nether) world to do that!");
+        else player.sendMessage(ChatColor.RED + "You must be in the Overworld or Nether to do that!");
         return true;
     }
 }

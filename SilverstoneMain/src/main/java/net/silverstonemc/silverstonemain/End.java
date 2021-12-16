@@ -37,6 +37,7 @@ import java.util.UUID;
 public class End implements CommandExecutor, Listener {
 
     private final JavaPlugin plugin;
+    private final String end = "survival_the_end";
 
     public End(JavaPlugin plugin) {
         this.plugin = plugin;
@@ -49,7 +50,6 @@ public class End implements CommandExecutor, Listener {
     final MultiverseCore mv = SilverstoneMain.getInstance().getMVCore();
 
     public boolean onCommand(@NotNull CommandSender sender, Command cmd, @NotNull String label, String[] args) {
-        String end = plugin.getConfig().getString("end-world");
         if (cmd.getName().equalsIgnoreCase("regenend")) {
             final int[] timer = {0};
             BukkitRunnable task = new BukkitRunnable() {
@@ -121,8 +121,7 @@ public class End implements CommandExecutor, Listener {
 
     @EventHandler
     public void dragonDeath(EntityDeathEvent event) {
-        if (event.getEntity().getType().equals(EntityType.ENDER_DRAGON)) {
-            String end = plugin.getConfig().getString("end-world");
+        if (event.getEntity().getType().equals(EntityType.ENDER_DRAGON))
             if (event.getEntity().getWorld().getName().equalsIgnoreCase(end)) {
                 BukkitRunnable task = new BukkitRunnable() {
                     @Override
@@ -165,7 +164,6 @@ public class End implements CommandExecutor, Listener {
                 task.runTaskAsynchronously(plugin);
                 Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', "The Ender Dragon has died."));
             }
-        }
     }
 
     @EventHandler
@@ -176,7 +174,6 @@ public class End implements CommandExecutor, Listener {
     }
 
     public void dragonIsAlive() {
-        String end = plugin.getConfig().getString("end-world");
         BukkitRunnable task = new BukkitRunnable() {
             @Override
             public void run() {
@@ -222,7 +219,6 @@ public class End implements CommandExecutor, Listener {
     @EventHandler
     public void enterEnd(PlayerChangedWorldEvent event) {
         Player player = event.getPlayer();
-        String end = plugin.getConfig().getString("end-world");
 
         if (player.getGameMode().equals(GameMode.SURVIVAL) && player.getWorld().getName().equalsIgnoreCase(end)) {
             if (ranBackCommand.containsKey(player))

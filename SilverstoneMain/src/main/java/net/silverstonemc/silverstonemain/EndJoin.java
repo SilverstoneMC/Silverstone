@@ -13,7 +13,7 @@ public record EndJoin(JavaPlugin plugin) implements Listener {
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
-        if (player.getWorld().getName().equalsIgnoreCase(plugin.getConfig().getString("end-world")))
+        if (player.getWorld().getName().equalsIgnoreCase("survival_the_end"))
             if (player.getGameMode() == GameMode.ADVENTURE || player.getGameMode() == GameMode.SURVIVAL)
                 if (!player.isInvulnerable()) {
                     player.setInvulnerable(true);

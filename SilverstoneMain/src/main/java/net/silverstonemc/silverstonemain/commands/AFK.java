@@ -1,32 +1,13 @@
 package net.silverstonemc.silverstonemain.commands;
 
-import net.silverstonemc.silverstonemain.SilverstoneMain;
-import net.ess3.api.IEssentials;
 import org.bukkit.ChatColor;
 import org.bukkit.World;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
-import org.jetbrains.annotations.NotNull;
 
-public class AFK implements CommandExecutor, Listener {
-
-    // safk
-    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
-        if (!(sender instanceof Player player)) {
-            sender.sendMessage(ChatColor.RED + "Sorry, but only players can do that.");
-            return true;
-        }
-
-        final IEssentials essentials = SilverstoneMain.getInstance().getEssentials();
-        essentials.getUser(player).setAfk(!essentials.getUser(player).isAfk());
-
-        return true;
-    }
+public class AFK implements Listener {
 
     // AFK at night
     @EventHandler

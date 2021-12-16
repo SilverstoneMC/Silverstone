@@ -17,9 +17,7 @@ public class EnableCollision implements CommandExecutor {
             return true;
         }
 
-        if (player.getWorld().getName().toLowerCase().startsWith("mini")) return false;
-
-        player.sendMessage(ChatColor.GREEN + "Collision enabled. It will disable again when you go to Spawn or the Minigame warp.");
+        player.sendMessage(ChatColor.GREEN + "Collision enabled. It will disable again when you go to Spawn.");
         Bukkit.getScoreboardManager().getMainScoreboard().getTeam("NoCollision").removeEntry(player.getName());
         return true;
     }

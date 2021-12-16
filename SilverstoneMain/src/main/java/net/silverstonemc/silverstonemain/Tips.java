@@ -1,16 +1,12 @@
 package net.silverstonemc.silverstonemain;
 
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.event.ClickEvent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -18,23 +14,10 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.UUID;
 
-public record Tips(JavaPlugin plugin) implements Listener, CommandExecutor {
-
-    public boolean onCommand(CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
-        sender.sendMessage(Component.text("Click ")
-                .color(NamedTextColor.GRAY)
-                .append(Component.text("here")
-                        .color(NamedTextColor.RED)
-                        .decorate(TextDecoration.UNDERLINED)
-                        .clickEvent(ClickEvent.openUrl("https://github.com/JasonHorkles/Silverstone/wiki/Tips")))
-                .append(Component.text(" to see all tips.")
-                        .color(NamedTextColor.GRAY)));
-        return true;
-    }
+public record Tips(JavaPlugin plugin) implements Listener {
 
     @EventHandler
     public void breakBlock(BlockBreakEvent event) {

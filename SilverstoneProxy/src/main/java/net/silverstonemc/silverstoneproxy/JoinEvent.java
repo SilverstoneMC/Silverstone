@@ -16,11 +16,20 @@ public class JoinEvent implements Listener {
     @EventHandler
     public void onJoin(ServerConnectEvent event) {
         if (event.getPlayer().getServer() != null) return;
+
         int version = event.getPlayer().getPendingConnection().getVersion();
         plugin.getLogger().info(event.getPlayer().getName() + " is joining with protocol version " + version);
+
+        if (version < 755) {
+            event.setCancelled(true);
+            event.getPlayer()
+                    .disconnect(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&', "&cThe server isn't compatible with your client version!\n\n&7Please update to at least Minecraft 1.17 to join.")));
+            return;
+        }
+
         if (version < 757) {
             Runnable task = () -> {
-                if (event.getPlayer().getServer().isConnected())
+                if (event.getPlayer().getServer() != null)
                     event.getPlayer()
                             .sendMessage(TextComponent.fromLegacyText(ChatColor.GRAY + "The server is currently built using Minecraft 1.18.1 - please update your client to use all the features."));
             };

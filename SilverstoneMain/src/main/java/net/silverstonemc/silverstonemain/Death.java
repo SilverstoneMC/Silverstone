@@ -8,12 +8,11 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.metadata.MetadataValue;
-import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Random;
 
 @SuppressWarnings("ConstantConditions")
-public record Death(JavaPlugin plugin) implements Listener {
+public class Death implements Listener {
 
     @EventHandler
     public void onDeath(PlayerDeathEvent event) {
@@ -21,8 +20,6 @@ public record Death(JavaPlugin plugin) implements Listener {
 
         // If vanished
         for (MetadataValue meta : player.getMetadata("vanished")) if (meta.asBoolean()) return;
-
-        if (player.getWorld().getName().equalsIgnoreCase(plugin.getConfig().getString("empty-minigame-world"))) return;
 
         try {
             EntityDamageEvent.DamageCause reason = player.getLastDamageCause().getCause();
@@ -160,6 +157,18 @@ public record Death(JavaPlugin plugin) implements Listener {
                             "&7" + name + "'s &cfeet were singed",
                             "&7" + name + "&c burned their feet",
                             "&7" + name + "&c charred their toes"
+                    };
+                    event.deathMessage(Component.text(ChatColor.translateAlternateColorCodes('&', messages[random])));
+                    break;
+
+                case FREEZE: // Powdered snow
+                    random = r.nextInt(3);
+
+                    name = event.getEntity().getName();
+                    messages = new String[]{
+                            "&7" + name + "&c froze to death",
+                            "&7" + name + "&c got frostbite",
+                            "&7" + name + "&c became a popsicle"
                     };
                     event.deathMessage(Component.text(ChatColor.translateAlternateColorCodes('&', messages[random])));
                     break;

@@ -1,5 +1,6 @@
 package net.silverstonemc.silverstoneglobal;
 
+import net.ess3.api.IEssentials;
 import net.silverstonemc.silverstoneglobal.commands.*;
 import net.silverstonemc.silverstoneglobal.commands.guis.BuyGUI;
 import net.silverstonemc.silverstoneglobal.commands.guis.ChatColorGUI;
@@ -19,6 +20,7 @@ import org.jetbrains.annotations.NotNull;
 @SuppressWarnings("ConstantConditions")
 public class SilverstoneGlobal extends JavaPlugin implements Listener {
 
+    private IEssentials essentials;
     private LuckPerms luckPerms;
 
     private static SilverstoneGlobal instance;
@@ -31,6 +33,7 @@ public class SilverstoneGlobal extends JavaPlugin implements Listener {
     @Override
     public void onEnable() {
         instance = this;
+        essentials = (IEssentials) getServer().getPluginManager().getPlugin("Essentials");
         luckPerms = getServer().getServicesManager().load(LuckPerms.class);
 
         RegisteredServiceProvider<LuckPerms> provider = Bukkit.getServicesManager().getRegistration(LuckPerms.class);
@@ -51,37 +54,51 @@ public class SilverstoneGlobal extends JavaPlugin implements Listener {
         getCommand("chatsounds").setExecutor(new ChatnSounds(this));
         getCommand("discord").setExecutor(new SocialGUI(this));
         getCommand("effects").setExecutor(new Effects());
+        getCommand("exit").setExecutor(new Exit(this));
         getCommand("facepalm").setExecutor(new ChatEmotes());
+        getCommand("firework").setExecutor(new Firework());
+        getCommand("fixlight").setExecutor(new Fixlight(this));
         getCommand("forcerestart").setExecutor(new Restart(this));
         getCommand("freezeserver").setExecutor(new Freeze());
         getCommand("github").setExecutor(new SocialGUI(this));
+        getCommand("help").setExecutor(new Help(this));
         getCommand("instagram").setExecutor(new SocialGUI(this));
         getCommand("joinleavesounds").setExecutor(new ChatnSounds(this));
         getCommand("listops").setExecutor(new ListOPs(this));
+        getCommand("live").setExecutor(new Live(this));
         getCommand("localchat").setExecutor(new LocalChat());
         getCommand("monitortps").setExecutor(new TPSMonitor(this));
         getCommand("nv").setExecutor(new NightVision());
         getCommand("quickrestart").setExecutor(new Restart(this));
+        getCommand("rank").setExecutor(new Rank());
         getCommand("restart").setExecutor(new Restart(this));
         getCommand("restartwhenempty").setExecutor(new Restart(this));
         getCommand("rules").setExecutor(new Rules(this));
+        getCommand("safk").setExecutor(new SilentAFK());
         getCommand("schedulerestart").setExecutor(new Restart(this));
         getCommand("shrug").setExecutor(new ChatEmotes());
         getCommand("silverstoneglobal").setTabCompleter(new TabComplete());
         getCommand("social").setExecutor(new SocialGUI(this));
+        getCommand("spectate").setExecutor(new Spectate(this));
         getCommand("tableflip").setExecutor(new ChatEmotes());
+        getCommand("tpchunk").setExecutor(new TP());
+        getCommand("tpregion").setExecutor(new TP());
         getCommand("twitch").setExecutor(new SocialGUI(this));
         getCommand("twitter").setExecutor(new SocialGUI(this));
         getCommand("updatecommands").setExecutor(new UpdateCommands());
+        getCommand("watch").setExecutor(new Spectate(this));
         getCommand("youtube").setExecutor(new SocialGUI(this));
 
         PluginManager pluginManager = this.getServer().getPluginManager();
 
+        pluginManager.registerEvents(new AntiCheatDiscord(), this);
         pluginManager.registerEvents(new BuyGUI(this), this);
         pluginManager.registerEvents(new ChatColorGUI(this), this);
         pluginManager.registerEvents(new ChatnSounds(this), this);
+        pluginManager.registerEvents(new Exit(this), this);
         pluginManager.registerEvents(new Rules(this), this);
         pluginManager.registerEvents(new SocialGUI(this), this);
+        pluginManager.registerEvents(new TabComplete(), this);
         pluginManager.registerEvents(new TimeOut(), this);
         pluginManager.registerEvents(new NightVision(), this);
 
@@ -105,6 +122,14 @@ public class SilverstoneGlobal extends JavaPlugin implements Listener {
             }
         };
         whitelist.runTaskTimer(this, 100, 18000);
+
+        BukkitRunnable tpsCheck = new BukkitRunnable() {
+            @Override
+            public void run() {
+                TPS.checkTPS();
+            }
+        };
+        tpsCheck.runTaskTimerAsynchronously(this, 600, 20);
     }
 
     @Override
@@ -127,6 +152,10 @@ public class SilverstoneGlobal extends JavaPlugin implements Listener {
             return true;
         }
         return false;
+    }
+
+    public IEssentials getEssentials() {
+        return essentials;
     }
 
     public LuckPerms getLuckPerms() {

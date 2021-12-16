@@ -6,7 +6,7 @@
 
     <groupId>net.silverstonemc</groupId>
     <artifactId>SilverstoneGlobal</artifactId>
-    <version>5.3.0</version>
+    <version>6.0.0-beta</version>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
@@ -106,6 +106,11 @@
             <id>Scarsz-Nexus</id>
             <url>https://nexus.scarsz.me/content/groups/public/</url>
         </repository>
+
+        <repository>
+            <id>essentials-releases</id>
+            <url>https://repo.essentialsx.net/releases/</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -141,6 +146,21 @@
             <artifactId>discordsrv</artifactId>
             <version>1.24.0</version>
             <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>net.essentialsx</groupId>
+            <artifactId>EssentialsX</artifactId>
+            <version>2.19.2</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>net.silverstonemc</groupId>
+            <artifactId>Matrix</artifactId>
+            <version>0</version>
+            <scope>system</scope>
+            <systemPath>F:/Server Plugins/2 - Main/Matrix.jar</systemPath>
         </dependency>
     </dependencies>
 

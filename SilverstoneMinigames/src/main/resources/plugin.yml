@@ -1,0 +1,63 @@
+main: net.silverstonemc.silverstoneminigames.SilverstoneMinigames
+name: SilverstoneMinigames
+description: Designed for the Minigame server
+version: %VERSION%
+author: JasonHorkles
+api-version: 1.18
+
+commands:
+  ssmi:
+    usage: "/silverstoneminigames reload"
+    permission: silverstone.admin
+  doublejump:
+    permission: silverstone.console
+    usage: "§cUsage: /doublejump <player> <count>"
+  flyingcourse:
+    description: "Reset the player if they touch an illegal block"
+    permission: silverstone.console
+    usage: "/flyingcourse <player>"
+  hsheartbeat:
+    permission: silverstone.console
+  hsrandomtaunt:
+    permission: silverstone.console
+  hsresettauntpoints:
+    permission: silverstone.console
+  htp:
+    aliases: [ howtoplay ]
+    description: "GUI for how to play the minigames"
+  kitpvp:
+    permission: silverstone.minigames.kitpvp
+  minigame:
+    aliases: [ game, whatminigameshouldiplay ]
+    description: "Choose a random minigame!"
+  taunt:
+    permission: silverstone.minigames.hideseek.taunt
+  tntrun:
+    permission: silverstone.console
+    usage: "/tntrun <player>"
+  zfcfinish:
+    description: "Ran when the flying course is completed"
+    permission: silverstone.minigames.flyingcourse
+    usage: "§cYou must be in adventure mode for that."
+
+permissions:
+  silverstone.minigames.flyingcourse.easy:
+    default: false
+  silverstone.minigames.flyingcourse.hard:
+    default: false
+  silverstone.minigames.flyingcourse.medium:
+    default: false
+  silverstone.minigames.flyingcourse.multiplayer:
+    default: false
+  silverstone.minigames.flyingcourse:
+    default: false
+    description: Allow using `/zfinish` command
+  silverstone.minigames.hideseek.taunt.bypasscooldown:
+    default: false
+  silverstone.minigames.hideseek.taunt:
+    default: op
+  silverstone.minigames.kitpvp:
+    default: false
+  silverstone.minigames.pvp:
+    default: false
+    description: Will heal players with this perm on kill

@@ -1,14 +1,16 @@
 main: net.silverstonemc.silverstoneglobal.SilverstoneGlobal
 name: SilverstoneGlobal
-description: The main plugin for Silverstone to provide commands and features across the network.
+description: Designed for the Silverstone network
 version: %VERSION%
 author: JasonHorkles
 api-version: 1.18
 softdepend:
+  - Essentials
   - DiscordSRV
   - PremiumVanish
 depend:
   - LuckPerms
+  - Matrix
 
 commands:
   bclag:
@@ -26,11 +28,20 @@ commands:
   chatsounds:
     permission: silverstone.chatsounds
   discord:
+    aliases: [ news ]
     description: "A social command"
   effects:
     permission: silverstone.trialmod
+  exit:
+    description: "Exit the server"
+    permission: silverstone.exit
   facepalm:
     description: "Facepalm emote"
+  firework:
+    permission: silverstone.admin
+  fixlight:
+    aliases: [ recalculatelighting ]
+    permission: silverstone.fixlight
   forcerestart:
     permission: silverstone.admin
   freezeserver:
@@ -38,6 +49,8 @@ commands:
     usage: "§cUsage: /freezeserver <seconds> confirm"
   github:
     description: "A social command"
+  help:
+    description: "Get help"
   instagram:
     description: "A social command"
   joinleavesounds:
@@ -45,6 +58,8 @@ commands:
   listops:
     aliases: [ oplist ]
     permission: silverstone.admin
+  live:
+    permission: silverstone.owner
   localchat:
     aliases: [ lc, local ]
     permission: silverstone.admin
@@ -58,6 +73,8 @@ commands:
     permission: silverstone.nightvision
   quickrestart:
     permission: silverstone.admin
+  rank:
+    description: "Check your ranks"
   restart:
     aliases: [ cancelrestart ]
     permission: silverstone.admin
@@ -65,6 +82,9 @@ commands:
     permission: silverstone.admin
   rules:
     description: "Shows the server's rules"
+  safk:
+    description: "Silently toggle AFK"
+    permission: silverstone.moderator
   schedulerestart:
     permission: silverstone.admin
   shrug:
@@ -75,14 +95,27 @@ commands:
     usage: "Usage: /ssg reload"
   social:
     description: "Open the social GUI!"
+  spectate:
+    aliases: [ spec ]
+    permission: silverstone.trialmod
+    usage: "§cUsage: /spectate <player>"
   tableflip:
     description: "Tableflip emote"
+  tpchunk:
+    permission: silverstone.admin
+    usage: "§cUsage: /tpchunk <x> <z> [world]"
+  tpregion:
+    permission: silverstone.admin
+    usage: "§cUsage: /tpregion <x> <z> [world]"
   twitch:
     description: "A social command"
   twitter:
     description: "A social command"
   updatecommands:
     description: "Updates available commands"
+  watch:
+    permission: silverstone.trialmod
+    usage: "§cUsage: /watch <player>"
   youtube:
     description: "A social command"
 
@@ -113,3 +146,9 @@ permissions:
     default: op
   silverstone.vip+:
     default: false
+  silverstone.exit:
+    default: true
+  silverstone.live:
+    default: false
+  silverstone.fixlight:
+    default: true

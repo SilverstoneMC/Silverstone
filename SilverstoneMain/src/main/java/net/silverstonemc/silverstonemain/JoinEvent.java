@@ -12,13 +12,12 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.metadata.MetadataValue;
-import org.bukkit.plugin.java.JavaPlugin;
 
 import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
 
-public record JoinEvent(JavaPlugin plugin) implements Listener {
+public class JoinEvent implements Listener {
 
     public static final Map<Player, Message> newPlayers = new HashMap<>();
 

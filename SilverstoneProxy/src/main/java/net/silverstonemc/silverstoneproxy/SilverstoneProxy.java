@@ -23,14 +23,16 @@ public class SilverstoneProxy extends Plugin implements Listener {
         luckPerms = LuckPermsProvider.get();
 
         PluginManager pluginManager = this.getProxy().getPluginManager();
+
         pluginManager.registerCommand(this, new FakeJoinLeave());
         pluginManager.registerCommand(this, new DragonSay());
         pluginManager.registerCommand(this, new Forums());
+        pluginManager.registerCommand(this, new GlobalMsg());
         pluginManager.registerCommand(this, new PandaSay());
         pluginManager.registerCommand(this, new Report());
         pluginManager.registerCommand(this, new Restart());
         pluginManager.registerCommand(this, new Say());
-        pluginManager.registerCommand(this, new GlobalMsg());
+        pluginManager.registerCommand(this, new Tips());
 
         pluginManager.registerListener(this, new JoinEvent());
 

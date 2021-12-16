@@ -39,22 +39,7 @@ public class TabComplete implements TabCompleter, Listener {
 
     @EventHandler
     public void tabComplete(AsyncTabCompleteEvent event) {
-        if (event.getBuffer().startsWith("/afk")) {
-            if (event.getSender().hasPermission("essentials.afk.message")) {
-                List<String> completions = new ArrayList<>();
-                completions.add("doing school work");
-                completions.add("eating breakfast");
-                completions.add("eating lunch");
-                completions.add("eating dinner");
-                completions.add("getting a drink");
-                completions.add("getting a snack");
-                completions.add("getting ready for the day");
-                completions.add("getting ready for bed");
-                completions.add("walking the dog");
-                completions.add("with a nose bleed");
-                event.setCompletions(completions);
-            }
-        } else if (event.getBuffer().startsWith("/sell")) {
+        if (event.getBuffer().startsWith("/sell")) {
             List<String> completions = new ArrayList<>();
             completions.add("all");
             completions.add("hand");
