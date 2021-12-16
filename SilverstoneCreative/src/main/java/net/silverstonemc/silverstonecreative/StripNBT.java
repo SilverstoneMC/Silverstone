@@ -6,6 +6,8 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.inventory.InventoryInteractEvent;
 
 public class StripNBT implements Listener {
+
+    //todo test
     @EventHandler
     public void inventory(InventoryInteractEvent event) {
         if (event.getWhoClicked().hasPermission("silverstone.trialmod")) return;
