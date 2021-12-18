@@ -17,7 +17,7 @@ public class TabComplete implements TabCompleter, Listener {
     final List<String> arguments2 = new ArrayList<>();
 
     public List<String> onTabComplete(@NotNull CommandSender sender, Command cmd, @NotNull String label, String[] args) {
-        if (cmd.getName().equalsIgnoreCase("silverstonemain")) {
+        if (cmd.getName().equalsIgnoreCase("ssm")) {
             if (arguments1.isEmpty()) arguments1.add("reload");
 
             List<String> result = new ArrayList<>();

@@ -18,7 +18,10 @@ public class SilverstoneMinigames extends JavaPlugin implements CommandExecutor 
     // Startup
     @Override
     public void onEnable() {
+        data = new DataManager(this);
+
         saveDefaultConfig();
+        data.saveDefaultConfig();
 
         getCommand("doublejump").setExecutor(new DoubleJump(this));
         getCommand("flyingcourse").setExecutor(new FlyingCourse(this));
@@ -54,6 +57,8 @@ public class SilverstoneMinigames extends JavaPlugin implements CommandExecutor 
     public boolean onCommand(CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
         saveDefaultConfig();
         reloadConfig();
+        data.saveDefaultConfig();
+        data.reloadConfig();
         new FlyingCourse(this).updateFCScoreboard();
         sender.sendMessage(ChatColor.GREEN + "SilverstoneMinigames reloaded!");
         return true;

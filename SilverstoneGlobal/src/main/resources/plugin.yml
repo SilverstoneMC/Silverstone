@@ -5,12 +5,11 @@ version: %VERSION%
 author: JasonHorkles
 api-version: 1.18
 softdepend:
-  - Essentials
   - DiscordSRV
-  - PremiumVanish
+  - Matrix
+  - Essentials
 depend:
   - LuckPerms
-  - Matrix
 
 commands:
   bclag:

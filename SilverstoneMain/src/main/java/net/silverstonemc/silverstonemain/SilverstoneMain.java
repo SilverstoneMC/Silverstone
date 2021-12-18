@@ -65,7 +65,7 @@ public class SilverstoneMain extends JavaPlugin implements Listener {
         getCommand("znewbiekit").setExecutor(new NewbieKit(this));
 
         getCommand("rtplimit").setTabCompleter(new TabComplete());
-        getCommand("silverstonemain").setTabCompleter(new TabComplete());
+        getCommand("ssm").setTabCompleter(new TabComplete());
 
         PluginManager pluginManager = this.getServer().getPluginManager();
 

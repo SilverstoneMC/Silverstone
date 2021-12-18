@@ -5,10 +5,7 @@ version: %VERSION%
 author: JasonHorkles
 api-version: 1.18
 softdepend:
-  - DiscordSRV
-  - LuckPerms
   - Multiverse-Core
-  - PremiumVanish
   - RandomTeleport
 
 commands:

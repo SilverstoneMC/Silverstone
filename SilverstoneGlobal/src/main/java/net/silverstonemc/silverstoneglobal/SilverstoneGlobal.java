@@ -1,11 +1,13 @@
 package net.silverstonemc.silverstoneglobal;
 
+import me.rerere.matrix.api.MatrixAPI;
+import me.rerere.matrix.api.MatrixAPIProvider;
 import net.ess3.api.IEssentials;
+import net.luckperms.api.LuckPerms;
 import net.silverstonemc.silverstoneglobal.commands.*;
 import net.silverstonemc.silverstoneglobal.commands.guis.BuyGUI;
 import net.silverstonemc.silverstoneglobal.commands.guis.ChatColorGUI;
 import net.silverstonemc.silverstoneglobal.commands.guis.SocialGUI;
-import net.luckperms.api.LuckPerms;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -20,14 +22,11 @@ import org.jetbrains.annotations.NotNull;
 @SuppressWarnings("ConstantConditions")
 public class SilverstoneGlobal extends JavaPlugin implements Listener {
 
-    private IEssentials essentials;
-    private LuckPerms luckPerms;
-
     private static SilverstoneGlobal instance;
 
-    public static SilverstoneGlobal getInstance() {
-        return instance;
-    }
+    private IEssentials essentials;
+    private LuckPerms luckPerms;
+    private MatrixAPI matrix;
 
     // Startup
     @Override
@@ -91,7 +90,11 @@ public class SilverstoneGlobal extends JavaPlugin implements Listener {
 
         PluginManager pluginManager = this.getServer().getPluginManager();
 
-        pluginManager.registerEvents(new AntiCheatDiscord(), this);
+        if (getServer().getPluginManager().getPlugin("Matrix") != null) {
+            matrix = MatrixAPIProvider.getAPI();
+            pluginManager.registerEvents(new AntiCheatDiscord(), this);
+            this.getLogger().info("Hooked into Matrix api!");
+        }
         pluginManager.registerEvents(new BuyGUI(this), this);
         pluginManager.registerEvents(new ChatColorGUI(this), this);
         pluginManager.registerEvents(new ChatnSounds(this), this);
@@ -154,11 +157,19 @@ public class SilverstoneGlobal extends JavaPlugin implements Listener {
         return false;
     }
 
+    public static SilverstoneGlobal getInstance() {
+        return instance;
+    }
+
     public IEssentials getEssentials() {
         return essentials;
     }
 
     public LuckPerms getLuckPerms() {
         return luckPerms;
+    }
+
+    public MatrixAPI getMatrix() {
+        return matrix;
     }
 }

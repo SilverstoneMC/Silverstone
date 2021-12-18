@@ -5,7 +5,6 @@ import github.scarsz.discordsrv.dependencies.jda.api.EmbedBuilder;
 import github.scarsz.discordsrv.dependencies.jda.api.entities.TextChannel;
 import me.rerere.matrix.api.HackType;
 import me.rerere.matrix.api.MatrixAPI;
-import me.rerere.matrix.api.MatrixAPIProvider;
 import me.rerere.matrix.api.events.PlayerViolationCommandEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -18,7 +17,7 @@ import java.time.format.DateTimeFormatter;
 
 public class AntiCheatDiscord implements Listener {
 
-    private final MatrixAPI matrix = MatrixAPIProvider.getAPI();
+    private final MatrixAPI matrix = SilverstoneGlobal.getInstance().getMatrix();
 
     @EventHandler
     public void violation(PlayerViolationCommandEvent event) {
