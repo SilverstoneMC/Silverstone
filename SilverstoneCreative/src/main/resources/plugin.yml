@@ -1,4 +1,4 @@
-main: net.silverstonemc.silverstonemain.SilverstoneCreative
+main: net.silverstonemc.silverstonecreative.SilverstoneCreative
 name: SilverstoneCreative
 description: Designed for the Creative server
 version: %VERSION%

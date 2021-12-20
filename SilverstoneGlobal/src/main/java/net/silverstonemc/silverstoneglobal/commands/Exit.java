@@ -15,7 +15,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 
-@SuppressWarnings("UnstableApiUsage")
+@SuppressWarnings({"UnstableApiUsage", "ConstantConditions"})
 public record Exit(JavaPlugin plugin) implements CommandExecutor, Listener {
 
     private void send(Player player) {
@@ -44,11 +44,12 @@ public record Exit(JavaPlugin plugin) implements CommandExecutor, Listener {
     // Add aliases for other servers
     @EventHandler
     public void aliases(PlayerCommandPreprocessEvent event) {
+        if (plugin.getConfig().getString("server").equals("main")) return;
+
         String cmd = event.getMessage().toLowerCase();
-        if (cmd.startsWith("/spawn") || cmd.startsWith("/back") || cmd.startsWith("/home") || cmd.startsWith("/lobby") || cmd.startsWith("/hub"))
-            if (event.getPlayer().hasPermission("silverstone.exit")) {
-                event.setCancelled(true);
-                event.getPlayer().performCommand("exit");
-            }
+        if (cmd.startsWith("/spawn") || cmd.startsWith("/lobby") || cmd.startsWith("/hub")) {
+            event.setCancelled(true);
+            event.getPlayer().performCommand("exit");
+        }
     }
 }

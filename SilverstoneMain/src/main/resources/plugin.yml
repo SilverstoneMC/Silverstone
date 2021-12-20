@@ -5,6 +5,8 @@ version: %VERSION%
 author: JasonHorkles
 api-version: 1.18
 softdepend:
+  - Essentials
+  - DiscordSRV
   - Multiverse-Core
   - RandomTeleport
 
@@ -42,9 +44,6 @@ commands:
   znewbiekit:
     permission: silverstone.console
     usage: "/znewbiekit <player>"
-#    remove
-  togglesellstickconfirmation:
-    description: "Enable/disable the Sell Stick confirmation"
 
 permissions:
   silverstone.joinleavespam.bypass:

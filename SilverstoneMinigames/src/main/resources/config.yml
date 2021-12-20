@@ -6,6 +6,15 @@ fc-speed-boost-multiplier: 1.075
 
 random-game:
   singleplayer:
-    - Game1
+    - Parkour
+    - Mazes
+    - Mini Golf
+    - Flying Course
   multiplayer:
-    - Game2
+    - Mini Golf
+    - Spleef
+    - Hide & Seek
+    - Boat Racing
+    - Death Run
+    - PvP
+    - TNT Run
