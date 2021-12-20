@@ -98,6 +98,7 @@ public class SilverstoneGlobal extends JavaPlugin implements Listener {
         pluginManager.registerEvents(new BuyGUI(this), this);
         pluginManager.registerEvents(new ChatColorGUI(this), this);
         pluginManager.registerEvents(new ChatnSounds(this), this);
+        pluginManager.registerEvents(new CommandVerbose(), this);
         pluginManager.registerEvents(new Exit(this), this);
         pluginManager.registerEvents(new Rules(this), this);
         pluginManager.registerEvents(new SocialGUI(this), this);
