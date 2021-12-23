@@ -15,7 +15,6 @@ public class SilverstoneCreative extends JavaPlugin implements Listener {
 
         PluginManager pluginManager = this.getServer().getPluginManager();
 
-        pluginManager.registerEvents(new StripNBT(), this);
         pluginManager.registerEvents(new PlotClaim(), this);
     }
 }

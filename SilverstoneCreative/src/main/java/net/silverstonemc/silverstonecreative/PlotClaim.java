@@ -27,8 +27,7 @@ public class PlotClaim implements Listener {
                     if (claimed.contains(player)) return;
                     TextChannel discord = DiscordSRV.getPlugin()
                             .getDestinationTextChannelForGameChannelName("newplayers");
-                    discord.sendMessage("<@&667793980318154783>, **" + player
-                            .getName() + "** claimed a plot!").queue();
+                    discord.sendMessage("**" + player.getName() + "** claimed a plot!").queue();
                     claimed.add(player);
                 }
             }
