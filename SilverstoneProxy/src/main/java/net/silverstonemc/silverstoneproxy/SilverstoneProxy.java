@@ -16,13 +16,13 @@ public class SilverstoneProxy extends Plugin implements Listener {
         return instance;
     }
 
-    @Override
     // Startup
+    @Override
     public void onEnable() {
         instance = this;
         luckPerms = LuckPermsProvider.get();
 
-        PluginManager pluginManager = this.getProxy().getPluginManager();
+        PluginManager pluginManager = getProxy().getPluginManager();
 
         pluginManager.registerCommand(this, new FakeJoinLeave());
         pluginManager.registerCommand(this, new DragonSay());
