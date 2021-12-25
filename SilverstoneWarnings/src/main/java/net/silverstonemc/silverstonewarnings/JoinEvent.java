@@ -1,28 +1,33 @@
 package net.silverstonemc.silverstonewarnings;
 
-import net.silverstonemc.silverstonewarnings.commands.WarnCommand;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitRunnable;
+import net.md_5.bungee.api.event.ServerConnectedEvent;
+import net.md_5.bungee.api.plugin.Listener;
+import net.md_5.bungee.event.EventHandler;
 
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
-public record JoinEvent(JavaPlugin plugin) implements Listener {
+public class JoinEvent implements Listener {
+
+    private final SilverstoneWarnings plugin = SilverstoneWarnings.getPlugin();
 
     @EventHandler
-    public void onJoin(PlayerJoinEvent event) {
+    public void onJoin(ServerConnectedEvent event) {
         UUID uuid = event.getPlayer().getUniqueId();
-        if (!SilverstoneWarnings.queue.getConfig().contains("queue." + uuid)) return;
-        BukkitRunnable task = new BukkitRunnable() {
-            @Override
-            public void run() {
-                WarnCommand.warn(uuid, SilverstoneWarnings.queue.getConfig().getString("queue." + uuid));
-                SilverstoneWarnings.queue.getConfig().set("queue." + uuid, null);
-                SilverstoneWarnings.queue.saveConfig();
+        String username = event.getPlayer().getName();
+        SilverstoneWarnings.userCache.set("uuids." + uuid.toString(), username);
+        SilverstoneWarnings.userCache.set("usernames." + username, uuid.toString());
+        plugin.saveUserCache();
+
+        if (!SilverstoneWarnings.queue.contains("queue." + uuid)) return;
+
+        Runnable task = () -> {
+            if (plugin.getOnlinePlayer(uuid) != null) {
+                new WarnPlayer().warn(uuid, SilverstoneWarnings.queue.getString("queue." + uuid));
+                SilverstoneWarnings.queue.set("queue." + uuid, null);
+                SilverstoneWarnings.getPlugin().saveQueue();
             }
         };
-        task.runTaskLater(plugin, 60);
+        plugin.getProxy().getScheduler().schedule(plugin, task, 3, TimeUnit.SECONDS);
     }
 }

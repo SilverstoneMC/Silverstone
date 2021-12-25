@@ -1,21 +1,21 @@
 package net.silverstonemc.silverstonewarnings;
 
-import org.bukkit.Bukkit;
-import org.bukkit.OfflinePlayer;
-import org.bukkit.plugin.java.JavaPlugin;
-
 import javax.annotation.Nullable;
 import java.util.ArrayList;
+import java.util.UUID;
 
-public record UndoWarning(JavaPlugin plugin) {
+public class UndoWarning {
 
-    @SuppressWarnings("ConstantConditions")
-    public void undoWarning(OfflinePlayer player, String reason, @Nullable Integer currentWarningCount) {
+    private final SilverstoneWarnings plugin = SilverstoneWarnings.getPlugin();
+
+    public void undoWarning(UUID uuid, String reason, @Nullable Integer currentWarningCount) {
+        String username = plugin.getPlayerName(uuid);
+
         if (currentWarningCount != null) {
             // Grab the amount of un-punishments in the config
-            int unpunishmentCount = plugin.getConfig()
-                    .getConfigurationSection("reasons." + reason + ".remove")
-                    .getKeys(false)
+            int unpunishmentCount = SilverstoneWarnings.config
+                    .getSection("reasons." + reason + ".remove")
+                    .getKeys()
                     .toArray().length;
 
             // Get the correct warning number
@@ -23,37 +23,48 @@ public record UndoWarning(JavaPlugin plugin) {
             if (unpunishmentNumber == 0) unpunishmentNumber = unpunishmentCount;
 
             // Un-warn the player
-            ArrayList<String> cmdList = new ArrayList<>(plugin.getConfig()
+            ArrayList<String> cmdList = new ArrayList<>(SilverstoneWarnings.config
                     .getStringList("reasons." + reason + ".remove." + unpunishmentNumber));
             for (String s : cmdList)
-                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), s.replace("{player}", player.getName()));
+                plugin.getProxy()
+                        .getPluginManager()
+                        .dispatchCommand(plugin.getProxy().getConsole(), s.replace("{player}", username));
+
         } else if (reason.equals("all")) {
             plugin.getLogger().info("=============================================");
-            plugin.getLogger().info("Clearing all of " + player.getName() + "'s warnings...");
+            plugin.getLogger().info("Clearing all of " + username + "'s warnings...");
             plugin.getLogger().info("=============================================");
+
             // For each warn reason in the config
             // For each number in said reason
             // Run each command in each number
-            for (String configReasons : plugin.getConfig().getConfigurationSection("reasons").getKeys(false))
-                for (String configReasonNumbers : plugin.getConfig()
-                        .getConfigurationSection("reasons." + configReasons + ".remove")
-                        .getKeys(false))
-                    for (String configReasonCommands : plugin.getConfig()
+            for (String configReasons : SilverstoneWarnings.config.getSection("reasons").getKeys())
+                for (String configReasonNumbers : SilverstoneWarnings.config
+                        .getSection("reasons." + configReasons + ".remove")
+                        .getKeys())
+                    for (String configReasonCommands : SilverstoneWarnings.config
                             .getStringList("reasons." + configReasons + ".remove." + configReasonNumbers))
-                        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), configReasonCommands.replace("{player}", player.getName()));
+                        plugin.getProxy()
+                                .getPluginManager()
+                                .dispatchCommand(plugin.getProxy()
+                                        .getConsole(), configReasonCommands.replace("{player}", username));
+
         } else {
             plugin.getLogger().info("=============================================");
-            plugin.getLogger().info("Clearing all of " + player.getName() + "'s '" + reason + "' warnings...");
+            plugin.getLogger().info("Clearing all of " + username + "'s '" + reason + "' warnings...");
             plugin.getLogger().info("=============================================");
 
             // For each number in reason
             // Run each command in each number
-            for (String configReasonNumbers : plugin.getConfig()
-                    .getConfigurationSection("reasons." + reason + ".remove")
-                    .getKeys(false))
-                for (String configReasonCommands : plugin.getConfig()
+            for (String configReasonNumbers : SilverstoneWarnings.config
+                    .getSection("reasons." + reason + ".remove")
+                    .getKeys())
+                for (String configReasonCommands : SilverstoneWarnings.config
                         .getStringList("reasons." + reason + ".remove." + configReasonNumbers))
-                    Bukkit.dispatchCommand(Bukkit.getConsoleSender(), configReasonCommands.replace("{player}", player.getName()));
+                    plugin.getProxy()
+                            .getPluginManager()
+                            .dispatchCommand(plugin.getProxy()
+                                    .getConsole(), configReasonCommands.replace("{player}", username));
         }
     }
 }

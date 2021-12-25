@@ -1,3 +1,5 @@
+bot-token: ""
+
 # Use placeholder {player} for the player's name
 reasons:
   # Hacking category
@@ -22,8 +24,17 @@ reasons:
         - "hopecommander ban {player} FastBreak hack [Rule 2 - Warning 6/6]"
         - "hopecommander bc &b{player} &ahas been banned for &bFastBreak hack or related &3[Warning 6/6]"
     remove:
-      1:
-        - "say block"
+      1: []
+      2:
+        - "hopecommander unban {player}"
+      3:
+        - "hopecommander unban {player}"
+      4:
+        - "hopecommander unban {player}"
+      5:
+        - "hopecommander unban {player}"
+      6:
+        - "hopecommander unban {player}"
   hitbox:
     add:
       1:
@@ -45,8 +56,17 @@ reasons:
         - "hopecommander ban {player} Hitbox / Reach hack [Rule 2 - Warning 6/6]"
         - "hopecommander bc &b{player} &ahas been banned for &bHitbox / Reach hack &3[Warning 6/6]"
     remove:
-      1:
-        - "say hitbox"
+      1: []
+      2:
+        - "jail {player}"
+      3:
+        - "jail {player}"
+      4:
+        - "hopecommander unban {player}"
+      5:
+        - "hopecommander unban {player}"
+      6:
+        - "hopecommander unban {player}"
   interact:
     add:
       1:
@@ -68,8 +88,17 @@ reasons:
         - "hopecommander ban {player} Illegal interactions with blocks/entities [Rule 2 - Warning 6/6]"
         - "hopecommander bc &b{player} &ahas been banned for &bIllegal interactions with blocks/entities &3[Warning 6/6]"
     remove:
-      1:
-        - "say interact"
+      1: []
+      2:
+        - "jail {player}"
+      3:
+        - "jail {player}"
+      4:
+        - "hopecommander unban {player}"
+      5:
+        - "hopecommander unban {player}"
+      6:
+        - "hopecommander unban {player}"
   jesus:
     add:
       1:
@@ -91,8 +120,17 @@ reasons:
         - "hopecommander ban {player} Jesus hack or related [Rule 2 - Warning 6/6]"
         - "hopecommander bc &b{player} &ahas been banned for &bJesus hack or related &3[Warning 6/6]"
     remove:
-      1:
-        - ""
+      1: []
+      2:
+        - "jail {player}"
+      3:
+        - "jail {player}"
+      4:
+        - "hopecommander unban {player}"
+      5:
+        - "hopecommander unban {player}"
+      6:
+        - "hopecommander unban {player}"
   killaura:
     add:
       1:
@@ -114,8 +152,17 @@ reasons:
         - "hopecommander ban {player} KillAura hack or related [Rule 2 - Warning 6/6]"
         - "hopecommander bc &b{player} &ahas been banned for &bKillAura hack or related &3[Warning 6/6]"
     remove:
-      1:
-        - ""
+      1: []
+      2:
+        - "jail {player}"
+      3:
+        - "jail {player}"
+      4:
+        - "hopecommander unban {player}"
+      5:
+        - "hopecommander unban {player}"
+      6:
+        - "hopecommander unban {player}"
   move:
     add:
       1:
@@ -134,8 +181,15 @@ reasons:
         - "hopecommander ban {player} Speed / Fly / abnormal movement hack [Rule 2 - Warning 5/5]"
         - "hopecommander bc &b{player} &ahas been banned for &bSpeed / Fly / abnormal movement hack &3[Warning 5/5]"
     remove:
-      1:
-        - ""
+      1: []
+      2:
+        - "hopecommander unban {player}"
+      3:
+        - "hopecommander unban {player}"
+      4:
+        - "hopecommander unban {player}"
+      5:
+        - "hopecommander unban {player}"
   scaffold:
     add:
       1:
@@ -157,8 +211,17 @@ reasons:
         - "hopecommander ban {player} Scaffold / Bridge hack or related [Rule 2 - Warning 6/6]"
         - "hopecommander bc &b{player} &ahas been banned for &bScaffold / Bridge hack or related &3[Warning 6/6]"
     remove:
-      1:
-        - ""
+      1: []
+      2:
+        - "jail {player}"
+      3:
+        - "jail {player}"
+      4:
+        - "hopecommander unban {player}"
+      5:
+        - "hopecommander unban {player}"
+      6:
+        - "hopecommander unban {player}"
   vehicle:
     add:
       1:
@@ -180,8 +243,17 @@ reasons:
         - "hopecommander ban {player} Vehicle Speed / Flight hack [Rule 2 - Warning 6/6]"
         - "hopecommander bc &b{player} &ahas been banned for &bVehicle Speed / Flight hack &3[Warning 6/6]"
     remove:
-      1:
-        - ""
+      1: []
+      2:
+        - "jail {player}"
+      3:
+        - "jail {player}"
+      4:
+        - "hopecommander unban {player}"
+      5:
+        - "hopecommander unban {player}"
+      6:
+        - "hopecommander unban {player}"
   velocity:
     add:
       1:
@@ -203,8 +275,16 @@ reasons:
         - "hopecommander ban {player} Velocity / Anti-Knockback hack [Rule 2 - Warning 6/6]"
         - "hopecommander bc &b{player} &ahas been banned for &bVelocity / Anti-Knockback hack &3[Warning 6/6]"
     remove:
-      1:
-        - ""
+      1: []
+      2: []
+      3:
+        - "hopecommander unban {player}"
+      4:
+        - "hopecommander unban {player}"
+      5:
+        - "hopecommander unban {player}"
+      6:
+        - "hopecommander unban {player}"
   xray:
     add:
       1:
@@ -221,7 +301,13 @@ reasons:
         - "hopecommander bc &b{player} &ahas been banned for &bX-Ray hack / resource pack &3[Warning 4/4]"
     remove:
       1:
-        - ""
+        - "hopecommander unban {player}"
+      2:
+        - "hopecommander unban {player}"
+      3:
+        - "hopecommander unban {player}"
+      4:
+        - "hopecommander unban {player}"
   malicioushacks:
     add:
       1:
@@ -243,8 +329,17 @@ reasons:
         - "hopecommander ban {player} Malicious hacks [Rule 2 - Warning 6/6]"
         - "hopecommander bc &b{player} &ahas been banned for &bmalicious hacks &3[Warning 6/6]"
     remove:
-      1:
-        - ""
+      1: []
+      2:
+        - "jail {player}"
+      3:
+        - "jail {player}"
+      4:
+        - "hopecommander unban {player}"
+      5:
+        - "hopecommander unban {player}"
+      6:
+        - "hopecommander unban {player}"
   # Chat category
   chat:
     add:
@@ -271,7 +366,19 @@ reasons:
         - "hopecommander bc &b{player} &ahas been permanently muted &3[Warning 7/7]"
     remove:
       1:
-        - ""
+        - "hopecommander unmute {player}"
+      2:
+        - "hopecommander unmute {player}"
+      3:
+        - "hopecommander unmute {player}"
+      4:
+        - "hopecommander unmute {player}"
+      5:
+        - "hopecommander unmute {player}"
+      6:
+        - "hopecommander unmute {player}"
+      7:
+        - "hopecommander unmute {player}"
   nickname:
     add:
       1:
@@ -292,7 +399,13 @@ reasons:
         - "hopecommander bc &b{player} &acan no longer change their nickname &3[Warning 4/4]"
     remove:
       1:
-        - ""
+        - "lp user {player} parent removetemp nonick"
+      2:
+        - "lp user {player} parent removetemp nonick"
+      3:
+        - "lp user {player} parent removetemp nonick"
+      4:
+        - "lp user {player} parent remove nonick"
   # Other category
   afk:
     add:
@@ -315,8 +428,17 @@ reasons:
         - "hopecommander tempban {player} 1d Anti-AFK machine / macro [Rule 6]"
         - "hopecommander bc &b{player} &ahas been tempbanned [1d] for &busing an anti-AFK machine / macro"
     remove:
-      1:
-        - ""
+      1: []
+      2:
+        - "hopecommander unban {player}"
+      3:
+        - "hopecommander unban {player}"
+      4:
+        - "hopecommander unban {player}"
+      5:
+        - "hopecommander unban {player}"
+      6:
+        - "hopecommander unban {player}"
   exploits:
     add:
       1:
@@ -336,7 +458,15 @@ reasons:
         - "hopecommander bc &b{player} &ahas been banned for &bexploits / cheating &3[Warning 5/5]"
     remove:
       1:
-        - ""
+        - "jail {player}"
+      2:
+        - "jail {player}"
+      3:
+        - "hopecommander unban {player}"
+      4:
+        - "hopecommander unban {player}"
+      5:
+        - "hopecommander unban {player}"
   griefing:
     add:
       1:
@@ -353,7 +483,13 @@ reasons:
         - "hopecommander bc &b{player} &ahas been banned for &bgriefing &3[Warning 4/4]"
     remove:
       1:
-        - ""
+        - "jail {player}"
+      2:
+        - "hopecommander unban {player}"
+      3:
+        - "hopecommander unban {player}"
+      4:
+        - "hopecommander unban {player}"
   skin:
     add:
       1:
@@ -376,7 +512,17 @@ reasons:
         - "hopecommander bc &b{player} &ahas been banned for &busing an inappropriate skin &3[Warning 6/6]"
     remove:
       1:
-        - ""
+        - "jail {player}"
+      2:
+        - "jail {player}"
+      3:
+        - "hopecommander unban {player}"
+      4:
+        - "hopecommander unban {player}"
+      5:
+        - "hopecommander unban {player}"
+      6:
+        - "hopecommander unban {player}"
   joinleavespam:
     add:
       1:
@@ -399,7 +545,17 @@ reasons:
         - "hopecommander bc &b{player} &ahas been tempbanned [1d] for &bjoin / leave spam"
     remove:
       1:
-        - ""
+        - "hopecommander unban {player}"
+      2:
+        - "hopecommander unban {player}"
+      3:
+        - "hopecommander unban {player}"
+      4:
+        - "hopecommander unban {player}"
+      5:
+        - "hopecommander unban {player}"
+      6:
+        - "hopecommander unban {player}"
   lag:
     add:
       1:
@@ -422,7 +578,17 @@ reasons:
         - "hopecommander bc &b{player} &ahas been banned for &blag machines &3[Warning 6/6]"
     remove:
       1:
-        - ""
+        - "jail {player}"
+      2:
+        - "jail {player}"
+      3:
+        - "jail {player}"
+      4:
+        - "hopecommander unban {player}"
+      5:
+        - "hopecommander unban {player}"
+      6:
+        - "hopecommander unban {player}"
   plot:
     add:
       1:
@@ -445,8 +611,15 @@ reasons:
         - "lp user {player} parent add noplots"
         - "hopecommander bc &b{player} &ahas been permanently banned from the plots &3[Warning 5/5]"
     remove:
-      1:
-        - ""
+      1: []
+      2:
+        - "lp user {player} parent removetemp noplots"
+      3:
+        - "lp user {player} parent removetemp noplots"
+      4:
+        - "lp user {player} parent removetemp noplots"
+      5:
+        - "lp user {player} parent remove noplots"
   other:
     add:
       1:
@@ -471,8 +644,19 @@ reasons:
         - "hopecommander ban {player} Violating rules [Warning 7/7]"
         - "hopecommander bc &b{player} &ahas been banned for &bviolating rules &3[Warning 7/7]"
     remove:
-      1:
-        - ""
+      1: []
+      2:
+        - "jail {player}"
+      3:
+        - "jail {player}"
+      4:
+        - "jail {player}"
+      5:
+        - "hopecommander unban {player}"
+      6:
+        - "hopecommander unban {player}"
+      7:
+        - "hopecommander unban {player}"
   punishevasion:
     add:
       1:
@@ -495,7 +679,17 @@ reasons:
         - "hopecommander bc &b{player} &ahas been banned for &bpunishment evasion &3[Warning 6/6]"
     remove:
       1:
-        - ""
+        - "jail {player}"
+      2:
+        - "jail {player}"
+      3:
+        - "hopecommander unban {player}"
+      4:
+        - "hopecommander unban {player}"
+      5:
+        - "hopecommander unban {player}"
+      6:
+        - "hopecommander unban {player}"
   banevasion:
     add:
       1:
@@ -504,7 +698,7 @@ reasons:
         - "hopecommander bc &b{player} &ahas been banned for &bban evasion"
     remove:
       1:
-        - ""
+        - "hopecommander unban {player}"
   owner:
     add:
       1:
@@ -516,19 +710,4 @@ reasons:
         - "relay watchdog :warning: <@&667793980318154783>, player `{player}` was auto banned for having an owner permission! :warning:"
     remove:
       1:
-        - ""
-  testing:
-    add:
-      1:
-        - "say added to {player} 1"
-      2:
-        - "say added to {player} 2"
-    remove:
-      1:
-        - "say removed from {player} 1-1"
-        - "say removed from {player} 1-2"
-        - "say removed from {player} 1-3"
-      2:
-        - "say removed from {player} 2-1"
-        - "say removed from {player} 2-2"
-        - "say removed from {player} 2-3"
+        - "hopecommander unban {player}"

@@ -1,35 +1,36 @@
 package net.silverstonemc.silverstonewarnings.commands;
 
-import org.bukkit.ChatColor;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
-import org.bukkit.plugin.java.JavaPlugin;
-import org.jetbrains.annotations.NotNull;
+import net.md_5.bungee.api.ChatColor;
+import net.md_5.bungee.api.CommandSender;
+import net.md_5.bungee.api.chat.TextComponent;
+import net.md_5.bungee.api.plugin.Command;
+import net.silverstonemc.silverstonewarnings.SilverstoneWarnings;
 
 import java.util.ArrayList;
 
-@SuppressWarnings("ConstantConditions")
-public record ReasonsCommand(JavaPlugin plugin) implements CommandExecutor {
+public class ReasonsCommand extends Command {
 
-    public boolean onCommand(CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
-        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&c&lAvailable warning reasons:"));
+    public ReasonsCommand() {
+        super("reasons", "silverstone.trialmod", "categories");
+    }
 
-        ArrayList<String> reasonList = new ArrayList<>(plugin.getConfig()
-                .getConfigurationSection("reasons")
-                .getKeys(false));
+    public void execute(CommandSender sender, String[] args) {
+        sender.sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&', "&c&lAvailable warning reasons:")));
+
+        ArrayList<String> reasonList = new ArrayList<>(SilverstoneWarnings.config
+                .getSection("reasons")
+                .getKeys());
         for (int x = 0; x < reasonList.size(); x = x + 3)
             try {
-                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7" + reasonList.get(x) + "  &8&l|&7  " + reasonList
-                        .get(x + 1) + "  &8&l|&7  " + reasonList.get(x + 2)));
+                sender.sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&', "&7" + reasonList.get(x) + "  &8&l|&7  " + reasonList
+                        .get(x + 1) + "  &8&l|&7  " + reasonList.get(x + 2))));
             } catch (IndexOutOfBoundsException e1) {
                 try {
-                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7" + reasonList.get(x) + "  &8&l|&7  " + reasonList
-                            .get(x + 1)));
+                    sender.sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&', "&7" + reasonList.get(x) + "  &8&l|&7  " + reasonList
+                            .get(x + 1))));
                 } catch (IndexOutOfBoundsException e2) {
-                    sender.sendMessage(ChatColor.GRAY + reasonList.get(x));
+                    sender.sendMessage(TextComponent.fromLegacyText(ChatColor.GRAY + reasonList.get(x)));
                 }
             }
-        return true;
     }
 }

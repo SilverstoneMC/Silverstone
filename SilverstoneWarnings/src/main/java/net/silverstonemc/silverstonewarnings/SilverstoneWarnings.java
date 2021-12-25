@@ -1,241 +1,174 @@
 package net.silverstonemc.silverstonewarnings;
 
-import github.scarsz.discordsrv.DiscordSRV;
-import github.scarsz.discordsrv.dependencies.jda.api.EmbedBuilder;
-import github.scarsz.discordsrv.dependencies.jda.api.entities.TextChannel;
+import net.dv8tion.jda.api.JDA;
+import net.dv8tion.jda.api.JDABuilder;
+import net.dv8tion.jda.api.OnlineStatus;
+import net.dv8tion.jda.api.entities.Activity;
+import net.dv8tion.jda.api.requests.GatewayIntent;
+import net.dv8tion.jda.api.utils.MemberCachePolicy;
+import net.dv8tion.jda.api.utils.cache.CacheFlag;
+import net.md_5.bungee.api.ChatColor;
+import net.md_5.bungee.api.CommandSender;
+import net.md_5.bungee.api.chat.BaseComponent;
+import net.md_5.bungee.api.chat.ComponentBuilder;
+import net.md_5.bungee.api.connection.ProxiedPlayer;
+import net.md_5.bungee.api.plugin.Listener;
+import net.md_5.bungee.api.plugin.Plugin;
+import net.md_5.bungee.api.plugin.PluginManager;
+import net.md_5.bungee.config.Configuration;
+import net.md_5.bungee.config.ConfigurationProvider;
+import net.md_5.bungee.config.YamlConfiguration;
 import net.silverstonemc.silverstonewarnings.commands.*;
-import net.silverstonemc.silverstonewarnings.managers.DataManager;
-import net.silverstonemc.silverstonewarnings.managers.QueueManager;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.OfflinePlayer;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
-import org.bukkit.event.Listener;
-import org.bukkit.plugin.PluginManager;
-import org.bukkit.plugin.java.JavaPlugin;
-import org.jetbrains.annotations.NotNull;
 
-import java.awt.*;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
 import java.util.UUID;
 
-@SuppressWarnings("ConstantConditions")
-public class SilverstoneWarnings extends JavaPlugin implements Listener {
+public class SilverstoneWarnings extends Plugin implements Listener {
 
-    public static DataManager data;
-    public static QueueManager queue;
+    private static SilverstoneWarnings plugin;
 
-    public static boolean discordEnabled = false;
+    public static Configuration config;
+    public static Configuration data;
+    public static Configuration queue;
+    public static Configuration userCache;
 
-    // Startup
+    public static JDA jda;
+
     @Override
     public void onEnable() {
-        if (getServer().getPluginManager().getPlugin("DiscordSRV") != null) {
-            discordEnabled = true;
-            DiscordSRV.api.subscribe(new DiscordReady(this));
-        }
+        plugin = this;
+        config = loadFile("config.yml");
+        data = loadFile("data.yml");
+        queue = loadFile("queue.yml");
+        userCache = loadFile("usercache.yml");
 
-        data = new DataManager(this);
-        queue = new QueueManager(this);
-
-        saveDefaultConfig();
-        data.saveDefaultConfig();
-        queue.saveDefaultConfig();
-
-        getCommand("reasons").setExecutor(new ReasonsCommand(this));
-        getCommand("warn").setExecutor(new WarnCommand(this));
-        getCommand("warnings").setExecutor(new WarningsCommand());
-        getCommand("warnqueue").setExecutor(new WarnQueueCommand());
-        getCommand("warnlist").setExecutor(new WarnListCommand());
-        getCommand("warn").setTabCompleter(new TabComplete(this));
-        getCommand("silverstonewarnings").setTabCompleter(new TabComplete(this));
-
-        PluginManager pluginManager = this.getServer().getPluginManager();
-
-        pluginManager.registerEvents(new JoinEvent(this), this);
-        pluginManager.registerEvents(new WarnCommand(this), this);
-
-        WarnCommand.createMainInv();
-        WarnCommand.createHackInv();
-        WarnCommand.createChatInv();
-        WarnCommand.createOtherInv();
-    }
-
-    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
-        if (args.length > 0) {
-            TextChannel discord = null;
-            if (SilverstoneWarnings.discordEnabled)
-                discord = DiscordSRV.getPlugin().getDestinationTextChannelForGameChannelName("warnings");
-            // Reload
-            if (args[0].equalsIgnoreCase("reload")) {
-                if (sender.hasPermission("sswarnings.admin")) {
-                    saveDefaultConfig();
-                    data.saveDefaultConfig();
-                    queue.saveDefaultConfig();
-                    reloadConfig();
-                    data.reloadConfig();
-                    queue.reloadConfig();
-                    data = new DataManager(this);
-                    queue = new QueueManager(this);
-                    sender.sendMessage(ChatColor.GREEN + "SilverstoneWarnings reloaded!");
-                    return true;
-                }
-
-            } else if (args[0].equalsIgnoreCase("remove")) { // remove <reason> <player>
-                if (args.length < 3) return false;
-
-                OfflinePlayer offlinePlayer = getOfflinePlayer(sender, args[2]);
-                if (offlinePlayer == null) return true;
-                UUID uuid = offlinePlayer.getUniqueId();
-
-                int count = data.getConfig().getInt("data." + uuid + "." + args[1]);
-
-                // Already has 0 warnings
-                if ((count - 1) < 0) {
-                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7" + offlinePlayer.getName() + " &calready has 0 &7" + args[1] + " &cwarnings."));
-                    return true;
-
-                } else {
-                    new UndoWarning(this).undoWarning(offlinePlayer, args[1], count);
-
-                    if ((count - 1) == 0) data.getConfig().set("data." + uuid + "." + args[1], null);
-                    else data.getConfig().set("data." + uuid + "." + args[1], count - 1);
-                    data.saveConfig();
-
-                    if (data.getConfig().getConfigurationSection("data." + uuid).getKeys(false).isEmpty()) {
-                        data.getConfig().set("data." + uuid, null);
-                        data.saveConfig();
-                    }
-
-                    getLogger().info(ChatColor.translateAlternateColorCodes('&', "&7" + sender.getName() + " &cremoved 1 &7" + args[1] + " &cwarning from &7" + offlinePlayer
-                            .getName()));
-
-                    // Message staff
-                    for (Player online : Bukkit.getOnlinePlayers())
-                        if (online.hasPermission("sswarnings.warn"))
-                            online.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7" + sender.getName() + " &cremoved 1 &7" + args[1] + " &cwarning from &7" + offlinePlayer
-                                    .getName()));
-
-                    // Message player if online and command not silent
-                    try {
-                        if (!args[3].equalsIgnoreCase("-s")) if (offlinePlayer.isOnline())
-                            offlinePlayer.getPlayer()
-                                    .sendMessage(ChatColor.translateAlternateColorCodes('&', "&7" + sender.getName() + " &cremoved 1 &7" + args[1] + " &cwarning from you."));
-                    } catch (ArrayIndexOutOfBoundsException ignored) {
-                        if (offlinePlayer.isOnline())
-                            offlinePlayer.getPlayer()
-                                    .sendMessage(ChatColor.translateAlternateColorCodes('&', "&7" + sender.getName() + " &cremoved 1 &7" + args[1] + " &cwarning from you."));
-                    }
-
-                    if (SilverstoneWarnings.discordEnabled) {
-                        EmbedBuilder embed = new EmbedBuilder();
-                        embed.setAuthor(sender.getName() + " removed 1 '" + args[1] + "' warning from " + offlinePlayer.getName(), null, "https://crafatar.com/avatars/" + offlinePlayer
-                                .getUniqueId() + "?overlay=true");
-                        embed.setColor(new Color(42, 212, 85));
-                        discord.sendMessageEmbeds(embed.build()).queue();
-                    }
-                }
-                return true;
-
-            } else if (args[0].equalsIgnoreCase("clear")) { // clear <[reason]|all> <player>
-                if (args.length < 3) return false;
-
-                OfflinePlayer offlinePlayer = getOfflinePlayer(sender, args[2]);
-                if (offlinePlayer == null) return true;
-                UUID uuid = offlinePlayer.getUniqueId();
-
-                // If all
-                if (args[1].equalsIgnoreCase("all")) {
-                    new UndoWarning(this).undoWarning(offlinePlayer, args[1], null);
-
-                    data.getConfig().set("data." + uuid, null);
-                    data.saveConfig();
-
-                    getLogger().info(ChatColor.translateAlternateColorCodes('&', "&7" + sender.getName() + " &ccleared all of &7" + offlinePlayer
-                            .getName() + "'s &cwarnings"));
-
-                    // Message staff
-                    for (Player online : Bukkit.getOnlinePlayers())
-                        if (online.hasPermission("sswarnings.warn"))
-                            online.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7" + sender.getName() + " &ccleared all of &7" + offlinePlayer
-                                    .getName() + "'s &cwarnings"));
-
-                    // Message player if online and command not silent
-                    try {
-                        if (!args[3].equalsIgnoreCase("-s")) if (offlinePlayer.isOnline())
-                            offlinePlayer.getPlayer()
-                                    .sendMessage(ChatColor.translateAlternateColorCodes('&', "&7" + sender.getName() + " &ccleared all your warnings."));
-                    } catch (ArrayIndexOutOfBoundsException ignored) {
-                        if (offlinePlayer.isOnline())
-                            offlinePlayer.getPlayer()
-                                    .sendMessage(ChatColor.translateAlternateColorCodes('&', "&7" + sender.getName() + " &ccleared all your warnings."));
-                    }
-
-                    if (SilverstoneWarnings.discordEnabled) {
-                        EmbedBuilder embed = new EmbedBuilder();
-                        embed.setAuthor(sender.getName() + " cleared all of " + offlinePlayer.getName() + "'s warnings", null, "https://crafatar.com/avatars/" + offlinePlayer
-                                .getUniqueId() + "?overlay=true");
-                        embed.setColor(new Color(42, 212, 85));
-                        discord.sendMessageEmbeds(embed.build()).queue();
-                    }
-
-                } else { // If a reason is defined
-                    new UndoWarning(this).undoWarning(offlinePlayer, args[1], null);
-
-                    data.getConfig().set("data." + uuid + "." + args[1], null);
-                    data.saveConfig();
-
-                    getLogger().info(ChatColor.translateAlternateColorCodes('&', "&7" + sender.getName() + " &ccleared all &7" + args[1] + " &cwarnings from &7" + offlinePlayer
-                            .getName()));
-
-                    // Message staff
-                    for (Player online : Bukkit.getOnlinePlayers())
-                        if (online.hasPermission("sswarnings.warn"))
-                            online.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7" + sender.getName() + " &ccleared all &7" + args[1] + " &cwarnings from &7" + offlinePlayer
-                                    .getName()));
-
-                    // Message player if online and command not silent
-                    try {
-                        if (!args[3].equalsIgnoreCase("-s")) if (offlinePlayer.isOnline())
-                            offlinePlayer.getPlayer()
-                                    .sendMessage(ChatColor.translateAlternateColorCodes('&', "&7" + sender.getName() + " &ccleared all your &7" + args[1] + " &cwarnings."));
-                    } catch (ArrayIndexOutOfBoundsException ignored) {
-                        if (offlinePlayer.isOnline())
-                            offlinePlayer.getPlayer()
-                                    .sendMessage(ChatColor.translateAlternateColorCodes('&', "&7" + sender.getName() + " &ccleared all your &7" + args[1] + " &cwarnings."));
-                    }
-
-                    if (SilverstoneWarnings.discordEnabled) {
-                        EmbedBuilder embed = new EmbedBuilder();
-                        embed.setAuthor(sender.getName() + " cleared all '" + args[1] + "' warnings from " + offlinePlayer
-                                .getName(), null, "https://crafatar.com/avatars/" + offlinePlayer
-                                .getUniqueId() + "?overlay=true");
-                        embed.setColor(new Color(42, 212, 85));
-                        discord.sendMessageEmbeds(embed.build()).queue();
-                    }
-                }
-                return true;
+        plugin.getLogger().info("Starting Discord bot...");
+        Thread bot = new Thread(() -> {
+            JDABuilder builder = JDABuilder.createDefault(config.getString("bot-token"));
+            builder.disableIntents(GatewayIntent.GUILD_MESSAGE_TYPING);
+            builder.disableCache(CacheFlag.ACTIVITY, CacheFlag.VOICE_STATE);
+            builder.setMemberCachePolicy(MemberCachePolicy.NONE);
+            builder.setBulkDeleteSplittingEnabled(false);
+            builder.setStatus(OnlineStatus.ONLINE);
+            builder.setActivity(Activity.watching("for cheaters"));
+            builder.setEnableShutdownHook(false);
+            try {
+                jda = builder.build();
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-        }
-        return false;
+
+            // Wait until the api works
+            while (jda.getGuildById(455919765999976461L) == null) try {
+                //noinspection BusyWait
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            jda.addEventListener(new DiscordEvents());
+        });
+        bot.start();
+
+        PluginManager pluginManager = getProxy().getPluginManager();
+
+        pluginManager.registerCommand(this, new ReasonsCommand());
+        pluginManager.registerCommand(this, new BaseCommand());
+        pluginManager.registerCommand(this, new WarnCommand());
+        pluginManager.registerCommand(this, new WarningsCommand());
+        pluginManager.registerCommand(this, new WarnListCommand());
+        pluginManager.registerCommand(this, new WarnQueueCommand());
+
+        pluginManager.registerListener(this, new JoinEvent());
     }
 
-    @SuppressWarnings("deprecation")
-    public static OfflinePlayer getOfflinePlayer(CommandSender sender, String offlinePlayerName) {
-        Player player = Bukkit.getPlayer(offlinePlayerName);
-        if (player != null) return player;
+    @Override
+    public void onDisable() {
+        plugin.getLogger().info("Shutting down Discord bot...");
+        jda.shutdown();
+    }
 
-        OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayerIfCached(offlinePlayerName);
-        if (offlinePlayer == null) {
-            sender.sendMessage(ChatColor.GRAY + "Player not cached. The server may lag while the player is retrieved...");
-            offlinePlayer = Bukkit.getOfflinePlayer(offlinePlayerName);
+    public ProxiedPlayer getOnlinePlayer(UUID uuid) {
+        return getProxy().getPlayer(uuid);
+    }
+
+    public String getPlayerName(UUID uuid) {
+        String username = userCache.getString("uuids." + uuid);
+        if (username.isBlank()) username = "N/A";
+        return username;
+    }
+
+    public UUID getPlayerUUID(String username) {
+        UUID uuid = null;
+        try {
+            uuid = UUID.fromString(userCache.getString("usernames." + username));
+        } catch (IllegalArgumentException ignored) {
         }
-        if (!offlinePlayer.hasPlayedBefore()) {
-            sender.sendMessage(ChatColor.RED + "That player has never joined before!");
+        return uuid;
+    }
+
+    public void nonexistentPlayerMessage(String username, CommandSender sender) {
+        BaseComponent[] message = new ComponentBuilder("Couldn't find player ").color(ChatColor.RED)
+                .append(username)
+                .color(ChatColor.GRAY)
+                .append(" in the user cache!")
+                .color(ChatColor.RED)
+                .create();
+        sender.sendMessage(message);
+    }
+
+    public Configuration loadFile(String fileName) {
+        if (!getDataFolder().exists())
+            //noinspection ResultOfMethodCallIgnored
+            getDataFolder().mkdir();
+
+        File file = new File(getDataFolder(), fileName);
+
+        if (!file.exists()) try (InputStream in = getResourceAsStream(fileName)) {
+            Files.copy(in, file.toPath());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            return ConfigurationProvider.getProvider(YamlConfiguration.class).load(new File(getDataFolder(), fileName));
+        } catch (IOException e) {
+            e.printStackTrace();
             return null;
         }
+    }
 
-        return offlinePlayer;
+    public void saveData() {
+        try {
+            ConfigurationProvider.getProvider(YamlConfiguration.class)
+                    .save(data, new File(getDataFolder(), "data.yml"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void saveQueue() {
+        try {
+            ConfigurationProvider.getProvider(YamlConfiguration.class)
+                    .save(queue, new File(getDataFolder(), "queue.yml"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void saveUserCache() {
+        try {
+            ConfigurationProvider.getProvider(YamlConfiguration.class)
+                    .save(userCache, new File(getDataFolder(), "usercache.yml"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static SilverstoneWarnings getPlugin() {
+        return plugin;
     }
 }

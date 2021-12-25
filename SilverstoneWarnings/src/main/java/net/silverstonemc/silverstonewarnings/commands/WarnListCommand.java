@@ -1,28 +1,25 @@
 package net.silverstonemc.silverstonewarnings.commands;
 
+import net.md_5.bungee.api.ChatColor;
+import net.md_5.bungee.api.CommandSender;
+import net.md_5.bungee.api.chat.TextComponent;
+import net.md_5.bungee.api.plugin.Command;
 import net.silverstonemc.silverstonewarnings.SilverstoneWarnings;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.UUID;
 
-@SuppressWarnings("ConstantConditions")
-public class WarnListCommand implements CommandExecutor {
+public class WarnListCommand extends Command {
 
-    public boolean onCommand(CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
-        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&c&lAll warnings:"));
+    public WarnListCommand() {
+        super("warnlist", "silverstone.trialmod");
+    }
 
-        for (String uuid : SilverstoneWarnings.data.getConfig().getConfigurationSection("data").getKeys(false))
-            for (String warning : SilverstoneWarnings.data.getConfig()
-                    .getConfigurationSection("data." + uuid)
-                    .getKeys(false))
-                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7" + Bukkit.getOfflinePlayer(UUID.fromString(uuid))
-                        .getName() + " - " + warning + " - " + SilverstoneWarnings.data.getConfig()
-                        .getInt("data." + uuid + "." + warning)));
-        return true;
+    public void execute(CommandSender sender, String[] args) {
+        sender.sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&', "&c&lAll warnings:")));
+
+        for (String uuid : SilverstoneWarnings.data.getSection("data").getKeys())
+            for (String warning : SilverstoneWarnings.data.getSection("data." + uuid).getKeys())
+                sender.sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&', "&7" + SilverstoneWarnings.getPlugin()
+                        .getPlayerName(UUID.fromString(uuid)) + " - " + warning + " - " + SilverstoneWarnings.data.getInt("data." + uuid + "." + warning))));
     }
 }
