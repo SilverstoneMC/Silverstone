@@ -1,4 +1,4 @@
-### silverstone.servegame.com
+### play.silverstonemc.net
 # Forums
 ### [CLICK HERE TO LEARN HOW TO PROPERLY SUBMIT AN ISSUE (BUG REPORT, APPLICATION, ETC)](https://github.com/JasonHorkles/Silverstone/wiki)
 
