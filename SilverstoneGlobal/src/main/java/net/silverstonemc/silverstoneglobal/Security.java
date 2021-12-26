@@ -39,7 +39,7 @@ public record Security(JavaPlugin plugin) {
                                     plugin.getLogger().warning("Deopping " + player.getName() + "...");
                                     if (player.isOp()) player.setOp(false);
                                     plugin.getLogger().warning("Warning " + player.getName() + "...");
-                                    Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "warn " + player.getName() + " owner");
+                                    Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "hopecommander warn " + player.getName() + " owner");
                                 }
                             };
                             task.runTask(plugin);
