@@ -714,14 +714,3 @@ reasons:
         - "unban {player}"
       4:
         - "unban {player}"
-
-  test:
-    description: "COOL TEST!"
-    add:
-      1:
-        - "bc Test successful!"
-    remove:
-      1:
-        - "bc Test finished!"
-      2:
-        - "bc Test 2 finished!"
