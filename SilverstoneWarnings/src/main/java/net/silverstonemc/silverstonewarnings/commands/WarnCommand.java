@@ -2,8 +2,6 @@ package net.silverstonemc.silverstonewarnings.commands;
 
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.CommandSender;
-import net.md_5.bungee.api.chat.BaseComponent;
-import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Command;
@@ -48,36 +46,41 @@ public class WarnCommand extends Command implements TabExecutor {
                     new WarnPlayer().warn(uuid, args[1]);
                 }
             }
-        else
-            switch (args.length) {
-                case 0 -> sender.sendMessage(TextComponent.fromLegacyText(ChatColor.RED + "/warn <player> <reason>"));
+        else switch (args.length) {
+            case 0 -> sender.sendMessage(TextComponent.fromLegacyText(ChatColor.RED + "/warn <player> <reason>"));
 
-                case 1 -> {
-                    //todo
-                    // Send message with reasons list to click on
-                    BaseComponent[] message = new ComponentBuilder("e").create();
-                    sender.sendMessage(message);
+            case 1 -> {
+                UUID uuid = plugin.getPlayerUUID(args[0]);
+                String username = plugin.getPlayerName(uuid);
+
+                if (uuid == null) {
+                    plugin.nonexistentPlayerMessage(args[0], sender);
+                    return;
                 }
 
-                case 2 -> {
-                    // Warn the targeted player
-                    if (checkIfValidReason(args[1])) {
-                        plugin.getProxy().getPluginManager().dispatchCommand(sender, "warn " + args[0]);
-                        return;
-                    }
-
-                    UUID uuid = plugin.getPlayerUUID(args[0]);
-                    String username = plugin.getPlayerName(uuid);
-
-                    if (uuid == null) {
-                        plugin.nonexistentPlayerMessage(args[0], sender);
-                        return;
-                    }
-
-                    sender.sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&', "&cWarning &7" + username + " &cfor reason: &7" + args[1])));
-                    new WarnPlayer().warn(uuid, args[1]);
-                }
+                new ReasonsCommand().sendReasonList(true, sender, username);
             }
+
+            case 2 -> {
+                // Warn the targeted player
+                if (checkIfValidReason(args[1])) {
+                    plugin.getProxy().getPluginManager().dispatchCommand(sender, "warn " + args[0]);
+                    return;
+                }
+
+                UUID uuid = plugin.getPlayerUUID(args[0]);
+                String username = plugin.getPlayerName(uuid);
+
+                if (uuid == null) {
+                    plugin.nonexistentPlayerMessage(args[0], sender);
+                    return;
+                }
+
+                for (int x = 0; x < 50; x++) sender.sendMessage(new TextComponent());
+                sender.sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&', "&cWarning &7" + username + " &cfor reason: &7" + args[1])));
+                new WarnPlayer().warn(uuid, args[1]);
+            }
+        }
     }
 
     private boolean checkIfValidReason(String reason) {

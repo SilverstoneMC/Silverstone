@@ -65,6 +65,8 @@ public class WarningsCommand extends Command implements TabExecutor {
 
     @Override
     public Iterable<String> onTabComplete(CommandSender sender, String[] args) {
+        if (!sender.hasPermission("silverstone.trialmod")) return new ArrayList<>();
+
         List<String> arguments = new ArrayList<>();
         for (ProxiedPlayer player : plugin.getProxy().getPlayers())
             arguments.add(player.getName());

@@ -15,8 +15,11 @@ public class JoinEvent implements Listener {
     public void onJoin(ServerConnectedEvent event) {
         UUID uuid = event.getPlayer().getUniqueId();
         String username = event.getPlayer().getName();
+
+        if (plugin.getPlayerUUID(username) != null) return;
+
         SilverstoneWarnings.userCache.set("uuids." + uuid.toString(), username);
-        SilverstoneWarnings.userCache.set("usernames." + username, uuid.toString());
+        SilverstoneWarnings.userCache.set("usernames." + username.toLowerCase(), uuid.toString());
         plugin.saveUserCache();
 
         if (!SilverstoneWarnings.queue.contains("queue." + uuid)) return;

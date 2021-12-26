@@ -67,7 +67,7 @@
                             <relocations>
                                 <relocation>
                                     <pattern>net.dv8tion.jda.api</pattern>
-                                    <shadedPattern>me.jasonhorkles.silverstonewarnings.shaded.jda</shadedPattern>
+                                    <shadedPattern>net.silverstonemc.silverstonewarnings.shaded.jda</shadedPattern>
                                 </relocation>
                             </relocations>
                         </configuration>

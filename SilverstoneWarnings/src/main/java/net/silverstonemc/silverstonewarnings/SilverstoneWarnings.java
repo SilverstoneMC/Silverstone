@@ -25,6 +25,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 public class SilverstoneWarnings extends Plugin implements Listener {
 
@@ -45,7 +46,7 @@ public class SilverstoneWarnings extends Plugin implements Listener {
         queue = loadFile("queue.yml");
         userCache = loadFile("usercache.yml");
 
-        plugin.getLogger().info("Starting Discord bot...");
+        getLogger().info("Starting Discord bot...");
         Thread bot = new Thread(() -> {
             JDABuilder builder = JDABuilder.createDefault(config.getString("bot-token"));
             builder.disableIntents(GatewayIntent.GUILD_MESSAGE_TYPING);
@@ -75,12 +76,18 @@ public class SilverstoneWarnings extends Plugin implements Listener {
 
         PluginManager pluginManager = getProxy().getPluginManager();
 
-        pluginManager.registerCommand(this, new ReasonsCommand());
-        pluginManager.registerCommand(this, new BaseCommand());
-        pluginManager.registerCommand(this, new WarnCommand());
-        pluginManager.registerCommand(this, new WarningsCommand());
-        pluginManager.registerCommand(this, new WarnListCommand());
-        pluginManager.registerCommand(this, new WarnQueueCommand());
+        Runnable task = () -> {
+            getLogger().info("Registering commands...");
+            pluginManager.registerCommand(plugin, new ReasonsCommand());
+            pluginManager.registerCommand(plugin, new BaseCommand());
+            pluginManager.registerCommand(plugin, new BlankCommand());
+            pluginManager.registerCommand(plugin, new RelayCommand());
+            pluginManager.registerCommand(plugin, new WarnCommand());
+            pluginManager.registerCommand(plugin, new WarningsCommand());
+            pluginManager.registerCommand(plugin, new WarnListCommand());
+            pluginManager.registerCommand(plugin, new WarnQueueCommand());
+        };
+        getProxy().getScheduler().schedule(this, task, 2, TimeUnit.SECONDS);
 
         pluginManager.registerListener(this, new JoinEvent());
     }
@@ -104,7 +111,7 @@ public class SilverstoneWarnings extends Plugin implements Listener {
     public UUID getPlayerUUID(String username) {
         UUID uuid = null;
         try {
-            uuid = UUID.fromString(userCache.getString("usernames." + username));
+            uuid = UUID.fromString(userCache.getString("usernames." + username.toLowerCase()));
         } catch (IllegalArgumentException ignored) {
         }
         return uuid;

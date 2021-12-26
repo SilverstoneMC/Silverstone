@@ -55,7 +55,7 @@ public class BaseCommand extends Command implements TabExecutor {
                 return;
             }
 
-            int count = SilverstoneWarnings.config.getInt("data." + uuid + "." + args[1]);
+            int count = SilverstoneWarnings.data.getInt("data." + uuid + "." + args[1]);
 
             // Already has 0 warnings
             if ((count - 1) < 0)
@@ -73,25 +73,25 @@ public class BaseCommand extends Command implements TabExecutor {
                 }
 
                 plugin.getLogger()
-                        .info(ChatColor.translateAlternateColorCodes('&', "&7" + sender.getName() + " &cremoved 1 &7" + args[1] + " &cwarning from &7" + username));
+                        .info(ChatColor.translateAlternateColorCodes('&', "&7" + sender.getName() + " &cremoved a &7" + args[1] + " &cwarning from &7" + username));
 
                 // Message staff
                 for (ProxiedPlayer online : plugin.getProxy().getPlayers())
                     if (online.hasPermission("sswarnings.warn"))
-                        online.sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&', "&7" + sender.getName() + " &cremoved 1 &7" + args[1] + " &cwarning from &7" + username)));
+                        online.sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&', "&7" + sender.getName() + " &cremoved a &7" + args[1] + " &cwarning from &7" + username)));
 
                 // Message player if online and command not silent
                 try {
                     if (!args[3].equalsIgnoreCase("-s"))
                         if (player != null)
-                            player.sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&', "&7" + sender.getName() + " &cremoved 1 &7" + args[1] + " &cwarning from you.")));
+                            player.sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&', "&7" + sender.getName() + " &cremoved a &7" + args[1] + " &cwarning from you.")));
                 } catch (ArrayIndexOutOfBoundsException ignored) {
                     if (player != null)
-                        player.sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&', "&7" + sender.getName() + " &cremoved 1 &7" + args[1] + " &cwarning from you.")));
+                        player.sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&', "&7" + sender.getName() + " &cremoved a &7" + args[1] + " &cwarning from you.")));
                 }
 
                 EmbedBuilder embed = new EmbedBuilder();
-                embed.setAuthor(sender.getName() + " removed 1 '" + args[1] + "' warning from " + username, null, "https://crafatar.com/avatars/" + uuid + "?overlay=true");
+                embed.setAuthor(sender.getName() + " removed a '" + args[1] + "' warning from " + username, null, "https://crafatar.com/avatars/" + uuid + "?overlay=true");
                 embed.setColor(new Color(42, 212, 85));
                 warningChannel.sendMessageEmbeds(embed.build()).queue();
             }
