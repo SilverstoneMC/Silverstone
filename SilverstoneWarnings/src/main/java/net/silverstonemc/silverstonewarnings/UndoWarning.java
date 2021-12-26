@@ -38,16 +38,24 @@ public class UndoWarning {
             // For each warn reason in the config
             // For each number in said reason
             // Run each command in each number
-            for (String configReasons : SilverstoneWarnings.config.getSection("reasons").getKeys())
-                for (String configReasonNumbers : SilverstoneWarnings.config
-                        .getSection("reasons." + configReasons + ".remove")
-                        .getKeys())
-                    for (String configReasonCommands : SilverstoneWarnings.config
-                            .getStringList("reasons." + configReasons + ".remove." + configReasonNumbers))
-                        plugin.getProxy()
-                                .getPluginManager()
-                                .dispatchCommand(plugin.getProxy()
-                                        .getConsole(), configReasonCommands.replace("{player}", username));
+            Thread thread = new Thread(() -> {
+                try {
+                    for (String configReasons : SilverstoneWarnings.config.getSection("reasons").getKeys()) {
+                        for (String configReasonNumbers : SilverstoneWarnings.config.getSection("reasons." + configReasons + ".remove")
+                                .getKeys()) {
+                            for (String configReasonCommands : SilverstoneWarnings.config.getStringList("reasons." + configReasons + ".remove." + configReasonNumbers))
+                                plugin.getProxy()
+                                        .getPluginManager()
+                                        .dispatchCommand(plugin.getProxy()
+                                                .getConsole(), configReasonCommands.replace("{player}", username));
+                            Thread.sleep(500);
+                        }
+                        Thread.sleep(250);
+                    }
+                } catch (InterruptedException ignored) {
+                }
+            });
+            thread.start();
 
         } else {
             plugin.getLogger().info("=============================================");
@@ -56,15 +64,21 @@ public class UndoWarning {
 
             // For each number in reason
             // Run each command in each number
-            for (String configReasonNumbers : SilverstoneWarnings.config
-                    .getSection("reasons." + reason + ".remove")
-                    .getKeys())
-                for (String configReasonCommands : SilverstoneWarnings.config
-                        .getStringList("reasons." + reason + ".remove." + configReasonNumbers))
-                    plugin.getProxy()
-                            .getPluginManager()
-                            .dispatchCommand(plugin.getProxy()
-                                    .getConsole(), configReasonCommands.replace("{player}", username));
+            Thread thread = new Thread(() -> {
+                try {
+                    for (String configReasonNumbers : SilverstoneWarnings.config.getSection("reasons." + reason + ".remove")
+                            .getKeys()) {
+                        for (String configReasonCommands : SilverstoneWarnings.config.getStringList("reasons." + reason + ".remove." + configReasonNumbers))
+                            plugin.getProxy()
+                                    .getPluginManager()
+                                    .dispatchCommand(plugin.getProxy()
+                                            .getConsole(), configReasonCommands.replace("{player}", username));
+                        Thread.sleep(500);
+                    }
+                } catch (InterruptedException ignored) {
+                }
+            });
+            thread.start();
         }
     }
 }
