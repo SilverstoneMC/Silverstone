@@ -48,9 +48,9 @@ public class UndoWarning {
                                         .getPluginManager()
                                         .dispatchCommand(plugin.getProxy()
                                                 .getConsole(), configReasonCommands.replace("{player}", username));
-                            Thread.sleep(250);
+                            Thread.sleep(100);
                         }
-                        Thread.sleep(100);
+                        Thread.sleep(50);
                     }
 
                     plugin.getLogger().info("=============================================");
@@ -77,7 +77,7 @@ public class UndoWarning {
                                     .getPluginManager()
                                     .dispatchCommand(plugin.getProxy()
                                             .getConsole(), configReasonCommands.replace("{player}", username));
-                        Thread.sleep(250);
+                        Thread.sleep(100);
                     }
 
                     plugin.getLogger().info("=============================================");
