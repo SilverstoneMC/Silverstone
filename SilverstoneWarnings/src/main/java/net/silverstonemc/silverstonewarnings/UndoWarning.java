@@ -48,10 +48,14 @@ public class UndoWarning {
                                         .getPluginManager()
                                         .dispatchCommand(plugin.getProxy()
                                                 .getConsole(), configReasonCommands.replace("{player}", username));
-                            Thread.sleep(500);
+                            Thread.sleep(250);
                         }
-                        Thread.sleep(250);
+                        Thread.sleep(100);
                     }
+
+                    plugin.getLogger().info("=============================================");
+                    plugin.getLogger().info("Done clearing all of " + username + "'s warnings!");
+                    plugin.getLogger().info("=============================================");
                 } catch (InterruptedException ignored) {
                 }
             });
@@ -73,8 +77,12 @@ public class UndoWarning {
                                     .getPluginManager()
                                     .dispatchCommand(plugin.getProxy()
                                             .getConsole(), configReasonCommands.replace("{player}", username));
-                        Thread.sleep(500);
+                        Thread.sleep(250);
                     }
+
+                    plugin.getLogger().info("=============================================");
+                    plugin.getLogger().info("Done clearing all of " + username + "'s '" + reason + "' warnings!");
+                    plugin.getLogger().info("=============================================");
                 } catch (InterruptedException ignored) {
                 }
             });
