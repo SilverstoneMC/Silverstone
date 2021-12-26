@@ -217,10 +217,10 @@ reasons:
         - "kick {player} Illegal interactions with blocks/entities [Rule 2 - Warning 1/6]"
         - "bc &b{player} &ahas been kicked for &bIllegal interactions with blocks/entities &3[Warning 1/6]"
       2:
-          - "tempban {player} 6h Illegal interactions with blocks/entities [Rule 2 - Warning 2/6]"
+        - "tempban {player} 6h Illegal interactions with blocks/entities [Rule 2 - Warning 2/6]"
         - "bc &b{player} &ahas been tempbanned [6h] for &bIllegal interactions with blocks/entities &3[Warning 2/6]"
       3:
-          - "tempban {player} 7d Illegal interactions with blocks/entities [Rule 2 - Warning 3/6]"
+        - "tempban {player} 7d Illegal interactions with blocks/entities [Rule 2 - Warning 3/6]"
         - "bc &b{player} &ahas been tempbanned [7d] for &bIllegal interactions with blocks/entities &3[Warning 3/6]"
       4:
         - "tempban {player} 7d Illegal interactions with blocks/entities [Rule 2 - Warning 4/6]"
