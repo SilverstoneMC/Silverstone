@@ -2,6 +2,7 @@ package net.silverstonemc.silverstonemain.commands;
 
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -32,6 +33,7 @@ public record NewbieKit(JavaPlugin plugin) implements CommandExecutor {
                 player.getInventory().addItem(new ItemStack(Material.STONE_SWORD));
                 player.getInventory().addItem(new ItemStack(Material.STONE_AXE));
                 player.getInventory().addItem(new ItemStack(Material.CYAN_BED));
+                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "ps give size8 " + player.getName() + " 5");
                 player.getInventory().addItem(new ItemStack(Material.COOKIE));
             }
         };
@@ -41,6 +43,7 @@ public record NewbieKit(JavaPlugin plugin) implements CommandExecutor {
             @Override
             public void run() {
                 player.setGameMode(GameMode.ADVENTURE);
+                player.teleportAsync(new Location(Bukkit.getWorld("utility"), 666, 66, 666, 180, 7));
             }
         };
         task3.runTaskLater(plugin, 80);

@@ -36,11 +36,6 @@ commands:
   ssm:
     permission: silverstone.admin
     usage: "§cUsage: /ssm reload"
-  stopmusic:
-    description: "Stop the currently playing music"
-  togglemusic:
-    aliases: [ disablemusic, enablemusic ]
-    description: "Toggle auto music"
   znewbiekit:
     permission: silverstone.console
     usage: "/znewbiekit <player>"

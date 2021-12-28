@@ -60,8 +60,6 @@ public class SilverstoneMain extends JavaPlugin implements Listener {
         getCommand("regenend").setExecutor(new End(this));
         getCommand("relay").setExecutor(new DiscordRelay(this));
         getCommand("rtplimit").setExecutor(new RTPLimit(this));
-        getCommand("stopmusic").setExecutor(new Music());
-        getCommand("togglemusic").setExecutor(new Music());
         getCommand("znewbiekit").setExecutor(new NewbieKit(this));
 
         getCommand("rtplimit").setTabCompleter(new TabComplete());

@@ -14,7 +14,6 @@ public class WirelessButtons implements Listener {
 
     private static final Map<Player, Long> rulesCooldown = new HashMap<>();
     private static final Map<Player, Long> startingCooldown = new HashMap<>();
-    private static final Map<Player, Long> socialCooldown = new HashMap<>();
     private static final Map<Player, Long> ranksCooldown = new HashMap<>();
 
     @EventHandler
@@ -26,7 +25,7 @@ public class WirelessButtons implements Listener {
                 Location loc = event.getClickedBlock().getLocation();
                 Player player = event.getPlayer();
 
-                if (loc.getX() == 666 && loc.getY() == 67 && loc.getZ() == 661) {
+                if (loc.getX() == 666 && loc.getY() == 67 && loc.getZ() == 662) {
                     // Check if on cooldown
                     // Still on cooldown
                     if (rulesCooldown.containsKey(player))
@@ -34,7 +33,7 @@ public class WirelessButtons implements Listener {
                     event.getPlayer().performCommand("rules");
                     rulesCooldown.put(player, System.currentTimeMillis() + 1500);
 
-                } else if (loc.getX() == 671 && loc.getY() == 67 && loc.getZ() == 666) {
+                } else if (loc.getX() == 670 && loc.getY() == 67 && loc.getZ() == 666) {
                     // Check if on cooldown
                     // Still on cooldown
                     if (startingCooldown.containsKey(player))
@@ -42,15 +41,7 @@ public class WirelessButtons implements Listener {
                     event.getPlayer().performCommand("gettingstarted");
                     startingCooldown.put(player, System.currentTimeMillis() + 1500);
 
-                } else if (loc.getX() == 666 && loc.getY() == 67 && loc.getZ() == 671) {
-                    // Check if on cooldown
-                    // Still on cooldown
-                    if (socialCooldown.containsKey(player))
-                        if (socialCooldown.get(player) > System.currentTimeMillis()) return;
-                    event.getPlayer().performCommand("social");
-                    socialCooldown.put(player, System.currentTimeMillis() + 1500);
-
-                } else if (loc.getX() == 661 && loc.getY() == 67 && loc.getZ() == 666) {
+                } else if (loc.getX() == 662 && loc.getY() == 67 && loc.getZ() == 666) {
                     // Check if on cooldown
                     // Still on cooldown
                     if (ranksCooldown.containsKey(player))
