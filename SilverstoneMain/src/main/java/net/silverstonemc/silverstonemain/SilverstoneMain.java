@@ -72,7 +72,7 @@ public class SilverstoneMain extends JavaPlugin implements Listener {
         pluginManager.registerEvents(new Death(), this);
         pluginManager.registerEvents(new End(this), this);
         pluginManager.registerEvents(new EndJoin(this), this);
-        pluginManager.registerEvents(new JoinEvent(), this);
+        pluginManager.registerEvents(new JoinEvent(this), this);
         pluginManager.registerEvents(new JoinLeaveSpam(this), this);
         pluginManager.registerEvents(new QuitEvent(), this);
         pluginManager.registerEvents(new RTPLimit(this), this);
