@@ -33,7 +33,7 @@ public record NewbieKit(JavaPlugin plugin) implements CommandExecutor {
                 player.getInventory().addItem(new ItemStack(Material.STONE_SWORD));
                 player.getInventory().addItem(new ItemStack(Material.STONE_AXE));
                 player.getInventory().addItem(new ItemStack(Material.CYAN_BED));
-                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "ps give size8 " + player.getName() + " 5");
+                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "ps give newbies " + player.getName() + " 1");
                 player.getInventory().addItem(new ItemStack(Material.COOKIE));
             }
         };

@@ -33,12 +33,7 @@ public record Help(JavaPlugin plugin) implements CommandExecutor {
                     &c&lLow-effort plots are deleted after 60 days of inactivity.
                     """));
 
-            case "main" -> {
-                switch (player.getWorld().getName()) {
-                    case "survival_nether", "survival_the_end", "utility" -> player.performCommand("tips");
-                    default -> player.performCommand("gettingstarted");
-                }
-            }
+            case "main" -> player.performCommand("gettingstarted");
 
             case "minigames" -> player.performCommand("htp");
 
