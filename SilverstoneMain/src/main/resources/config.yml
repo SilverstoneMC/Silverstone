@@ -7,7 +7,7 @@ join-leave-spam:
   warn: "joinleavespam"
 
 # Max times a player can RTP
-RTP:
+rtp:
   mvp: 25
   vip+: 15
   vip: 10

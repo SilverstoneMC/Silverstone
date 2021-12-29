@@ -78,11 +78,11 @@ public record RTPLimit(JavaPlugin plugin) implements CommandExecutor, Listener {
         if (!rank.equals("bypass")) if ((plugin.getConfig().getInt("rtp." + rank) - value) == 1)
             player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&cYou may randomly teleport &7" + (plugin
                     .getConfig()
-                    .getInt("RTP." + rank) - value) + "&c more time."));
+                    .getInt("rtp." + rank) - value) + "&c more time."));
         else
             player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&cYou may randomly teleport &7" + (plugin
                     .getConfig()
-                    .getInt("RTP." + rank) - value) + "&c more times."));
+                    .getInt("rtp." + rank) - value) + "&c more times."));
     }
 
     private String getLimit(Player player) {
