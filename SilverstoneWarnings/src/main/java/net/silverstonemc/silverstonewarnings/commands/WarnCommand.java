@@ -18,7 +18,7 @@ public class WarnCommand extends Command implements TabExecutor {
     private final SilverstoneWarnings plugin = SilverstoneWarnings.getPlugin();
 
     public WarnCommand() {
-        super("warn", "silverstone.trialmod");
+        super("warn", "silverstone.trialmod", "swarn");
     }
 
     public void execute(CommandSender sender, String[] args) {
