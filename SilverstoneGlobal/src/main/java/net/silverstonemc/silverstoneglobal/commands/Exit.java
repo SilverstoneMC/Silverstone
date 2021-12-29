@@ -35,7 +35,7 @@ public record Exit(JavaPlugin plugin) implements CommandExecutor, Listener {
     public boolean onCommand(@NotNull CommandSender sender, Command cmd, @NotNull String label, String[] args) {
         Player player = (Player) sender;
         if (cmd.getName().equalsIgnoreCase("exit")) {
-            player.sendMessage(Component.text(ChatColor.GREEN + "Returning you to the main server!"));
+            player.sendMessage(Component.text(ChatColor.GREEN + "Returning you to the Main server!"));
             send(player);
         }
         return true;
