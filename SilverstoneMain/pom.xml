@@ -6,7 +6,7 @@
 
     <groupId>net.silverstonemc</groupId>
     <artifactId>SilverstoneMain</artifactId>
-    <version>3.0.5</version>
+    <version>3.0.6</version>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>

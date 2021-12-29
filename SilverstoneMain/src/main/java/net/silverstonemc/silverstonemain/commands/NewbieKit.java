@@ -43,7 +43,7 @@ public record NewbieKit(JavaPlugin plugin) implements CommandExecutor {
             @Override
             public void run() {
                 player.setGameMode(GameMode.ADVENTURE);
-                player.teleportAsync(new Location(Bukkit.getWorld("utility"), 666, 66, 666, 180, 7));
+                player.teleportAsync(new Location(Bukkit.getWorld("utility"), 666.5, 66.0, 666.5, 180, 7));
             }
         };
         task3.runTaskLater(plugin, 80);
