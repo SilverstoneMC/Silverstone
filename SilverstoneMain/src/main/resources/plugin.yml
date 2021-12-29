@@ -27,6 +27,7 @@ commands:
     description: "Toggle keepInventory"
   regenend:
     description: "Regenerate The End"
+    permission: silverstone.owner
   relay:
     permission: silverstone.console
   rtplimit:

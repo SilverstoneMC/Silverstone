@@ -7,10 +7,7 @@ import net.kyori.adventure.text.format.NamedTextColor;
 import net.luckperms.api.LuckPerms;
 import net.luckperms.api.context.DefaultContextKeys;
 import net.luckperms.api.node.Node;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.GameMode;
-import org.bukkit.Material;
+import org.bukkit.*;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -55,18 +52,18 @@ public class End implements CommandExecutor, Listener {
             BukkitRunnable task = new BukkitRunnable() {
                 @Override
                 public void run() {
+                    Player jason = Bukkit.getPlayer(UUID.fromString("a28173af-f0a9-47fe-8549-19c6bccf68da"));
+                    Location ogLocation = jason.getLocation();
                     switch (timer[0]) {
                         case 0:
-                            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "sudo " + Bukkit.getPlayer(UUID.fromString("a28173af-f0a9-47fe-8549-19c6bccf68da"))
-                                    .getName() + " home end");
+                            Bukkit.dispatchCommand(jason, "home end");
                             break;
                         case 3:
                             for (Entity dragon : Bukkit.getWorld(end).getLivingEntities())
                                 if (dragon.getType().equals(EntityType.ENDER_DRAGON)) dragon.remove();
                             break;
                         case 4:
-                            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "sudo " + Bukkit.getPlayer(UUID.fromString("a28173af-f0a9-47fe-8549-19c6bccf68da"))
-                                    .getName() + " home home");
+                            Bukkit.dispatchCommand(jason, "home home");
                             break;
                         case 5:
                             for (Player players : Bukkit.getOnlinePlayers())
@@ -74,11 +71,13 @@ public class End implements CommandExecutor, Listener {
                             mv.getMVWorldManager().regenWorld(end, true, true, "", true);
                             break;
                         case 10:
-                            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "sudo " + Bukkit.getPlayer(UUID.fromString("a28173af-f0a9-47fe-8549-19c6bccf68da"))
-                                    .getName() + " home end");
+                            Bukkit.dispatchCommand(jason, "home end");
                             for (Player players : Bukkit.getOnlinePlayers())
                                 players.sendMessage(ChatColor.translateAlternateColorCodes('&', "&c&lNOTICE &b&l> &aThe End has been reset!"));
                             dragonIsAlive();
+
+                        case 13:
+                            jason.teleportAsync(ogLocation);
                             this.cancel();
                     }
                     timer[0] = timer[0] + 1;
