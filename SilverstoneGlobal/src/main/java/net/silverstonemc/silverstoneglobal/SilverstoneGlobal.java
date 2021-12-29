@@ -90,11 +90,17 @@ public class SilverstoneGlobal extends JavaPlugin implements Listener {
 
         PluginManager pluginManager = this.getServer().getPluginManager();
 
-        if (getServer().getPluginManager().getPlugin("Matrix") != null) {
-            matrix = MatrixAPIProvider.getAPI();
-            pluginManager.registerEvents(new AntiCheatDiscord(), this);
-            this.getLogger().info("Hooked into Matrix api!");
-        }
+        BukkitRunnable getMatrix = new BukkitRunnable() {
+            @Override
+            public void run() {
+                if (getServer().getPluginManager().getPlugin("Matrix") != null) {
+                    matrix = MatrixAPIProvider.getAPI();
+                    pluginManager.registerEvents(new AntiCheatDiscord(), instance);
+                    getLogger().info("Hooked into Matrix api!");
+                }
+            }
+        };
+        getMatrix.runTaskLater(this, 400);
         pluginManager.registerEvents(new BuyGUI(this), this);
         pluginManager.registerEvents(new ChatColorGUI(this), this);
         pluginManager.registerEvents(new ChatnSounds(this), this);
