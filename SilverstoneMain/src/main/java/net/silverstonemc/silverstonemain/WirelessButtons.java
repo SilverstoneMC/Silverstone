@@ -31,7 +31,7 @@ public class WirelessButtons implements Listener {
                     if (rulesCooldown.containsKey(player))
                         if (rulesCooldown.get(player) > System.currentTimeMillis()) return;
                     event.getPlayer().performCommand("rules");
-                    rulesCooldown.put(player, System.currentTimeMillis() + 1500);
+                    rulesCooldown.put(player, System.currentTimeMillis() + 1000);
 
                 } else if (loc.getX() == 670 && loc.getY() == 67 && loc.getZ() == 666) {
                     // Check if on cooldown
@@ -39,7 +39,7 @@ public class WirelessButtons implements Listener {
                     if (startingCooldown.containsKey(player))
                         if (startingCooldown.get(player) > System.currentTimeMillis()) return;
                     event.getPlayer().performCommand("gettingstarted");
-                    startingCooldown.put(player, System.currentTimeMillis() + 1500);
+                    startingCooldown.put(player, System.currentTimeMillis() + 1000);
 
                 } else if (loc.getX() == 662 && loc.getY() == 67 && loc.getZ() == 666) {
                     // Check if on cooldown
@@ -47,7 +47,7 @@ public class WirelessButtons implements Listener {
                     if (ranksCooldown.containsKey(player))
                         if (ranksCooldown.get(player) > System.currentTimeMillis()) return;
                     event.getPlayer().performCommand("ranks");
-                    ranksCooldown.put(player, System.currentTimeMillis() + 1500);
+                    ranksCooldown.put(player, System.currentTimeMillis() + 1000);
                 }
             }
     }
