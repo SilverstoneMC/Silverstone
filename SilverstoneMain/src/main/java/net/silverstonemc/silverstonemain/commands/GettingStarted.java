@@ -23,7 +23,7 @@ public class GettingStarted implements CommandExecutor {
                 .append(Component.text("SURVIVAL: ")
                         .color(TextColor.fromHexString("#18d958"))
                         .decorate(TextDecoration.BOLD))
-                .append(Component.text("If you're wanting to play survival, then simply type ")
+                .append(Component.text("Simply type ")
                         .color(TextColor.fromHexString("#18c1c7")))
                 .append(Component.text("/rtp")
                         .color(TextColor.fromHexString("#305abf"))
@@ -38,6 +38,30 @@ public class GettingStarted implements CommandExecutor {
                 .append(Component.text("default-noki")
                         .color(TextColor.fromHexString("#305abf")))
                 .append(Component.text(" when keepInventory is off.")
+                        .color(TextColor.fromHexString("#18c1c7"))));
+
+        sender.sendMessage(Component.text()
+                .append(Component.text("\nCREATIVE: ")
+                        .color(TextColor.fromHexString("#18d958"))
+                        .decorate(TextDecoration.BOLD))
+                .append(Component.text("Type ")
+                        .color(TextColor.fromHexString("#18c1c7")))
+                .append(Component.text("/server creative")
+                        .color(TextColor.fromHexString("#305abf"))
+                        .clickEvent(ClickEvent.suggestCommand("/server creative")))
+                .append(Component.text(" to go to the Creative server.")
+                        .color(TextColor.fromHexString("#18c1c7"))));
+
+        sender.sendMessage(Component.text()
+                .append(Component.text("\nMINIGAMES: ")
+                        .color(TextColor.fromHexString("#18d958"))
+                        .decorate(TextDecoration.BOLD))
+                .append(Component.text("Type ")
+                        .color(TextColor.fromHexString("#18c1c7")))
+                .append(Component.text("/server minigames")
+                        .color(TextColor.fromHexString("#305abf"))
+                        .clickEvent(ClickEvent.suggestCommand("/server minigames")))
+                .append(Component.text(" to go to the Minigame server.")
                         .color(TextColor.fromHexString("#18c1c7"))));
 
         sender.sendMessage(Component.text()
