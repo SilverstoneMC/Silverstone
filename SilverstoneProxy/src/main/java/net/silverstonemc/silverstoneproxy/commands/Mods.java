@@ -12,6 +12,6 @@ public class Mods extends Command {
     }
 
     public void execute(CommandSender sender, String[] args) {
-        sender.sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&', "&2Modifications we recommend: &3&ngithub.com/SilverstoneMC/Silverstone/wiki/Modifications")));
+        sender.sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&', "&2Modifications we recommend: &3&ngithub.com/SilverstoneMC/Silverstone/wiki/Modifications#mods-we-recommend")));
     }
 }
