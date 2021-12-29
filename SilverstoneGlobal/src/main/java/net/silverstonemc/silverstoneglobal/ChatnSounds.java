@@ -1,9 +1,8 @@
-package net.silverstonemc.silverstoneglobal.commands;
+package net.silverstonemc.silverstoneglobal;
 
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteStreams;
 import io.papermc.paper.event.player.AsyncChatEvent;
-import net.silverstonemc.silverstoneglobal.SilverstoneGlobal;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
