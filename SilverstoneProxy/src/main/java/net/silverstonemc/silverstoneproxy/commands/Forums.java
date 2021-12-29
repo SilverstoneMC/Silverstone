@@ -12,6 +12,6 @@ public class Forums extends Command {
     }
 
     public void execute(CommandSender sender, String[] args) {
-        sender.sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&', "&aVisit the forums at &bgithub.com/SilverstoneMC/Silverstone")));
+        sender.sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&', "&aVisit the forums at &bsilverstonemc.net")));
     }
 }

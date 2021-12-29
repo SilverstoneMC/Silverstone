@@ -28,6 +28,7 @@ public class SilverstoneProxy extends Plugin implements Listener {
         pluginManager.registerCommand(this, new DragonSay());
         pluginManager.registerCommand(this, new Forums());
         pluginManager.registerCommand(this, new GlobalMsg());
+        pluginManager.registerCommand(this, new Link());
         pluginManager.registerCommand(this, new PandaSay());
         pluginManager.registerCommand(this, new Report());
         pluginManager.registerCommand(this, new Restart());
