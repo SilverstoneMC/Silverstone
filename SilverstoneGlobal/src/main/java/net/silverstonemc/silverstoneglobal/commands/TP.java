@@ -44,10 +44,10 @@ public class TP implements CommandExecutor {
 
                 if (player.isFlying()) essentials.getUser(player)
                         .getAsyncTeleport()
-                        .now(loc.add(0, 3, 0), false, PlayerTeleportEvent.TeleportCause.COMMAND, new CompletableFuture<>());
+                        .nowUnsafe(loc.add(0, 3, 0),  PlayerTeleportEvent.TeleportCause.COMMAND, new CompletableFuture<>());
                 else essentials.getUser(player)
                         .getAsyncTeleport()
-                        .now(loc, false, PlayerTeleportEvent.TeleportCause.COMMAND, new CompletableFuture<>());
+                        .nowUnsafe(loc, PlayerTeleportEvent.TeleportCause.COMMAND, new CompletableFuture<>());
             } else player.sendMessage(Component.text(ChatColor.RED + "That world doesn't exist!"));
             else {
                 Location loc = player.getWorld()
@@ -57,10 +57,10 @@ public class TP implements CommandExecutor {
 
                 if (player.isFlying()) essentials.getUser(player)
                         .getAsyncTeleport()
-                        .now(loc.add(0, 3, 0), false, PlayerTeleportEvent.TeleportCause.COMMAND, new CompletableFuture<>());
+                        .nowUnsafe(loc.add(0, 3, 0), PlayerTeleportEvent.TeleportCause.COMMAND, new CompletableFuture<>());
                 else essentials.getUser(player)
                         .getAsyncTeleport()
-                        .now(loc, false, PlayerTeleportEvent.TeleportCause.COMMAND, new CompletableFuture<>());
+                        .nowUnsafe(loc, PlayerTeleportEvent.TeleportCause.COMMAND, new CompletableFuture<>());
             }
             return true;
         }

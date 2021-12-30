@@ -46,7 +46,7 @@ public class Spectate implements CommandExecutor {
             playerSender.setSpectatorTarget(null);
             essentials.getUser(playerSender)
                     .getAsyncTeleport()
-                    .now(player, false, PlayerTeleportEvent.TeleportCause.COMMAND, new CompletableFuture<>());
+                    .nowUnsafe(player.getLocation(), PlayerTeleportEvent.TeleportCause.COMMAND, new CompletableFuture<>());
             BukkitRunnable task = new BukkitRunnable() {
                 @Override
                 public void run() {
@@ -71,7 +71,7 @@ public class Spectate implements CommandExecutor {
             playerSender.setSpectatorTarget(null);
             essentials.getUser(playerSender)
                     .getAsyncTeleport()
-                    .now(player, false, PlayerTeleportEvent.TeleportCause.COMMAND, new CompletableFuture<>());
+                    .nowUnsafe(player.getLocation(), PlayerTeleportEvent.TeleportCause.COMMAND, new CompletableFuture<>());
             return true;
         }
         return false;
