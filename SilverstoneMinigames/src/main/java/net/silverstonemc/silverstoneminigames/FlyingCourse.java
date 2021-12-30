@@ -11,9 +11,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.util.Vector;
@@ -23,7 +20,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.*;
 
 @SuppressWarnings("ConstantConditions")
-public record FlyingCourse(JavaPlugin plugin) implements CommandExecutor, Listener {
+public record FlyingCourse(JavaPlugin plugin) implements CommandExecutor {
 
     public boolean onCommand(@NotNull CommandSender sender, Command cmd, @NotNull String label, String[] args) {
         if (cmd.getName().equalsIgnoreCase("zfcfinish")) {
@@ -132,6 +129,16 @@ public record FlyingCourse(JavaPlugin plugin) implements CommandExecutor, Listen
                 return true;
             }
             return false;
+        } else if (cmd.getName().equalsIgnoreCase("sendtoflyingcourse")) {
+            if (args.length < 1) return false;
+            Player player = Bukkit.getPlayer(args[0]);
+            if (player == null) return true;
+
+            if (FloodgateApi.getInstance().isFloodgatePlayer(player.getUniqueId())) {
+                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "warp Mini " + player.getName());
+                player.sendMessage(Component.text("Sorry, but the flying course doesn't work with Bedrock clients!", TextColor.color(NamedTextColor.RED)));
+            } else player.teleportAsync(new Location(Bukkit.getWorld(plugin.getConfig()
+                    .getString("amplified-minigame-world")), 23.5, 131.0, 88.5, 0, 10));
         }
         return true;
     }
@@ -226,19 +233,5 @@ public record FlyingCourse(JavaPlugin plugin) implements CommandExecutor, Listen
         scores.entrySet().stream().sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
                 .forEachOrdered(x -> reverseSortedMap.put(x.getKey(), x.getValue()));
         return reverseSortedMap;
-    }
-
-    @EventHandler
-    public void teleportEvent(PlayerTeleportEvent event) {
-        if (event.getTo()
-                .getWorld()
-                .getName()
-                .equalsIgnoreCase(plugin.getConfig().getString("amplified-minigame-world")))
-            if (FloodgateApi.getInstance().isFloodgatePlayer(event.getPlayer().getUniqueId())) {
-                event.setCancelled(true);
-                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "warp Mini " + event.getPlayer().getName());
-                event.getPlayer()
-                        .sendMessage(Component.text("Sorry, but the flying course doesn't work with Bedrock clients!", TextColor.color(NamedTextColor.RED)));
-            }
     }
 }

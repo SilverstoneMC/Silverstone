@@ -4,6 +4,8 @@ description: Designed for the Minigame server
 version: %VERSION%
 author: JasonHorkles
 api-version: 1.18
+softdepend:
+  - floodgate
 
 commands:
   ssmi:
@@ -39,6 +41,9 @@ commands:
     description: "Ran when the flying course is completed"
     permission: silverstone.minigames.flyingcourse
     usage: "§cYou must be in adventure mode for that."
+  sendtoflyingcourse:
+    permission: silverstone.console
+    usage: "/sendtoflyingcourse <player>"
 
 permissions:
   silverstone.minigames.flyingcourse.easy:
