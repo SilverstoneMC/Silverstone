@@ -1,6 +1,8 @@
 package net.silverstonemc.silverstoneminigames;
 
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.command.Command;
@@ -9,15 +11,19 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.util.Vector;
+import org.geysermc.floodgate.api.FloodgateApi;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
 @SuppressWarnings("ConstantConditions")
-public record FlyingCourse(JavaPlugin plugin) implements CommandExecutor {
+public record FlyingCourse(JavaPlugin plugin) implements CommandExecutor, Listener {
 
     public boolean onCommand(@NotNull CommandSender sender, Command cmd, @NotNull String label, String[] args) {
         if (cmd.getName().equalsIgnoreCase("zfcfinish")) {
@@ -132,10 +138,12 @@ public record FlyingCourse(JavaPlugin plugin) implements CommandExecutor {
 
     private void addToTopScores(Player player, String difficulty) {
         int score = 0;
-        if (SilverstoneMinigames.data.getConfig().contains("data." + player.getUniqueId() + ".flyingcourse." + difficulty))
+        if (SilverstoneMinigames.data.getConfig()
+                .contains("data." + player.getUniqueId() + ".flyingcourse." + difficulty))
             score = SilverstoneMinigames.data.getConfig()
                     .getInt("data." + player.getUniqueId() + ".flyingcourse." + difficulty);
-        SilverstoneMinigames.data.getConfig().set("data." + player.getUniqueId() + ".flyingcourse." + difficulty, ++score);
+        SilverstoneMinigames.data.getConfig()
+                .set("data." + player.getUniqueId() + ".flyingcourse." + difficulty, ++score);
         SilverstoneMinigames.data.saveConfig();
 
         updateFCScoreboard();
@@ -218,5 +226,19 @@ public record FlyingCourse(JavaPlugin plugin) implements CommandExecutor {
         scores.entrySet().stream().sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
                 .forEachOrdered(x -> reverseSortedMap.put(x.getKey(), x.getValue()));
         return reverseSortedMap;
+    }
+
+    @EventHandler
+    public void teleportEvent(PlayerTeleportEvent event) {
+        if (event.getTo()
+                .getWorld()
+                .getName()
+                .equalsIgnoreCase(plugin.getConfig().getString("amplified-minigame-world")))
+            if (FloodgateApi.getInstance().isFloodgatePlayer(event.getPlayer().getUniqueId())) {
+                event.setCancelled(true);
+                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "warp Mini " + event.getPlayer().getName());
+                event.getPlayer()
+                        .sendMessage(Component.text("Sorry, but the flying course doesn't work with Bedrock clients!", TextColor.color(NamedTextColor.RED)));
+            }
     }
 }

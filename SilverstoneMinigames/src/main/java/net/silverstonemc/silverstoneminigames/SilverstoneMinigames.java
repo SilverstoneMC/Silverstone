@@ -28,21 +28,22 @@ public class SilverstoneMinigames extends JavaPlugin implements CommandExecutor 
         getCommand("hsheartbeat").setExecutor(new HideSeek(this));
         getCommand("hsrandomtaunt").setExecutor(new HideSeek(this));
         getCommand("hsresettauntpoints").setExecutor(new HideSeek(this));
+        getCommand("htp").setExecutor(new Minigames(this));
         getCommand("kitpvp").setExecutor(new KitPvPGUI(this));
+        getCommand("minigame").setExecutor(new Minigames(this));
         getCommand("taunt").setExecutor(new HideSeek(this));
         getCommand("tntrun").setExecutor(new TNTRun(this));
         getCommand("zfcfinish").setExecutor(new FlyingCourse(this));
-        getCommand("htp").setExecutor(new Minigames(this));
-        getCommand("minigame").setExecutor(new Minigames(this));
 
         PluginManager pluginManager = this.getServer().getPluginManager();
 
         pluginManager.registerEvents(new Back(), this);
-        pluginManager.registerEvents(new Minigames(this), this);
         pluginManager.registerEvents(new DoubleJump(this), this);
+        pluginManager.registerEvents(new FlyingCourse(this), this);
         pluginManager.registerEvents(new HideSeek(this), this);
         pluginManager.registerEvents(new KitPvPGUI(this), this);
         pluginManager.registerEvents(new LockInv(), this);
+        pluginManager.registerEvents(new Minigames(this), this);
         pluginManager.registerEvents(new PvP(), this);
         pluginManager.registerEvents(new Void(), this);
 
