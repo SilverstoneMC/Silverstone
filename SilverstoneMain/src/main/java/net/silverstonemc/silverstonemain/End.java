@@ -228,7 +228,7 @@ public class End implements CommandExecutor, Listener {
                     .getHighestBlockAt(0, 0)
                     .getLocation()
                     .add(0.5, 1, 0.5));
-            player.sendMessage(ChatColor.RED + "Please note that The End will reset every 2 weeks on Saturday, keepInventory is off, and you cannot exit the world without dying unless the dragon has been defeated.");
+            player.sendMessage(ChatColor.RED + "Please note that The End will reset every month on the first Saturday, keepInventory is off, and you cannot exit the world without dying unless the dragon has been defeated.");
 
             player.setInvulnerable(true);
             BukkitRunnable invulnerable = new BukkitRunnable() {
@@ -272,7 +272,7 @@ public class End implements CommandExecutor, Listener {
                             .append(Component.text(ChatColor.GRAY + "" + ChatColor.BOLD + "here")
                                     .clickEvent(ClickEvent.runCommand("/allowend")))
                             .append(Component.text(ChatColor.translateAlternateColorCodes('&', "&c&l to enter.\n" +
-                                    "&cNote: The End will reset every 2 weeks on Saturday. keepInventory is off and you cannot exit without dying unless the dragon has been defeated. Type ")))
+                                    "&cNote: The End will reset every month on the first Saturday, keepInventory is off, and you cannot exit the world without dying unless the dragon has been defeated. Type ")))
                             .append(Component.text("/dragon")
                                     .color(NamedTextColor.GRAY)
                                     .clickEvent(ClickEvent.runCommand("/dragon")))
@@ -281,7 +281,7 @@ public class End implements CommandExecutor, Listener {
                     .append(Component.text(ChatColor.GRAY + "" + ChatColor.BOLD + "here")
                             .clickEvent(ClickEvent.runCommand("/allowend")))
                     .append(Component.text(ChatColor.translateAlternateColorCodes('&', "&c&l to enter.\n" +
-                            "&cNote: The End will reset every 2 weeks on Saturday. keepInventory is off and you cannot exit without dying unless the dragon has been defeated. Type ")))
+                            "&cNote: The End will reset every month on the first Saturday, keepInventory is off, and you cannot exit the world without dying unless the dragon has been defeated. Type ")))
                     .append(Component.text("/dragon")
                             .color(NamedTextColor.GRAY)
                             .clickEvent(ClickEvent.runCommand("/dragon")))
