@@ -106,7 +106,7 @@ body:
 
   - type: textarea
     attributes:
-      label: Explanation
-      description: "Write a paragraph with a minimum of 75 words explaining why you think you should be a moderator"
+      label: Why I should be a staff member
+      description: "Write a paragraph with a minimum of 75 words explaining why you think you should be a staff member"
     validations:
       required: true
