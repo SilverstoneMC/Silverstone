@@ -12,6 +12,6 @@ public class Tips extends Command {
     }
 
     public void execute(CommandSender sender, String[] args) {
-        sender.sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&', "&7See &c&ngithub.com/SilverstoneMC/Silverstone/wiki/Tips&7 to see all tips.")));
+        sender.sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&', "&7See &cgithub.com/SilverstoneMC/Silverstone/wiki/Tips &7to see all tips.")));
     }
 }
