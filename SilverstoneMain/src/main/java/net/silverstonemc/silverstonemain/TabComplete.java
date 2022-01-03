@@ -45,6 +45,15 @@ public class TabComplete implements TabCompleter, Listener {
             completions.add("hand");
             completions.add("handall");
             event.setCompletions(completions);
+
+        } else if (event.getBuffer().startsWith("/sethome")) {
+            List<String> completions = new ArrayList<>();
+            completions.add("home");
+            completions.add("base");
+            completions.add("cave");
+            completions.add("village");
+            completions.add("temp");
+            event.setCompletions(completions);
         }
     }
 }
