@@ -137,12 +137,12 @@ public class Death implements Listener {
                     event.deathMessage(Component.text(ChatColor.translateAlternateColorCodes('&', messages[random])));
                     break;
 
-                case CONTACT: // Cactus / berry bush
+                case CONTACT: // Cactus / berry bush / dripstone
                     random = r.nextInt(3);
 
                     name = event.getEntity().getName();
                     messages = new String[]{
-                            "&7" + name + "&c hugged a prickly plant",
+                            "&7" + name + "&c was horrifically impaled",
                             "&7" + name + "&c was poked to death",
                             "&7" + name + "&c was killed by needles"
                     };
