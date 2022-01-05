@@ -23,7 +23,7 @@
                 <artifactId>maven-jar-plugin</artifactId>
                 <version>2.3.1</version>
                 <configuration>
-                    <outputDirectory>F:\Intellij Outputs</outputDirectory>
+                    <outputDirectory>D:\Intellij Outputs</outputDirectory>
                 </configuration>
             </plugin>
 
@@ -160,7 +160,7 @@
             <artifactId>Matrix</artifactId>
             <version>0</version>
             <scope>system</scope>
-            <systemPath><![CDATA[F:/Server Plugins/2-4 - Main, Creative, & Minigames/Matrix.jar]]></systemPath>
+            <systemPath><![CDATA[D:/Server Plugins/2-4 - Main, Creative, & Minigames/Matrix.jar]]></systemPath>
         </dependency>
     </dependencies>
 

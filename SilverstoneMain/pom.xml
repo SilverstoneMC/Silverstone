@@ -23,7 +23,7 @@
                 <artifactId>maven-jar-plugin</artifactId>
                 <version>2.3.1</version>
                 <configuration>
-                    <outputDirectory>F:\Intellij Outputs</outputDirectory>
+                    <outputDirectory>D:\Intellij Outputs</outputDirectory>
                 </configuration>
             </plugin>
 
@@ -145,7 +145,7 @@
             <artifactId>RandomTeleport</artifactId>
             <version>0</version>
             <scope>system</scope>
-            <systemPath>F:/Server Plugins/2 - Main/RandomTP.jar</systemPath>
+            <systemPath>D:/Server Plugins/2 - Main/RandomTP.jar</systemPath>
         </dependency>
     </dependencies>
 
