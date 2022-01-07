@@ -110,6 +110,7 @@ public class SilverstoneGlobal extends JavaPlugin implements Listener {
         pluginManager.registerEvents(new TabComplete(), this);
         pluginManager.registerEvents(new TimeOut(), this);
         pluginManager.registerEvents(new NightVision(), this);
+        pluginManager.registerEvents(new JoinEvent(this), this);
 
         BuyGUI.defaultInv = BuyGUI.createInv(0);
         BuyGUI.inv1 = BuyGUI.createInv(1);

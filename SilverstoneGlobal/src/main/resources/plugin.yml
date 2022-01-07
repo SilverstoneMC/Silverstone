@@ -8,6 +8,7 @@ softdepend:
   - DiscordSRV
   - Matrix
   - Essentials
+  - ViaVersion
 depend:
   - LuckPerms
 

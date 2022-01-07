@@ -6,7 +6,7 @@
 
     <groupId>net.silverstonemc</groupId>
     <artifactId>SilverstoneGlobal</artifactId>
-    <version>6.0.4</version>
+    <version>6.0.5</version>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
@@ -111,6 +111,11 @@
             <id>essentials-releases</id>
             <url>https://repo.essentialsx.net/releases/</url>
         </repository>
+
+        <repository>
+            <id>viaversion-repo</id>
+            <url>https://repo.viaversion.com</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -161,6 +166,13 @@
             <version>0</version>
             <scope>system</scope>
             <systemPath><![CDATA[D:/Server Plugins/2-4 - Main, Creative, & Minigames/Matrix.jar]]></systemPath>
+        </dependency>
+
+        <dependency>
+            <groupId>com.viaversion</groupId>
+            <artifactId>viaversion-api</artifactId>
+            <version>4.0.1</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 
