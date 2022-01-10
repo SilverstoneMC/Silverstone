@@ -37,23 +37,25 @@ public class TabComplete implements TabCompleter, Listener {
         return null;
     }
 
+    final List<String> argumentsSell = new ArrayList<>();
+    final List<String> argumentsSetHome = new ArrayList<>();
+
     @EventHandler
     public void tabComplete(AsyncTabCompleteEvent event) {
         if (event.getBuffer().startsWith("/sell")) {
-            List<String> completions = new ArrayList<>();
-            completions.add("all");
-            completions.add("hand");
-            completions.add("handall");
-            event.setCompletions(completions);
+            if (!argumentsSell.contains("all")) argumentsSell.add("all");
+            if (!argumentsSell.contains("hand")) argumentsSell.add("hand");
+            if (!argumentsSell.contains("handall")) argumentsSell.add("handall");
+            event.setCompletions(argumentsSell);
 
         } else if (event.getBuffer().startsWith("/sethome")) {
-            List<String> completions = new ArrayList<>();
-            completions.add("home");
-            completions.add("base");
-            completions.add("cave");
-            completions.add("village");
-            completions.add("temp");
-            event.setCompletions(completions);
+            if (!argumentsSetHome.contains("home")) argumentsSetHome.add("home");
+            if (!argumentsSetHome.contains("base")) argumentsSetHome.add("base");
+            if (!argumentsSetHome.contains("cave")) argumentsSetHome.add("cave");
+            if (!argumentsSetHome.contains("village")) argumentsSetHome.add("village");
+            if (!argumentsSetHome.contains("temp")) argumentsSetHome.add("temp");
+            if (!argumentsSetHome.contains("spawner")) argumentsSetHome.add("spawner");
+            event.setCompletions(argumentsSetHome);
         }
     }
 }
