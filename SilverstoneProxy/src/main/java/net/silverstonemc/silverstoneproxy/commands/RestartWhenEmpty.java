@@ -2,7 +2,8 @@ package net.silverstonemc.silverstoneproxy.commands;
 
 import net.kyori.adventure.platform.bungeecord.BungeeAudiences;
 import net.kyori.adventure.text.Component;
-import net.md_5.bungee.api.ChatColor;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextDecoration;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Command;
@@ -23,7 +24,9 @@ public class RestartWhenEmpty extends Command {
     public void execute(CommandSender sender, String[] args) {
         for (ProxiedPlayer player : plugin.getProxy().getPlayers())
             audience.player(player)
-                    .sendActionBar(Component.text(ChatColor.translateAlternateColorCodes('&', "&c&lSERVER SCHEDULED TO RESTART WHEN EMPTY")));
+                    .sendActionBar(Component.text("NETWORK SCHEDULED TO RESTART WHEN EMPTY")
+                            .color(NamedTextColor.RED)
+                            .decorate(TextDecoration.BOLD));
         plugin.getLogger().info("Server scheduled to restart when empty.");
 
         Runnable task = () -> {
