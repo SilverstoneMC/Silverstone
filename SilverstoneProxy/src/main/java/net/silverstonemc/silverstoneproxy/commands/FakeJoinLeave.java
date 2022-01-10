@@ -20,7 +20,7 @@ import java.io.IOException;
 @SuppressWarnings("UnstableApiUsage")
 public class FakeJoinLeave extends Command {
 
-    private final Plugin plugin = SilverstoneProxy.getInstance();
+    private final Plugin plugin = SilverstoneProxy.getPlugin();
     private final LuckPerms luckPerms = SilverstoneProxy.getLuckPerms();
 
     public FakeJoinLeave() {
@@ -34,6 +34,7 @@ public class FakeJoinLeave extends Command {
         }
         User lpPlayer = luckPerms.getPlayerAdapter(ProxiedPlayer.class).getUser(player);
         String prefix = lpPlayer.getCachedData().getMetaData().getPrefix();
+        if (prefix == null) prefix = "";
 
         ByteArrayDataOutput out = ByteStreams.newDataOutput();
         out.writeUTF("FakeJoinLeave"); // Sub channel

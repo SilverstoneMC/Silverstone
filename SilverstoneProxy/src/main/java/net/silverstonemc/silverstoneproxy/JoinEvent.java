@@ -11,7 +11,7 @@ import java.util.concurrent.TimeUnit;
 
 public class JoinEvent implements Listener {
 
-    private final Plugin plugin = SilverstoneProxy.getInstance();
+    private final Plugin plugin = SilverstoneProxy.getPlugin();
 
     @EventHandler
     public void onJoin(ServerConnectEvent event) {
@@ -30,8 +30,10 @@ public class JoinEvent implements Listener {
         if (version < 757) {
             Runnable task = () -> {
                 if (event.getPlayer().getServer() != null)
+                    //noinspection deprecation
                     event.getPlayer()
-                            .sendMessage(TextComponent.fromLegacyText(ChatColor.GRAY + "The server is currently built using Minecraft 1.18.1 - please update your client to use all the features."));
+                            .sendMessage(TextComponent.fromLegacyText(ChatColor.GRAY + "The server is currently built using Minecraft " + plugin.getProxy()
+                                    .getGameVersion() + " - please update your client to use all the features."));
             };
             plugin.getProxy().getScheduler().schedule(plugin, task, 2, TimeUnit.SECONDS);
         }

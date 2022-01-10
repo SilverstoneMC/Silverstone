@@ -10,7 +10,7 @@ import net.md_5.bungee.api.plugin.Plugin;
 
 public class GlobalMsg extends Command {
 
-    private final Plugin plugin = SilverstoneProxy.getInstance();
+    private final Plugin plugin = SilverstoneProxy.getPlugin();
 
     public GlobalMsg() {
         super("globalmsg", "silverstone.console");
