@@ -16,7 +16,7 @@ import java.util.Scanner;
 
 public class DragonSay extends Command {
 
-    private final Plugin plugin = SilverstoneProxy.getInstance();
+    private final Plugin plugin = SilverstoneProxy.getPlugin();
     private final File displaynames = new File("/home/container/plugins/BungeeDisplayName/players.yml");
     private final ArrayList<String> list = new ArrayList<>();
     private Scanner scanner;
@@ -30,7 +30,7 @@ public class DragonSay extends Command {
     }
 
     public DragonSay() {
-        super("dragonsay", "silverstone.console");
+        super("dragonsay", "silverstone.console", "dsay");
     }
 
     public void execute(CommandSender sender, String[] args) {

@@ -1,12 +1,12 @@
 package net.silverstonemc.silverstoneproxy.commands;
 
-import net.silverstonemc.silverstoneproxy.SilverstoneProxy;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Command;
 import net.md_5.bungee.api.plugin.Plugin;
+import net.silverstonemc.silverstoneproxy.SilverstoneProxy;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
-public class Say extends Command {
+public class AdamSay extends Command {
 
     private final Plugin plugin = SilverstoneProxy.getPlugin();
     private final File displaynames = new File("/home/container/plugins/BungeeDisplayName/players.yml");
@@ -29,8 +29,8 @@ public class Say extends Command {
         }
     }
 
-    public Say() {
-        super("say", "silverstone.console");
+    public AdamSay() {
+        super("adamsay", "silverstone.console", "asay");
     }
 
     public void execute(CommandSender sender, String[] args) {
@@ -40,7 +40,7 @@ public class Say extends Command {
         } catch (NoSuchElementException ignored) {
         }
 
-        String jason = list.get(list.indexOf("a28173af-f0a9-47fe-8549-19c6bccf68da:") + 1).replace("'", "");
+        String adam = list.get(list.indexOf("31f1cc2b-85aa-4e11-b4cd-0e0a0e2442a8:") + 1).replace("'", "");
 
         if (args.length > 0) {
             String message = "";
@@ -52,10 +52,10 @@ public class Say extends Command {
             message = message.trim();
 
             for (ProxiedPlayer player : plugin.getProxy().getPlayers())
-                player.sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&', "&9&l[Owner] " + jason + " &7(Console) &3| &b" + message)));
+                player.sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&', "&e[Mod] " + adam + " &7(Console) &3| &e" + message)));
             plugin.getProxy()
                     .getLogger()
-                    .info(ChatColor.translateAlternateColorCodes('&', "&9&l[Owner] " + jason + " &7(Console) &3| &b" + message));
-        } else sender.sendMessage(TextComponent.fromLegacyText(ChatColor.RED + "Usage: say <message>"));
+                    .info(ChatColor.translateAlternateColorCodes('&', "&e[Mod] " + adam + " &7(Console) &3| &e" + message));
+        } else sender.sendMessage(TextComponent.fromLegacyText(ChatColor.RED + "Usage: adamsay <message>"));
     }
 }

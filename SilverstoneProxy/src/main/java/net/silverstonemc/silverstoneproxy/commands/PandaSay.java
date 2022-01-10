@@ -16,7 +16,7 @@ import java.util.Scanner;
 
 public class PandaSay extends Command {
 
-    private final Plugin plugin = SilverstoneProxy.getInstance();
+    private final Plugin plugin = SilverstoneProxy.getPlugin();
     private final File displaynames = new File("/home/container/plugins/BungeeDisplayName/players.yml");
     private final ArrayList<String> list = new ArrayList<>();
     private Scanner scanner;
@@ -30,7 +30,7 @@ public class PandaSay extends Command {
     }
 
     public PandaSay() {
-        super("pandasay", "silverstone.console");
+        super("pandasay", "silverstone.console", "psay");
     }
 
     public void execute(CommandSender sender, String[] args) {
