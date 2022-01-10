@@ -51,12 +51,13 @@ public class Rules extends Command implements TabExecutor {
                     return;
                 }
 
-                sendRules(target, rule);
+                if (args.length > 2)
+                    sendRules(target, rule, args[2].equals("-s"));
             } else sendRuleGUI(sender, target);
         } else sendSelfRules(sender);
     }
 
-    private void sendRules(ProxiedPlayer target, int rule) {
+    private void sendRules(ProxiedPlayer target, int rule, boolean silent) {
         if (rule == -1) {
             for (String header : SilverstoneProxy.config.getStringList("rules.header"))
                 audience.player(target).sendMessage(MiniMessage.miniMessage().parse(header));
@@ -69,12 +70,13 @@ public class Rules extends Command implements TabExecutor {
                 audience.player(target).sendMessage(MiniMessage.miniMessage().parse(footer));
 
             // Tell trialmod+
-            for (ProxiedPlayer online : plugin.getProxy().getPlayers())
-                if (online.hasPermission("silverstone.trialmod"))
-                    audience.player(online)
-                            .sendMessage(Component.text("The rules have been sent to ")
-                                    .color(NamedTextColor.RED)
-                                    .append(Component.text(target.getName()).color(NamedTextColor.GRAY)));
+            if (!silent)
+                for (ProxiedPlayer online : plugin.getProxy().getPlayers())
+                    if (online.hasPermission("silverstone.trialmod"))
+                        audience.player(online)
+                                .sendMessage(Component.text("The rules have been sent to ")
+                                        .color(NamedTextColor.RED)
+                                        .append(Component.text(target.getName()).color(NamedTextColor.GRAY)));
         } else {
             audience.player(target)
                     .sendMessage(MiniMessage.miniMessage()

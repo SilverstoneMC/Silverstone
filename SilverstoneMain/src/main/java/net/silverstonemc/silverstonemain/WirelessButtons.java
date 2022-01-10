@@ -31,7 +31,7 @@ public class WirelessButtons implements Listener {
                     // Still on cooldown
                     if (rulesCooldown.containsKey(player))
                         if (rulesCooldown.get(player) > System.currentTimeMillis()) return;
-                    Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "hopecommander rules " + player.getName() + " -1");
+                    Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "hopecommander rules " + player.getName() + " -1 -s");
                     rulesCooldown.put(player, System.currentTimeMillis() + 1000);
 
                 } else if (loc.getX() == 670 && loc.getY() == 67 && loc.getZ() == 666) {
