@@ -80,8 +80,6 @@ commands:
     permission: silverstone.admin
   restartwhenempty:
     permission: silverstone.admin
-  rules:
-    description: "Shows the server's rules"
   safk:
     description: "Silently toggle AFK"
     permission: silverstone.moderator

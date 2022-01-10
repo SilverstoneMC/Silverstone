@@ -72,7 +72,6 @@ public class SilverstoneGlobal extends JavaPlugin implements Listener {
         getCommand("rank").setExecutor(new Rank());
         getCommand("restart").setExecutor(new Restart(this));
         getCommand("restartwhenempty").setExecutor(new Restart(this));
-        getCommand("rules").setExecutor(new Rules(this));
         getCommand("safk").setExecutor(new SilentAFK());
         getCommand("schedulerestart").setExecutor(new Restart(this));
         getCommand("shrug").setExecutor(new ChatEmotes());
@@ -105,7 +104,6 @@ public class SilverstoneGlobal extends JavaPlugin implements Listener {
         pluginManager.registerEvents(new ChatColorGUI(this), this);
         pluginManager.registerEvents(new ChatnSounds(this), this);
         pluginManager.registerEvents(new Exit(this), this);
-        pluginManager.registerEvents(new Rules(this), this);
         pluginManager.registerEvents(new SocialGUI(this), this);
         pluginManager.registerEvents(new TabComplete(), this);
         pluginManager.registerEvents(new TimeOut(), this);
@@ -118,7 +116,6 @@ public class SilverstoneGlobal extends JavaPlugin implements Listener {
         BuyGUI.inv3 = BuyGUI.createInv(3);
         BuyGUI.inv4 = BuyGUI.createInv(4);
         new ChatColorGUI(this).createDefaultInv();
-        new Rules(this).createInv();
         SocialGUI.createInv();
 
         new Security(this).check();
@@ -156,7 +153,6 @@ public class SilverstoneGlobal extends JavaPlugin implements Listener {
             BuyGUI.inv2 = BuyGUI.createInv(2);
             BuyGUI.inv3 = BuyGUI.createInv(3);
             BuyGUI.inv4 = BuyGUI.createInv(4);
-            new Rules(this).createInv();
             SocialGUI.createInv();
             sender.sendMessage(ChatColor.GREEN + "SilverstoneGlobal reloaded!");
             return true;
