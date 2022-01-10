@@ -1,13 +1,9 @@
 package net.silverstonemc.silverstoneglobal.commands.guis;
 
-import net.silverstonemc.silverstoneglobal.SilverstoneGlobal;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.text.format.TextDecoration;
-import net.luckperms.api.LuckPerms;
-import net.luckperms.api.model.user.User;
-import net.luckperms.api.node.NodeType;
-import net.luckperms.api.node.types.SuffixNode;
+import net.silverstonemc.silverstoneglobal.SilverstoneGlobal;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -34,8 +30,6 @@ public class ChatColorGUI implements CommandExecutor, Listener {
     public ChatColorGUI(SilverstoneGlobal plugin) {
         ChatColorGUI.plugin = plugin;
     }
-
-    private final LuckPerms luckPerms = SilverstoneGlobal.getInstance().getLuckPerms();
 
     private static Inventory inv;
 
@@ -64,7 +58,6 @@ public class ChatColorGUI implements CommandExecutor, Listener {
     @EventHandler
     public void onClick(InventoryClickEvent event) {
         Player player = (Player) event.getWhoClicked();
-        User user = luckPerms.getPlayerAdapter(Player.class).getUser(player);
 
         if (!event.getInventory().equals(inv))
             return;
@@ -75,91 +68,77 @@ public class ChatColorGUI implements CommandExecutor, Listener {
 
         switch (event.getRawSlot()) {
             case 10 -> {
-                user.data().clear(NodeType.SUFFIX.predicate(node -> node.getPriority() == 500));
-                user.data().add(SuffixNode.builder("&4", 500).build());
+                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "hopecommander lpb user " + player.getName() + " meta setsuffix 500 &4");
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&4Chat color changed."));
             }
 
             case 11 -> {
-                user.data().clear(NodeType.SUFFIX.predicate(node -> node.getPriority() == 500));
-                user.data().add(SuffixNode.builder("&c", 500).build());
+                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "hopecommander lpb user " + player.getName() + " meta setsuffix 500 &c");
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&cChat color changed."));
             }
 
             case 12 -> {
-                user.data().clear(NodeType.SUFFIX.predicate(node -> node.getPriority() == 500));
-                user.data().add(SuffixNode.builder("&6", 500).build());
+                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "hopecommander lpb user " + player.getName() + " meta setsuffix 500 &6");
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&6Chat color changed."));
             }
 
             case 13 -> {
-                user.data().clear(NodeType.SUFFIX.predicate(node -> node.getPriority() == 500));
-                user.data().add(SuffixNode.builder("&e", 500).build());
+                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "hopecommander lpb user " + player.getName() + " meta setsuffix 500 &e");
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&eChat color changed."));
             }
 
             case 14 -> {
-                user.data().clear(NodeType.SUFFIX.predicate(node -> node.getPriority() == 500));
-                user.data().add(SuffixNode.builder("&a", 500).build());
+                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "hopecommander lpb user " + player.getName() + " meta setsuffix 500 &a");
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&aChat color changed."));
             }
 
             case 15 -> {
-                user.data().clear(NodeType.SUFFIX.predicate(node -> node.getPriority() == 500));
-                user.data().add(SuffixNode.builder("&2", 500).build());
+                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "hopecommander lpb user " + player.getName() + " meta setsuffix 500 &2");
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&2Chat color changed."));
             }
 
             case 16 -> {
-                user.data().clear(NodeType.SUFFIX.predicate(node -> node.getPriority() == 500));
-                user.data().add(SuffixNode.builder("&3", 500).build());
+                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "hopecommander lpb user " + player.getName() + " meta setsuffix 500 &3");
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&3Chat color changed."));
             }
 
             case 19 -> {
-                user.data().clear(NodeType.SUFFIX.predicate(node -> node.getPriority() == 500));
-                user.data().add(SuffixNode.builder("&9", 500).build());
+                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "hopecommander lpb user " + player.getName() + " meta setsuffix 500 &9");
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&9Chat color changed."));
             }
 
             case 20 -> {
-                user.data().clear(NodeType.SUFFIX.predicate(node -> node.getPriority() == 500));
-                user.data().add(SuffixNode.builder("&1", 500).build());
+                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "hopecommander lpb user " + player.getName() + " meta setsuffix 500 &1");
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&1Chat color changed."));
             }
 
             case 21 -> {
-                user.data().clear(NodeType.SUFFIX.predicate(node -> node.getPriority() == 500));
-                user.data().add(SuffixNode.builder("&5", 500).build());
+                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "hopecommander lpb user " + player.getName() + " meta setsuffix 500 &5");
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&5Chat color changed."));
             }
 
             case 22 -> {
-                user.data().clear(NodeType.SUFFIX.predicate(node -> node.getPriority() == 500));
-                user.data().add(SuffixNode.builder("&d", 500).build());
+                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "hopecommander lpb user " + player.getName() + " meta setsuffix 500 &d");
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&dChat color changed."));
             }
 
             case 23 -> {
-                user.data().clear(NodeType.SUFFIX.predicate(node -> node.getPriority() == 500));
-                user.data().add(SuffixNode.builder("&8", 500).build());
+                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "hopecommander lpb user " + player.getName() + " meta setsuffix 500 &8");
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&8Chat color changed."));
             }
 
             case 24 -> {
-                user.data().clear(NodeType.SUFFIX.predicate(node -> node.getPriority() == 500));
-                user.data().add(SuffixNode.builder("&7", 500).build());
+                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "hopecommander lpb user " + player.getName() + " meta setsuffix 500 &7");
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7Chat color changed."));
             }
 
             case 25 -> {
-                user.data().clear(NodeType.SUFFIX.predicate(node -> node.getPriority() == 500));
-                user.data().add(SuffixNode.builder("&f", 500).build());
+                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "hopecommander lpb user " + player.getName() + " meta setsuffix 500 &f");
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&fChat color changed."));
             }
 
             case 31 -> {
-                user.data().clear(NodeType.SUFFIX.predicate(node -> node.getPriority() == 500));
+                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "hopecommander lpb user " + player.getName() + " meta removesuffix 500");
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&fChat color reset to default."));
             }
 
@@ -168,7 +147,6 @@ public class ChatColorGUI implements CommandExecutor, Listener {
             }
         }
 
-        luckPerms.getUserManager().saveUser(user);
         closeInv(player);
     }
 

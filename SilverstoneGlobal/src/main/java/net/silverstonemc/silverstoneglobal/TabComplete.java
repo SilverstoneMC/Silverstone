@@ -28,21 +28,22 @@ public class TabComplete implements TabCompleter, Listener {
         return null;
     }
 
+    final List<String> argumentsAfk = new ArrayList<>();
+
     @EventHandler
     public void tabComplete(AsyncTabCompleteEvent event) {
         if (event.getBuffer().startsWith("/afk")) if (event.getSender().hasPermission("essentials.afk.message")) {
-            List<String> completions = new ArrayList<>();
-            completions.add("doing school work");
-            completions.add("eating breakfast");
-            completions.add("eating lunch");
-            completions.add("eating dinner");
-            completions.add("getting a drink");
-            completions.add("getting a snack");
-            completions.add("getting ready for the day");
-            completions.add("getting ready for bed");
-            completions.add("walking the dog");
-            completions.add("with a nose bleed");
-            event.setCompletions(completions);
+            if (!argumentsAfk.contains("doing school work")) argumentsAfk.add("doing school work");
+            if (!argumentsAfk.contains("eating breakfast")) argumentsAfk.add("eating breakfast");
+            if (!argumentsAfk.contains("eating lunch")) argumentsAfk.add("eating lunch");
+            if (!argumentsAfk.contains("eating dinner")) argumentsAfk.add("eating dinner");
+            if (!argumentsAfk.contains("getting a drink")) argumentsAfk.add("getting a drink");
+            if (!argumentsAfk.contains("getting a snack")) argumentsAfk.add("getting a snack");
+            if (!argumentsAfk.contains("getting ready for the day")) argumentsAfk.add("getting ready for the day");
+            if (!argumentsAfk.contains("getting ready for bed")) argumentsAfk.add("getting ready for bed");
+            if (!argumentsAfk.contains("walking the dog")) argumentsAfk.add("walking the dog");
+            if (!argumentsAfk.contains("with a nose bleed")) argumentsAfk.add("with a nose bleed");
+            event.setCompletions(argumentsAfk);
         }
     }
 }

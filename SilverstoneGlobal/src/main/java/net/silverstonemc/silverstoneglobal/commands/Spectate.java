@@ -33,45 +33,71 @@ public class Spectate implements CommandExecutor {
         }
 
         if (cmd.getName().equalsIgnoreCase("spectate")) if (args.length > 0) {
-            Player player = Bukkit.getPlayer(args[0]);
-            Player playerSender = (Player) sender;
+            Player player = (Player) sender;
+            Player target = Bukkit.getPlayer(args[0]);
 
             // If player is null
-            if (player == null) {
+            if (target == null) {
                 sender.sendMessage(ChatColor.RED + "Please provide an online player!");
                 return true;
             }
 
-            playerSender.setGameMode(GameMode.SPECTATOR);
-            playerSender.setSpectatorTarget(null);
-            essentials.getUser(playerSender)
-                    .getAsyncTeleport()
-                    .nowUnsafe(player.getLocation(), PlayerTeleportEvent.TeleportCause.COMMAND, new CompletableFuture<>());
+            player.setGameMode(GameMode.SPECTATOR);
+            player.setSpectatorTarget(null);
+            player.setInvisible(true);
+
+            BukkitRunnable delayTP = new BukkitRunnable() {
+                @Override
+                public void run() {
+                    essentials.getUser(player)
+                            .getAsyncTeleport()
+                            .now(target.getLocation(), false, PlayerTeleportEvent.TeleportCause.COMMAND, new CompletableFuture<>());
+                }
+            };
+            delayTP.runTaskLater(plugin, 5);
+
             BukkitRunnable task = new BukkitRunnable() {
                 @Override
                 public void run() {
-                    playerSender.setSpectatorTarget(player);
+                    player.setSpectatorTarget(target);
+
+                    if (player.getGameMode() != GameMode.SPECTATOR) {
+                        player.setGameMode(GameMode.SPECTATOR);
+                        player.setSpectatorTarget(target);
+                    }
+                    player.setInvisible(false);
                 }
             };
-            task.runTaskLater(plugin, 5);
+            task.runTaskLater(plugin, 10);
             return true;
         }
 
         if (cmd.getName().equalsIgnoreCase("watch")) if (args.length > 0) {
-            Player player = Bukkit.getPlayer(args[0]);
-            Player playerSender = (Player) sender;
+            Player player = (Player) sender;
+            Player target = Bukkit.getPlayer(args[0]);
 
             // If player is null
-            if (player == null) {
+            if (target == null) {
                 sender.sendMessage(ChatColor.RED + "Please provide an online player!");
                 return true;
             }
 
-            playerSender.setGameMode(GameMode.SPECTATOR);
-            playerSender.setSpectatorTarget(null);
-            essentials.getUser(playerSender)
-                    .getAsyncTeleport()
-                    .nowUnsafe(player.getLocation(), PlayerTeleportEvent.TeleportCause.COMMAND, new CompletableFuture<>());
+            player.setGameMode(GameMode.SPECTATOR);
+            player.setSpectatorTarget(null);
+            player.setInvisible(true);
+
+            BukkitRunnable delayTP = new BukkitRunnable() {
+                @Override
+                public void run() {
+                    essentials.getUser(player)
+                            .getAsyncTeleport()
+                            .now(target.getLocation(), false, PlayerTeleportEvent.TeleportCause.COMMAND, new CompletableFuture<>());
+
+                    if (player.getGameMode() != GameMode.SPECTATOR) player.setGameMode(GameMode.SPECTATOR);
+                    player.setInvisible(false);
+                }
+            };
+            delayTP.runTaskLater(plugin, 5);
             return true;
         }
         return false;
