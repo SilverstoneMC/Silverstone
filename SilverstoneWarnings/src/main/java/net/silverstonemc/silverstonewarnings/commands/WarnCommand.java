@@ -76,7 +76,8 @@ public class WarnCommand extends Command implements TabExecutor {
                     return;
                 }
 
-                for (int x = 0; x < 50; x++) sender.sendMessage(new TextComponent());
+                TextComponent blank = new TextComponent();
+                for (int x = 0; x < 50; x++) sender.sendMessage(blank);
                 sender.sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&', "&cWarning &7" + username + " &cfor reason: &7" + args[1])));
                 new WarnPlayer().warn(uuid, args[1]);
             }
