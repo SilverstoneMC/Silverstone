@@ -41,18 +41,6 @@ public class GettingStarted implements CommandExecutor {
                         .color(TextColor.fromHexString("#18c1c7"))));
 
         sender.sendMessage(Component.text()
-                .append(Component.text("\nCREATIVE: ")
-                        .color(TextColor.fromHexString("#18d958"))
-                        .decorate(TextDecoration.BOLD))
-                .append(Component.text("Type ")
-                        .color(TextColor.fromHexString("#18c1c7")))
-                .append(Component.text("/server creative")
-                        .color(TextColor.fromHexString("#305abf"))
-                        .clickEvent(ClickEvent.suggestCommand("/server creative")))
-                .append(Component.text(" to go to the Creative server.")
-                        .color(TextColor.fromHexString("#18c1c7"))));
-
-        sender.sendMessage(Component.text()
                 .append(Component.text("\nMINIGAMES: ")
                         .color(TextColor.fromHexString("#18d958"))
                         .decorate(TextDecoration.BOLD))
