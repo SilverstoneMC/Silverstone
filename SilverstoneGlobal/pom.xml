@@ -165,7 +165,7 @@
             <artifactId>Matrix</artifactId>
             <version>0</version>
             <scope>system</scope>
-            <systemPath><![CDATA[D:/Server Plugins/2-4 - Main, Creative, & Minigames/Matrix.jar]]></systemPath>
+            <systemPath><![CDATA[D:/Server Plugins/3&2 - Minigames & Main/Matrix.jar]]></systemPath>
         </dependency>
 
         <dependency>
