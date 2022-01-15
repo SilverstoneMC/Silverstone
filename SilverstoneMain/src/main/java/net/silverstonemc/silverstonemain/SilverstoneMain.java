@@ -4,6 +4,7 @@ import com.onarandombox.MultiverseCore.MultiverseCore;
 import github.scarsz.discordsrv.DiscordSRV;
 import net.ess3.api.IEssentials;
 import net.luckperms.api.LuckPerms;
+import net.milkbowl.vault.economy.Economy;
 import net.silverstonemc.silverstonemain.commands.*;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -21,6 +22,7 @@ public class SilverstoneMain extends JavaPlugin implements Listener {
     private LuckPerms luckPerms;
     private IEssentials essentials;
     private MultiverseCore multiverse;
+    private Economy econ;
 
     public static DataManager data;
 
@@ -39,6 +41,7 @@ public class SilverstoneMain extends JavaPlugin implements Listener {
 
         data = new DataManager(this);
 
+        setupEconomy();
         saveDefaultConfig();
         data.saveDefaultConfig();
 
@@ -54,15 +57,15 @@ public class SilverstoneMain extends JavaPlugin implements Listener {
         getCommand("dragon").setExecutor(new End(this));
         getCommand("enablecollision").setExecutor(new EnableCollision());
         getCommand("gettingstarted").setExecutor(new GettingStarted());
+        getCommand("hideitemframe").setExecutor(new HideItemFrame(this));
         getCommand("homec").setExecutor(new Homes(this));
         getCommand("homes?").setExecutor(new Homes(this));
         getCommand("keepinv").setExecutor(new KeepInv(this));
+        getCommand("masshideitemframes").setExecutor(new HideItemFrame(this));
         getCommand("regenend").setExecutor(new End(this));
         getCommand("relay").setExecutor(new DiscordRelay(this));
         getCommand("rtplimit").setExecutor(new RTPLimit(this));
         getCommand("znewbiekit").setExecutor(new NewbieKit(this));
-        getCommand("hideitemframe").setExecutor(new HideItemFrame(this));
-        getCommand("masshideitemframes").setExecutor(new HideItemFrame(this));
 
         getCommand("rtplimit").setTabCompleter(new TabComplete());
         getCommand("ssm").setTabCompleter(new TabComplete());
@@ -74,14 +77,15 @@ public class SilverstoneMain extends JavaPlugin implements Listener {
         pluginManager.registerEvents(new Death(), this);
         pluginManager.registerEvents(new End(this), this);
         pluginManager.registerEvents(new EndJoin(this), this);
+        pluginManager.registerEvents(new HideItemFrame(this), this);
         pluginManager.registerEvents(new JoinEvent(this), this);
         pluginManager.registerEvents(new JoinLeaveSpam(this), this);
         pluginManager.registerEvents(new QuitEvent(), this);
         pluginManager.registerEvents(new RTPLimit(this), this);
         pluginManager.registerEvents(new TabComplete(), this);
+        pluginManager.registerEvents(new TeleportEvent(this), this);
         pluginManager.registerEvents(new Tips(this), this);
         pluginManager.registerEvents(new WirelessButtons(), this);
-        pluginManager.registerEvents(new HideItemFrame(this), this);
     }
 
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
@@ -107,5 +111,17 @@ public class SilverstoneMain extends JavaPlugin implements Listener {
 
     public MultiverseCore getMVCore() {
         return multiverse;
+    }
+
+    public Economy getEconomy() {
+        return econ;
+    }
+
+    private void setupEconomy() {
+        if (Bukkit.getPluginManager().getPlugin("Vault") == null) return;
+
+        RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(Economy.class);
+        if (rsp == null) return;
+        econ = rsp.getProvider();
     }
 }

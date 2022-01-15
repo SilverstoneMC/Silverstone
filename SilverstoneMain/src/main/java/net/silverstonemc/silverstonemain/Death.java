@@ -18,6 +18,12 @@ public class Death implements Listener {
     public void onDeath(PlayerDeathEvent event) {
         Player player = event.getEntity();
 
+        if (!player.hasPermission("expensivedeaths.bypass")) {
+            SilverstoneMain.data.getConfig()
+                    .set("data." + player.getUniqueId() + ".death", event.getPlayer().getLocation());
+            SilverstoneMain.data.saveConfig();
+        }
+
         // If vanished
         for (MetadataValue meta : player.getMetadata("vanished")) if (meta.asBoolean()) return;
 

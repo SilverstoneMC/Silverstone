@@ -6,7 +6,7 @@
 
     <groupId>net.silverstonemc</groupId>
     <artifactId>SilverstoneMain</artifactId>
-    <version>3.2.0-beta</version>
+    <version>3.2.0</version>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
@@ -146,6 +146,13 @@
             <version>0</version>
             <scope>system</scope>
             <systemPath>D:/Server Plugins/2 - Main/RandomTP.jar</systemPath>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.MilkBowl</groupId>
+            <artifactId>VaultAPI</artifactId>
+            <version>1.7</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 

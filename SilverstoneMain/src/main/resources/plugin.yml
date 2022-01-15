@@ -9,6 +9,7 @@ softdepend:
   - DiscordSRV
   - Multiverse-Core
   - RandomTeleport
+  - Vault
 
 commands:
   allowend:
@@ -19,12 +20,16 @@ commands:
     description: "Enable collision"
   gettingstarted:
     description: "Get started message"
+  hideitemframe:
+    permission: silverstone.hideitemframe
   homec:
     permission: silverstone.owner
   homes?:
     description: "Show how many homes the player can set"
   keepinv:
     description: "Toggle keepInventory"
+  masshideitemframes:
+    permission: silverstone.hideitemframe
   regenend:
     description: "Regenerate The End"
     permission: silverstone.owner
@@ -40,12 +45,14 @@ commands:
   znewbiekit:
     permission: silverstone.console
     usage: "/znewbiekit <player>"
-  hideitemframe:
-    permission: silverstone.hideitemframe
-  masshideitemframes:
-    permission: silverstone.hideitemframe
 
 permissions:
+  expensivedeaths.bypass:
+    default: false
+  expensivedeaths.reload:
+    default: op
+  silverstone.hideitemframe:
+    default: op
   silverstone.joinleavespam.bypass:
     default: op
   silverstone.rtplimit.bypass:
@@ -59,5 +66,3 @@ permissions:
     default: false
   silverstone.rtplimit.vip:
     default: false
-  silverstone.hideitemframe:
-    default: op
