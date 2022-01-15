@@ -62,7 +62,7 @@ public class SilverstoneMain extends JavaPlugin implements Listener {
         getCommand("rtplimit").setExecutor(new RTPLimit(this));
         getCommand("znewbiekit").setExecutor(new NewbieKit(this));
         getCommand("hideitemframe").setExecutor(new HideItemFrame(this));
-        getCommand("masshideitemframe").setExecutor(new HideItemFrame(this));
+        getCommand("masshideitemframes").setExecutor(new HideItemFrame(this));
 
         getCommand("rtplimit").setTabCompleter(new TabComplete());
         getCommand("ssm").setTabCompleter(new TabComplete());

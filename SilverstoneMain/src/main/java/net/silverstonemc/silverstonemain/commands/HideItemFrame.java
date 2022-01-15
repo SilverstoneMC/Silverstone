@@ -44,7 +44,7 @@ public record HideItemFrame(JavaPlugin plugin) implements CommandExecutor, Liste
                         .color(NamedTextColor.DARK_GREEN));
             }
 
-            case "masshideitemframe" -> {
+            case "masshideitemframes" -> {
                 if (!hidingItemFrame.contains(player))
                     hidingItemFrame.add(player);
                 if (!dontAutoRemovePlayer.contains(player))

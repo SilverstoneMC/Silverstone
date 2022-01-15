@@ -42,7 +42,7 @@ commands:
     usage: "/znewbiekit <player>"
   hideitemframe:
     permission: silverstone.hideitemframe
-  masshideitemframe:
+  masshideitemframes:
     permission: silverstone.hideitemframe
 
 permissions:
