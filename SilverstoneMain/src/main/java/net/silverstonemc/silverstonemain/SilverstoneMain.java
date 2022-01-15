@@ -61,6 +61,8 @@ public class SilverstoneMain extends JavaPlugin implements Listener {
         getCommand("relay").setExecutor(new DiscordRelay(this));
         getCommand("rtplimit").setExecutor(new RTPLimit(this));
         getCommand("znewbiekit").setExecutor(new NewbieKit(this));
+        getCommand("hideitemframe").setExecutor(new HideItemFrame(this));
+        getCommand("masshideitemframe").setExecutor(new HideItemFrame(this));
 
         getCommand("rtplimit").setTabCompleter(new TabComplete());
         getCommand("ssm").setTabCompleter(new TabComplete());
@@ -79,6 +81,7 @@ public class SilverstoneMain extends JavaPlugin implements Listener {
         pluginManager.registerEvents(new TabComplete(), this);
         pluginManager.registerEvents(new Tips(this), this);
         pluginManager.registerEvents(new WirelessButtons(), this);
+        pluginManager.registerEvents(new HideItemFrame(this), this);
     }
 
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {

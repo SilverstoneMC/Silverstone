@@ -40,6 +40,10 @@ commands:
   znewbiekit:
     permission: silverstone.console
     usage: "/znewbiekit <player>"
+  hideitemframe:
+    permission: silverstone.hideitemframe
+  masshideitemframe:
+    permission: silverstone.hideitemframe
 
 permissions:
   silverstone.joinleavespam.bypass:
@@ -55,3 +59,5 @@ permissions:
     default: false
   silverstone.rtplimit.vip:
     default: false
+  silverstone.hideitemframe:
+    default: op
