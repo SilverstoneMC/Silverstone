@@ -1,4 +1,4 @@
-package net.silverstonemc.silverstonemain;
+package net.silverstonemc.silverstonemain.events;
 
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;

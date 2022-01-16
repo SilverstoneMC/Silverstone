@@ -1,6 +1,7 @@
-package net.silverstonemc.silverstonemain;
+package net.silverstonemc.silverstonemain.events;
 
 import net.kyori.adventure.text.Component;
+import net.silverstonemc.silverstonemain.SilverstoneMain;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

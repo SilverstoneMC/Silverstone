@@ -1,7 +1,8 @@
-package net.silverstonemc.silverstonemain;
+package net.silverstonemc.silverstonemain.events;
 
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.EconomyResponse;
+import net.silverstonemc.silverstonemain.SilverstoneMain;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
