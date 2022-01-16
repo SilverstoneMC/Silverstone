@@ -14,6 +14,9 @@ softdepend:
 commands:
   allowend:
     description: "Allows the player to enter The End"
+  claimpoints:
+    aliases: [ redeemclaimpoints ]
+    usage: "§cUsage: /claimpoints view <player>\n§cUsage: /claimpoints <give|take> <player> <amount>"
   dragon:
     aliases: [ enderdragon ]
   enablecollision:

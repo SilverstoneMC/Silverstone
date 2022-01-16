@@ -15,6 +15,7 @@ public class TabComplete implements TabCompleter, Listener {
 
     final List<String> arguments1 = new ArrayList<>();
     final List<String> arguments2 = new ArrayList<>();
+    final List<String> arguments3 = new ArrayList<>();
 
     public List<String> onTabComplete(@NotNull CommandSender sender, Command cmd, @NotNull String label, String[] args) {
         if (cmd.getName().equalsIgnoreCase("ssm")) {
@@ -31,6 +32,20 @@ public class TabComplete implements TabCompleter, Listener {
             List<String> result = new ArrayList<>();
             if (args.length == 1) {
                 for (String a : arguments2) if (a.toLowerCase().startsWith(args[0].toLowerCase())) result.add(a);
+                return result;
+            }
+        } else if (cmd.getName().equalsIgnoreCase("claimpoints")) {
+            if (sender.hasPermission("silverstone.moderator")) {
+                if (arguments3.isEmpty()) {
+                    arguments3.add("give");
+                    arguments3.add("take");
+                    arguments3.add("view");
+                }
+            } else arguments3.clear();
+
+            List<String> result = new ArrayList<>();
+            if (args.length == 1) {
+                for (String a : arguments3) if (a.toLowerCase().startsWith(args[0].toLowerCase())) result.add(a);
                 return result;
             }
         }
