@@ -50,7 +50,8 @@ public class Homes implements CommandExecutor {
             }
 
             player.sendMessage(ChatColor.DARK_AQUA + "Teleporting...");
-            player.setSpectatorTarget(null);
+            if (player.getGameMode().equals(GameMode.SPECTATOR))
+                player.setSpectatorTarget(null);
             essentials.getUser(player)
                     .getAsyncTeleport()
                     .now(new Location(Bukkit.getWorld("utility"), -211.3, 38, -122.3, 107.2f, 9.5f), false, PlayerTeleportEvent.TeleportCause.COMMAND, new CompletableFuture<>());
