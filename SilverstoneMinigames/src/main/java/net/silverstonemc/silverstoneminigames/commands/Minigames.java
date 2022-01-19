@@ -5,10 +5,7 @@ import com.mojang.authlib.properties.Property;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.ClickEvent;
 import net.kyori.adventure.text.format.TextDecoration;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
-import org.bukkit.Sound;
+import org.bukkit.*;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -38,7 +35,7 @@ public record Minigames(JavaPlugin plugin) implements CommandExecutor, Listener 
             @Override
             public void run() {
                 player.closeInventory();
-                player.playSound(player.getLocation(), Sound.UI_BUTTON_CLICK, 1, 1);
+                player.playSound(player.getLocation(), Sound.UI_BUTTON_CLICK, SoundCategory.MASTER, 1, 1);
             }
         };
         task.runTask(plugin);

@@ -415,27 +415,27 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
 
     // Bark / Bone
     private void bark(Player player) {
-        player.getWorld().playSound(player.getLocation(), Sound.ENTITY_WOLF_AMBIENT, 2f, 1f);
+        player.getWorld().playSound(player.getLocation(), Sound.ENTITY_WOLF_AMBIENT,SoundCategory.MASTER, 2f, 1f);
     }
 
     // Ding / Bell
     private void ding(Player player) {
-        player.getWorld().playSound(player.getLocation(), Sound.BLOCK_BELL_USE, 2.25f, 1f);
+        player.getWorld().playSound(player.getLocation(), Sound.BLOCK_BELL_USE,SoundCategory.MASTER, 2.25f, 1f);
     }
 
     // Scream / Tear
     private void scream(Player player) {
-        player.getWorld().playSound(player.getLocation(), Sound.ENTITY_GHAST_HURT, 2.5f, 1.25f);
+        player.getWorld().playSound(player.getLocation(), Sound.ENTITY_GHAST_HURT,SoundCategory.MASTER, 2.5f, 1.25f);
     }
 
     // Roar / Dragon Head
     private void roar(Player player) {
-        player.getWorld().playSound(player.getLocation(), Sound.ENTITY_ENDER_DRAGON_GROWL, 3f, 1f);
+        player.getWorld().playSound(player.getLocation(), Sound.ENTITY_ENDER_DRAGON_GROWL,SoundCategory.MASTER, 3f, 1f);
     }
 
     // Explosion / TNT
     private void explosion(Player player) {
-        player.getWorld().playSound(player.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 3.5f, 0.7f);
+        player.getWorld().playSound(player.getLocation(), Sound.ENTITY_GENERIC_EXPLODE,SoundCategory.MASTER, 3.5f, 0.7f);
         player.getWorld()
                 .spawnParticle(Particle.EXPLOSION_HUGE, player.getLocation()
                         .add(0, 0.5, 0), 2, 0f, 0f, 0f, 0f, null, true);
@@ -460,7 +460,7 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
 
     // Boom / Totem
     private void boom(Player player) {
-        player.getWorld().playSound(player.getLocation(), Sound.ITEM_TOTEM_USE, 4f, 0.75f);
+        player.getWorld().playSound(player.getLocation(), Sound.ITEM_TOTEM_USE, SoundCategory.MASTER,4f, 0.75f);
         player.getWorld()
                 .spawnParticle(Particle.TOTEM, player.getLocation().add(0, 0.5, 0), 1000, -2f, 5f, -2f, 0f, null, true);
     }

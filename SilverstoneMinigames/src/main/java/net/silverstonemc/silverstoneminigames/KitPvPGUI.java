@@ -37,7 +37,7 @@ public record KitPvPGUI(JavaPlugin plugin) implements CommandExecutor, Listener 
             @Override
             public void run() {
                 player.closeInventory();
-                player.playSound(player.getLocation(), Sound.UI_BUTTON_CLICK, 1, 1);
+                player.playSound(player.getLocation(), Sound.UI_BUTTON_CLICK,SoundCategory.MASTER, 1, 1);
             }
         };
         task.runTask(plugin);
@@ -69,7 +69,7 @@ public record KitPvPGUI(JavaPlugin plugin) implements CommandExecutor, Listener 
 
         switch (event.getRawSlot()) {
             case 10 -> {
-                player.playSound(player.getLocation(), Sound.UI_BUTTON_CLICK, 1, 1);
+                player.playSound(player.getLocation(), Sound.UI_BUTTON_CLICK,SoundCategory.MASTER, 1, 1);
                 player.getInventory().clear();
                 player.getInventory().setHelmet(new ItemStack(Material.LEATHER_HELMET));
                 player.getInventory().setChestplate(new ItemStack(Material.LEATHER_CHESTPLATE));
@@ -78,7 +78,7 @@ public record KitPvPGUI(JavaPlugin plugin) implements CommandExecutor, Listener 
                 player.getInventory().setItem(0, new ItemStack(Material.WOODEN_SWORD));
             }
             case 11 -> {
-                player.playSound(player.getLocation(), Sound.UI_BUTTON_CLICK, 1, 1);
+                player.playSound(player.getLocation(), Sound.UI_BUTTON_CLICK,SoundCategory.MASTER, 1, 1);
                 player.getInventory().clear();
                 player.getInventory().setHelmet(new ItemStack(Material.CHAINMAIL_HELMET));
                 player.getInventory().setChestplate(new ItemStack(Material.CHAINMAIL_CHESTPLATE));
@@ -96,7 +96,7 @@ public record KitPvPGUI(JavaPlugin plugin) implements CommandExecutor, Listener 
                 player.getInventory().setItem(1, potion);
             }
             case 12 -> {
-                player.playSound(player.getLocation(), Sound.UI_BUTTON_CLICK, 1, 1);
+                player.playSound(player.getLocation(), Sound.UI_BUTTON_CLICK,SoundCategory.MASTER, 1, 1);
                 player.getInventory().clear();
                 ItemStack potion = new ItemStack(Material.POTION);
                 PotionMeta pm = (PotionMeta) potion.getItemMeta();
@@ -151,7 +151,7 @@ public record KitPvPGUI(JavaPlugin plugin) implements CommandExecutor, Listener 
                 player.getInventory().setItem(8, new ItemStack(Material.MILK_BUCKET));
             }
             case 13 -> {
-                player.playSound(player.getLocation(), Sound.UI_BUTTON_CLICK, 1, 1);
+                player.playSound(player.getLocation(), Sound.UI_BUTTON_CLICK,SoundCategory.MASTER, 1, 1);
                 player.getInventory().clear();
                 player.getInventory().setHelmet(new ItemStack(Material.LEATHER_HELMET));
                 player.getInventory().setChestplate(new ItemStack(Material.LEATHER_CHESTPLATE));
@@ -163,7 +163,7 @@ public record KitPvPGUI(JavaPlugin plugin) implements CommandExecutor, Listener 
                 player.getInventory().setItem(1, new ItemStack(Material.ARROW, 64));
             }
             case 14 -> {
-                player.playSound(player.getLocation(), Sound.UI_BUTTON_CLICK, 1, 1);
+                player.playSound(player.getLocation(), Sound.UI_BUTTON_CLICK,SoundCategory.MASTER, 1, 1);
                 player.getInventory().clear();
                 player.getInventory().setItem(0, new ItemStack(Material.TNT));
             }
