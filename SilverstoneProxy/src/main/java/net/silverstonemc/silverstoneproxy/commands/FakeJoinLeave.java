@@ -88,17 +88,17 @@ public class FakeJoinLeave extends Command {
             messenger.getServer().getInfo().sendData("silverstone:pluginmsg", out.toByteArray());
         }
 
-        if (plugin.getProxy().getServerInfo("creative").getPlayers().size() > 0) {
+        if (plugin.getProxy().getServerInfo("minigames").getPlayers().size() > 0) {
             ProxiedPlayer messenger = Iterables.getFirst(plugin.getProxy()
-                    .getServerInfo("creative")
+                    .getServerInfo("minigames")
                     .getPlayers(), null);
             assert messenger != null;
             messenger.getServer().getInfo().sendData("silverstone:pluginmsg", out.toByteArray());
         }
 
-        if (plugin.getProxy().getServerInfo("minigames").getPlayers().size() > 0) {
+        if (plugin.getProxy().getServerInfo("building").getPlayers().size() > 0) {
             ProxiedPlayer messenger = Iterables.getFirst(plugin.getProxy()
-                    .getServerInfo("minigames")
+                    .getServerInfo("building")
                     .getPlayers(), null);
             assert messenger != null;
             messenger.getServer().getInfo().sendData("silverstone:pluginmsg", out.toByteArray());
