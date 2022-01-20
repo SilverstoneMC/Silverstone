@@ -1,17 +1,18 @@
 package net.silverstonemc.silverstonemain.commands;
 
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.event.ClickEvent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.silverstonemc.silverstonemain.SilverstoneMain;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
+import org.bukkit.*;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -32,6 +33,7 @@ public record ClaimPoints(JavaPlugin plugin) implements CommandExecutor, Listene
             @Override
             public void run() {
                 player.closeInventory();
+                player.playSound(player.getLocation(), Sound.UI_BUTTON_CLICK, SoundCategory.MASTER, 1, 1);
             }
         };
         task.runTask(plugin);
@@ -43,13 +45,26 @@ public record ClaimPoints(JavaPlugin plugin) implements CommandExecutor, Listene
                 sender.sendMessage(Component.text("Sorry, but only players can do that.").color(NamedTextColor.RED));
                 return true;
             }
-//            player.openInventory(inv);
-            player.sendMessage("Coming soon!");
 
-        } else if (args.length == 1) return false;
-        else {
+            if (player.getGameMode().equals(GameMode.SURVIVAL) && player.getWorld().getName().startsWith("survival"))
+                player.openInventory(inv);
+            else player.sendMessage(Component.text("You must be in survival to do that!").color(NamedTextColor.RED));
+
+        } else if (args.length == 1) {
+            if (!(sender instanceof Player player)) {
+                sender.sendMessage(Component.text("Sorry, but only players can do that.").color(NamedTextColor.RED));
+                return true;
+            }
+
+            if (args[0].equalsIgnoreCase("view"))
+                player.sendMessage(Component.text("You have " + SilverstoneMain.data.getConfig()
+                                .getInt("data." + player.getUniqueId() + ".claim-points", 0) + " Claim Points.")
+                        .color(NamedTextColor.DARK_GREEN));
+            else return false;
+
+        } else {
             if (!sender.hasPermission("silverstone.moderator")) {
-                Bukkit.dispatchCommand(sender, "claimpoints");
+                Bukkit.dispatchCommand(sender, "claimpoints " + args[0]);
                 return true;
             }
 
@@ -112,7 +127,17 @@ public record ClaimPoints(JavaPlugin plugin) implements CommandExecutor, Listene
         return true;
     }
 
-    /*// On item click
+    private void notEnoughPoints(Player player) {
+        player.sendMessage(Component.text("You don't have enough Claim Points to purchase that! Type ")
+                .color(NamedTextColor.RED)
+                .append(Component.text("/claimpoints view")
+                        .color(NamedTextColor.GRAY)
+                        .clickEvent(ClickEvent.clickEvent(ClickEvent.Action.RUN_COMMAND, "/claimpoints view")))
+                .append(Component.text(" to view your points.").color(NamedTextColor.RED)));
+        player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_DIDGERIDOO, SoundCategory.MASTER, 1, 0.7f);
+    }
+
+    // On item click
     @EventHandler
     public void onInventoryClick(InventoryClickEvent event) {
         if (!event.getInventory().equals(inv)) return;
@@ -124,62 +149,47 @@ public record ClaimPoints(JavaPlugin plugin) implements CommandExecutor, Listene
         Player player = (Player) event.getWhoClicked();
 
         switch (event.getRawSlot()) {
-            case 10 -> {
-                // Bark / Bone
-                bark(player);
-                closeInv(player);
-                if (player.getGameMode().equals(GameMode.ADVENTURE) && player.getWorld()
-                        .getName()
-                        .equalsIgnoreCase(plugin.getConfig().getString("empty-minigame-world")))
-                    points.put(player, currentPoints + 1);
-                tauntTimer(player);
-            }
-
             case 11 -> {
-                // Ding / Bell
-                ding(player);
-                closeInv(player);
-                if (player.getGameMode().equals(GameMode.ADVENTURE) && player.getWorld()
-                        .getName()
-                        .equalsIgnoreCase(plugin.getConfig().getString("empty-minigame-world")))
-                    points.put(player, currentPoints + 2);
-                tauntTimer(player);
+                // 1
+                if (takeClaimPoints(player, 1)) {
+                    closeInv(player);
+                    Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "ps give 4 " + player.getName());
+                } else notEnoughPoints(player);
             }
 
             case 12 -> {
-                // Scream / Tear
-                scream(player);
-                closeInv(player);
-                if (player.getGameMode().equals(GameMode.ADVENTURE) && player.getWorld()
-                        .getName()
-                        .equalsIgnoreCase(plugin.getConfig().getString("empty-minigame-world")))
-                    points.put(player, currentPoints + 3);
-                tauntTimer(player);
+                // 4
+                if (takeClaimPoints(player, 4)) {
+                    closeInv(player);
+                    Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "ps give 9 " + player.getName());
+                } else notEnoughPoints(player);
             }
 
             case 13 -> {
-                // Roar / Dragon Head
-                roar(player);
-                closeInv(player);
-                if (player.getGameMode().equals(GameMode.ADVENTURE) && player.getWorld()
-                        .getName()
-                        .equalsIgnoreCase(plugin.getConfig().getString("empty-minigame-world")))
-                    points.put(player, currentPoints + 5);
-                tauntTimer(player);
+                // 9
+                if (takeClaimPoints(player, 9)) {
+                    closeInv(player);
+                    Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "ps give 14 " + player.getName());
+                } else notEnoughPoints(player);
             }
 
             case 14 -> {
-                // Explosion / TNT
-                explosion(player);
-                closeInv(player);
-                if (player.getGameMode().equals(GameMode.ADVENTURE) && player.getWorld()
-                        .getName()
-                        .equalsIgnoreCase(plugin.getConfig().getString("empty-minigame-world")))
-                    points.put(player, currentPoints + 8);
-                tauntTimer(player);
+                // 25
+                if (takeClaimPoints(player, 25)) {
+                    closeInv(player);
+                    Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "ps give 24 " + player.getName());
+                } else notEnoughPoints(player);
+            }
+
+            case 15 -> {
+                // 99
+                if (takeClaimPoints(player, 99)) {
+                    closeInv(player);
+                    Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "ps give 49 " + player.getName());
+                } else notEnoughPoints(player);
             }
         }
-    }*/
+    }
 
     // Inventory items
     public static void createInv() {
@@ -194,44 +204,63 @@ public record ClaimPoints(JavaPlugin plugin) implements CommandExecutor, Listene
         item.setItemMeta(meta);
         IntStream.rangeClosed(0, 26).boxed().toList().forEach(slot -> inv.setItem(slot, item));
 
-        // 5
-        item.setType(Material.SEA_LANTERN);
-        meta.displayName(Component.text("10x10").color(NamedTextColor.GREEN).decorate(TextDecoration.BOLD));
-        lore.add(Component.text(ChatColor.translateAlternateColorCodes('&', "\n&3&l5 &2Claim Points")));
-        meta.lore(lore);
-        item.setItemMeta(meta);
-        inv.setItem(10, item);
-
-        // 10
-        meta.displayName(Component.text("400x400").color(NamedTextColor.GREEN).decorate(TextDecoration.BOLD));
-        lore.clear();
-        lore.add(Component.text(ChatColor.translateAlternateColorCodes('&', "\n&3&l10 &2Claim Points")));
+        // 81
+        item.setType(Material.IRON_BLOCK);
+        meta.displayName(Component.text("9x9")
+                .color(NamedTextColor.GREEN)
+                .decorate(TextDecoration.BOLD)
+                .decoration(TextDecoration.ITALIC, false));
+        lore.add(Component.text(ChatColor.translateAlternateColorCodes('&', "&3&l1 &2Claim Point")));
         meta.lore(lore);
         item.setItemMeta(meta);
         inv.setItem(11, item);
 
-        // 15
-        meta.displayName(Component.text("900x900").color(NamedTextColor.GREEN).decorate(TextDecoration.BOLD));
+        // 361
+        item.setType(Material.GOLD_BLOCK);
+        meta.displayName(Component.text("19x19")
+                .color(NamedTextColor.GREEN)
+                .decorate(TextDecoration.BOLD)
+                .decoration(TextDecoration.ITALIC, false));
         lore.clear();
-        lore.add(Component.text(ChatColor.translateAlternateColorCodes('&', "\n&3&l5 &2Claim Points")));
+        lore.add(Component.text(ChatColor.translateAlternateColorCodes('&', "&3&l4 &2Claim Points")));
         meta.lore(lore);
         item.setItemMeta(meta);
         inv.setItem(12, item);
 
-        // 25
-        meta.displayName(Component.text("2500x2500").color(NamedTextColor.GREEN).decorate(TextDecoration.BOLD));
+        // 841
+        item.setType(Material.EMERALD_BLOCK);
+        meta.displayName(Component.text("29x29")
+                .color(NamedTextColor.GREEN)
+                .decorate(TextDecoration.BOLD)
+                .decoration(TextDecoration.ITALIC, false));
         lore.clear();
-        lore.add(Component.text(ChatColor.translateAlternateColorCodes('&', "\n&3&l5 &2Claim Points")));
+        lore.add(Component.text(ChatColor.translateAlternateColorCodes('&', "&3&l9 &2Claim Points")));
         meta.lore(lore);
         item.setItemMeta(meta);
         inv.setItem(13, item);
 
-        // 50
-        meta.displayName(Component.text("1000x1000").color(NamedTextColor.GREEN).decorate(TextDecoration.BOLD));
+        // 2401
+        item.setType(Material.DIAMOND_BLOCK);
+        meta.displayName(Component.text("49x49")
+                .color(NamedTextColor.GREEN)
+                .decorate(TextDecoration.BOLD)
+                .decoration(TextDecoration.ITALIC, false));
         lore.clear();
-        lore.add(Component.text(ChatColor.translateAlternateColorCodes('&', "\n&3&l5 &2Claim Points")));
+        lore.add(Component.text(ChatColor.translateAlternateColorCodes('&', "&3&l25 &2Claim Points")));
         meta.lore(lore);
         item.setItemMeta(meta);
         inv.setItem(14, item);
+
+        // 9801
+        item.setType(Material.NETHERITE_BLOCK);
+        meta.displayName(Component.text("99x99")
+                .color(NamedTextColor.GREEN)
+                .decorate(TextDecoration.BOLD)
+                .decoration(TextDecoration.ITALIC, false));
+        lore.clear();
+        lore.add(Component.text(ChatColor.translateAlternateColorCodes('&', "&3&l99 &2Claim Points")));
+        meta.lore(lore);
+        item.setItemMeta(meta);
+        inv.setItem(15, item);
     }
 }

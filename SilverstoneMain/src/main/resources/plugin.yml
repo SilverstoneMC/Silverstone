@@ -8,6 +8,7 @@ softdepend:
   - Essentials
   - DiscordSRV
   - Multiverse-Core
+  - ProtectionStones
   - RandomTeleport
   - Vault
 
@@ -16,7 +17,7 @@ commands:
     description: "Allows the player to enter The End"
   claimpoints:
     aliases: [ redeemclaimpoints ]
-    usage: "§cUsage: /claimpoints view <player>\n§cUsage: /claimpoints <give|take> <player> <amount>"
+    usage: "§cUsage: /claimpoints view [player]\n§cModerator usage: /claimpoints <give|take> <player> <amount>"
   dragon:
     aliases: [ enderdragon ]
   enablecollision:
@@ -52,8 +53,6 @@ commands:
 permissions:
   expensivedeaths.bypass:
     default: false
-  expensivedeaths.reload:
-    default: op
   silverstone.hideitemframe:
     default: op
   silverstone.joinleavespam.bypass:

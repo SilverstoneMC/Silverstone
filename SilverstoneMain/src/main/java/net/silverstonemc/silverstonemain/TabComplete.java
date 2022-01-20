@@ -35,13 +35,17 @@ public class TabComplete implements TabCompleter, Listener {
                 return result;
             }
         } else if (cmd.getName().equalsIgnoreCase("claimpoints")) {
+            if (!arguments3.contains("view")) arguments3.add("view");
+
             if (sender.hasPermission("silverstone.moderator")) {
-                if (arguments3.isEmpty()) {
+                if (!arguments3.contains("give")) {
                     arguments3.add("give");
                     arguments3.add("take");
-                    arguments3.add("view");
                 }
-            } else arguments3.clear();
+            } else {
+                arguments3.remove("give");
+                arguments3.remove("take");
+            }
 
             List<String> result = new ArrayList<>();
             if (args.length == 1) {
