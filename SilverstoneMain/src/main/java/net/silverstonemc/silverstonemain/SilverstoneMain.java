@@ -77,6 +77,7 @@ public class SilverstoneMain extends JavaPlugin implements Listener {
 
         pluginManager.registerEvents(new AFK(), this);
         pluginManager.registerEvents(new Chat(this), this);
+        pluginManager.registerEvents(new ClaimPoints(this), this);
         pluginManager.registerEvents(new Death(), this);
         pluginManager.registerEvents(new End(this), this);
         pluginManager.registerEvents(new EndJoin(this), this);
@@ -84,13 +85,12 @@ public class SilverstoneMain extends JavaPlugin implements Listener {
         pluginManager.registerEvents(new JoinEvent(this), this);
         pluginManager.registerEvents(new JoinLeaveSpam(this), this);
         pluginManager.registerEvents(new QuitEvent(), this);
+        pluginManager.registerEvents(new RemoveRiptide(this), this);
         pluginManager.registerEvents(new RTPLimit(this), this);
         pluginManager.registerEvents(new TabComplete(), this);
         pluginManager.registerEvents(new TeleportEvent(this), this);
         pluginManager.registerEvents(new Tips(this), this);
         pluginManager.registerEvents(new WirelessButtons(), this);
-        pluginManager.registerEvents(new RemoveRiptide(this), this);
-        pluginManager.registerEvents(new ClaimPoints(this), this);
 
         ClaimPoints.createInv();
     }

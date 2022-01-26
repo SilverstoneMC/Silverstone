@@ -1,6 +1,5 @@
 package net.silverstonemc.silverstonemain.events;
 
-import io.papermc.paper.event.player.PlayerTradeEvent;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.milkbowl.vault.economy.Economy;
@@ -14,6 +13,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.enchantment.EnchantItemEvent;
 import org.bukkit.event.enchantment.PrepareItemEnchantEvent;
+import org.bukkit.event.entity.VillagerAcquireTradeEvent;
 import org.bukkit.event.player.PlayerFishEvent;
 import org.bukkit.event.player.PlayerRiptideEvent;
 import org.bukkit.inventory.ItemStack;
@@ -58,11 +58,13 @@ public class RemoveRiptide implements Listener {
     @EventHandler
     public void preEnchant(PrepareItemEnchantEvent event) {
         EnchantmentOffer[] offers = event.getOffers();
-        for (int x = 0; x < offers.length; x++)
+        for (int x = 0; x < offers.length; x++) {
+            if (offers[x] == null) continue;
             if (offers[x].getEnchantment().equals(Enchantment.RIPTIDE)) {
                 event.getOffers()[x].setEnchantment(Enchantment.DURABILITY);
                 event.getOffers()[x].setEnchantmentLevel(3);
             }
+        }
     }
 
     @EventHandler
@@ -75,14 +77,12 @@ public class RemoveRiptide implements Listener {
     }
 
     @EventHandler
-    public void villagerEnchant(PlayerTradeEvent event) {
-        if (event.getTrade().getResult().hasItemMeta())
-            if (event.getTrade().getResult().getItemMeta().hasEnchant(Enchantment.RIPTIDE)) {
-                event.setCancelled(true);
-                event.getVillager().resetOffers();
-                event.getPlayer()
-                        .sendMessage(Component.text("Sorry, but you can't buy items containing Riptide. Re-rolling trades..."));
-                plugin.getLogger().severe("Jason: Re-rolling villager Riptide trades @ " + event.getVillager().getLocation());
+    public void villagerEnchant(VillagerAcquireTradeEvent event) {
+        if (event.getRecipe().getResult().hasItemMeta())
+            if (event.getRecipe().getResult().getItemMeta().toString().toUpperCase().contains("RIPTIDE")) {
+                event.getEntity().resetOffers();
+                plugin.getLogger()
+                        .severe("Jason: Re-rolling villager Riptide trades @ " + event.getEntity().getLocation());
             }
     }
 
