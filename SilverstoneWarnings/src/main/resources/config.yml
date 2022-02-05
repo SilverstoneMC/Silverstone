@@ -522,39 +522,6 @@ reasons:
       1:
         - "unban {player}"
 
-  creative:
-    description: "Creative plot abuse (overrides other warnings, if applicable)"
-    add:
-      1:
-        - "kick {player} Plot abuse [Warning 1/5]"
-        - "bc &b{player} &ahas been kicked for &bplot abuse &3[Warning 1/5]"
-      2:
-        - "lpb user {player} parent addtemp noplots 1d"
-        - "kick {player} Plot abuse [Warning 2/5]"
-        - "bc &b{player} &ahas been tempbanned from the plots for &b1 day &3[Warning 2/5]"
-      3:
-        - "lpb user {player} parent addtemp noplots 7d"
-        - "kick {player} Plot abuse [Warning 3/5]"
-        - "bc &b{player} &ahas been tempbanned from the plots for &b7 days &3[Warning 3/5]"
-      4:
-        - "lpb user {player} parent addtemp noplots 1mo"
-        - "kick {player} Plot abuse [Warning 4/5]"
-        - "bc &b{player} &ahas been tempbanned from the plots for &b1 month &3[Warning 4/5]"
-      5:
-        - "lpb user {player} parent add noplots"
-        - "kick {player} Plot abuse [Warning 5/5]"
-        - "bc &b{player} &ahas been permanently banned from the plots &3[Warning 5/5]"
-    remove:
-      1: []
-      2:
-        - "lpb user {player} parent removetemp noplots"
-      3:
-        - "lpb user {player} parent removetemp noplots"
-      4:
-        - "lpb user {player} parent removetemp noplots"
-      5:
-        - "lpb user {player} parent remove noplots"
-
   scaffold:
     description: "(Anti-cheat handled) Bridging or building up abnormally quickly"
     add:
