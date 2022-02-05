@@ -17,7 +17,7 @@ commands:
     description: "Allows the player to enter The End"
   claimpoints:
     aliases: [ redeemclaimpoints ]
-    usage: "§cUsage: /claimpoints view [player]\n§cModerator usage: /claimpoints <give|take> <player> <amount>"
+    usage: "§cUsage: /claimpoints view [player]"
   dragon:
     aliases: [ enderdragon ]
   enablecollision:
@@ -49,6 +49,8 @@ commands:
   znewbiekit:
     permission: silverstone.console
     usage: "/znewbiekit <player>"
+  quests:
+    description: "Manage your quests"
 
 permissions:
   expensivedeaths.bypass:
