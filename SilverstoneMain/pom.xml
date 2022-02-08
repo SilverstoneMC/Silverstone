@@ -154,6 +154,14 @@
             <version>1.7</version>
             <scope>provided</scope>
         </dependency>
+
+        <dependency>
+            <groupId>net.silverstonemc</groupId>
+            <artifactId>Matrix</artifactId>
+            <version>0</version>
+            <scope>system</scope>
+            <systemPath><![CDATA[D:/Server Plugins/3&2 - Minigames & Main/Matrix.jar]]></systemPath>
+        </dependency>
     </dependencies>
 
 </project>
