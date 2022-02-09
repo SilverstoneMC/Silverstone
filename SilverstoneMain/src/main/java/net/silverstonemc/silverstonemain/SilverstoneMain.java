@@ -3,7 +3,6 @@ package net.silverstonemc.silverstonemain;
 import com.onarandombox.MultiverseCore.MultiverseCore;
 import github.scarsz.discordsrv.DiscordSRV;
 import me.rerere.matrix.api.MatrixAPI;
-import me.rerere.matrix.api.MatrixAPIProvider;
 import net.ess3.api.IEssentials;
 import net.luckperms.api.LuckPerms;
 import net.milkbowl.vault.economy.Economy;
@@ -17,21 +16,18 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 
 @SuppressWarnings("ConstantConditions")
 public class SilverstoneMain extends JavaPlugin implements Listener {
 
+    public static DataManager data;
+    private static SilverstoneMain instance;
     private LuckPerms luckPerms;
     private IEssentials essentials;
     private MultiverseCore multiverse;
     private Economy econ;
     private MatrixAPI matrix;
-
-    public static DataManager data;
-
-    private static SilverstoneMain instance;
 
     public static SilverstoneMain getInstance() {
         return instance;
@@ -78,18 +74,6 @@ public class SilverstoneMain extends JavaPlugin implements Listener {
         getCommand("claimpoints").setTabCompleter(new TabComplete());
 
         PluginManager pluginManager = this.getServer().getPluginManager();
-
-        BukkitRunnable getMatrix = new BukkitRunnable() {
-            @Override
-            public void run() {
-                if (getServer().getPluginManager().getPlugin("Matrix") != null) {
-                    matrix = MatrixAPIProvider.getAPI();
-                    pluginManager.registerEvents(new Fly(), instance);
-                    getLogger().info("Hooked into the Matrix api!");
-                }
-            }
-        };
-        getMatrix.runTaskLater(this, 200);
         pluginManager.registerEvents(new AFK(), this);
         pluginManager.registerEvents(new Chat(this), this);
         pluginManager.registerEvents(new ClaimPoints(this), this);
@@ -106,6 +90,7 @@ public class SilverstoneMain extends JavaPlugin implements Listener {
         pluginManager.registerEvents(new TeleportEvent(this), this);
         pluginManager.registerEvents(new Tips(this), this);
         pluginManager.registerEvents(new WirelessButtons(), this);
+        pluginManager.registerEvents(new Load(this), this);
 
         ClaimPoints.createInv();
     }
@@ -149,5 +134,9 @@ public class SilverstoneMain extends JavaPlugin implements Listener {
 
     public MatrixAPI getMatrix() {
         return matrix;
+    }
+
+    public void setMatrix(MatrixAPI matrix) {
+        this.matrix = matrix;
     }
 }

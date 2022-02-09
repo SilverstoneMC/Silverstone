@@ -1,7 +1,6 @@
 package net.silverstonemc.silverstoneglobal;
 
 import me.rerere.matrix.api.MatrixAPI;
-import me.rerere.matrix.api.MatrixAPIProvider;
 import net.ess3.api.IEssentials;
 import net.luckperms.api.LuckPerms;
 import net.silverstonemc.silverstoneglobal.commands.*;
@@ -88,18 +87,6 @@ public class SilverstoneGlobal extends JavaPlugin implements Listener {
         getCommand("youtube").setExecutor(new SocialGUI(this));
 
         PluginManager pluginManager = this.getServer().getPluginManager();
-
-        BukkitRunnable getMatrix = new BukkitRunnable() {
-            @Override
-            public void run() {
-                if (getServer().getPluginManager().getPlugin("Matrix") != null) {
-                    matrix = MatrixAPIProvider.getAPI();
-                    pluginManager.registerEvents(new AntiCheatDiscord(), instance);
-                    getLogger().info("Hooked into the Matrix api!");
-                }
-            }
-        };
-        getMatrix.runTaskLater(this, 200);
         pluginManager.registerEvents(new BuyGUI(this), this);
         pluginManager.registerEvents(new ChatColorGUI(this), this);
         pluginManager.registerEvents(new ChatnSounds(this), this);
@@ -109,6 +96,7 @@ public class SilverstoneGlobal extends JavaPlugin implements Listener {
         pluginManager.registerEvents(new TimeOut(), this);
         pluginManager.registerEvents(new NightVision(), this);
         pluginManager.registerEvents(new JoinEvent(this), this);
+        pluginManager.registerEvents(new LoadEvent(this), this);
 
         BuyGUI.defaultInv = BuyGUI.createInv(0);
         BuyGUI.inv1 = BuyGUI.createInv(1);
@@ -174,5 +162,9 @@ public class SilverstoneGlobal extends JavaPlugin implements Listener {
 
     public MatrixAPI getMatrix() {
         return matrix;
+    }
+
+    public void setMatrix(MatrixAPI matrix) {
+        this.matrix = matrix;
     }
 }
