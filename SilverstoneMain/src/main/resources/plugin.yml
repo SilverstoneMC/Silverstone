@@ -11,6 +11,7 @@ softdepend:
   - ProtectionStones
   - RandomTeleport
   - Vault
+  - Matrix
 
 commands:
   allowend:
