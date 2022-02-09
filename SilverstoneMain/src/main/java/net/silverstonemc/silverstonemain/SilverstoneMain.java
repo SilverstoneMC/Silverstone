@@ -27,7 +27,7 @@ public class SilverstoneMain extends JavaPlugin implements Listener {
     private IEssentials essentials;
     private MultiverseCore multiverse;
     private Economy econ;
-    private MatrixAPI matrix;
+    public static MatrixAPI matrix;
 
     public static SilverstoneMain getInstance() {
         return instance;
@@ -130,13 +130,5 @@ public class SilverstoneMain extends JavaPlugin implements Listener {
         RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(Economy.class);
         if (rsp == null) return;
         econ = rsp.getProvider();
-    }
-
-    public MatrixAPI getMatrix() {
-        return matrix;
-    }
-
-    public void setMatrix(MatrixAPI matrix) {
-        this.matrix = matrix;
     }
 }

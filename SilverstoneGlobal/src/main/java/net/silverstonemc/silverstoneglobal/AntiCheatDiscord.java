@@ -4,7 +4,6 @@ import github.scarsz.discordsrv.DiscordSRV;
 import github.scarsz.discordsrv.dependencies.jda.api.EmbedBuilder;
 import github.scarsz.discordsrv.dependencies.jda.api.entities.TextChannel;
 import me.rerere.matrix.api.HackType;
-import me.rerere.matrix.api.MatrixAPI;
 import me.rerere.matrix.api.events.PlayerViolationCommandEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -17,15 +16,14 @@ import java.time.format.DateTimeFormatter;
 
 public class AntiCheatDiscord implements Listener {
 
-    private final MatrixAPI matrix = SilverstoneGlobal.getInstance().getMatrix();
-
     @EventHandler
     public void violation(PlayerViolationCommandEvent event) {
         Player player = event.getPlayer();
-        if (matrix.isBypass(player)) return;
-        if (matrix.getLatency(player) >= 750) return;
-        if (matrix.getTPS() <= 17) return;
-        if (event.getHackType().equals(HackType.KILLAURA) && matrix.getViolations(player, HackType.KILLAURA) < 30)
+        if (SilverstoneGlobal.matrix.isBypass(player)) return;
+        if (SilverstoneGlobal.matrix.getLatency(player) >= 750) return;
+        if (SilverstoneGlobal.matrix.getTPS() <= 17) return;
+        if (event.getHackType()
+                .equals(HackType.KILLAURA) && SilverstoneGlobal.matrix.getViolations(player, HackType.KILLAURA) < 30)
             return;
 
         int x = 0;
@@ -34,8 +32,8 @@ public class AntiCheatDiscord implements Listener {
         TextChannel discord = DiscordSRV.getPlugin().getDestinationTextChannelForGameChannelName("matrix");
 
         EmbedBuilder embed = new EmbedBuilder();
-        embed.setAuthor(player.getName() + " may be hacking (" + event.getHackType() + ") | Violations: " + matrix.getViolations(player, event
-                .getHackType()) + " | Ping: " + matrix.getLatency(player) + "ms | TPS: " + matrix.getTPS(), null, "https://crafatar.com/avatars/" + player
+        embed.setAuthor(player.getName() + " may be hacking (" + event.getHackType() + ") | Violations: " + SilverstoneGlobal.matrix.getViolations(player, event
+                .getHackType()) + " | Ping: " + SilverstoneGlobal.matrix.getLatency(player) + "ms | TPS: " + SilverstoneGlobal.matrix.getTPS(), null, "https://crafatar.com/avatars/" + player
                 .getUniqueId() + "?overlay=true");
         embed.setColor(new Color(204, 27, 53));
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("h:mm:ss.SSS a");

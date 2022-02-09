@@ -13,7 +13,7 @@ public record Load(JavaPlugin plugin) implements Listener {
     @EventHandler
     public void onLoad(ServerLoadEvent event) {
         if (plugin.getServer().getPluginManager().getPlugin("Matrix") != null) {
-            new SilverstoneMain().setMatrix(MatrixAPIProvider.getAPI());
+            SilverstoneMain.matrix = MatrixAPIProvider.getAPI();
             plugin.getServer().getPluginManager().registerEvents(new Fly(), plugin);
             plugin.getLogger().info("Hooked into the Matrix api!");
         }

@@ -25,7 +25,7 @@ public class SilverstoneGlobal extends JavaPlugin implements Listener {
 
     private IEssentials essentials;
     private LuckPerms luckPerms;
-    private MatrixAPI matrix;
+    public static MatrixAPI matrix;
 
     // Startup
     @Override
@@ -158,13 +158,5 @@ public class SilverstoneGlobal extends JavaPlugin implements Listener {
 
     public LuckPerms getLuckPerms() {
         return luckPerms;
-    }
-
-    public MatrixAPI getMatrix() {
-        return matrix;
-    }
-
-    public void setMatrix(MatrixAPI matrix) {
-        this.matrix = matrix;
     }
 }

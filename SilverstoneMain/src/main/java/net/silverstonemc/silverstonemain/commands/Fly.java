@@ -1,7 +1,6 @@
 package net.silverstonemc.silverstonemain.commands;
 
 import me.rerere.matrix.api.HackType;
-import me.rerere.matrix.api.MatrixAPI;
 import net.silverstonemc.silverstonemain.SilverstoneMain;
 import org.bukkit.GameMode;
 import org.bukkit.World;
@@ -11,8 +10,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 
 public class Fly implements Listener {
-
-    private final MatrixAPI matrix = SilverstoneMain.getInstance().getMatrix();
 
     // AFK at night
     @EventHandler
@@ -24,7 +21,7 @@ public class Fly implements Listener {
             if (!player.getGameMode().equals(GameMode.SURVIVAL)) return;
             if (!world.getName().startsWith("survival")) return;
 
-            matrix.tempBypass(player, HackType.MOVE, 10L);
+            SilverstoneMain.matrix.tempBypass(player, HackType.MOVE, 10L);
         }
     }
 }

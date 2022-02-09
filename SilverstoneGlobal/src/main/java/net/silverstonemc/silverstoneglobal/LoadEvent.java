@@ -11,7 +11,7 @@ public record LoadEvent(JavaPlugin plugin) implements Listener {
     @EventHandler
     public void onLoad(ServerLoadEvent event) {
         if (plugin.getServer().getPluginManager().getPlugin("Matrix") != null) {
-            new SilverstoneGlobal().setMatrix(MatrixAPIProvider.getAPI());
+            SilverstoneGlobal.matrix = MatrixAPIProvider.getAPI();
             plugin.getServer().getPluginManager().registerEvents(new AntiCheatDiscord(), plugin);
             plugin.getLogger().info("Hooked into the Matrix api!");
         }
