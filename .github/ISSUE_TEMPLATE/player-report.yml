@@ -13,7 +13,7 @@ body:
   - type: input
     attributes:
       label: The offender's Minecraft username
-      placeholder: Acealation
+      placeholder: StealthyOrange
     validations:
       required: true
 

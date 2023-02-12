@@ -1,5 +1,5 @@
-name: Bugs / Exploits
-description: Report a problem
+name: Bug Report
+description: Report a bug with the server
 labels: [ Bug-Unconfirmed ]
 body:
   - type: markdown
@@ -12,13 +12,10 @@ body:
       label: World the issue occured in
       description: Your current world can be found in the player tab list
       options:
-        - survival
-        - survival_nether
-        - survival_the_end
+        - creative
         - mini_amplified
         - mini_empty
         - mini_terrain
-        - utility
     validations:
       required: true
 
