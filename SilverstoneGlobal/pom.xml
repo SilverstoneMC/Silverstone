@@ -56,7 +56,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>3.3.1-SNAPSHOT</version>
+                <version>3.4.1</version>
                 <executions>
                     <execution>
                         <phase>package</phase>
@@ -64,10 +64,13 @@
                             <goal>shade</goal>
                         </goals>
                         <configuration>
+                            <createDependencyReducedPom>false</createDependencyReducedPom>
+                            <minimizeJar>true</minimizeJar>
                             <relocations>
                                 <relocation>
                                     <pattern>net.kyori.adventure.text.minimessage</pattern>
-                                    <shadedPattern>net.silverstonemc.silverstoneglobal.shaded.minimessage</shadedPattern>
+                                    <shadedPattern>net.silverstonemc.silverstoneglobal.shaded.minimessage
+                                    </shadedPattern>
                                 </relocation>
                                 <relocation>
                                     <pattern>net.kyori.adventure.sound</pattern>
