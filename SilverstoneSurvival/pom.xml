@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>net.silverstonemc</groupId>
-    <artifactId>SilverstoneMain</artifactId>
+    <artifactId>SilverstoneSurvival</artifactId>
     <version>3.4.0-beta</version>
 
     <properties>
