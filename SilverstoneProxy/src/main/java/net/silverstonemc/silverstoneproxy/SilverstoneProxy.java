@@ -33,20 +33,13 @@ public class SilverstoneProxy extends Plugin implements Listener {
 
         PluginManager pluginManager = getProxy().getPluginManager();
 
-        pluginManager.registerCommand(this, new AdamSay());
         pluginManager.registerCommand(this, new BaseCommand());
-        pluginManager.registerCommand(this, new DragonSay());
-        pluginManager.registerCommand(this, new FakeJoinLeave());
         pluginManager.registerCommand(this, new Forums());
-        pluginManager.registerCommand(this, new GlobalMsg());
-        pluginManager.registerCommand(this, new Link());
         pluginManager.registerCommand(this, new Mods());
-        pluginManager.registerCommand(this, new PandaSay());
         pluginManager.registerCommand(this, new Report());
         pluginManager.registerCommand(this, new Restart());
         pluginManager.registerCommand(this, new RestartWhenEmpty());
         pluginManager.registerCommand(this, new Rules());
-        pluginManager.registerCommand(this, new Say());
         pluginManager.registerCommand(this, new Tips());
 
         pluginManager.registerListener(this, new JoinEvent());
@@ -90,7 +83,8 @@ public class SilverstoneProxy extends Plugin implements Listener {
         }
 
         try {
-            return ConfigurationProvider.getProvider(YamlConfiguration.class).load(new File(getDataFolder(), "config.yml"));
+            return ConfigurationProvider.getProvider(YamlConfiguration.class)
+                    .load(new File(getDataFolder(), "config.yml"));
         } catch (IOException e) {
             e.printStackTrace();
             return null;

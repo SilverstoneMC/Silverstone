@@ -18,7 +18,7 @@ public class RestartWhenEmpty extends Command {
     private final BungeeAudiences audience = SilverstoneProxy.getAdventure();
 
     public RestartWhenEmpty() {
-        super("brestartwhenempty", "silverstone.admin");
+        super("prestartwhenempty", "silverstone.admin");
     }
 
     public void execute(CommandSender sender, String[] args) {

@@ -21,7 +21,8 @@ public class Restart extends Command {
     public void execute(CommandSender sender, String[] args) {
         for (ProxiedPlayer player : SilverstoneProxy.getPlugin().getProxy().getPlayers()) {
             player.sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&', "&c&lWARNING &b&l> &aThe network will restart soon!")));
-            audience.player(player).playSound(Sound.sound(Key.key("block.note_block.harp"), Sound.Source.MASTER, 100, 1.6f));
+            audience.player(player)
+                    .playSound(Sound.sound(Key.key("block.note_block.harp"), Sound.Source.MASTER, 100, 1.6f));
         }
 
         if (!(sender instanceof ProxiedPlayer))

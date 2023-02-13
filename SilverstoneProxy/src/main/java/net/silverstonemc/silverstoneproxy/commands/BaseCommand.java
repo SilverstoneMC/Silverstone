@@ -24,8 +24,7 @@ public class BaseCommand extends Command implements TabExecutor {
             SilverstoneProxy.config = plugin.loadConfig();
 
             sender.sendMessage(TextComponent.fromLegacyText(ChatColor.GREEN + "SilverstoneProxy reloaded!"));
-        } else
-            sender.sendMessage(TextComponent.fromLegacyText(ChatColor.RED + "Usage: /ssp reload"));
+        } else sender.sendMessage(TextComponent.fromLegacyText(ChatColor.RED + "Usage: /ssp reload"));
     }
 
     final List<String> arguments = new ArrayList<>();
@@ -36,8 +35,7 @@ public class BaseCommand extends Command implements TabExecutor {
 
         List<String> result = new ArrayList<>();
         if (args.length == 1) for (String a : arguments)
-            if (a.toLowerCase().startsWith(args[0].toLowerCase()))
-                result.add(a);
+            if (a.toLowerCase().startsWith(args[0].toLowerCase())) result.add(a);
         return result;
     }
 }

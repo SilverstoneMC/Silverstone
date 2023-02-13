@@ -25,6 +25,7 @@ public class Rules extends Command implements TabExecutor {
         super("rules");
     }
 
+    //todo modify this
     public void execute(CommandSender sender, String[] args) {
         if (args.length > 0) {
             if (!sender.hasPermission("silverstone.trialmod")) {
@@ -51,8 +52,7 @@ public class Rules extends Command implements TabExecutor {
                     return;
                 }
 
-                if (args.length > 2)
-                    sendRules(target, rule, args[2].equals("-s"));
+                if (args.length > 2) sendRules(target, rule, args[2].equals("-s"));
             } else sendRuleGUI(sender, target);
         } else sendSelfRules(sender);
     }
@@ -70,13 +70,11 @@ public class Rules extends Command implements TabExecutor {
                 audience.player(target).sendMessage(MiniMessage.miniMessage().parse(footer));
 
             // Tell trialmod+
-            if (!silent)
-                for (ProxiedPlayer online : plugin.getProxy().getPlayers())
-                    if (online.hasPermission("silverstone.trialmod"))
-                        audience.player(online)
-                                .sendMessage(Component.text("The rules have been sent to ")
-                                        .color(NamedTextColor.RED)
-                                        .append(Component.text(target.getName()).color(NamedTextColor.GRAY)));
+            if (!silent) for (ProxiedPlayer online : plugin.getProxy().getPlayers())
+                if (online.hasPermission("silverstone.trialmod")) audience.player(online)
+                        .sendMessage(Component.text("The rules have been sent to ")
+                                .color(NamedTextColor.RED)
+                                .append(Component.text(target.getName()).color(NamedTextColor.GRAY)));
         } else {
             audience.player(target)
                     .sendMessage(MiniMessage.miniMessage()
@@ -85,14 +83,12 @@ public class Rules extends Command implements TabExecutor {
 
             // Tell trialmod+
             for (ProxiedPlayer online : plugin.getProxy().getPlayers())
-                if (online.hasPermission("silverstone.trialmod"))
-                    audience.player(online)
-                            .sendMessage(Component.text("Rule ")
-                                    .color(NamedTextColor.RED)
-                                    .append(Component.text(rule)
-                                            .color(NamedTextColor.GRAY))
-                                    .append(Component.text(" has been sent to ").color(NamedTextColor.RED))
-                                    .append(Component.text(target.getName()).color(NamedTextColor.GRAY)));
+                if (online.hasPermission("silverstone.trialmod")) audience.player(online)
+                        .sendMessage(Component.text("Rule ")
+                                .color(NamedTextColor.RED)
+                                .append(Component.text(rule).color(NamedTextColor.GRAY))
+                                .append(Component.text(" has been sent to ").color(NamedTextColor.RED))
+                                .append(Component.text(target.getName()).color(NamedTextColor.GRAY)));
         }
     }
 
@@ -211,8 +207,7 @@ public class Rules extends Command implements TabExecutor {
 
         List<String> result = new ArrayList<>();
         if (args.length == 1) for (String a : arguments)
-            if (a.toLowerCase().startsWith(args[0].toLowerCase()))
-                result.add(a);
+            if (a.toLowerCase().startsWith(args[0].toLowerCase())) result.add(a);
         return result;
     }
 }

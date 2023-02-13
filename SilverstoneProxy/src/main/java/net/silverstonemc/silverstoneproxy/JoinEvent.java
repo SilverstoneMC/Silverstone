@@ -20,14 +20,17 @@ public class JoinEvent implements Listener {
         int version = event.getPlayer().getPendingConnection().getVersion();
         plugin.getLogger().info(event.getPlayer().getName() + " is joining with protocol version " + version);
 
-        if (version < 755) {
+        // https://wiki.vg/Protocol_version_numbers
+        //todo make this a config option
+        if (version < 759) {
             event.setCancelled(true);
             event.getPlayer()
-                    .disconnect(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&', "&cYour client isn't compatible with the server!\n\n&7Please update to at least Minecraft 1.17 to join.")));
+                    .disconnect(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&', "&cYour client isn't compatible with the server!\n\n&7Please update to at least Minecraft 1.19 to join.")));
             return;
         }
 
-        if (version < 757) {
+        //todo make this a config option
+        if (version < 761) {
             Runnable task = () -> {
                 if (event.getPlayer().getServer() != null)
                     //noinspection deprecation

@@ -8,7 +8,7 @@ import net.md_5.bungee.api.plugin.Command;
 public class Report extends Command {
 
     public Report() {
-        super("report");
+        super("report", null, "reportplayer", "playerreport");
     }
 
     public void execute(CommandSender sender, String[] args) {
