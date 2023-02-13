@@ -6,7 +6,7 @@
 
     <groupId>net.silverstonemc</groupId>
     <artifactId>SilverstoneSurvival</artifactId>
-    <version>3.4.0-beta</version>
+    <version>4.0.0-beta</version>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
@@ -77,23 +77,14 @@
         </repository>
 
         <repository>
+            <id>dv8tion</id>
+            <name>m2-dv8tion</name>
+            <url>https://m2.dv8tion.net/releases</url>
+        </repository>
+
+        <repository>
             <id>Scarsz-Nexus</id>
             <url>https://nexus.scarsz.me/content/groups/public/</url>
-        </repository>
-
-        <repository>
-            <id>OnARandomBox</id>
-            <url>https://repo.onarandombox.com/content/groups/public/</url>
-        </repository>
-
-        <repository>
-            <id>jitpack.io</id>
-            <url>https://jitpack.io</url>
-        </repository>
-
-        <repository>
-            <id>essentials-releases</id>
-            <url>https://repo.essentialsx.net/releases/</url>
         </repository>
     </repositories>
 
@@ -101,67 +92,16 @@
         <dependency>
             <groupId>io.papermc.paper</groupId>
             <artifactId>paper-api</artifactId>
-            <version>1.18.1-R0.1-SNAPSHOT</version>
-            <scope>provided</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>net.luckperms</groupId>
-            <artifactId>api</artifactId>
-            <version>5.3</version>
+            <version>1.19.3-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>com.discordsrv</groupId>
             <artifactId>discordsrv</artifactId>
-            <version>1.24.0</version>
+            <version>1.26.0</version>
             <scope>provided</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>com.onarandombox.multiversecore</groupId>
-            <artifactId>Multiverse-Core</artifactId>
-            <version>4.3.1</version>
-            <scope>provided</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>com.github.LeonMangler</groupId>
-            <artifactId>SuperVanish</artifactId>
-            <version>6.2.6-2</version>
-            <scope>provided</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>net.essentialsx</groupId>
-            <artifactId>EssentialsX</artifactId>
-            <version>2.19.2</version>
-            <scope>provided</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>net.silverstonemc</groupId>
-            <artifactId>RandomTeleport</artifactId>
-            <version>0</version>
-            <scope>system</scope>
-            <systemPath>D:/Server Plugins/2 - Main/RandomTP.jar</systemPath>
-        </dependency>
-
-        <dependency>
-            <groupId>com.github.MilkBowl</groupId>
-            <artifactId>VaultAPI</artifactId>
-            <version>1.7</version>
-            <scope>provided</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>net.silverstonemc</groupId>
-            <artifactId>Matrix</artifactId>
-            <version>0</version>
-            <scope>system</scope>
-            <systemPath><![CDATA[D:/Server Plugins/3&2 - Minigames & Main/Matrix.jar]]></systemPath>
         </dependency>
     </dependencies>
-
+    
 </project>

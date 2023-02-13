@@ -11,6 +11,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class GettingStarted implements CommandExecutor {
 
+    //todo modify this
     public boolean onCommand(CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
         sender.sendMessage(Component.text("\nGETTING STARTED")
                 .color(TextColor.fromHexString("#18d958"))

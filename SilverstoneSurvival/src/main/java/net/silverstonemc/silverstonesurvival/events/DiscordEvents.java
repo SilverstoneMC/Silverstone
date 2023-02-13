@@ -20,7 +20,7 @@ public class DiscordEvents extends ListenerAdapter {
         this.plugin = plugin;
     }
 
-    @SuppressWarnings("ConstantConditions")
+    @SuppressWarnings("DataFlowIssue")
     public void onButtonClick(ButtonClickEvent event) {
         String componentId = event.getComponentId();
 

@@ -5,27 +5,3 @@ join-leave-spam:
   leaves: 4
   # What should we warn them for?
   warn: "joinleavespam"
-
-# Max times a player can RTP
-rtp:
-  mvp: 25
-  vip+: 15
-  vip: 10
-  member: 7
-  default: 5
-
-# Use {MONEY} to display the money they lost
-# Use {BALANCE} to display the player's remaining balance
-death-message: "&cYou lost &7${MONEY} &cbecause you used back after death with keepInventory!\n&7Remaining balance: &2${BALANCE}"
-
-# How much should we take from the player when they die?
-# Valid options are:
-# amount-to-take: 15% - takes 15% of their balance
-# amount-to-take: 0-15% - takes random amount between 0-15% of their balance
-# amount-to-take: ALL - resets their balance to 0
-# amount-to-take: 100.00 - takes $100 from their balance
-amount-to-take: 0-15%
-
-# The format to use for displaying currencies
-# The current format is used by most countries
-currency-format: "#,##0.00"

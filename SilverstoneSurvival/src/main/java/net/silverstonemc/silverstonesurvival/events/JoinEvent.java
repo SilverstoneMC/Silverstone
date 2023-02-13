@@ -6,11 +6,6 @@ import github.scarsz.discordsrv.dependencies.jda.api.entities.Emoji;
 import github.scarsz.discordsrv.dependencies.jda.api.entities.Message;
 import github.scarsz.discordsrv.dependencies.jda.api.entities.TextChannel;
 import github.scarsz.discordsrv.dependencies.jda.api.interactions.components.Button;
-import net.ess3.api.IEssentials;
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.NamedTextColor;
-import net.silverstonemc.silverstonesurvival.SilverstoneMain;
-import net.silverstonemc.silverstonesurvival.commands.ClaimPoints;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -27,8 +22,6 @@ import java.util.Map;
 public final class JoinEvent implements Listener {
 
     public static final Map<Player, Message> newPlayers = new HashMap<>();
-    public static final Map<Player, BukkitRunnable> claimPointTimers = new HashMap<>();
-    private final IEssentials essentials = SilverstoneMain.getInstance().getEssentials();
     private final JavaPlugin plugin;
 
     public JoinEvent(JavaPlugin plugin) {
@@ -38,23 +31,6 @@ public final class JoinEvent implements Listener {
     @EventHandler(ignoreCancelled = true)
     public void onJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
-
-        BukkitRunnable timer = new BukkitRunnable() {
-            @Override
-            public void run() {
-                if (!player.isOnline()) {
-                    this.cancel();
-                    return;
-                }
-
-                if (!essentials.getUser(player).isAfk())
-                    ClaimPoints.giveClaimPoints(player, 1);
-                else player.sendMessage(Component.text("You didn't earn any Claim Points because you were AFK!")
-                        .color(NamedTextColor.RED));
-            }
-        };
-        timer.runTaskTimerAsynchronously(plugin, 72000, 72000);
-        claimPointTimers.put(player, timer);
 
         if (!player.hasPlayedBefore()) {
             int x = 0;

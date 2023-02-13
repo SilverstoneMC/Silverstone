@@ -11,9 +11,9 @@ import org.bukkit.event.player.PlayerQuitEvent;
 
 import java.awt.*;
 
+@SuppressWarnings("DataFlowIssue")
 public class QuitEvent implements Listener {
 
-    @SuppressWarnings("ConstantConditions")
     @EventHandler
     public void onQuit(PlayerQuitEvent event) {
         Player player = event.getPlayer();
