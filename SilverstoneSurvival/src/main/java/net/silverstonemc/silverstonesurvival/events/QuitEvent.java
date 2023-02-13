@@ -18,11 +18,6 @@ public class QuitEvent implements Listener {
     public void onQuit(PlayerQuitEvent event) {
         Player player = event.getPlayer();
 
-        if (JoinEvent.claimPointTimers.containsKey(player)) {
-            JoinEvent.claimPointTimers.get(player).cancel();
-            JoinEvent.claimPointTimers.remove(player);
-        }
-
         if (JoinEvent.newPlayers.containsKey(player)) {
             int x = 0;
             for (Player players : Bukkit.getOnlinePlayers()) if (players.hasPermission("silverstone.trialmod")) x++;
