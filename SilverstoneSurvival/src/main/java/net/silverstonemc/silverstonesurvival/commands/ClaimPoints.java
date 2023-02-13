@@ -1,10 +1,10 @@
-package net.silverstonemc.silverstonemain.commands;
+package net.silverstonemc.silverstonesurvival.commands;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.ClickEvent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
-import net.silverstonemc.silverstonemain.SilverstoneMain;
+import net.silverstonemc.silverstonesurvival.SilverstoneMain;
 import org.bukkit.*;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;

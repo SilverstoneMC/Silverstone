@@ -1,4 +1,4 @@
-package net.silverstonemc.silverstonemain;
+package net.silverstonemc.silverstonesurvival;
 
 import me.darkeyedragon.randomtp.event.RandomPreTeleportEvent;
 import me.darkeyedragon.randomtp.event.RandomTeleportCompletedEvent;

@@ -1,4 +1,4 @@
-package net.silverstonemc.silverstonemain.events;
+package net.silverstonemc.silverstonesurvival.events;
 
 import github.scarsz.discordsrv.DiscordSRV;
 import github.scarsz.discordsrv.dependencies.jda.api.EmbedBuilder;
@@ -9,8 +9,8 @@ import github.scarsz.discordsrv.dependencies.jda.api.interactions.components.But
 import net.ess3.api.IEssentials;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
-import net.silverstonemc.silverstonemain.SilverstoneMain;
-import net.silverstonemc.silverstonemain.commands.ClaimPoints;
+import net.silverstonemc.silverstonesurvival.SilverstoneMain;
+import net.silverstonemc.silverstonesurvival.commands.ClaimPoints;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

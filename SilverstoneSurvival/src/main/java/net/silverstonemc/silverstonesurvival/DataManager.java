@@ -1,4 +1,4 @@
-package net.silverstonemc.silverstonemain;
+package net.silverstonemc.silverstonesurvival;
 
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;

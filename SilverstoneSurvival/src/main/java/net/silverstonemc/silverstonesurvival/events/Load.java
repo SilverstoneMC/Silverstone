@@ -1,8 +1,8 @@
-package net.silverstonemc.silverstonemain.events;
+package net.silverstonemc.silverstonesurvival.events;
 
 import me.rerere.matrix.api.MatrixAPIProvider;
-import net.silverstonemc.silverstonemain.SilverstoneMain;
-import net.silverstonemc.silverstonemain.commands.Fly;
+import net.silverstonemc.silverstonesurvival.SilverstoneMain;
+import net.silverstonemc.silverstonesurvival.commands.Fly;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.server.ServerLoadEvent;

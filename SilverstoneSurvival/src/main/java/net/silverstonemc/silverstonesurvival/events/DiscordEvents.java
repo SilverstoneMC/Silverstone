@@ -1,4 +1,4 @@
-package net.silverstonemc.silverstonemain.events;
+package net.silverstonemc.silverstonesurvival.events;
 
 import github.scarsz.discordsrv.dependencies.jda.api.entities.Message;
 import github.scarsz.discordsrv.dependencies.jda.api.events.interaction.ButtonClickEvent;

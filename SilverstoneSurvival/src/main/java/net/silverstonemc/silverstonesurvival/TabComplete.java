@@ -1,4 +1,4 @@
-package net.silverstonemc.silverstonemain;
+package net.silverstonemc.silverstonesurvival;
 
 import com.destroystokyo.paper.event.server.AsyncTabCompleteEvent;
 import org.bukkit.command.Command;

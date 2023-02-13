@@ -1,4 +1,4 @@
-package net.silverstonemc.silverstonemain;
+package net.silverstonemc.silverstonesurvival;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;

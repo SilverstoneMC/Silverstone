@@ -1,4 +1,4 @@
-package net.silverstonemc.silverstonemain.commands;
+package net.silverstonemc.silverstonesurvival.commands;
 
 import org.bukkit.ChatColor;
 import org.bukkit.World;

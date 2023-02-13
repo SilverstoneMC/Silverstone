@@ -1,4 +1,4 @@
-package net.silverstonemc.silverstonemain.commands;
+package net.silverstonemc.silverstonesurvival.commands;
 
 import github.scarsz.discordsrv.DiscordSRV;
 import github.scarsz.discordsrv.dependencies.jda.api.entities.TextChannel;

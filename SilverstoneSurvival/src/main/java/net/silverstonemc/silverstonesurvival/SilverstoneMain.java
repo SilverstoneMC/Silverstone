@@ -1,4 +1,4 @@
-package net.silverstonemc.silverstonemain;
+package net.silverstonemc.silverstonesurvival;
 
 import com.onarandombox.MultiverseCore.MultiverseCore;
 import github.scarsz.discordsrv.DiscordSRV;
@@ -6,8 +6,8 @@ import me.rerere.matrix.api.MatrixAPI;
 import net.ess3.api.IEssentials;
 import net.luckperms.api.LuckPerms;
 import net.milkbowl.vault.economy.Economy;
-import net.silverstonemc.silverstonemain.commands.*;
-import net.silverstonemc.silverstonemain.events.*;
+import net.silverstonemc.silverstonesurvival.commands.*;
+import net.silverstonemc.silverstonesurvival.events.*;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;

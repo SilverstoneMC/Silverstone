@@ -1,6 +1,6 @@
-package net.silverstonemc.silverstonemain.commands;
+package net.silverstonemc.silverstonesurvival.commands;
 
-import net.silverstonemc.silverstonemain.SilverstoneMain;
+import net.silverstonemc.silverstonesurvival.SilverstoneMain;
 import net.ess3.api.IEssentials;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;

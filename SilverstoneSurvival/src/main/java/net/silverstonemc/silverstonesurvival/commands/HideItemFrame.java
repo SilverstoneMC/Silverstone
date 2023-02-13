@@ -1,4 +1,4 @@
-package net.silverstonemc.silverstonemain.commands;
+package net.silverstonemc.silverstonesurvival.commands;
 
 import io.papermc.paper.event.player.PlayerItemFrameChangeEvent;
 import net.kyori.adventure.text.Component;

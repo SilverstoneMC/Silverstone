@@ -1,7 +1,7 @@
-package net.silverstonemc.silverstonemain.commands;
+package net.silverstonemc.silverstonesurvival.commands;
 
 import me.rerere.matrix.api.HackType;
-import net.silverstonemc.silverstonemain.SilverstoneMain;
+import net.silverstonemc.silverstonesurvival.SilverstoneMain;
 import org.bukkit.GameMode;
 import org.bukkit.World;
 import org.bukkit.entity.Player;

@@ -1,6 +1,6 @@
-package net.silverstonemc.silverstonemain.commands;
+package net.silverstonemc.silverstonesurvival.commands;
 
-import net.silverstonemc.silverstonemain.SilverstoneMain;
+import net.silverstonemc.silverstonesurvival.SilverstoneMain;
 import net.luckperms.api.LuckPerms;
 import net.luckperms.api.model.group.Group;
 import net.luckperms.api.model.user.User;

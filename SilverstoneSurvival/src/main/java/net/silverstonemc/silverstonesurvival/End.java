@@ -1,4 +1,4 @@
-package net.silverstonemc.silverstonemain;
+package net.silverstonemc.silverstonesurvival;
 
 import com.onarandombox.MultiverseCore.MultiverseCore;
 import net.kyori.adventure.text.Component;

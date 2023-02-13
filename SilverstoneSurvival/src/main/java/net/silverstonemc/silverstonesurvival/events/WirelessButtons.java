@@ -1,4 +1,4 @@
-package net.silverstonemc.silverstonemain.events;
+package net.silverstonemc.silverstonesurvival.events;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;

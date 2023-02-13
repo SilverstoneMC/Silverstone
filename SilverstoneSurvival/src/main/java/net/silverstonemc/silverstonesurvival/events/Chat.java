@@ -1,4 +1,4 @@
-package net.silverstonemc.silverstonemain.events;
+package net.silverstonemc.silverstonesurvival.events;
 
 import io.papermc.paper.event.player.AsyncChatEvent;
 import net.kyori.adventure.text.Component;
