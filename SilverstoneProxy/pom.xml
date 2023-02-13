@@ -6,7 +6,7 @@
 
     <groupId>net.silverstonemc</groupId>
     <artifactId>SilverstoneProxy</artifactId>
-    <version>2.6.3</version>
+    <version>3.0.0-beta</version>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
@@ -86,7 +86,7 @@
         <dependency>
             <groupId>io.github.waterfallmc</groupId>
             <artifactId>waterfall-api</artifactId>
-            <version>1.18-R0.1-SNAPSHOT</version>
+            <version>1.19-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
 
