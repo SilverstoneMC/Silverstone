@@ -18,7 +18,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 
-@SuppressWarnings("ConstantConditions")
+@SuppressWarnings("DataFlowIssue")
 public class SilverstoneGlobal extends JavaPlugin implements Listener {
 
     private static SilverstoneGlobal instance;

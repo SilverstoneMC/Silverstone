@@ -46,7 +46,7 @@ public class SocialGUI implements CommandExecutor, Listener {
         task.runTask(plugin);
     }
 
-    @SuppressWarnings("ConstantConditions")
+    @SuppressWarnings("DataFlowIssue")
     public boolean onCommand(@NotNull CommandSender sender, Command cmd, @NotNull String label, String[] args) {
         switch (cmd.getName().toLowerCase()) {
             case "social" -> {

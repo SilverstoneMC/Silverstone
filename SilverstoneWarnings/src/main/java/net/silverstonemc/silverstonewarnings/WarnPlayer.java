@@ -12,7 +12,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.UUID;
 
-@SuppressWarnings("ConstantConditions")
+@SuppressWarnings("DataFlowIssue")
 public class WarnPlayer {
 
     private final SilverstoneWarnings plugin = SilverstoneWarnings.getPlugin();

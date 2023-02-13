@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-@SuppressWarnings("ConstantConditions")
+@SuppressWarnings("DataFlowIssue")
 public class BaseCommand extends Command implements TabExecutor {
 
     private final SilverstoneWarnings plugin = SilverstoneWarnings.getPlugin();

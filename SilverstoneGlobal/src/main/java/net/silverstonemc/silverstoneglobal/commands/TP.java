@@ -15,7 +15,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.concurrent.CompletableFuture;
 
-@SuppressWarnings("ConstantConditions")
+@SuppressWarnings("DataFlowIssue")
 public class TP implements CommandExecutor {
 
     final IEssentials essentials = SilverstoneGlobal.getInstance().getEssentials();

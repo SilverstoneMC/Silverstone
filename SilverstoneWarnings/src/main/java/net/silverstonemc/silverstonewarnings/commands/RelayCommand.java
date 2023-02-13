@@ -4,7 +4,7 @@ import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.plugin.Command;
 import net.silverstonemc.silverstonewarnings.SilverstoneWarnings;
 
-@SuppressWarnings("ConstantConditions")
+@SuppressWarnings("DataFlowIssue")
 public class RelayCommand extends Command {
 
     public RelayCommand() {

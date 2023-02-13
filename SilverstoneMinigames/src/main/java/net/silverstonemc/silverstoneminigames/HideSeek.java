@@ -36,7 +36,7 @@ import java.lang.reflect.Field;
 import java.util.*;
 import java.util.stream.IntStream;
 
-@SuppressWarnings("ConstantConditions")
+@SuppressWarnings("DataFlowIssue")
 public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
 
     private static final Map<Player, Long> cooldowns = new HashMap<>();

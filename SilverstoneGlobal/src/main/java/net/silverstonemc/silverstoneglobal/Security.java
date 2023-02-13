@@ -9,7 +9,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
-@SuppressWarnings("ConstantConditions")
+@SuppressWarnings("DataFlowIssue")
 public record Security(JavaPlugin plugin) {
 
     private static final LuckPerms luckPerms = SilverstoneGlobal.getInstance().getLuckPerms();
