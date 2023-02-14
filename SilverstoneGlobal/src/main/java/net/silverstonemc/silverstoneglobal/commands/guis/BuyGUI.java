@@ -25,16 +25,11 @@ import java.util.stream.IntStream;
 public class BuyGUI implements CommandExecutor, Listener {
 
     private static SilverstoneGlobal plugin;
+    public static Inventory inv;
 
     public BuyGUI(SilverstoneGlobal plugin) {
         BuyGUI.plugin = plugin;
     }
-
-    public static Inventory defaultInv;
-    public static Inventory inv1;
-    public static Inventory inv2;
-    public static Inventory inv3;
-    public static Inventory inv4;
 
     public void closeInv(Player player) {
         BukkitRunnable task = new BukkitRunnable() {
@@ -47,24 +42,13 @@ public class BuyGUI implements CommandExecutor, Listener {
         task.runTask(plugin);
     }
 
-    public void openInv(Player player, Inventory inv) {
-        BukkitRunnable task = new BukkitRunnable() {
-            @Override
-            public void run() {
-                player.openInventory(inv);
-                player.playSound(player.getLocation(), Sound.UI_BUTTON_CLICK, SoundCategory.MASTER, 1, 1);
-            }
-        };
-        task.runTask(plugin);
-    }
-
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
         if (!(sender instanceof Player player)) {
             sender.sendMessage(ChatColor.RED + "Sorry, but only players can do that.");
             return true;
         }
         // Open GUI
-        player.openInventory(defaultInv);
+        player.openInventory(inv);
         return true;
     }
 
@@ -75,15 +59,13 @@ public class BuyGUI implements CommandExecutor, Listener {
         Player player = (Player) event.getWhoClicked();
         Inventory inventory = event.getInventory();
 
-        if (!inventory.equals(defaultInv) && !inventory.equals(inv1) && !inventory.equals(inv2) && !inventory.equals(inv3) && !inventory.equals(inv4))
-            return;
+        if (!inventory.equals(inv)) return;
         if (event.getCurrentItem() == null) return;
         if (event.getCurrentItem().getItemMeta() == null) return;
 
         event.setCancelled(true);
 
-        // If left clicked
-        if (event.isLeftClick()) switch (event.getRawSlot()) {
+        switch (event.getRawSlot()) {
             case 11 -> {
                 // Member
                 player.sendMessage("");
@@ -99,64 +81,25 @@ public class BuyGUI implements CommandExecutor, Listener {
             case 13 -> {
                 // VIP+
                 player.sendMessage("");
-                player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&aPurchase the &bVIP+ &arank at: &bsilverstone.craftingstore.net/category/261247"));
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&aPurchase the &bVIP+ &arank at: &bsilverstone.craftingstore.net/category/261250"));
                 closeInv(player);
             }
             case 14 -> {
                 // MVP
                 player.sendMessage("");
-                player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&aPurchase the &bMVP &arank at: &bsilverstone.craftingstore.net/category/261247"));
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&aPurchase the &bMVP &arank at: &bsilverstone.craftingstore.net/category/261250"));
                 closeInv(player);
             }
-        }
-        if ((event.isLeftClick() || event.isRightClick()) && (event.getRawSlot() == 15)) {
-            // Donate
-            player.sendMessage("");
-            player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&aDonate to the server at: &bsilverstone.craftingstore.net/category/261250"));
-            closeInv(player);
-        }
-
-        // If right clicked
-        if (event.isRightClick()) switch (event.getRawSlot()) {
-            case 11 -> {
-                // Member
-                // If already on 1
-                if (event.getInventory().equals(inv1)) openInv(player, defaultInv);
-                else openInv(player, inv1);
-            }
-            case 12 -> {
-                // VIP
-                // If already on 3
-                if (event.getInventory().equals(inv2)) openInv(player, defaultInv);
-                else openInv(player, inv2);
-            }
-            case 13 -> {
-                // VIP+
-                // If already on 4
-                if (event.getInventory().equals(inv3)) openInv(player, defaultInv);
-                else openInv(player, inv3);
-            }
-            case 14 -> {
-                // MVP
-                // If already on 5
-                if (event.getInventory().equals(inv4)) openInv(player, defaultInv);
-                else openInv(player, inv4);
+            case 15 -> {
+                // Donate
+                player.sendMessage("");
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&aDonate to the server at: &bsilverstone.craftingstore.net/category/261655"));
+                closeInv(player);
             }
         }
     }
 
-    public static Inventory createInv(int page) {
-        int member = 1;
-        int vip = 1;
-        int vipPlus = 1;
-        int mvp = 1;
-        switch (page) {
-            case 1 -> member = 2;
-            case 2 -> vip = 2;
-            case 3 -> vipPlus = 2;
-            case 4 -> mvp = 2;
-        }
-
+    public static Inventory createInv() {
         Inventory inventory = Bukkit.createInventory(null, 27, Component.text("Available Ranks")
                 .color(TextColor.fromHexString("#048a3e"))
                 .decorate(TextDecoration.BOLD));
@@ -173,7 +116,7 @@ public class BuyGUI implements CommandExecutor, Listener {
         // Member
         item.setType(Material.IRON_INGOT);
         meta.displayName(Component.text(ChatColor.AQUA + "" + ChatColor.BOLD + "Member"));
-        for (String customLore : plugin.getConfig().getStringList("buyGUI.Member." + member))
+        for (String customLore : plugin.getConfig().getStringList("buy-gui.member"))
             lore.add(Component.text(ChatColor.translateAlternateColorCodes('&', customLore)));
         meta.lore(lore);
         item.setItemMeta(meta);
@@ -183,7 +126,7 @@ public class BuyGUI implements CommandExecutor, Listener {
         item.setType(Material.EMERALD);
         meta.displayName(Component.text(ChatColor.AQUA + "" + ChatColor.BOLD + "VIP"));
         lore.clear();
-        for (String customLore : plugin.getConfig().getStringList("buyGUI.VIP." + vip))
+        for (String customLore : plugin.getConfig().getStringList("buy-gui.vip"))
             lore.add(Component.text(ChatColor.translateAlternateColorCodes('&', customLore)));
         meta.lore(lore);
         item.setItemMeta(meta);
@@ -193,7 +136,7 @@ public class BuyGUI implements CommandExecutor, Listener {
         item.setType(Material.DIAMOND);
         meta.displayName(Component.text(ChatColor.AQUA + "" + ChatColor.BOLD + "VIP+"));
         lore.clear();
-        for (String customLore : plugin.getConfig().getStringList("buyGUI.VIP+." + vipPlus))
+        for (String customLore : plugin.getConfig().getStringList("buy-gui.vip+"))
             lore.add(Component.text(ChatColor.translateAlternateColorCodes('&', customLore)));
         meta.lore(lore);
         item.setItemMeta(meta);
@@ -203,7 +146,7 @@ public class BuyGUI implements CommandExecutor, Listener {
         item.setType(Material.NETHERITE_INGOT);
         meta.displayName(Component.text(ChatColor.AQUA + "" + ChatColor.BOLD + "MVP"));
         lore.clear();
-        for (String customLore : plugin.getConfig().getStringList("buyGUI.MVP." + mvp))
+        for (String customLore : plugin.getConfig().getStringList("buy-gui.mvp"))
             lore.add(Component.text(ChatColor.translateAlternateColorCodes('&', customLore)));
         meta.lore(lore);
         item.setItemMeta(meta);
@@ -213,7 +156,7 @@ public class BuyGUI implements CommandExecutor, Listener {
         item.setType(Material.WRITABLE_BOOK);
         meta.displayName(Component.text(ChatColor.AQUA + "" + ChatColor.BOLD + "Donate"));
         lore.clear();
-        for (String customLore : plugin.getConfig().getStringList("buyGUI.Donate.1"))
+        for (String customLore : plugin.getConfig().getStringList("buy-gui.donate"))
             lore.add(Component.text(ChatColor.translateAlternateColorCodes('&', customLore)));
         meta.lore(lore);
         item.setItemMeta(meta);

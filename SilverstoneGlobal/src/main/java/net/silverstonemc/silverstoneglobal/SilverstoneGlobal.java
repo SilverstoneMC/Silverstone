@@ -85,11 +85,7 @@ public class SilverstoneGlobal extends JavaPlugin implements Listener {
         pluginManager.registerEvents(new NightVision(), this);
         pluginManager.registerEvents(new LoadEvent(this), this);
 
-        BuyGUI.defaultInv = BuyGUI.createInv(0);
-        BuyGUI.inv1 = BuyGUI.createInv(1);
-        BuyGUI.inv2 = BuyGUI.createInv(2);
-        BuyGUI.inv3 = BuyGUI.createInv(3);
-        BuyGUI.inv4 = BuyGUI.createInv(4);
+        BuyGUI.inv = BuyGUI.createInv();
         new ChatColorGUI(this).createDefaultInv();
 
         new Security(this).check();
@@ -115,11 +111,7 @@ public class SilverstoneGlobal extends JavaPlugin implements Listener {
         if (args.length > 0) if (args[0].equalsIgnoreCase("reload")) {
             saveDefaultConfig();
             reloadConfig();
-            BuyGUI.defaultInv = BuyGUI.createInv(0);
-            BuyGUI.inv1 = BuyGUI.createInv(1);
-            BuyGUI.inv2 = BuyGUI.createInv(2);
-            BuyGUI.inv3 = BuyGUI.createInv(3);
-            BuyGUI.inv4 = BuyGUI.createInv(4);
+            BuyGUI.inv = BuyGUI.createInv();
             sender.sendMessage(ChatColor.GREEN + "SilverstoneGlobal reloaded!");
             return true;
         }
