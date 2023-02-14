@@ -60,14 +60,14 @@ public class Rules extends Command implements TabExecutor {
     private void sendRules(ProxiedPlayer target, int rule, boolean silent) {
         if (rule == -1) {
             for (String header : SilverstoneProxy.config.getStringList("rules.header"))
-                audience.player(target).sendMessage(MiniMessage.miniMessage().parse(header));
+                audience.player(target).sendMessage(MiniMessage.miniMessage().deserialize(header));
             for (int x = 1; x <= SilverstoneProxy.config.getSection("rules.rules").getKeys().size(); x++)
                 audience.player(target)
                         .sendMessage(MiniMessage.miniMessage()
-                                .parse(SilverstoneProxy.config.getString("rules.rule-prefix")
+                                .deserialize(SilverstoneProxy.config.getString("rules.rule-prefix")
                                         .replace("{#}", String.valueOf(x)) + SilverstoneProxy.config.getString("rules.rules." + x)));
             for (String footer : SilverstoneProxy.config.getStringList("rules.footer"))
-                audience.player(target).sendMessage(MiniMessage.miniMessage().parse(footer));
+                audience.player(target).sendMessage(MiniMessage.miniMessage().deserialize(footer));
 
             // Tell trialmod+
             if (!silent) for (ProxiedPlayer online : plugin.getProxy().getPlayers())
@@ -78,7 +78,7 @@ public class Rules extends Command implements TabExecutor {
         } else {
             audience.player(target)
                     .sendMessage(MiniMessage.miniMessage()
-                            .parse("<dark_green>Rule " + SilverstoneProxy.config.getString("rules.rule-prefix")
+                            .deserialize("<dark_green>Rule " + SilverstoneProxy.config.getString("rules.rule-prefix")
                                     .replace("{#}", String.valueOf(rule)) + SilverstoneProxy.config.getString("rules.rules." + rule)));
 
             // Tell trialmod+
@@ -94,14 +94,14 @@ public class Rules extends Command implements TabExecutor {
 
     private void sendSelfRules(CommandSender sender) {
         for (String header : SilverstoneProxy.config.getStringList("rules.header"))
-            audience.sender(sender).sendMessage(MiniMessage.miniMessage().parse(header));
+            audience.sender(sender).sendMessage(MiniMessage.miniMessage().deserialize(header));
         for (int x = 1; x <= SilverstoneProxy.config.getSection("rules.rules").getKeys().size(); x++)
             audience.sender(sender)
                     .sendMessage(MiniMessage.miniMessage()
-                            .parse(SilverstoneProxy.config.getString("rules.rule-prefix")
+                            .deserialize(SilverstoneProxy.config.getString("rules.rule-prefix")
                                     .replace("{#}", String.valueOf(x)) + SilverstoneProxy.config.getString("rules.rules." + x)));
         for (String footer : SilverstoneProxy.config.getStringList("rules.footer"))
-            audience.sender(sender).sendMessage(MiniMessage.miniMessage().parse(footer));
+            audience.sender(sender).sendMessage(MiniMessage.miniMessage().deserialize(footer));
     }
 
     private void sendRuleGUI(CommandSender sender, ProxiedPlayer target) {
@@ -196,7 +196,7 @@ public class Rules extends Command implements TabExecutor {
             }
         }
 
-        audience.sender(sender).sendMessage(MiniMessage.miniMessage().parse(message.toString()));
+        audience.sender(sender).sendMessage(MiniMessage.miniMessage().deserialize(message.toString()));
     }
 
 

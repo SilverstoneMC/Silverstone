@@ -1,10 +1,10 @@
 package net.silverstonemc.silverstonewarnings;
 
 import net.dv8tion.jda.api.entities.Message;
-import net.dv8tion.jda.api.events.interaction.ButtonClickEvent;
+import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.interactions.components.ActionRow;
-import net.dv8tion.jda.api.interactions.components.Button;
+import net.dv8tion.jda.api.interactions.components.buttons.Button;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +15,7 @@ public class DiscordEvents extends ListenerAdapter {
     private final SilverstoneWarnings plugin = SilverstoneWarnings.getPlugin();
 
     @Override
-    public void onButtonClick(ButtonClickEvent event) {
+    public void onButtonInteraction(ButtonInteractionEvent event) {
         UUID uuid = UUID.fromString(event.getComponentId().replaceAll(".*:", ""));
         String username = plugin.getPlayerName(uuid);
         String warning = event.getComponentId().replaceFirst(".*: ", "").replaceAll(" :.*", "");
@@ -53,7 +53,7 @@ public class DiscordEvents extends ListenerAdapter {
         }
     }
 
-    private void disableButtons(ButtonClickEvent event, int level) {
+    private void disableButtons(ButtonInteractionEvent event, int level) {
         event.deferEdit().queue();
         List<Button> buttons = event.getMessage().getButtons();
         List<Button> newButtons = new ArrayList<>();
