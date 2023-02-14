@@ -1,5 +1,3 @@
-bot-token: ""
-
 # Use placeholder {player} for the player's name
 reasons:
   afk:

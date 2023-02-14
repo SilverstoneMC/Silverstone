@@ -1,6 +1,12 @@
 package net.silverstonemc.silverstonewarnings;
 
 import net.dv8tion.jda.api.JDA;
+import net.dv8tion.jda.api.JDABuilder;
+import net.dv8tion.jda.api.OnlineStatus;
+import net.dv8tion.jda.api.entities.Activity;
+import net.dv8tion.jda.api.requests.GatewayIntent;
+import net.dv8tion.jda.api.utils.MemberCachePolicy;
+import net.dv8tion.jda.api.utils.cache.CacheFlag;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.chat.BaseComponent;
@@ -41,8 +47,8 @@ public class SilverstoneWarnings extends Plugin implements Listener {
         userCache = loadFile("usercache.yml");
 
         getLogger().info("Starting Discord bot...");
-        /*Thread bot = new Thread(() -> {
-            JDABuilder builder = JDABuilder.createDefault(config.getString("bot-token"));
+        Thread bot = new Thread(() -> {
+            JDABuilder builder = JDABuilder.createDefault(new Secrets().getBotToken());
             builder.disableIntents(GatewayIntent.GUILD_MESSAGE_TYPING);
             builder.disableCache(CacheFlag.ACTIVITY, CacheFlag.VOICE_STATE);
             builder.setMemberCachePolicy(MemberCachePolicy.NONE);
@@ -66,7 +72,7 @@ public class SilverstoneWarnings extends Plugin implements Listener {
 
             jda.addEventListener(new DiscordEvents());
         });
-        bot.start();*/
+        bot.start();
 
         PluginManager pluginManager = getProxy().getPluginManager();
 
