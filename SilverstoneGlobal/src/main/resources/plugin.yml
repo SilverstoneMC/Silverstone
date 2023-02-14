@@ -1,9 +1,9 @@
 main: net.silverstonemc.silverstoneglobal.SilverstoneGlobal
 name: SilverstoneGlobal
-description: Designed for the Silverstone network
+description: Designed for the Silverstone network backend servers
 version: %VERSION%
 author: JasonHorkles
-api-version: 1.18
+api-version: 1.19
 softdepend:
   - DiscordSRV
   - Matrix
@@ -29,7 +29,6 @@ commands:
     permission: silverstone.chatsounds
   discord:
     aliases: [ news ]
-    description: "A social command"
   effects:
     permission: silverstone.trialmod
   exit:
@@ -39,20 +38,11 @@ commands:
     description: "Facepalm emote"
   firework:
     permission: silverstone.admin
-  fixlight:
-    aliases: [ recalculatelighting ]
-    permission: silverstone.fixlight
   forcerestart:
     permission: silverstone.admin
   freezeserver:
     permission: silverstone.owner
     usage: "§cUsage: /freezeserver <seconds> confirm"
-  github:
-    description: "A social command"
-  help:
-    description: "Get help"
-  instagram:
-    description: "A social command"
   joinleavesounds:
     permission: silverstone.jlsounds
   listops:
@@ -73,16 +63,11 @@ commands:
     permission: silverstone.nightvision
   quickrestart:
     permission: silverstone.admin
-  rank:
-    description: "Check your ranks"
   restart:
     aliases: [ cancelrestart ]
     permission: silverstone.admin
   restartwhenempty:
     permission: silverstone.admin
-  safk:
-    description: "Silently toggle AFK"
-    permission: silverstone.moderator
   schedulerestart:
     permission: silverstone.admin
   shrug:
@@ -91,8 +76,6 @@ commands:
     aliases: [ ssg ]
     permission: silverstone.admin
     usage: "Usage: /ssg reload"
-  social:
-    description: "Open the social GUI!"
   spectate:
     aliases: [ spec ]
     permission: silverstone.trialmod
@@ -105,17 +88,11 @@ commands:
   tpregion:
     permission: silverstone.admin
     usage: "§cUsage: /tpregion <x> <z> [world]"
-  twitch:
-    description: "A social command"
-  twitter:
-    description: "A social command"
   updatecommands:
     description: "Updates available commands"
   watch:
     permission: silverstone.trialmod
     usage: "§cUsage: /watch <player>"
-  youtube:
-    description: "A social command"
 
 permissions:
   silverstone.admin:
@@ -128,25 +105,19 @@ permissions:
     default: false
   silverstone.console:
     default: op
+  silverstone.exit:
+    default: true
   silverstone.jlsounds.enabled:
     default: false
   silverstone.jlsounds:
     default: op
+  silverstone.live:
+    default: false
   silverstone.moderator:
     default: op
-  silverstone.mvp:
-    default: false
   silverstone.nightvision:
     default: op
   silverstone.owner:
     default: op
   silverstone.trialmod:
     default: op
-  silverstone.vip+:
-    default: false
-  silverstone.exit:
-    default: true
-  silverstone.live:
-    default: false
-  silverstone.fixlight:
-    default: true
