@@ -1,11 +1,11 @@
-package net.silverstonemc.silverstonesurvival;
+package net.silverstonemc.silverstonemain;
 
 import github.scarsz.discordsrv.DiscordSRV;
-import net.silverstonemc.silverstonesurvival.commands.GettingStarted;
-import net.silverstonemc.silverstonesurvival.events.JoinEvent;
-import net.silverstonemc.silverstonesurvival.events.JoinLeaveSpam;
-import net.silverstonemc.silverstonesurvival.events.QuitEvent;
-import net.silverstonemc.silverstonesurvival.events.WirelessButtons;
+import net.silverstonemc.silverstonemain.commands.GettingStarted;
+import net.silverstonemc.silverstonemain.events.JoinEvent;
+import net.silverstonemc.silverstonemain.events.JoinLeaveSpam;
+import net.silverstonemc.silverstonemain.events.QuitEvent;
+import net.silverstonemc.silverstonemain.events.WirelessButtons;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;

@@ -1,4 +1,4 @@
-package net.silverstonemc.silverstonesurvival.commands;
+package net.silverstonemc.silverstonemain.commands;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.ClickEvent;

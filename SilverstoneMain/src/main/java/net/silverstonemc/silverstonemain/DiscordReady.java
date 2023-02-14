@@ -1,9 +1,9 @@
-package net.silverstonemc.silverstonesurvival;
+package net.silverstonemc.silverstonemain;
 
 import github.scarsz.discordsrv.api.Subscribe;
 import github.scarsz.discordsrv.api.events.DiscordReadyEvent;
 import github.scarsz.discordsrv.util.DiscordUtil;
-import net.silverstonemc.silverstonesurvival.events.DiscordEvents;
+import net.silverstonemc.silverstonemain.events.DiscordEvents;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public record DiscordReady(JavaPlugin plugin) {
