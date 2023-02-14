@@ -6,7 +6,6 @@ import net.luckperms.api.LuckPerms;
 import net.silverstonemc.silverstoneglobal.commands.*;
 import net.silverstonemc.silverstoneglobal.commands.guis.BuyGUI;
 import net.silverstonemc.silverstoneglobal.commands.guis.ChatColorGUI;
-import net.silverstonemc.silverstoneglobal.commands.guis.SocialGUI;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -56,7 +55,6 @@ public class SilverstoneGlobal extends JavaPlugin implements Listener {
         getCommand("firework").setExecutor(new Firework());
         getCommand("forcerestart").setExecutor(new Restart(this));
         getCommand("freezeserver").setExecutor(new Freeze());
-        getCommand("help").setExecutor(new Help(this));
         getCommand("joinleavesounds").setExecutor(new ChatnSounds(this));
         getCommand("listops").setExecutor(new ListOPs(this));
         getCommand("live").setExecutor(new Live(this));
@@ -84,7 +82,6 @@ public class SilverstoneGlobal extends JavaPlugin implements Listener {
         pluginManager.registerEvents(new TabComplete(), this);
         pluginManager.registerEvents(new TimeOut(), this);
         pluginManager.registerEvents(new NightVision(), this);
-        pluginManager.registerEvents(new JoinEvent(this), this);
         pluginManager.registerEvents(new LoadEvent(this), this);
 
         BuyGUI.defaultInv = BuyGUI.createInv(0);
@@ -93,11 +90,8 @@ public class SilverstoneGlobal extends JavaPlugin implements Listener {
         BuyGUI.inv3 = BuyGUI.createInv(3);
         BuyGUI.inv4 = BuyGUI.createInv(4);
         new ChatColorGUI(this).createDefaultInv();
-        SocialGUI.createInv();
 
         new Security(this).check();
-
-        getServer().getMessenger().registerIncomingPluginChannel(this, "silverstone:pluginmsg", new ChatnSounds(this));
 
         BukkitRunnable whitelist = new BukkitRunnable() {
             @Override
@@ -114,11 +108,6 @@ public class SilverstoneGlobal extends JavaPlugin implements Listener {
             }
         };
         tpsCheck.runTaskTimerAsynchronously(this, 600, 20);
-    }
-
-    @Override
-    public void onDisable() {
-        this.getServer().getMessenger().unregisterIncomingPluginChannel(this);
     }
 
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {

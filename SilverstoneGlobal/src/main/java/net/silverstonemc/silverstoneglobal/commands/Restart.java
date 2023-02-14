@@ -18,18 +18,19 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 
-@SuppressWarnings({"UnstableApiUsage", "ConstantConditions"})
+@SuppressWarnings({"UnstableApiUsage", "DataFlowIssue"})
 public record Restart(JavaPlugin plugin) implements CommandExecutor {
 
     private static boolean restarting = false;
-    private static String server = null;
 
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
         // #serverSpecific
-        // Send to main server if anything but the main server
-        if (plugin.getConfig().getString("server").equals("main")) server = "minigames";
-        else server = "main";
+        // Send to minigames server if anything but the minigames server
+        String server;
+        if (plugin.getConfig().getString("server").equals("minigames")) server = "creative";
+        else server = "minigames";
 
+        String finalServer = server;
         switch (cmd.getName().toLowerCase()) {
             case "restart" -> {
                 if (!restarting) {
@@ -63,7 +64,7 @@ public record Restart(JavaPlugin plugin) implements CommandExecutor {
                                                         .color(NamedTextColor.GRAY)
                                                         .decorate(TextDecoration.BOLD)
                                                         .decorate(TextDecoration.UNDERLINED)
-                                                        .clickEvent(ClickEvent.runCommand("/server " + server)))
+                                                        .clickEvent(ClickEvent.runCommand("/server " + finalServer)))
                                                 .append(Component.text(ChatColor.translateAlternateColorCodes('&', " &c&lto evacuate!"))));
                                     }
                                     sec[0] -= 1;
@@ -81,7 +82,7 @@ public record Restart(JavaPlugin plugin) implements CommandExecutor {
                                                         .color(NamedTextColor.GRAY)
                                                         .decorate(TextDecoration.BOLD)
                                                         .decorate(TextDecoration.UNDERLINED)
-                                                        .clickEvent(ClickEvent.runCommand("/server " + server)))
+                                                        .clickEvent(ClickEvent.runCommand("/server " + finalServer)))
                                                 .append(Component.text(ChatColor.translateAlternateColorCodes('&', " &c&lto evacuate!"))));
                                     }
                                     sec[0] -= 1;
@@ -94,7 +95,7 @@ public record Restart(JavaPlugin plugin) implements CommandExecutor {
                                 case 0 -> {
                                     for (Player player : Bukkit.getOnlinePlayers()) {
                                         player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_HARP, SoundCategory.MASTER, 100, 2);
-                                        send(player);
+                                        send(player, server);
                                     }
                                     sec[0] -= 1;
                                 }
@@ -121,7 +122,7 @@ public record Restart(JavaPlugin plugin) implements CommandExecutor {
                     plugin.getLogger().info("Restarting...");
                     for (Player player : Bukkit.getOnlinePlayers()) {
                         player.sendActionBar(Component.text(ChatColor.translateAlternateColorCodes('&', "&b&lSERVER RESTARTING... ATTEMPTING TO TRANSFER PLAYERS")));
-                        send(player);
+                        send(player, server);
                     }
 
                     BukkitRunnable task = new BukkitRunnable() {
@@ -177,7 +178,7 @@ public record Restart(JavaPlugin plugin) implements CommandExecutor {
         return true;
     }
 
-    public void send(Player player) {
+    public void send(Player player, String server) {
         ByteArrayDataOutput out = ByteStreams.newDataOutput();
         out.writeUTF("Connect");
         out.writeUTF(server);

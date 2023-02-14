@@ -15,7 +15,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 
-@SuppressWarnings({"UnstableApiUsage", "ConstantConditions"})
+@SuppressWarnings({"UnstableApiUsage", "DataFlowIssue"})
 public record Exit(JavaPlugin plugin) implements CommandExecutor, Listener {
 
     private void send(Player player) {
@@ -31,11 +31,11 @@ public record Exit(JavaPlugin plugin) implements CommandExecutor, Listener {
         task.runTaskLater(plugin, 1);
     }
 
-    // Perm based, so won't show up in main server
+    // Perm based, so won't show up in minigames server
     public boolean onCommand(@NotNull CommandSender sender, Command cmd, @NotNull String label, String[] args) {
         Player player = (Player) sender;
         if (cmd.getName().equalsIgnoreCase("exit")) {
-            player.sendMessage(Component.text(ChatColor.GREEN + "Returning you to the Main server!"));
+            player.sendMessage(Component.text(ChatColor.GREEN + "Returning you to the Minigames server!"));
             send(player);
         }
         return true;

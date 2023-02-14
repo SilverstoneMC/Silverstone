@@ -56,8 +56,7 @@ public class ChatColorGUI implements CommandExecutor, Listener {
     public void onClick(InventoryClickEvent event) {
         Player player = (Player) event.getWhoClicked();
 
-        if (!event.getInventory().equals(inv))
-            return;
+        if (!event.getInventory().equals(inv)) return;
         if (event.getCurrentItem() == null) return;
         if (event.getCurrentItem().getItemMeta() == null) return;
 
@@ -149,7 +148,6 @@ public class ChatColorGUI implements CommandExecutor, Listener {
 
     // Default inventory items
     public void createDefaultInv() {
-
         inv = Bukkit.createInventory(null, 45, Component.text("Chat Colors")
                 .color(TextColor.fromHexString("#a62828"))
                 .decorate(TextDecoration.BOLD));
@@ -160,9 +158,7 @@ public class ChatColorGUI implements CommandExecutor, Listener {
         // Fill items
         meta.displayName(Component.text(ChatColor.BOLD + ""));
         item.setItemMeta(meta);
-        IntStream.rangeClosed(0, 44)
-                .boxed().toList()
-                .forEach(slot -> inv.setItem(slot, item));
+        IntStream.rangeClosed(0, 44).boxed().toList().forEach(slot -> inv.setItem(slot, item));
 
         item.setType(Material.RED_CONCRETE);
         meta.displayName(Component.text(ChatColor.DARK_RED + "" + ChatColor.BOLD + "Dark Red"));

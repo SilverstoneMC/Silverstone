@@ -38,10 +38,6 @@ public class TabComplete implements TabCompleter, Listener {
             if (!argumentsAfk.contains("eating dinner")) argumentsAfk.add("eating dinner");
             if (!argumentsAfk.contains("getting a drink")) argumentsAfk.add("getting a drink");
             if (!argumentsAfk.contains("getting a snack")) argumentsAfk.add("getting a snack");
-            if (!argumentsAfk.contains("getting ready for the day")) argumentsAfk.add("getting ready for the day");
-            if (!argumentsAfk.contains("getting ready for bed")) argumentsAfk.add("getting ready for bed");
-            if (!argumentsAfk.contains("walking the dog")) argumentsAfk.add("walking the dog");
-            if (!argumentsAfk.contains("with a nose bleed")) argumentsAfk.add("with a nose bleed");
             event.setCompletions(argumentsAfk);
         }
     }

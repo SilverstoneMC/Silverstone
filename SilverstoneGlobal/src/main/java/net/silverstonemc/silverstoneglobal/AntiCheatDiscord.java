@@ -32,9 +32,7 @@ public class AntiCheatDiscord implements Listener {
         TextChannel discord = DiscordSRV.getPlugin().getDestinationTextChannelForGameChannelName("matrix");
 
         EmbedBuilder embed = new EmbedBuilder();
-        embed.setAuthor(player.getName() + " may be hacking (" + event.getHackType() + ") | Violations: " + SilverstoneGlobal.matrix.getViolations(player, event
-                .getHackType()) + " | Ping: " + SilverstoneGlobal.matrix.getLatency(player) + "ms | TPS: " + SilverstoneGlobal.matrix.getTPS(), null, "https://crafatar.com/avatars/" + player
-                .getUniqueId() + "?overlay=true");
+        embed.setAuthor(player.getName() + " may be hacking (" + event.getHackType() + ") | Violations: " + SilverstoneGlobal.matrix.getViolations(player, event.getHackType()) + " | Ping: " + SilverstoneGlobal.matrix.getLatency(player) + "ms | TPS: " + SilverstoneGlobal.matrix.getTPS(), null, "https://crafatar.com/avatars/" + player.getUniqueId() + "?overlay=true");
         embed.setColor(new Color(204, 27, 53));
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("h:mm:ss.SSS a");
         LocalDateTime time = LocalDateTime.now();

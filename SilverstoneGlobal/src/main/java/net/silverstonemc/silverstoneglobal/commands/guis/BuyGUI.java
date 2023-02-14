@@ -52,7 +52,7 @@ public class BuyGUI implements CommandExecutor, Listener {
             @Override
             public void run() {
                 player.openInventory(inv);
-                player.playSound(player.getLocation(), Sound.UI_BUTTON_CLICK,SoundCategory.MASTER, 1, 1);
+                player.playSound(player.getLocation(), Sound.UI_BUTTON_CLICK, SoundCategory.MASTER, 1, 1);
             }
         };
         task.runTask(plugin);
@@ -118,32 +118,30 @@ public class BuyGUI implements CommandExecutor, Listener {
 
         // If right clicked
         if (event.isRightClick()) switch (event.getRawSlot()) {
-            case 11:
+            case 11 -> {
                 // Member
                 // If already on 1
                 if (event.getInventory().equals(inv1)) openInv(player, defaultInv);
                 else openInv(player, inv1);
-                break;
-
-            case 12:
+            }
+            case 12 -> {
                 // VIP
                 // If already on 3
                 if (event.getInventory().equals(inv2)) openInv(player, defaultInv);
                 else openInv(player, inv2);
-                break;
-
-            case 13:
+            }
+            case 13 -> {
                 // VIP+
                 // If already on 4
                 if (event.getInventory().equals(inv3)) openInv(player, defaultInv);
                 else openInv(player, inv3);
-                break;
-
-            case 14:
+            }
+            case 14 -> {
                 // MVP
                 // If already on 5
                 if (event.getInventory().equals(inv4)) openInv(player, defaultInv);
                 else openInv(player, inv4);
+            }
         }
     }
 
@@ -170,9 +168,7 @@ public class BuyGUI implements CommandExecutor, Listener {
         // Fill items
         meta.displayName(Component.text(ChatColor.BOLD + ""));
         item.setItemMeta(meta);
-        IntStream.rangeClosed(0, 26)
-                .boxed().toList()
-                .forEach(slot -> inventory.setItem(slot, item));
+        IntStream.rangeClosed(0, 26).boxed().toList().forEach(slot -> inventory.setItem(slot, item));
 
         // Member
         item.setType(Material.IRON_INGOT);
