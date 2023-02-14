@@ -50,17 +50,13 @@ public class SilverstoneGlobal extends JavaPlugin implements Listener {
         getCommand("buy").setExecutor(new BuyGUI(this));
         getCommand("chatcolor").setExecutor(new ChatColorGUI(this));
         getCommand("chatsounds").setExecutor(new ChatnSounds(this));
-        getCommand("discord").setExecutor(new SocialGUI(this));
         getCommand("effects").setExecutor(new Effects());
         getCommand("exit").setExecutor(new Exit(this));
         getCommand("facepalm").setExecutor(new ChatEmotes());
         getCommand("firework").setExecutor(new Firework());
-        getCommand("fixlight").setExecutor(new Fixlight(this));
         getCommand("forcerestart").setExecutor(new Restart(this));
         getCommand("freezeserver").setExecutor(new Freeze());
-        getCommand("github").setExecutor(new SocialGUI(this));
         getCommand("help").setExecutor(new Help(this));
-        getCommand("instagram").setExecutor(new SocialGUI(this));
         getCommand("joinleavesounds").setExecutor(new ChatnSounds(this));
         getCommand("listops").setExecutor(new ListOPs(this));
         getCommand("live").setExecutor(new Live(this));
@@ -68,30 +64,23 @@ public class SilverstoneGlobal extends JavaPlugin implements Listener {
         getCommand("monitortps").setExecutor(new TPSMonitor(this));
         getCommand("nv").setExecutor(new NightVision());
         getCommand("quickrestart").setExecutor(new Restart(this));
-        getCommand("rank").setExecutor(new Rank());
         getCommand("restart").setExecutor(new Restart(this));
         getCommand("restartwhenempty").setExecutor(new Restart(this));
-        getCommand("safk").setExecutor(new SilentAFK());
         getCommand("schedulerestart").setExecutor(new Restart(this));
         getCommand("shrug").setExecutor(new ChatEmotes());
         getCommand("silverstoneglobal").setTabCompleter(new TabComplete());
-        getCommand("social").setExecutor(new SocialGUI(this));
         getCommand("spectate").setExecutor(new Spectate(this));
         getCommand("tableflip").setExecutor(new ChatEmotes());
         getCommand("tpchunk").setExecutor(new TP());
         getCommand("tpregion").setExecutor(new TP());
-        getCommand("twitch").setExecutor(new SocialGUI(this));
-        getCommand("twitter").setExecutor(new SocialGUI(this));
         getCommand("updatecommands").setExecutor(new UpdateCommands());
         getCommand("watch").setExecutor(new Spectate(this));
-        getCommand("youtube").setExecutor(new SocialGUI(this));
 
         PluginManager pluginManager = this.getServer().getPluginManager();
         pluginManager.registerEvents(new BuyGUI(this), this);
         pluginManager.registerEvents(new ChatColorGUI(this), this);
         pluginManager.registerEvents(new ChatnSounds(this), this);
         pluginManager.registerEvents(new Exit(this), this);
-        pluginManager.registerEvents(new SocialGUI(this), this);
         pluginManager.registerEvents(new TabComplete(), this);
         pluginManager.registerEvents(new TimeOut(), this);
         pluginManager.registerEvents(new NightVision(), this);
@@ -141,7 +130,6 @@ public class SilverstoneGlobal extends JavaPlugin implements Listener {
             BuyGUI.inv2 = BuyGUI.createInv(2);
             BuyGUI.inv3 = BuyGUI.createInv(3);
             BuyGUI.inv4 = BuyGUI.createInv(4);
-            SocialGUI.createInv();
             sender.sendMessage(ChatColor.GREEN + "SilverstoneGlobal reloaded!");
             return true;
         }

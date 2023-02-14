@@ -14,8 +14,6 @@ public class Whitelist {
     private static final JavaPlugin plugin = SilverstoneGlobal.getInstance();
 
     public static void whitelist() {
-        // #serverSpecific
-        if (plugin.getConfig().getString("server").equals("building")) return;
         if (Bukkit.getServer().hasWhitelist()) {
             try {
                 Bukkit.getPlayer(UUID.fromString("a28173af-f0a9-47fe-8549-19c6bccf68da"))

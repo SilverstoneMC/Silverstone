@@ -165,10 +165,10 @@
 
         <dependency>
             <groupId>net.silverstonemc</groupId>
-            <artifactId>Matrix</artifactId>
+            <artifactId>"Matrix"</artifactId>
             <version>0</version>
             <scope>system</scope>
-            <systemPath><![CDATA[D:/Server Plugins/3&2 - Minigames & Main/Matrix.jar]]></systemPath>
+            <systemPath>C:/Users/jason/OneDrive/Server Plugins/Non-Survival/Matrix.jar</systemPath>
         </dependency>
 
         <dependency>

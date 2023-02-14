@@ -24,7 +24,7 @@ public record Exit(JavaPlugin plugin) implements CommandExecutor, Listener {
             public void run() {
                 ByteArrayDataOutput out = ByteStreams.newDataOutput();
                 out.writeUTF("Connect");
-                out.writeUTF("main");
+                out.writeUTF("minigames");
                 player.sendPluginMessage(plugin, "BungeeCord", out.toByteArray());
             }
         };
@@ -44,7 +44,7 @@ public record Exit(JavaPlugin plugin) implements CommandExecutor, Listener {
     // Add aliases for other servers
     @EventHandler
     public void aliases(PlayerCommandPreprocessEvent event) {
-        if (plugin.getConfig().getString("server").equals("main")) return;
+        if (plugin.getConfig().getString("server").equals("minigames")) return;
 
         String cmd = event.getMessage().toLowerCase();
         if (cmd.startsWith("/spawn") || cmd.startsWith("/lobby") || cmd.startsWith("/hub")) {

@@ -21,8 +21,7 @@ public class TabComplete implements TabCompleter, Listener {
         List<String> result = new ArrayList<>();
         if (args.length == 1) {
             for (String a : arguments)
-                if (a.toLowerCase().startsWith(args[0].toLowerCase()))
-                    result.add(a);
+                if (a.toLowerCase().startsWith(args[0].toLowerCase())) result.add(a);
             return result;
         }
         return null;
