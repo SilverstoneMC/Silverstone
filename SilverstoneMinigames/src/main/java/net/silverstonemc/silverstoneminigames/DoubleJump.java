@@ -24,15 +24,13 @@ import java.util.List;
 import java.util.Map;
 
 public class DoubleJump implements CommandExecutor, Listener {
-
-    private final JavaPlugin plugin;
-
     public DoubleJump(JavaPlugin plugin) {
         this.plugin = plugin;
     }
-
-    private static final Map<Player, Integer> jumps = new HashMap<>();
+    
+    private final JavaPlugin plugin;
     private final Map<String, Long> cooldowns = new HashMap<>();
+    private static final Map<Player, Integer> jumps = new HashMap<>();
 
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
         if (args.length > 1) {

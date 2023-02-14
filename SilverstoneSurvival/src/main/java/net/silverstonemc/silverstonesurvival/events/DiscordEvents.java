@@ -13,12 +13,11 @@ import org.bukkit.scheduler.BukkitRunnable;
 import java.util.UUID;
 
 public class DiscordEvents extends ListenerAdapter {
-
-    private final JavaPlugin plugin;
-
     public DiscordEvents(JavaPlugin plugin) {
         this.plugin = plugin;
     }
+    
+    private final JavaPlugin plugin;
 
     @SuppressWarnings("DataFlowIssue")
     public void onButtonClick(ButtonClickEvent event) {
@@ -42,36 +41,41 @@ public class DiscordEvents extends ListenerAdapter {
             message.editMessageComponents(ActionRow.of(button)).queue();
         }
 
-        if (componentId.equals("vanish"))
-            if (event.getMember().getIdLong() == 277291758503723010L) event.reply("**Select a status:**")
-                    .addActionRow(Button.success("vanish:on:jasonmain", "Vanish main"), Button.danger("vanish:off:jasonmain", "Un-vanish main"), Button.success("vanish:on:jasonalt", "Vanish alt"), Button.danger("vanish:off:jasonalt", "Un-vanish alt"))
-                    .setEphemeral(true)
-                    .queue();
-            else event.reply("**Select a status:**")
-                    .addActionRow(Button.success("vanish:on", "Vanish"), Button.danger("vanish:off", "Un-vanish"))
-                    .setEphemeral(true)
-                    .queue();
+        if (componentId.equals("vanish")) if (event.getMember().getIdLong() == 277291758503723010L)
+            event.reply("**Select a status:**")
+                .addActionRow(Button.success("vanish:on:jasonmain", "Vanish main"),
+                    Button.danger("vanish:off:jasonmain", "Un-vanish main"),
+                    Button.success("vanish:on:jasonalt", "Vanish alt"),
+                    Button.danger("vanish:off:jasonalt", "Un-vanish alt")).setEphemeral(true).queue();
+        else event.reply("**Select a status:**")
+                .addActionRow(Button.success("vanish:on", "Vanish"), Button.danger("vanish:off", "Un-vanish"))
+                .setEphemeral(true).queue();
 
         if (componentId.startsWith("vanish:")) {
             UUID uuid = null;
 
-            if (componentId.endsWith("jasonmain")) uuid = UUID.fromString("a28173af-f0a9-47fe-8549-19c6bccf68da");
-            else if (componentId.endsWith("jasonalt")) uuid = UUID.fromString("bc9848dd-5dd9-4141-9790-f023134cbb7d");
+            if (componentId.endsWith("jasonmain"))
+                uuid = UUID.fromString("a28173af-f0a9-47fe-8549-19c6bccf68da");
+            else if (componentId.endsWith("jasonalt"))
+                uuid = UUID.fromString("bc9848dd-5dd9-4141-9790-f023134cbb7d");
             else switch (event.getMember().getId()) {
                     // Ace
-                    case "287993228026707971" -> uuid = UUID.fromString("5c3d3b7c-aa02-4751-ae4b-60b277da9c35");
+                    case "287993228026707971" ->
+                        uuid = UUID.fromString("5c3d3b7c-aa02-4751-ae4b-60b277da9c35");
                     // Panda
-                    case "361767232805535746" -> uuid = UUID.fromString("75fb05a2-9d9e-49cb-be34-6bd5215548ba");
+                    case "361767232805535746" ->
+                        uuid = UUID.fromString("75fb05a2-9d9e-49cb-be34-6bd5215548ba");
                     // Dragon
-                    case "340508770788573186" -> uuid = UUID.fromString("e70a4622-85b6-417d-9201-7322e5094465");
+                    case "340508770788573186" ->
+                        uuid = UUID.fromString("e70a4622-85b6-417d-9201-7322e5094465");
                     // Adam
-                    case "527562344302247949" -> uuid = UUID.fromString("31f1cc2b-85aa-4e11-b4cd-0e0a0e2442a8");
+                    case "527562344302247949" ->
+                        uuid = UUID.fromString("31f1cc2b-85aa-4e11-b4cd-0e0a0e2442a8");
                 }
 
             if (uuid == null) {
                 event.reply("Couldn't find you in the database! Please contact Jason for help.")
-                        .setEphemeral(true)
-                        .queue();
+                    .setEphemeral(true).queue();
                 return;
             } else event.deferReply(true).queue();
 
@@ -97,9 +101,9 @@ public class DiscordEvents extends ListenerAdapter {
                 sync.runTask(plugin);
                 event.getHook().editOriginal("Successfully un-vanished " + username).queue();
 
-            } else event.getHook()
-                    .editOriginal("Error: No status in component ID `" + componentId + "` - Please report this to Jason")
-                    .queue();
+            } else event.getHook().editOriginal(
+                    "Error: No status in component ID `" + componentId + "` - Please report this to Jason")
+                .queue();
         }
     }
 
@@ -107,9 +111,7 @@ public class DiscordEvents extends ListenerAdapter {
         if (event.getAuthor().isBot()) return;
 
         if (event.getChannel().getIdLong() == 869674733925449758L)
-            event.getChannel()
-                    .sendMessage("**Click the button below to change your vanish status:**")
-                    .setActionRow(Button.primary("vanish", "Vanish"))
-                    .queue();
+            event.getChannel().sendMessage("**Click the button below to change your vanish status:**")
+                .setActionRow(Button.primary("vanish", "Vanish")).queue();
     }
 }

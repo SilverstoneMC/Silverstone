@@ -12,13 +12,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class JoinLeaveSpam implements Listener {
-
-    private final JavaPlugin plugin;
-
     public JoinLeaveSpam(JavaPlugin plugin) {
         this.plugin = plugin;
     }
 
+    private final JavaPlugin plugin;
     private final Map<String, Integer> leaves = new HashMap<>();
 
     public void removeLeave(Player player) {
@@ -39,8 +37,8 @@ public class JoinLeaveSpam implements Listener {
 
         if (leaves.containsKey(player.getName()))
             if (leaves.get(player.getName()) >= plugin.getConfig().getInt("join-leave-spam.leaves"))
-                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "warn " + player.getName() + " " + plugin.getConfig()
-                        .getString("join-leave-spam.warn"));
+                Bukkit.dispatchCommand(Bukkit.getConsoleSender(),
+                    "warn " + player.getName() + " " + plugin.getConfig().getString("join-leave-spam.warn"));
             else {
                 leaves.put(player.getName(), leaves.get(player.getName()) + 1);
                 removeLeave(player);

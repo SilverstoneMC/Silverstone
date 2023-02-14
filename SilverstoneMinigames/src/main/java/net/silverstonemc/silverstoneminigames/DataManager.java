@@ -11,38 +11,35 @@ import java.io.InputStreamReader;
 import java.util.logging.Level;
 
 public class DataManager {
-
-    private final JavaPlugin plugin;
-    private FileConfiguration dataConfig = null;
-    private File configFile = null;
-
     public DataManager(JavaPlugin plugin) {
         this.plugin = plugin;
         saveDefaultConfig();
     }
+    
+    private final JavaPlugin plugin;
+    private File configFile = null;
+    private FileConfiguration dataConfig = null;
 
     public void reloadConfig() {
-        if (configFile == null)
-            configFile = new File(plugin.getDataFolder(), "data.yml");
+        if (configFile == null) configFile = new File(plugin.getDataFolder(), "data.yml");
 
         this.dataConfig = YamlConfiguration.loadConfiguration(configFile);
 
         InputStream defaultStream = plugin.getResource("data.yml");
         if (defaultStream != null) {
-            YamlConfiguration defaultConfig = YamlConfiguration.loadConfiguration(new InputStreamReader(defaultStream));
+            YamlConfiguration defaultConfig = YamlConfiguration.loadConfiguration(
+                new InputStreamReader(defaultStream));
             dataConfig.setDefaults(defaultConfig);
         }
     }
 
     public FileConfiguration getConfig() {
-        if (dataConfig == null)
-            reloadConfig();
+        if (dataConfig == null) reloadConfig();
         return dataConfig;
     }
 
     public void saveConfig() {
-        if (dataConfig == null || configFile == null)
-            return;
+        if (dataConfig == null || configFile == null) return;
 
         try {
             this.getConfig().save(configFile);
@@ -53,7 +50,6 @@ public class DataManager {
 
     public void saveDefaultConfig() {
         if (configFile == null) configFile = new File(plugin.getDataFolder(), "data.yml");
-        if (!configFile.exists())
-            plugin.saveResource("data.yml", false);
+        if (!configFile.exists()) plugin.saveResource("data.yml", false);
     }
 }

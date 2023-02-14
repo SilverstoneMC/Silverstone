@@ -20,13 +20,15 @@ public class QuitEvent implements Listener {
 
         if (JoinEvent.newPlayers.containsKey(player)) {
             int x = 0;
-            for (Player players : Bukkit.getOnlinePlayers()) if (players.hasPermission("silverstone.trialmod")) x++;
+            for (Player players : Bukkit.getOnlinePlayers())
+                if (players.hasPermission("silverstone.trialmod")) x++;
 
             Message message = JoinEvent.newPlayers.get(player);
             MessageEmbed oldEmbed = message.getEmbeds().get(0);
 
             EmbedBuilder embed = new EmbedBuilder();
-            embed.setAuthor(player.getName() + " was new this season", null, oldEmbed.getAuthor().getIconUrl());
+            embed.setAuthor(player.getName() + " was new this season", null,
+                oldEmbed.getAuthor().getIconUrl());
             embed.setImage(oldEmbed.getImage().getUrl());
             embed.setFooter("Player has left | " + x + " staff members online");
             embed.setColor(Color.RED);

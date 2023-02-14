@@ -25,7 +25,7 @@ public class SilverstoneSurvival extends JavaPlugin implements Listener {
     }
 
     //todo merge all into SilverstoneMinigames
-    
+
     @Override
     public void onEnable() {
         instance = this;

@@ -20,39 +20,40 @@ import java.util.HashMap;
 import java.util.Map;
 
 public final class JoinEvent implements Listener {
-
-    public static final Map<Player, Message> newPlayers = new HashMap<>();
-    private final JavaPlugin plugin;
-
     public JoinEvent(JavaPlugin plugin) {
         this.plugin = plugin;
     }
-
+    
+    public static final Map<Player, Message> newPlayers = new HashMap<>();
+    
+    private final JavaPlugin plugin;
+    
     @EventHandler(ignoreCancelled = true)
     public void onJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
 
         if (!player.hasPlayedBefore()) {
             int x = 0;
-            for (Player players : Bukkit.getOnlinePlayers()) if (players.hasPermission("silverstone.trialmod")) x++;
+            for (Player players : Bukkit.getOnlinePlayers())
+                if (players.hasPermission("silverstone.trialmod")) x++;
             int finalX = x;
             BukkitRunnable task = new BukkitRunnable() {
                 @Override
                 public void run() {
                     TextChannel discord = DiscordSRV.getPlugin()
-                            .getDestinationTextChannelForGameChannelName("newplayers");
+                        .getDestinationTextChannelForGameChannelName("newplayers");
 
                     EmbedBuilder embed = new EmbedBuilder();
-                    embed.setAuthor(player.getName() + " is new this season", null, "https://crafatar.com/avatars/" + player
-                            .getUniqueId() + "?overlay=true");
-                    embed.setImage("https://crafatar.com/renders/body/" + player.getUniqueId() + "?overlay=true");
+                    embed.setAuthor(player.getName() + " is new this season", null,
+                        "https://crafatar.com/avatars/" + player.getUniqueId() + "?overlay=true");
+                    embed.setImage(
+                        "https://crafatar.com/renders/body/" + player.getUniqueId() + "?overlay=true");
                     embed.setFooter(finalX + " staff members online");
                     embed.setColor(new Color(36, 197, 19));
 
-                    Message message = discord.sendMessageEmbeds(embed.build())
-                            .setActionRow(Button.danger("warnskin:" + player.getName(), "Warn for inappropriate skin")
-                                    .withEmoji(Emoji.fromUnicode("⚠")))
-                            .complete();
+                    Message message = discord.sendMessageEmbeds(embed.build()).setActionRow(
+                        Button.danger("warnskin:" + player.getName(), "Warn for inappropriate skin")
+                            .withEmoji(Emoji.fromUnicode("⚠"))).complete();
                     newPlayers.put(player, message);
                 }
             };
@@ -66,10 +67,11 @@ public final class JoinEvent implements Listener {
                     if (!players.hasPermission("silverstone.trialmod")) nonStaff++;
                 if (nonStaff == 0) return;
 
-                TextChannel discord = DiscordSRV.getPlugin().getDestinationTextChannelForGameChannelName("silentjoins");
+                TextChannel discord = DiscordSRV.getPlugin()
+                    .getDestinationTextChannelForGameChannelName("silentjoins");
                 EmbedBuilder embed = new EmbedBuilder();
-                embed.setAuthor(player.getName() + " silently joined the server", null, "https://crafatar.com/avatars/" + player
-                        .getUniqueId() + "?overlay=true");
+                embed.setAuthor(player.getName() + " silently joined the server", null,
+                    "https://crafatar.com/avatars/" + player.getUniqueId() + "?overlay=true");
                 embed.setColor(new Color(36, 197, 19));
 
                 discord.sendMessageEmbeds(embed.build()).queue();

@@ -23,7 +23,8 @@ public class TabComplete implements TabCompleter, Listener {
 
             List<String> result = new ArrayList<>();
             if (args.length == 1) {
-                for (String a : arguments1) if (a.toLowerCase().startsWith(args[0].toLowerCase())) result.add(a);
+                for (String a : arguments1)
+                    if (a.toLowerCase().startsWith(args[0].toLowerCase())) result.add(a);
                 return result;
             }
         } else if (cmd.getName().equalsIgnoreCase("rtplimit")) {
@@ -31,7 +32,8 @@ public class TabComplete implements TabCompleter, Listener {
 
             List<String> result = new ArrayList<>();
             if (args.length == 1) {
-                for (String a : arguments2) if (a.toLowerCase().startsWith(args[0].toLowerCase())) result.add(a);
+                for (String a : arguments2)
+                    if (a.toLowerCase().startsWith(args[0].toLowerCase())) result.add(a);
                 return result;
             }
         } else if (cmd.getName().equalsIgnoreCase("claimpoints")) {
@@ -49,7 +51,8 @@ public class TabComplete implements TabCompleter, Listener {
 
             List<String> result = new ArrayList<>();
             if (args.length == 1) {
-                for (String a : arguments3) if (a.toLowerCase().startsWith(args[0].toLowerCase())) result.add(a);
+                for (String a : arguments3)
+                    if (a.toLowerCase().startsWith(args[0].toLowerCase())) result.add(a);
                 return result;
             }
         }
