@@ -1,7 +1,6 @@
 package net.silverstonemc.silverstonesurvival;
 
 import github.scarsz.discordsrv.DiscordSRV;
-import net.silverstonemc.silverstonesurvival.commands.DiscordRelay;
 import net.silverstonemc.silverstonesurvival.commands.GettingStarted;
 import net.silverstonemc.silverstonesurvival.events.JoinEvent;
 import net.silverstonemc.silverstonesurvival.events.JoinLeaveSpam;
@@ -40,7 +39,6 @@ public class SilverstoneSurvival extends JavaPlugin implements Listener {
             DiscordSRV.api.subscribe(new DiscordReady(this));
 
         getCommand("gettingstarted").setExecutor(new GettingStarted());
-        getCommand("relay").setExecutor(new DiscordRelay(this));
 
         getCommand("rtplimit").setTabCompleter(new TabComplete());
         getCommand("ssm").setTabCompleter(new TabComplete());
