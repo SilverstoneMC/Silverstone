@@ -6,7 +6,7 @@
 
     <groupId>net.silverstonemc</groupId>
     <artifactId>SilverstoneGlobal</artifactId>
-    <version>6.1.5</version>
+    <version>7.0.0-beta</version>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
@@ -53,7 +53,7 @@
                 </configuration>
             </plugin>
 
-            <plugin>
+            <!--<plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
                 <version>3.4.1</version>
@@ -80,7 +80,7 @@
                         </configuration>
                     </execution>
                 </executions>
-            </plugin>
+            </plugin>-->
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -100,21 +100,38 @@
     </build>
 
     <repositories>
+        <!-- Paper -->
         <repository>
             <id>papermc</id>
-            <url>https://papermc.io/repo/repository/maven-public/</url>
+            <url>https://repo.papermc.io/repository/maven-public/</url>
         </repository>
 
+        <!-- Adventure / MiniMessage -->
+        <repository>
+            <id>sonatype-oss-snapshots</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+        </repository>
+
+        <!-- DiscordSRV -->
         <repository>
             <id>Scarsz-Nexus</id>
             <url>https://nexus.scarsz.me/content/groups/public/</url>
         </repository>
 
+        <!-- JDA -->
+        <repository>
+            <id>dv8tion</id>
+            <name>m2-dv8tion</name>
+            <url>https://m2.dv8tion.net/releases</url>
+        </repository>
+
+        <!-- EssentialsX -->
         <repository>
             <id>essentials-releases</id>
             <url>https://repo.essentialsx.net/releases/</url>
         </repository>
 
+        <!-- ViaVersion -->
         <repository>
             <id>viaversion-repo</id>
             <url>https://repo.viaversion.com</url>
@@ -125,14 +142,26 @@
         <dependency>
             <groupId>io.papermc.paper</groupId>
             <artifactId>paper-api</artifactId>
-            <version>1.18.1-R0.1-SNAPSHOT</version>
+            <version>1.19.3-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>net.kyori</groupId>
+                    <artifactId>adventure-api</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>
             <groupId>net.kyori</groupId>
             <artifactId>adventure-text-minimessage</artifactId>
-            <version>4.2.0-SNAPSHOT</version>
+            <version>4.11.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>net.kyori</groupId>
+            <artifactId>adventure-platform-bukkit</artifactId>
+            <version>4.1.2</version>
         </dependency>
 
         <dependency>
@@ -152,20 +181,20 @@
         <dependency>
             <groupId>com.discordsrv</groupId>
             <artifactId>discordsrv</artifactId>
-            <version>1.24.0</version>
+            <version>1.26.0</version>
             <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>net.essentialsx</groupId>
             <artifactId>EssentialsX</artifactId>
-            <version>2.19.2</version>
+            <version>2.19.7</version>
             <scope>provided</scope>
         </dependency>
 
         <dependency>
-            <groupId>net.silverstonemc</groupId>
-            <artifactId>"Matrix"</artifactId>
+            <groupId>me.rerere</groupId>
+            <artifactId>Matrix</artifactId>
             <version>0</version>
             <scope>system</scope>
             <systemPath>C:/Users/jason/OneDrive/Server Plugins/Non-Survival/Matrix.jar</systemPath>

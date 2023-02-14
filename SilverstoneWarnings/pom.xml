@@ -6,7 +6,7 @@
 
     <groupId>net.silverstonemc</groupId>
     <artifactId>SilverstoneWarnings</artifactId>
-    <version>2.0.2</version>
+    <version>3.0.0-beta</version>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
@@ -95,20 +95,17 @@
     </build>
 
     <repositories>
+        <!-- Waterfall -->
         <repository>
             <id>papermc</id>
             <url>https://papermc.io/repo/repository/maven-public/</url>
         </repository>
 
+        <!-- JDA -->
         <repository>
             <id>dv8tion</id>
             <name>m2-dv8tion</name>
             <url>https://m2.dv8tion.net/releases</url>
-        </repository>
-
-        <repository>
-            <id>sonatype-oss-snapshots</id>
-            <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
         </repository>
     </repositories>
 
@@ -116,26 +113,14 @@
         <dependency>
             <groupId>io.github.waterfallmc</groupId>
             <artifactId>waterfall-api</artifactId>
-            <version>1.18-R0.1-SNAPSHOT</version>
+            <version>1.19-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>net.dv8tion</groupId>
             <artifactId>JDA</artifactId>
-            <version>4.4.0_350</version>
-        </dependency>
-
-        <dependency>
-            <groupId>net.kyori</groupId>
-            <artifactId>adventure-platform-bungeecord</artifactId>
-            <version>4.0.0</version>
-        </dependency>
-
-        <dependency>
-            <groupId>net.kyori</groupId>
-            <artifactId>adventure-text-minimessage</artifactId>
-            <version>4.2.0-SNAPSHOT</version>
+            <version>5.0.0-beta.3</version>
         </dependency>
     </dependencies>
 

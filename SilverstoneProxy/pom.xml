@@ -55,6 +55,35 @@
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.4.1</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <createDependencyReducedPom>false</createDependencyReducedPom>
+                            <minimizeJar>true</minimizeJar>
+                            <relocations>
+                                <relocation>
+                                    <pattern>net.kyori.adventure.text.minimessage</pattern>
+                                    <shadedPattern>net.silverstonemc.silverstoneglobal.shaded.minimessage
+                                    </shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>net.kyori.adventure.sound</pattern>
+                                    <shadedPattern>net.silverstonemc.silverstoneglobal.shaded.sound</shadedPattern>
+                                </relocation>
+                            </relocations>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-clean-plugin</artifactId>
                 <version>3.1.0</version>
                 <executions>
@@ -71,11 +100,13 @@
     </build>
 
     <repositories>
+        <!-- Paper -->
         <repository>
             <id>papermc</id>
             <url>https://papermc.io/repo/repository/maven-public/</url>
         </repository>
 
+        <!-- Adventure / MiniMessage -->
         <repository>
             <id>sonatype-oss-snapshots</id>
             <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
@@ -99,14 +130,14 @@
 
         <dependency>
             <groupId>net.kyori</groupId>
-            <artifactId>adventure-platform-bungeecord</artifactId>
-            <version>4.0.2-SNAPSHOT</version>
+            <artifactId>adventure-text-minimessage</artifactId>
+            <version>4.11.0</version>
         </dependency>
 
         <dependency>
             <groupId>net.kyori</groupId>
-            <artifactId>adventure-text-minimessage</artifactId>
-            <version>4.2.0-SNAPSHOT</version>
+            <artifactId>adventure-platform-bungeecord</artifactId>
+            <version>4.1.1-SNAPSHOT</version>
         </dependency>
     </dependencies>
 
