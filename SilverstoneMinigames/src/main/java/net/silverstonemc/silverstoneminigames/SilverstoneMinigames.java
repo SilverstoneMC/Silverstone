@@ -10,7 +10,7 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
-@SuppressWarnings({"ConstantConditions", "unused"})
+@SuppressWarnings({"DataFlowIssue", "unused"})
 public class SilverstoneMinigames extends JavaPlugin implements CommandExecutor {
 
     public static DataManager data;
