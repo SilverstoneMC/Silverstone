@@ -1,5 +1,5 @@
 # Forums
-### [CLICK HERE TO LEARN HOW TO PROPERLY SUBMIT AN ISSUE (BUG REPORT, APPLICATION, ETC)](https://github.com/JasonHorkles/Silverstone/wiki)
+### [CLICK HERE TO LEARN HOW TO PROPERLY SUBMIT AN ISSUE (BUG REPORT, FEATURE REQUEST, ETC)](https://github.com/JasonHorkles/Silverstone/wiki)
 
 # Info
 Join our Discord server for the latest news [here](https://silverstonemc.net/discord)
