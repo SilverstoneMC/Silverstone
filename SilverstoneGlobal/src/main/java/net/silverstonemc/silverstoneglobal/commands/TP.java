@@ -17,8 +17,7 @@ import java.util.concurrent.CompletableFuture;
 
 @SuppressWarnings("DataFlowIssue")
 public class TP implements CommandExecutor {
-
-    final IEssentials essentials = SilverstoneGlobal.getInstance().getEssentials();
+    private final IEssentials essentials = SilverstoneGlobal.getInstance().getEssentials();
 
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
         if (!(sender instanceof Player)) {
@@ -38,29 +37,24 @@ public class TP implements CommandExecutor {
             // If player specifies world
             if (args.length > 2) if (Bukkit.getWorld(args[2]) != null) {
                 Location loc = Bukkit.getWorld(args[2])
-                        .getHighestBlockAt(Integer.parseInt(args[0]) * multiplier, Integer.parseInt(args[1]) * multiplier)
-                        .getLocation()
-                        .add(0, 1, 0);
+                    .getHighestBlockAt(Integer.parseInt(args[0]) * multiplier,
+                        Integer.parseInt(args[1]) * multiplier).getLocation().add(0, 1, 0);
 
-                if (player.isFlying()) essentials.getUser(player)
-                        .getAsyncTeleport()
-                        .now(loc.add(0, 3, 0), false,  PlayerTeleportEvent.TeleportCause.COMMAND, new CompletableFuture<>());
-                else essentials.getUser(player)
-                        .getAsyncTeleport()
-                        .now(loc, false, PlayerTeleportEvent.TeleportCause.COMMAND, new CompletableFuture<>());
+                if (player.isFlying()) essentials.getUser(player).getAsyncTeleport()
+                    .now(loc.add(0, 3, 0), false, PlayerTeleportEvent.TeleportCause.COMMAND,
+                        new CompletableFuture<>());
+                else essentials.getUser(player).getAsyncTeleport()
+                    .now(loc, false, PlayerTeleportEvent.TeleportCause.COMMAND, new CompletableFuture<>());
             } else player.sendMessage(Component.text(ChatColor.RED + "That world doesn't exist!"));
             else {
-                Location loc = player.getWorld()
-                        .getHighestBlockAt(Integer.parseInt(args[0]) * multiplier, Integer.parseInt(args[1]) * multiplier)
-                        .getLocation()
-                        .add(0, 1, 0);
+                Location loc = player.getWorld().getHighestBlockAt(Integer.parseInt(args[0]) * multiplier,
+                    Integer.parseInt(args[1]) * multiplier).getLocation().add(0, 1, 0);
 
-                if (player.isFlying()) essentials.getUser(player)
-                        .getAsyncTeleport()
-                        .now(loc.add(0, 3, 0), false, PlayerTeleportEvent.TeleportCause.COMMAND, new CompletableFuture<>());
-                else essentials.getUser(player)
-                        .getAsyncTeleport()
-                        .now(loc, false, PlayerTeleportEvent.TeleportCause.COMMAND, new CompletableFuture<>());
+                if (player.isFlying()) essentials.getUser(player).getAsyncTeleport()
+                    .now(loc.add(0, 3, 0), false, PlayerTeleportEvent.TeleportCause.COMMAND,
+                        new CompletableFuture<>());
+                else essentials.getUser(player).getAsyncTeleport()
+                    .now(loc, false, PlayerTeleportEvent.TeleportCause.COMMAND, new CompletableFuture<>());
             }
             return true;
         }

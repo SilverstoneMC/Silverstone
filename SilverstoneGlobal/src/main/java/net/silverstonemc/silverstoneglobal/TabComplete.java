@@ -12,8 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TabComplete implements TabCompleter, Listener {
-
-    final List<String> arguments = new ArrayList<>();
+    private final List<String> arguments = new ArrayList<>();
 
     public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
         if (arguments.isEmpty()) arguments.add("reload");
@@ -31,14 +30,15 @@ public class TabComplete implements TabCompleter, Listener {
 
     @EventHandler
     public void tabComplete(AsyncTabCompleteEvent event) {
-        if (event.getBuffer().startsWith("/afk")) if (event.getSender().hasPermission("essentials.afk.message")) {
-            if (!argumentsAfk.contains("doing school work")) argumentsAfk.add("doing school work");
-            if (!argumentsAfk.contains("eating breakfast")) argumentsAfk.add("eating breakfast");
-            if (!argumentsAfk.contains("eating lunch")) argumentsAfk.add("eating lunch");
-            if (!argumentsAfk.contains("eating dinner")) argumentsAfk.add("eating dinner");
-            if (!argumentsAfk.contains("getting a drink")) argumentsAfk.add("getting a drink");
-            if (!argumentsAfk.contains("getting a snack")) argumentsAfk.add("getting a snack");
-            event.setCompletions(argumentsAfk);
-        }
+        if (event.getBuffer().startsWith("/afk"))
+            if (event.getSender().hasPermission("essentials.afk.message")) {
+                if (!argumentsAfk.contains("doing school work")) argumentsAfk.add("doing school work");
+                if (!argumentsAfk.contains("eating breakfast")) argumentsAfk.add("eating breakfast");
+                if (!argumentsAfk.contains("eating lunch")) argumentsAfk.add("eating lunch");
+                if (!argumentsAfk.contains("eating dinner")) argumentsAfk.add("eating dinner");
+                if (!argumentsAfk.contains("getting a drink")) argumentsAfk.add("getting a drink");
+                if (!argumentsAfk.contains("getting a snack")) argumentsAfk.add("getting a snack");
+                event.setCompletions(argumentsAfk);
+            }
     }
 }

@@ -10,14 +10,13 @@ import java.util.UUID;
 
 @SuppressWarnings("DataFlowIssue")
 public class Whitelist {
-
     private static final JavaPlugin plugin = SilverstoneGlobal.getInstance();
 
     public static void whitelist() {
         if (Bukkit.getServer().hasWhitelist()) {
             try {
                 Bukkit.getPlayer(UUID.fromString("a28173af-f0a9-47fe-8549-19c6bccf68da"))
-                        .sendActionBar(Component.text("Whitelist is on").color(NamedTextColor.YELLOW));
+                    .sendActionBar(Component.text("Whitelist is on").color(NamedTextColor.YELLOW));
             } catch (NullPointerException ignored) {
             }
 

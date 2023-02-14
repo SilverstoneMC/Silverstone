@@ -10,7 +10,6 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 
 public record TPSMonitor(JavaPlugin plugin) implements CommandExecutor {
-
     private static BukkitRunnable task;
 
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
@@ -26,7 +25,8 @@ public record TPSMonitor(JavaPlugin plugin) implements CommandExecutor {
             if (task != null && !task.isCancelled()) {
                 task.cancel();
                 Bukkit.dispatchCommand(sender, cmd.getName() + " " + args[0]);
-                sender.sendMessage(ChatColor.GREEN + "Successfully changed the interval to " + interval / 20 + " seconds.");
+                sender.sendMessage(
+                    ChatColor.GREEN + "Successfully changed the interval to " + interval / 20 + " seconds.");
                 return true;
             }
 

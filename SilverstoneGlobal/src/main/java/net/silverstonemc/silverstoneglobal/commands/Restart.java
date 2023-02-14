@@ -20,7 +20,6 @@ import org.jetbrains.annotations.NotNull;
 
 @SuppressWarnings({"UnstableApiUsage", "DataFlowIssue"})
 public record Restart(JavaPlugin plugin) implements CommandExecutor {
-
     private static boolean restarting = false;
 
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
@@ -52,49 +51,58 @@ public record Restart(JavaPlugin plugin) implements CommandExecutor {
                             }
 
                             for (Player player : Bukkit.getOnlinePlayers())
-                                player.sendActionBar(Component.text(ChatColor.translateAlternateColorCodes('&', "&6&lSERVER RESTARTING IN: &e&l" + sec[0])));
+                                player.sendActionBar(Component.text(
+                                    ChatColor.translateAlternateColorCodes('&',
+                                        "&6&lSERVER RESTARTING IN: &e&l" + sec[0])));
                             plugin.getLogger().info("Server restarting in: " + sec[0]);
 
                             switch (sec[0]) {
                                 case 10 -> {
                                     for (Player player : Bukkit.getOnlinePlayers()) {
-                                        player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_HARP, SoundCategory.MASTER, 100, 1.2f);
-                                        player.sendMessage(Component.text(ChatColor.translateAlternateColorCodes('&', "&c&lClick "))
-                                                .append(Component.text("here")
-                                                        .color(NamedTextColor.GRAY)
-                                                        .decorate(TextDecoration.BOLD)
-                                                        .decorate(TextDecoration.UNDERLINED)
-                                                        .clickEvent(ClickEvent.runCommand("/server " + finalServer)))
-                                                .append(Component.text(ChatColor.translateAlternateColorCodes('&', " &c&lto evacuate!"))));
+                                        player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_HARP,
+                                            SoundCategory.MASTER, 100, 1.2f);
+                                        player.sendMessage(Component.text(
+                                                ChatColor.translateAlternateColorCodes('&', "&c&lClick ")).append(
+                                                Component.text("here").color(NamedTextColor.GRAY)
+                                                    .decorate(TextDecoration.BOLD)
+                                                    .decorate(TextDecoration.UNDERLINED)
+                                                    .clickEvent(ClickEvent.runCommand("/server " + finalServer)))
+                                            .append(Component.text(ChatColor.translateAlternateColorCodes('&',
+                                                " &c&lto evacuate!"))));
                                     }
                                     sec[0] -= 1;
                                 }
                                 case 9, 8, 7, 6, 5, 4 -> {
                                     for (Player player : Bukkit.getOnlinePlayers())
-                                        player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_HARP, SoundCategory.MASTER, 100, 1.2f);
+                                        player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_HARP,
+                                            SoundCategory.MASTER, 100, 1.2f);
                                     sec[0] -= 1;
                                 }
                                 case 3 -> {
                                     for (Player player : Bukkit.getOnlinePlayers()) {
-                                        player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_HARP, SoundCategory.MASTER, 100, 1.6f);
-                                        player.sendMessage(Component.text(ChatColor.translateAlternateColorCodes('&', "&c&lClick "))
-                                                .append(Component.text("here")
-                                                        .color(NamedTextColor.GRAY)
-                                                        .decorate(TextDecoration.BOLD)
-                                                        .decorate(TextDecoration.UNDERLINED)
-                                                        .clickEvent(ClickEvent.runCommand("/server " + finalServer)))
-                                                .append(Component.text(ChatColor.translateAlternateColorCodes('&', " &c&lto evacuate!"))));
+                                        player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_HARP,
+                                            SoundCategory.MASTER, 100, 1.6f);
+                                        player.sendMessage(Component.text(
+                                                ChatColor.translateAlternateColorCodes('&', "&c&lClick ")).append(
+                                                Component.text("here").color(NamedTextColor.GRAY)
+                                                    .decorate(TextDecoration.BOLD)
+                                                    .decorate(TextDecoration.UNDERLINED)
+                                                    .clickEvent(ClickEvent.runCommand("/server " + finalServer)))
+                                            .append(Component.text(ChatColor.translateAlternateColorCodes('&',
+                                                " &c&lto evacuate!"))));
                                     }
                                     sec[0] -= 1;
                                 }
                                 case 2, 1 -> {
                                     for (Player player : Bukkit.getOnlinePlayers())
-                                        player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_HARP, SoundCategory.MASTER, 100, 1.6f);
+                                        player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_HARP,
+                                            SoundCategory.MASTER, 100, 1.6f);
                                     sec[0] -= 1;
                                 }
                                 case 0 -> {
                                     for (Player player : Bukkit.getOnlinePlayers()) {
-                                        player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_HARP, SoundCategory.MASTER, 100, 2);
+                                        player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_HARP,
+                                            SoundCategory.MASTER, 100, 2);
                                         send(player, server);
                                     }
                                     sec[0] -= 1;
@@ -110,7 +118,8 @@ public record Restart(JavaPlugin plugin) implements CommandExecutor {
                 } else {
                     restarting = false;
                     for (Player player : Bukkit.getOnlinePlayers())
-                        player.sendActionBar(Component.text(ChatColor.translateAlternateColorCodes('&', "&a&lSERVER RESTART CANCELLED!")));
+                        player.sendActionBar(Component.text(
+                            ChatColor.translateAlternateColorCodes('&', "&a&lSERVER RESTART CANCELLED!")));
                     plugin.getLogger().info("Server restart cancelled!");
                 }
             }
@@ -121,7 +130,8 @@ public record Restart(JavaPlugin plugin) implements CommandExecutor {
                 if (Bukkit.getOnlinePlayers().size() > 0) {
                     plugin.getLogger().info("Restarting...");
                     for (Player player : Bukkit.getOnlinePlayers()) {
-                        player.sendActionBar(Component.text(ChatColor.translateAlternateColorCodes('&', "&b&lSERVER RESTARTING... ATTEMPTING TO TRANSFER PLAYERS")));
+                        player.sendActionBar(Component.text(ChatColor.translateAlternateColorCodes('&',
+                            "&b&lSERVER RESTARTING... ATTEMPTING TO TRANSFER PLAYERS")));
                         send(player, server);
                     }
 
@@ -137,7 +147,8 @@ public record Restart(JavaPlugin plugin) implements CommandExecutor {
 
             case "restartwhenempty" -> {
                 for (Player player : Bukkit.getOnlinePlayers())
-                    player.sendActionBar(Component.text(ChatColor.translateAlternateColorCodes('&', "&c&lSERVER SCHEDULED TO RESTART WHEN EMPTY")));
+                    player.sendActionBar(Component.text(ChatColor.translateAlternateColorCodes('&',
+                        "&c&lSERVER SCHEDULED TO RESTART WHEN EMPTY")));
                 plugin.getLogger().info("Server scheduled to restart when empty.");
 
                 BukkitRunnable task = new BukkitRunnable() {
@@ -151,16 +162,20 @@ public record Restart(JavaPlugin plugin) implements CommandExecutor {
 
             case "schedulerestart" -> {
                 for (Player player : Bukkit.getOnlinePlayers()) {
-                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&c&lWARNING &b&l> &aThe server is scheduled to restart in &b5 &aminutes!"));
-                    player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_HARP, SoundCategory.MASTER, 100, 1.6f);
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&',
+                        "&c&lWARNING &b&l> &aThe server is scheduled to restart in &b5 &aminutes!"));
+                    player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_HARP, SoundCategory.MASTER,
+                        100, 1.6f);
                 }
 
                 BukkitRunnable fourMin = new BukkitRunnable() {
                     @Override
                     public void run() {
                         for (Player player : Bukkit.getOnlinePlayers()) {
-                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&c&lWARNING &b&l> &aThe server is scheduled to restart in &b1 &aminute!"));
-                            player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_HARP, SoundCategory.MASTER, 100, 1.6f);
+                            player.sendMessage(ChatColor.translateAlternateColorCodes('&',
+                                "&c&lWARNING &b&l> &aThe server is scheduled to restart in &b1 &aminute!"));
+                            player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_HARP,
+                                SoundCategory.MASTER, 100, 1.6f);
                         }
                     }
                 };

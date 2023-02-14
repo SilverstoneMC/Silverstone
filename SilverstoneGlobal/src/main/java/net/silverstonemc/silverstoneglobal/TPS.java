@@ -13,11 +13,9 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class TPS {
-
-    private static final JavaPlugin plugin = SilverstoneGlobal.getInstance();
-
     private static boolean messageSent = false;
     private static final ArrayList<Integer> tickList = new ArrayList<>();
+    private static final JavaPlugin plugin = SilverstoneGlobal.getInstance();
 
     public static void checkTPS() {
         if (messageSent) return;

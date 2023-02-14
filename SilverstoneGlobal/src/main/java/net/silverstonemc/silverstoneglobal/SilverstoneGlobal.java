@@ -19,12 +19,11 @@ import org.jetbrains.annotations.NotNull;
 
 @SuppressWarnings("DataFlowIssue")
 public class SilverstoneGlobal extends JavaPlugin implements Listener {
-
-    private static SilverstoneGlobal instance;
+    public static MatrixAPI matrix;
 
     private IEssentials essentials;
     private LuckPerms luckPerms;
-    public static MatrixAPI matrix;
+    private static SilverstoneGlobal instance;
 
     // Startup
     @Override
@@ -33,7 +32,8 @@ public class SilverstoneGlobal extends JavaPlugin implements Listener {
         essentials = (IEssentials) getServer().getPluginManager().getPlugin("Essentials");
         luckPerms = getServer().getServicesManager().load(LuckPerms.class);
 
-        RegisteredServiceProvider<LuckPerms> provider = Bukkit.getServicesManager().getRegistration(LuckPerms.class);
+        RegisteredServiceProvider<LuckPerms> provider = Bukkit.getServicesManager()
+            .getRegistration(LuckPerms.class);
         if (provider != null)
             //noinspection ResultOfMethodCallIgnored
             provider.getProvider();

@@ -12,7 +12,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class UpdateCommands implements CommandExecutor {
-
     private final Map<String, Long> cooldowns = new HashMap<>();
 
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
@@ -39,7 +38,9 @@ public class UpdateCommands implements CommandExecutor {
             if (cooldowns.containsKey(player.getName()))
                 if (cooldowns.get(player.getName()) > System.currentTimeMillis()) {
                     // Still on cooldown
-                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&cYou may update your commands again in &7" + ((cooldowns.get(player.getName()) - System.currentTimeMillis()) / 1000) + " &cseconds."));
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&',
+                        "&cYou may update your commands again in &7" + ((cooldowns.get(
+                            player.getName()) - System.currentTimeMillis()) / 1000) + " &cseconds."));
                     return true;
                 }
 

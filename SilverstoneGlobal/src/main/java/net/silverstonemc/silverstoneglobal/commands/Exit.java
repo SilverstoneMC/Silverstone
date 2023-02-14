@@ -17,7 +17,6 @@ import org.jetbrains.annotations.NotNull;
 
 @SuppressWarnings({"UnstableApiUsage", "DataFlowIssue"})
 public record Exit(JavaPlugin plugin) implements CommandExecutor, Listener {
-
     private void send(Player player) {
         BukkitRunnable task = new BukkitRunnable() {
             @Override

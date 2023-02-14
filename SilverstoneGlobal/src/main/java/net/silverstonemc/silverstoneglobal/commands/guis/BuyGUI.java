@@ -23,9 +23,9 @@ import java.util.List;
 import java.util.stream.IntStream;
 
 public class BuyGUI implements CommandExecutor, Listener {
+    public static Inventory inv;
 
     private static SilverstoneGlobal plugin;
-    public static Inventory inv;
 
     public BuyGUI(SilverstoneGlobal plugin) {
         BuyGUI.plugin = plugin;
@@ -69,39 +69,44 @@ public class BuyGUI implements CommandExecutor, Listener {
             case 11 -> {
                 // Member
                 player.sendMessage("");
-                player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&aPurchase the &bMember &arank at: &bsilverstone.craftingstore.net/category/261250"));
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&',
+                    "&aPurchase the &bMember &arank at: &bsilverstone.craftingstore.net/category/261250"));
                 closeInv(player);
             }
             case 12 -> {
                 // VIP
                 player.sendMessage("");
-                player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&aPurchase the &bVIP &arank at: &bsilverstone.craftingstore.net/category/261250"));
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&',
+                    "&aPurchase the &bVIP &arank at: &bsilverstone.craftingstore.net/category/261250"));
                 closeInv(player);
             }
             case 13 -> {
                 // VIP+
                 player.sendMessage("");
-                player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&aPurchase the &bVIP+ &arank at: &bsilverstone.craftingstore.net/category/261250"));
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&',
+                    "&aPurchase the &bVIP+ &arank at: &bsilverstone.craftingstore.net/category/261250"));
                 closeInv(player);
             }
             case 14 -> {
                 // MVP
                 player.sendMessage("");
-                player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&aPurchase the &bMVP &arank at: &bsilverstone.craftingstore.net/category/261250"));
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&',
+                    "&aPurchase the &bMVP &arank at: &bsilverstone.craftingstore.net/category/261250"));
                 closeInv(player);
             }
             case 15 -> {
                 // Donate
                 player.sendMessage("");
-                player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&aDonate to the server at: &bsilverstone.craftingstore.net/category/261655"));
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&',
+                    "&aDonate to the server at: &bsilverstone.craftingstore.net/category/261655"));
                 closeInv(player);
             }
         }
     }
 
     public static Inventory createInv() {
-        Inventory inventory = Bukkit.createInventory(null, 27, Component.text("Available Ranks")
-                .color(TextColor.fromHexString("#048a3e"))
+        Inventory inventory = Bukkit.createInventory(null, 27,
+            Component.text("Available Ranks").color(TextColor.fromHexString("#048a3e"))
                 .decorate(TextDecoration.BOLD));
 
         ItemStack item = new ItemStack(Material.BLACK_STAINED_GLASS_PANE);

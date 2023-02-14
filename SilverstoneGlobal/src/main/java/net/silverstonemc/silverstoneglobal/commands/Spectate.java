@@ -17,14 +17,12 @@ import org.jetbrains.annotations.NotNull;
 import java.util.concurrent.CompletableFuture;
 
 public class Spectate implements CommandExecutor {
-
-    private final JavaPlugin plugin;
-
     public Spectate(JavaPlugin plugin) {
         this.plugin = plugin;
     }
-
-    final IEssentials essentials = SilverstoneGlobal.getInstance().getEssentials();
+    
+    private final IEssentials essentials = SilverstoneGlobal.getInstance().getEssentials();
+    private final JavaPlugin plugin;
 
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
         if (!(sender instanceof Player)) {
@@ -49,9 +47,9 @@ public class Spectate implements CommandExecutor {
             BukkitRunnable delayTP = new BukkitRunnable() {
                 @Override
                 public void run() {
-                    essentials.getUser(player)
-                            .getAsyncTeleport()
-                            .now(target.getLocation(), false, PlayerTeleportEvent.TeleportCause.COMMAND, new CompletableFuture<>());
+                    essentials.getUser(player).getAsyncTeleport()
+                        .now(target.getLocation(), false, PlayerTeleportEvent.TeleportCause.COMMAND,
+                            new CompletableFuture<>());
                 }
             };
             delayTP.runTaskLater(plugin, 5);
@@ -89,9 +87,9 @@ public class Spectate implements CommandExecutor {
             BukkitRunnable delayTP = new BukkitRunnable() {
                 @Override
                 public void run() {
-                    essentials.getUser(player)
-                            .getAsyncTeleport()
-                            .now(target.getLocation(), false, PlayerTeleportEvent.TeleportCause.COMMAND, new CompletableFuture<>());
+                    essentials.getUser(player).getAsyncTeleport()
+                        .now(target.getLocation(), false, PlayerTeleportEvent.TeleportCause.COMMAND,
+                            new CompletableFuture<>());
 
                     if (player.getGameMode() != GameMode.SPECTATOR) player.setGameMode(GameMode.SPECTATOR);
                     player.setInvisible(false);

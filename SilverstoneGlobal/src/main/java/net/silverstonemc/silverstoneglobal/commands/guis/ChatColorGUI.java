@@ -21,14 +21,12 @@ import org.jetbrains.annotations.NotNull;
 import java.util.stream.IntStream;
 
 public class ChatColorGUI implements CommandExecutor, Listener {
-
+    private static Inventory inv;
     private static SilverstoneGlobal plugin;
 
     public ChatColorGUI(SilverstoneGlobal plugin) {
         ChatColorGUI.plugin = plugin;
     }
-
-    private static Inventory inv;
 
     public void closeInv(Player player) {
         BukkitRunnable task = new BukkitRunnable() {
@@ -64,78 +62,94 @@ public class ChatColorGUI implements CommandExecutor, Listener {
 
         switch (event.getRawSlot()) {
             case 10 -> {
-                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "hopecommander lpb user " + player.getName() + " meta setsuffix 500 &4");
+                Bukkit.dispatchCommand(Bukkit.getConsoleSender(),
+                    "hopecommander lpb user " + player.getName() + " meta setsuffix 500 &4");
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&4Chat color changed."));
             }
 
             case 11 -> {
-                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "hopecommander lpb user " + player.getName() + " meta setsuffix 500 &c");
+                Bukkit.dispatchCommand(Bukkit.getConsoleSender(),
+                    "hopecommander lpb user " + player.getName() + " meta setsuffix 500 &c");
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&cChat color changed."));
             }
 
             case 12 -> {
-                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "hopecommander lpb user " + player.getName() + " meta setsuffix 500 &6");
+                Bukkit.dispatchCommand(Bukkit.getConsoleSender(),
+                    "hopecommander lpb user " + player.getName() + " meta setsuffix 500 &6");
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&6Chat color changed."));
             }
 
             case 13 -> {
-                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "hopecommander lpb user " + player.getName() + " meta setsuffix 500 &e");
+                Bukkit.dispatchCommand(Bukkit.getConsoleSender(),
+                    "hopecommander lpb user " + player.getName() + " meta setsuffix 500 &e");
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&eChat color changed."));
             }
 
             case 14 -> {
-                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "hopecommander lpb user " + player.getName() + " meta setsuffix 500 &a");
+                Bukkit.dispatchCommand(Bukkit.getConsoleSender(),
+                    "hopecommander lpb user " + player.getName() + " meta setsuffix 500 &a");
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&aChat color changed."));
             }
 
             case 15 -> {
-                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "hopecommander lpb user " + player.getName() + " meta setsuffix 500 &2");
+                Bukkit.dispatchCommand(Bukkit.getConsoleSender(),
+                    "hopecommander lpb user " + player.getName() + " meta setsuffix 500 &2");
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&2Chat color changed."));
             }
 
             case 16 -> {
-                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "hopecommander lpb user " + player.getName() + " meta setsuffix 500 &3");
+                Bukkit.dispatchCommand(Bukkit.getConsoleSender(),
+                    "hopecommander lpb user " + player.getName() + " meta setsuffix 500 &3");
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&3Chat color changed."));
             }
 
             case 19 -> {
-                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "hopecommander lpb user " + player.getName() + " meta setsuffix 500 &9");
+                Bukkit.dispatchCommand(Bukkit.getConsoleSender(),
+                    "hopecommander lpb user " + player.getName() + " meta setsuffix 500 &9");
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&9Chat color changed."));
             }
 
             case 20 -> {
-                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "hopecommander lpb user " + player.getName() + " meta setsuffix 500 &1");
+                Bukkit.dispatchCommand(Bukkit.getConsoleSender(),
+                    "hopecommander lpb user " + player.getName() + " meta setsuffix 500 &1");
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&1Chat color changed."));
             }
 
             case 21 -> {
-                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "hopecommander lpb user " + player.getName() + " meta setsuffix 500 &5");
+                Bukkit.dispatchCommand(Bukkit.getConsoleSender(),
+                    "hopecommander lpb user " + player.getName() + " meta setsuffix 500 &5");
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&5Chat color changed."));
             }
 
             case 22 -> {
-                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "hopecommander lpb user " + player.getName() + " meta setsuffix 500 &d");
+                Bukkit.dispatchCommand(Bukkit.getConsoleSender(),
+                    "hopecommander lpb user " + player.getName() + " meta setsuffix 500 &d");
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&dChat color changed."));
             }
 
             case 23 -> {
-                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "hopecommander lpb user " + player.getName() + " meta setsuffix 500 &8");
+                Bukkit.dispatchCommand(Bukkit.getConsoleSender(),
+                    "hopecommander lpb user " + player.getName() + " meta setsuffix 500 &8");
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&8Chat color changed."));
             }
 
             case 24 -> {
-                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "hopecommander lpb user " + player.getName() + " meta setsuffix 500 &7");
+                Bukkit.dispatchCommand(Bukkit.getConsoleSender(),
+                    "hopecommander lpb user " + player.getName() + " meta setsuffix 500 &7");
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7Chat color changed."));
             }
 
             case 25 -> {
-                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "hopecommander lpb user " + player.getName() + " meta setsuffix 500 &f");
+                Bukkit.dispatchCommand(Bukkit.getConsoleSender(),
+                    "hopecommander lpb user " + player.getName() + " meta setsuffix 500 &f");
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&fChat color changed."));
             }
 
             case 31 -> {
-                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "hopecommander lpb user " + player.getName() + " meta removesuffix 500");
-                player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&fChat color reset to default."));
+                Bukkit.dispatchCommand(Bukkit.getConsoleSender(),
+                    "hopecommander lpb user " + player.getName() + " meta removesuffix 500");
+                player.sendMessage(
+                    ChatColor.translateAlternateColorCodes('&', "&fChat color reset to default."));
             }
 
             default -> {
@@ -148,8 +162,8 @@ public class ChatColorGUI implements CommandExecutor, Listener {
 
     // Default inventory items
     public void createDefaultInv() {
-        inv = Bukkit.createInventory(null, 45, Component.text("Chat Colors")
-                .color(TextColor.fromHexString("#a62828"))
+        inv = Bukkit.createInventory(null, 45,
+            Component.text("Chat Colors").color(TextColor.fromHexString("#a62828"))
                 .decorate(TextDecoration.BOLD));
 
         ItemStack item = new ItemStack(Material.BLACK_STAINED_GLASS_PANE);

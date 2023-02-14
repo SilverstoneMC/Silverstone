@@ -19,14 +19,12 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 
 public class Live implements CommandExecutor {
-
-    private final JavaPlugin plugin;
-
     public Live(JavaPlugin plugin) {
         this.plugin = plugin;
     }
 
-    final LuckPerms luckPerms = SilverstoneGlobal.getInstance().getLuckPerms();
+    private final JavaPlugin plugin;
+    private final LuckPerms luckPerms = SilverstoneGlobal.getInstance().getLuckPerms();
 
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
         if (!(sender instanceof Player player)) {
@@ -44,12 +42,11 @@ public class Live implements CommandExecutor {
         User user = luckPerms.getPlayerAdapter(Player.class).getUser(player);
 
         player.performCommand("esocialspy");
-        player.sendMessage(Component.text("Click here to toggle socialspy")
-                .color(NamedTextColor.GRAY)
-                .decorate(TextDecoration.UNDERLINED)
-                .clickEvent(ClickEvent.runCommand("/socialspy")));
+        player.sendMessage(Component.text("Click here to toggle socialspy").color(NamedTextColor.GRAY)
+            .decorate(TextDecoration.UNDERLINED).clickEvent(ClickEvent.runCommand("/socialspy")));
 
-        if (player.hasPermission("silverstone.live")) user.data().remove(InheritanceNode.builder(group).build());
+        if (player.hasPermission("silverstone.live"))
+            user.data().remove(InheritanceNode.builder(group).build());
         else {
             user.data().add(InheritanceNode.builder(group).build());
             BukkitRunnable task = new BukkitRunnable() {

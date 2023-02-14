@@ -14,7 +14,6 @@ import org.bukkit.potion.PotionEffectType;
 import org.jetbrains.annotations.NotNull;
 
 public class NightVision implements CommandExecutor, Listener {
-
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
         if (!(sender instanceof Player player)) {
             sender.sendMessage(ChatColor.RED + "You must be a player to do that!");
@@ -23,14 +22,15 @@ public class NightVision implements CommandExecutor, Listener {
 
         if (player.hasPotionEffect(PotionEffectType.NIGHT_VISION))
             player.removePotionEffect(PotionEffectType.NIGHT_VISION);
-        else player.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, 1000000, 255, false, false, false));
+        else player.addPotionEffect(
+            new PotionEffect(PotionEffectType.NIGHT_VISION, 1000000, 255, false, false, false));
         return true;
     }
 
     @EventHandler
     public void spectator(PlayerGameModeChangeEvent event) {
-        if (event.getNewGameMode().equals(GameMode.SPECTATOR)) event.getPlayer()
-                .addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, 1000000, 255, false, false, false));
+        if (event.getNewGameMode().equals(GameMode.SPECTATOR)) event.getPlayer().addPotionEffect(
+            new PotionEffect(PotionEffectType.NIGHT_VISION, 1000000, 255, false, false, false));
         else if (event.getPlayer().getGameMode().equals(GameMode.SPECTATOR))
             event.getPlayer().removePotionEffect(PotionEffectType.NIGHT_VISION);
     }

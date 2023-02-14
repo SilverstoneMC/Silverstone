@@ -12,7 +12,6 @@ import org.bukkit.inventory.meta.FireworkMeta;
 import org.jetbrains.annotations.NotNull;
 
 public class Firework implements CommandExecutor {
-
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
         if (!(sender instanceof Player player)) {
             sender.sendMessage(ChatColor.RED + "Sorry, but only players can do that.");
@@ -20,15 +19,11 @@ public class Firework implements CommandExecutor {
         }
 
         org.bukkit.entity.Firework fw = (org.bukkit.entity.Firework) player.getWorld()
-                .spawnEntity(player.getLocation(), EntityType.FIREWORK);
+            .spawnEntity(player.getLocation(), EntityType.FIREWORK);
         FireworkMeta fwm = fw.getFireworkMeta();
 
-        fwm.addEffect(FireworkEffect.builder()
-                .withColor(Color.LIME)
-                .withColor(Color.BLUE)
-                .with(FireworkEffect.Type.BALL_LARGE)
-                .withFlicker()
-                .build());
+        fwm.addEffect(FireworkEffect.builder().withColor(Color.LIME).withColor(Color.BLUE)
+            .with(FireworkEffect.Type.BALL_LARGE).withFlicker().build());
 
         fw.setFireworkMeta(fwm);
         fw.detonate();

@@ -24,14 +24,12 @@ import org.jetbrains.annotations.NotNull;
 
 @SuppressWarnings("UnstableApiUsage")
 public class ChatnSounds implements CommandExecutor, Listener {
-
-    final LuckPerms luckPerms = SilverstoneGlobal.getInstance().getLuckPerms();
-
-    private final JavaPlugin plugin;
-
     public ChatnSounds(JavaPlugin plugin) {
         this.plugin = plugin;
     }
+
+    private final JavaPlugin plugin;
+    private final LuckPerms luckPerms = SilverstoneGlobal.getInstance().getLuckPerms();
 
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
         if (!(sender instanceof Player player)) {
@@ -108,7 +106,8 @@ public class ChatnSounds implements CommandExecutor, Listener {
         // Play chat sound
         for (Player player : Bukkit.getOnlinePlayers())
             if (player.hasPermission("silverstone.chatsounds.enabled")) if (player != event.getPlayer())
-                player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, SoundCategory.PLAYERS, 0.5f, 1);
+                player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP,
+                    SoundCategory.PLAYERS, 0.5f, 1);
     }
 
     public void joinSound(Player player) {
@@ -116,7 +115,8 @@ public class ChatnSounds implements CommandExecutor, Listener {
             if (players == player) continue;
 
             if (players.hasPermission("silverstone.jlsounds.enabled"))
-                players.playSound(players.getLocation(), Sound.BLOCK_BELL_USE, SoundCategory.PLAYERS, 1, 1.5f);
+                players.playSound(players.getLocation(), Sound.BLOCK_BELL_USE, SoundCategory.PLAYERS, 1,
+                    1.5f);
         }
     }
 
@@ -125,7 +125,8 @@ public class ChatnSounds implements CommandExecutor, Listener {
             if (players == player) continue;
 
             if (players.hasPermission("silverstone.jlsounds.enabled"))
-                players.playSound(players.getLocation(), Sound.BLOCK_BEACON_DEACTIVATE, SoundCategory.PLAYERS, 1, 1.75f);
+                players.playSound(players.getLocation(), Sound.BLOCK_BEACON_DEACTIVATE, SoundCategory.PLAYERS,
+                    1, 1.75f);
         }
     }
 }
