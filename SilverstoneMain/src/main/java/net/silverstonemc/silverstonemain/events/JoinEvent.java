@@ -44,7 +44,7 @@ public final class JoinEvent implements Listener {
                         .getDestinationTextChannelForGameChannelName("newplayers");
 
                     EmbedBuilder embed = new EmbedBuilder();
-                    embed.setAuthor(player.getName() + " is new this season", null,
+                    embed.setAuthor(player.getName() + " is new", null,
                         "https://crafatar.com/avatars/" + player.getUniqueId() + "?overlay=true");
                     embed.setImage(
                         "https://crafatar.com/renders/body/" + player.getUniqueId() + "?overlay=true");

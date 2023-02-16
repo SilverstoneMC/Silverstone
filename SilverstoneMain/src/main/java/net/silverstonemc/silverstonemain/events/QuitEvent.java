@@ -26,8 +26,7 @@ public class QuitEvent implements Listener {
             MessageEmbed oldEmbed = message.getEmbeds().get(0);
 
             EmbedBuilder embed = new EmbedBuilder();
-            embed.setAuthor(player.getName() + " was new this season", null,
-                oldEmbed.getAuthor().getIconUrl());
+            embed.setAuthor(player.getName() + " was new", null, oldEmbed.getAuthor().getIconUrl());
             embed.setImage(oldEmbed.getImage().getUrl());
             embed.setFooter("Player has left | " + x + " staff members online");
             embed.setColor(Color.RED);

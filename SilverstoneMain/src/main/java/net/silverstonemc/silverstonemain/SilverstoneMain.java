@@ -22,8 +22,6 @@ public class SilverstoneMain extends JavaPlugin implements Listener {
         return instance;
     }
 
-    public static DataManager data;
-
     private static SilverstoneMain instance;
     private IEssentials essentials;
 
@@ -32,10 +30,7 @@ public class SilverstoneMain extends JavaPlugin implements Listener {
         instance = this;
         essentials = (IEssentials) getServer().getPluginManager().getPlugin("Essentials");
 
-        data = new DataManager(this);
-
         saveDefaultConfig();
-        data.saveDefaultConfig();
 
         if (getServer().getPluginManager().getPlugin("DiscordSRV") != null)
             DiscordSRV.api.subscribe(new DiscordReady(this));
@@ -56,10 +51,7 @@ public class SilverstoneMain extends JavaPlugin implements Listener {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
         if (args.length > 0) if (args[0].equalsIgnoreCase("reload")) {
             saveDefaultConfig();
-            data.saveDefaultConfig();
             reloadConfig();
-            data.reloadConfig();
-            data = new DataManager(this);
             sender.sendMessage(ChatColor.GREEN + "SilverstoneMain reloaded!");
             return true;
         }
