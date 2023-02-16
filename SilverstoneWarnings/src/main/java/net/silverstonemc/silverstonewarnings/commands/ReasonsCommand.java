@@ -21,6 +21,7 @@ public class ReasonsCommand extends Command {
         sendReasonList(false, sender, null);
     }
 
+    //todo update deprecated methods
     public void sendReasonList(boolean isWarning, CommandSender sender, @Nullable String username) {
         String header = "Available warning reasons:";
         if (isWarning) header = "Warn " + username + ":";
