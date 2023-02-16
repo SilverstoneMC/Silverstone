@@ -3,14 +3,9 @@ name: SilverstoneMinigames
 description: Designed for the Minigame server
 version: %VERSION%
 author: JasonHorkles
-api-version: 1.18
-softdepend:
-  - floodgate
+api-version: 1.19
 
 commands:
-  ssmi:
-    usage: "/silverstoneminigames reload"
-    permission: silverstone.admin
   doublejump:
     permission: silverstone.console
     usage: "§cUsage: /doublejump <player> <count>"
@@ -32,6 +27,12 @@ commands:
   minigame:
     aliases: [ game, whatminigameshouldiplay ]
     description: "Choose a random minigame!"
+  sendtoflyingcourse:
+    permission: silverstone.console
+    usage: "/sendtoflyingcourse <player>"
+  ssmi:
+    permission: silverstone.admin
+    usage: "/silverstoneminigames reload"
   taunt:
     permission: silverstone.minigames.hideseek.taunt
   tntrun:
@@ -41,9 +42,6 @@ commands:
     description: "Ran when the flying course is completed"
     permission: silverstone.minigames.flyingcourse
     usage: "§cYou must be in adventure mode for that."
-  sendtoflyingcourse:
-    permission: silverstone.console
-    usage: "/sendtoflyingcourse <player>"
 
 permissions:
   silverstone.minigames.flyingcourse.easy:
