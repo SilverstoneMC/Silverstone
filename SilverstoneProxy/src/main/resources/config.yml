@@ -24,6 +24,7 @@ rules:
     9: "No exploits / cheating"
     10: "No anti-AFK methods"
     11: "Don't impersonate others"
+    12: "Don't intentionally lag the server or abuse the Creative plots"
   footer:
     - ""
     - "<dark_aqua>Type <green>/tips <dark_aqua>to get a list of all tips for the server!"

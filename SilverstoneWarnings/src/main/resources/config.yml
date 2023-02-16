@@ -4,25 +4,25 @@ reasons:
     description: "Using an anti-AFK machine or macro"
     add:
       1:
-        - "kick {player} Anti-AFK machine / macro [Rule 6]"
+        - "kick {player} Anti-AFK machine / macro [Rule 10]"
         - "bc &b{player} &ahas been kicked for &busing an anti-AFK machine / macro"
       2:
-        - "tempban {player} 30m Anti-AFK machine / macro [Rule 6]"
+        - "tempban {player} 30m Anti-AFK machine / macro [Rule 10]"
         - "bc &b{player} &ahas been tempbanned [30m] for &busing an anti-AFK machine / macro"
       3:
-        - "tempban {player} 1h Anti-AFK machine / macro [Rule 6]"
+        - "tempban {player} 1h Anti-AFK machine / macro [Rule 10]"
         - "bc &b{player} &ahas been tempbanned [1h] for &busing an anti-AFK machine / macro"
       4:
-        - "tempban {player} 6h Anti-AFK machine / macro [Rule 6]"
+        - "tempban {player} 6h Anti-AFK machine / macro [Rule 10]"
         - "bc &b{player} &ahas been tempbanned [6h] for &busing an anti-AFK machine / macro"
       5:
-        - "tempban {player} 12h Anti-AFK machine / macro [Rule 6]"
+        - "tempban {player} 12h Anti-AFK machine / macro [Rule 10]"
         - "bc &b{player} &ahas been tempbanned [12h] for &busing an anti-AFK machine / macro"
       6:
-        - "tempban {player} 1d Anti-AFK machine / macro [Rule 6]"
+        - "tempban {player} 1d Anti-AFK machine / macro [Rule 10]"
         - "bc &b{player} &ahas been tempbanned [1d] for &busing an anti-AFK machine / macro"
     remove:
-      1: []
+      1: [ ]
       2:
         - "unban {player}"
       3:
@@ -45,63 +45,29 @@ reasons:
       1:
         - "unban {player}"
 
-  block:
-    description: "(Anti-cheat handled) Blocks are broken quicker than they should be"
-    add:
-      1:
-        - "kick {player} FastBreak hack or related [Rule 2 - Warning 1/6]"
-        - "bc &b{player} &ahas been kicked for &bFastBreak hack or related &3[Warning 1/6]"
-      2:
-        - "tempban {player} 1h FastBreak hack [Rule 2 - Warning 2/6]"
-        - "bc &b{player} &ahas been tempbanned [1h] for &bFastBreak hack or related &3[Warning 2/6]"
-      3:
-        - "tempban {player} 1d FastBreak hack [Rule 2 - Warning 3/6]"
-        - "bc &b{player} &ahas been tempbanned [1d] for &bFastBreak hack or related &3[Warning 3/6]"
-      4:
-        - "tempban {player} 7d FastBreak hack [Rule 2 - Warning 4/6]"
-        - "bc &b{player} &ahas been tempbanned [7d] for &bFastBreak hack or related &3[Warning 4/6]"
-      5:
-        - "tempban {player} 1mo FastBreak hack [Rule 2 - Warning 5/6]"
-        - "bc &b{player} &ahas been tempbanned [1mo] for &bFastBreak hack or related &3[Warning 5/6]"
-      6:
-        - "ban {player} FastBreak hack [Rule 2 - Warning 6/6]"
-        - "bc &b{player} &ahas been banned for &bFastBreak hack or related &3[Warning 6/6]"
-    remove:
-      1: []
-      2:
-        - "unban {player}"
-      3:
-        - "unban {player}"
-      4:
-        - "unban {player}"
-      5:
-        - "unban {player}"
-      6:
-        - "unban {player}"
-
   chat:
     description: "Violating any rule regarding chat"
     add:
       1:
-        - "tempmute {player} 15m Chat abuse [Rules 1 | 4 | 5 | 8 | 9 | 10 - Warning 1/7]"
+        - "tempmute {player} 15m Chat abuse [Rules 1 - 7 | 11 - Warning 1/7]"
         - "bc &b{player} &ahas been muted for &b15 minutes &3[Warning 1/7]"
       2:
-        - "tempmute {player} 30m Chat abuse [Rules 1 | 4 | 5 | 8 | 9 | 10 - Warning 2/7]"
+        - "tempmute {player} 30m Chat abuse [Rules 1 - 7 | 11 - Warning 2/7]"
         - "bc &b{player} &ahas been muted for &b30 minutes &3[Warning 2/7]"
       3:
-        - "tempmute {player} 1h Chat abuse [Rules 1 | 4 | 5 | 8 | 9 | 10 - Warning 3/7]"
+        - "tempmute {player} 1h Chat abuse [Rules 1 - 7 | 11 - Warning 3/7]"
         - "bc &b{player} &ahas been muted for &b1 hour &3[Warning 3/7]"
       4:
-        - "tempmute {player} 1d Chat abuse [Rules 1 | 4 | 5 | 8 | 9 | 10 - Warning 4/7]"
+        - "tempmute {player} 1d Chat abuse [Rules 1 - 7 | 11 - Warning 4/7]"
         - "bc &b{player} &ahas been muted for &b1 day &3[Warning 4/7]"
       5:
-        - "tempmute {player} 7d Chat abuse [Rules 1 | 4 | 5 | 8 | 9 | 10 - Warning 5/7]"
+        - "tempmute {player} 7d Chat abuse [Rules 1 - 7 | 11 - Warning 5/7]"
         - "bc &b{player} &ahas been muted for &b7 days &3[Warning 5/7]"
       6:
-        - "tempmute {player} 1mo Chat abuse [Rules 1 | 4 | 5 | 8 | 9 | 10 - Warning 6/7]"
+        - "tempmute {player} 1mo Chat abuse [Rules 1 - 7 | 11 - Warning 6/7]"
         - "bc &b{player} &ahas been muted for &b1 month &3[Warning 6/7]"
       7:
-        - "mute {player} Chat abuse [Rules 1 | 4 | 5 | 8 | 9 | 10 - Warning 7/7]"
+        - "mute {player} Chat abuse [Rules 1 - 7 | 11 - Warning 7/7]"
         - "bc &b{player} &ahas been permanently muted &3[Warning 7/7]"
     remove:
       1:
@@ -120,19 +86,19 @@ reasons:
         - "unmute {player}"
 
   exploits:
-    description: "Using an exploit within Minecraft or the server or simply finding ways to cheat"
+    description: "Using an exploit within Minecraft / the server or simply finding ways to cheat"
     add:
       1:
-        - "tempban {player} 1d Exploits / cheating [Rule 3 - Warning 1/4]"
+        - "tempban {player} 1d Exploits / cheating [Rule 9 - Warning 1/4]"
         - "bc &b{player} &ahas been tempbanned [1d] for &bexploits / cheating &3[Warning 1/4]"
       2:
-        - "tempban {player} 7d Exploits / cheating [Rule 3 - Warning 2/4]"
+        - "tempban {player} 7d Exploits / cheating [Rule 9 - Warning 2/4]"
         - "bc &b{player} &ahas been tempbanned [7d] for &bexploits / cheating &3[Warning 2/4]"
       3:
-        - "tempban {player} 1mo Exploits / cheating [Rule 3 - Warning 3/4]"
+        - "tempban {player} 1mo Exploits / cheating [Rule 9 - Warning 3/4]"
         - "bc &b{player} &ahas been tempbanned [1mo] for &bexploits / cheating &3[Warning 3/4]"
       4:
-        - "ban {player} Exploits / cheating [Rule 3 - Warning 4/4]"
+        - "ban {player} Exploits / cheating [Rule 9 - Warning 4/4]"
         - "bc &b{player} &ahas been banned for &bexploits / cheating &3[Warning 4/4]"
     remove:
       1:
@@ -144,59 +110,29 @@ reasons:
       4:
         - "unban {player}"
 
-  griefing:
-    description: "Building within the specified block limit of another person or touching someone's stuff without their permission"
-    add:
-      1:
-        - "tempban {player} 12h Griefing [Rules 3 | 11 - Warning 1/5]"
-        - "bc &b{player} &ahas been tempbanned [12h] for &bgriefing &3[Warning 1/5]"
-      2:
-        - "tempban {player} 1d Griefing [Rules 3 | 11 - Warning 2/5]"
-        - "bc &b{player} &ahas been tempbanned [1d] for &bgriefing &3[Warning 2/5]"
-      3:
-        - "tempban {player} 7d Griefing [Rules 3 | 11 - Warning 3/5]"
-        - "bc &b{player} &ahas been tempbanned [7d] for &bgriefing &3[Warning 3/5]"
-      4:
-        - "tempban {player} 1mo Griefing [Rules 3 | 11 - Warning 4/5]"
-        - "bc &b{player} &ahas been tempbanned [1mo] for &bgriefing &3[Warning 4/5]"
-      5:
-        - "ban {player} Griefing [Rules 3 | 11 - Warning 5/5]"
-        - "bc &b{player} &ahas been banned for &bgriefing &3[Warning 5/5]"
-    remove:
-      1:
-        - "unban {player}"
-      2:
-        - "unban {player}"
-      3:
-        - "unban {player}"
-      4:
-        - "unban {player}"
-      5:
-        - "unban {player}"
-
   hitbox:
     description: "(Anti-cheat handled) Hitbox or Reach hack is used"
     add:
       1:
-        - "kick {player} Hitbox / Reach hack [Rule 2 - Warning 1/6]"
+        - "kick {player} Hitbox / Reach hack [Rule 8 - Warning 1/6]"
         - "bc &b{player} &ahas been kicked for &bHitbox / Reach hack &3[Warning 1/6]"
       2:
-        - "tempban {player} 6h Hitbox / Reach hack [Rule 2 - Warning 2/6]"
+        - "tempban {player} 6h Hitbox / Reach hack [Rule 8 - Warning 2/6]"
         - "bc &b{player} &ahas been tempbanned [6h] for &bHitbox / Reach hack &3[Warning 2/6]"
       3:
-        - "tempban {player} 1d Hitbox / Reach hack [Rule 2 - Warning 3/6]"
+        - "tempban {player} 1d Hitbox / Reach hack [Rule 8 - Warning 3/6]"
         - "bc &b{player} &ahas been tempbanned [1d] for &bHitbox / Reach hack &3[Warning 3/6]"
       4:
-        - "tempban {player} 7d Hitbox / Reach hack [Rule 2 - Warning 4/6]"
+        - "tempban {player} 7d Hitbox / Reach hack [Rule 8 - Warning 4/6]"
         - "bc &b{player} &ahas been tempbanned [7d] for &bHitbox / Reach hack &3[Warning 4/6]"
       5:
-        - "tempban {player} 1mo Hitbox / Reach hack [Rule 2 - Warning 5/6]"
+        - "tempban {player} 1mo Hitbox / Reach hack [Rule 8 - Warning 5/6]"
         - "bc &b{player} &ahas been tempbanned [1mo] for &bHitbox / Reach hack &3[Warning 5/6]"
       6:
-        - "ban {player} Hitbox / Reach hack [Rule 2 - Warning 6/6]"
+        - "ban {player} Hitbox / Reach hack [Rule 8 - Warning 6/6]"
         - "bc &b{player} &ahas been banned for &bHitbox / Reach hack &3[Warning 6/6]"
     remove:
-      1: []
+      1: [ ]
       2:
         - "unban {player}"
       3:
@@ -212,25 +148,25 @@ reasons:
     description: "(Anti-cheat handled) Interacting with blocks or entities in non-vanilla ways"
     add:
       1:
-        - "kick {player} Illegal interactions with blocks/entities [Rule 2 - Warning 1/6]"
+        - "kick {player} Illegal interactions with blocks/entities [Rule 8 - Warning 1/6]"
         - "bc &b{player} &ahas been kicked for &bIllegal interactions with blocks/entities &3[Warning 1/6]"
       2:
-        - "tempban {player} 6h Illegal interactions with blocks/entities [Rule 2 - Warning 2/6]"
+        - "tempban {player} 6h Illegal interactions with blocks/entities [Rule 8 - Warning 2/6]"
         - "bc &b{player} &ahas been tempbanned [6h] for &bIllegal interactions with blocks/entities &3[Warning 2/6]"
       3:
-        - "tempban {player} 7d Illegal interactions with blocks/entities [Rule 2 - Warning 3/6]"
+        - "tempban {player} 7d Illegal interactions with blocks/entities [Rule 8 - Warning 3/6]"
         - "bc &b{player} &ahas been tempbanned [7d] for &bIllegal interactions with blocks/entities &3[Warning 3/6]"
       4:
-        - "tempban {player} 7d Illegal interactions with blocks/entities [Rule 2 - Warning 4/6]"
+        - "tempban {player} 7d Illegal interactions with blocks/entities [Rule 8 - Warning 4/6]"
         - "bc &b{player} &ahas been tempbanned [7d] for &bIllegal interactions with blocks/entities &3[Warning 4/6]"
       5:
-        - "tempban {player} 1mo Illegal interactions with blocks/entities [Rule 2 - Warning 5/6]"
+        - "tempban {player} 1mo Illegal interactions with blocks/entities [Rule 8 - Warning 5/6]"
         - "bc &b{player} &ahas been tempbanned [1mo] for &bIllegal interactions with blocks/entities &3[Warning 5/6]"
       6:
-        - "ban {player} Illegal interactions with blocks/entities [Rule 2 - Warning 6/6]"
+        - "ban {player} Illegal interactions with blocks/entities [Rule 8 - Warning 6/6]"
         - "bc &b{player} &ahas been banned for &bIllegal interactions with blocks/entities &3[Warning 6/6]"
     remove:
-      1: []
+      1: [ ]
       2:
         - "unban {player}"
       3:
@@ -242,41 +178,7 @@ reasons:
       6:
         - "unban {player}"
 
-  jesus:
-    description: "(Anti-cheat handled) Walking or jumping on top of water as if it were solid"
-    add:
-      1:
-        - "kick {player} Jesus hack or related [Rule 2 - Warning 1/6]"
-        - "bc &b{player} &ahas been kicked for &bJesus hack or related &3[Warning 1/6]"
-      2:
-        - "tempban {player} 6h Jesus hack or related [Rule 2 - Warning 2/6]"
-        - "bc &b{player} &ahas been tempbanned [6h] for &bJesus hack or related &3[Warning 2/6]"
-      3:
-        - "tempban {player} 1d Jesus hack or related [Rule 2 - Warning 3/6]"
-        - "bc &b{player} &ahas been tempbanned [1d] for &bJesus hack or related &3[Warning 3/6]"
-      4:
-        - "tempban {player} 7d Jesus hack or related [Rule 2 - Warning 4/6]"
-        - "bc &b{player} &ahas been tempbanned [7d] for &bJesus hack or related &3[Warning 4/6]"
-      5:
-        - "tempban {player} 1mo Jesus hack or related [Rule 2 - Warning 5/6]"
-        - "bc &b{player} &ahas been tempbanned [1mo] for &bJesus hack or related &3[Warning 5/6]"
-      6:
-        - "ban {player} Jesus hack or related [Rule 2 - Warning 6/6]"
-        - "bc &b{player} &ahas been banned for &bJesus hack or related &3[Warning 6/6]"
-    remove:
-      1: []
-      2:
-        - "unban {player}"
-      3:
-        - "unban {player}"
-      4:
-        - "unban {player}"
-      5:
-        - "unban {player}"
-      6:
-        - "unban {player}"
-
-  joinleavespam:
+  join-leave-spam:
     description: "(Anti-cheat handled) Repeatedly joining and leaving the server to create join / leave message spam"
     add:
       1:
@@ -315,25 +217,25 @@ reasons:
     description: "(Anti-cheat handled) Automatic hitting and/or aiming"
     add:
       1:
-        - "kick {player} KillAura hack or related [Rule 2 - Warning 1/6]"
+        - "kick {player} KillAura hack or related [Rule 8 - Warning 1/6]"
         - "bc &b{player} &ahas been kicked for &bKillAura hack or related &3[Warning 1/6]"
       2:
-        - "tempban {player} 6h KillAura hack or related [Rule 2 - Warning 2/6]"
+        - "tempban {player} 6h KillAura hack or related [Rule 8 - Warning 2/6]"
         - "bc &b{player} &ahas been tempbanned [6h] for &bKillAura hack or related &3[Warning 2/6]"
       3:
-        - "tempban {player} 1d KillAura hack or related [Rule 2 - Warning 3/6]"
+        - "tempban {player} 1d KillAura hack or related [Rule 8 - Warning 3/6]"
         - "bc &b{player} &ahas been tempbanned [1d] for &bKillAura hack or related &3[Warning 3/6]"
       4:
-        - "tempban {player} 7d KillAura hack or related [Rule 2 - Warning 4/6]"
+        - "tempban {player} 7d KillAura hack or related [Rule 8 - Warning 4/6]"
         - "bc &b{player} &ahas been tempbanned [7d] for &bKillAura hack or related &3[Warning 4/6]"
       5:
-        - "tempban {player} 1mo KillAura hack or related [Rule 2 - Warning 5/6]"
+        - "tempban {player} 1mo KillAura hack or related [Rule 8 - Warning 5/6]"
         - "bc &b{player} &ahas been tempbanned [1mo] for &bKillAura hack or related &3[Warning 5/6]"
       6:
-        - "ban {player} KillAura hack or related [Rule 2 - Warning 6/6]"
+        - "ban {player} KillAura hack or related [Rule 8 - Warning 6/6]"
         - "bc &b{player} &ahas been banned for &bKillAura hack or related &3[Warning 6/6]"
     remove:
-      1: []
+      1: [ ]
       2:
         - "unban {player}"
       3:
@@ -345,59 +247,29 @@ reasons:
       6:
         - "unban {player}"
 
-  lag:
-    description: "Attempting to make the server lag via machines, entities, etc"
+  malicious-client:
+    description: "(Partially anti-cheat handled) Any unlisted hack or disallowed client activity"
     add:
       1:
-        - "tempban {player} 6h Lag machines [Warning 1/5]"
-        - "bc &b{player} &ahas been tempbanned [6h] for &blag machines &3[Warning 1/5]"
+        - "kick {player} Malicious client activity [Rule 8 - Warning 1/6]"
+        - "bc &b{player} &ahas been kicked for &bmalicious client activity &3[Warning 1/6]"
       2:
-        - "tempban {player} 1d Lag machines [Warning 2/5]"
-        - "bc &b{player} &ahas been tempbanned [1d] for &blag machines &3[Warning 2/5]"
+        - "tempban {player} 1h Malicious client activity [Rule 8 - Warning 2/6]"
+        - "bc &b{player} &ahas been tempbanned [1h] for &bmalicious client activity &3[Warning 2/6]"
       3:
-        - "tempban {player} 7d Lag machines [Warning 3/5]"
-        - "bc &b{player} &ahas been tempbanned [7d] for &blag machines &3[Warning 3/5]"
+        - "tempban {player} 1d Malicious client activity [Rule 8 - Warning 3/6]"
+        - "bc &b{player} &ahas been tempbanned [1d] for &bmalicious client activity &3[Warning 3/6]"
       4:
-        - "tempban {player} 1mo Lag machines [Warning 4/5]"
-        - "bc &b{player} &ahas been tempbanned [1mo] for &blag machines &3[Warning 4/5]"
+        - "tempban {player} 7d Malicious client activity [Rule 8 - Warning 4/6]"
+        - "bc &b{player} &ahas been tempbanned [7d] for &bmalicious client activity &3[Warning 4/6]"
       5:
-        - "ban {player} Lag machines [Warning 5/5]"
-        - "bc &b{player} &ahas been banned for &blag machines &3[Warning 5/5]"
-    remove:
-      1:
-        - "unban {player}"
-      2:
-        - "unban {player}"
-      3:
-        - "unban {player}"
-      4:
-        - "unban {player}"
-      5:
-        - "unban {player}"
-
-  malicioushacks:
-    description: "(Partially anti-cheat handled) Any hack used that doesn't have its own dedicated warning"
-    add:
-      1:
-        - "kick {player} Malicious hacks [Rule 2 - Warning 1/6]"
-        - "bc &b{player} &ahas been kicked for &bmalicious hacks &3[Warning 1/6]"
-      2:
-        - "tempban {player} 1h Malicious hacks [Rule 2 - Warning 2/6]"
-        - "bc &b{player} &ahas been tempbanned [1h] for &bmalicious hacks &3[Warning 2/6]"
-      3:
-        - "tempban {player} 1d Malicious hacks [Rule 2 - Warning 3/6]"
-        - "bc &b{player} &ahas been tempbanned [1d] for &bmalicious hacks &3[Warning 3/6]"
-      4:
-        - "tempban {player} 7d Malicious hacks [Rule 2 - Warning 4/6]"
-        - "bc &b{player} &ahas been tempbanned [7d] for &bmalicious hacks &3[Warning 4/6]"
-      5:
-        - "tempban {player} 1mo Malicious hacks [Rule 2 - Warning 5/6]"
-        - "bc &b{player} &ahas been tempbanned [1mo] for &bmalicious hacks &3[Warning 5/6]"
+        - "tempban {player} 1mo Malicious client activity [Rule 8 - Warning 5/6]"
+        - "bc &b{player} &ahas been tempbanned [1mo] for &bmalicious client activity &3[Warning 5/6]"
       6:
-        - "ban {player} Malicious hacks [Rule 2 - Warning 6/6]"
-        - "bc &b{player} &ahas been banned for &bmalicious hacks &3[Warning 6/6]"
+        - "ban {player} Malicious client activity [Rule 8 - Warning 6/6]"
+        - "bc &b{player} &ahas been banned for &bmalicious client activity &3[Warning 6/6]"
     remove:
-      1: []
+      1: [ ]
       2:
         - "unban {player}"
       3:
@@ -413,22 +285,22 @@ reasons:
     description: "(Anti-cheat handled) Speed, Fly, or other hack related to abnormal movement"
     add:
       1:
-        - "kick {player} Speed / Fly / abnormal movement hack [Rule 2 - Warning 1/5]"
+        - "kick {player} Speed / Fly / abnormal movement hack [Rule 8 - Warning 1/5]"
         - "bc &b{player} &ahas been kicked for &bSpeed / Fly / abnormal movement hack &3[Warning 1/5]"
       2:
-        - "tempban {player} 1d Speed / Fly / abnormal movement hack [Rule 2 - Warning 2/5]"
+        - "tempban {player} 1d Speed / Fly / abnormal movement hack [Rule 8 - Warning 2/5]"
         - "bc &b{player} &ahas been tempbanned [1d] for &bSpeed / Fly / abnormal movement hack &3[Warning 2/5]"
       3:
-        - "tempban {player} 7d Speed / Fly / abnormal movement hack [Rule 2 - Warning 3/5]"
+        - "tempban {player} 7d Speed / Fly / abnormal movement hack [Rule 8 - Warning 3/5]"
         - "bc &b{player} &ahas been tempbanned [7d] for &bSpeed / Fly / abnormal movement hack &3[Warning 3/5]"
       4:
-        - "tempban {player} 1mo Speed / Fly / abnormal movement hack [Rule 2 - Warning 4/5]"
+        - "tempban {player} 1mo Speed / Fly / abnormal movement hack [Rule 8 - Warning 4/5]"
         - "bc &b{player} &ahas been tempbanned [1mo] for &bSpeed / Fly / abnormal movement hack &3[Warning 4/5]"
       5:
-        - "ban {player} Speed / Fly / abnormal movement hack [Rule 2 - Warning 5/5]"
+        - "ban {player} Speed / Fly / abnormal movement hack [Rule 8 - Warning 5/5]"
         - "bc &b{player} &ahas been banned for &bSpeed / Fly / abnormal movement hack &3[Warning 5/5]"
     remove:
-      1: []
+      1: [ ]
       2:
         - "unban {player}"
       3:
@@ -492,7 +364,7 @@ reasons:
         - "ban {player} Violating rules [Warning 7/7]"
         - "bc &b{player} &ahas been banned for &bviolating rules &3[Warning 7/7]"
     remove:
-      1: []
+      1: [ ]
       2:
         - "unban {player}"
       3:
@@ -513,36 +385,31 @@ reasons:
         - "ban {player} Illegal permission detected"
         - "banip {player} Illegal permission detected"
         - "bc &b{player} &ahas been banned for &bhaving illegal permissions"
-        - "sendstaffdiscord :warning: <@&667793980318154783>, player `{player}` was auto banned for having an owner permission! :warning:"
-        - "sendstaffdiscord :warning: <@&667793980318154783>, player `{player}` was auto banned for having an owner permission! :warning:"
-        - "sendstaffdiscord :warning: <@&667793980318154783>, player `{player}` was auto banned for having an owner permission! :warning:"
+        - "relay staff :warning: <@&667793980318154783>, player `{player}` was auto banned for having an owner permission! :warning:"
+        - "relay staff :warning: <@&667793980318154783>, player `{player}` was auto banned for having an owner permission! :warning:"
+        - "relay staff :warning: <@&667793980318154783>, player `{player}` was auto banned for having an owner permission! :warning:"
     remove:
       1:
         - "unban {player}"
 
-  scaffold:
-    description: "(Anti-cheat handled) Bridging or building up abnormally quickly"
+  plot-abuse:
+    description: "Attempting to make the server lag via machines, entities, etc, or any other means of abusing creative plots"
     add:
       1:
-        - "kick {player} Scaffold / Bridge hack or related [Rule 2 - Warning 1/6]"
-        - "bc &b{player} &ahas been kicked for &bScaffold / Bridge hack or related &3[Warning 1/6]"
+        - "lpb user {player} permission settemp plots.permpack.basic false 1d"
+        - "bc &b{player} &ahas been temporarily banned from using the Creative plots [1d] due to &bplot abuse &3[Warning 1/4]"
       2:
-        - "tempban {player} 1h Scaffold / Bridge hack or related [Rule 2 - Warning 2/6]"
-        - "bc &b{player} &ahas been tempbanned [1h] for &bScaffold / Bridge hack or related &3[Warning 2/6]"
+        - "lpb user {player} permission settemp plots.permpack.basic false 7d"
+        - "bc &b{player} &ahas been temporarily banned from using the Creative plots [1d] due to &bplot abuse &3[Warning 2/4]"
       3:
-        - "tempban {player} 1d Scaffold / Bridge hack or related [Rule 2 - Warning 3/6]"
-        - "bc &b{player} &ahas been tempbanned [1d] for &bScaffold / Bridge hack or related &3[Warning 3/6]"
+        - "lpb user {player} permission settemp plots.permpack.basic false 1mo"
+        - "bc &b{player} &ahas been temporarily banned from using the Creative plots [1d] due to &bplot abuse &3[Warning 3/4]"
       4:
-        - "tempban {player} 7d Scaffold / Bridge hack or related [Rule 2 - Warning 4/6]"
-        - "bc &b{player} &ahas been tempbanned [7d] for &bScaffold / Bridge hack or related &3[Warning 4/6]"
-      5:
-        - "tempban {player} 1mo Scaffold / Bridge hack or related [Rule 2 - Warning 5/6]"
-        - "bc &b{player} &ahas been tempbanned [1mo] for &bScaffold / Bridge hack or related &3[Warning 5/6]"
-      6:
-        - "ban {player} Scaffold / Bridge hack or related [Rule 2 - Warning 6/6]"
-        - "bc &b{player} &ahas been banned for &bScaffold / Bridge hack or related &3[Warning 6/6]"
+        - "lpb user {player} permission set plots.permpack.basic false"
+        - "bc &b{player} &ahas been banned from using the Creative plots due to &bplot abuse &3[Warning 4/4]"
     remove:
-      1: []
+      1:
+        - "unban {player}"
       2:
         - "unban {player}"
       3:
@@ -550,67 +417,31 @@ reasons:
       4:
         - "unban {player}"
       5:
-        - "unban {player}"
-      6:
         - "unban {player}"
 
   skin:
     description: "If a player's skin is inappropriate or offensive"
     add:
       1:
-        - "kick {player} Inappropriate skin - please change it before re-joining [Rule 5 - Warning 1/6]"
+        - "kick {player} Inappropriate skin - please change it before re-joining [Rule 1 - Warning 1/6]"
         - "bc &b{player} &ahas been kicked for &busing an inappropriate skin &3[Warning 1/6]"
       2:
-        - "tempban {player} 7d Inappropriate skin [Rule 5 - Warning 2/6]"
+        - "tempban {player} 7d Inappropriate skin [Rule 1 - Warning 2/6]"
         - "bc &b{player} &ahas been tempbanned [7d] for &busing an inappropriate skin &3[Warning 2/6]"
       3:
-        - "tempban {player} 14d Inappropriate skin [Rule 5 - Warning 3/6]"
+        - "tempban {player} 14d Inappropriate skin [Rule 1 - Warning 3/6]"
         - "bc &b{player} &ahas been tempbanned [14d] for &busing an inappropriate skin &3[Warning 3/6]"
       4:
-        - "tempban {player} 30d Inappropriate skin [Rule 5 - Warning 4/6]"
+        - "tempban {player} 30d Inappropriate skin [Rule 1 - Warning 4/6]"
         - "bc &b{player} &ahas been tempbanned [30d] for &busing an inappropriate skin &3[Warning 4/6]"
       5:
-        - "tempban {player} 60d Inappropriate skin [Rule 5 - Warning 5/6]"
+        - "tempban {player} 60d Inappropriate skin [Rule 1 - Warning 5/6]"
         - "bc &b{player} &ahas been tempbanned [60d] for &busing an inappropriate skin &3[Warning 5/6]"
       6:
-        - "ban {player} Inappropriate skin [Rule 5 - Warning 6/6]"
+        - "ban {player} Inappropriate skin [Rule 1 - Warning 6/6]"
         - "bc &b{player} &ahas been banned for &busing an inappropriate skin &3[Warning 6/6]"
     remove:
-      1: []
-      2:
-        - "unban {player}"
-      3:
-        - "unban {player}"
-      4:
-        - "unban {player}"
-      5:
-        - "unban {player}"
-      6:
-        - "unban {player}"
-
-  vehicle:
-    description: "(Anti-cheat handled) Speed or Flight hacks using vehicles"
-    add:
-      1:
-        - "kick {player} Vehicle Speed / Flight hack [Rule 2 - Warning 1/6]"
-        - "bc &b{player} &ahas been kicked for &bVehicle Speed / Flight hack &3[Warning 1/6]"
-      2:
-        - "tempban {player} 1h Vehicle Speed / Flight hack [Rule 2 - Warning 2/6]"
-        - "bc &b{player} &ahas been tempbanned [1h] for &bVehicle Speed / Flight hack &3[Warning 2/6]"
-      3:
-        - "tempban {player} 1d Vehicle Speed / Flight hack [Rule 2 - Warning 3/6]"
-        - "bc &b{player} &ahas been tempbanned [1d] for &bVehicle Speed / Flight hack &3[Warning 3/6]"
-      4:
-        - "tempban {player} 7d Vehicle Speed / Flight hack [Rule 2 - Warning 4/6]"
-        - "bc &b{player} &ahas been tempbanned [7d] for &bVehicle Speed / Flight hack &3[Warning 4/6]"
-      5:
-        - "tempban {player} 1mo Vehicle Speed / Flight hack [Rule 2 - Warning 5/6]"
-        - "bc &b{player} &ahas been tempbanned [1mo] for &bVehicle Speed / Flight hack &3[Warning 5/6]"
-      6:
-        - "ban {player} Vehicle Speed / Flight hack [Rule 2 - Warning 6/6]"
-        - "bc &b{player} &ahas been banned for &bVehicle Speed / Flight hack &3[Warning 6/6]"
-    remove:
-      1: []
+      1: [ ]
       2:
         - "unban {player}"
       3:
@@ -626,26 +457,26 @@ reasons:
     description: "(Anti-cheat handled) Using anti-knockback cheats to attack players and entities easier"
     add:
       1:
-        - "kick {player} Velocity / Anti-Knockback hack [Rule 2 - Warning 1/6]"
+        - "kick {player} Velocity / Anti-Knockback hack [Rule 8 - Warning 1/6]"
         - "bc &b{player} &ahas been kicked for &bVelocity / Anti-Knockback hack &3[Warning 1/6]"
       2:
-        - "kick {player} Velocity / Anti-Knockback hack [Rule 2 - Warning 2/6]"
+        - "kick {player} Velocity / Anti-Knockback hack [Rule 8 - Warning 2/6]"
         - "bc &b{player} &ahas been kicked for &bVelocity / Anti-Knockback hack &3[Warning 2/6]"
       3:
-        - "tempban {player} 1d Velocity / Anti-Knockback hack [Rule 2 - Warning 4/6]"
+        - "tempban {player} 1d Velocity / Anti-Knockback hack [Rule 8 - Warning 4/6]"
         - "bc &b{player} &ahas been tempbanned [1d] for &bVelocity / Anti-Knockback hack &3[Warning 4/6]"
       4:
-        - "tempban {player} 7d Velocity / Anti-Knockback hack [Rule 2 - Warning 4/6]"
+        - "tempban {player} 7d Velocity / Anti-Knockback hack [Rule 8 - Warning 4/6]"
         - "bc &b{player} &ahas been tempbanned [7d] for &bVelocity / Anti-Knockback hack &3[Warning 4/6]"
       5:
-        - "tempban {player} 1mo Velocity / Anti-Knockback hack [Rule 2 - Warning 5/6]"
+        - "tempban {player} 1mo Velocity / Anti-Knockback hack [Rule 8 - Warning 5/6]"
         - "bc &b{player} &ahas been tempbanned [1mo] for &bVelocity / Anti-Knockback hack &3[Warning 5/6]"
       6:
-        - "ban {player} Velocity / Anti-Knockback hack [Rule 2 - Warning 6/6]"
+        - "ban {player} Velocity / Anti-Knockback hack [Rule 8 - Warning 6/6]"
         - "bc &b{player} &ahas been banned for &bVelocity / Anti-Knockback hack &3[Warning 6/6]"
     remove:
-      1: []
-      2: []
+      1: [ ]
+      2: [ ]
       3:
         - "unban {player}"
       4:
@@ -653,29 +484,4 @@ reasons:
       5:
         - "unban {player}"
       6:
-        - "unban {player}"
-
-  xray:
-    description: "Using an X-Ray resource pack, mod, hack, etc to locate ores and other valuables easier"
-    add:
-      1:
-        - "tempban {player} 1d X-Ray or similar [Rule 3 - Warning 1/4]"
-        - "bc &b{player} &ahas been tempbanned [1d] for &bX-Ray or similar &3[Warning 1/4]"
-      2:
-        - "tempban {player} 7d X-Ray or similar [Rule 3 - Warning 2/4]"
-        - "bc &b{player} &ahas been tempbanned [7d] for &bX-Ray or similar &3[Warning 2/4]"
-      3:
-        - "tempban {player} 1mo X-Ray or similar [Rule 3 - Warning 3/4]"
-        - "bc &b{player} &ahas been tempbanned [1mo] for &bX-Ray or similar &3[Warning 3/4]"
-      4:
-        - "ban {player} X-Ray or similar [Rule 3 - Warning 4/4]"
-        - "bc &b{player} &ahas been banned for &bX-Ray or similar &3[Warning 4/4]"
-    remove:
-      1:
-        - "unban {player}"
-      2:
-        - "unban {player}"
-      3:
-        - "unban {player}"
-      4:
         - "unban {player}"
