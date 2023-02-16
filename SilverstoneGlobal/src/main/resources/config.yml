@@ -25,6 +25,8 @@ buy-gui:
     - "&3- &x&3&4&b&a&e&bMake up to 6 Creative plots"
     - "&3- &x&3&4&b&a&e&b/pp &b(player particles) &x&3&4&b&a&e&bcommand"
     - "&3- &x&3&4&b&a&e&b/chatsounds command"
+    - "&3- &x&3&4&b&a&e&b/sit command anywhere"
+    - "&x&3&4&b&a&e&b  in the Creative server"
     - "&3- &x&3&4&b&a&e&bAll Member perks"
 
   vip+:
@@ -35,7 +37,7 @@ buy-gui:
     - "&3- &x&3&4&b&a&e&bVIP+ suffix"
     - "&3- &x&3&4&b&a&e&bJoin full server"
     - "&3- &x&3&4&b&a&e&bChat colors &b(default chat color"
-    - "  &bis customizable with /chatcolor)"
+    - "&b  is customizable with /chatcolor)"
     - "&3- &x&3&4&b&a&e&bMake up to 9 Creative plots"
     - "&3- &x&3&4&b&a&e&bAll Member and VIP perks"
 
