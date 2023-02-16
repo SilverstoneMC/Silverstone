@@ -6,7 +6,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 
 public class Back implements Listener {
-
     @EventHandler
     public void onBack(PlayerCommandPreprocessEvent event) {
         if (event.getMessage().toLowerCase().startsWith("/back")) {

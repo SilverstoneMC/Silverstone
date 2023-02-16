@@ -15,7 +15,7 @@ public class DataManager {
         this.plugin = plugin;
         saveDefaultConfig();
     }
-    
+
     private final JavaPlugin plugin;
     private File configFile = null;
     private FileConfiguration dataConfig = null;

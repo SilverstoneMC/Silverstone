@@ -29,7 +29,6 @@ import java.util.UUID;
 import java.util.stream.IntStream;
 
 public record Minigames(JavaPlugin plugin) implements CommandExecutor, Listener {
-
     public void closeInv(Player player) {
         BukkitRunnable task = new BukkitRunnable() {
             @Override
@@ -70,98 +69,99 @@ public record Minigames(JavaPlugin plugin) implements CommandExecutor, Listener 
         if (event.getInventory().equals(htpInv)) switch (event.getRawSlot()) {
             case 10 -> {
                 closeInv(player);
-                player.sendMessage(Component.text(ChatColor.GREEN + "Click ")
-                        .append(Component.text(ChatColor.AQUA + "here")
-                                .decorate(TextDecoration.UNDERLINED)
-                                .clickEvent(ClickEvent.openUrl("https://github.com/SilverstoneMC/Silverstone/wiki/Minigames#boat-racing"))));
+                player.sendMessage(Component.text(ChatColor.GREEN + "Click ").append(
+                    Component.text(ChatColor.AQUA + "here").decorate(TextDecoration.UNDERLINED).clickEvent(
+                        ClickEvent.openUrl(
+                            "https://github.com/SilverstoneMC/Silverstone/wiki/Minigames#boat-racing"))));
             }
             case 11 -> {
                 closeInv(player);
-                player.sendMessage(Component.text(ChatColor.GREEN + "Click ")
-                        .append(Component.text(ChatColor.AQUA + "here")
-                                .decorate(TextDecoration.UNDERLINED)
-                                .clickEvent(ClickEvent.openUrl("https://github.com/SilverstoneMC/Silverstone/wiki/Minigames#death-run"))));
+                player.sendMessage(Component.text(ChatColor.GREEN + "Click ").append(
+                    Component.text(ChatColor.AQUA + "here").decorate(TextDecoration.UNDERLINED).clickEvent(
+                        ClickEvent.openUrl(
+                            "https://github.com/SilverstoneMC/Silverstone/wiki/Minigames#death-run"))));
             }
             case 12 -> {
                 closeInv(player);
-                player.sendMessage(Component.text(ChatColor.GREEN + "Click ")
-                        .append(Component.text(ChatColor.AQUA + "here")
-                                .decorate(TextDecoration.UNDERLINED)
-                                .clickEvent(ClickEvent.openUrl("https://github.com/SilverstoneMC/Silverstone/wiki/Minigames#flying-course"))));
+                player.sendMessage(Component.text(ChatColor.GREEN + "Click ").append(
+                    Component.text(ChatColor.AQUA + "here").decorate(TextDecoration.UNDERLINED).clickEvent(
+                        ClickEvent.openUrl(
+                            "https://github.com/SilverstoneMC/Silverstone/wiki/Minigames#flying-course"))));
             }
             case 13 -> {
                 closeInv(player);
-                player.sendMessage(Component.text(ChatColor.GREEN + "Click ")
-                        .append(Component.text(ChatColor.AQUA + "here")
-                                .decorate(TextDecoration.UNDERLINED)
-                                .clickEvent(ClickEvent.openUrl("https://github.com/SilverstoneMC/Silverstone/wiki/Minigames#hide--seek"))));
+                player.sendMessage(Component.text(ChatColor.GREEN + "Click ").append(
+                    Component.text(ChatColor.AQUA + "here").decorate(TextDecoration.UNDERLINED).clickEvent(
+                        ClickEvent.openUrl(
+                            "https://github.com/SilverstoneMC/Silverstone/wiki/Minigames#hide--seek"))));
             }
             case 14 -> {
                 closeInv(player);
-                player.sendMessage(Component.text(ChatColor.GREEN + "Click ")
-                        .append(Component.text(ChatColor.AQUA + "here")
-                                .decorate(TextDecoration.UNDERLINED)
-                                .clickEvent(ClickEvent.openUrl("https://github.com/SilverstoneMC/Silverstone/wiki/Minigames#mazes"))));
+                player.sendMessage(Component.text(ChatColor.GREEN + "Click ").append(
+                    Component.text(ChatColor.AQUA + "here").decorate(TextDecoration.UNDERLINED).clickEvent(
+                        ClickEvent.openUrl(
+                            "https://github.com/SilverstoneMC/Silverstone/wiki/Minigames#mazes"))));
             }
             case 15 -> {
                 closeInv(player);
-                player.sendMessage(Component.text(ChatColor.GREEN + "Click ")
-                        .append(Component.text(ChatColor.AQUA + "here")
-                                .decorate(TextDecoration.UNDERLINED)
-                                .clickEvent(ClickEvent.openUrl("https://github.com/SilverstoneMC/Silverstone/wiki/Minigames#mini-golf"))));
+                player.sendMessage(Component.text(ChatColor.GREEN + "Click ").append(
+                    Component.text(ChatColor.AQUA + "here").decorate(TextDecoration.UNDERLINED).clickEvent(
+                        ClickEvent.openUrl(
+                            "https://github.com/SilverstoneMC/Silverstone/wiki/Minigames#mini-golf"))));
             }
             case 16 -> {
                 closeInv(player);
-                player.sendMessage(Component.text(ChatColor.GREEN + "Click ")
-                        .append(Component.text(ChatColor.AQUA + "here")
-                                .decorate(TextDecoration.UNDERLINED)
-                                .clickEvent(ClickEvent.openUrl("https://github.com/SilverstoneMC/Silverstone/wiki/Minigames#parkour"))));
+                player.sendMessage(Component.text(ChatColor.GREEN + "Click ").append(
+                    Component.text(ChatColor.AQUA + "here").decorate(TextDecoration.UNDERLINED).clickEvent(
+                        ClickEvent.openUrl(
+                            "https://github.com/SilverstoneMC/Silverstone/wiki/Minigames#parkour"))));
             }
             case 21 -> {
                 closeInv(player);
-                player.sendMessage(Component.text(ChatColor.GREEN + "Click ")
-                        .append(Component.text(ChatColor.AQUA + "here")
-                                .decorate(TextDecoration.UNDERLINED)
-                                .clickEvent(ClickEvent.openUrl("https://github.com/SilverstoneMC/Silverstone/wiki/Minigames#pvp"))));
+                player.sendMessage(Component.text(ChatColor.GREEN + "Click ").append(
+                    Component.text(ChatColor.AQUA + "here").decorate(TextDecoration.UNDERLINED).clickEvent(
+                        ClickEvent.openUrl(
+                            "https://github.com/SilverstoneMC/Silverstone/wiki/Minigames#pvp"))));
             }
             case 22 -> {
                 closeInv(player);
-                player.sendMessage(Component.text(ChatColor.GREEN + "Click ")
-                        .append(Component.text(ChatColor.AQUA + "here")
-                                .decorate(TextDecoration.UNDERLINED)
-                                .clickEvent(ClickEvent.openUrl("https://github.com/SilverstoneMC/Silverstone/wiki/Minigames#spleef"))));
+                player.sendMessage(Component.text(ChatColor.GREEN + "Click ").append(
+                    Component.text(ChatColor.AQUA + "here").decorate(TextDecoration.UNDERLINED).clickEvent(
+                        ClickEvent.openUrl(
+                            "https://github.com/SilverstoneMC/Silverstone/wiki/Minigames#spleef"))));
             }
             case 23 -> {
                 closeInv(player);
-                player.sendMessage(Component.text(ChatColor.GREEN + "Click ")
-                        .append(Component.text(ChatColor.AQUA + "here")
-                                .decorate(TextDecoration.UNDERLINED)
-                                .clickEvent(ClickEvent.openUrl("https://github.com/SilverstoneMC/Silverstone/wiki/Minigames#tnt-run"))));
+                player.sendMessage(Component.text(ChatColor.GREEN + "Click ").append(
+                    Component.text(ChatColor.AQUA + "here").decorate(TextDecoration.UNDERLINED).clickEvent(
+                        ClickEvent.openUrl(
+                            "https://github.com/SilverstoneMC/Silverstone/wiki/Minigames#tnt-run"))));
             }
         }
         else switch (event.getRawSlot()) {
             case 3 -> {
                 closeInv(player);
-                ArrayList<String> games = new ArrayList<>(plugin.getConfig()
-                        .getStringList("random-game.singleplayer"));
+                ArrayList<String> games = new ArrayList<>(
+                    plugin.getConfig().getStringList("random-game.singleplayer"));
                 Random r = new Random();
-                player.sendMessage(ChatColor.GREEN + "You should play " + ChatColor.AQUA + games.get(r.nextInt(games
-                        .size())));
+                player.sendMessage(ChatColor.GREEN + "You should play " + ChatColor.AQUA + games.get(
+                    r.nextInt(games.size())));
             }
             case 5 -> {
                 closeInv(player);
-                ArrayList<String> games = new ArrayList<>(plugin.getConfig().getStringList("random-game.multiplayer"));
+                ArrayList<String> games = new ArrayList<>(
+                    plugin.getConfig().getStringList("random-game.multiplayer"));
                 Random r = new Random();
-                player.sendMessage(ChatColor.GREEN + "You should play " + ChatColor.AQUA + games.get(r.nextInt(games
-                        .size())));
+                player.sendMessage(ChatColor.GREEN + "You should play " + ChatColor.AQUA + games.get(
+                    r.nextInt(games.size())));
             }
         }
     }
 
     // Inventory items
     public static void createHtpInv() {
-
-        htpInv = Bukkit.createInventory(null, 36, Component.text(ChatColor.translateAlternateColorCodes('&', "&8&lSelect a Minigame")));
+        htpInv = Bukkit.createInventory(null, 36,
+            Component.text(ChatColor.translateAlternateColorCodes('&', "&8&lSelect a Minigame")));
 
         ItemStack item = new ItemStack(Material.BLACK_STAINED_GLASS_PANE);
         ItemMeta meta = item.getItemMeta();
@@ -234,16 +234,16 @@ public record Minigames(JavaPlugin plugin) implements CommandExecutor, Listener 
     }
 
     public static void createGameInv() {
-
-        gameInv = Bukkit.createInventory(null, 9, Component.text(ChatColor.translateAlternateColorCodes('&', "&8&lSelect Player Count")));
+        gameInv = Bukkit.createInventory(null, 9,
+            Component.text(ChatColor.translateAlternateColorCodes('&', "&8&lSelect Player Count")));
 
         // 1
         ItemStack skullItem = new ItemStack(Material.PLAYER_HEAD);
         SkullMeta skullMeta = (SkullMeta) skullItem.getItemMeta();
 
         GameProfile skullProfile = new GameProfile(UUID.randomUUID(), null);
-        skullProfile.getProperties()
-                .put("textures", new Property("textures", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDJhNmYwZTg0ZGFlZmM4YjIxYWE5OTQxNWIxNmVkNWZkYWE2ZDhkYzBjM2NkNTkxZjQ5Y2E4MzJiNTc1In19fQ=="));
+        skullProfile.getProperties().put("textures", new Property("textures",
+            "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDJhNmYwZTg0ZGFlZmM4YjIxYWE5OTQxNWIxNmVkNWZkYWE2ZDhkYzBjM2NkNTkxZjQ5Y2E4MzJiNTc1In19fQ=="));
 
         try {
             Field field = skullMeta.getClass().getDeclaredField("profile");
@@ -260,8 +260,8 @@ public record Minigames(JavaPlugin plugin) implements CommandExecutor, Listener 
 
         // 2
         skullProfile = new GameProfile(UUID.randomUUID(), null);
-        skullProfile.getProperties()
-                .put("textures", new Property("textures", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOWEyZDg5MWM2YWU5ZjZiYWEwNDBkNzM2YWI4NGQ0ODM0NGJiNmI3MGQ3ZjFhMjgwZGQxMmNiYWM0ZDc3NyJ9fX0="));
+        skullProfile.getProperties().put("textures", new Property("textures",
+            "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOWEyZDg5MWM2YWU5ZjZiYWEwNDBkNzM2YWI4NGQ0ODM0NGJiNmI3MGQ3ZjFhMjgwZGQxMmNiYWM0ZDc3NyJ9fX0="));
 
         try {
             Field field = skullMeta.getClass().getDeclaredField("profile");

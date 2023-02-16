@@ -7,11 +7,10 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
 
 public class Void implements Listener {
-
     @EventHandler
     public void onMove(PlayerMoveEvent event) {
         Player player = event.getPlayer();
-            if (player.getLocation().getBlockY() <= -90) if (!player.isFlying())
-                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "warp Mini " + player.getName());
+        if (player.getLocation().getBlockY() <= -90) if (!player.isFlying())
+            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "warp Mini " + player.getName());
     }
 }

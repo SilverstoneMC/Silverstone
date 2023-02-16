@@ -12,7 +12,6 @@ import org.jetbrains.annotations.NotNull;
 
 @SuppressWarnings({"DataFlowIssue", "unused"})
 public class SilverstoneMinigames extends JavaPlugin implements CommandExecutor {
-
     public static DataManager data;
 
     // Startup

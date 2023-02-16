@@ -29,7 +29,6 @@ import org.jetbrains.annotations.NotNull;
 import java.util.stream.IntStream;
 
 public record KitPvPGUI(JavaPlugin plugin) implements CommandExecutor, Listener {
-
     private static Inventory inv;
 
     public void closeInv(Player player) {
@@ -37,7 +36,7 @@ public record KitPvPGUI(JavaPlugin plugin) implements CommandExecutor, Listener 
             @Override
             public void run() {
                 player.closeInventory();
-                player.playSound(player.getLocation(), Sound.UI_BUTTON_CLICK,SoundCategory.MASTER, 1, 1);
+                player.playSound(player.getLocation(), Sound.UI_BUTTON_CLICK, SoundCategory.MASTER, 1, 1);
             }
         };
         task.runTask(plugin);
@@ -69,7 +68,7 @@ public record KitPvPGUI(JavaPlugin plugin) implements CommandExecutor, Listener 
 
         switch (event.getRawSlot()) {
             case 10 -> {
-                player.playSound(player.getLocation(), Sound.UI_BUTTON_CLICK,SoundCategory.MASTER, 1, 1);
+                player.playSound(player.getLocation(), Sound.UI_BUTTON_CLICK, SoundCategory.MASTER, 1, 1);
                 player.getInventory().clear();
                 player.getInventory().setHelmet(new ItemStack(Material.LEATHER_HELMET));
                 player.getInventory().setChestplate(new ItemStack(Material.LEATHER_CHESTPLATE));
@@ -78,7 +77,7 @@ public record KitPvPGUI(JavaPlugin plugin) implements CommandExecutor, Listener 
                 player.getInventory().setItem(0, new ItemStack(Material.WOODEN_SWORD));
             }
             case 11 -> {
-                player.playSound(player.getLocation(), Sound.UI_BUTTON_CLICK,SoundCategory.MASTER, 1, 1);
+                player.playSound(player.getLocation(), Sound.UI_BUTTON_CLICK, SoundCategory.MASTER, 1, 1);
                 player.getInventory().clear();
                 player.getInventory().setHelmet(new ItemStack(Material.CHAINMAIL_HELMET));
                 player.getInventory().setChestplate(new ItemStack(Material.CHAINMAIL_CHESTPLATE));
@@ -89,23 +88,22 @@ public record KitPvPGUI(JavaPlugin plugin) implements CommandExecutor, Listener 
                 PotionMeta pm = (PotionMeta) potion.getItemMeta();
                 pm.addCustomEffect(new PotionEffect(PotionEffectType.SPEED, 600, 0, false, true), true);
                 pm.setColor(Color.YELLOW);
-                pm.displayName(Component.text("Splash Potion of Swiftness")
-                        .color(NamedTextColor.WHITE)
-                        .decoration(TextDecoration.ITALIC, false));
+                pm.displayName(Component.text("Splash Potion of Swiftness").color(NamedTextColor.WHITE)
+                    .decoration(TextDecoration.ITALIC, false));
                 potion.setItemMeta(pm);
                 player.getInventory().setItem(1, potion);
             }
             case 12 -> {
-                player.playSound(player.getLocation(), Sound.UI_BUTTON_CLICK,SoundCategory.MASTER, 1, 1);
+                player.playSound(player.getLocation(), Sound.UI_BUTTON_CLICK, SoundCategory.MASTER, 1, 1);
                 player.getInventory().clear();
                 ItemStack potion = new ItemStack(Material.POTION);
                 PotionMeta pm = (PotionMeta) potion.getItemMeta();
                 pm.clearCustomEffects();
-                pm.addCustomEffect(new PotionEffect(PotionEffectType.REGENERATION, 300, 1, false, true), true);
+                pm.addCustomEffect(new PotionEffect(PotionEffectType.REGENERATION, 300, 1, false, true),
+                    true);
                 pm.setColor(Color.RED);
-                pm.displayName(Component.text("Potion of Regeneration")
-                        .color(NamedTextColor.WHITE)
-                        .decoration(TextDecoration.ITALIC, false));
+                pm.displayName(Component.text("Potion of Regeneration").color(NamedTextColor.WHITE)
+                    .decoration(TextDecoration.ITALIC, false));
                 potion.setItemMeta(pm);
                 player.getInventory().setItem(0, potion);
                 potion = new ItemStack(Material.SPLASH_POTION, 2);
@@ -113,9 +111,8 @@ public record KitPvPGUI(JavaPlugin plugin) implements CommandExecutor, Listener 
                 pm.clearCustomEffects();
                 pm.addCustomEffect(new PotionEffect(PotionEffectType.HARM, 1, 0, false, true), true);
                 pm.setColor(Color.BLACK);
-                pm.displayName(Component.text("Splash Potion of Harming")
-                        .color(NamedTextColor.WHITE)
-                        .decoration(TextDecoration.ITALIC, false));
+                pm.displayName(Component.text("Splash Potion of Harming").color(NamedTextColor.WHITE)
+                    .decoration(TextDecoration.ITALIC, false));
                 potion.setItemMeta(pm);
                 player.getInventory().setItem(1, potion);
                 potion = new ItemStack(Material.SPLASH_POTION, 2);
@@ -123,9 +120,8 @@ public record KitPvPGUI(JavaPlugin plugin) implements CommandExecutor, Listener 
                 pm.clearCustomEffects();
                 pm.addCustomEffect(new PotionEffect(PotionEffectType.SLOW, 200, 1, false, true), true);
                 pm.setColor(Color.PURPLE);
-                pm.displayName(Component.text("Splash Potion of Slowness")
-                        .color(NamedTextColor.WHITE)
-                        .decoration(TextDecoration.ITALIC, false));
+                pm.displayName(Component.text("Splash Potion of Slowness").color(NamedTextColor.WHITE)
+                    .decoration(TextDecoration.ITALIC, false));
                 potion.setItemMeta(pm);
                 player.getInventory().setItem(2, potion);
                 potion = new ItemStack(Material.SPLASH_POTION, 2);
@@ -133,9 +129,8 @@ public record KitPvPGUI(JavaPlugin plugin) implements CommandExecutor, Listener 
                 pm.clearCustomEffects();
                 pm.addCustomEffect(new PotionEffect(PotionEffectType.BLINDNESS, 200, 0, false, true), true);
                 pm.setColor(Color.GRAY);
-                pm.displayName(Component.text("Splash Potion of Blindness")
-                        .color(NamedTextColor.WHITE)
-                        .decoration(TextDecoration.ITALIC, false));
+                pm.displayName(Component.text("Splash Potion of Blindness").color(NamedTextColor.WHITE)
+                    .decoration(TextDecoration.ITALIC, false));
                 potion.setItemMeta(pm);
                 player.getInventory().setItem(3, potion);
                 potion = new ItemStack(Material.SPLASH_POTION);
@@ -143,15 +138,14 @@ public record KitPvPGUI(JavaPlugin plugin) implements CommandExecutor, Listener 
                 pm.clearCustomEffects();
                 pm.addCustomEffect(new PotionEffect(PotionEffectType.POISON, 300, 0, false, true), true);
                 pm.setColor(Color.RED);
-                pm.displayName(Component.text("Splash Potion of Poison")
-                        .color(NamedTextColor.WHITE)
-                        .decoration(TextDecoration.ITALIC, false));
+                pm.displayName(Component.text("Splash Potion of Poison").color(NamedTextColor.WHITE)
+                    .decoration(TextDecoration.ITALIC, false));
                 potion.setItemMeta(pm);
                 player.getInventory().setItem(4, potion);
                 player.getInventory().setItem(8, new ItemStack(Material.MILK_BUCKET));
             }
             case 13 -> {
-                player.playSound(player.getLocation(), Sound.UI_BUTTON_CLICK,SoundCategory.MASTER, 1, 1);
+                player.playSound(player.getLocation(), Sound.UI_BUTTON_CLICK, SoundCategory.MASTER, 1, 1);
                 player.getInventory().clear();
                 player.getInventory().setHelmet(new ItemStack(Material.LEATHER_HELMET));
                 player.getInventory().setChestplate(new ItemStack(Material.LEATHER_CHESTPLATE));
@@ -163,7 +157,7 @@ public record KitPvPGUI(JavaPlugin plugin) implements CommandExecutor, Listener 
                 player.getInventory().setItem(1, new ItemStack(Material.ARROW, 64));
             }
             case 14 -> {
-                player.playSound(player.getLocation(), Sound.UI_BUTTON_CLICK,SoundCategory.MASTER, 1, 1);
+                player.playSound(player.getLocation(), Sound.UI_BUTTON_CLICK, SoundCategory.MASTER, 1, 1);
                 player.getInventory().clear();
                 player.getInventory().setItem(0, new ItemStack(Material.TNT));
             }
@@ -176,20 +170,22 @@ public record KitPvPGUI(JavaPlugin plugin) implements CommandExecutor, Listener 
     public void onClick(PlayerInteractEvent event) {
         Player player = event.getPlayer();
 
-        if (event.getAction().equals(Action.RIGHT_CLICK_AIR) || event.getAction().equals(Action.RIGHT_CLICK_BLOCK))
-            if (player.getWorld().getName().equalsIgnoreCase(plugin.getConfig().getString("empty-minigame-world")))
-                if (player.getGameMode() == GameMode.ADVENTURE)
-                    if (player.getInventory().getItemInMainHand().getType() == Material.TNT) {
-                        event.setCancelled(true);
-                        player.getInventory().clear();
-                        player.getWorld().spawn(player.getLocation(), TNTPrimed.class).setFuseTicks(10);
-                    }
+        if (event.getAction().equals(Action.RIGHT_CLICK_AIR) || event.getAction()
+            .equals(Action.RIGHT_CLICK_BLOCK)) if (player.getWorld().getName()
+            .equalsIgnoreCase(plugin.getConfig().getString("empty-minigame-world")))
+            if (player.getGameMode() == GameMode.ADVENTURE)
+                if (player.getInventory().getItemInMainHand().getType() == Material.TNT) {
+                    event.setCancelled(true);
+                    player.getInventory().clear();
+                    player.getWorld().spawn(player.getLocation(), TNTPrimed.class).setFuseTicks(10);
+                }
     }
 
     // Inventory items
     public static void createInv() {
 
-        inv = Bukkit.createInventory(null, 27, Component.text(ChatColor.translateAlternateColorCodes('&', "&4&lSelect a Kit")));
+        inv = Bukkit.createInventory(null, 27,
+            Component.text(ChatColor.translateAlternateColorCodes('&', "&4&lSelect a Kit")));
 
         ItemStack item = new ItemStack(Material.BLACK_STAINED_GLASS_PANE);
         ItemMeta meta = item.getItemMeta();

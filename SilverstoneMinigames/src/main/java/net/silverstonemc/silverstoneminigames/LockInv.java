@@ -10,7 +10,6 @@ import org.bukkit.event.player.PlayerSwapHandItemsEvent;
 
 @SuppressWarnings("DataFlowIssue")
 public class LockInv implements Listener {
-
     @EventHandler
     public void onClick(InventoryClickEvent event) {
         Player player = (Player) event.getWhoClicked();
@@ -20,8 +19,7 @@ public class LockInv implements Listener {
         if (!player.getGameMode().equals(GameMode.ADVENTURE)) return;
         if (player.getInventory().getItem(22) == null) return;
         if (!PlainTextComponentSerializer.plainText()
-                .serialize(player.getInventory().getItem(22).getItemMeta().displayName())
-                .equals("☺")) return;
+            .serialize(player.getInventory().getItem(22).getItemMeta().displayName()).equals("☺")) return;
 
         event.setCancelled(true);
     }
@@ -33,8 +31,7 @@ public class LockInv implements Listener {
         if (!player.getGameMode().equals(GameMode.ADVENTURE)) return;
         if (player.getInventory().getItem(22) == null) return;
         if (!PlainTextComponentSerializer.plainText()
-                .serialize(player.getInventory().getItem(22).getItemMeta().displayName())
-                .equals("☺")) return;
+            .serialize(player.getInventory().getItem(22).getItemMeta().displayName()).equals("☺")) return;
 
         event.setCancelled(true);
     }
