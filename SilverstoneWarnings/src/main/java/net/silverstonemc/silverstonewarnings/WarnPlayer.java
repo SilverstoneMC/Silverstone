@@ -17,7 +17,7 @@ public class WarnPlayer {
     private final SilverstoneWarnings plugin = SilverstoneWarnings.getPlugin();
 
     public void warn(UUID uuid, String reason) {
-        TextChannel warningChannel = SilverstoneWarnings.jda.getTextChannelById(826540656783523850L);
+        TextChannel warningChannel = SilverstoneWarnings.jda.getTextChannelById(1075643034634563695L);
 
         String username = plugin.getPlayerName(uuid);
         ProxiedPlayer player = plugin.getOnlinePlayer(uuid);

@@ -25,7 +25,7 @@ public class BaseCommand extends Command implements TabExecutor {
     private final SilverstoneWarnings plugin = SilverstoneWarnings.getPlugin();
     
     public void execute(CommandSender sender, String[] args) {
-        TextChannel warningChannel = SilverstoneWarnings.jda.getTextChannelById(826540656783523850L);
+        TextChannel warningChannel = SilverstoneWarnings.jda.getTextChannelById(1075643034634563695L);
 
         // Reload
         if (args.length > 0)
