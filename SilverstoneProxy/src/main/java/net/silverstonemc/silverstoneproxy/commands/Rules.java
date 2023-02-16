@@ -28,7 +28,7 @@ public class Rules extends Command implements TabExecutor {
     //todo modify this
     public void execute(CommandSender sender, String[] args) {
         if (args.length > 0) {
-            if (!sender.hasPermission("silverstone.trialmod")) {
+            if (!sender.hasPermission("silverstone.moderator")) {
                 sendSelfRules(sender);
                 return;
             }
@@ -69,9 +69,9 @@ public class Rules extends Command implements TabExecutor {
             for (String footer : SilverstoneProxy.config.getStringList("rules.footer"))
                 audience.player(target).sendMessage(MiniMessage.miniMessage().deserialize(footer));
 
-            // Tell trialmod+
+            // Tell mod+
             if (!silent) for (ProxiedPlayer online : plugin.getProxy().getPlayers())
-                if (online.hasPermission("silverstone.trialmod")) audience.player(online)
+                if (online.hasPermission("silverstone.moderator")) audience.player(online)
                         .sendMessage(Component.text("The rules have been sent to ")
                                 .color(NamedTextColor.RED)
                                 .append(Component.text(target.getName()).color(NamedTextColor.GRAY)));
@@ -81,9 +81,9 @@ public class Rules extends Command implements TabExecutor {
                             .deserialize("<dark_green>Rule " + SilverstoneProxy.config.getString("rules.rule-prefix")
                                     .replace("{#}", String.valueOf(rule)) + SilverstoneProxy.config.getString("rules.rules." + rule)));
 
-            // Tell trialmod+
+            // Tell mod+
             for (ProxiedPlayer online : plugin.getProxy().getPlayers())
-                if (online.hasPermission("silverstone.trialmod")) audience.player(online)
+                if (online.hasPermission("silverstone.moderator")) audience.player(online)
                         .sendMessage(Component.text("Rule ")
                                 .color(NamedTextColor.RED)
                                 .append(Component.text(rule).color(NamedTextColor.GRAY))

@@ -31,7 +31,7 @@ public class WarningsCommand extends Command implements TabExecutor {
             }
             arg0 = sender.getName();
             // If player specified but sender has no permission
-        } else if (!sender.hasPermission("silverstone.trialmod")) arg0 = sender.getName();
+        } else if (!sender.hasPermission("silverstone.moderator")) arg0 = sender.getName();
             // If player specified and sender does have permission
         else arg0 = args[0];
 
@@ -65,7 +65,7 @@ public class WarningsCommand extends Command implements TabExecutor {
 
     @Override
     public Iterable<String> onTabComplete(CommandSender sender, String[] args) {
-        if (!sender.hasPermission("silverstone.trialmod")) return new ArrayList<>();
+        if (!sender.hasPermission("silverstone.moderator")) return new ArrayList<>();
 
         List<String> arguments = new ArrayList<>();
         for (ProxiedPlayer player : plugin.getProxy().getPlayers())

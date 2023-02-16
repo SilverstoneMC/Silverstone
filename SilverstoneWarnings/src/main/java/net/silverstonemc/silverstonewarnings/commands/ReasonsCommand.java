@@ -15,7 +15,7 @@ import java.util.ArrayList;
 public class ReasonsCommand extends Command {
 
     public ReasonsCommand() {
-        super("reasons", "silverstone.trialmod", "categories");
+        super("reasons", "silverstone.moderator", "categories");
     }
 
     public void execute(CommandSender sender, String[] args) {

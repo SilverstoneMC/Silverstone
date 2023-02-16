@@ -21,7 +21,7 @@ public class QuitEvent implements Listener {
         if (JoinEvent.newPlayers.containsKey(player)) {
             int x = 0;
             for (Player players : Bukkit.getOnlinePlayers())
-                if (players.hasPermission("silverstone.trialmod")) x++;
+                if (players.hasPermission("silverstone.moderator")) x++;
 
             Message message = JoinEvent.newPlayers.get(player);
             MessageEmbed oldEmbed = message.getEmbeds().get(0);

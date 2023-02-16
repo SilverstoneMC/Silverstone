@@ -11,7 +11,7 @@ import java.util.UUID;
 public class WarnListCommand extends Command {
 
     public WarnListCommand() {
-        super("warnlist", "silverstone.trialmod");
+        super("warnlist", "silverstone.moderator");
     }
 
     public void execute(CommandSender sender, String[] args) {

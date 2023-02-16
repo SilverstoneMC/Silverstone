@@ -26,7 +26,7 @@ public class AntiCheatDiscord implements Listener {
 
         int x = 0;
         for (Player players : Bukkit.getOnlinePlayers())
-            if (players.hasPermission("silverstone.trialmod")) x++;
+            if (players.hasPermission("silverstone.moderator")) x++;
 
         TextChannel discord = DiscordSRV.getPlugin().getDestinationTextChannelForGameChannelName("matrix");
 

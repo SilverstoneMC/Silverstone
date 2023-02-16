@@ -35,7 +35,7 @@ public final class JoinEvent implements Listener {
         if (!player.hasPlayedBefore()) {
             int x = 0;
             for (Player players : Bukkit.getOnlinePlayers())
-                if (players.hasPermission("silverstone.trialmod")) x++;
+                if (players.hasPermission("silverstone.moderator")) x++;
             int finalX = x;
             BukkitRunnable task = new BukkitRunnable() {
                 @Override
@@ -64,7 +64,7 @@ public final class JoinEvent implements Listener {
             if (meta.asBoolean()) {
                 int nonStaff = 0;
                 for (Player players : Bukkit.getOnlinePlayers())
-                    if (!players.hasPermission("silverstone.trialmod")) nonStaff++;
+                    if (!players.hasPermission("silverstone.moderator")) nonStaff++;
                 if (nonStaff == 0) return;
 
                 TextChannel discord = DiscordSRV.getPlugin()

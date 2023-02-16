@@ -30,7 +30,7 @@ commands:
   discord:
     aliases: [ news ]
   effects:
-    permission: silverstone.trialmod
+    permission: silverstone.moderator
   exit:
     description: "Exit the server"
     permission: silverstone.exit
@@ -78,7 +78,7 @@ commands:
     usage: "Usage: /ssg reload"
   spectate:
     aliases: [ spec ]
-    permission: silverstone.trialmod
+    permission: silverstone.moderator
     usage: "§cUsage: /spectate <player>"
   tableflip:
     description: "Tableflip emote"
@@ -91,7 +91,7 @@ commands:
   updatecommands:
     description: "Updates available commands"
   watch:
-    permission: silverstone.trialmod
+    permission: silverstone.moderator
     usage: "§cUsage: /watch <player>"
 
 permissions:
@@ -118,6 +118,4 @@ permissions:
   silverstone.nightvision:
     default: op
   silverstone.owner:
-    default: op
-  silverstone.trialmod:
     default: op

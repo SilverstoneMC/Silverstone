@@ -40,10 +40,6 @@ commands:
     permission: silverstone.owner
   relay:
     permission: silverstone.console
-  rtplimit:
-    description: "Check a player's RTP usages"
-    permission: silverstone.trialmod
-    usage: "§cUsage: /rtplimit check <player>"
   ssm:
     permission: silverstone.admin
     usage: "§cUsage: /ssm reload"
