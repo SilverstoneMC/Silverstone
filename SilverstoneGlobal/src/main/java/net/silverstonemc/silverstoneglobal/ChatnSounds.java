@@ -22,7 +22,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 
-@SuppressWarnings("UnstableApiUsage")
 public class ChatnSounds implements CommandExecutor, Listener {
     public ChatnSounds(JavaPlugin plugin) {
         this.plugin = plugin;
