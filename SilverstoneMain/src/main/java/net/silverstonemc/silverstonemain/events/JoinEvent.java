@@ -23,11 +23,11 @@ public final class JoinEvent implements Listener {
     public JoinEvent(JavaPlugin plugin) {
         this.plugin = plugin;
     }
-    
+
     public static final Map<Player, Message> newPlayers = new HashMap<>();
-    
+
     private final JavaPlugin plugin;
-    
+
     @EventHandler(ignoreCancelled = true)
     public void onJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
