@@ -183,7 +183,6 @@ public record KitPvPGUI(JavaPlugin plugin) implements CommandExecutor, Listener 
 
     // Inventory items
     public static void createInv() {
-
         inv = Bukkit.createInventory(null, 27,
             Component.text(ChatColor.translateAlternateColorCodes('&', "&4&lSelect a Kit")));
 
@@ -211,7 +210,7 @@ public record KitPvPGUI(JavaPlugin plugin) implements CommandExecutor, Listener 
         // Potion Master
         item.setType(Material.POTION);
         meta.displayName(Component.text(ChatColor.AQUA + "" + ChatColor.BOLD + "Potion Master"));
-        meta.addItemFlags(ItemFlag.HIDE_POTION_EFFECTS);
+        meta.addItemFlags(ItemFlag.HIDE_ITEM_SPECIFICS);
         item.setItemMeta(meta);
         inv.setItem(12, item);
 
