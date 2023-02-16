@@ -11,18 +11,18 @@ import net.md_5.bungee.api.plugin.Command;
 import net.silverstonemc.silverstoneproxy.SilverstoneProxy;
 
 public class Restart extends Command {
-
-    private final BungeeAudiences audience = SilverstoneProxy.getAdventure();
-
     public Restart() {
         super("bcnetworkrestart", "silverstone.admin");
     }
+    
+    private final BungeeAudiences audience = SilverstoneProxy.getAdventure();
 
     public void execute(CommandSender sender, String[] args) {
         for (ProxiedPlayer player : SilverstoneProxy.getPlugin().getProxy().getPlayers()) {
-            player.sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&', "&c&lWARNING &b&l> &aThe network will restart soon!")));
+            player.sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&',
+                "&c&lWARNING &b&l> &aThe network will restart soon!")));
             audience.player(player)
-                    .playSound(Sound.sound(Key.key("block.note_block.harp"), Sound.Source.MASTER, 100, 1.6f));
+                .playSound(Sound.sound(Key.key("block.note_block.harp"), Sound.Source.MASTER, 100, 1.6f));
         }
 
         if (!(sender instanceof ProxiedPlayer))

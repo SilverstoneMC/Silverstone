@@ -17,15 +17,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Rules extends Command implements TabExecutor {
-
-    private final Plugin plugin = SilverstoneProxy.getPlugin();
-    private final BungeeAudiences audience = SilverstoneProxy.getAdventure();
-
     public Rules() {
         super("rules");
     }
 
-    //todo modify this
+    private final BungeeAudiences audience = SilverstoneProxy.getAdventure();
+    private final Plugin plugin = SilverstoneProxy.getPlugin();
+
     public void execute(CommandSender sender, String[] args) {
         if (args.length > 0) {
             if (!sender.hasPermission("silverstone.moderator")) {
@@ -36,8 +34,8 @@ public class Rules extends Command implements TabExecutor {
             ProxiedPlayer target = plugin.getProxy().getPlayer(args[0]);
             // If target is null, cancel the command
             if (target == null) {
-                sender.sendMessage(new ComponentBuilder("Please provide an online player!").color(ChatColor.RED)
-                        .create());
+                sender.sendMessage(
+                    new ComponentBuilder("Please provide an online player!").color(ChatColor.RED).create());
                 return;
             }
 
@@ -62,33 +60,31 @@ public class Rules extends Command implements TabExecutor {
             for (String header : SilverstoneProxy.config.getStringList("rules.header"))
                 audience.player(target).sendMessage(MiniMessage.miniMessage().deserialize(header));
             for (int x = 1; x <= SilverstoneProxy.config.getSection("rules.rules").getKeys().size(); x++)
-                audience.player(target)
-                        .sendMessage(MiniMessage.miniMessage()
-                                .deserialize(SilverstoneProxy.config.getString("rules.rule-prefix")
-                                        .replace("{#}", String.valueOf(x)) + SilverstoneProxy.config.getString("rules.rules." + x)));
+                audience.player(target).sendMessage(MiniMessage.miniMessage().deserialize(
+                    SilverstoneProxy.config.getString("rules.rule-prefix")
+                        .replace("{#}", String.valueOf(x)) + SilverstoneProxy.config.getString(
+                        "rules.rules." + x)));
             for (String footer : SilverstoneProxy.config.getStringList("rules.footer"))
                 audience.player(target).sendMessage(MiniMessage.miniMessage().deserialize(footer));
 
             // Tell mod+
             if (!silent) for (ProxiedPlayer online : plugin.getProxy().getPlayers())
-                if (online.hasPermission("silverstone.moderator")) audience.player(online)
-                        .sendMessage(Component.text("The rules have been sent to ")
-                                .color(NamedTextColor.RED)
-                                .append(Component.text(target.getName()).color(NamedTextColor.GRAY)));
+                if (online.hasPermission("silverstone.moderator")) audience.player(online).sendMessage(
+                    Component.text("The rules have been sent to ").color(NamedTextColor.RED)
+                        .append(Component.text(target.getName()).color(NamedTextColor.GRAY)));
         } else {
-            audience.player(target)
-                    .sendMessage(MiniMessage.miniMessage()
-                            .deserialize("<dark_green>Rule " + SilverstoneProxy.config.getString("rules.rule-prefix")
-                                    .replace("{#}", String.valueOf(rule)) + SilverstoneProxy.config.getString("rules.rules." + rule)));
+            audience.player(target).sendMessage(MiniMessage.miniMessage().deserialize(
+                "<dark_green>Rule " + SilverstoneProxy.config.getString("rules.rule-prefix")
+                    .replace("{#}", String.valueOf(rule)) + SilverstoneProxy.config.getString(
+                    "rules.rules." + rule)));
 
             // Tell mod+
             for (ProxiedPlayer online : plugin.getProxy().getPlayers())
-                if (online.hasPermission("silverstone.moderator")) audience.player(online)
-                        .sendMessage(Component.text("Rule ")
-                                .color(NamedTextColor.RED)
-                                .append(Component.text(rule).color(NamedTextColor.GRAY))
-                                .append(Component.text(" has been sent to ").color(NamedTextColor.RED))
-                                .append(Component.text(target.getName()).color(NamedTextColor.GRAY)));
+                if (online.hasPermission("silverstone.moderator")) audience.player(online).sendMessage(
+                    Component.text("Rule ").color(NamedTextColor.RED)
+                        .append(Component.text(rule).color(NamedTextColor.GRAY))
+                        .append(Component.text(" has been sent to ").color(NamedTextColor.RED))
+                        .append(Component.text(target.getName()).color(NamedTextColor.GRAY)));
         }
     }
 
@@ -96,10 +92,10 @@ public class Rules extends Command implements TabExecutor {
         for (String header : SilverstoneProxy.config.getStringList("rules.header"))
             audience.sender(sender).sendMessage(MiniMessage.miniMessage().deserialize(header));
         for (int x = 1; x <= SilverstoneProxy.config.getSection("rules.rules").getKeys().size(); x++)
-            audience.sender(sender)
-                    .sendMessage(MiniMessage.miniMessage()
-                            .deserialize(SilverstoneProxy.config.getString("rules.rule-prefix")
-                                    .replace("{#}", String.valueOf(x)) + SilverstoneProxy.config.getString("rules.rules." + x)));
+            audience.sender(sender).sendMessage(MiniMessage.miniMessage().deserialize(
+                SilverstoneProxy.config.getString("rules.rule-prefix")
+                    .replace("{#}", String.valueOf(x)) + SilverstoneProxy.config.getString(
+                    "rules.rules." + x)));
         for (String footer : SilverstoneProxy.config.getStringList("rules.footer"))
             audience.sender(sender).sendMessage(MiniMessage.miniMessage().deserialize(footer));
     }
@@ -113,11 +109,9 @@ public class Rules extends Command implements TabExecutor {
         String footer = "\n\n<reset><gray><italic>Click to send rule to " + target.getName();
 
         StringBuilder message = new StringBuilder(header);
-        message.append("\n<bold><gray><hover:show_text:'<#23B8CF>All rules")
-                .append(footer)
-                .append("'><click:run_command:/rules ")
-                .append(target.getName())
-                .append(" -1>ALL</click></hover>");
+        message.append("\n<bold><gray><hover:show_text:'<#23B8CF>All rules").append(footer)
+            .append("'><click:run_command:/rules ").append(target.getName())
+            .append(" -1>ALL</click></hover>");
 
         for (int x = 0; x < ruleCount; x = x + 3) {
             message.append("\n");
@@ -131,30 +125,15 @@ public class Rules extends Command implements TabExecutor {
                 String command2 = "/rules " + target.getName() + " " + (x + 2);
                 String command3 = "/rules " + target.getName() + " " + (x + 3);
 
-                message.append("<bold><gray><hover:show_text:'<#23B8CF>")
-                        .append(rule1)
-                        .append(footer)
-                        .append("'><click:run_command:")
-                        .append(command1)
-                        .append(">")
-                        .append(x + 1)
-                        .append("</click></hover> <dark_gray><bold>| ")
-                        .append("<bold><gray><hover:show_text:'<#23B8CF>")
-                        .append(rule2)
-                        .append(footer)
-                        .append("'><click:run_command:")
-                        .append(command2)
-                        .append(">")
-                        .append(x + 2)
-                        .append("</click></hover> <dark_gray><bold>| ")
-                        .append("<bold><gray><hover:show_text:'<#23B8CF>")
-                        .append(rule3)
-                        .append(footer)
-                        .append("'><click:run_command:")
-                        .append(command3)
-                        .append(">")
-                        .append(x + 3)
-                        .append("</click></hover>");
+                message.append("<bold><gray><hover:show_text:'<#23B8CF>").append(rule1).append(footer)
+                    .append("'><click:run_command:").append(command1).append(">").append(x + 1)
+                    .append("</click></hover> <dark_gray><bold>| ")
+                    .append("<bold><gray><hover:show_text:'<#23B8CF>").append(rule2).append(footer)
+                    .append("'><click:run_command:").append(command2).append(">").append(x + 2)
+                    .append("</click></hover> <dark_gray><bold>| ")
+                    .append("<bold><gray><hover:show_text:'<#23B8CF>").append(rule3).append(footer)
+                    .append("'><click:run_command:").append(command3).append(">").append(x + 3)
+                    .append("</click></hover>");
             } catch (IndexOutOfBoundsException e1) {
                 try {
                     String rule1 = rules.get(x).replace("'", "\\'");
@@ -163,42 +142,26 @@ public class Rules extends Command implements TabExecutor {
                     String command1 = "/rules " + target.getName() + " " + (x + 1);
                     String command2 = "/rules " + target.getName() + " " + (x + 2);
 
-                    message.append("<bold><gray><hover:show_text:'<#23B8CF>")
-                            .append(rule1)
-                            .append(footer)
-                            .append("'><click:run_command:")
-                            .append(command1)
-                            .append(">")
-                            .append(x + 1)
-                            .append("</click></hover> <dark_gray><bold>| ")
-                            .append("<bold><gray><hover:show_text:'<#23B8CF>")
-                            .append(rule2)
-                            .append(footer)
-                            .append("'><click:run_command:")
-                            .append(command2)
-                            .append(">")
-                            .append(x + 2)
-                            .append("</click></hover>");
+                    message.append("<bold><gray><hover:show_text:'<#23B8CF>").append(rule1).append(footer)
+                        .append("'><click:run_command:").append(command1).append(">").append(x + 1)
+                        .append("</click></hover> <dark_gray><bold>| ")
+                        .append("<bold><gray><hover:show_text:'<#23B8CF>").append(rule2).append(footer)
+                        .append("'><click:run_command:").append(command2).append(">").append(x + 2)
+                        .append("</click></hover>");
                 } catch (IndexOutOfBoundsException e2) {
                     String rule1 = rules.get(x).replace("'", "\\'");
 
                     String command1 = "/rules " + target.getName() + " " + (x + 1);
 
-                    message.append("<bold><gray><hover:show_text:'<#23B8CF>")
-                            .append(rule1)
-                            .append(footer)
-                            .append("'><click:run_command:")
-                            .append(command1)
-                            .append(">")
-                            .append(x + 1)
-                            .append("</click></hover>");
+                    message.append("<bold><gray><hover:show_text:'<#23B8CF>").append(rule1).append(footer)
+                        .append("'><click:run_command:").append(command1).append(">").append(x + 1)
+                        .append("</click></hover>");
                 }
             }
         }
 
         audience.sender(sender).sendMessage(MiniMessage.miniMessage().deserialize(message.toString()));
     }
-
 
     @Override
     public Iterable<String> onTabComplete(CommandSender sender, String[] args) {

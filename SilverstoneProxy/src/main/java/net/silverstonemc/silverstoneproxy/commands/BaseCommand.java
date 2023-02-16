@@ -11,23 +11,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BaseCommand extends Command implements TabExecutor {
-
-    private final SilverstoneProxy plugin = SilverstoneProxy.getPlugin();
-
     public BaseCommand() {
         super("ssp", "silverstone.admin");
     }
+    
+    private final List<String> arguments = new ArrayList<>();
+    private final SilverstoneProxy plugin = SilverstoneProxy.getPlugin();
 
     public void execute(CommandSender sender, String[] args) {
-        // Reload
         if (args.length > 0) if (args[0].equalsIgnoreCase("reload")) {
             SilverstoneProxy.config = plugin.loadConfig();
 
             sender.sendMessage(TextComponent.fromLegacyText(ChatColor.GREEN + "SilverstoneProxy reloaded!"));
         } else sender.sendMessage(TextComponent.fromLegacyText(ChatColor.RED + "Usage: /ssp reload"));
     }
-
-    final List<String> arguments = new ArrayList<>();
 
     @Override
     public Iterable<String> onTabComplete(CommandSender sender, String[] args) {

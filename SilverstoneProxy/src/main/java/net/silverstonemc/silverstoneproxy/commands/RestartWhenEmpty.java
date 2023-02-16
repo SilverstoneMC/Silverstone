@@ -13,20 +13,18 @@ import net.silverstonemc.silverstoneproxy.SilverstoneProxy;
 import java.util.concurrent.TimeUnit;
 
 public class RestartWhenEmpty extends Command {
-
-    private final Plugin plugin = SilverstoneProxy.getPlugin();
-    private final BungeeAudiences audience = SilverstoneProxy.getAdventure();
-
     public RestartWhenEmpty() {
         super("prestartwhenempty", "silverstone.admin");
     }
 
+    private final BungeeAudiences audience = SilverstoneProxy.getAdventure();
+    private final Plugin plugin = SilverstoneProxy.getPlugin();
+
     public void execute(CommandSender sender, String[] args) {
         for (ProxiedPlayer player : plugin.getProxy().getPlayers())
-            audience.player(player)
-                    .sendActionBar(Component.text("NETWORK SCHEDULED TO RESTART WHEN EMPTY")
-                            .color(NamedTextColor.RED)
-                            .decorate(TextDecoration.BOLD));
+            audience.player(player).sendActionBar(
+                Component.text("NETWORK SCHEDULED TO RESTART WHEN EMPTY").color(NamedTextColor.RED)
+                    .decorate(TextDecoration.BOLD));
         plugin.getLogger().info("Server scheduled to restart when empty.");
 
         Runnable task = () -> {

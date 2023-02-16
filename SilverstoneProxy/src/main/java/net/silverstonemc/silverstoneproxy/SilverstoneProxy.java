@@ -1,8 +1,6 @@
 package net.silverstonemc.silverstoneproxy;
 
 import net.kyori.adventure.platform.bungeecord.BungeeAudiences;
-import net.luckperms.api.LuckPerms;
-import net.luckperms.api.LuckPermsProvider;
 import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.api.plugin.Plugin;
 import net.md_5.bungee.api.plugin.PluginManager;
@@ -19,7 +17,6 @@ import java.nio.file.Files;
 public class SilverstoneProxy extends Plugin implements Listener {
 
     private static SilverstoneProxy plugin;
-    private static LuckPerms luckPerms;
     private static BungeeAudiences adventure;
 
     public static Configuration config;
@@ -28,7 +25,6 @@ public class SilverstoneProxy extends Plugin implements Listener {
     public void onEnable() {
         plugin = this;
         config = loadConfig();
-        luckPerms = LuckPermsProvider.get();
         adventure = BungeeAudiences.create(this);
 
         PluginManager pluginManager = getProxy().getPluginManager();
@@ -36,7 +32,6 @@ public class SilverstoneProxy extends Plugin implements Listener {
         pluginManager.registerCommand(this, new BaseCommand());
         pluginManager.registerCommand(this, new Forums());
         pluginManager.registerCommand(this, new Mods());
-        pluginManager.registerCommand(this, new Report());
         pluginManager.registerCommand(this, new Restart());
         pluginManager.registerCommand(this, new RestartWhenEmpty());
         pluginManager.registerCommand(this, new Rules());
@@ -53,10 +48,6 @@ public class SilverstoneProxy extends Plugin implements Listener {
             adventure.close();
             adventure = null;
         }
-    }
-
-    public static LuckPerms getLuckPerms() {
-        return luckPerms;
     }
 
     public static BungeeAudiences getAdventure() {
@@ -84,7 +75,7 @@ public class SilverstoneProxy extends Plugin implements Listener {
 
         try {
             return ConfigurationProvider.getProvider(YamlConfiguration.class)
-                    .load(new File(getDataFolder(), "config.yml"));
+                .load(new File(getDataFolder(), "config.yml"));
         } catch (IOException e) {
             e.printStackTrace();
             return null;
