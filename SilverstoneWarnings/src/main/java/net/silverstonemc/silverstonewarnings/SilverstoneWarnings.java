@@ -44,33 +44,18 @@ public class SilverstoneWarnings extends Plugin implements Listener {
         queue = loadFile("queue.yml");
         userCache = loadFile("usercache.yml");
 
-        getLogger().info("Starting Discord bot...");
-        Thread bot = new Thread(() -> {
+        new Thread(() -> {
+            getLogger().info("Starting Discord bot...");
             JDABuilder builder = JDABuilder.createDefault(new Secrets().getBotToken());
             builder.disableIntents(GatewayIntent.GUILD_MESSAGE_TYPING);
             builder.disableCache(CacheFlag.ACTIVITY, CacheFlag.VOICE_STATE);
             builder.setMemberCachePolicy(MemberCachePolicy.NONE);
-            builder.setBulkDeleteSplittingEnabled(false);
             builder.setStatus(OnlineStatus.ONLINE);
             builder.setActivity(Activity.watching("for cheaters"));
             builder.setEnableShutdownHook(false);
-            try {
-                jda = builder.build();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            // Wait until the api works
-            while (jda.getGuildById(455919765999976461L) == null) try {
-                //noinspection BusyWait
-                Thread.sleep(100);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-
-            jda.addEventListener(new DiscordEvents());
-        });
-        bot.start();
+            builder.addEventListeners(new DiscordEvents());
+            jda = builder.build();
+        }, "Discord Bot").start();
 
         PluginManager pluginManager = getProxy().getPluginManager();
 
