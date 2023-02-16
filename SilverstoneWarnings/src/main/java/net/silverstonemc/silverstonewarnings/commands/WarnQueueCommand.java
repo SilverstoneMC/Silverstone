@@ -9,15 +9,17 @@ import net.silverstonemc.silverstonewarnings.SilverstoneWarnings;
 import java.util.UUID;
 
 public class WarnQueueCommand extends Command {
-
     public WarnQueueCommand() {
         super("warnqueue", "silverstone.warnings.list");
     }
 
     public void execute(CommandSender sender, String[] args) {
-        sender.sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&', "&c&lQueued warnings:")));
+        sender.sendMessage(TextComponent.fromLegacyText(
+            ChatColor.translateAlternateColorCodes('&', "&c&lQueued warnings:")));
         for (String uuid : SilverstoneWarnings.queue.getSection("queue").getKeys())
-            sender.sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&', "&7" + SilverstoneWarnings.getPlugin()
-                    .getPlayerName(UUID.fromString(uuid)) + " - " + SilverstoneWarnings.queue.getString("queue." + uuid))));
+            sender.sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&',
+                "&7" + SilverstoneWarnings.getPlugin()
+                    .getPlayerName(UUID.fromString(uuid)) + " - " + SilverstoneWarnings.queue.getString(
+                    "queue." + uuid))));
     }
 }

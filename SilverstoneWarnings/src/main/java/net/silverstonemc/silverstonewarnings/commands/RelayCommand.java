@@ -8,7 +8,6 @@ import net.silverstonemc.silverstonewarnings.SilverstoneWarnings;
 
 @SuppressWarnings("DataFlowIssue")
 public class RelayCommand extends Command {
-
     public RelayCommand() {
         super("relay", "silverstone.console");
     }
@@ -27,10 +26,13 @@ public class RelayCommand extends Command {
 
             switch (args[0]) {
                 case "mcchat" ->
-                        SilverstoneWarnings.jda.getTextChannelById(592208420602380328L).sendMessage(message).queue();
+                    SilverstoneWarnings.jda.getTextChannelById(592208420602380328L).sendMessage(message)
+                        .queue();
                 case "staff" ->
-                        SilverstoneWarnings.jda.getTextChannelById(667793661991583744L).sendMessage(message).queue();
-                default -> sender.sendMessage(new ComponentBuilder("Invalid channel!").color(ChatColor.RED).create());
+                    SilverstoneWarnings.jda.getTextChannelById(667793661991583744L).sendMessage(message)
+                        .queue();
+                default -> sender.sendMessage(
+                    new ComponentBuilder("Invalid channel!").color(ChatColor.RED).create());
             }
         }
     }

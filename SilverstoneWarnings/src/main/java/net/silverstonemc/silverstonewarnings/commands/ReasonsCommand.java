@@ -13,7 +13,6 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 
 public class ReasonsCommand extends Command {
-
     public ReasonsCommand() {
         super("reasons", "silverstone.moderator", "categories");
     }
@@ -31,8 +30,8 @@ public class ReasonsCommand extends Command {
 
         ComponentBuilder message = new ComponentBuilder(header).color(ChatColor.RED).bold(true);
 
-        ArrayList<String> reasonList = new ArrayList<>(SilverstoneWarnings.config.getSection("reasons")
-                .getKeys());
+        ArrayList<String> reasonList = new ArrayList<>(
+            SilverstoneWarnings.config.getSection("reasons").getKeys());
         reasonList.sort(String.CASE_INSENSITIVE_ORDER);
         for (int x = 0; x < reasonList.size(); x = x + 3) {
             message.append("\n");
@@ -51,27 +50,24 @@ public class ReasonsCommand extends Command {
                     command3 = "/warn " + username + " " + reason3;
                 }
 
-                message.append(reason1)
-                        .reset()
-                        .color(ChatColor.GRAY)
-                        .event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, command1))
-                        .event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&', "&c&l" + reason1 + ":\n&7" + SilverstoneWarnings.config.getString("reasons." + reason1 + ".description") + footer))))
-                        .append(" | ")
-                        .color(ChatColor.DARK_GRAY)
-                        .bold(true)
-                        .append(reason2)
-                        .reset()
-                        .color(ChatColor.GRAY)
-                        .event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, command2))
-                        .event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&', "&c&l" + reason2 + ":\n&7" + SilverstoneWarnings.config.getString("reasons." + reason2 + ".description") + footer))))
-                        .append(" | ")
-                        .color(ChatColor.DARK_GRAY)
-                        .bold(true)
-                        .append(reason3)
-                        .reset()
-                        .color(ChatColor.GRAY)
-                        .event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, command3))
-                        .event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&', "&c&l" + reason3 + ":\n&7" + SilverstoneWarnings.config.getString("reasons." + reason3 + ".description") + footer))));
+                message.append(reason1).reset().color(ChatColor.GRAY)
+                    .event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, command1)).event(
+                        new HoverEvent(HoverEvent.Action.SHOW_TEXT, TextComponent.fromLegacyText(
+                            ChatColor.translateAlternateColorCodes('&',
+                                "&c&l" + reason1 + ":\n&7" + SilverstoneWarnings.config.getString(
+                                    "reasons." + reason1 + ".description") + footer)))).append(" | ")
+                    .color(ChatColor.DARK_GRAY).bold(true).append(reason2).reset().color(ChatColor.GRAY)
+                    .event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, command2)).event(
+                        new HoverEvent(HoverEvent.Action.SHOW_TEXT, TextComponent.fromLegacyText(
+                            ChatColor.translateAlternateColorCodes('&',
+                                "&c&l" + reason2 + ":\n&7" + SilverstoneWarnings.config.getString(
+                                    "reasons." + reason2 + ".description") + footer)))).append(" | ")
+                    .color(ChatColor.DARK_GRAY).bold(true).append(reason3).reset().color(ChatColor.GRAY)
+                    .event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, command3)).event(
+                        new HoverEvent(HoverEvent.Action.SHOW_TEXT, TextComponent.fromLegacyText(
+                            ChatColor.translateAlternateColorCodes('&',
+                                "&c&l" + reason3 + ":\n&7" + SilverstoneWarnings.config.getString(
+                                    "reasons." + reason3 + ".description") + footer))));
             } catch (IndexOutOfBoundsException e1) {
                 try {
                     String reason1 = reasonList.get(x);
@@ -84,30 +80,30 @@ public class ReasonsCommand extends Command {
                         command2 = "/warn " + username + " " + reason2;
                     }
 
-                    message.append(reason1)
-                            .reset()
-                            .color(ChatColor.GRAY)
-                            .event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, command1))
-                            .event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&', "&c&l" + reason1 + ":\n&7" + SilverstoneWarnings.config.getString("reasons." + reason1 + ".description") + footer))))
-                            .append(" | ")
-                            .color(ChatColor.DARK_GRAY)
-                            .bold(true)
-                            .append(reason2)
-                            .reset()
-                            .color(ChatColor.GRAY)
-                            .event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, command2))
-                            .event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&', "&c&l" + reason2 + ":\n&7" + SilverstoneWarnings.config.getString("reasons." + reason2 + ".description") + footer))));
+                    message.append(reason1).reset().color(ChatColor.GRAY)
+                        .event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, command1)).event(
+                            new HoverEvent(HoverEvent.Action.SHOW_TEXT, TextComponent.fromLegacyText(
+                                ChatColor.translateAlternateColorCodes('&',
+                                    "&c&l" + reason1 + ":\n&7" + SilverstoneWarnings.config.getString(
+                                        "reasons." + reason1 + ".description") + footer)))).append(" | ")
+                        .color(ChatColor.DARK_GRAY).bold(true).append(reason2).reset().color(ChatColor.GRAY)
+                        .event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, command2)).event(
+                            new HoverEvent(HoverEvent.Action.SHOW_TEXT, TextComponent.fromLegacyText(
+                                ChatColor.translateAlternateColorCodes('&',
+                                    "&c&l" + reason2 + ":\n&7" + SilverstoneWarnings.config.getString(
+                                        "reasons." + reason2 + ".description") + footer))));
                 } catch (IndexOutOfBoundsException e2) {
                     String reason1 = reasonList.get(x);
 
                     String command1 = "/zblankcmd";
                     if (isWarning) command1 = "/warn " + username + " " + reason1;
 
-                    message.append(reason1)
-                            .reset()
-                            .color(ChatColor.GRAY)
-                            .event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, command1))
-                            .event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&', "&c&l" + reason1 + ":\n&7" + SilverstoneWarnings.config.getString("reasons." + reason1 + ".description") + footer))));
+                    message.append(reason1).reset().color(ChatColor.GRAY)
+                        .event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, command1)).event(
+                            new HoverEvent(HoverEvent.Action.SHOW_TEXT, TextComponent.fromLegacyText(
+                                ChatColor.translateAlternateColorCodes('&',
+                                    "&c&l" + reason1 + ":\n&7" + SilverstoneWarnings.config.getString(
+                                        "reasons." + reason1 + ".description") + footer))));
                 }
             }
 

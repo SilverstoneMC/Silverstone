@@ -28,15 +28,13 @@ import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 public class SilverstoneWarnings extends Plugin implements Listener {
-
-    private static SilverstoneWarnings plugin;
-
     public static Configuration config;
     public static Configuration data;
     public static Configuration queue;
     public static Configuration userCache;
-
     public static JDA jda;
+
+    private static SilverstoneWarnings plugin;
 
     @Override
     public void onEnable() {
@@ -119,11 +117,8 @@ public class SilverstoneWarnings extends Plugin implements Listener {
 
     public void nonexistentPlayerMessage(String username, CommandSender sender) {
         BaseComponent[] message = new ComponentBuilder("Couldn't find player ").color(ChatColor.RED)
-                .append(username)
-                .color(ChatColor.GRAY)
-                .append(" in the user cache!")
-                .color(ChatColor.RED)
-                .create();
+            .append(username).color(ChatColor.GRAY).append(" in the user cache!").color(ChatColor.RED)
+            .create();
         sender.sendMessage(message);
     }
 
@@ -141,7 +136,8 @@ public class SilverstoneWarnings extends Plugin implements Listener {
         }
 
         try {
-            return ConfigurationProvider.getProvider(YamlConfiguration.class).load(new File(getDataFolder(), fileName));
+            return ConfigurationProvider.getProvider(YamlConfiguration.class)
+                .load(new File(getDataFolder(), fileName));
         } catch (IOException e) {
             e.printStackTrace();
             return null;
@@ -151,7 +147,7 @@ public class SilverstoneWarnings extends Plugin implements Listener {
     public void saveData() {
         try {
             ConfigurationProvider.getProvider(YamlConfiguration.class)
-                    .save(data, new File(getDataFolder(), "data.yml"));
+                .save(data, new File(getDataFolder(), "data.yml"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -160,7 +156,7 @@ public class SilverstoneWarnings extends Plugin implements Listener {
     public void saveQueue() {
         try {
             ConfigurationProvider.getProvider(YamlConfiguration.class)
-                    .save(queue, new File(getDataFolder(), "queue.yml"));
+                .save(queue, new File(getDataFolder(), "queue.yml"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -169,7 +165,7 @@ public class SilverstoneWarnings extends Plugin implements Listener {
     public void saveUserCache() {
         try {
             ConfigurationProvider.getProvider(YamlConfiguration.class)
-                    .save(userCache, new File(getDataFolder(), "usercache.yml"));
+                .save(userCache, new File(getDataFolder(), "usercache.yml"));
         } catch (IOException e) {
             e.printStackTrace();
         }

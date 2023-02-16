@@ -14,7 +14,6 @@ import java.util.UUID;
 
 @SuppressWarnings("DataFlowIssue")
 public class WarnPlayer {
-
     private final SilverstoneWarnings plugin = SilverstoneWarnings.getPlugin();
 
     public void warn(UUID uuid, String reason) {
@@ -30,13 +29,15 @@ public class WarnPlayer {
 
             // Message staff
             for (ProxiedPlayer online : plugin.getProxy().getPlayers())
-                if (online.hasPermission("sswarnings.warn"))
-                    online.sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&', "&cOffline player &7" + username + " &chas been warned for reason: &7" + reason)));
-            plugin.getLogger()
-                    .info(ChatColor.translateAlternateColorCodes('&', "&cOffline player &7" + username + " &chas been warned for reason: &7" + reason));
+                if (online.hasPermission("sswarnings.warn")) online.sendMessage(TextComponent.fromLegacyText(
+                    ChatColor.translateAlternateColorCodes('&',
+                        "&cOffline player &7" + username + " &chas been warned for reason: &7" + reason)));
+            plugin.getLogger().info(ChatColor.translateAlternateColorCodes('&',
+                "&cOffline player &7" + username + " &chas been warned for reason: &7" + reason));
 
             EmbedBuilder embed = new EmbedBuilder();
-            embed.setAuthor(username + " has a warning queued: " + reason, null, "https://crafatar.com/avatars/" + uuid + "?overlay=true");
+            embed.setAuthor(username + " has a warning queued: " + reason, null,
+                "https://crafatar.com/avatars/" + uuid + "?overlay=true");
             embed.setColor(new Color(255, 217, 0));
             warningChannel.sendMessageEmbeds(embed.build()).queue();
             return;
@@ -55,34 +56,33 @@ public class WarnPlayer {
         int warningCount = SilverstoneWarnings.data.getInt("data." + uuid + "." + reason);
 
         // Grab the amount of punishments in the config
-        int punishmentCount = SilverstoneWarnings.config.getSection("reasons." + reason + ".add")
-                .getKeys()
-                .toArray().length;
+        int punishmentCount = SilverstoneWarnings.config.getSection("reasons." + reason + ".add").getKeys()
+            .toArray().length;
 
         // Get the correct warning number
         int punishmentNumber = warningCount % punishmentCount;
         if (punishmentNumber == 0) punishmentNumber = punishmentCount;
 
         EmbedBuilder embed = new EmbedBuilder();
-        embed.setAuthor(username + " was warned for reason: " + reason + " | Warning " + punishmentNumber + "/" + punishmentCount, null, "https://crafatar.com/avatars/" + uuid + "?overlay=true");
+        embed.setAuthor(
+            username + " was warned for reason: " + reason + " | Warning " + punishmentNumber + "/" + punishmentCount,
+            null, "https://crafatar.com/avatars/" + uuid + "?overlay=true");
         embed.setColor(new Color(204, 27, 53));
-        warningChannel.sendMessageEmbeds(embed.build())
-                .setActionRow(
-                        Button.success("removewarning: " + reason + " :" + uuid, "Undo '" + reason + "' warning")
-                                .withEmoji(Emoji.fromUnicode("↩")),
-                        Button.primary("removewarningsilently: " + reason + " :" + uuid, "Undo '" + reason + "' warning silently")
-                                .withEmoji(Emoji.fromUnicode("↩")),
-                        Button.secondary("clearwarning: " + reason + " :" + uuid, "Clear all '" + reason + "' warnings")
-                                .withEmoji(Emoji.fromUnicode("➖")),
-                        Button.danger("clearallwarnings:" + uuid, "Clear all of " + username + "'s warnings")
-                                .withEmoji(Emoji.fromUnicode("❌")))
-                .queue();
+        warningChannel.sendMessageEmbeds(embed.build()).setActionRow(
+            Button.success("removewarning: " + reason + " :" + uuid, "Undo '" + reason + "' warning")
+                .withEmoji(Emoji.fromUnicode("↩")),
+            Button.primary("removewarningsilently: " + reason + " :" + uuid,
+                "Undo '" + reason + "' warning silently").withEmoji(Emoji.fromUnicode("↩")),
+            Button.secondary("clearwarning: " + reason + " :" + uuid, "Clear all '" + reason + "' warnings")
+                .withEmoji(Emoji.fromUnicode("➖")),
+            Button.danger("clearallwarnings:" + uuid, "Clear all of " + username + "'s warnings")
+                .withEmoji(Emoji.fromUnicode("❌"))).queue();
 
         // Warn the player
-        ArrayList<String> cmdList = new ArrayList<>(SilverstoneWarnings.config.getStringList("reasons." + reason + ".add." + punishmentNumber));
+        ArrayList<String> cmdList = new ArrayList<>(
+            SilverstoneWarnings.config.getStringList("reasons." + reason + ".add." + punishmentNumber));
         for (String s : cmdList)
-            plugin.getProxy()
-                    .getPluginManager()
-                    .dispatchCommand(plugin.getProxy().getConsole(), s.replace("{player}", username));
+            plugin.getProxy().getPluginManager()
+                .dispatchCommand(plugin.getProxy().getConsole(), s.replace("{player}", username));
     }
 }

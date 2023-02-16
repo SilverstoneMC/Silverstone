@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.UUID;
 
 public class DiscordEvents extends ListenerAdapter {
-
     private final SilverstoneWarnings plugin = SilverstoneWarnings.getPlugin();
 
     @Override
@@ -23,31 +22,26 @@ public class DiscordEvents extends ListenerAdapter {
         String type = event.getComponentId().replaceFirst(":.*", "");
         switch (type) {
             case "removewarning" -> {
-                plugin.getProxy()
-                        .getPluginManager()
-                        .dispatchCommand(plugin.getProxy().getConsole(), "ssw remove " + warning + " " + username);
+                plugin.getProxy().getPluginManager().dispatchCommand(plugin.getProxy().getConsole(),
+                    "ssw remove " + warning + " " + username);
                 disableButtons(event, 1);
             }
 
             case "removewarningsilently" -> {
-                plugin.getProxy()
-                        .getPluginManager()
-                        .dispatchCommand(plugin.getProxy()
-                                .getConsole(), "ssw remove " + warning + " " + username + " -s");
+                plugin.getProxy().getPluginManager().dispatchCommand(plugin.getProxy().getConsole(),
+                    "ssw remove " + warning + " " + username + " -s");
                 disableButtons(event, 1);
             }
 
             case "clearwarning" -> {
-                plugin.getProxy()
-                        .getPluginManager()
-                        .dispatchCommand(plugin.getProxy().getConsole(), "ssw clear " + warning + " " + username);
+                plugin.getProxy().getPluginManager()
+                    .dispatchCommand(plugin.getProxy().getConsole(), "ssw clear " + warning + " " + username);
                 disableButtons(event, 2);
             }
 
             case "clearallwarnings" -> {
-                plugin.getProxy()
-                        .getPluginManager()
-                        .dispatchCommand(plugin.getProxy().getConsole(), "ssw clear all " + username);
+                plugin.getProxy().getPluginManager()
+                    .dispatchCommand(plugin.getProxy().getConsole(), "ssw clear all " + username);
                 disableButtons(event, 3);
             }
         }

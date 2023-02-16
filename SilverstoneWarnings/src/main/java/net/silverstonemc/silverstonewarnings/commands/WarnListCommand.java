@@ -9,17 +9,19 @@ import net.silverstonemc.silverstonewarnings.SilverstoneWarnings;
 import java.util.UUID;
 
 public class WarnListCommand extends Command {
-
     public WarnListCommand() {
         super("warnlist", "silverstone.moderator");
     }
 
     public void execute(CommandSender sender, String[] args) {
-        sender.sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&', "&c&lAll warnings:")));
+        sender.sendMessage(
+            TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&', "&c&lAll warnings:")));
 
         for (String uuid : SilverstoneWarnings.data.getSection("data").getKeys())
             for (String warning : SilverstoneWarnings.data.getSection("data." + uuid).getKeys())
-                sender.sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&', "&7" + SilverstoneWarnings.getPlugin()
-                        .getPlayerName(UUID.fromString(uuid)) + " - " + warning + " - " + SilverstoneWarnings.data.getInt("data." + uuid + "." + warning))));
+                sender.sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&',
+                    "&7" + SilverstoneWarnings.getPlugin().getPlayerName(
+                        UUID.fromString(uuid)) + " - " + warning + " - " + SilverstoneWarnings.data.getInt(
+                        "data." + uuid + "." + warning))));
     }
 }

@@ -8,7 +8,6 @@ import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 public class JoinEvent implements Listener {
-
     private final SilverstoneWarnings plugin = SilverstoneWarnings.getPlugin();
 
     @EventHandler

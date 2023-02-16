@@ -13,12 +13,11 @@ import java.util.List;
 import java.util.UUID;
 
 public class WarningsCommand extends Command implements TabExecutor {
-
-    private final SilverstoneWarnings plugin = SilverstoneWarnings.getPlugin();
-
     public WarningsCommand() {
         super("warnings");
     }
+
+    private final SilverstoneWarnings plugin = SilverstoneWarnings.getPlugin();
 
     public void execute(CommandSender sender, String[] args) {
         String arg0;
@@ -47,20 +46,25 @@ public class WarningsCommand extends Command implements TabExecutor {
         if (!SilverstoneWarnings.queue.contains("queue." + uuid))
             // And has no warnings
             if (!SilverstoneWarnings.data.contains("data." + uuid)) {
-                sender.sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&', "&b" + username + " &ahas no warnings!")));
+                sender.sendMessage(TextComponent.fromLegacyText(
+                    ChatColor.translateAlternateColorCodes('&', "&b" + username + " &ahas no warnings!")));
                 return;
             }
 
-        sender.sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&', "&c&l" + username + "'s warnings:")));
+        sender.sendMessage(TextComponent.fromLegacyText(
+            ChatColor.translateAlternateColorCodes('&', "&c&l" + username + "'s warnings:")));
 
         // If any warnings already exist
         if (SilverstoneWarnings.data.contains("data." + uuid))
             for (String reasonList : SilverstoneWarnings.data.getSection("data." + uuid).getKeys())
-                sender.sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&', "&7" + reasonList + " - " + SilverstoneWarnings.data.getInt("data." + uuid + "." + reasonList))));
+                sender.sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&',
+                    "&7" + reasonList + " - " + SilverstoneWarnings.data.getInt(
+                        "data." + uuid + "." + reasonList))));
 
         // If in queue
-        if (SilverstoneWarnings.queue.contains("queue." + uuid))
-            sender.sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&', "&7" + SilverstoneWarnings.queue.getString("queue." + uuid) + " (Queued)")));
+        if (SilverstoneWarnings.queue.contains("queue." + uuid)) sender.sendMessage(
+            TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&',
+                "&7" + SilverstoneWarnings.queue.getString("queue." + uuid) + " (Queued)")));
     }
 
     @Override
@@ -73,8 +77,7 @@ public class WarningsCommand extends Command implements TabExecutor {
 
         List<String> result = new ArrayList<>();
         for (String a : arguments)
-            if (a.toLowerCase().startsWith(args[0].toLowerCase()))
-                result.add(a);
+            if (a.toLowerCase().startsWith(args[0].toLowerCase())) result.add(a);
         return result;
     }
 }
