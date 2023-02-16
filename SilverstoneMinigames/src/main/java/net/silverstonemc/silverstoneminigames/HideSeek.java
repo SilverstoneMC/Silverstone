@@ -229,7 +229,7 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
         if (points.containsKey(player)) currentPoints = points.get(player);
 
         switch (event.getRawSlot()) {
-            case 10:
+            case 10 -> {
                 // Bark / Bone
                 bark(player);
                 closeInv(player);
@@ -237,9 +237,8 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
                     .equalsIgnoreCase(plugin.getConfig().getString("empty-minigame-world")))
                     points.put(player, currentPoints + 1);
                 tauntTimer(player);
-                break;
-
-            case 11:
+            }
+            case 11 -> {
                 // Ding / Bell
                 ding(player);
                 closeInv(player);
@@ -247,9 +246,8 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
                     .equalsIgnoreCase(plugin.getConfig().getString("empty-minigame-world")))
                     points.put(player, currentPoints + 2);
                 tauntTimer(player);
-                break;
-
-            case 12:
+            }
+            case 12 -> {
                 // Scream / Tear
                 scream(player);
                 closeInv(player);
@@ -257,9 +255,8 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
                     .equalsIgnoreCase(plugin.getConfig().getString("empty-minigame-world")))
                     points.put(player, currentPoints + 3);
                 tauntTimer(player);
-                break;
-
-            case 13:
+            }
+            case 13 -> {
                 // Roar / Dragon Head
                 roar(player);
                 closeInv(player);
@@ -267,9 +264,8 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
                     .equalsIgnoreCase(plugin.getConfig().getString("empty-minigame-world")))
                     points.put(player, currentPoints + 5);
                 tauntTimer(player);
-                break;
-
-            case 14:
+            }
+            case 14 -> {
                 // Explosion / TNT
                 explosion(player);
                 closeInv(player);
@@ -277,9 +273,8 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
                     .equalsIgnoreCase(plugin.getConfig().getString("empty-minigame-world")))
                     points.put(player, currentPoints + 8);
                 tauntTimer(player);
-                break;
-
-            case 15:
+            }
+            case 15 -> {
                 // Fireworks / Firework Rocket
                 fireworks(player);
                 closeInv(player);
@@ -287,9 +282,8 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
                     .equalsIgnoreCase(plugin.getConfig().getString("empty-minigame-world")))
                     points.put(player, currentPoints + 13);
                 tauntTimer(player);
-                break;
-
-            case 16:
+            }
+            case 16 -> {
                 // Boom / Totem
                 boom(player);
                 closeInv(player);
@@ -297,9 +291,8 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
                     .equalsIgnoreCase(plugin.getConfig().getString("empty-minigame-world")))
                     points.put(player, currentPoints + 15);
                 tauntTimer(player);
-                break;
-
-            case 28:
+            }
+            case 28 -> {
                 // Random taunt random player
                 if (currentPoints >= 60) {
                     closeInv(player);
@@ -311,9 +304,8 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
                     loc.getBlock().setType(Material.REDSTONE_BLOCK);
                     tauntTimer(player);
                 } else player.sendMessage(ChatColor.RED + "You don't have enough points to do that!");
-                break;
-
-            case 31:
+            }
+            case 31 -> {
                 // Seekers slowness
                 if (currentPoints >= 100) {
                     closeInv(player);
@@ -325,9 +317,8 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
                     loc.getBlock().setType(Material.REDSTONE_BLOCK);
                     tauntTimer(player);
                 } else player.sendMessage(ChatColor.RED + "You don't have enough points to do that!");
-                break;
-
-            case 34:
+            }
+            case 34 -> {
                 // Seekers blindness
                 if (currentPoints >= 125) {
                     closeInv(player);
@@ -339,6 +330,7 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
                     loc.getBlock().setType(Material.REDSTONE_BLOCK);
                     tauntTimer(player);
                 } else player.sendMessage(ChatColor.RED + "You don't have enough points to do that!");
+            }
         }
 
         // Set bell points if in adventure
