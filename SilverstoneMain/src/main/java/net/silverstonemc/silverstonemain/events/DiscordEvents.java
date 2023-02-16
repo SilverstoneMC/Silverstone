@@ -16,7 +16,7 @@ public class DiscordEvents extends ListenerAdapter {
     public DiscordEvents(JavaPlugin plugin) {
         this.plugin = plugin;
     }
-    
+
     private final JavaPlugin plugin;
 
     @SuppressWarnings("DataFlowIssue")
@@ -68,9 +68,6 @@ public class DiscordEvents extends ListenerAdapter {
                     // Dragon
                     case "340508770788573186" ->
                         uuid = UUID.fromString("e70a4622-85b6-417d-9201-7322e5094465");
-                    // Adam
-                    case "527562344302247949" ->
-                        uuid = UUID.fromString("31f1cc2b-85aa-4e11-b4cd-0e0a0e2442a8");
                 }
 
             if (uuid == null) {

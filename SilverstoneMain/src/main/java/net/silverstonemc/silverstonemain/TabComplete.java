@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TabComplete implements TabCompleter, Listener {
-
     final List<String> arguments1 = new ArrayList<>();
     final List<String> arguments2 = new ArrayList<>();
     final List<String> arguments3 = new ArrayList<>();

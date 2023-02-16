@@ -13,7 +13,6 @@ import java.awt.*;
 
 @SuppressWarnings("DataFlowIssue")
 public class QuitEvent implements Listener {
-
     @EventHandler
     public void onQuit(PlayerQuitEvent event) {
         Player player = event.getPlayer();

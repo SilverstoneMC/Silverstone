@@ -12,10 +12,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class WirelessButtons implements Listener {
-
     private static final Map<Player, Long> rulesCooldown = new HashMap<>();
-    private static final Map<Player, Long> startingCooldown = new HashMap<>();
     private static final Map<Player, Long> ranksCooldown = new HashMap<>();
+    private static final Map<Player, Long> startingCooldown = new HashMap<>();
 
     @EventHandler
     public void clickEvent(PlayerInteractEvent event) {

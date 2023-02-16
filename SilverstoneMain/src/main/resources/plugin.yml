@@ -5,65 +5,18 @@ version: %VERSION%
 author: JasonHorkles
 api-version: 1.19
 softdepend:
-  - Essentials
   - DiscordSRV
-  - Multiverse-Core
-  - ProtectionStones
-  - RandomTeleport
-  - Vault
-  - Matrix
+  - Essentials
 
 commands:
-  allowend:
-    description: "Allows the player to enter The End"
-  claimpoints:
-    aliases: [ redeemclaimpoints ]
-    usage: "§cUsage: /claimpoints view [player]"
-  dragon:
-    aliases: [ enderdragon ]
-  enablecollision:
-    description: "Enable collision"
   gettingstarted:
     description: "Get started message"
-  hideitemframe:
-    permission: silverstone.hideitemframe
   homec:
     permission: silverstone.owner
-  homes?:
-    description: "Show how many homes the player can set"
-  keepinv:
-    description: "Toggle keepInventory"
-  masshideitemframes:
-    permission: silverstone.hideitemframe
-  regenend:
-    description: "Regenerate The End"
-    permission: silverstone.owner
-  relay:
-    permission: silverstone.console
   ssm:
     permission: silverstone.admin
     usage: "§cUsage: /ssm reload"
-  znewbiekit:
-    permission: silverstone.console
-    usage: "/znewbiekit <player>"
-  quests:
-    description: "Manage your quests"
 
 permissions:
-  expensivedeaths.bypass:
-    default: false
-  silverstone.hideitemframe:
-    default: op
   silverstone.joinleavespam.bypass:
     default: op
-  silverstone.rtplimit.bypass:
-    default: op
-    description: Bypass the RTP limit
-  silverstone.rtplimit.member:
-    default: false
-  silverstone.rtplimit.mvp:
-    default: false
-  silverstone.rtplimit.vip+:
-    default: false
-  silverstone.rtplimit.vip:
-    default: false

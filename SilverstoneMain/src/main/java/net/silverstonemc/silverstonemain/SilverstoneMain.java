@@ -1,7 +1,9 @@
 package net.silverstonemc.silverstonemain;
 
 import github.scarsz.discordsrv.DiscordSRV;
+import net.ess3.api.IEssentials;
 import net.silverstonemc.silverstonemain.commands.GettingStarted;
+import net.silverstonemc.silverstonemain.commands.Home;
 import net.silverstonemc.silverstonemain.events.JoinEvent;
 import net.silverstonemc.silverstonemain.events.JoinLeaveSpam;
 import net.silverstonemc.silverstonemain.events.QuitEvent;
@@ -14,21 +16,21 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
-@SuppressWarnings("DataFlowIssue")
-public class SilverstoneSurvival extends JavaPlugin implements Listener {
-
-    public static DataManager data;
-    private static SilverstoneSurvival instance;
-
-    public static SilverstoneSurvival getInstance() {
+@SuppressWarnings({"DataFlowIssue", "unused"})
+public class SilverstoneMain extends JavaPlugin implements Listener {
+    public static SilverstoneMain getInstance() {
         return instance;
     }
 
-    //todo merge all into SilverstoneMinigames
+    public static DataManager data;
+
+    private static SilverstoneMain instance;
+    private IEssentials essentials;
 
     @Override
     public void onEnable() {
         instance = this;
+        essentials = (IEssentials) getServer().getPluginManager().getPlugin("Essentials");
 
         data = new DataManager(this);
 
@@ -39,10 +41,9 @@ public class SilverstoneSurvival extends JavaPlugin implements Listener {
             DiscordSRV.api.subscribe(new DiscordReady(this));
 
         getCommand("gettingstarted").setExecutor(new GettingStarted());
+        getCommand("homec").setExecutor(new Home(this));
 
-        getCommand("rtplimit").setTabCompleter(new TabComplete());
         getCommand("ssm").setTabCompleter(new TabComplete());
-        getCommand("claimpoints").setTabCompleter(new TabComplete());
 
         PluginManager pluginManager = this.getServer().getPluginManager();
         pluginManager.registerEvents(new JoinEvent(this), this);
@@ -63,5 +64,9 @@ public class SilverstoneSurvival extends JavaPlugin implements Listener {
             return true;
         }
         return false;
+    }
+
+    public IEssentials getEssentials() {
+        return essentials;
     }
 }
