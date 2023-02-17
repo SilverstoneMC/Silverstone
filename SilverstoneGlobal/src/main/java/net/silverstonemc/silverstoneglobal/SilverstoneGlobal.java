@@ -39,6 +39,8 @@ public class SilverstoneGlobal extends JavaPlugin implements Listener {
             provider.getProvider();
 
         saveDefaultConfig();
+        
+        boolean isSurvival = getConfig().getString("server").equalsIgnoreCase("survival");
 
         getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
 
@@ -88,15 +90,17 @@ public class SilverstoneGlobal extends JavaPlugin implements Listener {
         BuyGUI.inv = BuyGUI.createInv();
         new ChatColorGUI(this).createDefaultInv();
 
-        new Security(this).check();
+        if (!isSurvival) {
+            new Security(this).check();
 
-        BukkitRunnable whitelist = new BukkitRunnable() {
-            @Override
-            public void run() {
-                Whitelist.whitelist();
-            }
-        };
-        whitelist.runTaskTimer(this, 100, 18000);
+            BukkitRunnable whitelist = new BukkitRunnable() {
+                @Override
+                public void run() {
+                    Whitelist.whitelist();
+                }
+            };
+            whitelist.runTaskTimer(this, 100, 18000);
+        }
 
         BukkitRunnable tpsCheck = new BukkitRunnable() {
             @Override
