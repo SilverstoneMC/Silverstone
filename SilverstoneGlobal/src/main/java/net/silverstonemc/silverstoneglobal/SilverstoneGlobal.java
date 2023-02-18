@@ -42,8 +42,6 @@ public class SilverstoneGlobal extends JavaPlugin implements Listener {
             provider.getProvider();
 
         saveDefaultConfig();
-        
-        boolean isSurvival = getConfig().getString("server").equalsIgnoreCase("survival");
 
         getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
 
@@ -94,7 +92,7 @@ public class SilverstoneGlobal extends JavaPlugin implements Listener {
         BuyGUI.inv = BuyGUI.createInv();
         new ChatColorGUI(this).createDefaultInv();
 
-        if (!isSurvival) {
+        if (!getConfig().getString("server").equalsIgnoreCase("survival")) {
             new Security(this).check();
 
             BukkitRunnable whitelist = new BukkitRunnable() {
