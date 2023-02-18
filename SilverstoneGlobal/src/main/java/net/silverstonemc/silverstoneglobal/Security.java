@@ -18,7 +18,7 @@ public record Security(JavaPlugin plugin) {
             @Override
             public void run() {
                 for (Player player : Bukkit.getOnlinePlayers())
-                    if (player.hasPermission("silverstone.owner")) {
+                    if (player.hasPermission("silverstone.admin")) {
                         String uuid = player.getUniqueId().toString();
                         // me | alt | ace | panda | dragon
                         if (!uuid.equals("a28173af-f0a9-47fe-8549-19c6bccf68da") && !uuid.equals(
@@ -26,13 +26,15 @@ public record Security(JavaPlugin plugin) {
                             "5c3d3b7c-aa02-4751-ae4b-60b277da9c35") && !uuid.equals(
                             "75fb05a2-9d9e-49cb-be34-6bd5215548ba") && !uuid.equals(
                             "e70a4622-85b6-417d-9201-7322e5094465")) {
-                            Group group = luckPerms.getGroupManager().getGroup("owner");
+                            Group admin = luckPerms.getGroupManager().getGroup("admin");
+                            Group owner = luckPerms.getGroupManager().getGroup("owner");
                             User user = luckPerms.getPlayerAdapter(Player.class).getUser(player);
-                            user.data().remove(InheritanceNode.builder(group).build());
+                            user.data().remove(InheritanceNode.builder(admin).build());
+                            user.data().remove(InheritanceNode.builder(owner).build());
                             luckPerms.getUserManager().saveUser(user);
 
                             for (int x = 0; x < 15; x++)
-                                plugin.getLogger().warning(player.getName() + " has an owner permission!");
+                                plugin.getLogger().warning(player.getName() + " has an admin permission!");
 
                             BukkitRunnable task = new BukkitRunnable() {
                                 @Override
@@ -41,7 +43,7 @@ public record Security(JavaPlugin plugin) {
                                     if (player.isOp()) player.setOp(false);
                                     plugin.getLogger().warning("Warning " + player.getName() + "...");
                                     Bukkit.dispatchCommand(Bukkit.getConsoleSender(),
-                                        "hopecommander warn " + player.getName() + " owner");
+                                        "hopecommander warn " + player.getName() + " admin");
                                 }
                             };
                             task.runTask(plugin);

@@ -378,16 +378,16 @@ reasons:
       7:
         - "unban {player}"
 
-  owner:
-    description: "(Anti-cheat handled) When an owner permission is detected"
+  admin:
+    description: "(Anti-cheat handled) When an admin permission is detected"
     add:
       1:
         - "ban {player} Illegal permission detected"
         - "banip {player} Illegal permission detected"
         - "bc &7{player} &chas been banned for &7having illegal permissions"
-        - "relay staff :warning: <@&667793980318154783>, player `{player}` was auto banned for having an owner permission! :warning:"
-        - "relay staff :warning: <@&667793980318154783>, player `{player}` was auto banned for having an owner permission! :warning:"
-        - "relay staff :warning: <@&667793980318154783>, player `{player}` was auto banned for having an owner permission! :warning:"
+        - "relay staff :warning: <@&667793980318154783>, player `{player}` was auto banned for having an admin permission! :warning:"
+        - "relay staff :warning: <@&667793980318154783>, player `{player}` was auto banned for having an admin permission! :warning:"
+        - "relay staff :warning: <@&667793980318154783>, player `{player}` was auto banned for having an admin permission! :warning:"
     remove:
       1:
         - "unban {player}"
