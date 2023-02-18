@@ -21,7 +21,7 @@ public class WirelessButtons implements Listener {
         if (event.getClickedBlock() == null) return;
 
         if (event.getClickedBlock().getType().equals(Material.STONE_BUTTON))
-            if (event.getClickedBlock().getLocation().getWorld().getName().equalsIgnoreCase("utility")) {
+            if (event.getClickedBlock().getLocation().getWorld().getName().equalsIgnoreCase("mini_empty")) {
                 Location loc = event.getClickedBlock().getLocation();
                 Player player = event.getPlayer();
 

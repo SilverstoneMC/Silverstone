@@ -34,7 +34,7 @@ public class Home implements CommandExecutor {
         player.sendMessage(ChatColor.DARK_AQUA + "Teleporting...");
         if (player.getGameMode().equals(GameMode.SPECTATOR)) player.setSpectatorTarget(null);
         essentials.getUser(player).getAsyncTeleport()
-            .now(new Location(Bukkit.getWorld("utility"), -211.3, 38, -122.3, 107.2f, 9.5f), false,
+            .now(new Location(Bukkit.getWorld("mini_empty"), -211.3, 38, -122.3, 107.2f, 9.5f), false,
                 PlayerTeleportEvent.TeleportCause.COMMAND, new CompletableFuture<>());
 
         BukkitRunnable task = new BukkitRunnable() {
