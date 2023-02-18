@@ -409,15 +409,13 @@ reasons:
         - "bc &7{player} &chas been banned from using the Creative plots due to &7plot abuse &3[Warning 4/4]"
     remove:
       1:
-        - "unban {player}"
+        - "lpb user {player} permission unsettemp plots.permpack.basic"
       2:
-        - "unban {player}"
+        - "lpb user {player} permission unsettemp plots.permpack.basic"
       3:
-        - "unban {player}"
+        - "lpb user {player} permission unsettemp plots.permpack.basic"
       4:
-        - "unban {player}"
-      5:
-        - "unban {player}"
+        - "lpb user {player} permission unset plots.permpack.basic"
 
   skin:
     description: "If a player's skin is inappropriate or offensive"
