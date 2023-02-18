@@ -10,7 +10,7 @@ import java.util.UUID;
 
 public class WarnQueueCommand extends Command {
     public WarnQueueCommand() {
-        super("warnqueue", "silverstone.warnings.list");
+        super("warnqueue", "silverstone.moderator");
     }
 
     public void execute(CommandSender sender, String[] args) {
