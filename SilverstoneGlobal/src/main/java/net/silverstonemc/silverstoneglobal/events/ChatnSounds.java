@@ -1,9 +1,10 @@
-package net.silverstonemc.silverstoneglobal;
+package net.silverstonemc.silverstoneglobal.events;
 
 import io.papermc.paper.event.player.AsyncChatEvent;
 import net.luckperms.api.LuckPerms;
 import net.luckperms.api.model.user.User;
 import net.luckperms.api.node.Node;
+import net.silverstonemc.silverstoneglobal.SilverstoneGlobal;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
@@ -15,9 +16,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.metadata.MetadataValue;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
@@ -80,20 +78,6 @@ public class ChatnSounds implements CommandExecutor, Listener {
         return true;
     }
 
-    @EventHandler
-    public void onJoin(PlayerJoinEvent event) {
-        for (MetadataValue meta : event.getPlayer().getMetadata("vanished")) if (meta.asBoolean()) return;
-
-        joinSound(event.getPlayer());
-    }
-
-    @EventHandler
-    public void onQuit(PlayerQuitEvent event) {
-        for (MetadataValue meta : event.getPlayer().getMetadata("vanished")) if (meta.asBoolean()) return;
-
-        quitSound(event.getPlayer());
-    }
-
     @EventHandler(priority = EventPriority.HIGHEST)
     public void cancelChat(AsyncChatEvent event) {
         event.setCancelled(true);
@@ -107,25 +91,5 @@ public class ChatnSounds implements CommandExecutor, Listener {
             if (player.hasPermission("silverstone.chatsounds.enabled")) if (player != event.getPlayer())
                 player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP,
                     SoundCategory.PLAYERS, 0.5f, 1);
-    }
-
-    public void joinSound(Player player) {
-        for (Player players : Bukkit.getOnlinePlayers()) {
-            if (players == player) continue;
-
-            if (players.hasPermission("silverstone.jlsounds.enabled"))
-                players.playSound(players.getLocation(), Sound.BLOCK_BELL_USE, SoundCategory.PLAYERS, 1,
-                    1.5f);
-        }
-    }
-
-    public void quitSound(Player player) {
-        for (Player players : Bukkit.getOnlinePlayers()) {
-            if (players == player) continue;
-
-            if (players.hasPermission("silverstone.jlsounds.enabled"))
-                players.playSound(players.getLocation(), Sound.BLOCK_BEACON_DEACTIVATE, SoundCategory.PLAYERS,
-                    1, 1.75f);
-        }
     }
 }
