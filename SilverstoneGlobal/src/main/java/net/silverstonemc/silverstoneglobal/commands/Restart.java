@@ -70,13 +70,11 @@ public record Restart(JavaPlugin plugin) implements CommandExecutor {
                                             .append(Component.text(ChatColor.translateAlternateColorCodes('&',
                                                 " &c&lto evacuate!"))));
                                     }
-                                    sec[0] -= 1;
                                 }
                                 case 9, 8, 7, 6, 5, 4 -> {
                                     for (Player player : Bukkit.getOnlinePlayers())
                                         player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_HARP,
                                             SoundCategory.MASTER, 100, 1.2f);
-                                    sec[0] -= 1;
                                 }
                                 case 3 -> {
                                     for (Player player : Bukkit.getOnlinePlayers()) {
@@ -91,13 +89,11 @@ public record Restart(JavaPlugin plugin) implements CommandExecutor {
                                             .append(Component.text(ChatColor.translateAlternateColorCodes('&',
                                                 " &c&lto evacuate!"))));
                                     }
-                                    sec[0] -= 1;
                                 }
                                 case 2, 1 -> {
                                     for (Player player : Bukkit.getOnlinePlayers())
                                         player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_HARP,
                                             SoundCategory.MASTER, 100, 1.6f);
-                                    sec[0] -= 1;
                                 }
                                 case 0 -> {
                                     for (Player player : Bukkit.getOnlinePlayers()) {
@@ -105,13 +101,13 @@ public record Restart(JavaPlugin plugin) implements CommandExecutor {
                                             SoundCategory.MASTER, 100, 2);
                                         send(player, server);
                                     }
-                                    sec[0] -= 1;
                                 }
                                 case -10 -> {
                                     this.cancel();
                                     plugin.getServer().spigot().restart();
                                 }
                             }
+                            sec[0] -= 1;
                         }
                     };
                     task.runTaskTimer(plugin, 0, 20);
