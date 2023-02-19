@@ -81,7 +81,7 @@ public class Rules extends Command implements TabExecutor {
                     "rules.rules." + rule)));
 
             // Tell mod+
-            for (ProxiedPlayer online : plugin.getProxy().getPlayers())
+            if (!silent) for (ProxiedPlayer online : plugin.getProxy().getPlayers())
                 if (online.hasPermission("silverstone.moderator")) audience.player(online).sendMessage(
                     Component.text("Rule ").color(NamedTextColor.RED)
                         .append(Component.text(rule).color(NamedTextColor.GRAY))
