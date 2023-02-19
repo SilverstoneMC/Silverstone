@@ -36,8 +36,6 @@ commands:
     permission: silverstone.exit
   facepalm:
     description: "Facepalm emote"
-  firework:
-    permission: silverstone.admin
   forcerestart:
     permission: silverstone.admin
   freezeserver:
