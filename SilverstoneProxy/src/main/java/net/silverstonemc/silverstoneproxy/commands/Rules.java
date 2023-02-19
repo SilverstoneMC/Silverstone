@@ -50,7 +50,9 @@ public class Rules extends Command implements TabExecutor {
                     return;
                 }
 
-                if (args.length > 2) sendRules(target, rule, args[2].equals("-s"));
+                if (args.length > 2) sendRules(target, rule, args[2].equalsIgnoreCase("-s"));
+                else sendRules(target, rule, false);
+                
             } else sendRuleGUI(sender, target);
         } else sendSelfRules(sender);
     }
