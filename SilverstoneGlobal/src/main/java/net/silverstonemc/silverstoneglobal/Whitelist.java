@@ -3,7 +3,6 @@ package net.silverstonemc.silverstoneglobal;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.UUID;
@@ -20,7 +19,7 @@ public class Whitelist {
             } catch (NullPointerException ignored) {
             }
 
-            plugin.getLogger().info(ChatColor.YELLOW + "Whitelist is on");
+            plugin.getLogger().warning("Whitelist is on");
         }
     }
 }

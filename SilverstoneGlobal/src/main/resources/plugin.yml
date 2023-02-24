@@ -7,8 +7,6 @@ api-version: 1.19
 softdepend:
   - DiscordSRV
   - Matrix
-  - Essentials
-  - ViaVersion
 depend:
   - LuckPerms
 

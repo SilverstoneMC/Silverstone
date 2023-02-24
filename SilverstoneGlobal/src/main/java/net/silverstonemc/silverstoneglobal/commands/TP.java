@@ -1,8 +1,6 @@
 package net.silverstonemc.silverstoneglobal.commands;
 
-import net.ess3.api.IEssentials;
 import net.kyori.adventure.text.Component;
-import net.silverstonemc.silverstoneglobal.SilverstoneGlobal;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -10,15 +8,10 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.event.player.PlayerTeleportEvent;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.concurrent.CompletableFuture;
 
 @SuppressWarnings("DataFlowIssue")
 public class TP implements CommandExecutor {
-    private final IEssentials essentials = SilverstoneGlobal.getInstance().getEssentials();
-
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
         if (!(sender instanceof Player)) {
             sender.sendMessage(ChatColor.RED + "Sorry, but only players can do that.");
@@ -40,21 +33,17 @@ public class TP implements CommandExecutor {
                     .getHighestBlockAt(Integer.parseInt(args[0]) * multiplier,
                         Integer.parseInt(args[1]) * multiplier).getLocation().add(0, 1, 0);
 
-                if (player.isFlying()) essentials.getUser(player).getAsyncTeleport()
-                    .now(loc.add(0, 3, 0), false, PlayerTeleportEvent.TeleportCause.COMMAND,
-                        new CompletableFuture<>());
-                else essentials.getUser(player).getAsyncTeleport()
-                    .now(loc, false, PlayerTeleportEvent.TeleportCause.COMMAND, new CompletableFuture<>());
+                if (player.isFlying()) player.teleportAsync(loc.add(0, 3, 0));
+                else player.teleportAsync(loc);
+
             } else player.sendMessage(Component.text(ChatColor.RED + "That world doesn't exist!"));
+
             else {
                 Location loc = player.getWorld().getHighestBlockAt(Integer.parseInt(args[0]) * multiplier,
                     Integer.parseInt(args[1]) * multiplier).getLocation().add(0, 1, 0);
 
-                if (player.isFlying()) essentials.getUser(player).getAsyncTeleport()
-                    .now(loc.add(0, 3, 0), false, PlayerTeleportEvent.TeleportCause.COMMAND,
-                        new CompletableFuture<>());
-                else essentials.getUser(player).getAsyncTeleport()
-                    .now(loc, false, PlayerTeleportEvent.TeleportCause.COMMAND, new CompletableFuture<>());
+                if (player.isFlying()) player.teleportAsync(loc.add(0, 3, 0));
+                else player.teleportAsync(loc);
             }
             return true;
         }

@@ -1,7 +1,5 @@
 package net.silverstonemc.silverstoneglobal.commands;
 
-import net.ess3.api.IEssentials;
-import net.silverstonemc.silverstoneglobal.SilverstoneGlobal;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
@@ -9,19 +7,15 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.concurrent.CompletableFuture;
 
 public class Spectate implements CommandExecutor {
     public Spectate(JavaPlugin plugin) {
         this.plugin = plugin;
     }
-    
-    private final IEssentials essentials = SilverstoneGlobal.getInstance().getEssentials();
+
     private final JavaPlugin plugin;
 
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
@@ -44,17 +38,14 @@ public class Spectate implements CommandExecutor {
             player.setSpectatorTarget(null);
             player.setInvisible(true);
 
-            BukkitRunnable delayTP = new BukkitRunnable() {
+            new BukkitRunnable() {
                 @Override
                 public void run() {
-                    essentials.getUser(player).getAsyncTeleport()
-                        .now(target.getLocation(), false, PlayerTeleportEvent.TeleportCause.COMMAND,
-                            new CompletableFuture<>());
+                    player.teleportAsync(target.getLocation());
                 }
-            };
-            delayTP.runTaskLater(plugin, 5);
+            }.runTaskLater(plugin, 5);
 
-            BukkitRunnable task = new BukkitRunnable() {
+            new BukkitRunnable() {
                 @Override
                 public void run() {
                     player.setSpectatorTarget(target);
@@ -65,8 +56,7 @@ public class Spectate implements CommandExecutor {
                     }
                     player.setInvisible(false);
                 }
-            };
-            task.runTaskLater(plugin, 10);
+            }.runTaskLater(plugin, 10);
             return true;
         }
 
@@ -84,18 +74,15 @@ public class Spectate implements CommandExecutor {
             player.setSpectatorTarget(null);
             player.setInvisible(true);
 
-            BukkitRunnable delayTP = new BukkitRunnable() {
+            new BukkitRunnable() {
                 @Override
                 public void run() {
-                    essentials.getUser(player).getAsyncTeleport()
-                        .now(target.getLocation(), false, PlayerTeleportEvent.TeleportCause.COMMAND,
-                            new CompletableFuture<>());
+                    player.teleportAsync(target.getLocation());
 
                     if (player.getGameMode() != GameMode.SPECTATOR) player.setGameMode(GameMode.SPECTATOR);
                     player.setInvisible(false);
                 }
-            };
-            delayTP.runTaskLater(plugin, 5);
+            }.runTaskLater(plugin, 5);
             return true;
         }
         return false;

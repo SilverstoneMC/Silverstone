@@ -14,7 +14,7 @@ public class JoinnLeave implements Listener {
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
         event.joinMessage(null);
-        
+
         for (MetadataValue meta : event.getPlayer().getMetadata("vanished")) if (meta.asBoolean()) return;
 
         joinSound(event.getPlayer());
@@ -23,7 +23,7 @@ public class JoinnLeave implements Listener {
     @EventHandler
     public void onQuit(PlayerQuitEvent event) {
         event.quitMessage(null);
-        
+
         for (MetadataValue meta : event.getPlayer().getMetadata("vanished")) if (meta.asBoolean()) return;
 
         quitSound(event.getPlayer());

@@ -1,7 +1,6 @@
 package net.silverstonemc.silverstoneglobal;
 
 import me.rerere.matrix.api.MatrixAPI;
-import net.ess3.api.IEssentials;
 import net.luckperms.api.LuckPerms;
 import net.silverstonemc.silverstoneglobal.commands.*;
 import net.silverstonemc.silverstoneglobal.commands.guis.BuyGUI;
@@ -9,7 +8,7 @@ import net.silverstonemc.silverstoneglobal.commands.guis.ChatColorGUI;
 import net.silverstonemc.silverstoneglobal.events.ChatnSounds;
 import net.silverstonemc.silverstoneglobal.events.Gamemode;
 import net.silverstonemc.silverstoneglobal.events.JoinnLeave;
-import net.silverstonemc.silverstoneglobal.events.LoadEvent;
+import net.silverstonemc.silverstoneglobal.events.Load;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -25,7 +24,6 @@ import org.jetbrains.annotations.NotNull;
 public class SilverstoneGlobal extends JavaPlugin implements Listener {
     public static MatrixAPI matrix;
 
-    private IEssentials essentials;
     private LuckPerms luckPerms;
     private static SilverstoneGlobal instance;
 
@@ -33,7 +31,6 @@ public class SilverstoneGlobal extends JavaPlugin implements Listener {
     @Override
     public void onEnable() {
         instance = this;
-        essentials = (IEssentials) getServer().getPluginManager().getPlugin("Essentials");
         luckPerms = getServer().getServicesManager().load(LuckPerms.class);
 
         RegisteredServiceProvider<LuckPerms> provider = Bukkit.getServicesManager()
@@ -83,9 +80,9 @@ public class SilverstoneGlobal extends JavaPlugin implements Listener {
         pluginManager.registerEvents(new ChatColorGUI(this), this);
         pluginManager.registerEvents(new ChatnSounds(this), this);
         pluginManager.registerEvents(new Exit(this), this);
-        pluginManager.registerEvents(new Gamemode(this), this);
+        pluginManager.registerEvents(new Gamemode(), this);
         pluginManager.registerEvents(new JoinnLeave(), this);
-        pluginManager.registerEvents(new LoadEvent(this), this);
+        pluginManager.registerEvents(new Load(this), this);
         pluginManager.registerEvents(new TabComplete(), this);
         pluginManager.registerEvents(new TimeOut(), this);
 
@@ -95,22 +92,20 @@ public class SilverstoneGlobal extends JavaPlugin implements Listener {
         if (!getConfig().getString("server").equalsIgnoreCase("survival")) {
             new Security(this).check();
 
-            BukkitRunnable whitelist = new BukkitRunnable() {
+            new BukkitRunnable() {
                 @Override
                 public void run() {
                     Whitelist.whitelist();
                 }
-            };
-            whitelist.runTaskTimer(this, 100, 18000);
-        }
+            }.runTaskTimer(this, 100, 18000);
 
-        BukkitRunnable tpsCheck = new BukkitRunnable() {
-            @Override
-            public void run() {
-                TPS.checkTPS();
-            }
-        };
-        tpsCheck.runTaskTimerAsynchronously(this, 600, 20);
+            new BukkitRunnable() {
+                @Override
+                public void run() {
+                    TPS.checkTPS();
+                }
+            }.runTaskTimerAsynchronously(this, 600, 20);
+        }
     }
 
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
@@ -126,10 +121,6 @@ public class SilverstoneGlobal extends JavaPlugin implements Listener {
 
     public static SilverstoneGlobal getInstance() {
         return instance;
-    }
-
-    public IEssentials getEssentials() {
-        return essentials;
     }
 
     public LuckPerms getLuckPerms() {
