@@ -1,19 +1,15 @@
 package net.silverstonemc.silverstoneglobal.commands;
 
 import org.bukkit.ChatColor;
-import org.bukkit.GameMode;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerGameModeChangeEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.jetbrains.annotations.NotNull;
 
-public class NightVision implements CommandExecutor, Listener {
+public class NightVision implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
         if (!(sender instanceof Player player)) {
             sender.sendMessage(ChatColor.RED + "You must be a player to do that!");
@@ -25,13 +21,5 @@ public class NightVision implements CommandExecutor, Listener {
         else player.addPotionEffect(
             new PotionEffect(PotionEffectType.NIGHT_VISION, 1000000, 255, false, false, false));
         return true;
-    }
-
-    @EventHandler
-    public void spectator(PlayerGameModeChangeEvent event) {
-        if (event.getNewGameMode().equals(GameMode.SPECTATOR)) event.getPlayer().addPotionEffect(
-            new PotionEffect(PotionEffectType.NIGHT_VISION, 1000000, 255, false, false, false));
-        else if (event.getPlayer().getGameMode().equals(GameMode.SPECTATOR))
-            event.getPlayer().removePotionEffect(PotionEffectType.NIGHT_VISION);
     }
 }

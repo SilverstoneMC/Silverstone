@@ -7,6 +7,7 @@ import net.silverstonemc.silverstoneglobal.commands.*;
 import net.silverstonemc.silverstoneglobal.commands.guis.BuyGUI;
 import net.silverstonemc.silverstoneglobal.commands.guis.ChatColorGUI;
 import net.silverstonemc.silverstoneglobal.events.ChatnSounds;
+import net.silverstonemc.silverstoneglobal.events.Gamemode;
 import net.silverstonemc.silverstoneglobal.events.JoinnLeave;
 import net.silverstonemc.silverstoneglobal.events.LoadEvent;
 import org.bukkit.Bukkit;
@@ -82,11 +83,11 @@ public class SilverstoneGlobal extends JavaPlugin implements Listener {
         pluginManager.registerEvents(new ChatColorGUI(this), this);
         pluginManager.registerEvents(new ChatnSounds(this), this);
         pluginManager.registerEvents(new Exit(this), this);
+        pluginManager.registerEvents(new Gamemode(), this);
         pluginManager.registerEvents(new JoinnLeave(), this);
+        pluginManager.registerEvents(new LoadEvent(this), this);
         pluginManager.registerEvents(new TabComplete(), this);
         pluginManager.registerEvents(new TimeOut(), this);
-        pluginManager.registerEvents(new NightVision(), this);
-        pluginManager.registerEvents(new LoadEvent(this), this);
 
         BuyGUI.inv = BuyGUI.createInv();
         new ChatColorGUI(this).createDefaultInv();
