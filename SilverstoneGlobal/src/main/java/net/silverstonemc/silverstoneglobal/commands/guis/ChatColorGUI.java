@@ -29,14 +29,13 @@ public class ChatColorGUI implements CommandExecutor, Listener {
     }
 
     public void closeInv(Player player) {
-        BukkitRunnable task = new BukkitRunnable() {
+        new BukkitRunnable() {
             @Override
             public void run() {
                 player.closeInventory();
                 player.playSound(player.getLocation(), Sound.UI_BUTTON_CLICK, SoundCategory.MASTER, 1, 1);
             }
-        };
-        task.runTask(plugin);
+        }.runTask(plugin);
     }
 
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {

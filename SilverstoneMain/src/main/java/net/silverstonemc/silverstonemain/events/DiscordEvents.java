@@ -23,18 +23,19 @@ public class DiscordEvents extends ListenerAdapter {
     public void onButtonClick(ButtonClickEvent event) {
         String componentId = event.getComponentId();
 
+        //todo migrate to proxy
         if (componentId.startsWith("warnskin")) {
             Message message = event.getMessage();
             String player = message.getEmbeds().get(0).getAuthor().getName();
             player = player.substring(0, player.indexOf(' '));
             String finalPlayer = player;
-            BukkitRunnable sync = new BukkitRunnable() {
+            
+            new BukkitRunnable() {
                 @Override
                 public void run() {
-                    Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "warn " + finalPlayer + " skin");
+                    Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "hopecommander warn " + finalPlayer + " skin");
                 }
-            };
-            sync.runTask(plugin);
+            }.runTask(plugin);
 
             event.deferEdit().queue();
             Button button = event.getButton().asDisabled();

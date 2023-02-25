@@ -30,14 +30,13 @@ import java.util.stream.IntStream;
 
 public record Minigames(JavaPlugin plugin) implements CommandExecutor, Listener {
     public void closeInv(Player player) {
-        BukkitRunnable task = new BukkitRunnable() {
+        new BukkitRunnable() {
             @Override
             public void run() {
                 player.closeInventory();
                 player.playSound(player.getLocation(), Sound.UI_BUTTON_CLICK, SoundCategory.MASTER, 1, 1);
             }
-        };
-        task.runTask(plugin);
+        }.runTask(plugin);
     }
 
     private static Inventory htpInv;

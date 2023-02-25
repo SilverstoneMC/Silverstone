@@ -18,7 +18,7 @@ import org.jetbrains.annotations.NotNull;
 @SuppressWarnings({"UnstableApiUsage", "DataFlowIssue"})
 public record Exit(JavaPlugin plugin) implements CommandExecutor, Listener {
     private void send(Player player) {
-        BukkitRunnable task = new BukkitRunnable() {
+        new BukkitRunnable() {
             @Override
             public void run() {
                 ByteArrayDataOutput out = ByteStreams.newDataOutput();
@@ -26,8 +26,7 @@ public record Exit(JavaPlugin plugin) implements CommandExecutor, Listener {
                 out.writeUTF("minigames");
                 player.sendPluginMessage(plugin, "BungeeCord", out.toByteArray());
             }
-        };
-        task.runTaskLater(plugin, 1);
+        }.runTaskLater(plugin, 1);
     }
 
     // Perm based, so won't show up in minigames server

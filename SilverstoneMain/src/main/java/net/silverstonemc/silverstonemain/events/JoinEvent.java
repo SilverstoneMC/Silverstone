@@ -37,7 +37,8 @@ public final class JoinEvent implements Listener {
             for (Player players : Bukkit.getOnlinePlayers())
                 if (players.hasPermission("silverstone.moderator")) x++;
             int finalX = x;
-            BukkitRunnable task = new BukkitRunnable() {
+            
+            new BukkitRunnable() {
                 @Override
                 public void run() {
                     TextChannel discord = DiscordSRV.getPlugin()
@@ -56,8 +57,7 @@ public final class JoinEvent implements Listener {
                             .withEmoji(Emoji.fromUnicode("⚠"))).complete();
                     newPlayers.put(player, message);
                 }
-            };
-            task.runTaskAsynchronously(plugin);
+            }.runTaskAsynchronously(plugin);
         }
 
         for (MetadataValue meta : player.getMetadata("vanished"))

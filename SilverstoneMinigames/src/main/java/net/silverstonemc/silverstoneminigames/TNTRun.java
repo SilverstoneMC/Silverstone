@@ -18,14 +18,13 @@ import java.util.List;
 
 public record TNTRun(JavaPlugin plugin) implements CommandExecutor {
     public void deleteBlocks(Block block) {
-        BukkitRunnable task = new BukkitRunnable() {
+        new BukkitRunnable() {
             @Override
             public void run() {
                 block.setType(Material.AIR);
                 block.getLocation().subtract(0, 1, 0).getBlock().setType(Material.AIR);
             }
-        };
-        task.runTaskLater(plugin, 15);
+        }.runTaskLater(plugin, 15);
     }
 
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {

@@ -36,7 +36,7 @@ public record Restart(JavaPlugin plugin) implements CommandExecutor {
                     restarting = true;
                     final int[] sec = {10};
 
-                    BukkitRunnable task = new BukkitRunnable() {
+                    new BukkitRunnable() {
                         @Override
                         public void run() {
                             if (!restarting) {
@@ -109,8 +109,7 @@ public record Restart(JavaPlugin plugin) implements CommandExecutor {
                             }
                             sec[0] -= 1;
                         }
-                    };
-                    task.runTaskTimer(plugin, 0, 20);
+                    }.runTaskTimer(plugin, 0, 20);
                 } else {
                     restarting = false;
                     for (Player player : Bukkit.getOnlinePlayers())
@@ -164,7 +163,7 @@ public record Restart(JavaPlugin plugin) implements CommandExecutor {
                         100, 1.6f);
                 }
 
-                BukkitRunnable fourMin = new BukkitRunnable() {
+                new BukkitRunnable() {
                     @Override
                     public void run() {
                         for (Player player : Bukkit.getOnlinePlayers()) {
@@ -174,16 +173,14 @@ public record Restart(JavaPlugin plugin) implements CommandExecutor {
                                 SoundCategory.MASTER, 100, 1.6f);
                         }
                     }
-                };
-                fourMin.runTaskLater(plugin, 4800);
+                }.runTaskLater(plugin, 4800);
 
-                BukkitRunnable fiveMin = new BukkitRunnable() {
+                new BukkitRunnable() {
                     @Override
                     public void run() {
                         Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "restart");
                     }
-                };
-                fiveMin.runTaskLater(plugin, 6000);
+                }.runTaskLater(plugin, 6000);
             }
         }
         return true;

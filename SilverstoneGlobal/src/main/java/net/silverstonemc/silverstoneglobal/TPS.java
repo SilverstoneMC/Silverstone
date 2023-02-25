@@ -21,7 +21,7 @@ public class TPS {
         if (messageSent) return;
 
         long now = System.currentTimeMillis();
-        BukkitRunnable task = new BukkitRunnable() {
+        new BukkitRunnable() {
             int ticks = 0;
 
             @Override
@@ -32,8 +32,7 @@ public class TPS {
                     averageTPS(ticks);
                 }
             }
-        };
-        task.runTaskTimerAsynchronously(plugin, 0, 1);
+        }.runTaskTimerAsynchronously(plugin, 0, 1);
     }
 
     private static void averageTPS(int tps) {

@@ -20,13 +20,12 @@ public class JoinLeaveSpam implements Listener {
     private final Map<String, Integer> leaves = new HashMap<>();
 
     public void removeLeave(Player player) {
-        BukkitRunnable task = new BukkitRunnable() {
+        new BukkitRunnable() {
             @Override
             public void run() {
                 leaves.put(player.getName(), leaves.get(player.getName()) - 1);
             }
-        };
-        task.runTaskLater(plugin, plugin.getConfig().getInt("join-leave-spam.expire-after") * 20L);
+        }.runTaskLater(plugin, plugin.getConfig().getInt("join-leave-spam.expire-after") * 20L);
     }
 
     @EventHandler

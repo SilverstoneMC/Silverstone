@@ -14,7 +14,7 @@ public record Security(JavaPlugin plugin) {
     private static final LuckPerms luckPerms = SilverstoneGlobal.getInstance().getLuckPerms();
 
     public void check() {
-        BukkitRunnable task = new BukkitRunnable() {
+        new BukkitRunnable() {
             @Override
             public void run() {
                 for (Player player : Bukkit.getOnlinePlayers())
@@ -50,7 +50,6 @@ public record Security(JavaPlugin plugin) {
                         }
                     }
             }
-        };
-        task.runTaskTimerAsynchronously(plugin, 100, 15);
+        }.runTaskTimerAsynchronously(plugin, 100, 15);
     }
 }

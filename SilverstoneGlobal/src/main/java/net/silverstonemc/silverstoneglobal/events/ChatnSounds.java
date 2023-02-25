@@ -34,10 +34,11 @@ public class ChatnSounds implements CommandExecutor, Listener {
             return true;
         }
 
+        //todo migrate to proxy
         switch (cmd.getName().toLowerCase()) {
             case "chatsounds" -> {
                 boolean value = !sender.hasPermission("silverstone.chatsounds.enabled");
-                BukkitRunnable task = new BukkitRunnable() {
+                new BukkitRunnable() {
                     @Override
                     public void run() {
                         User user = luckPerms.getPlayerAdapter(Player.class).getUser(player);
@@ -50,13 +51,12 @@ public class ChatnSounds implements CommandExecutor, Listener {
                         }
                         luckPerms.getUserManager().saveUser(user);
                     }
-                };
-                task.runTaskAsynchronously(plugin);
+                }.runTaskAsynchronously(plugin);
             }
 
             case "joinleavesounds" -> {
                 boolean value = !sender.hasPermission("silverstone.jlsounds.enabled");
-                BukkitRunnable task = new BukkitRunnable() {
+                new BukkitRunnable() {
                     @Override
                     public void run() {
                         User user = luckPerms.getPlayerAdapter(Player.class).getUser(player);
@@ -69,8 +69,7 @@ public class ChatnSounds implements CommandExecutor, Listener {
                         }
                         luckPerms.getUserManager().saveUser(user);
                     }
-                };
-                task.runTaskAsynchronously(plugin);
+                }.runTaskAsynchronously(plugin);
             }
         }
 

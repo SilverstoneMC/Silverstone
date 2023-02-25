@@ -37,13 +37,12 @@ public class Home implements CommandExecutor {
             .now(new Location(Bukkit.getWorld("mini_empty"), -211.3, 38, -122.3, 107.2f, 9.5f), false,
                 PlayerTeleportEvent.TeleportCause.COMMAND, new CompletableFuture<>());
 
-        BukkitRunnable task = new BukkitRunnable() {
+        new BukkitRunnable() {
             @Override
             public void run() {
                 player.setGameMode(GameMode.CREATIVE);
             }
-        };
-        task.runTaskLater(plugin, 10);
+        }.runTaskLater(plugin, 10);
         return true;
     }
 }

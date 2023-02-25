@@ -44,13 +44,12 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
     private static Inventory inv;
 
     public void closeInv(Player player) {
-        BukkitRunnable task = new BukkitRunnable() {
+        new BukkitRunnable() {
             @Override
             public void run() {
                 player.closeInventory();
             }
-        };
-        task.runTask(plugin);
+        }.runTask(plugin);
     }
 
     public void tauntTimer(Player player) {

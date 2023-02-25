@@ -49,14 +49,13 @@ public class Live implements CommandExecutor {
             user.data().remove(InheritanceNode.builder(group).build());
         else {
             user.data().add(InheritanceNode.builder(group).build());
-            BukkitRunnable task = new BukkitRunnable() {
+            new BukkitRunnable() {
                 @Override
                 public void run() {
                     for (int x = 0; x < 50; x++) player.sendMessage("");
                     player.sendMessage(ChatColor.LIGHT_PURPLE + "You're live!");
                 }
-            };
-            task.runTaskLater(plugin, 100);
+            }.runTaskLater(plugin, 100);
         }
         luckPerms.getUserManager().saveUser(user);
         return true;
