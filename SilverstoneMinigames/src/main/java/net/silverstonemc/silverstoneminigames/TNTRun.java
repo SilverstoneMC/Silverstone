@@ -36,34 +36,16 @@ public record TNTRun(JavaPlugin plugin) implements CommandExecutor {
                     if (player == null) break;
                     if (!player.getGameMode().equals(GameMode.ADVENTURE)) break;
 
-                    Block block1 = player.getLocation()
-                        .subtract(player.getWidth() / 2, 1, player.getWidth() / 2).getBlock();
-                    Block block2 = player.getLocation()
-                        .subtract(-player.getWidth() / 2, 1, player.getWidth() / 2).getBlock();
-                    Block block3 = player.getLocation()
-                        .subtract(player.getWidth() / 2, 1, -player.getWidth() / 2).getBlock();
-                    Block block4 = player.getLocation()
-                        .subtract(-player.getWidth() / 2, 1, -player.getWidth() / 2).getBlock();
-
-                    switch (block1.getType()) {
-                        case SAND, RED_SAND, GRAVEL, BLACK_CONCRETE_POWDER, WHITE_CONCRETE_POWDER, RED_CONCRETE_POWDER, ORANGE_CONCRETE_POWDER, YELLOW_CONCRETE_POWDER, GREEN_CONCRETE_POWDER, LIME_CONCRETE_POWDER, CYAN_CONCRETE_POWDER, BLUE_CONCRETE_POWDER, LIGHT_BLUE_CONCRETE_POWDER, PURPLE_CONCRETE_POWDER, MAGENTA_CONCRETE_POWDER, PINK_CONCRETE_POWDER, GRAY_CONCRETE_POWDER, LIGHT_GRAY_CONCRETE_POWDER, BROWN_CONCRETE_POWDER ->
-                            deleteBlocks(block1);
+                    int[] xOffset = {-1, 1, -1, 1};
+                    int[] zOffset = {-1, -1, 1, 1};
+                    for (int i = 0; i < 4; i++) {
+                        Block block = player.getLocation().subtract(player.getWidth() / 2 * xOffset[i], 1,
+                            player.getWidth() / 2 * zOffset[i]).getBlock();
+                        switch (block.getType()) {
+                            case SAND, RED_SAND, GRAVEL, ORANGE_CONCRETE_POWDER -> deleteBlocks(block);
+                        }
                     }
 
-                    switch (block2.getType()) {
-                        case SAND, RED_SAND, GRAVEL, BLACK_CONCRETE_POWDER, WHITE_CONCRETE_POWDER, RED_CONCRETE_POWDER, ORANGE_CONCRETE_POWDER, YELLOW_CONCRETE_POWDER, GREEN_CONCRETE_POWDER, LIME_CONCRETE_POWDER, CYAN_CONCRETE_POWDER, BLUE_CONCRETE_POWDER, LIGHT_BLUE_CONCRETE_POWDER, PURPLE_CONCRETE_POWDER, MAGENTA_CONCRETE_POWDER, PINK_CONCRETE_POWDER, GRAY_CONCRETE_POWDER, LIGHT_GRAY_CONCRETE_POWDER, BROWN_CONCRETE_POWDER ->
-                            deleteBlocks(block2);
-                    }
-
-                    switch (block3.getType()) {
-                        case SAND, RED_SAND, GRAVEL, BLACK_CONCRETE_POWDER, WHITE_CONCRETE_POWDER, RED_CONCRETE_POWDER, ORANGE_CONCRETE_POWDER, YELLOW_CONCRETE_POWDER, GREEN_CONCRETE_POWDER, LIME_CONCRETE_POWDER, CYAN_CONCRETE_POWDER, BLUE_CONCRETE_POWDER, LIGHT_BLUE_CONCRETE_POWDER, PURPLE_CONCRETE_POWDER, MAGENTA_CONCRETE_POWDER, PINK_CONCRETE_POWDER, GRAY_CONCRETE_POWDER, LIGHT_GRAY_CONCRETE_POWDER, BROWN_CONCRETE_POWDER ->
-                            deleteBlocks(block3);
-                    }
-
-                    switch (block4.getType()) {
-                        case SAND, RED_SAND, GRAVEL, BLACK_CONCRETE_POWDER, WHITE_CONCRETE_POWDER, RED_CONCRETE_POWDER, ORANGE_CONCRETE_POWDER, YELLOW_CONCRETE_POWDER, GREEN_CONCRETE_POWDER, LIME_CONCRETE_POWDER, CYAN_CONCRETE_POWDER, BLUE_CONCRETE_POWDER, LIGHT_BLUE_CONCRETE_POWDER, PURPLE_CONCRETE_POWDER, MAGENTA_CONCRETE_POWDER, PINK_CONCRETE_POWDER, GRAY_CONCRETE_POWDER, LIGHT_GRAY_CONCRETE_POWDER, BROWN_CONCRETE_POWDER ->
-                            deleteBlocks(block4);
-                    }
                 }
             } catch (IndexOutOfBoundsException e) {
                 sender.sendMessage(ChatColor.RED + "Please provide a valid selector!");
