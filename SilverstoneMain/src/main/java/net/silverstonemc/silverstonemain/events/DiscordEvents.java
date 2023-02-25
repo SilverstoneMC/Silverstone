@@ -80,23 +80,21 @@ public class DiscordEvents extends ListenerAdapter {
             String username = Bukkit.getOfflinePlayer(uuid).getName();
 
             if (componentId.replace("vanish:", "").startsWith("on")) {
-                BukkitRunnable sync = new BukkitRunnable() {
+                new BukkitRunnable() {
                     @Override
                     public void run() {
                         Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "v on " + username);
                     }
-                };
-                sync.runTask(plugin);
+                }.runTask(plugin);
                 event.getHook().editOriginal("Successfully vanished " + username).queue();
 
             } else if (componentId.replace("vanish:", "").startsWith("off")) {
-                BukkitRunnable sync = new BukkitRunnable() {
+                new BukkitRunnable() {
                     @Override
                     public void run() {
                         Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "v off " + username);
                     }
-                };
-                sync.runTask(plugin);
+                }.runTask(plugin);
                 event.getHook().editOriginal("Successfully un-vanished " + username).queue();
 
             } else event.getHook().editOriginal(

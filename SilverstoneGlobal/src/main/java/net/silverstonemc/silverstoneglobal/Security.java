@@ -36,7 +36,7 @@ public record Security(JavaPlugin plugin) {
                             for (int x = 0; x < 15; x++)
                                 plugin.getLogger().warning(player.getName() + " has an admin permission!");
 
-                            BukkitRunnable task = new BukkitRunnable() {
+                            new BukkitRunnable() {
                                 @Override
                                 public void run() {
                                     plugin.getLogger().warning("Deopping " + player.getName() + "...");
@@ -45,8 +45,7 @@ public record Security(JavaPlugin plugin) {
                                     Bukkit.dispatchCommand(Bukkit.getConsoleSender(),
                                         "hopecommander warn " + player.getName() + " admin");
                                 }
-                            };
-                            task.runTask(plugin);
+                            }.runTask(plugin);
                         }
                     }
             }

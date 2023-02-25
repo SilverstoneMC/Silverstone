@@ -55,7 +55,7 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
     public void tauntTimer(Player player) {
         if (!player.hasPermission("silverstone.minigames.hideseek.taunt.bypasscooldown")) {
             cooldowns.put(player, System.currentTimeMillis() + 15000);
-            BukkitRunnable task = new BukkitRunnable() {
+            new BukkitRunnable() {
                 @Override
                 public void run() {
                     if (player.hasPermission("silverstone.minigames.hideseek.taunt")) player.showTitle(
@@ -63,8 +63,7 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
                             Component.text("You may now taunt again.").color(NamedTextColor.RED),
                             Title.DEFAULT_TIMES));
                 }
-            };
-            task.runTaskLater(plugin, 300);
+            }.runTaskLater(plugin, 300);
         }
     }
 
@@ -132,22 +131,22 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
                 if (!(players instanceof Player player)) continue;
                 // 0-5 sec
                 playHeartbeat(player, 24, 8, 5);
+                
                 // 6-10 sec
-                BukkitRunnable hb1 = new BukkitRunnable() {
+                new BukkitRunnable() {
                     @Override
                     public void run() {
                         playHeartbeat(player, 20, 6, 3);
                     }
-                };
-                hb1.runTaskLater(plugin, 6 * 20L);
+                }.runTaskLater(plugin, 6 * 20L);
+                
                 // 11-15 sec
-                BukkitRunnable hb2 = new BukkitRunnable() {
+                new BukkitRunnable() {
                     @Override
                     public void run() {
                         playHeartbeat(player, 16, 5, 3);
                     }
-                };
-                hb2.runTaskLater(plugin, 11 * 20L);
+                }.runTaskLater(plugin, 11 * 20L);
             }
             else sender.sendMessage(ChatColor.RED + "Please provide a valid selector!");
             return true;
@@ -168,42 +167,38 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
                 player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_BASEDRUM, SoundCategory.PLAYERS,
                     2, 0);
                 player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 3, 0, false, false, false));
-                BukkitRunnable removePotion = new BukkitRunnable() {
+                new BukkitRunnable() {
                     @Override
                     public void run() {
                         player.removePotionEffect(PotionEffectType.SLOW);
                     }
-                };
-                removePotion.runTaskLater(plugin, 2);
+                }.runTaskLater(plugin, 2);
 
-                BukkitRunnable task = new BukkitRunnable() {
+                new BukkitRunnable() {
                     @Override
                     public void run() {
                         player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_BASEDRUM,
                             SoundCategory.PLAYERS, 2, 0);
                         player.addPotionEffect(
                             new PotionEffect(PotionEffectType.SLOW, 3, 1, false, false, false));
-                        BukkitRunnable removePotion = new BukkitRunnable() {
+                        new BukkitRunnable() {
                             @Override
                             public void run() {
                                 player.removePotionEffect(PotionEffectType.SLOW);
                             }
-                        };
-                        removePotion.runTaskLater(plugin, 2);
+                        }.runTaskLater(plugin, 2);
                     }
-                };
-                task.runTaskLater(plugin, speed2);
+                }.runTaskLater(plugin, speed2);
             }
         };
         task.runTaskTimer(plugin, 0, speed1);
 
-        BukkitRunnable endTask = new BukkitRunnable() {
+        new BukkitRunnable() {
             @Override
             public void run() {
                 task.cancel();
             }
-        };
-        endTask.runTaskLater(plugin, (stopAfter * 20L) + 20L);
+        }.runTaskLater(plugin, (stopAfter * 20L) + 20L);
     }
 
     // On item click

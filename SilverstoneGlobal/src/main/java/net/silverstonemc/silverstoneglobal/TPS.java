@@ -76,12 +76,11 @@ public class TPS {
     private static void cooldown() {
         messageSent = true;
         tickList.clear();
-        BukkitRunnable task = new BukkitRunnable() {
+        new BukkitRunnable() {
             @Override
             public void run() {
                 messageSent = false;
             }
-        };
-        task.runTaskLaterAsynchronously(plugin, 300);
+        }.runTaskLaterAsynchronously(plugin, 300);
     }
 }

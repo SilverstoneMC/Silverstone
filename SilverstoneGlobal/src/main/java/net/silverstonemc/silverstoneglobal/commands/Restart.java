@@ -130,13 +130,12 @@ public record Restart(JavaPlugin plugin) implements CommandExecutor {
                         send(player, server);
                     }
 
-                    BukkitRunnable task = new BukkitRunnable() {
+                    new BukkitRunnable() {
                         @Override
                         public void run() {
                             plugin.getServer().spigot().restart();
                         }
-                    };
-                    task.runTaskLater(plugin, 20);
+                    }.runTaskLater(plugin, 20);
                 } else plugin.getServer().spigot().restart();
             }
 
@@ -146,13 +145,12 @@ public record Restart(JavaPlugin plugin) implements CommandExecutor {
                         "&c&lSERVER SCHEDULED TO RESTART WHEN EMPTY")));
                 plugin.getLogger().info("Server scheduled to restart when empty.");
 
-                BukkitRunnable task = new BukkitRunnable() {
+                new BukkitRunnable() {
                     @Override
                     public void run() {
                         if (Bukkit.getOnlinePlayers().size() == 0) plugin.getServer().spigot().restart();
                     }
-                };
-                task.runTaskTimer(plugin, 0, 300);
+                }.runTaskTimer(plugin, 0, 300);
             }
 
             case "schedulerestart" -> {
