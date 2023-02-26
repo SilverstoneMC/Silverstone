@@ -7,7 +7,8 @@ import net.md_5.bungee.api.plugin.Command;
 
 public class Forums extends Command {
     public Forums() {
-        super("forums", null, "site", "bugreport", "reportbug", "report", "reportplayer", "playerreport");
+        super("forums", null, "site", "bugreport", "reportbug", "report", "reportplayer", "playerreport",
+            "builder");
     }
 
     public void execute(CommandSender sender, String[] args) {

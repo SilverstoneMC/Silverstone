@@ -1,0 +1,32 @@
+name: Builder Application
+description: Apply for the builder rank to increase your available plots
+title: Builder Application
+labels: [ Builder Application ]
+body:
+  - type: input
+    attributes:
+      label: My Minecraft username
+      placeholder: JasonHorkles
+    validations:
+      required: true
+
+  - type: input
+    attributes:
+      label: My Discord username & tag
+      description: Optional, would only be used for better communication if you'd like to make builds for the server
+      placeholder: Jason H#0552
+    validations:
+      required: false
+
+  - type: textarea
+    attributes:
+      label: Why I want to be a builder
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Images
+      description: "Upload 3 or more images of your builds from both off and on the Silverstone server"
+    validations:
+      required: true
