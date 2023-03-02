@@ -78,7 +78,17 @@ public class SilverstoneWarnings extends Plugin implements Listener {
     @Override
     public void onDisable() {
         plugin.getLogger().info("Shutting down Discord bot...");
-        jda.shutdown();
+        try {
+            // Initating the shutdown, this closes the gateway connection and subsequently closes the requester queue
+            jda.shutdown();
+            // Allow at most 10 seconds for remaining requests to finish
+            if (!jda.awaitShutdown(10,
+                TimeUnit.SECONDS)) { // returns true if shutdown is graceful, false if timeout exceeded
+                jda.shutdownNow(); // Cancel all remaining requests, and stop thread-pools
+                jda.awaitShutdown(); // Wait until shutdown is complete (indefinitely)
+            }
+        } catch (NoClassDefFoundError | InterruptedException ignored) {
+        }
     }
 
     public ProxiedPlayer getOnlinePlayer(UUID uuid) {
