@@ -1,11 +1,11 @@
 package net.silverstonemc.silverstonemain.events;
 
-import github.scarsz.discordsrv.dependencies.jda.api.entities.Message;
-import github.scarsz.discordsrv.dependencies.jda.api.events.interaction.ButtonClickEvent;
-import github.scarsz.discordsrv.dependencies.jda.api.events.message.guild.GuildMessageReceivedEvent;
-import github.scarsz.discordsrv.dependencies.jda.api.hooks.ListenerAdapter;
-import github.scarsz.discordsrv.dependencies.jda.api.interactions.components.ActionRow;
-import github.scarsz.discordsrv.dependencies.jda.api.interactions.components.Button;
+import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.events.interaction.ButtonClickEvent;
+import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.hooks.ListenerAdapter;
+import net.dv8tion.jda.api.interactions.components.ActionRow;
+import net.dv8tion.jda.api.interactions.components.Button;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
