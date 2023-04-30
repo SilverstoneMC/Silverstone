@@ -25,7 +25,7 @@ public class WirelessButtons implements Listener {
                 Location loc = event.getClickedBlock().getLocation();
                 Player player = event.getPlayer();
 
-                if (loc.getX() == -98 && loc.getY() == 67 && loc.getZ() == -102) {
+                if (loc.getX() == -102 && loc.getY() == 67 && loc.getZ() == -106) {
                     // Check if on cooldown
                     // Still on cooldown
                     if (rulesCooldown.containsKey(player))
@@ -34,7 +34,7 @@ public class WirelessButtons implements Listener {
                         "hopecommander rules " + player.getName() + " -1 -s");
                     rulesCooldown.put(player, System.currentTimeMillis() + 1000);
 
-                } else if (loc.getX() == -102 && loc.getY() == 67 && loc.getZ() == -106) {
+                } else if (loc.getX() == -98 && loc.getY() == 67 && loc.getZ() == -102) {
                     // Check if on cooldown
                     // Still on cooldown
                     if (startingCooldown.containsKey(player))
