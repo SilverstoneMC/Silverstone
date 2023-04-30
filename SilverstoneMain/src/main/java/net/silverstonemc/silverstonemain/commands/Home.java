@@ -1,7 +1,9 @@
 package net.silverstonemc.silverstonemain.commands;
 
-import net.silverstonemc.silverstonemain.SilverstoneMain;
 import net.ess3.api.IEssentials;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.silverstonemc.silverstonemain.SilverstoneMain;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
