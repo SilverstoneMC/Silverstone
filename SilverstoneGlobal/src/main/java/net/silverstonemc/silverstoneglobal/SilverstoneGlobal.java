@@ -48,6 +48,7 @@ public class SilverstoneGlobal extends JavaPlugin implements Listener {
         getCommand("bcrestart").setExecutor(new Broadcasts());
         getCommand("bcshutdown").setExecutor(new Broadcasts());
         getCommand("buy").setExecutor(new BuyGUI(this));
+        getCommand("centeronblock").setExecutor(new CenterOnBlock());
         getCommand("chatcolor").setExecutor(new ChatColorGUI(this));
         getCommand("chatsounds").setExecutor(new ChatnSounds(this));
         getCommand("discord").setExecutor(new Discord());

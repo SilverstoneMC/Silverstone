@@ -21,7 +21,7 @@ public record FlyingCourse(JavaPlugin plugin) implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender sender, Command cmd, @NotNull String label, String[] args) {
         if (cmd.getName().equalsIgnoreCase("zfcfinish")) {
             if (!(sender instanceof Player player)) {
-                sender.sendMessage(ChatColor.RED + "Sorry, but only players can do that.");
+                sender.sendMessage(Component.text("Sorry, but only players can do that.").color(NamedTextColor.RED));
                 return true;
             }
 

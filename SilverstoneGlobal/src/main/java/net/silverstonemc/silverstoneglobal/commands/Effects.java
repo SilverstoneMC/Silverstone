@@ -1,5 +1,7 @@
 package net.silverstonemc.silverstoneglobal.commands;
 
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -16,7 +18,8 @@ public class Effects implements CommandExecutor {
 
             // If player is null, cancel the command
             if (player == null) {
-                sender.sendMessage(ChatColor.RED + "Please provide an online player!");
+                sender.sendMessage(
+                    Component.text("Please provide an online player!").color(NamedTextColor.RED));
                 return true;
             }
 
@@ -33,7 +36,7 @@ public class Effects implements CommandExecutor {
             for (PotionEffect effect : player.getActivePotionEffects())
                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&b" + effect.getType()
                     .getName() + " " + (effect.getAmplifier() + 1) + " &3| &b" + (effect.getDuration() / 20) + "s"));
-        } else sender.sendMessage(ChatColor.RED + "Please provide a player!");
+        } else sender.sendMessage(Component.text("Please provide a player!").color(NamedTextColor.RED));
         return true;
     }
 }

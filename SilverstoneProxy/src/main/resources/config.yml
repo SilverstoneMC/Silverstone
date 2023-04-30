@@ -2,8 +2,8 @@
 # Kick the player if protocol version is below this value
 minimum-protocol-version: 759 #1.19
 # Send warning message to the player if protocol version is below this value
-current-protocol-version: 761
-current-version: 1.19.3
+current-protocol-version: 762
+current-version: 1.19.4
 
 rules:
   # The text to add before the rule number when sending a player a rule

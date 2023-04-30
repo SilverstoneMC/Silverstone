@@ -1,5 +1,7 @@
 package net.silverstonemc.silverstoneglobal.commands;
 
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
@@ -17,15 +19,16 @@ public class Broadcasts implements CommandExecutor {
                 for (Player player : Bukkit.getOnlinePlayers())
                     player.sendMessage(ChatColor.translateAlternateColorCodes('&',
                         "&c&lWARNING &b&l> &aThe server may experience lag for a moment!"));
-                if (!(sender instanceof Player)) sender.sendMessage(ChatColor.GREEN + "Lag broadcast sent!");
+                if (!(sender instanceof Player))
+                    sender.sendMessage(Component.text("Lag broadcast sent!").color(NamedTextColor.GREEN));
             }
 
             case "bcnolag" -> {
                 for (Player player : Bukkit.getOnlinePlayers())
                     player.sendMessage(ChatColor.translateAlternateColorCodes('&',
                         "&c&lNOTICE &b&l> &aThe server should no longer lag."));
-                if (!(sender instanceof Player))
-                    sender.sendMessage(ChatColor.GREEN + "No more lag broadcast sent!");
+                if (!(sender instanceof Player)) sender.sendMessage(
+                    Component.text("No more lag broadcast sent!").color(NamedTextColor.GREEN));
             }
 
             case "bcrestart" -> {
@@ -36,7 +39,7 @@ public class Broadcasts implements CommandExecutor {
                         100, 1.6f);
                 }
                 if (!(sender instanceof Player))
-                    sender.sendMessage(ChatColor.GREEN + "Restart broadcast sent!");
+                    sender.sendMessage(Component.text("Restart broadcast sent!").color(NamedTextColor.GREEN));
             }
 
             case "bcshutdown" -> {
@@ -46,8 +49,8 @@ public class Broadcasts implements CommandExecutor {
                     player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_HARP, SoundCategory.MASTER,
                         100, 1.6f);
                 }
-                if (!(sender instanceof Player))
-                    sender.sendMessage(ChatColor.GREEN + "Shutdown broadcast sent!");
+                if (!(sender instanceof Player)) sender.sendMessage(
+                    Component.text("Shutdown broadcast sent!").color(NamedTextColor.GREEN));
             }
         }
         return true;

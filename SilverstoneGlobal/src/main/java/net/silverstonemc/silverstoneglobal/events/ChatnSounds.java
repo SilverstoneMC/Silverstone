@@ -1,6 +1,8 @@
 package net.silverstonemc.silverstoneglobal.events;
 
 import io.papermc.paper.event.player.AsyncChatEvent;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import net.luckperms.api.LuckPerms;
 import net.luckperms.api.model.user.User;
 import net.luckperms.api.node.Node;
@@ -30,7 +32,7 @@ public class ChatnSounds implements CommandExecutor, Listener {
 
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
         if (!(sender instanceof Player player)) {
-            sender.sendMessage(ChatColor.RED + "Sorry, but only players can do that.");
+            sender.sendMessage(Component.text("Sorry, but only players can do that.").color(NamedTextColor.RED));
             return true;
         }
 

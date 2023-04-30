@@ -19,7 +19,7 @@ public class NightVision implements CommandExecutor {
         if (player.hasPotionEffect(PotionEffectType.NIGHT_VISION))
             player.removePotionEffect(PotionEffectType.NIGHT_VISION);
         else player.addPotionEffect(
-            new PotionEffect(PotionEffectType.NIGHT_VISION, 1000000, 255, false, false, false));
+            new PotionEffect(PotionEffectType.NIGHT_VISION, -1, 255, false, false, false));
         return true;
     }
 }

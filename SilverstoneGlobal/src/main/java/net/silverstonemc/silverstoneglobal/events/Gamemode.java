@@ -14,7 +14,7 @@ public class Gamemode implements Listener {
         Player player = event.getPlayer();
         // Night vision
         if (event.getNewGameMode().equals(GameMode.SPECTATOR)) player.addPotionEffect(
-            new PotionEffect(PotionEffectType.NIGHT_VISION, 1000000, 255, false, false, false));
+            new PotionEffect(PotionEffectType.NIGHT_VISION, -1, 255, false, false, false));
         else if (player.getGameMode().equals(GameMode.SPECTATOR))
             player.removePotionEffect(PotionEffectType.NIGHT_VISION);
     }

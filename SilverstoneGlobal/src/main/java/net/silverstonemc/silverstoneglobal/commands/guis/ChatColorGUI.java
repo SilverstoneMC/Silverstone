@@ -1,6 +1,7 @@
 package net.silverstonemc.silverstoneglobal.commands.guis;
 
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.silverstonemc.silverstoneglobal.SilverstoneGlobal;
@@ -40,7 +41,7 @@ public class ChatColorGUI implements CommandExecutor, Listener {
 
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
         if (!(sender instanceof Player player)) {
-            sender.sendMessage(ChatColor.RED + "Sorry, but only players can do that.");
+            sender.sendMessage(Component.text("Sorry, but only players can do that.").color(NamedTextColor.RED));
             return true;
         }
         // Open GUI

@@ -28,7 +28,7 @@ public class Live implements CommandExecutor {
 
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
         if (!(sender instanceof Player player)) {
-            sender.sendMessage(ChatColor.RED + "Sorry, but only players can do that.");
+            sender.sendMessage(Component.text("Sorry, but only players can do that.").color(NamedTextColor.RED));
             return true;
         }
 

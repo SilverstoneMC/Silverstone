@@ -3,7 +3,7 @@ package net.silverstonemc.silverstoneglobal.commands;
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
 import net.kyori.adventure.text.Component;
-import org.bukkit.ChatColor;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -33,7 +33,8 @@ public record Exit(JavaPlugin plugin) implements CommandExecutor, Listener {
     public boolean onCommand(@NotNull CommandSender sender, Command cmd, @NotNull String label, String[] args) {
         Player player = (Player) sender;
         if (cmd.getName().equalsIgnoreCase("exit")) {
-            player.sendMessage(Component.text(ChatColor.GREEN + "Returning you to the Minigames server!"));
+            player.sendMessage(
+                Component.text("Returning you to the Minigames server!").color(NamedTextColor.GREEN));
             send(player);
         }
         return true;

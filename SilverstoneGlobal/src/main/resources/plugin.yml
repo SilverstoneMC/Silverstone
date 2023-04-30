@@ -21,6 +21,8 @@ commands:
     permission: silverstone.admin
   buy:
     aliases: [ ranks, donate ]
+  centeronblock:
+    permission: silverstone.admin
   chatcolor:
     permission: silverstone.chatcolor
   chatsounds:
