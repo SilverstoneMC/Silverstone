@@ -1,8 +1,9 @@
 package net.silverstonemc.silverstoneglobal;
 
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -16,15 +17,7 @@ public class TimeOut implements Listener {
         Player player = event.getPlayer();
         PlayerQuitEvent.QuitReason reason = event.getReason();
 
-        if (reason == PlayerQuitEvent.QuitReason.TIMED_OUT) {
-            for (MetadataValue meta : player.getMetadata("vanished")) if (meta.asBoolean()) return;
-
-            for (Player online : Bukkit.getOnlinePlayers())
-                online.sendMessage(
-                    ChatColor.translateAlternateColorCodes('&', "&7" + player.getName() + " &ctimed out."));
-
-            Bukkit.getLogger().info(ChatColor.GOLD + "Sending timeout message (quit)");
-        }
+        if (reason == PlayerQuitEvent.QuitReason.TIMED_OUT) sendTimeoutMessage(player);
     }
 
     @EventHandler
@@ -32,14 +25,17 @@ public class TimeOut implements Listener {
         Player player = event.getPlayer();
 
         if (PlainTextComponentSerializer.plainText().serialize(event.reason())
-            .equalsIgnoreCase("disconnect.timeout")) {
-            for (MetadataValue meta : player.getMetadata("vanished")) if (meta.asBoolean()) return;
+            .equalsIgnoreCase("disconnect.timeout")) sendTimeoutMessage(player);
+    }
 
-            for (Player online : Bukkit.getOnlinePlayers())
-                online.sendMessage(
-                    ChatColor.translateAlternateColorCodes('&', "&7" + player.getName() + " &ctimed out."));
+    private void sendTimeoutMessage(Player player) {
+        for (MetadataValue meta : player.getMetadata("vanished")) if (meta.asBoolean()) return;
 
-            Bukkit.getLogger().info(ChatColor.GOLD + "Sending timeout message (kick)");
-        }
+        for (Player online : Bukkit.getOnlinePlayers())
+            online.sendMessage(Component.text(player.getName()).color(NamedTextColor.GRAY)
+                .append(Component.text(" timed out.").color(NamedTextColor.RED)));
+
+        Bukkit.getConsoleSender()
+            .sendMessage(Component.text("Sending timeout message (kick)").color(NamedTextColor.GOLD));
     }
 }

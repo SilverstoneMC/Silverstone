@@ -1,6 +1,8 @@
 package net.silverstonemc.silverstoneglobal;
 
 import me.rerere.matrix.api.MatrixAPI;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import net.luckperms.api.LuckPerms;
 import net.silverstonemc.silverstoneglobal.commands.*;
 import net.silverstonemc.silverstoneglobal.commands.guis.BuyGUI;
@@ -10,7 +12,6 @@ import net.silverstonemc.silverstoneglobal.events.Gamemode;
 import net.silverstonemc.silverstoneglobal.events.JoinnLeave;
 import net.silverstonemc.silverstoneglobal.events.Load;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.event.Listener;
@@ -114,7 +115,7 @@ public class SilverstoneGlobal extends JavaPlugin implements Listener {
             saveDefaultConfig();
             reloadConfig();
             BuyGUI.inv = BuyGUI.createInv();
-            sender.sendMessage(ChatColor.GREEN + "SilverstoneGlobal reloaded!");
+            sender.sendMessage(Component.text("SilverstoneGlobal reloaded!").color(NamedTextColor.GREEN));
             return true;
         }
         return false;

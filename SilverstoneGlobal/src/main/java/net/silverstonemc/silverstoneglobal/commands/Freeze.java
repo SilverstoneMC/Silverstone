@@ -1,6 +1,8 @@
 package net.silverstonemc.silverstoneglobal.commands;
 
-import org.bukkit.ChatColor;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -11,12 +13,14 @@ public class Freeze implements CommandExecutor {
         if (args.length > 1) {
             int x = Integer.parseInt(args[0]);
             sender.sendMessage(
-                ChatColor.RED + "" + ChatColor.BOLD + "Freezing server for " + x + " seconds...");
+                Component.text("Freezing server for " + x + " seconds...").color(NamedTextColor.RED)
+                    .decorate(TextDecoration.BOLD));
             try {
+                //noinspection BlockingMethodInNonBlockingContext
                 Thread.sleep(x * 1000L);
             } catch (InterruptedException ignored) {
             }
-            sender.sendMessage(ChatColor.GREEN + "Done freezing!");
+            sender.sendMessage(Component.text("Done freezing!").color(NamedTextColor.GREEN));
             return true;
         }
         return false;

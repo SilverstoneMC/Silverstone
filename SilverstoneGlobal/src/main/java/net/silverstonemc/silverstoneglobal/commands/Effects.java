@@ -3,7 +3,6 @@ package net.silverstonemc.silverstoneglobal.commands;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -26,16 +25,21 @@ public class Effects implements CommandExecutor {
             String username = player.getName();
 
             if (player.getActivePotionEffects().isEmpty()) {
-                sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                    "&b" + username + " &ahas no active effects."));
+                sender.sendMessage(Component.text(username).color(NamedTextColor.AQUA)
+                    .append(Component.text(" has no active effects.").color(NamedTextColor.GREEN)));
                 return true;
             }
 
-            sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                "\n&b" + username + " &ahas the following effects:\n "));
+            sender.sendMessage(Component.text("\n" + username).color(NamedTextColor.AQUA)
+                .append(Component.text(" has the following effects:\n ").color(NamedTextColor.GREEN)));
+
             for (PotionEffect effect : player.getActivePotionEffects())
-                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&b" + effect.getType()
-                    .getName() + " " + (effect.getAmplifier() + 1) + " &3| &b" + (effect.getDuration() / 20) + "s"));
+                sender.sendMessage(
+                    Component.text(effect.getType().getName() + " " + (effect.getAmplifier() + 1))
+                        .color(NamedTextColor.AQUA)
+                        .append(Component.text(" | ").color(NamedTextColor.DARK_AQUA)).append(
+                            Component.text((effect.getDuration() / 20) + "s").color(NamedTextColor.AQUA)));
+
         } else sender.sendMessage(Component.text("Please provide a player!").color(NamedTextColor.RED));
         return true;
     }

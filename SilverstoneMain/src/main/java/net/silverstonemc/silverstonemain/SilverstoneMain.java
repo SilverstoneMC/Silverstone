@@ -2,13 +2,14 @@ package net.silverstonemc.silverstonemain;
 
 import github.scarsz.discordsrv.DiscordSRV;
 import net.ess3.api.IEssentials;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import net.silverstonemc.silverstonemain.commands.GettingStarted;
 import net.silverstonemc.silverstonemain.commands.Home;
 import net.silverstonemc.silverstonemain.events.JoinEvent;
 import net.silverstonemc.silverstonemain.events.JoinLeaveSpam;
 import net.silverstonemc.silverstonemain.events.QuitEvent;
 import net.silverstonemc.silverstonemain.events.WirelessButtons;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.event.Listener;
@@ -52,7 +53,7 @@ public class SilverstoneMain extends JavaPlugin implements Listener {
         if (args.length > 0) if (args[0].equalsIgnoreCase("reload")) {
             saveDefaultConfig();
             reloadConfig();
-            sender.sendMessage(ChatColor.GREEN + "SilverstoneMain reloaded!");
+            sender.sendMessage(Component.text("SilverstoneMain reloaded!").color(NamedTextColor.GREEN));
             return true;
         }
         return false;
