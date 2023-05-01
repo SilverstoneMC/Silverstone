@@ -18,8 +18,8 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.concurrent.CompletableFuture;
 
-public class Home implements CommandExecutor {
-    public Home(JavaPlugin plugin) {
+public class JHome implements CommandExecutor {
+    public JHome(JavaPlugin plugin) {
         this.plugin = plugin;
     }
 

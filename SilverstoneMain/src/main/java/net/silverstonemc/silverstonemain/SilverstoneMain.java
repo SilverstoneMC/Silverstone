@@ -5,7 +5,7 @@ import net.ess3.api.IEssentials;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.silverstonemc.silverstonemain.commands.GettingStarted;
-import net.silverstonemc.silverstonemain.commands.Home;
+import net.silverstonemc.silverstonemain.commands.JHome;
 import net.silverstonemc.silverstonemain.events.JoinEvent;
 import net.silverstonemc.silverstonemain.events.JoinLeaveSpam;
 import net.silverstonemc.silverstonemain.events.WirelessButtons;
@@ -36,7 +36,7 @@ public class SilverstoneMain extends JavaPlugin implements Listener {
             DiscordSRV.api.subscribe(new DiscordReady(this));
 
         getCommand("gettingstarted").setExecutor(new GettingStarted());
-        getCommand("homec").setExecutor(new Home(this));
+        getCommand("homec").setExecutor(new JHome(this));
 
         getCommand("ssm").setTabCompleter(new TabComplete());
 
