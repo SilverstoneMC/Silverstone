@@ -60,7 +60,7 @@ public class SilverstoneWarnings extends Plugin implements Listener {
             pluginManager.registerCommand(plugin, new WarnListCommand());
             pluginManager.registerCommand(plugin, new WarnQueueCommand());
         };
-        getProxy().getScheduler().schedule(this, task, 7, TimeUnit.SECONDS);
+        getProxy().getScheduler().schedule(this, task, 5, TimeUnit.SECONDS);
 
         pluginManager.registerListener(this, new JoinEvent());
         pluginManager.registerListener(this, new QuitEvent());

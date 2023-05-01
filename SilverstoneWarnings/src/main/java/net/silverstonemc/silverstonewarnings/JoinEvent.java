@@ -33,19 +33,27 @@ public class JoinEvent implements Listener {
 
         // Update the username if it has changed
         if (userExists && !UserManager.playerMap.get(uuid).equals(username)) {
-            // Notify everyone online
-            for (ProxiedPlayer player : plugin.getProxy().getPlayers())
-                SilverstoneWarnings.getAdventure().player(player).sendMessage(
-                    Component.text(username).color(NamedTextColor.AQUA)
-                        .append(Component.text(" was previously known as ").color(NamedTextColor.GRAY))
-                        .append(
-                            Component.text(new UserManager().getUsername(uuid)).color(NamedTextColor.AQUA)));
+            // Notify everyone online if not vanished
+            if (!event.getPlayer().hasPermission("silverstone.vanished")) {
+                Runnable task = () -> {
+                    for (ProxiedPlayer player : plugin.getProxy().getPlayers())
+                        SilverstoneWarnings.getAdventure().player(player).sendMessage(
+                            Component.text(username).color(NamedTextColor.AQUA).append(
+                                    Component.text(" was previously known as ").color(NamedTextColor.GRAY))
+                                .append(Component.text(new UserManager().getUsername(uuid))
+                                    .color(NamedTextColor.AQUA)));
+                };
+                plugin.getProxy().getScheduler().schedule(plugin, task, 1, TimeUnit.SECONDS);
+            }
 
             // Notify the Discord
+            EmbedBuilder embed = new EmbedBuilder();
+            embed.setAuthor(username + " was previously known as: " + new UserManager().getUsername(uuid),
+                null, "https://crafatar.com/avatars/" + uuid + "?overlay=true");
+            embed.setColor(new Color(0x2b2d31));
             //noinspection DataFlowIssue
-            SilverstoneWarnings.jda.getTextChannelById(1075680288841138257L).sendMessage(
-                "**" + username + "** was previously known as **" + new UserManager().getUsername(
-                    uuid) + "**").queue();
+            SilverstoneWarnings.jda.getTextChannelById(1075680288841138257L).sendMessageEmbeds(embed.build())
+                .queue();
 
             UserManager.playerMap.remove(uuid);
             new UserManager().addUser(uuid, username);
