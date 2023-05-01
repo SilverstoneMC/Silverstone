@@ -1,8 +1,9 @@
 package net.silverstonemc.silverstoneminigames;
 
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import net.silverstonemc.silverstoneminigames.commands.Back;
 import net.silverstonemc.silverstoneminigames.commands.Minigames;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -60,7 +61,7 @@ public class SilverstoneMinigames extends JavaPlugin implements CommandExecutor 
         data.saveDefaultConfig();
         data.reloadConfig();
         new FlyingCourse(this).updateFCScoreboard();
-        sender.sendMessage(ChatColor.GREEN + "SilverstoneMinigames reloaded!");
+        sender.sendMessage(Component.text("SilverstoneMinigames reloaded!").color(NamedTextColor.GREEN));
         return true;
     }
 }

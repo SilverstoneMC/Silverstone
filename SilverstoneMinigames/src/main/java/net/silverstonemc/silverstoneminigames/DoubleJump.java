@@ -1,8 +1,9 @@
 package net.silverstonemc.silverstoneminigames;
 
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -44,12 +45,14 @@ public class DoubleJump implements CommandExecutor, Listener {
 
                     ItemStack item = new ItemStack(Material.FEATHER);
                     ItemMeta meta = item.getItemMeta();
-                    meta.displayName(Component.text(ChatColor.RED + "" + ChatColor.BOLD + "Double Jump"));
+                    meta.displayName(Component.text("Double Jump").color(NamedTextColor.RED)
+                        .decorate(TextDecoration.BOLD));
                     item.setItemMeta(meta);
                     player.getInventory().addItem(item);
                 }
             } catch (IndexOutOfBoundsException e) {
-                sender.sendMessage(ChatColor.RED + "Please provide a valid selector!");
+                sender.sendMessage(
+                    Component.text("Please provide a valid selector!").color(NamedTextColor.RED));
             }
             return true;
         }
@@ -68,8 +71,9 @@ public class DoubleJump implements CommandExecutor, Listener {
                 if (player.getInventory().getItemInMainHand().getType() == Material.FEATHER)
                     if (player.getInventory().getItemInMainHand().getItemMeta().hasDisplayName())
                         //noinspection DataFlowIssue
-                        if (player.getInventory().getItemInMainHand().getItemMeta().displayName()
-                            .equals(Component.text(ChatColor.RED + "" + ChatColor.BOLD + "Double Jump"))) {
+                        if (player.getInventory().getItemInMainHand().getItemMeta().displayName().equals(
+                            Component.text("Double Jump").color(NamedTextColor.RED)
+                                .decorate(TextDecoration.BOLD))) {
                             // Still on cooldown
                             if (cooldowns.containsKey(player.getName()))
                                 if (cooldowns.get(player.getName()) > System.currentTimeMillis()) return;
@@ -79,7 +83,8 @@ public class DoubleJump implements CommandExecutor, Listener {
                             if (jumps.containsKey(player)) jumpCount = jumps.get(player);
 
                             if (jumpCount == 0) {
-                                player.sendMessage(ChatColor.RED + "You can't double jump any more!");
+                                player.sendMessage(Component.text("You can't double jump any more!")
+                                    .color(NamedTextColor.RED));
                                 return;
                             }
 
@@ -87,7 +92,8 @@ public class DoubleJump implements CommandExecutor, Listener {
                             player.setVelocity(vector);
                             jumps.put(player, jumpCount - 1);
                             player.sendMessage(
-                                ChatColor.RED + "You have " + (jumpCount - 1) + " double jumps remaining.");
+                                Component.text("You have " + (jumpCount - 1) + " double jumps remaining.")
+                                    .color(NamedTextColor.RED));
                         }
     }
 }

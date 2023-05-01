@@ -1,7 +1,8 @@
 package net.silverstonemc.silverstoneglobal.commands;
 
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -18,7 +19,7 @@ public record TPSMonitor(JavaPlugin plugin) implements CommandExecutor {
             try {
                 interval = Double.parseDouble(args[0]) * 20;
             } catch (NumberFormatException ignored) {
-                sender.sendMessage(ChatColor.RED + "That number ain't right");
+                sender.sendMessage(Component.text("That number ain't right").color(NamedTextColor.RED));
                 return true;
             }
 
@@ -26,7 +27,8 @@ public record TPSMonitor(JavaPlugin plugin) implements CommandExecutor {
                 task.cancel();
                 Bukkit.dispatchCommand(sender, cmd.getName() + " " + args[0]);
                 sender.sendMessage(
-                    ChatColor.GREEN + "Successfully changed the interval to " + interval / 20 + " seconds.");
+                    Component.text("Successfully changed the interval to " + interval / 20 + " seconds.")
+                        .color(NamedTextColor.GREEN));
                 return true;
             }
 
@@ -40,11 +42,12 @@ public record TPSMonitor(JavaPlugin plugin) implements CommandExecutor {
 
         } else {
             if (task == null || task.isCancelled()) {
-                sender.sendMessage(ChatColor.RED + "The monitor was already inactive.");
+                sender.sendMessage(
+                    Component.text("The monitor was already inactive.").color(NamedTextColor.RED));
                 return true;
             }
             task.cancel();
-            sender.sendMessage(ChatColor.GREEN + "TPS monitoring deactivated.");
+            sender.sendMessage(Component.text("TPS monitoring deactivated.").color(NamedTextColor.GREEN));
         }
         return true;
     }

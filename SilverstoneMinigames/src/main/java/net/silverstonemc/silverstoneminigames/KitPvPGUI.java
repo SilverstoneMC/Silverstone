@@ -43,7 +43,8 @@ public record KitPvPGUI(JavaPlugin plugin) implements CommandExecutor, Listener 
 
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
         if (!(sender instanceof Player player)) {
-            sender.sendMessage(Component.text("Sorry, but only players can do that.").color(NamedTextColor.RED));
+            sender.sendMessage(
+                Component.text("Sorry, but only players can do that.").color(NamedTextColor.RED));
             return true;
         }
         player.openInventory(inv);
@@ -61,7 +62,7 @@ public record KitPvPGUI(JavaPlugin plugin) implements CommandExecutor, Listener 
 
         Player player = (Player) event.getWhoClicked();
         if (player.getGameMode() != GameMode.ADVENTURE) {
-            player.sendMessage(ChatColor.RED + "You can't do that right now!");
+            player.sendMessage(Component.text("You can't do that right now!").color(NamedTextColor.RED));
             return;
         }
 
@@ -183,51 +184,54 @@ public record KitPvPGUI(JavaPlugin plugin) implements CommandExecutor, Listener 
     // Inventory items
     public static void createInv() {
         inv = Bukkit.createInventory(null, 27,
-            Component.text(ChatColor.translateAlternateColorCodes('&', "&4&lSelect a Kit")));
+            Component.text("Select a Kit").color(NamedTextColor.RED).decorate(TextDecoration.BOLD));
 
         ItemStack item = new ItemStack(Material.BLACK_STAINED_GLASS_PANE);
         ItemMeta meta = item.getItemMeta();
 
         // Fill items
-        meta.displayName(Component.text(ChatColor.BOLD + ""));
+        meta.displayName(Component.text(""));
         item.setItemMeta(meta);
         IntStream.rangeClosed(0, 26).boxed().toList().forEach(slot -> inv.setItem(slot, item));
 
         // Basic
         item.setType(Material.WOODEN_SWORD);
         meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ENCHANTS);
-        meta.displayName(Component.text(ChatColor.AQUA + "" + ChatColor.BOLD + "Basic"));
+        meta.displayName(Component.text("Basic").color(NamedTextColor.AQUA).decorate(TextDecoration.BOLD));
         item.setItemMeta(meta);
         inv.setItem(10, item);
 
         // Berserker
         item.setType(Material.CHAINMAIL_HELMET);
-        meta.displayName(Component.text(ChatColor.AQUA + "" + ChatColor.BOLD + "Berserker"));
+        meta.displayName(
+            Component.text("Berserker").color(NamedTextColor.AQUA).decorate(TextDecoration.BOLD));
         item.setItemMeta(meta);
         inv.setItem(11, item);
 
         // Potion Master
         item.setType(Material.POTION);
-        meta.displayName(Component.text(ChatColor.AQUA + "" + ChatColor.BOLD + "Potion Master"));
+        meta.displayName(
+            Component.text("Potion Master").color(NamedTextColor.AQUA).decorate(TextDecoration.BOLD));
         meta.addItemFlags(ItemFlag.HIDE_ITEM_SPECIFICS);
         item.setItemMeta(meta);
         inv.setItem(12, item);
 
         // Archer
         item.setType(Material.BOW);
-        meta.displayName(Component.text(ChatColor.AQUA + "" + ChatColor.BOLD + "Archer"));
+        meta.displayName(Component.text("Archer").color(NamedTextColor.AQUA).decorate(TextDecoration.BOLD));
         item.setItemMeta(meta);
         inv.setItem(13, item);
 
         // Demolitionist
         item.setType(Material.TNT);
-        meta.displayName(Component.text(ChatColor.AQUA + "" + ChatColor.BOLD + "Demolitionist"));
+        meta.displayName(
+            Component.text("Demolitionist").color(NamedTextColor.AQUA).decorate(TextDecoration.BOLD));
         item.setItemMeta(meta);
         inv.setItem(14, item);
 
         // Close
         item.setType(Material.BARRIER);
-        meta.displayName(Component.text(ChatColor.RED + "" + ChatColor.BOLD + "Close"));
+        meta.displayName(Component.text("Close").color(NamedTextColor.AQUA).decorate(TextDecoration.BOLD));
         item.setItemMeta(meta);
         inv.setItem(16, item);
     }

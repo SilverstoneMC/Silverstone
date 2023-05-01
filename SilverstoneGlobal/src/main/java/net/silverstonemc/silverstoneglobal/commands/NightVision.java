@@ -1,6 +1,7 @@
 package net.silverstonemc.silverstoneglobal.commands;
 
-import org.bukkit.ChatColor;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -12,7 +13,7 @@ import org.jetbrains.annotations.NotNull;
 public class NightVision implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
         if (!(sender instanceof Player player)) {
-            sender.sendMessage(ChatColor.RED + "You must be a player to do that!");
+            sender.sendMessage(Component.text("You must be a player to do that!").color(NamedTextColor.RED));
             return true;
         }
 

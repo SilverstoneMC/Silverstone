@@ -9,7 +9,6 @@ import net.luckperms.api.model.group.Group;
 import net.luckperms.api.model.user.User;
 import net.luckperms.api.node.types.InheritanceNode;
 import net.silverstonemc.silverstoneglobal.SilverstoneGlobal;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -28,14 +27,15 @@ public class Live implements CommandExecutor {
 
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
         if (!(sender instanceof Player player)) {
-            sender.sendMessage(Component.text("Sorry, but only players can do that.").color(NamedTextColor.RED));
+            sender.sendMessage(
+                Component.text("Sorry, but only players can do that.").color(NamedTextColor.RED));
             return true;
         }
 
         Group group = luckPerms.getGroupManager().getGroup("live");
 
         if (group == null) {
-            player.sendMessage(ChatColor.RED + "Couldn't find the live group!");
+            player.sendMessage(Component.text("Couldn't find the live group!").color(NamedTextColor.RED));
             return true;
         }
 
@@ -53,7 +53,7 @@ public class Live implements CommandExecutor {
                 @Override
                 public void run() {
                     for (int x = 0; x < 50; x++) player.sendMessage("");
-                    player.sendMessage(ChatColor.LIGHT_PURPLE + "You're live!");
+                    player.sendMessage(Component.text("You're live!").color(NamedTextColor.LIGHT_PURPLE));
                 }
             }.runTaskLater(plugin, 100);
         }

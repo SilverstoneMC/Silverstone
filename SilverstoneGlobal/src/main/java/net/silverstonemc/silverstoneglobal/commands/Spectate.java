@@ -3,7 +3,6 @@ package net.silverstonemc.silverstoneglobal.commands;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -33,7 +32,8 @@ public class Spectate implements CommandExecutor {
 
             // If player is null
             if (target == null) {
-                sender.sendMessage(ChatColor.RED + "Please provide an online player!");
+                sender.sendMessage(
+                    Component.text("Please provide an online player!").color(NamedTextColor.RED));
                 return true;
             }
 
@@ -69,7 +69,8 @@ public class Spectate implements CommandExecutor {
 
             // If player is null
             if (target == null) {
-                sender.sendMessage(ChatColor.RED + "Please provide an online player!");
+                sender.sendMessage(
+                    Component.text("Please provide an online player!").color(NamedTextColor.RED));
                 return true;
             }
 

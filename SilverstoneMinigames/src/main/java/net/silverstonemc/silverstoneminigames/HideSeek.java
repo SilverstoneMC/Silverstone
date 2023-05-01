@@ -70,22 +70,25 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
     public boolean onCommand(@NotNull CommandSender sender, Command cmd, @NotNull String label, String[] args) {
         if (cmd.getName().equalsIgnoreCase("taunt")) {
             if (!(sender instanceof Player player)) {
-                sender.sendMessage(Component.text("Sorry, but only players can do that.").color(NamedTextColor.RED));
+                sender.sendMessage(
+                    Component.text("Sorry, but only players can do that.").color(NamedTextColor.RED));
                 return true;
             }
             // Check if allowed to do command
             if (player.getScoreboardTags().contains("Seeker")) {
                 player.sendMessage(
-                    ChatColor.translateAlternateColorCodes('&', "&cYou must be a hider to use taunts!"));
+                    Component.text("You must be a hider to use taunts!").color(NamedTextColor.RED));
                 return true;
             }
             // Check if on cooldown
             if (!player.hasPermission("silverstone.minigames.hideseek.taunt.bypasscooldown"))
                 if (cooldowns.containsKey(player)) if (cooldowns.get(player) > System.currentTimeMillis()) {
                     // Still on cooldown
-                    player.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        "&cYou may use a taunt again in &7" + ((cooldowns.get(
-                            player) - System.currentTimeMillis()) / 1000) + " &cseconds."));
+                    player.sendMessage(
+                        Component.text("&cYou may use a taunt again in ").color(NamedTextColor.RED).append(
+                                Component.text(cooldowns.get(player) - System.currentTimeMillis() / 1000)
+                                    .color(NamedTextColor.GRAY))
+                            .append(Component.text(" seconds.").color(NamedTextColor.RED)));
                     return true;
                 }
             // Open GUI
@@ -95,7 +98,7 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
 
         if (cmd.getName().equalsIgnoreCase("hsresettauntpoints")) {
             points.clear();
-            sender.sendMessage(ChatColor.GREEN + "Points reset!");
+            sender.sendMessage(Component.text("Points reset!").color(NamedTextColor.GREEN));
             return true;
         }
 
@@ -106,7 +109,8 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
                 try {
                     randomPlayer = (Player) player.get(0);
                 } catch (IndexOutOfBoundsException e) {
-                    sender.sendMessage(ChatColor.RED + "Please provide a valid selector!");
+                    sender.sendMessage(
+                        Component.text("Please provide a valid selector!").color(NamedTextColor.RED));
                     return true;
                 }
 
@@ -122,7 +126,8 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
                     case 6 -> fireworks(randomPlayer);
                     case 7 -> boom(randomPlayer);
                 }
-            } else sender.sendMessage(ChatColor.RED + "Please provide a valid selector!");
+            } else sender.sendMessage(
+                Component.text("Please provide a valid selector!").color(NamedTextColor.RED));
             return true;
         }
 
@@ -131,7 +136,7 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
                 if (!(players instanceof Player player)) continue;
                 // 0-5 sec
                 playHeartbeat(player, 24, 8, 5);
-                
+
                 // 6-10 sec
                 new BukkitRunnable() {
                     @Override
@@ -139,7 +144,7 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
                         playHeartbeat(player, 20, 6, 3);
                     }
                 }.runTaskLater(plugin, 6 * 20L);
-                
+
                 // 11-15 sec
                 new BukkitRunnable() {
                     @Override
@@ -148,7 +153,8 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
                     }
                 }.runTaskLater(plugin, 11 * 20L);
             }
-            else sender.sendMessage(ChatColor.RED + "Please provide a valid selector!");
+            else sender.sendMessage(
+                Component.text("Please provide a valid selector!").color(NamedTextColor.RED));
             return true;
         }
         return false;
@@ -297,7 +303,8 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
                         Bukkit.getWorld(plugin.getConfig().getString("empty-minigame-world")), -372, 9, -65);
                     loc.getBlock().setType(Material.REDSTONE_BLOCK);
                     tauntTimer(player);
-                } else player.sendMessage(ChatColor.RED + "You don't have enough points to do that!");
+                } else player.sendMessage(
+                    Component.text("You don't have enough points to do that!").color(NamedTextColor.RED));
             }
             case 31 -> {
                 // Seekers slowness
@@ -310,7 +317,8 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
                         Bukkit.getWorld(plugin.getConfig().getString("empty-minigame-world")), -374, 9, -62);
                     loc.getBlock().setType(Material.REDSTONE_BLOCK);
                     tauntTimer(player);
-                } else player.sendMessage(ChatColor.RED + "You don't have enough points to do that!");
+                } else player.sendMessage(
+                    Component.text("You don't have enough points to do that!").color(NamedTextColor.RED));
             }
             case 34 -> {
                 // Seekers blindness
@@ -323,7 +331,8 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
                         Bukkit.getWorld(plugin.getConfig().getString("empty-minigame-world")), -376, 9, -62);
                     loc.getBlock().setType(Material.REDSTONE_BLOCK);
                     tauntTimer(player);
-                } else player.sendMessage(ChatColor.RED + "You don't have enough points to do that!");
+                } else player.sendMessage(
+                    Component.text("You don't have enough points to do that!").color(NamedTextColor.RED));
             }
         }
 
@@ -439,75 +448,91 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
     public static void createInv() {
 
         inv = Bukkit.createInventory(null, 45,
-            Component.text(ChatColor.translateAlternateColorCodes('&', "&4&lTaunts")));
+            Component.text("Taunts").color(NamedTextColor.DARK_RED).decorate(TextDecoration.BOLD));
 
         ItemStack item = new ItemStack(Material.BLACK_STAINED_GLASS_PANE);
         ItemMeta meta = item.getItemMeta();
         List<Component> lore = new ArrayList<>();
 
         // Fill items
-        meta.displayName(Component.text(ChatColor.BOLD + ""));
+        meta.displayName(Component.text(""));
         item.setItemMeta(meta);
         IntStream.rangeClosed(0, 44).boxed().toList().forEach(slot -> inv.setItem(slot, item));
 
         // Bark
         item.setType(Material.BONE);
-        meta.displayName(Component.text(ChatColor.AQUA + "" + ChatColor.BOLD + "Bark"));
-        lore.add(Component.text(ChatColor.translateAlternateColorCodes('&', "&3&l1 &2Taunt Point")));
+        meta.displayName(Component.text("Bark").color(NamedTextColor.AQUA).decorate(TextDecoration.BOLD));
+        lore.add(Component.text()
+            .append(Component.text("1").color(NamedTextColor.DARK_AQUA).decorate(TextDecoration.BOLD))
+            .append(Component.text(" Taunt Point").color(NamedTextColor.DARK_GREEN)).build());
         meta.lore(lore);
         item.setItemMeta(meta);
         inv.setItem(10, item);
 
         // Ding
         item.setType(Material.BELL);
-        meta.displayName(Component.text(ChatColor.AQUA + "" + ChatColor.BOLD + "Ding"));
+        meta.displayName(Component.text("Ding").color(NamedTextColor.AQUA).decorate(TextDecoration.BOLD));
         lore.clear();
-        lore.add(Component.text(ChatColor.translateAlternateColorCodes('&', "&3&l2 &2Taunt Points")));
+        lore.add(Component.text()
+            .append(Component.text("2").color(NamedTextColor.DARK_AQUA).decorate(TextDecoration.BOLD))
+            .append(Component.text(" Taunt Points").color(NamedTextColor.DARK_GREEN)).build());
         meta.lore(lore);
         item.setItemMeta(meta);
         inv.setItem(11, item);
 
         // Scream
         item.setType(Material.GHAST_TEAR);
-        meta.displayName(Component.text(ChatColor.AQUA + "" + ChatColor.BOLD + "Scream"));
+        meta.displayName(Component.text("Scream").color(NamedTextColor.AQUA).decorate(TextDecoration.BOLD));
         lore.clear();
-        lore.add(Component.text(ChatColor.translateAlternateColorCodes('&', "&3&l3 &2Taunt Points")));
+        lore.add(Component.text()
+            .append(Component.text("3").color(NamedTextColor.DARK_AQUA).decorate(TextDecoration.BOLD))
+            .append(Component.text(" Taunt Points").color(NamedTextColor.DARK_GREEN)).build());
         meta.lore(lore);
         item.setItemMeta(meta);
         inv.setItem(12, item);
 
         // Roar
         item.setType(Material.DRAGON_HEAD);
-        meta.displayName(Component.text(ChatColor.GOLD + "" + ChatColor.BOLD + "Roar"));
+        meta.displayName(Component.text("Roar").color(NamedTextColor.AQUA).decorate(TextDecoration.BOLD));
         lore.clear();
-        lore.add(Component.text(ChatColor.translateAlternateColorCodes('&', "&3&l5 &2Taunt Points")));
+        lore.add(Component.text()
+            .append(Component.text("5").color(NamedTextColor.DARK_AQUA).decorate(TextDecoration.BOLD))
+            .append(Component.text(" Taunt Points").color(NamedTextColor.DARK_GREEN)).build());
         meta.lore(lore);
         item.setItemMeta(meta);
         inv.setItem(13, item);
 
         // Explosion
         item.setType(Material.TNT);
-        meta.displayName(Component.text(ChatColor.GOLD + "" + ChatColor.BOLD + "Explosion"));
+        meta.displayName(
+            Component.text("Explosion").color(NamedTextColor.AQUA).decorate(TextDecoration.BOLD));
         lore.clear();
-        lore.add(Component.text(ChatColor.translateAlternateColorCodes('&', "&3&l8 &2Taunt Points")));
+        lore.add(Component.text()
+            .append(Component.text("8").color(NamedTextColor.DARK_AQUA).decorate(TextDecoration.BOLD))
+            .append(Component.text(" Taunt Points").color(NamedTextColor.DARK_GREEN)).build());
         meta.lore(lore);
         item.setItemMeta(meta);
         inv.setItem(14, item);
 
         // Fireworks
         item.setType(Material.FIREWORK_ROCKET);
-        meta.displayName(Component.text(ChatColor.RED + "" + ChatColor.BOLD + "Fireworks"));
+        meta.displayName(
+            Component.text("Fireworks").color(NamedTextColor.AQUA).decorate(TextDecoration.BOLD));
         lore.clear();
-        lore.add(Component.text(ChatColor.translateAlternateColorCodes('&', "&3&l13 &2Taunt Points")));
+        lore.add(Component.text()
+            .append(Component.text("13").color(NamedTextColor.DARK_AQUA).decorate(TextDecoration.BOLD))
+            .append(Component.text(" Taunt Points").color(NamedTextColor.DARK_GREEN)).build());
         meta.lore(lore);
         item.setItemMeta(meta);
         inv.setItem(15, item);
 
         // Boom
         item.setType(Material.TOTEM_OF_UNDYING);
-        meta.displayName(Component.text(ChatColor.RED + "" + ChatColor.BOLD + "Boom"));
+        meta.displayName(Component.text("Boom").color(NamedTextColor.AQUA).decorate(TextDecoration.BOLD));
         lore.clear();
-        lore.add(Component.text(ChatColor.translateAlternateColorCodes('&', "&3&l15 &2Taunt Points")));
+        lore.add(Component.text()
+            .append(Component.text("15").color(NamedTextColor.DARK_AQUA).decorate(TextDecoration.BOLD))
+            .append(Component.text(" Taunt Points").color(NamedTextColor.DARK_GREEN)).build());
         meta.lore(lore);
         item.setItemMeta(meta);
         inv.setItem(16, item);
@@ -531,12 +556,13 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
             e.printStackTrace();
         }
 
-        skullMeta.displayName(
-            Component.text(ChatColor.translateAlternateColorCodes('&', "&b&lTaunt at random player")));
-        skullLore.add(
-            Component.text(ChatColor.translateAlternateColorCodes('&', "&3Costs &2&l60 &3Taunt Points")));
-        skullLore.add(Component.text(ChatColor.translateAlternateColorCodes('&', "&7Sends a random taunt")));
-        skullLore.add(Component.text(ChatColor.translateAlternateColorCodes('&', "&7to a random hider")));
+        skullMeta.displayName(Component.text("Taunt at random player").color(NamedTextColor.AQUA)
+            .decorate(TextDecoration.BOLD));
+        skullLore.add(Component.text("Costs ").color(NamedTextColor.DARK_AQUA)
+            .append(Component.text("60").color(NamedTextColor.DARK_GREEN).decorate(TextDecoration.BOLD))
+            .append(Component.text(" Taunt Points").color(NamedTextColor.DARK_AQUA)));
+        skullLore.add(Component.text("Sends a random taunt").color(NamedTextColor.GRAY));
+        skullLore.add(Component.text("to a random hider").color(NamedTextColor.GRAY));
         skullLore.add(Component.text("(This can include yourself!)").color(TextColor.fromHexString("#858585"))
             .decorate(TextDecoration.ITALIC));
         skullMeta.lore(skullLore);
@@ -545,25 +571,29 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
 
         // Slowness
         item.setType(Material.NETHERITE_BOOTS);
-        meta.displayName(Component.text(ChatColor.AQUA + "" + ChatColor.BOLD + "Give seekers slowness"));
+        meta.displayName(
+            Component.text("Give seekers slowness").color(NamedTextColor.AQUA).decorate(TextDecoration.BOLD));
         meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
         lore.clear();
-        lore.add(
-            Component.text(ChatColor.translateAlternateColorCodes('&', "&3Costs &2&l100 &3Taunt Points")));
-        lore.add(Component.text(ChatColor.translateAlternateColorCodes('&', "&7Slows all seekers")));
-        lore.add(Component.text(ChatColor.translateAlternateColorCodes('&', "&7down for 15 seconds")));
+        lore.add(Component.text("Costs ").color(NamedTextColor.DARK_AQUA)
+            .append(Component.text("100").color(NamedTextColor.DARK_GREEN).decorate(TextDecoration.BOLD))
+            .append(Component.text(" Taunt Points").color(NamedTextColor.DARK_AQUA)));
+        lore.add(Component.text("Slows all seekers").color(NamedTextColor.GRAY));
+        lore.add(Component.text("down for 15 seconds").color(NamedTextColor.GRAY));
         meta.lore(lore);
         item.setItemMeta(meta);
         inv.setItem(31, item);
 
         // Blindness
         item.setType(Material.NETHERITE_HELMET);
-        meta.displayName(Component.text(ChatColor.AQUA + "" + ChatColor.BOLD + "Give seekers blindness"));
+        meta.displayName(Component.text("Give seekers blindness").color(NamedTextColor.AQUA)
+            .decorate(TextDecoration.BOLD));
         lore.clear();
-        lore.add(
-            Component.text(ChatColor.translateAlternateColorCodes('&', "&3Costs &2&l125 &3Taunt Points")));
-        lore.add(Component.text(ChatColor.translateAlternateColorCodes('&', "&7Gives all seekers")));
-        lore.add(Component.text(ChatColor.translateAlternateColorCodes('&', "&7blindness for 10 seconds")));
+        lore.add(Component.text("Costs ").color(NamedTextColor.DARK_AQUA)
+            .append(Component.text("125").color(NamedTextColor.DARK_GREEN).decorate(TextDecoration.BOLD))
+            .append(Component.text(" Taunt Points").color(NamedTextColor.DARK_AQUA)));
+        lore.add(Component.text("Gives all seekers").color(NamedTextColor.GRAY));
+        lore.add(Component.text("blindness for 10 seconds").color(NamedTextColor.GRAY));
         meta.lore(lore);
         item.setItemMeta(meta);
         inv.setItem(34, item);

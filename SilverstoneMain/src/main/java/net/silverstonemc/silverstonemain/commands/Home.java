@@ -5,7 +5,6 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.silverstonemc.silverstonemain.SilverstoneMain;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
@@ -29,11 +28,12 @@ public class Home implements CommandExecutor {
 
     public boolean onCommand(@NotNull CommandSender sender, Command cmd, @NotNull String label, String[] args) {
         if (!(sender instanceof Player player)) {
-            sender.sendMessage(Component.text("Sorry, but only players can do that.").color(NamedTextColor.RED));
+            sender.sendMessage(
+                Component.text("Sorry, but only players can do that.").color(NamedTextColor.RED));
             return true;
         }
 
-        player.sendMessage(ChatColor.DARK_AQUA + "Teleporting...");
+        player.sendMessage(Component.text("Teleporting...").color(NamedTextColor.DARK_AQUA));
         if (player.getGameMode().equals(GameMode.SPECTATOR)) player.setSpectatorTarget(null);
         essentials.getUser(player).getAsyncTeleport()
             .now(new Location(Bukkit.getWorld("mini_empty"), -211.3, 38, -122.3, 107.2f, 9.5f), false,

@@ -3,7 +3,6 @@ package net.silverstonemc.silverstoneglobal.commands;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -15,7 +14,8 @@ import org.jetbrains.annotations.NotNull;
 public class TP implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
         if (!(sender instanceof Player)) {
-            sender.sendMessage(Component.text("Sorry, but only players can do that.").color(NamedTextColor.RED));
+            sender.sendMessage(
+                Component.text("Sorry, but only players can do that.").color(NamedTextColor.RED));
             return true;
         }
 
@@ -26,7 +26,7 @@ public class TP implements CommandExecutor {
         if (args.length > 1) {
             Player player = (Player) sender;
 
-            player.sendMessage(ChatColor.DARK_AQUA + "Teleporting...");
+            player.sendMessage(Component.text("Teleporting...").color(NamedTextColor.DARK_AQUA));
 
             // If player specifies world
             if (args.length > 2) if (Bukkit.getWorld(args[2]) != null) {
@@ -37,7 +37,7 @@ public class TP implements CommandExecutor {
                 if (player.isFlying()) player.teleportAsync(loc.add(0, 3, 0));
                 else player.teleportAsync(loc);
 
-            } else player.sendMessage(Component.text(ChatColor.RED + "That world doesn't exist!"));
+            } else player.sendMessage(Component.text("That world doesn't exist!").color(NamedTextColor.RED));
 
             else {
                 Location loc = player.getWorld().getHighestBlockAt(Integer.parseInt(args[0]) * multiplier,

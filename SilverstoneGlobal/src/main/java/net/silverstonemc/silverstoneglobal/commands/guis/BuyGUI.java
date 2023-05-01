@@ -1,11 +1,16 @@
 package net.silverstonemc.silverstoneglobal.commands.guis;
 
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.event.ClickEvent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.text.format.TextDecoration;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.silverstonemc.silverstoneglobal.SilverstoneGlobal;
-import org.bukkit.*;
+import org.bukkit.Bukkit;
+import org.bukkit.Material;
+import org.bukkit.Sound;
+import org.bukkit.SoundCategory;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -44,7 +49,8 @@ public class BuyGUI implements CommandExecutor, Listener {
 
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
         if (!(sender instanceof Player player)) {
-            sender.sendMessage(Component.text("Sorry, but only players can do that.").color(NamedTextColor.RED));
+            sender.sendMessage(
+                Component.text("Sorry, but only players can do that.").color(NamedTextColor.RED));
             return true;
         }
         // Open GUI
@@ -68,37 +74,45 @@ public class BuyGUI implements CommandExecutor, Listener {
         switch (event.getRawSlot()) {
             case 11 -> {
                 // Member
-                player.sendMessage("");
-                player.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                    "&aPurchase the &bMember &arank at: &bsilverstone.craftingstore.net/category/261250"));
+                player.sendMessage(Component.text("\nPurchase the ").color(NamedTextColor.GREEN)
+                    .append(Component.text("Member ").color(NamedTextColor.AQUA))
+                    .append(Component.text("rank ").color(NamedTextColor.GREEN)).append(
+                        Component.text("here").color(NamedTextColor.AQUA).clickEvent(
+                            ClickEvent.openUrl("https://silverstone.craftingstore.net/category/261250"))));
                 closeInv(player);
             }
             case 12 -> {
                 // VIP
-                player.sendMessage("");
-                player.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                    "&aPurchase the &bVIP &arank at: &bsilverstone.craftingstore.net/category/261250"));
+                player.sendMessage(Component.text("\nPurchase the ").color(NamedTextColor.GREEN)
+                    .append(Component.text("VIP ").color(NamedTextColor.AQUA))
+                    .append(Component.text("rank ").color(NamedTextColor.GREEN)).append(
+                        Component.text("here").color(NamedTextColor.AQUA).clickEvent(
+                            ClickEvent.openUrl("https://silverstone.craftingstore.net/category/261250"))));
                 closeInv(player);
             }
             case 13 -> {
                 // VIP+
-                player.sendMessage("");
-                player.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                    "&aPurchase the &bVIP+ &arank at: &bsilverstone.craftingstore.net/category/261250"));
+                player.sendMessage(Component.text("\nPurchase the ").color(NamedTextColor.GREEN)
+                    .append(Component.text("VIP+ ").color(NamedTextColor.AQUA))
+                    .append(Component.text("rank ").color(NamedTextColor.GREEN)).append(
+                        Component.text("here").color(NamedTextColor.AQUA).clickEvent(
+                            ClickEvent.openUrl("https://silverstone.craftingstore.net/category/261250"))));
                 closeInv(player);
             }
             case 14 -> {
                 // MVP
-                player.sendMessage("");
-                player.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                    "&aPurchase the &bMVP &arank at: &bsilverstone.craftingstore.net/category/261250"));
+                player.sendMessage(Component.text("\nPurchase the ").color(NamedTextColor.GREEN)
+                    .append(Component.text("MVP ").color(NamedTextColor.AQUA))
+                    .append(Component.text("rank ").color(NamedTextColor.GREEN)).append(
+                        Component.text("here").color(NamedTextColor.AQUA).clickEvent(
+                            ClickEvent.openUrl("https://silverstone.craftingstore.net/category/261250"))));
                 closeInv(player);
             }
             case 15 -> {
                 // Donate
-                player.sendMessage("");
-                player.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                    "&aDonate to the server at: &bsilverstone.craftingstore.net/category/261655"));
+                player.sendMessage(Component.text("\nDonate to the server ").color(NamedTextColor.GREEN)
+                    .append(Component.text("here").color(NamedTextColor.AQUA).clickEvent(
+                        ClickEvent.openUrl("https://silverstone.craftingstore.net/category/261655"))));
                 closeInv(player);
             }
         }
@@ -114,55 +128,55 @@ public class BuyGUI implements CommandExecutor, Listener {
         List<Component> lore = new ArrayList<>();
 
         // Fill items
-        meta.displayName(Component.text(ChatColor.BOLD + ""));
+        meta.displayName(Component.text(""));
         item.setItemMeta(meta);
         IntStream.rangeClosed(0, 26).boxed().toList().forEach(slot -> inventory.setItem(slot, item));
 
         // Member
         item.setType(Material.IRON_INGOT);
-        meta.displayName(Component.text(ChatColor.AQUA + "" + ChatColor.BOLD + "Member"));
+        meta.displayName(Component.text("Member").color(NamedTextColor.AQUA).decorate(TextDecoration.BOLD));
         for (String customLore : plugin.getConfig().getStringList("buy-gui.member"))
-            lore.add(Component.text(ChatColor.translateAlternateColorCodes('&', customLore)));
+            lore.add(MiniMessage.miniMessage().deserialize(customLore));
         meta.lore(lore);
         item.setItemMeta(meta);
         inventory.setItem(11, item);
 
         // VIP
         item.setType(Material.EMERALD);
-        meta.displayName(Component.text(ChatColor.AQUA + "" + ChatColor.BOLD + "VIP"));
+        meta.displayName(Component.text("VIP").color(NamedTextColor.AQUA).decorate(TextDecoration.BOLD));
         lore.clear();
         for (String customLore : plugin.getConfig().getStringList("buy-gui.vip"))
-            lore.add(Component.text(ChatColor.translateAlternateColorCodes('&', customLore)));
+            lore.add(MiniMessage.miniMessage().deserialize(customLore));
         meta.lore(lore);
         item.setItemMeta(meta);
         inventory.setItem(12, item);
 
         // VIP+
         item.setType(Material.DIAMOND);
-        meta.displayName(Component.text(ChatColor.AQUA + "" + ChatColor.BOLD + "VIP+"));
+        meta.displayName(Component.text("VIP+").color(NamedTextColor.AQUA).decorate(TextDecoration.BOLD));
         lore.clear();
         for (String customLore : plugin.getConfig().getStringList("buy-gui.vip+"))
-            lore.add(Component.text(ChatColor.translateAlternateColorCodes('&', customLore)));
+            lore.add(MiniMessage.miniMessage().deserialize(customLore));
         meta.lore(lore);
         item.setItemMeta(meta);
         inventory.setItem(13, item);
 
         // MVP
         item.setType(Material.NETHERITE_INGOT);
-        meta.displayName(Component.text(ChatColor.AQUA + "" + ChatColor.BOLD + "MVP"));
+        meta.displayName(Component.text("MVP").color(NamedTextColor.AQUA).decorate(TextDecoration.BOLD));
         lore.clear();
         for (String customLore : plugin.getConfig().getStringList("buy-gui.mvp"))
-            lore.add(Component.text(ChatColor.translateAlternateColorCodes('&', customLore)));
+            lore.add(MiniMessage.miniMessage().deserialize(customLore));
         meta.lore(lore);
         item.setItemMeta(meta);
         inventory.setItem(14, item);
 
         // Donate
         item.setType(Material.WRITABLE_BOOK);
-        meta.displayName(Component.text(ChatColor.AQUA + "" + ChatColor.BOLD + "Donate"));
+        meta.displayName(Component.text("Donate").color(NamedTextColor.AQUA).decorate(TextDecoration.BOLD));
         lore.clear();
         for (String customLore : plugin.getConfig().getStringList("buy-gui.donate"))
-            lore.add(Component.text(ChatColor.translateAlternateColorCodes('&', customLore)));
+            lore.add(MiniMessage.miniMessage().deserialize(customLore));
         meta.lore(lore);
         item.setItemMeta(meta);
         inventory.setItem(15, item);

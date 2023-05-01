@@ -1,7 +1,9 @@
 package net.silverstonemc.silverstoneminigames;
 
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.command.Command;
@@ -22,8 +24,8 @@ public record FlyingCourse(JavaPlugin plugin) implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender sender, Command cmd, @NotNull String label, String[] args) {
         if (cmd.getName().equalsIgnoreCase("zfcfinish")) {
             if (!(sender instanceof Player player)) {
-                sender.sendMessage(Component.text("Sorry, but only players can do that.").color(
-                    NamedTextColor.RED));
+                sender.sendMessage(
+                    Component.text("Sorry, but only players can do that.").color(NamedTextColor.RED));
                 return true;
             }
 
@@ -37,8 +39,8 @@ public record FlyingCourse(JavaPlugin plugin) implements CommandExecutor {
                 for (Player players : Bukkit.getOnlinePlayers())
                     if (players.getWorld().getName()
                         .equalsIgnoreCase(plugin.getConfig().getString("amplified-minigame-world")))
-                        players.sendMessage(Component.text(ChatColor.translateAlternateColorCodes('&',
-                            "&c&lNOTICE &b&l> &a" + player.getName() + " just finished the &aEasy &acourse!")));
+                        player.sendMessage(finishMessage(player, Difficulty.EASY));
+
                 addToTopScores(player, "easy");
                 player.teleportAsync(location);
 
@@ -46,8 +48,8 @@ public record FlyingCourse(JavaPlugin plugin) implements CommandExecutor {
                 for (Player players : Bukkit.getOnlinePlayers())
                     if (players.getWorld().getName()
                         .equalsIgnoreCase(plugin.getConfig().getString("amplified-minigame-world")))
-                        players.sendMessage(Component.text(ChatColor.translateAlternateColorCodes('&',
-                            "&c&lNOTICE &b&l> &a" + player.getName() + " just finished the &6Medium &acourse!")));
+                        player.sendMessage(finishMessage(player, Difficulty.MEDIUM));
+
                 addToTopScores(player, "medium");
                 player.teleportAsync(location);
 
@@ -55,8 +57,8 @@ public record FlyingCourse(JavaPlugin plugin) implements CommandExecutor {
                 for (Player players : Bukkit.getOnlinePlayers())
                     if (players.getWorld().getName()
                         .equalsIgnoreCase(plugin.getConfig().getString("amplified-minigame-world")))
-                        players.sendMessage(Component.text(ChatColor.translateAlternateColorCodes('&',
-                            "&c&lNOTICE &b&l> &a" + player.getName() + " just finished the &cHard &acourse!")));
+                        player.sendMessage(finishMessage(player, Difficulty.HARD));
+
                 addToTopScores(player, "hard");
                 player.teleportAsync(location);
 
@@ -64,12 +66,12 @@ public record FlyingCourse(JavaPlugin plugin) implements CommandExecutor {
                 for (Player players : Bukkit.getOnlinePlayers())
                     if (players.getWorld().getName()
                         .equalsIgnoreCase(plugin.getConfig().getString("amplified-minigame-world")))
-                        players.sendMessage(Component.text(ChatColor.translateAlternateColorCodes('&',
-                            "&c&lNOTICE &b&l> &a" + player.getName() + " just finished the &7Multiplayer &acourse!")));
+                        player.sendMessage(finishMessage(player, Difficulty.MULTIPLAYER));
+
                 player.teleportAsync(location);
 
-            } else player.sendMessage(Component.text(
-                ChatColor.translateAlternateColorCodes('&', "&cYou're not in a finish zone!")));
+            } else
+                player.sendMessage(Component.text("You're not in a finish zone!").color(NamedTextColor.RED));
 
         } else if (cmd.getName().equalsIgnoreCase("flyingcourse")) {
             if (args.length > 0) {
@@ -118,7 +120,8 @@ public record FlyingCourse(JavaPlugin plugin) implements CommandExecutor {
                         }
                     }
                 } catch (IndexOutOfBoundsException e) {
-                    sender.sendMessage(ChatColor.RED + "Please provide a valid selector!");
+                    sender.sendMessage(
+                        Component.text("Please provide a valid selector!").color(NamedTextColor.RED));
                 }
                 return true;
             }
@@ -190,32 +193,29 @@ public record FlyingCourse(JavaPlugin plugin) implements CommandExecutor {
         int score = 11;
 
         int x = 0;
-        fctop.getObjective("FCTop").getScore(ChatColor.translateAlternateColorCodes('&', "&a&lEasy:"))
-            .setScore(score);
+        fctop.getObjective("FCTop").getScore("§a§lEasy:").setScore(score);
         for (OfflinePlayer player : easyScores.keySet()) {
             if (x >= 3) break;
-            fctop.getObjective("FCTop").getScore(ChatColor.translateAlternateColorCodes('&',
-                "&2" + player.getName() + ": &b" + easyScores.get(player))).setScore(--score);
+            fctop.getObjective("FCTop").getScore("§2" + player.getName() + ": §b" + easyScores.get(player))
+                .setScore(--score);
             x++;
         }
 
         x = 0;
-        fctop.getObjective("FCTop").getScore(ChatColor.translateAlternateColorCodes('&', "&e&lMedium:"))
-            .setScore(--score);
+        fctop.getObjective("FCTop").getScore("§e§lMedium:").setScore(--score);
         for (OfflinePlayer player : mediumScores.keySet()) {
             if (x >= 3) break;
-            fctop.getObjective("FCTop").getScore(ChatColor.translateAlternateColorCodes('&',
-                "&6" + player.getName() + ": &b" + mediumScores.get(player))).setScore(--score);
+            fctop.getObjective("FCTop").getScore("§6" + player.getName() + ": §b" + mediumScores.get(player))
+                .setScore(--score);
             x++;
         }
 
         x = 0;
-        fctop.getObjective("FCTop").getScore(ChatColor.translateAlternateColorCodes('&', "&4&lHard:"))
-            .setScore(--score);
+        fctop.getObjective("FCTop").getScore("§4§lHard:").setScore(--score);
         for (OfflinePlayer player : hardScores.keySet()) {
             if (x >= 3) break;
-            fctop.getObjective("FCTop").getScore(ChatColor.translateAlternateColorCodes('&',
-                "&c" + player.getName() + ": &b" + hardScores.get(player))).setScore(--score);
+            fctop.getObjective("FCTop").getScore("§c" + player.getName() + ": §b" + hardScores.get(player))
+                .setScore(--score);
             x++;
         }
     }
@@ -225,5 +225,40 @@ public record FlyingCourse(JavaPlugin plugin) implements CommandExecutor {
         scores.entrySet().stream().sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
             .forEachOrdered(x -> reverseSortedMap.put(x.getKey(), x.getValue()));
         return reverseSortedMap;
+    }
+
+    private enum Difficulty {
+        EASY, MEDIUM, HARD, MULTIPLAYER
+    }
+
+    private TextComponent finishMessage(Player player, Difficulty difficulty) {
+        String difficultyType = null;
+        NamedTextColor namedTextColor = null;
+
+        switch (difficulty) {
+            case EASY -> {
+                difficultyType = "Easy";
+                namedTextColor = NamedTextColor.DARK_GREEN;
+            }
+            case MEDIUM -> {
+                difficultyType = "Medium";
+                namedTextColor = NamedTextColor.GOLD;
+            }
+            case HARD -> {
+                difficultyType = "Hard";
+                namedTextColor = NamedTextColor.RED;
+            }
+            case MULTIPLAYER -> {
+                difficultyType = "Multiplayer";
+                namedTextColor = NamedTextColor.GRAY;
+            }
+        }
+
+        return Component.text()
+            .append(Component.text("NOTICE").color(NamedTextColor.RED).decorate(TextDecoration.BOLD))
+            .append(Component.text(" > ").color(NamedTextColor.AQUA).decorate(TextDecoration.BOLD))
+            .append(Component.text(player.getName() + " just finished the ").color(NamedTextColor.GREEN))
+            .append(Component.text(difficultyType).color(namedTextColor))
+            .append(Component.text(" course!").color(NamedTextColor.GREEN)).build();
     }
 }

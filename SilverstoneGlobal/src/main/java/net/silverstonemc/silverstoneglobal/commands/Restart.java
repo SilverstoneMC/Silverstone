@@ -3,11 +3,11 @@ package net.silverstonemc.silverstoneglobal.commands;
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.event.ClickEvent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 import org.bukkit.SoundCategory;
 import org.bukkit.command.Command;
@@ -51,24 +51,25 @@ public record Restart(JavaPlugin plugin) implements CommandExecutor {
                             }
 
                             for (Player player : Bukkit.getOnlinePlayers())
-                                player.sendActionBar(Component.text(
-                                    ChatColor.translateAlternateColorCodes('&',
-                                        "&6&lSERVER RESTARTING IN: &e&l" + sec[0])));
+                                player.sendActionBar(
+                                    Component.text("SERVER RESTARTING IN: ").color(NamedTextColor.GOLD)
+                                        .decorate(TextDecoration.BOLD)
+                                        .append(Component.text(sec[0]).color(NamedTextColor.YELLOW)));
                             plugin.getLogger().info("Server restarting in: " + sec[0]);
+
+                            TextComponent evacuate = Component.text("Click ").color(NamedTextColor.RED)
+                                .decorate(TextDecoration.BOLD).append(
+                                    Component.text("here").color(NamedTextColor.GRAY)
+                                        .decorate(TextDecoration.UNDERLINED)
+                                        .clickEvent(ClickEvent.runCommand("/server " + finalServer)))
+                                .append(Component.text(" to evacuate!").color(NamedTextColor.RED));
 
                             switch (sec[0]) {
                                 case 10 -> {
                                     for (Player player : Bukkit.getOnlinePlayers()) {
                                         player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_HARP,
                                             SoundCategory.MASTER, 100, 1.2f);
-                                        player.sendMessage(Component.text(
-                                                ChatColor.translateAlternateColorCodes('&', "&c&lClick ")).append(
-                                                Component.text("here").color(NamedTextColor.GRAY)
-                                                    .decorate(TextDecoration.BOLD)
-                                                    .decorate(TextDecoration.UNDERLINED)
-                                                    .clickEvent(ClickEvent.runCommand("/server " + finalServer)))
-                                            .append(Component.text(ChatColor.translateAlternateColorCodes('&',
-                                                " &c&lto evacuate!"))));
+                                        player.sendMessage(evacuate);
                                     }
                                 }
                                 case 9, 8, 7, 6, 5, 4 -> {
@@ -80,14 +81,7 @@ public record Restart(JavaPlugin plugin) implements CommandExecutor {
                                     for (Player player : Bukkit.getOnlinePlayers()) {
                                         player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_HARP,
                                             SoundCategory.MASTER, 100, 1.6f);
-                                        player.sendMessage(Component.text(
-                                                ChatColor.translateAlternateColorCodes('&', "&c&lClick ")).append(
-                                                Component.text("here").color(NamedTextColor.GRAY)
-                                                    .decorate(TextDecoration.BOLD)
-                                                    .decorate(TextDecoration.UNDERLINED)
-                                                    .clickEvent(ClickEvent.runCommand("/server " + finalServer)))
-                                            .append(Component.text(ChatColor.translateAlternateColorCodes('&',
-                                                " &c&lto evacuate!"))));
+                                        player.sendMessage(evacuate);
                                     }
                                 }
                                 case 2, 1 -> {
@@ -110,11 +104,13 @@ public record Restart(JavaPlugin plugin) implements CommandExecutor {
                             sec[0] -= 1;
                         }
                     }.runTaskTimer(plugin, 0, 20);
+
                 } else {
                     restarting = false;
                     for (Player player : Bukkit.getOnlinePlayers())
-                        player.sendActionBar(Component.text(
-                            ChatColor.translateAlternateColorCodes('&', "&a&lSERVER RESTART CANCELLED!")));
+                        player.sendActionBar(
+                            Component.text("SERVER RESTART CANCELLED!").color(NamedTextColor.GREEN)
+                                .decorate(TextDecoration.BOLD));
                     plugin.getLogger().info("Server restart cancelled!");
                 }
             }
@@ -125,8 +121,9 @@ public record Restart(JavaPlugin plugin) implements CommandExecutor {
                 if (Bukkit.getOnlinePlayers().size() > 0) {
                     plugin.getLogger().info("Restarting...");
                     for (Player player : Bukkit.getOnlinePlayers()) {
-                        player.sendActionBar(Component.text(ChatColor.translateAlternateColorCodes('&',
-                            "&b&lSERVER RESTARTING... ATTEMPTING TO TRANSFER PLAYERS")));
+                        player.sendActionBar(
+                            Component.text("SERVER RESTARTING... ATTEMPTING TO TRANSFER PLAYERS")
+                                .color(NamedTextColor.AQUA).decorate(TextDecoration.BOLD));
                         send(player, server);
                     }
 
@@ -141,8 +138,9 @@ public record Restart(JavaPlugin plugin) implements CommandExecutor {
 
             case "restartwhenempty" -> {
                 for (Player player : Bukkit.getOnlinePlayers())
-                    player.sendActionBar(Component.text(ChatColor.translateAlternateColorCodes('&',
-                        "&c&lSERVER SCHEDULED TO RESTART WHEN EMPTY")));
+                    player.sendActionBar(
+                        Component.text("SERVER SCHEDULED TO RESTART WHEN EMPTY").color(NamedTextColor.RED)
+                            .decorate(TextDecoration.BOLD));
                 plugin.getLogger().info("Server scheduled to restart when empty.");
 
                 new BukkitRunnable() {
@@ -155,8 +153,15 @@ public record Restart(JavaPlugin plugin) implements CommandExecutor {
 
             case "schedulerestart" -> {
                 for (Player player : Bukkit.getOnlinePlayers()) {
-                    player.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        "&c&lWARNING &b&l> &aThe server is scheduled to restart in &b5 &aminutes!"));
+                    player.sendMessage(Component.text().append(
+                            Component.text("WARNING").color(NamedTextColor.RED).decorate(TextDecoration.BOLD))
+                        .append(
+                            Component.text(" > ").color(NamedTextColor.AQUA).decorate(TextDecoration.BOLD))
+                        .append(Component.text("The server is scheduled to restart in ")
+                            .color(NamedTextColor.GREEN))
+                        .append(Component.text("5").color(NamedTextColor.AQUA))
+                        .append(Component.text(" minutes!").color(NamedTextColor.GREEN)));
+
                     player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_HARP, SoundCategory.MASTER,
                         100, 1.6f);
                 }
@@ -165,8 +170,16 @@ public record Restart(JavaPlugin plugin) implements CommandExecutor {
                     @Override
                     public void run() {
                         for (Player player : Bukkit.getOnlinePlayers()) {
-                            player.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                                "&c&lWARNING &b&l> &aThe server is scheduled to restart in &b1 &aminute!"));
+                            player.sendMessage(Component.text().append(
+                                    Component.text("WARNING").color(NamedTextColor.RED)
+                                        .decorate(TextDecoration.BOLD)).append(
+                                    Component.text(" > ").color(NamedTextColor.AQUA)
+                                        .decorate(TextDecoration.BOLD)).append(
+                                    Component.text("The server is scheduled to restart in ")
+                                        .color(NamedTextColor.GREEN))
+                                .append(Component.text("1").color(NamedTextColor.AQUA))
+                                .append(Component.text(" minute!").color(NamedTextColor.GREEN)));
+
                             player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_HARP,
                                 SoundCategory.MASTER, 100, 1.6f);
                         }
