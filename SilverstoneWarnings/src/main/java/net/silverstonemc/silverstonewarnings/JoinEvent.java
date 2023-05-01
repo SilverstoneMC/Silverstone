@@ -25,7 +25,8 @@ public class JoinEvent implements Listener {
 
     @EventHandler
     public void onJoin(ServerConnectedEvent event) {
-        System.out.println("ServerConnectedEvent!");
+        if (event.getPlayer().getServer() != null) return;
+
         UUID uuid = event.getPlayer().getUniqueId();
         String username = event.getPlayer().getName();
         boolean userExists = UserManager.playerMap.containsKey(uuid);
@@ -37,13 +38,14 @@ public class JoinEvent implements Listener {
                 SilverstoneWarnings.getAdventure().player(player).sendMessage(
                     Component.text(username).color(NamedTextColor.AQUA)
                         .append(Component.text(" was previously known as ").color(NamedTextColor.GRAY))
-                        .append(Component.text(new UserManager().getUsername(uuid)).color(NamedTextColor.AQUA)));
+                        .append(
+                            Component.text(new UserManager().getUsername(uuid)).color(NamedTextColor.AQUA)));
 
             // Notify the Discord
             //noinspection DataFlowIssue
-            SilverstoneWarnings.jda.getTextChannelById(1075680288841138257L)
-                .sendMessage("**" + username + "** was previously known as **" + new UserManager().getUsername(uuid) + "**")
-                .queue();
+            SilverstoneWarnings.jda.getTextChannelById(1075680288841138257L).sendMessage(
+                "**" + username + "** was previously known as **" + new UserManager().getUsername(
+                    uuid) + "**").queue();
 
             UserManager.playerMap.remove(uuid);
             new UserManager().addUser(uuid, username);
@@ -72,11 +74,11 @@ public class JoinEvent implements Listener {
                         .withEmoji(Emoji.fromUnicode("⚠"))).complete();
                 newPlayers.put(event.getPlayer(), message);
             }, "New Player Discord").start();
-            
+
             new UserManager().addUser(uuid, username);
         }
 
-        if (!ConfigurationManager.queue.contains(uuid.toString())) return;
+        if (!ConfigurationManager.queue.getSection("queue").getKeys().contains(uuid.toString())) return;
 
         Runnable task = () -> {
             if (plugin.getProxy().getPlayer(uuid) != null) {
