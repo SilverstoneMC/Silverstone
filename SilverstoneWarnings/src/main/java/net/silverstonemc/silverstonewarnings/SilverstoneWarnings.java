@@ -7,6 +7,7 @@ import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.utils.MemberCachePolicy;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
+import net.kyori.adventure.platform.bungeecord.BungeeAudiences;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.chat.BaseComponent;
@@ -34,6 +35,7 @@ public class SilverstoneWarnings extends Plugin implements Listener {
     public static Configuration userCache;
     public static JDA jda;
 
+    private static BungeeAudiences adventure;
     private static SilverstoneWarnings plugin;
 
     @Override
@@ -43,6 +45,7 @@ public class SilverstoneWarnings extends Plugin implements Listener {
         data = loadFile("data.yml");
         queue = loadFile("queue.yml");
         userCache = loadFile("usercache.yml");
+        adventure = BungeeAudiences.create(this);
 
         new Thread(() -> {
             getLogger().info("Starting Discord bot...");
@@ -63,7 +66,6 @@ public class SilverstoneWarnings extends Plugin implements Listener {
             getLogger().info("Registering commands...");
             pluginManager.registerCommand(plugin, new ReasonsCommand());
             pluginManager.registerCommand(plugin, new BaseCommand());
-            pluginManager.registerCommand(plugin, new BlankCommand());
             pluginManager.registerCommand(plugin, new RelayCommand());
             pluginManager.registerCommand(plugin, new WarnCommand());
             pluginManager.registerCommand(plugin, new WarningsCommand());
@@ -77,6 +79,11 @@ public class SilverstoneWarnings extends Plugin implements Listener {
 
     @Override
     public void onDisable() {
+        if (adventure != null) {
+            adventure.close();
+            adventure = null;
+        }
+
         plugin.getLogger().info("Shutting down Discord bot...");
         try {
             // Initating the shutdown, this closes the gateway connection and subsequently closes the requester queue
@@ -89,6 +96,12 @@ public class SilverstoneWarnings extends Plugin implements Listener {
             }
         } catch (NoClassDefFoundError | InterruptedException ignored) {
         }
+    }
+
+    public static BungeeAudiences getAdventure() {
+        if (adventure == null)
+            throw new IllegalStateException("Cannot retrieve audience provider while plugin is not enabled");
+        return adventure;
     }
 
     public ProxiedPlayer getOnlinePlayer(UUID uuid) {

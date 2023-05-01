@@ -1,7 +1,8 @@
 package net.silverstonemc.silverstoneminigames;
 
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -48,7 +49,7 @@ public record TNTRun(JavaPlugin plugin) implements CommandExecutor {
 
                 }
             } catch (IndexOutOfBoundsException e) {
-                sender.sendMessage(ChatColor.RED + "Please provide a valid selector!");
+                sender.sendMessage(Component.text("Please provide a valid selector!").color(NamedTextColor.RED));
             }
             return true;
         }

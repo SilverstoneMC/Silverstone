@@ -16,8 +16,8 @@ import java.nio.file.Files;
 
 public class SilverstoneProxy extends Plugin implements Listener {
 
-    private static SilverstoneProxy plugin;
     private static BungeeAudiences adventure;
+    private static SilverstoneProxy plugin;
 
     public static Configuration config;
 

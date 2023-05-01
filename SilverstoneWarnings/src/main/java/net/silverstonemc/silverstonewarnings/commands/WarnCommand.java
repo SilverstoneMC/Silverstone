@@ -60,7 +60,7 @@ public class WarnCommand extends Command implements TabExecutor {
                     return;
                 }
 
-                new ReasonsCommand().sendReasonList(true, sender, username);
+                new ReasonsCommand().sendReasonList(true, SilverstoneWarnings.getAdventure().sender(sender), username);
             }
 
             case 2 -> {
