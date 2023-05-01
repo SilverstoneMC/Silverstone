@@ -6,7 +6,6 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.silverstonemc.silverstonemain.commands.GettingStarted;
 import net.silverstonemc.silverstonemain.commands.JHome;
-import net.silverstonemc.silverstonemain.events.JoinEvent;
 import net.silverstonemc.silverstonemain.events.JoinLeaveSpam;
 import net.silverstonemc.silverstonemain.events.WirelessButtons;
 import org.bukkit.command.Command;
@@ -41,7 +40,6 @@ public class SilverstoneMain extends JavaPlugin implements Listener {
         getCommand("ssm").setTabCompleter(new TabComplete());
 
         PluginManager pluginManager = this.getServer().getPluginManager();
-        pluginManager.registerEvents(new JoinEvent(), this);
         pluginManager.registerEvents(new JoinLeaveSpam(this), this);
         pluginManager.registerEvents(new TabComplete(), this);
         pluginManager.registerEvents(new WirelessButtons(), this);

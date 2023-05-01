@@ -31,6 +31,22 @@ public class JoinEvent implements Listener {
         String username = event.getPlayer().getName();
         boolean userExists = UserManager.playerMap.containsKey(uuid);
 
+        // Silent join message
+        if (event.getPlayer().hasPermission("silverstone.vanished")) {
+            int nonStaff = 0;
+            for (ProxiedPlayer players : plugin.getProxy().getPlayers())
+                if (!players.hasPermission("silverstone.moderator")) nonStaff++;
+            if (nonStaff == 0) return;
+
+            EmbedBuilder embed = new EmbedBuilder();
+            embed.setAuthor(username + " silently joined the server", null,
+                "https://crafatar.com/avatars/" + uuid + "?overlay=true");
+            embed.setColor(new Color(0x2b2d31));
+            //noinspection DataFlowIssue
+            SilverstoneWarnings.jda.getTextChannelById(1075643381734195210L).sendMessageEmbeds(embed.build())
+                .queue();
+        }
+
         // Update the username if it has changed
         if (userExists && !UserManager.playerMap.get(uuid).equals(username)) {
             // Notify everyone online if not vanished
