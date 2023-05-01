@@ -34,6 +34,14 @@ public class BaseCommand extends Command implements TabExecutor {
                 ConfigurationManager.queue = new ConfigurationManager().loadFile("queue.yml");
                 ConfigurationManager.userCache = new ConfigurationManager().loadFile("usercache.yml");
 
+                // Refresh user cache
+                UserManager.playerMap.clear();
+                for (String key : ConfigurationManager.userCache.getSection("users").getKeys()) {
+                    UUID uuid = UUID.fromString(key);
+                    String username = ConfigurationManager.userCache.getString("users." + key);
+                    UserManager.playerMap.put(uuid, username);
+                }
+
                 sender.sendMessage(
                     TextComponent.fromLegacyText(ChatColor.GREEN + "SilverstoneWarnings reloaded!"));
             } else sender.sendMessage(
