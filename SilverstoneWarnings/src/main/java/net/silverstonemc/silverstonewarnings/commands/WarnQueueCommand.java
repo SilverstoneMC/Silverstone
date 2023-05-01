@@ -4,7 +4,8 @@ import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.plugin.Command;
-import net.silverstonemc.silverstonewarnings.SilverstoneWarnings;
+import net.silverstonemc.silverstonewarnings.ConfigurationManager;
+import net.silverstonemc.silverstonewarnings.UserManager;
 
 import java.util.UUID;
 
@@ -16,10 +17,10 @@ public class WarnQueueCommand extends Command {
     public void execute(CommandSender sender, String[] args) {
         sender.sendMessage(TextComponent.fromLegacyText(
             ChatColor.translateAlternateColorCodes('&', "&c&lQueued warnings:")));
-        for (String uuid : SilverstoneWarnings.queue.getSection("queue").getKeys())
+
+        for (String uuid : ConfigurationManager.queue.getSection("queue").getKeys())
             sender.sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&',
-                "&7" + SilverstoneWarnings.getPlugin()
-                    .getPlayerName(UUID.fromString(uuid)) + " - " + SilverstoneWarnings.queue.getString(
-                    "queue." + uuid))));
+                "&7" + new UserManager().getUsername(
+                    UUID.fromString(uuid)) + " - " + ConfigurationManager.queue.getString("queue." + uuid))));
     }
 }

@@ -1,10 +1,14 @@
 package net.silverstonemc.silverstonewarnings.commands;
 
-import net.md_5.bungee.api.ChatColor;
+import net.kyori.adventure.platform.bungeecord.BungeeAudiences;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextDecoration;
 import net.md_5.bungee.api.CommandSender;
-import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.plugin.Command;
+import net.silverstonemc.silverstonewarnings.ConfigurationManager;
 import net.silverstonemc.silverstonewarnings.SilverstoneWarnings;
+import net.silverstonemc.silverstonewarnings.UserManager;
 
 import java.util.UUID;
 
@@ -13,15 +17,16 @@ public class WarnListCommand extends Command {
         super("warnlist", "silverstone.moderator");
     }
 
-    public void execute(CommandSender sender, String[] args) {
-        sender.sendMessage(
-            TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&', "&c&lAll warnings:")));
+    private final BungeeAudiences adventure = SilverstoneWarnings.getAdventure();
 
-        for (String uuid : SilverstoneWarnings.data.getSection("data").getKeys())
-            for (String warning : SilverstoneWarnings.data.getSection("data." + uuid).getKeys())
-                sender.sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&',
-                    "&7" + SilverstoneWarnings.getPlugin().getPlayerName(
-                        UUID.fromString(uuid)) + " - " + warning + " - " + SilverstoneWarnings.data.getInt(
-                        "data." + uuid + "." + warning))));
+    public void execute(CommandSender sender, String[] args) {
+        adventure.sender(sender).sendMessage(
+            Component.text("All warnings:").color(NamedTextColor.RED).decorate(TextDecoration.BOLD));
+
+        for (String uuid : ConfigurationManager.data.getSection("data").getKeys())
+            for (String warning : ConfigurationManager.data.getSection("data." + uuid).getKeys())
+                adventure.sender(sender).sendMessage(Component.text(new UserManager().getUsername(
+                    UUID.fromString(uuid)) + " - " + warning + " - " + ConfigurationManager.data.getInt(
+                    "data." + uuid + "." + warning)).color(NamedTextColor.GRAY));
     }
 }

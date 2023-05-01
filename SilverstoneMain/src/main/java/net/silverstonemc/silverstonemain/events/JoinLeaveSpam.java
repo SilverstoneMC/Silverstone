@@ -28,6 +28,7 @@ public class JoinLeaveSpam implements Listener {
         }.runTaskLater(plugin, plugin.getConfig().getInt("join-leave-spam.expire-after") * 20L);
     }
 
+    //todo migrate to proxy
     @EventHandler
     public void onLeave(PlayerQuitEvent event) {
         Player player = event.getPlayer();

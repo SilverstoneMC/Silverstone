@@ -1,10 +1,8 @@
 package net.silverstonemc.silverstonemain.events;
 
-import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.interaction.ButtonClickEvent;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
-import net.dv8tion.jda.api.interactions.components.ActionRow;
 import net.dv8tion.jda.api.interactions.components.Button;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -22,25 +20,6 @@ public class DiscordEvents extends ListenerAdapter {
     @SuppressWarnings("DataFlowIssue")
     public void onButtonClick(ButtonClickEvent event) {
         String componentId = event.getComponentId();
-
-        //todo migrate to proxy
-        if (componentId.startsWith("warnskin")) {
-            Message message = event.getMessage();
-            String player = message.getEmbeds().get(0).getAuthor().getName();
-            player = player.substring(0, player.indexOf(' '));
-            String finalPlayer = player;
-            
-            new BukkitRunnable() {
-                @Override
-                public void run() {
-                    Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "hopecommander warn " + finalPlayer + " skin");
-                }
-            }.runTask(plugin);
-
-            event.deferEdit().queue();
-            Button button = event.getButton().asDisabled();
-            message.editMessageComponents(ActionRow.of(button)).queue();
-        }
 
         if (componentId.equals("vanish")) if (event.getMember().getIdLong() == 277291758503723010L)
             event.reply("**Select a status:**")

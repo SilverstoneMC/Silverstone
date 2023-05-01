@@ -13,10 +13,27 @@ import java.util.UUID;
 public class DiscordEvents extends ListenerAdapter {
     private final SilverstoneWarnings plugin = SilverstoneWarnings.getPlugin();
 
+    @SuppressWarnings("DataFlowIssue")
     @Override
     public void onButtonInteraction(ButtonInteractionEvent event) {
+        // Warn new players with inappropriate skins
+        if (event.getComponentId().startsWith("warnskin")) {
+            Message message = event.getMessage();
+            String player = message.getEmbeds().get(0).getAuthor().getName();
+            player = player.substring(0, player.indexOf(' '));
+            String finalPlayer = player;
+            
+            plugin.getProxy().getPluginManager()
+                .dispatchCommand(plugin.getProxy().getConsole(), "warn " + finalPlayer + " skin");
+
+            event.deferEdit().queue();
+            Button button = event.getButton().asDisabled();
+            message.editMessageComponents(ActionRow.of(button)).queue();
+            return;
+        }
+
         UUID uuid = UUID.fromString(event.getComponentId().replaceAll(".*:", ""));
-        String username = plugin.getPlayerName(uuid);
+        String username = new UserManager().getUsername(uuid);
         String warning = event.getComponentId().replaceFirst(".*: ", "").replaceAll(" :.*", "");
 
         String type = event.getComponentId().replaceFirst(":.*", "");

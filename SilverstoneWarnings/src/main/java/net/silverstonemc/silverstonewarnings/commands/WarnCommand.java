@@ -6,8 +6,7 @@ import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Command;
 import net.md_5.bungee.api.plugin.TabExecutor;
-import net.silverstonemc.silverstonewarnings.SilverstoneWarnings;
-import net.silverstonemc.silverstonewarnings.WarnPlayer;
+import net.silverstonemc.silverstonewarnings.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,11 +33,11 @@ public class WarnCommand extends Command implements TabExecutor {
                     return;
                 }
 
-                UUID uuid = plugin.getPlayerUUID(args[0]);
-                String username = plugin.getPlayerName(uuid);
+                UUID uuid = new UserManager().getUUID(args[0]);
+                String username = new UserManager().getUsername(uuid);
 
                 if (uuid == null) {
-                    plugin.nonexistentPlayerMessage(args[0], sender);
+                    new Utils().nonexistentPlayerMessage(args[0], sender);
                     return;
                 }
 
@@ -52,11 +51,11 @@ public class WarnCommand extends Command implements TabExecutor {
                 sender.sendMessage(TextComponent.fromLegacyText(ChatColor.RED + "/warn <player> <reason>"));
 
             case 1 -> {
-                UUID uuid = plugin.getPlayerUUID(args[0]);
-                String username = plugin.getPlayerName(uuid);
+                UUID uuid = new UserManager().getUUID(args[0]);
+                String username = new UserManager().getUsername(uuid);
 
                 if (uuid == null) {
-                    plugin.nonexistentPlayerMessage(args[0], sender);
+                    new Utils().nonexistentPlayerMessage(args[0], sender);
                     return;
                 }
 
@@ -70,11 +69,11 @@ public class WarnCommand extends Command implements TabExecutor {
                     return;
                 }
 
-                UUID uuid = plugin.getPlayerUUID(args[0]);
-                String username = plugin.getPlayerName(uuid);
+                UUID uuid = new UserManager().getUUID(args[0]);
+                String username = new UserManager().getUsername(uuid);
 
                 if (uuid == null) {
-                    plugin.nonexistentPlayerMessage(args[0], sender);
+                    new Utils().nonexistentPlayerMessage(args[0], sender);
                     return;
                 }
 
@@ -89,7 +88,7 @@ public class WarnCommand extends Command implements TabExecutor {
 
     private boolean checkIfValidReason(String reason) {
         ArrayList<String> reasonList = new ArrayList<>(
-            SilverstoneWarnings.config.getSection("reasons").getKeys());
+            ConfigurationManager.config.getSection("reasons").getKeys());
         return !reasonList.contains(reason);
     }
 
@@ -99,7 +98,7 @@ public class WarnCommand extends Command implements TabExecutor {
         for (ProxiedPlayer player : plugin.getProxy().getPlayers())
             arguments.add(player.getName());
 
-        List<String> arguments2 = new ArrayList<>(SilverstoneWarnings.config.getSection("reasons").getKeys());
+        List<String> arguments2 = new ArrayList<>(ConfigurationManager.config.getSection("reasons").getKeys());
 
         List<String> result = new ArrayList<>();
         switch (args.length) {

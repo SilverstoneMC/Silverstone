@@ -9,6 +9,7 @@ import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.plugin.Command;
+import net.silverstonemc.silverstonewarnings.ConfigurationManager;
 import net.silverstonemc.silverstonewarnings.SilverstoneWarnings;
 
 import javax.annotation.Nullable;
@@ -37,14 +38,15 @@ public class ReasonsCommand extends Command {
         message.append(Component.text(header).color(NamedTextColor.RED).decorate(TextDecoration.BOLD));
 
         ArrayList<String> reasonList = new ArrayList<>(
-            SilverstoneWarnings.config.getSection("reasons").getKeys());
+            ConfigurationManager.config.getSection("reasons").getKeys());
         reasonList.sort(String.CASE_INSENSITIVE_ORDER);
 
         // Courtesy of ChatGPT ^_^
         // Loop through the reasonList in increments of 3
         for (int i = 0; i < reasonList.size(); i += 3) {
             // Get the current reasons to display on this line, up to 3 reasons
-            List<String> currentReasons = new ArrayList<>(reasonList.subList(i, Math.min(i + 3, reasonList.size())));
+            List<String> currentReasons = new ArrayList<>(
+                reasonList.subList(i, Math.min(i + 3, reasonList.size())));
 
             // Append a new line to the message
             message.append(Component.text("\n"));
@@ -76,7 +78,7 @@ public class ReasonsCommand extends Command {
         return HoverEvent.hoverEvent(HoverEvent.Action.SHOW_TEXT, Component.text()
             .append(Component.text(reason + ":").color(NamedTextColor.RED).decorate(TextDecoration.BOLD))
             .append(Component.text(
-                    "\n" + SilverstoneWarnings.config.getString("reasons." + reason + ".description"))
+                    "\n" + ConfigurationManager.config.getString("reasons." + reason + ".description"))
                 .color(NamedTextColor.GRAY)).append(footer).build());
     }
 }

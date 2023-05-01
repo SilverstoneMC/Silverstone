@@ -8,8 +8,7 @@ import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Command;
 import net.md_5.bungee.api.plugin.TabExecutor;
-import net.silverstonemc.silverstonewarnings.SilverstoneWarnings;
-import net.silverstonemc.silverstonewarnings.UndoWarning;
+import net.silverstonemc.silverstonewarnings.*;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -23,17 +22,17 @@ public class BaseCommand extends Command implements TabExecutor {
     }
 
     private final SilverstoneWarnings plugin = SilverstoneWarnings.getPlugin();
-    
+
     public void execute(CommandSender sender, String[] args) {
         TextChannel warningChannel = SilverstoneWarnings.jda.getTextChannelById(1075643034634563695L);
 
         // Reload
         if (args.length > 0)
             if (args[0].equalsIgnoreCase("reload")) if (sender.hasPermission("silverstone.admin")) {
-                SilverstoneWarnings.config = plugin.loadFile("config.yml");
-                SilverstoneWarnings.data = plugin.loadFile("data.yml");
-                SilverstoneWarnings.queue = plugin.loadFile("queue.yml");
-                SilverstoneWarnings.userCache = plugin.loadFile("usercache.yml");
+                ConfigurationManager.config = new ConfigurationManager().loadFile("config.yml");
+                ConfigurationManager.data = new ConfigurationManager().loadFile("data.yml");
+                ConfigurationManager.queue = new ConfigurationManager().loadFile("queue.yml");
+                ConfigurationManager.userCache = new ConfigurationManager().loadFile("usercache.yml");
 
                 sender.sendMessage(
                     TextComponent.fromLegacyText(ChatColor.GREEN + "SilverstoneWarnings reloaded!"));
@@ -48,16 +47,16 @@ public class BaseCommand extends Command implements TabExecutor {
                     return;
                 }
 
-                UUID uuid = plugin.getPlayerUUID(args[2]);
-                String username = plugin.getPlayerName(uuid);
-                ProxiedPlayer player = plugin.getOnlinePlayer(uuid);
+                UUID uuid = new UserManager().getUUID(args[2]);
+                String username = new UserManager().getUsername(uuid);
+                ProxiedPlayer player = plugin.getProxy().getPlayer(uuid);
 
                 if (uuid == null) {
-                    plugin.nonexistentPlayerMessage(args[2], sender);
+                    new Utils().nonexistentPlayerMessage(args[2], sender);
                     return;
                 }
 
-                int count = SilverstoneWarnings.data.getInt("data." + uuid + "." + args[1]);
+                int count = ConfigurationManager.data.getInt("data." + uuid + "." + args[1]);
 
                 // Already has 0 warnings
                 if ((count - 1) < 0) sender.sendMessage(TextComponent.fromLegacyText(
@@ -66,13 +65,13 @@ public class BaseCommand extends Command implements TabExecutor {
                 else {
                     new UndoWarning().undoWarning(uuid, args[1], count);
 
-                    if ((count - 1) == 0) SilverstoneWarnings.data.set("data." + uuid + "." + args[1], null);
-                    else SilverstoneWarnings.data.set("data." + uuid + "." + args[1], count - 1);
-                    plugin.saveData();
+                    if ((count - 1) == 0) ConfigurationManager.data.set("data." + uuid + "." + args[1], null);
+                    else ConfigurationManager.data.set("data." + uuid + "." + args[1], count - 1);
+                    new ConfigurationManager().saveData();
 
-                    if (SilverstoneWarnings.data.getSection("data." + uuid).getKeys().isEmpty()) {
-                        SilverstoneWarnings.data.set("data." + uuid, null);
-                        plugin.saveData();
+                    if (ConfigurationManager.data.getSection("data." + uuid).getKeys().isEmpty()) {
+                        ConfigurationManager.data.set("data." + uuid, null);
+                        new ConfigurationManager().saveData();
                     }
 
                     plugin.getLogger().info(ChatColor.translateAlternateColorCodes('&',
@@ -112,12 +111,12 @@ public class BaseCommand extends Command implements TabExecutor {
                     return;
                 }
 
-                UUID uuid = plugin.getPlayerUUID(args[2]);
-                String username = plugin.getPlayerName(uuid);
-                ProxiedPlayer player = plugin.getOnlinePlayer(uuid);
+                UUID uuid = new UserManager().getUUID(args[2]);
+                String username = new UserManager().getUsername(uuid);
+                ProxiedPlayer player = plugin.getProxy().getPlayer(uuid);
 
                 if (uuid == null) {
-                    plugin.nonexistentPlayerMessage(args[2], sender);
+                    new Utils().nonexistentPlayerMessage(args[2], sender);
                     return;
                 }
 
@@ -125,8 +124,8 @@ public class BaseCommand extends Command implements TabExecutor {
                 if (args[1].equalsIgnoreCase("all")) {
                     new UndoWarning().undoWarning(uuid, args[1], null);
 
-                    SilverstoneWarnings.data.set("data." + uuid, null);
-                    plugin.saveData();
+                    ConfigurationManager.data.set("data." + uuid, null);
+                    new ConfigurationManager().saveData();
 
                     plugin.getLogger().info(ChatColor.translateAlternateColorCodes('&',
                         "&7" + sender.getName() + " &ccleared all of &7" + username + "'s &cwarnings"));
@@ -158,8 +157,8 @@ public class BaseCommand extends Command implements TabExecutor {
                 } else {
                     new UndoWarning().undoWarning(uuid, args[1], null);
 
-                    SilverstoneWarnings.data.set("data." + uuid + "." + args[1], null);
-                    plugin.saveData();
+                    ConfigurationManager.data.set("data." + uuid + "." + args[1], null);
+                    new ConfigurationManager().saveData();
 
                     plugin.getLogger().info(ChatColor.translateAlternateColorCodes('&',
                         "&7" + sender.getName() + " &ccleared all &7" + args[1] + " &cwarnings from &7" + username));
@@ -204,10 +203,10 @@ public class BaseCommand extends Command implements TabExecutor {
 
         List<String> arguments2 = new ArrayList<>();
         if (args[0].equalsIgnoreCase("remove"))
-            arguments2.addAll(SilverstoneWarnings.config.getSection("reasons").getKeys());
+            arguments2.addAll(ConfigurationManager.config.getSection("reasons").getKeys());
         else if (args[0].equalsIgnoreCase("clear")) {
             arguments2.add("all");
-            arguments2.addAll(SilverstoneWarnings.config.getSection("reasons").getKeys());
+            arguments2.addAll(ConfigurationManager.config.getSection("reasons").getKeys());
         }
 
         List<String> arguments3 = new ArrayList<>();

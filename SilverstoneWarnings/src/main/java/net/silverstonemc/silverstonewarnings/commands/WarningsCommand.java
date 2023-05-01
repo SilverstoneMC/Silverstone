@@ -6,7 +6,7 @@ import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Command;
 import net.md_5.bungee.api.plugin.TabExecutor;
-import net.silverstonemc.silverstonewarnings.SilverstoneWarnings;
+import net.silverstonemc.silverstonewarnings.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,18 +34,18 @@ public class WarningsCommand extends Command implements TabExecutor {
             // If player specified and sender does have permission
         else arg0 = args[0];
 
-        UUID uuid = plugin.getPlayerUUID(arg0);
-        String username = plugin.getPlayerName(uuid);
+        UUID uuid = new UserManager().getUUID(arg0);
+        String username = new UserManager().getUsername(uuid);
 
         if (uuid == null) {
-            plugin.nonexistentPlayerMessage(arg0, sender);
+            new Utils().nonexistentPlayerMessage(arg0, sender);
             return;
         }
 
         // If not in queue
-        if (!SilverstoneWarnings.queue.contains("queue." + uuid))
+        if (!ConfigurationManager.queue.contains("queue." + uuid))
             // And has no warnings
-            if (!SilverstoneWarnings.data.contains("data." + uuid)) {
+            if (!ConfigurationManager.data.contains("data." + uuid)) {
                 sender.sendMessage(TextComponent.fromLegacyText(
                     ChatColor.translateAlternateColorCodes('&', "&b" + username + " &ahas no warnings!")));
                 return;
@@ -55,16 +55,16 @@ public class WarningsCommand extends Command implements TabExecutor {
             ChatColor.translateAlternateColorCodes('&', "&c&l" + username + "'s warnings:")));
 
         // If any warnings already exist
-        if (SilverstoneWarnings.data.contains("data." + uuid))
-            for (String reasonList : SilverstoneWarnings.data.getSection("data." + uuid).getKeys())
+        if (ConfigurationManager.data.contains("data." + uuid))
+            for (String reasonList : ConfigurationManager.data.getSection("data." + uuid).getKeys())
                 sender.sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&',
-                    "&7" + reasonList + " - " + SilverstoneWarnings.data.getInt(
+                    "&7" + reasonList + " - " + ConfigurationManager.data.getInt(
                         "data." + uuid + "." + reasonList))));
 
         // If in queue
-        if (SilverstoneWarnings.queue.contains("queue." + uuid)) sender.sendMessage(
+        if (ConfigurationManager.queue.contains("queue." + uuid)) sender.sendMessage(
             TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&',
-                "&7" + SilverstoneWarnings.queue.getString("queue." + uuid) + " (Queued)")));
+                "&7" + ConfigurationManager.queue.getString("queue." + uuid) + " (Queued)")));
     }
 
     @Override

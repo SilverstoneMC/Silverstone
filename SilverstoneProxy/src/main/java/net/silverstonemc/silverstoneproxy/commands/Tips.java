@@ -10,7 +10,7 @@ public class Tips extends Command {
         super("tips");
     }
 
-    //todo add tips
+    //todo add tips instead of link
     public void execute(CommandSender sender, String[] args) {
         sender.sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&',
             "&7See &cgithub.com/SilverstoneMC/Silverstone/wiki/Tips &7to see all tips.")));

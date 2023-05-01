@@ -19,13 +19,13 @@ public class WarnPlayer {
     public void warn(UUID uuid, String reason) {
         TextChannel warningChannel = SilverstoneWarnings.jda.getTextChannelById(1075643034634563695L);
 
-        String username = plugin.getPlayerName(uuid);
-        ProxiedPlayer player = plugin.getOnlinePlayer(uuid);
+        String username = new UserManager().getUsername(uuid);
+        ProxiedPlayer player = plugin.getProxy().getPlayer(uuid);
 
         // If player is not online, queue the warning
         if (player == null) {
-            SilverstoneWarnings.queue.set("queue." + uuid, reason);
-            plugin.saveQueue();
+            ConfigurationManager.queue.set("queue." + uuid, reason);
+            new ConfigurationManager().saveQueue();
 
             // Message staff
             for (ProxiedPlayer online : plugin.getProxy().getPlayers())
@@ -44,19 +44,19 @@ public class WarnPlayer {
         }
 
         // If player doesn't have the reason in their data, add it
-        if (!SilverstoneWarnings.data.contains("data." + uuid + "." + reason))
-            SilverstoneWarnings.data.set("data." + uuid + "." + reason, 1);
+        if (!ConfigurationManager.data.contains("data." + uuid + "." + reason))
+            ConfigurationManager.data.set("data." + uuid + "." + reason, 1);
         else { // If they already had the reason, add 1 to it
-            int count = SilverstoneWarnings.data.getInt("data." + uuid + "." + reason);
-            SilverstoneWarnings.data.set("data." + uuid + "." + reason, count + 1);
+            int count = ConfigurationManager.data.getInt("data." + uuid + "." + reason);
+            ConfigurationManager.data.set("data." + uuid + "." + reason, count + 1);
         }
-        plugin.saveData();
+        new ConfigurationManager().saveData();
 
         // Grab the number of times the player has been warned
-        int warningCount = SilverstoneWarnings.data.getInt("data." + uuid + "." + reason);
+        int warningCount = ConfigurationManager.data.getInt("data." + uuid + "." + reason);
 
         // Grab the amount of punishments in the config
-        int punishmentCount = SilverstoneWarnings.config.getSection("reasons." + reason + ".add").getKeys()
+        int punishmentCount = ConfigurationManager.config.getSection("reasons." + reason + ".add").getKeys()
             .toArray().length;
 
         // Get the correct warning number
@@ -80,7 +80,7 @@ public class WarnPlayer {
 
         // Warn the player
         ArrayList<String> cmdList = new ArrayList<>(
-            SilverstoneWarnings.config.getStringList("reasons." + reason + ".add." + punishmentNumber));
+            ConfigurationManager.config.getStringList("reasons." + reason + ".add." + punishmentNumber));
         for (String s : cmdList)
             plugin.getProxy().getPluginManager()
                 .dispatchCommand(plugin.getProxy().getConsole(), s.replace("{player}", username));

@@ -8,11 +8,11 @@ public class UndoWarning {
     private final SilverstoneWarnings plugin = SilverstoneWarnings.getPlugin();
 
     public void undoWarning(UUID uuid, String reason, @Nullable Integer currentWarningCount) {
-        String username = plugin.getPlayerName(uuid);
+        String username = new UserManager().getUsername(uuid);
 
         if (currentWarningCount != null) {
             // Grab the amount of un-punishments in the config
-            int unpunishmentCount = SilverstoneWarnings.config.getSection("reasons." + reason + ".remove")
+            int unpunishmentCount = ConfigurationManager.config.getSection("reasons." + reason + ".remove")
                 .getKeys().toArray().length;
 
             // Get the correct warning number
@@ -20,7 +20,7 @@ public class UndoWarning {
             if (unpunishmentNumber == 0) unpunishmentNumber = unpunishmentCount;
 
             // Un-warn the player
-            ArrayList<String> cmdList = new ArrayList<>(SilverstoneWarnings.config.getStringList(
+            ArrayList<String> cmdList = new ArrayList<>(ConfigurationManager.config.getStringList(
                 "reasons." + reason + ".remove." + unpunishmentNumber));
             for (String s : cmdList)
                 plugin.getProxy().getPluginManager()
@@ -36,10 +36,10 @@ public class UndoWarning {
             // Run each command in each number
             Thread thread = new Thread(() -> {
                 try {
-                    for (String configReasons : SilverstoneWarnings.config.getSection("reasons").getKeys()) {
-                        for (String configReasonNumbers : SilverstoneWarnings.config.getSection(
+                    for (String configReasons : ConfigurationManager.config.getSection("reasons").getKeys()) {
+                        for (String configReasonNumbers : ConfigurationManager.config.getSection(
                             "reasons." + configReasons + ".remove").getKeys()) {
-                            for (String configReasonCommands : SilverstoneWarnings.config.getStringList(
+                            for (String configReasonCommands : ConfigurationManager.config.getStringList(
                                 "reasons." + configReasons + ".remove." + configReasonNumbers))
                                 plugin.getProxy().getPluginManager()
                                     .dispatchCommand(plugin.getProxy().getConsole(),
@@ -66,9 +66,9 @@ public class UndoWarning {
             // Run each command in each number
             Thread thread = new Thread(() -> {
                 try {
-                    for (String configReasonNumbers : SilverstoneWarnings.config.getSection(
+                    for (String configReasonNumbers : ConfigurationManager.config.getSection(
                         "reasons." + reason + ".remove").getKeys()) {
-                        for (String configReasonCommands : SilverstoneWarnings.config.getStringList(
+                        for (String configReasonCommands : ConfigurationManager.config.getStringList(
                             "reasons." + reason + ".remove." + configReasonNumbers))
                             plugin.getProxy().getPluginManager()
                                 .dispatchCommand(plugin.getProxy().getConsole(),
