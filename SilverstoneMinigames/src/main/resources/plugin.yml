@@ -22,8 +22,6 @@ commands:
   htp:
     aliases: [ howtoplay, help ]
     description: "GUI for how to play the minigames"
-  kitpvp:
-    permission: silverstone.minigames.kitpvp
   minigame:
     aliases: [ game, whatminigameshouldiplay ]
     description: "Choose a random minigame!"
@@ -59,8 +57,6 @@ permissions:
     default: false
   silverstone.minigames.hideseek.taunt:
     default: op
-  silverstone.minigames.kitpvp:
-    default: false
   silverstone.minigames.pvp:
     default: false
     description: Will heal players with this perm on kill

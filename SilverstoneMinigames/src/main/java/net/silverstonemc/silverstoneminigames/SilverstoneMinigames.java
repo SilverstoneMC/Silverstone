@@ -29,7 +29,6 @@ public class SilverstoneMinigames extends JavaPlugin implements CommandExecutor 
         getCommand("hsrandomtaunt").setExecutor(new HideSeek(this));
         getCommand("hsresettauntpoints").setExecutor(new HideSeek(this));
         getCommand("htp").setExecutor(new Minigames(this));
-        getCommand("kitpvp").setExecutor(new KitPvPGUI(this));
         getCommand("minigame").setExecutor(new Minigames(this));
         getCommand("sendtoflyingcourse").setExecutor(new FlyingCourse(this));
         getCommand("taunt").setExecutor(new HideSeek(this));
@@ -41,7 +40,6 @@ public class SilverstoneMinigames extends JavaPlugin implements CommandExecutor 
         pluginManager.registerEvents(new Back(), this);
         pluginManager.registerEvents(new DoubleJump(this), this);
         pluginManager.registerEvents(new HideSeek(this), this);
-        pluginManager.registerEvents(new KitPvPGUI(this), this);
         pluginManager.registerEvents(new LockInv(), this);
         pluginManager.registerEvents(new Minigames(this), this);
         pluginManager.registerEvents(new PvP(), this);
@@ -50,7 +48,6 @@ public class SilverstoneMinigames extends JavaPlugin implements CommandExecutor 
         Minigames.createGameInv();
         Minigames.createHtpInv();
         HideSeek.createInv();
-        KitPvPGUI.createInv();
 
         new FlyingCourse(this).updateFCScoreboard();
     }
