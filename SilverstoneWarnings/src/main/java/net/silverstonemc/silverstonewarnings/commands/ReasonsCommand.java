@@ -1,16 +1,19 @@
 package net.silverstonemc.silverstonewarnings.commands;
 
-import net.md_5.bungee.api.ChatColor;
+import net.kyori.adventure.audience.Audience;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.TextComponent.Builder;
+import net.kyori.adventure.text.event.ClickEvent;
+import net.kyori.adventure.text.event.HoverEvent;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextDecoration;
 import net.md_5.bungee.api.CommandSender;
-import net.md_5.bungee.api.chat.ClickEvent;
-import net.md_5.bungee.api.chat.ComponentBuilder;
-import net.md_5.bungee.api.chat.HoverEvent;
-import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.plugin.Command;
 import net.silverstonemc.silverstonewarnings.SilverstoneWarnings;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
+import java.util.List;
 
 public class ReasonsCommand extends Command {
     public ReasonsCommand() {
@@ -18,98 +21,62 @@ public class ReasonsCommand extends Command {
     }
 
     public void execute(CommandSender sender, String[] args) {
-        sendReasonList(false, sender, null);
+        sendReasonList(false, SilverstoneWarnings.getAdventure().sender(sender), null);
     }
 
-    //todo update deprecated methods
-    public void sendReasonList(boolean isWarning, CommandSender sender, @Nullable String username) {
+    public void sendReasonList(boolean isWarning, Audience sender, @Nullable String username) {
         String header = "Available warning reasons:";
         if (isWarning) header = "Warn " + username + ":";
 
-        String footer = "";
-        if (isWarning) footer = "\n\n&r&7&oClick to warn " + username;
+        Builder footer = Component.text();
+        if (isWarning) footer.append(
+            Component.text("\n\nClick to warn " + username).color(NamedTextColor.GRAY)
+                .decorate(TextDecoration.ITALIC));
 
-        ComponentBuilder message = new ComponentBuilder(header).color(ChatColor.RED).bold(true);
+        Builder message = Component.text();
+        message.append(Component.text(header).color(NamedTextColor.RED).decorate(TextDecoration.BOLD));
 
         ArrayList<String> reasonList = new ArrayList<>(
             SilverstoneWarnings.config.getSection("reasons").getKeys());
         reasonList.sort(String.CASE_INSENSITIVE_ORDER);
-        for (int x = 0; x < reasonList.size(); x = x + 3) {
-            message.append("\n");
 
-            try {
-                String reason1 = reasonList.get(x);
-                String reason2 = reasonList.get(x + 1);
-                String reason3 = reasonList.get(x + 2);
+        // Courtesy of ChatGPT ^_^
+        // Loop through the reasonList in increments of 3
+        for (int i = 0; i < reasonList.size(); i += 3) {
+            // Get the current reasons to display on this line, up to 3 reasons
+            List<String> currentReasons = new ArrayList<>(reasonList.subList(i, Math.min(i + 3, reasonList.size())));
 
-                String command1 = "/zblankcmd";
-                String command2 = "/zblankcmd";
-                String command3 = "/zblankcmd";
-                if (isWarning) {
-                    command1 = "/warn " + username + " " + reason1;
-                    command2 = "/warn " + username + " " + reason2;
-                    command3 = "/warn " + username + " " + reason3;
-                }
+            // Append a new line to the message
+            message.append(Component.text("\n"));
 
-                message.append(reason1).reset().color(ChatColor.GRAY)
-                    .event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, command1)).event(
-                        new HoverEvent(HoverEvent.Action.SHOW_TEXT, TextComponent.fromLegacyText(
-                            ChatColor.translateAlternateColorCodes('&',
-                                "&c&l" + reason1 + ":\n&7" + SilverstoneWarnings.config.getString(
-                                    "reasons." + reason1 + ".description") + footer)))).append(" | ")
-                    .color(ChatColor.DARK_GRAY).bold(true).append(reason2).reset().color(ChatColor.GRAY)
-                    .event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, command2)).event(
-                        new HoverEvent(HoverEvent.Action.SHOW_TEXT, TextComponent.fromLegacyText(
-                            ChatColor.translateAlternateColorCodes('&',
-                                "&c&l" + reason2 + ":\n&7" + SilverstoneWarnings.config.getString(
-                                    "reasons." + reason2 + ".description") + footer)))).append(" | ")
-                    .color(ChatColor.DARK_GRAY).bold(true).append(reason3).reset().color(ChatColor.GRAY)
-                    .event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, command3)).event(
-                        new HoverEvent(HoverEvent.Action.SHOW_TEXT, TextComponent.fromLegacyText(
-                            ChatColor.translateAlternateColorCodes('&',
-                                "&c&l" + reason3 + ":\n&7" + SilverstoneWarnings.config.getString(
-                                    "reasons." + reason3 + ".description") + footer))));
-            } catch (IndexOutOfBoundsException e1) {
-                try {
-                    String reason1 = reasonList.get(x);
-                    String reason2 = reasonList.get(x + 1);
+            // Loop through the current reasons to add them to the message
+            for (int j = 0; j < currentReasons.size(); j++) {
+                // Get the current reason to add to the message
+                String currentReason = currentReasons.get(j);
 
-                    String command1 = "/zblankcmd";
-                    String command2 = "/zblankcmd";
-                    if (isWarning) {
-                        command1 = "/warn " + username + " " + reason1;
-                        command2 = "/warn " + username + " " + reason2;
-                    }
+                // Create a command to use if this is a warning message
+                String command = null;
+                if (isWarning) command = "/warn " + username + " " + currentReason;
 
-                    message.append(reason1).reset().color(ChatColor.GRAY)
-                        .event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, command1)).event(
-                            new HoverEvent(HoverEvent.Action.SHOW_TEXT, TextComponent.fromLegacyText(
-                                ChatColor.translateAlternateColorCodes('&',
-                                    "&c&l" + reason1 + ":\n&7" + SilverstoneWarnings.config.getString(
-                                        "reasons." + reason1 + ".description") + footer)))).append(" | ")
-                        .color(ChatColor.DARK_GRAY).bold(true).append(reason2).reset().color(ChatColor.GRAY)
-                        .event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, command2)).event(
-                            new HoverEvent(HoverEvent.Action.SHOW_TEXT, TextComponent.fromLegacyText(
-                                ChatColor.translateAlternateColorCodes('&',
-                                    "&c&l" + reason2 + ":\n&7" + SilverstoneWarnings.config.getString(
-                                        "reasons." + reason2 + ".description") + footer))));
-                } catch (IndexOutOfBoundsException e2) {
-                    String reason1 = reasonList.get(x);
+                // Add the current reason to the message
+                message.append(Component.text(currentReason).color(NamedTextColor.GRAY)
+                    .clickEvent(command != null ? ClickEvent.runCommand(command) : null)
+                    .hoverEvent(createHoverEvent(currentReason, footer)));
 
-                    String command1 = "/zblankcmd";
-                    if (isWarning) command1 = "/warn " + username + " " + reason1;
-
-                    message.append(reason1).reset().color(ChatColor.GRAY)
-                        .event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, command1)).event(
-                            new HoverEvent(HoverEvent.Action.SHOW_TEXT, TextComponent.fromLegacyText(
-                                ChatColor.translateAlternateColorCodes('&',
-                                    "&c&l" + reason1 + ":\n&7" + SilverstoneWarnings.config.getString(
-                                        "reasons." + reason1 + ".description") + footer))));
-                }
+                // If this is not the last reason, add a separator to the message
+                if (j < currentReasons.size() - 1) message.append(
+                    Component.text(" | ").color(NamedTextColor.DARK_GRAY).decorate(TextDecoration.BOLD));
             }
-
         }
 
-        sender.sendMessage(message.create());
+        sender.sendMessage(message);
+    }
+
+    private HoverEvent<?> createHoverEvent(String reason, Builder footer) {
+        return HoverEvent.hoverEvent(HoverEvent.Action.SHOW_TEXT, Component.text()
+            .append(Component.text(reason + ":").color(NamedTextColor.RED).decorate(TextDecoration.BOLD))
+            .append(Component.text(
+                    "\n" + SilverstoneWarnings.config.getString("reasons." + reason + ".description"))
+                .color(NamedTextColor.GRAY)).append(footer).build());
     }
 }
