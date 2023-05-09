@@ -1,4 +1,4 @@
-package net.silverstonemc.silverstonewarnings;
+package net.silverstonemc.silverstoneproxy;
 
 import net.md_5.bungee.config.Configuration;
 import net.md_5.bungee.config.ConfigurationProvider;
@@ -15,7 +15,7 @@ public class ConfigurationManager {
     public static Configuration queue;
     public static Configuration userCache;
     
-    private final SilverstoneWarnings plugin = SilverstoneWarnings.getPlugin();
+    private final SilverstoneProxy plugin = SilverstoneProxy.getPlugin();
     
     public void initialize() {
         config = loadFile("config.yml");

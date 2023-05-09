@@ -1,4 +1,4 @@
-package net.silverstonemc.silverstonewarnings.commands;
+package net.silverstonemc.silverstoneproxy.commands;
 
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.CommandSender;
@@ -6,18 +6,21 @@ import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Command;
 import net.md_5.bungee.api.plugin.TabExecutor;
-import net.silverstonemc.silverstonewarnings.*;
+import net.silverstonemc.silverstoneproxy.ConfigurationManager;
+import net.silverstonemc.silverstoneproxy.SilverstoneProxy;
+import net.silverstonemc.silverstoneproxy.UserManager;
+import net.silverstonemc.silverstoneproxy.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class WarningsCommand extends Command implements TabExecutor {
-    public WarningsCommand() {
+public class Warnings extends Command implements TabExecutor {
+    public Warnings() {
         super("warnings");
     }
 
-    private final SilverstoneWarnings plugin = SilverstoneWarnings.getPlugin();
+    private final SilverstoneProxy plugin = SilverstoneProxy.getPlugin();
 
     public void execute(CommandSender sender, String[] args) {
         String arg0;

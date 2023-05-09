@@ -1,4 +1,4 @@
-package net.silverstonemc.silverstonewarnings;
+package net.silverstonemc.silverstoneproxy;
 
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
@@ -14,10 +14,10 @@ import java.util.UUID;
 
 @SuppressWarnings("DataFlowIssue")
 public class WarnPlayer {
-    private final SilverstoneWarnings plugin = SilverstoneWarnings.getPlugin();
+    private final SilverstoneProxy plugin = SilverstoneProxy.getPlugin();
 
     public void warn(UUID uuid, String reason) {
-        TextChannel warningChannel = SilverstoneWarnings.jda.getTextChannelById(1075643034634563695L);
+        TextChannel warningChannel = SilverstoneProxy.jda.getTextChannelById(1075643034634563695L);
 
         String username = new UserManager().getUsername(uuid);
         ProxiedPlayer player = plugin.getProxy().getPlayer(uuid);
@@ -29,8 +29,8 @@ public class WarnPlayer {
 
             // Message staff
             for (ProxiedPlayer online : plugin.getProxy().getPlayers())
-                if (online.hasPermission("sswarnings.warn")) online.sendMessage(TextComponent.fromLegacyText(
-                    ChatColor.translateAlternateColorCodes('&',
+                if (online.hasPermission("silverstone.moderator")) online.sendMessage(
+                    TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&',
                         "&cOffline player &7" + username + " &chas been warned for reason: &7" + reason)));
             plugin.getLogger().info(ChatColor.translateAlternateColorCodes('&',
                 "&cOffline player &7" + username + " &chas been warned for reason: &7" + reason));

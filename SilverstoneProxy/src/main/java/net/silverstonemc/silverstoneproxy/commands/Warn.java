@@ -1,4 +1,4 @@
-package net.silverstonemc.silverstonewarnings.commands;
+package net.silverstonemc.silverstoneproxy.commands;
 
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.CommandSender;
@@ -6,18 +6,22 @@ import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Command;
 import net.md_5.bungee.api.plugin.TabExecutor;
-import net.silverstonemc.silverstonewarnings.*;
+import net.silverstonemc.silverstoneproxy.ConfigurationManager;
+import net.silverstonemc.silverstoneproxy.SilverstoneProxy;
+import net.silverstonemc.silverstoneproxy.UserManager;
+import net.silverstonemc.silverstoneproxy.Utils;
+import net.silverstonemc.silverstoneproxy.WarnPlayer;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class WarnCommand extends Command implements TabExecutor {
-    public WarnCommand() {
+public class Warn extends Command implements TabExecutor {
+    public Warn() {
         super("warn", "silverstone.moderator", "swarn");
     }
 
-    private final SilverstoneWarnings plugin = SilverstoneWarnings.getPlugin();
+    private final SilverstoneProxy plugin = SilverstoneProxy.getPlugin();
 
     public void execute(CommandSender sender, String[] args) {
         // If console does the command
@@ -59,7 +63,7 @@ public class WarnCommand extends Command implements TabExecutor {
                     return;
                 }
 
-                new ReasonsCommand().sendReasonList(true, SilverstoneWarnings.getAdventure().sender(sender), username);
+                new WarnReasons().sendReasonList(true, SilverstoneProxy.getAdventure().sender(sender), username);
             }
 
             case 2 -> {

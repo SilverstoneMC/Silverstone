@@ -1,16 +1,16 @@
-package net.silverstonemc.silverstonewarnings.commands;
+package net.silverstonemc.silverstoneproxy.commands;
 
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.plugin.Command;
-import net.silverstonemc.silverstonewarnings.ConfigurationManager;
-import net.silverstonemc.silverstonewarnings.UserManager;
+import net.silverstonemc.silverstoneproxy.ConfigurationManager;
+import net.silverstonemc.silverstoneproxy.UserManager;
 
 import java.util.UUID;
 
-public class WarnQueueCommand extends Command {
-    public WarnQueueCommand() {
+public class WarnQueue extends Command {
+    public WarnQueue() {
         super("warnqueue", "silverstone.moderator");
     }
 

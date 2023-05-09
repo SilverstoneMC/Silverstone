@@ -1,4 +1,4 @@
-package net.silverstonemc.silverstonewarnings;
+package net.silverstonemc.silverstoneproxy;
 
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.UUID;
 
 public class DiscordEvents extends ListenerAdapter {
-    private final SilverstoneWarnings plugin = SilverstoneWarnings.getPlugin();
+    private final SilverstoneProxy plugin = SilverstoneProxy.getPlugin();
 
     @SuppressWarnings("DataFlowIssue")
     @Override

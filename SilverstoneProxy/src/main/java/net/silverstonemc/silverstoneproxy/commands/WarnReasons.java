@@ -1,4 +1,4 @@
-package net.silverstonemc.silverstonewarnings.commands;
+package net.silverstonemc.silverstoneproxy.commands;
 
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
@@ -9,20 +9,20 @@ import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.plugin.Command;
-import net.silverstonemc.silverstonewarnings.ConfigurationManager;
-import net.silverstonemc.silverstonewarnings.SilverstoneWarnings;
+import net.silverstonemc.silverstoneproxy.ConfigurationManager;
+import net.silverstonemc.silverstoneproxy.SilverstoneProxy;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ReasonsCommand extends Command {
-    public ReasonsCommand() {
+public class WarnReasons extends Command {
+    public WarnReasons() {
         super("reasons", "silverstone.moderator", "categories");
     }
 
     public void execute(CommandSender sender, String[] args) {
-        sendReasonList(false, SilverstoneWarnings.getAdventure().sender(sender), null);
+        sendReasonList(false, SilverstoneProxy.getAdventure().sender(sender), null);
     }
 
     public void sendReasonList(boolean isWarning, Audience sender, @Nullable String username) {

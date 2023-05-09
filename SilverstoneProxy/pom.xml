@@ -68,13 +68,14 @@
                             <minimizeJar>true</minimizeJar>
                             <relocations>
                                 <relocation>
-                                    <pattern>net.kyori.adventure.text.minimessage</pattern>
-                                    <shadedPattern>net.silverstonemc.silverstoneglobal.shaded.minimessage
+                                    <pattern>net.dv8tion.jda.api</pattern>
+                                    <shadedPattern>net.silverstonemc.silverstoneproxy.shaded.jda
                                     </shadedPattern>
                                 </relocation>
                                 <relocation>
-                                    <pattern>net.kyori.adventure.sound</pattern>
-                                    <shadedPattern>net.silverstonemc.silverstoneglobal.shaded.sound</shadedPattern>
+                                    <pattern>net.kyori.adventure</pattern>
+                                    <shadedPattern>net.silverstonemc.silverstoneproxy.shaded.adventure
+                                    </shadedPattern>
                                 </relocation>
                             </relocations>
                         </configuration>
@@ -106,6 +107,13 @@
             <url>https://repo.papermc.io/repository/maven-public/</url>
         </repository>
 
+        <!-- JDA -->
+        <repository>
+            <id>dv8tion</id>
+            <name>m2-dv8tion</name>
+            <url>https://m2.dv8tion.net/releases</url>
+        </repository>
+
         <!-- Adventure / MiniMessage -->
         <repository>
             <id>sonatype-oss-snapshots</id>
@@ -119,6 +127,12 @@
             <artifactId>waterfall-api</artifactId>
             <version>1.19-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>net.dv8tion</groupId>
+            <artifactId>JDA</artifactId>
+            <version>5.0.0-beta.9</version>
         </dependency>
 
         <dependency>

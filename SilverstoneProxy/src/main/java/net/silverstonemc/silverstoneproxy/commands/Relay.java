@@ -1,14 +1,14 @@
-package net.silverstonemc.silverstonewarnings.commands;
+package net.silverstonemc.silverstoneproxy.commands;
 
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.plugin.Command;
-import net.silverstonemc.silverstonewarnings.SilverstoneWarnings;
+import net.silverstonemc.silverstoneproxy.SilverstoneProxy;
 
 @SuppressWarnings("DataFlowIssue")
-public class RelayCommand extends Command {
-    public RelayCommand() {
+public class Relay extends Command {
+    public Relay() {
         super("relay", "silverstone.console");
     }
 
@@ -26,10 +26,10 @@ public class RelayCommand extends Command {
 
             switch (args[0]) {
                 case "mcchat" ->
-                    SilverstoneWarnings.jda.getTextChannelById(592208420602380328L).sendMessage(message)
+                    SilverstoneProxy.jda.getTextChannelById(592208420602380328L).sendMessage(message)
                         .queue();
                 case "staff" ->
-                    SilverstoneWarnings.jda.getTextChannelById(667793661991583744L).sendMessage(message)
+                    SilverstoneProxy.jda.getTextChannelById(667793661991583744L).sendMessage(message)
                         .queue();
                 default -> sender.sendMessage(
                     new ComponentBuilder("Invalid channel!").color(ChatColor.RED).create());

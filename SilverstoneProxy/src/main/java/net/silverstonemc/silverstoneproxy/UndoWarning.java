@@ -1,11 +1,11 @@
-package net.silverstonemc.silverstonewarnings;
+package net.silverstonemc.silverstoneproxy;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.UUID;
 
 public class UndoWarning {
-    private final SilverstoneWarnings plugin = SilverstoneWarnings.getPlugin();
+    private final SilverstoneProxy plugin = SilverstoneProxy.getPlugin();
 
     public void undoWarning(UUID uuid, String reason, @Nullable Integer currentWarningCount) {
         String username = new UserManager().getUsername(uuid);

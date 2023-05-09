@@ -1,5 +1,0 @@
-main: net.silverstonemc.silverstonewarnings.SilverstoneWarnings
-name: SilverstoneWarnings
-description: The warning system for Silverstone
-version: %VERSION%
-author: JasonHorkles

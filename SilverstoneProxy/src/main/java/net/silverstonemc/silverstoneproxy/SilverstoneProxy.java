@@ -1,31 +1,52 @@
 package net.silverstonemc.silverstoneproxy;
 
+import net.dv8tion.jda.api.JDA;
+import net.dv8tion.jda.api.JDABuilder;
+import net.dv8tion.jda.api.OnlineStatus;
+import net.dv8tion.jda.api.entities.Activity;
+import net.dv8tion.jda.api.requests.GatewayIntent;
+import net.dv8tion.jda.api.utils.MemberCachePolicy;
+import net.dv8tion.jda.api.utils.cache.CacheFlag;
 import net.kyori.adventure.platform.bungeecord.BungeeAudiences;
 import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.api.plugin.Plugin;
 import net.md_5.bungee.api.plugin.PluginManager;
-import net.md_5.bungee.config.Configuration;
-import net.md_5.bungee.config.ConfigurationProvider;
-import net.md_5.bungee.config.YamlConfiguration;
 import net.silverstonemc.silverstoneproxy.commands.*;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
+import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 public class SilverstoneProxy extends Plugin implements Listener {
+    public static JDA jda;
 
     private static BungeeAudiences adventure;
     private static SilverstoneProxy plugin;
 
-    public static Configuration config;
-
     @Override
     public void onEnable() {
         plugin = this;
-        config = loadConfig();
+        new ConfigurationManager().initialize();
         adventure = BungeeAudiences.create(this);
+
+        // Cache users
+        for (String key : ConfigurationManager.userCache.getSection("users").getKeys()) {
+            UUID uuid = UUID.fromString(key);
+            String username = ConfigurationManager.userCache.getString("users." + key);
+            UserManager.playerMap.put(uuid, username);
+        }
+
+        new Thread(() -> {
+            getLogger().info("Starting Discord bot...");
+            JDABuilder builder = JDABuilder.createDefault(new Secrets().getBotToken());
+            builder.disableIntents(GatewayIntent.GUILD_MESSAGE_TYPING);
+            builder.disableCache(CacheFlag.ACTIVITY, CacheFlag.VOICE_STATE);
+            builder.setMemberCachePolicy(MemberCachePolicy.NONE);
+            builder.setStatus(OnlineStatus.ONLINE);
+            builder.setActivity(Activity.watching("for cheaters"));
+            builder.setEnableShutdownHook(false);
+            builder.addEventListeners(new DiscordEvents());
+            jda = builder.build();
+        }, "Discord Bot").start();
 
         PluginManager pluginManager = getProxy().getPluginManager();
 
@@ -37,6 +58,19 @@ public class SilverstoneProxy extends Plugin implements Listener {
         pluginManager.registerCommand(this, new Rules());
         pluginManager.registerCommand(this, new Tips());
 
+        Runnable task = () -> {
+            pluginManager.registerCommand(plugin, new WarnReasons());
+            pluginManager.registerCommand(plugin, new BaseCommand());
+            pluginManager.registerCommand(plugin, new Relay());
+            pluginManager.registerCommand(plugin, new Warn());
+            pluginManager.registerCommand(plugin, new Warnings());
+            pluginManager.registerCommand(plugin, new WarnList());
+            pluginManager.registerCommand(plugin, new WarnQueue());
+            getLogger().info("Warning commands registered!");
+        };
+        getProxy().getScheduler().schedule(this, task, 5, TimeUnit.SECONDS);
+
+        pluginManager.registerListener(this, new QuitEvent());
         pluginManager.registerListener(this, new JoinEvent());
 
         getProxy().registerChannel("silverstone:pluginmsg");
@@ -48,6 +82,19 @@ public class SilverstoneProxy extends Plugin implements Listener {
             adventure.close();
             adventure = null;
         }
+
+        plugin.getLogger().info("Shutting down Discord bot...");
+        try {
+            // Initating the shutdown, this closes the gateway connection and subsequently closes the requester queue
+            jda.shutdown();
+            // Allow at most 10 seconds for remaining requests to finish
+            if (!jda.awaitShutdown(10,
+                TimeUnit.SECONDS)) { // returns true if shutdown is graceful, false if timeout exceeded
+                jda.shutdownNow(); // Cancel all remaining requests, and stop thread-pools
+                jda.awaitShutdown(); // Wait until shutdown is complete (indefinitely)
+            }
+        } catch (NoClassDefFoundError | InterruptedException ignored) {
+        }
     }
 
     public static BungeeAudiences getAdventure() {
@@ -58,27 +105,5 @@ public class SilverstoneProxy extends Plugin implements Listener {
 
     public static SilverstoneProxy getPlugin() {
         return plugin;
-    }
-
-    public Configuration loadConfig() {
-        if (!getDataFolder().exists())
-            //noinspection ResultOfMethodCallIgnored
-            getDataFolder().mkdir();
-
-        File file = new File(getDataFolder(), "config.yml");
-
-        if (!file.exists()) try (InputStream in = getResourceAsStream("config.yml")) {
-            Files.copy(in, file.toPath());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        try {
-            return ConfigurationProvider.getProvider(YamlConfiguration.class)
-                .load(new File(getDataFolder(), "config.yml"));
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
     }
 }

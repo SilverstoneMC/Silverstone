@@ -1,4 +1,4 @@
-package net.silverstonemc.silverstonewarnings;
+package net.silverstonemc.silverstoneproxy;
 
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Message;
@@ -18,7 +18,7 @@ public class QuitEvent implements Listener {
 
         if (JoinEvent.newPlayers.containsKey(player)) {
             int x = 0;
-            for (ProxiedPlayer players : SilverstoneWarnings.getPlugin().getProxy().getPlayers())
+            for (ProxiedPlayer players : SilverstoneProxy.getPlugin().getProxy().getPlayers())
                 if (players.hasPermission("silverstone.moderator")) x++;
 
             Message message = JoinEvent.newPlayers.get(player);
