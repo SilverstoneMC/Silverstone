@@ -11,6 +11,7 @@ import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Command;
 import net.md_5.bungee.api.plugin.Plugin;
 import net.md_5.bungee.api.plugin.TabExecutor;
+import net.silverstonemc.silverstoneproxy.ConfigurationManager;
 import net.silverstonemc.silverstoneproxy.SilverstoneProxy;
 
 import java.util.ArrayList;
@@ -59,14 +60,14 @@ public class Rules extends Command implements TabExecutor {
 
     private void sendRules(ProxiedPlayer target, int rule, boolean silent) {
         if (rule == -1) {
-            for (String header : SilverstoneProxy.config.getStringList("rules.header"))
+            for (String header : ConfigurationManager.config.getStringList("rules.header"))
                 audience.player(target).sendMessage(MiniMessage.miniMessage().deserialize(header));
-            for (int x = 1; x <= SilverstoneProxy.config.getSection("rules.rules").getKeys().size(); x++)
+            for (int x = 1; x <= ConfigurationManager.config.getSection("rules.rules").getKeys().size(); x++)
                 audience.player(target).sendMessage(MiniMessage.miniMessage().deserialize(
-                    SilverstoneProxy.config.getString("rules.rule-prefix")
-                        .replace("{#}", String.valueOf(x)) + SilverstoneProxy.config.getString(
+                    ConfigurationManager.config.getString("rules.rule-prefix")
+                        .replace("{#}", String.valueOf(x)) + ConfigurationManager.config.getString(
                         "rules.rules." + x)));
-            for (String footer : SilverstoneProxy.config.getStringList("rules.footer"))
+            for (String footer : ConfigurationManager.config.getStringList("rules.footer"))
                 audience.player(target).sendMessage(MiniMessage.miniMessage().deserialize(footer));
 
             // Tell mod+
@@ -76,8 +77,8 @@ public class Rules extends Command implements TabExecutor {
                         .append(Component.text(target.getName()).color(NamedTextColor.GRAY)));
         } else {
             audience.player(target).sendMessage(MiniMessage.miniMessage().deserialize(
-                "<dark_green>Rule " + SilverstoneProxy.config.getString("rules.rule-prefix")
-                    .replace("{#}", String.valueOf(rule)) + SilverstoneProxy.config.getString(
+                "<dark_green>Rule " + ConfigurationManager.config.getString("rules.rule-prefix")
+                    .replace("{#}", String.valueOf(rule)) + ConfigurationManager.config.getString(
                     "rules.rules." + rule)));
 
             // Tell mod+
@@ -91,23 +92,23 @@ public class Rules extends Command implements TabExecutor {
     }
 
     private void sendSelfRules(CommandSender sender) {
-        for (String header : SilverstoneProxy.config.getStringList("rules.header"))
+        for (String header : ConfigurationManager.config.getStringList("rules.header"))
             audience.sender(sender).sendMessage(MiniMessage.miniMessage().deserialize(header));
-        for (int x = 1; x <= SilverstoneProxy.config.getSection("rules.rules").getKeys().size(); x++)
+        for (int x = 1; x <= ConfigurationManager.config.getSection("rules.rules").getKeys().size(); x++)
             audience.sender(sender).sendMessage(MiniMessage.miniMessage().deserialize(
-                SilverstoneProxy.config.getString("rules.rule-prefix")
-                    .replace("{#}", String.valueOf(x)) + SilverstoneProxy.config.getString(
+                ConfigurationManager.config.getString("rules.rule-prefix")
+                    .replace("{#}", String.valueOf(x)) + ConfigurationManager.config.getString(
                     "rules.rules." + x)));
-        for (String footer : SilverstoneProxy.config.getStringList("rules.footer"))
+        for (String footer : ConfigurationManager.config.getStringList("rules.footer"))
             audience.sender(sender).sendMessage(MiniMessage.miniMessage().deserialize(footer));
     }
 
     private void sendRuleGUI(CommandSender sender, ProxiedPlayer target) {
         String header = "<red><bold>Available rules:";
-        int ruleCount = SilverstoneProxy.config.getSection("rules.rules").getKeys().size();
+        int ruleCount = ConfigurationManager.config.getSection("rules.rules").getKeys().size();
         ArrayList<String> rules = new ArrayList<>();
         for (int rule = 1; rule <= ruleCount; rule++)
-            rules.add(SilverstoneProxy.config.getString("rules.rules." + rule));
+            rules.add(ConfigurationManager.config.getString("rules.rules." + rule));
         String footer = "\n\n<reset><gray><italic>Click to send rule to " + target.getName();
 
         StringBuilder message = new StringBuilder(header);
