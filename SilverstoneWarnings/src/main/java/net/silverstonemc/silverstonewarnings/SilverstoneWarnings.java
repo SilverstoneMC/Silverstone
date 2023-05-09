@@ -51,7 +51,6 @@ public class SilverstoneWarnings extends Plugin implements Listener {
         PluginManager pluginManager = getProxy().getPluginManager();
 
         Runnable task = () -> {
-            getLogger().info("Registering commands...");
             pluginManager.registerCommand(plugin, new ReasonsCommand());
             pluginManager.registerCommand(plugin, new BaseCommand());
             pluginManager.registerCommand(plugin, new RelayCommand());
@@ -59,6 +58,7 @@ public class SilverstoneWarnings extends Plugin implements Listener {
             pluginManager.registerCommand(plugin, new WarningsCommand());
             pluginManager.registerCommand(plugin, new WarnListCommand());
             pluginManager.registerCommand(plugin, new WarnQueueCommand());
+            getLogger().info("Commands registered!");
         };
         getProxy().getScheduler().schedule(this, task, 5, TimeUnit.SECONDS);
 
