@@ -61,7 +61,6 @@ public class BuyGUI implements CommandExecutor, Listener {
     // On item click
     @EventHandler
     public void onClick(InventoryClickEvent event) {
-
         Player player = (Player) event.getWhoClicked();
         Inventory inventory = event.getInventory();
 
@@ -118,69 +117,40 @@ public class BuyGUI implements CommandExecutor, Listener {
         }
     }
 
-    public static Inventory createInv() {
+    public Inventory createInv() {
         Inventory inventory = Bukkit.createInventory(null, 27,
             Component.text("Available Ranks").color(TextColor.fromHexString("#048a3e"))
                 .decorate(TextDecoration.BOLD));
 
+
+        // Filler
         ItemStack item = new ItemStack(Material.BLACK_STAINED_GLASS_PANE);
         ItemMeta meta = item.getItemMeta();
-        List<Component> lore = new ArrayList<>();
-
-        // Fill items
         meta.displayName(Component.text(""));
         item.setItemMeta(meta);
         IntStream.rangeClosed(0, 26).boxed().toList().forEach(slot -> inventory.setItem(slot, item));
 
-        // Member
-        item.setType(Material.IRON_INGOT);
-        meta.displayName(Component.text("Member").color(NamedTextColor.AQUA).decorate(TextDecoration.BOLD));
-        for (String customLore : plugin.getConfig().getStringList("buy-gui.member"))
-            lore.add(MiniMessage.miniMessage().deserialize(customLore));
-        meta.lore(lore);
-        item.setItemMeta(meta);
-        inventory.setItem(11, item);
-
-        // VIP
-        item.setType(Material.EMERALD);
-        meta.displayName(Component.text("VIP").color(NamedTextColor.AQUA).decorate(TextDecoration.BOLD));
-        lore.clear();
-        for (String customLore : plugin.getConfig().getStringList("buy-gui.vip"))
-            lore.add(MiniMessage.miniMessage().deserialize(customLore));
-        meta.lore(lore);
-        item.setItemMeta(meta);
-        inventory.setItem(12, item);
-
-        // VIP+
-        item.setType(Material.DIAMOND);
-        meta.displayName(Component.text("VIP+").color(NamedTextColor.AQUA).decorate(TextDecoration.BOLD));
-        lore.clear();
-        for (String customLore : plugin.getConfig().getStringList("buy-gui.vip+"))
-            lore.add(MiniMessage.miniMessage().deserialize(customLore));
-        meta.lore(lore);
-        item.setItemMeta(meta);
-        inventory.setItem(13, item);
-
-        // MVP
-        item.setType(Material.NETHERITE_INGOT);
-        meta.displayName(Component.text("MVP").color(NamedTextColor.AQUA).decorate(TextDecoration.BOLD));
-        lore.clear();
-        for (String customLore : plugin.getConfig().getStringList("buy-gui.mvp"))
-            lore.add(MiniMessage.miniMessage().deserialize(customLore));
-        meta.lore(lore);
-        item.setItemMeta(meta);
-        inventory.setItem(14, item);
-
-        // Donate
-        item.setType(Material.WRITABLE_BOOK);
-        meta.displayName(Component.text("Donate").color(NamedTextColor.AQUA).decorate(TextDecoration.BOLD));
-        lore.clear();
-        for (String customLore : plugin.getConfig().getStringList("buy-gui.donate"))
-            lore.add(MiniMessage.miniMessage().deserialize(customLore));
-        meta.lore(lore);
-        item.setItemMeta(meta);
-        inventory.setItem(15, item);
+        inventory.setItem(11, getItem(Material.IRON_INGOT, "Member"));
+        inventory.setItem(12, getItem(Material.EMERALD, "VIP"));
+        inventory.setItem(13, getItem(Material.DIAMOND, "VIP+"));
+        inventory.setItem(14, getItem(Material.NETHERITE_INGOT, "MVP"));
+        inventory.setItem(15, getItem(Material.WRITABLE_BOOK, "Donate"));
 
         return inventory;
+    }
+
+    private ItemStack getItem(Material item, String rank) {
+        ItemStack itemStack = new ItemStack(item);
+        ItemMeta meta = itemStack.getItemMeta();
+        List<Component> lore = new ArrayList<>();
+
+        meta.displayName(Component.text(rank).color(NamedTextColor.AQUA).decorate(TextDecoration.BOLD)
+            .decoration(TextDecoration.ITALIC, false));
+        for (String customLore : plugin.getConfig().getStringList("buy-gui." + rank.toLowerCase()))
+            lore.add(MiniMessage.miniMessage().deserialize("<!i>" + customLore));
+        meta.lore(lore);
+        itemStack.setItemMeta(meta);
+
+        return itemStack;
     }
 }
