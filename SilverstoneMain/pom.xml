@@ -83,13 +83,6 @@
             <url>https://nexus.scarsz.me/content/groups/public/</url>
         </repository>
 
-        <!-- JDA -->
-        <repository>
-            <id>dv8tion</id>
-            <name>m2-dv8tion</name>
-            <url>https://m2.dv8tion.net/releases</url>
-        </repository>
-
         <!-- EssentialsX -->
         <repository>
             <id>essentials-releases</id>
