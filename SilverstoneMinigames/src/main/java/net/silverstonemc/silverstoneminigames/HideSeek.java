@@ -60,7 +60,7 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
                 @Override
                 public void run() {
                     if (player.hasPermission("silverstone.minigames.hideseek.taunt")) player.showTitle(
-                        Title.title(Component.text(" "),
+                        Title.title(Component.text(""),
                             Component.text("You may now taunt again.").color(NamedTextColor.RED),
                             Title.DEFAULT_TIMES));
                 }
@@ -414,17 +414,18 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
         item.setItemMeta(meta);
         IntStream.rangeClosed(0, 44).boxed().toList().forEach(slot -> inventory.setItem(slot, item));
 
-        inventory.setItem(10, getItem(Material.BONE, "Bark", "<dark_aqua><b>1 <dark_green>Taunt Point"));
-        inventory.setItem(11, getItem(Material.BELL, "Ding", "<dark_aqua><b>2 <dark_green>Taunt Points"));
+        inventory.setItem(10, getItem(Material.BONE, "Bark", "<dark_aqua><b>1</b> <dark_green>Taunt Point"));
+        inventory.setItem(11, getItem(Material.BELL, "Ding", "<dark_aqua><b>2</b> <dark_green>Taunt Points"));
         inventory.setItem(12,
-            getItem(Material.GHAST_TEAR, "Scream", "<dark_aqua><b>3 <dark_green>Taunt Points"));
+            getItem(Material.GHAST_TEAR, "Scream", "<dark_aqua><b>3</b> <dark_green>Taunt Points"));
         inventory.setItem(13,
-            getItem(Material.DRAGON_HEAD, "Roar", "<dark_aqua><b>5 <dark_green>Taunt Points"));
-        inventory.setItem(14, getItem(Material.TNT, "Explosion", "<dark_aqua><b>8 <dark_green>Taunt Points"));
+            getItem(Material.DRAGON_HEAD, "Roar", "<dark_aqua><b>5</b> <dark_green>Taunt Points"));
+        inventory.setItem(14,
+            getItem(Material.TNT, "Explosion", "<dark_aqua><b>8</b> <dark_green>Taunt Points"));
         inventory.setItem(15,
-            getItem(Material.FIREWORK_ROCKET, "Fireworks", "<dark_aqua><b>13 <dark_green>Taunt Points"));
+            getItem(Material.FIREWORK_ROCKET, "Fireworks", "<dark_aqua><b>13</b> <dark_green>Taunt Points"));
         inventory.setItem(16,
-            getItem(Material.TOTEM_OF_UNDYING, "Boom", "<dark_aqua><b>15 <dark_green>Taunt Points"));
+            getItem(Material.TOTEM_OF_UNDYING, "Boom", "<dark_aqua><b>15</b> <dark_green>Taunt Points"));
 
         // Random taunt
         ItemStack skullItem = new ItemStack(Material.PLAYER_HEAD);
@@ -464,12 +465,12 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
 
         // Slowness
         inventory.setItem(31, getItem(Material.NETHERITE_BOOTS, "Give seekers slowness",
-            "<dark_aqua>Costs <dark_green><b>100 <dark_aqua>Taunt Points", "", "<gray>Slows all seekers",
+            "<dark_aqua>Costs <dark_green><b>100</b> <dark_aqua>Taunt Points", "", "<gray>Slows all seekers",
             "<gray>down for 15 seconds"));
 
         // Blindness
         inventory.setItem(34, getItem(Material.NETHERITE_HELMET, "Give seekers blindness",
-            "<dark_aqua>Costs <dark_green><b>125 <dark_aqua>Taunt Points", "", "<gray>Gives all seekers",
+            "<dark_aqua>Costs <dark_green><b>125</b> <dark_aqua>Taunt Points", "", "<gray>Gives all seekers",
             "<gray>blindness for 10 seconds"));
 
         inv = inventory;
