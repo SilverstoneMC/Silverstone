@@ -412,7 +412,7 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
         ItemMeta meta = item.getItemMeta();
         meta.displayName(Component.text(""));
         item.setItemMeta(meta);
-        IntStream.rangeClosed(0, 44).boxed().toList().forEach(slot -> inv.setItem(slot, item));
+        IntStream.rangeClosed(0, 44).boxed().toList().forEach(slot -> inventory.setItem(slot, item));
 
         inventory.setItem(10, getItem(Material.BONE, "Bark", "<dark_aqua><b>1 <dark_green>Taunt Point"));
         inventory.setItem(11, getItem(Material.BELL, "Ding", "<dark_aqua><b>2 <dark_green>Taunt Points"));

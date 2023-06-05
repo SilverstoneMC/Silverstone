@@ -184,7 +184,7 @@ public record Minigames(JavaPlugin plugin) implements CommandExecutor, Listener 
         ItemMeta meta = item.getItemMeta();
         meta.displayName(Component.text(""));
         item.setItemMeta(meta);
-        IntStream.rangeClosed(0, 35).boxed().toList().forEach(slot -> htpInv.setItem(slot, item));
+        IntStream.rangeClosed(0, 35).boxed().toList().forEach(slot -> inventory.setItem(slot, item));
 
         inventory.setItem(10, getItem(Material.SPRUCE_BOAT, "Boat Racing"));
         inventory.setItem(11, getItem(Material.NETHERITE_BOOTS, "Death Run"));
