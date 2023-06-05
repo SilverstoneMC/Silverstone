@@ -27,7 +27,7 @@ rules:
     12: "Don't intentionally lag the server or abuse the Creative plots"
   footer:
     - ""
-    - "<dark_aqua>Type <green>/tips <dark_aqua>to get a list of all tips for the server!"
+    - "<dark_aqua>Type <green><click:suggest_command:/tips>/tips</click> <dark_aqua>to get a list of all tips for the server!"
 
 
 
