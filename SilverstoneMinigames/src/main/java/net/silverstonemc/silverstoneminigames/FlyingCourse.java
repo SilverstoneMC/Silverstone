@@ -112,8 +112,7 @@ public record FlyingCourse(JavaPlugin plugin) implements CommandExecutor {
                             Vector speed = player.getVelocity();
                             // If speed is greater than 0.05 or -0.05
                             if (((speed.getX() > 0.05) || (speed.getX() < -0.05)) || ((speed.getZ() > 0.05) || (speed.getZ() < -0.05))) {
-                                player.setVelocity(speed.multiply(
-                                    plugin.getConfig().getDouble("fc-speed-boost-multiplier")));
+                                player.setVelocity(speed.multiply(1.075));
                                 player.playSound(player.getLocation(), Sound.BLOCK_BEACON_ACTIVATE,
                                     SoundCategory.BLOCKS, 10, 2);
                             }

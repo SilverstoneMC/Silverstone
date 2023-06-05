@@ -2,8 +2,6 @@ empty-minigame-world: mini_empty
 terrain-minigame-world: mini_terrain
 amplified-minigame-world: mini_amplified
 
-fc-speed-boost-multiplier: 1.075
-
 random-game:
   singleplayer:
     - Parkour
