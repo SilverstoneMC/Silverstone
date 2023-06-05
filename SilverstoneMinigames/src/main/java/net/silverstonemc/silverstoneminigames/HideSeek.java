@@ -382,24 +382,26 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
     public void onClick(PlayerInteractEvent event) {
         Player player = event.getPlayer();
 
-        if (event.getAction().equals(Action.RIGHT_CLICK_AIR) || event.getAction()
-            .equals(Action.RIGHT_CLICK_BLOCK)) if (player.getWorld().getName()
-            .equalsIgnoreCase(plugin.getConfig().getString("empty-minigame-world")))
-            if (player.getInventory().getItemInMainHand().getType() == Material.BELL)
-                if (player.getInventory().getItemInMainHand().hasItemMeta())
-                    if (player.getInventory().getItemInMainHand().getItemMeta().hasDisplayName())
-                        if (player.getInventory().getItemInMainHand().getItemMeta().displayName().equals(
-                            Component.text("Taunt").color(NamedTextColor.AQUA).decorate(TextDecoration.BOLD)
-                                .decoration(TextDecoration.ITALIC, false))) {
-                            event.setCancelled(true);
+        if (!event.getAction().equals(Action.RIGHT_CLICK_AIR) && !event.getAction()
+            .equals(Action.RIGHT_CLICK_BLOCK)) return;
+        if (player.getInventory().getItemInMainHand().getType() != Material.BELL) return;
+        if (!player.getWorld().getName()
+            .equalsIgnoreCase(plugin.getConfig().getString("empty-minigame-world"))) return;
+        if (!player.getInventory().getItemInMainHand().hasItemMeta()) return;
+        if (!player.getInventory().getItemInMainHand().getItemMeta().hasDisplayName()) return;
 
-                            // Still on cooldown
-                            if (spamCooldown.containsKey(player))
-                                if (spamCooldown.get(player) > System.currentTimeMillis()) return;
+        if (player.getInventory().getItemInMainHand().getItemMeta().displayName().equals(
+            Component.text("Taunt").color(NamedTextColor.AQUA).decorate(TextDecoration.BOLD)
+                .decoration(TextDecoration.ITALIC, false))) {
+            event.setCancelled(true);
 
-                            player.performCommand("taunt");
-                            spamCooldown.put(player, System.currentTimeMillis() + 1000);
-                        }
+            // Still on cooldown
+            if (spamCooldown.containsKey(player))
+                if (spamCooldown.get(player) > System.currentTimeMillis()) return;
+
+            player.performCommand("taunt");
+            spamCooldown.put(player, System.currentTimeMillis() + 1000);
+        }
     }
 
     // Inventory items
