@@ -177,84 +177,99 @@ public class ChatColorGUI implements CommandExecutor, Listener {
 
         item.setType(Material.RED_CONCRETE);
         meta.displayName(
-            Component.text("Dark Red").color(NamedTextColor.DARK_RED).decorate(TextDecoration.BOLD));
+            Component.text("Dark Red").color(NamedTextColor.DARK_RED).decorate(TextDecoration.BOLD)
+                .decoration(TextDecoration.ITALIC, false));
         item.setItemMeta(meta);
         inventory.setItem(10, item);
 
         item.setType(Material.RED_TERRACOTTA);
-        meta.displayName(Component.text("Red").color(NamedTextColor.RED).decorate(TextDecoration.BOLD));
+        meta.displayName(Component.text("Red").color(NamedTextColor.RED).decorate(TextDecoration.BOLD)
+            .decoration(TextDecoration.ITALIC, false));
         item.setItemMeta(meta);
         inventory.setItem(11, item);
 
         item.setType(Material.ORANGE_CONCRETE);
-        meta.displayName(Component.text("Gold").color(NamedTextColor.GOLD).decorate(TextDecoration.BOLD));
+        meta.displayName(Component.text("Gold").color(NamedTextColor.GOLD).decorate(TextDecoration.BOLD)
+            .decoration(TextDecoration.ITALIC, false));
         item.setItemMeta(meta);
         inventory.setItem(12, item);
 
         item.setType(Material.YELLOW_CONCRETE);
-        meta.displayName(Component.text("Yellow").color(NamedTextColor.YELLOW).decorate(TextDecoration.BOLD));
+        meta.displayName(Component.text("Yellow").color(NamedTextColor.YELLOW).decorate(TextDecoration.BOLD)
+            .decoration(TextDecoration.ITALIC, false));
         item.setItemMeta(meta);
         inventory.setItem(13, item);
 
         item.setType(Material.LIME_CONCRETE);
-        meta.displayName(Component.text("Green").color(NamedTextColor.GREEN).decorate(TextDecoration.BOLD));
+        meta.displayName(Component.text("Green").color(NamedTextColor.GREEN).decorate(TextDecoration.BOLD)
+            .decoration(TextDecoration.ITALIC, false));
         item.setItemMeta(meta);
         inventory.setItem(14, item);
 
         item.setType(Material.GREEN_CONCRETE);
         meta.displayName(
-            Component.text("Dark Green").color(NamedTextColor.DARK_GREEN).decorate(TextDecoration.BOLD));
+            Component.text("Dark Green").color(NamedTextColor.DARK_GREEN).decorate(TextDecoration.BOLD)
+                .decoration(TextDecoration.ITALIC, false));
         item.setItemMeta(meta);
         inventory.setItem(15, item);
 
         item.setType(Material.LIGHT_BLUE_TERRACOTTA);
         meta.displayName(
-            Component.text("Dark Aqua").color(NamedTextColor.DARK_AQUA).decorate(TextDecoration.BOLD));
+            Component.text("Dark Aqua").color(NamedTextColor.DARK_AQUA).decorate(TextDecoration.BOLD)
+                .decoration(TextDecoration.ITALIC, false));
         item.setItemMeta(meta);
         inventory.setItem(16, item);
 
         item.setType(Material.BLUE_CONCRETE);
-        meta.displayName(Component.text("Blue").color(NamedTextColor.BLUE).decorate(TextDecoration.BOLD));
+        meta.displayName(Component.text("Blue").color(NamedTextColor.BLUE).decorate(TextDecoration.BOLD)
+            .decoration(TextDecoration.ITALIC, false));
         item.setItemMeta(meta);
         inventory.setItem(19, item);
 
         item.setType(Material.BLUE_TERRACOTTA);
         meta.displayName(
-            Component.text("Dark Blue").color(NamedTextColor.DARK_BLUE).decorate(TextDecoration.BOLD));
+            Component.text("Dark Blue").color(NamedTextColor.DARK_BLUE).decorate(TextDecoration.BOLD)
+                .decoration(TextDecoration.ITALIC, false));
         item.setItemMeta(meta);
         inventory.setItem(20, item);
 
         item.setType(Material.PURPLE_CONCRETE);
         meta.displayName(
-            Component.text("Dark Purple").color(NamedTextColor.DARK_PURPLE).decorate(TextDecoration.BOLD));
+            Component.text("Dark Purple").color(NamedTextColor.DARK_PURPLE).decorate(TextDecoration.BOLD)
+                .decoration(TextDecoration.ITALIC, false));
         item.setItemMeta(meta);
         inventory.setItem(21, item);
 
         item.setType(Material.MAGENTA_CONCRETE);
         meta.displayName(
-            Component.text("Purple").color(NamedTextColor.LIGHT_PURPLE).decorate(TextDecoration.BOLD));
+            Component.text("Purple").color(NamedTextColor.LIGHT_PURPLE).decorate(TextDecoration.BOLD)
+                .decoration(TextDecoration.ITALIC, false));
         item.setItemMeta(meta);
         inventory.setItem(22, item);
 
         item.setType(Material.GRAY_TERRACOTTA);
         meta.displayName(
-            Component.text("Dark Gray").color(NamedTextColor.DARK_GRAY).decorate(TextDecoration.BOLD));
+            Component.text("Dark Gray").color(NamedTextColor.DARK_GRAY).decorate(TextDecoration.BOLD)
+                .decoration(TextDecoration.ITALIC, false));
         item.setItemMeta(meta);
         inventory.setItem(23, item);
 
         item.setType(Material.LIGHT_GRAY_CONCRETE);
-        meta.displayName(Component.text("Gray").color(NamedTextColor.GRAY).decorate(TextDecoration.BOLD));
+        meta.displayName(Component.text("Gray").color(NamedTextColor.GRAY).decorate(TextDecoration.BOLD)
+            .decoration(TextDecoration.ITALIC, false));
         item.setItemMeta(meta);
         inventory.setItem(24, item);
 
         item.setType(Material.WHITE_CONCRETE);
-        meta.displayName(Component.text("White").color(NamedTextColor.WHITE).decorate(TextDecoration.BOLD));
+        meta.displayName(Component.text("White").color(NamedTextColor.WHITE).decorate(TextDecoration.BOLD)
+            .decoration(TextDecoration.ITALIC, false));
         item.setItemMeta(meta);
         inventory.setItem(25, item);
 
         item.setType(Material.BARRIER);
         meta.displayName(
-            Component.text("Reset to Default").color(NamedTextColor.WHITE).decorate(TextDecoration.BOLD));
+            Component.text("Reset to Default").color(NamedTextColor.WHITE).decorate(TextDecoration.BOLD)
+                .decoration(TextDecoration.ITALIC, false));
         item.setItemMeta(meta);
         inventory.setItem(31, item);
 
