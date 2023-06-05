@@ -88,8 +88,8 @@ public class SilverstoneGlobal extends JavaPlugin implements Listener {
         pluginManager.registerEvents(new TabComplete(), this);
         pluginManager.registerEvents(new TimeOut(), this);
 
-        BuyGUI.inv = new BuyGUI(this).createInv();
-        new ChatColorGUI(this).createDefaultInv();
+        new BuyGUI(this).createInv();
+        new ChatColorGUI(this).createInv();
 
         if (!getConfig().getString("server").equalsIgnoreCase("survival")) {
             new Security(this).check();
@@ -114,7 +114,7 @@ public class SilverstoneGlobal extends JavaPlugin implements Listener {
         if (args.length > 0) if (args[0].equalsIgnoreCase("reload")) {
             saveDefaultConfig();
             reloadConfig();
-            BuyGUI.inv = new BuyGUI(this).createInv();
+            new BuyGUI(this).createInv();
             sender.sendMessage(Component.text("SilverstoneGlobal reloaded!").color(NamedTextColor.GREEN));
             return true;
         }

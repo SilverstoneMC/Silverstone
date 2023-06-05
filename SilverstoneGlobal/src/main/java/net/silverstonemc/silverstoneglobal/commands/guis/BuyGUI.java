@@ -6,7 +6,6 @@ import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.kyori.adventure.text.minimessage.MiniMessage;
-import net.silverstonemc.silverstoneglobal.SilverstoneGlobal;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -21,6 +20,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 
@@ -29,13 +29,12 @@ import java.util.List;
 import java.util.stream.IntStream;
 
 public class BuyGUI implements CommandExecutor, Listener {
-    public static Inventory inv;
-
-    private static SilverstoneGlobal plugin;
-
-    public BuyGUI(SilverstoneGlobal plugin) {
-        BuyGUI.plugin = plugin;
+    public BuyGUI(JavaPlugin plugin) {
+        this.plugin = plugin;
     }
+
+    private final JavaPlugin plugin;
+    private static Inventory inv;
 
     public void closeInv(Player player) {
         new BukkitRunnable() {
@@ -80,6 +79,7 @@ public class BuyGUI implements CommandExecutor, Listener {
                             ClickEvent.openUrl("https://silverstone.craftingstore.net/category/261250"))));
                 closeInv(player);
             }
+
             case 12 -> {
                 // VIP
                 player.sendMessage(Component.text("\nPurchase the ").color(NamedTextColor.GREEN)
@@ -89,6 +89,7 @@ public class BuyGUI implements CommandExecutor, Listener {
                             ClickEvent.openUrl("https://silverstone.craftingstore.net/category/261250"))));
                 closeInv(player);
             }
+
             case 13 -> {
                 // VIP+
                 player.sendMessage(Component.text("\nPurchase the ").color(NamedTextColor.GREEN)
@@ -98,6 +99,7 @@ public class BuyGUI implements CommandExecutor, Listener {
                             ClickEvent.openUrl("https://silverstone.craftingstore.net/category/261250"))));
                 closeInv(player);
             }
+
             case 14 -> {
                 // MVP
                 player.sendMessage(Component.text("\nPurchase the ").color(NamedTextColor.GREEN)
@@ -107,6 +109,7 @@ public class BuyGUI implements CommandExecutor, Listener {
                             ClickEvent.openUrl("https://silverstone.craftingstore.net/category/261250"))));
                 closeInv(player);
             }
+
             case 15 -> {
                 // Donate
                 player.sendMessage(Component.text("\nDonate to the server ").color(NamedTextColor.GREEN)
@@ -117,11 +120,10 @@ public class BuyGUI implements CommandExecutor, Listener {
         }
     }
 
-    public Inventory createInv() {
+    public void createInv() {
         Inventory inventory = Bukkit.createInventory(null, 27,
             Component.text("Available Ranks").color(TextColor.fromHexString("#048a3e"))
                 .decorate(TextDecoration.BOLD));
-
 
         // Filler
         ItemStack item = new ItemStack(Material.BLACK_STAINED_GLASS_PANE);
@@ -136,7 +138,7 @@ public class BuyGUI implements CommandExecutor, Listener {
         inventory.setItem(14, getItem(Material.NETHERITE_INGOT, "MVP"));
         inventory.setItem(15, getItem(Material.WRITABLE_BOOK, "Donate"));
 
-        return inventory;
+        inv = inventory;
     }
 
     private ItemStack getItem(Material item, String rank) {

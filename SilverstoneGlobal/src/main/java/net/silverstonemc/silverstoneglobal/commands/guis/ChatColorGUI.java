@@ -4,7 +4,6 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.text.format.TextDecoration;
-import net.silverstonemc.silverstoneglobal.SilverstoneGlobal;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -19,18 +18,19 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.stream.IntStream;
 
 public class ChatColorGUI implements CommandExecutor, Listener {
-    private static Inventory inv;
-    private static SilverstoneGlobal plugin;
-
-    public ChatColorGUI(SilverstoneGlobal plugin) {
-        ChatColorGUI.plugin = plugin;
+    public ChatColorGUI(JavaPlugin plugin) {
+        this.plugin = plugin;
     }
+
+    private final JavaPlugin plugin;
+    private static Inventory inv;
 
     public void closeInv(Player player) {
         new BukkitRunnable() {
@@ -163,16 +163,14 @@ public class ChatColorGUI implements CommandExecutor, Listener {
         closeInv(player);
     }
 
-    // Default inventory items
-    public void createDefaultInv() {
-        inv = Bukkit.createInventory(null, 45,
+    public void createInv() {
+        Inventory inventory = Bukkit.createInventory(null, 45,
             Component.text("Chat Colors").color(TextColor.fromHexString("#a62828"))
                 .decorate(TextDecoration.BOLD));
 
+        // Filler
         ItemStack item = new ItemStack(Material.BLACK_STAINED_GLASS_PANE);
         ItemMeta meta = item.getItemMeta();
-
-        // Fill items
         meta.displayName(Component.text(""));
         item.setItemMeta(meta);
         IntStream.rangeClosed(0, 44).boxed().toList().forEach(slot -> inv.setItem(slot, item));
@@ -181,83 +179,85 @@ public class ChatColorGUI implements CommandExecutor, Listener {
         meta.displayName(
             Component.text("Dark Red").color(NamedTextColor.DARK_RED).decorate(TextDecoration.BOLD));
         item.setItemMeta(meta);
-        inv.setItem(10, item);
+        inventory.setItem(10, item);
 
         item.setType(Material.RED_TERRACOTTA);
         meta.displayName(Component.text("Red").color(NamedTextColor.RED).decorate(TextDecoration.BOLD));
         item.setItemMeta(meta);
-        inv.setItem(11, item);
+        inventory.setItem(11, item);
 
         item.setType(Material.ORANGE_CONCRETE);
         meta.displayName(Component.text("Gold").color(NamedTextColor.GOLD).decorate(TextDecoration.BOLD));
         item.setItemMeta(meta);
-        inv.setItem(12, item);
+        inventory.setItem(12, item);
 
         item.setType(Material.YELLOW_CONCRETE);
         meta.displayName(Component.text("Yellow").color(NamedTextColor.YELLOW).decorate(TextDecoration.BOLD));
         item.setItemMeta(meta);
-        inv.setItem(13, item);
+        inventory.setItem(13, item);
 
         item.setType(Material.LIME_CONCRETE);
         meta.displayName(Component.text("Green").color(NamedTextColor.GREEN).decorate(TextDecoration.BOLD));
         item.setItemMeta(meta);
-        inv.setItem(14, item);
+        inventory.setItem(14, item);
 
         item.setType(Material.GREEN_CONCRETE);
         meta.displayName(
             Component.text("Dark Green").color(NamedTextColor.DARK_GREEN).decorate(TextDecoration.BOLD));
         item.setItemMeta(meta);
-        inv.setItem(15, item);
+        inventory.setItem(15, item);
 
         item.setType(Material.LIGHT_BLUE_TERRACOTTA);
         meta.displayName(
             Component.text("Dark Aqua").color(NamedTextColor.DARK_AQUA).decorate(TextDecoration.BOLD));
         item.setItemMeta(meta);
-        inv.setItem(16, item);
+        inventory.setItem(16, item);
 
         item.setType(Material.BLUE_CONCRETE);
         meta.displayName(Component.text("Blue").color(NamedTextColor.BLUE).decorate(TextDecoration.BOLD));
         item.setItemMeta(meta);
-        inv.setItem(19, item);
+        inventory.setItem(19, item);
 
         item.setType(Material.BLUE_TERRACOTTA);
         meta.displayName(
             Component.text("Dark Blue").color(NamedTextColor.DARK_BLUE).decorate(TextDecoration.BOLD));
         item.setItemMeta(meta);
-        inv.setItem(20, item);
+        inventory.setItem(20, item);
 
         item.setType(Material.PURPLE_CONCRETE);
         meta.displayName(
             Component.text("Dark Purple").color(NamedTextColor.DARK_PURPLE).decorate(TextDecoration.BOLD));
         item.setItemMeta(meta);
-        inv.setItem(21, item);
+        inventory.setItem(21, item);
 
         item.setType(Material.MAGENTA_CONCRETE);
         meta.displayName(
             Component.text("Purple").color(NamedTextColor.LIGHT_PURPLE).decorate(TextDecoration.BOLD));
         item.setItemMeta(meta);
-        inv.setItem(22, item);
+        inventory.setItem(22, item);
 
         item.setType(Material.GRAY_TERRACOTTA);
         meta.displayName(
             Component.text("Dark Gray").color(NamedTextColor.DARK_GRAY).decorate(TextDecoration.BOLD));
         item.setItemMeta(meta);
-        inv.setItem(23, item);
+        inventory.setItem(23, item);
 
         item.setType(Material.LIGHT_GRAY_CONCRETE);
         meta.displayName(Component.text("Gray").color(NamedTextColor.GRAY).decorate(TextDecoration.BOLD));
         item.setItemMeta(meta);
-        inv.setItem(24, item);
+        inventory.setItem(24, item);
 
         item.setType(Material.WHITE_CONCRETE);
         meta.displayName(Component.text("White").color(NamedTextColor.WHITE).decorate(TextDecoration.BOLD));
         item.setItemMeta(meta);
-        inv.setItem(25, item);
+        inventory.setItem(25, item);
 
         item.setType(Material.BARRIER);
         meta.displayName(
             Component.text("Reset to Default").color(NamedTextColor.WHITE).decorate(TextDecoration.BOLD));
         item.setItemMeta(meta);
-        inv.setItem(31, item);
+        inventory.setItem(31, item);
+
+        inv = inventory;
     }
 }

@@ -6,6 +6,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.text.format.TextDecoration;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.title.Title;
 import org.bukkit.*;
 import org.bukkit.command.Command;
@@ -74,12 +75,14 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
                     Component.text("Sorry, but only players can do that.").color(NamedTextColor.RED));
                 return true;
             }
+
             // Check if allowed to do command
             if (player.getScoreboardTags().contains("Seeker")) {
                 player.sendMessage(
                     Component.text("You must be a hider to use taunts!").color(NamedTextColor.RED));
                 return true;
             }
+
             // Check if on cooldown
             if (!player.hasPermission("silverstone.minigames.hideseek.taunt.bypasscooldown"))
                 if (cooldowns.containsKey(player)) if (cooldowns.get(player) > System.currentTimeMillis()) {
@@ -91,6 +94,7 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
                             .append(Component.text(" seconds.").color(NamedTextColor.RED)));
                     return true;
                 }
+
             // Open GUI
             player.openInventory(inv);
             return true;
@@ -238,6 +242,7 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
                     points.put(player, currentPoints + 1);
                 tauntTimer(player);
             }
+
             case 11 -> {
                 // Ding / Bell
                 ding(player);
@@ -247,6 +252,7 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
                     points.put(player, currentPoints + 2);
                 tauntTimer(player);
             }
+
             case 12 -> {
                 // Scream / Tear
                 scream(player);
@@ -256,6 +262,7 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
                     points.put(player, currentPoints + 3);
                 tauntTimer(player);
             }
+
             case 13 -> {
                 // Roar / Dragon Head
                 roar(player);
@@ -265,6 +272,7 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
                     points.put(player, currentPoints + 5);
                 tauntTimer(player);
             }
+
             case 14 -> {
                 // Explosion / TNT
                 explosion(player);
@@ -274,6 +282,7 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
                     points.put(player, currentPoints + 8);
                 tauntTimer(player);
             }
+
             case 15 -> {
                 // Fireworks / Firework Rocket
                 fireworks(player);
@@ -283,6 +292,7 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
                     points.put(player, currentPoints + 13);
                 tauntTimer(player);
             }
+
             case 16 -> {
                 // Boom / Totem
                 boom(player);
@@ -292,6 +302,7 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
                     points.put(player, currentPoints + 15);
                 tauntTimer(player);
             }
+
             case 28 -> {
                 // Random taunt random player
                 if (currentPoints >= 60) {
@@ -306,6 +317,7 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
                 } else player.sendMessage(
                     Component.text("You don't have enough points to do that!").color(NamedTextColor.RED));
             }
+
             case 31 -> {
                 // Seekers slowness
                 if (currentPoints >= 100) {
@@ -320,6 +332,7 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
                 } else player.sendMessage(
                     Component.text("You don't have enough points to do that!").color(NamedTextColor.RED));
             }
+
             case 34 -> {
                 // Seekers blindness
                 if (currentPoints >= 125) {
@@ -389,6 +402,95 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
                         }
     }
 
+    // Inventory items
+    public void createInv() {
+        Inventory inventory = Bukkit.createInventory(null, 45,
+            Component.text("Taunts").color(NamedTextColor.DARK_RED).decorate(TextDecoration.BOLD));
+
+        // Filler
+        ItemStack item = new ItemStack(Material.BLACK_STAINED_GLASS_PANE);
+        ItemMeta meta = item.getItemMeta();
+        meta.displayName(Component.text(""));
+        item.setItemMeta(meta);
+        IntStream.rangeClosed(0, 44).boxed().toList().forEach(slot -> inv.setItem(slot, item));
+
+        inventory.setItem(10, getItem(Material.BONE, "Bark", "<dark_aqua><b>1 <dark_green>Taunt Point"));
+        inventory.setItem(11, getItem(Material.BELL, "Ding", "<dark_aqua><b>2 <dark_green>Taunt Points"));
+        inventory.setItem(12,
+            getItem(Material.GHAST_TEAR, "Scream", "<dark_aqua><b>3 <dark_green>Taunt Points"));
+        inventory.setItem(13,
+            getItem(Material.DRAGON_HEAD, "Roar", "<dark_aqua><b>5 <dark_green>Taunt Points"));
+        inventory.setItem(14, getItem(Material.TNT, "Explosion", "<dark_aqua><b>8 <dark_green>Taunt Points"));
+        inventory.setItem(15,
+            getItem(Material.FIREWORK_ROCKET, "Fireworks", "<dark_aqua><b>13 <dark_green>Taunt Points"));
+        inventory.setItem(16,
+            getItem(Material.TOTEM_OF_UNDYING, "Boom", "<dark_aqua><b>15 <dark_green>Taunt Points"));
+
+        // Random taunt
+        ItemStack skullItem = new ItemStack(Material.PLAYER_HEAD);
+        SkullMeta skullMeta = (SkullMeta) skullItem.getItemMeta();
+        List<Component> skullLore = new ArrayList<>();
+
+        GameProfile skullProfile = new GameProfile(UUID.randomUUID(), null);
+        skullProfile.getProperties().put("textures", new Property("textures",
+            "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDZiYTYzMzQ0ZjQ5ZGQxYzRmNTQ4OGU5MjZiZjNkOWUyYjI5OTE2YTZjNTBkNjEwYmI0MGE1MjczZGM4YzgyIn19fQ=="));
+
+        try {
+            Field field = skullMeta.getClass().getDeclaredField("profile");
+            field.setAccessible(true);
+            field.set(skullMeta, skullProfile);
+            field.setAccessible(false);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        skullMeta.displayName(
+            Component.text("Taunt at random player").color(NamedTextColor.AQUA).decorate(TextDecoration.BOLD)
+                .decoration(TextDecoration.ITALIC, false));
+        skullLore.add(
+            Component.text("Costs ").color(NamedTextColor.DARK_AQUA).decoration(TextDecoration.ITALIC, false)
+                .append(Component.text("60").color(NamedTextColor.DARK_GREEN).decorate(TextDecoration.BOLD))
+                .append(Component.text(" Taunt Points").color(NamedTextColor.DARK_AQUA)));
+        skullLore.add(Component.text(""));
+        skullLore.add(Component.text("Sends a random taunt").color(NamedTextColor.GRAY)
+            .decoration(TextDecoration.ITALIC, false));
+        skullLore.add(Component.text("to a random hider").color(NamedTextColor.GRAY)
+            .decoration(TextDecoration.ITALIC, false));
+        skullLore.add(Component.text("(This can include yourself!)").color(TextColor.fromHexString("#858585"))
+            .decorate(TextDecoration.ITALIC));
+        skullMeta.lore(skullLore);
+        skullItem.setItemMeta(skullMeta);
+        inventory.setItem(28, skullItem);
+
+        // Slowness
+        inventory.setItem(31, getItem(Material.NETHERITE_BOOTS, "Give seekers slowness",
+            "<dark_aqua>Costs <dark_green><b>100 <dark_aqua>Taunt Points", "", "<gray>Slows all seekers",
+            "<gray>down for 15 seconds"));
+
+        // Blindness
+        inventory.setItem(34, getItem(Material.NETHERITE_HELMET, "Give seekers blindness",
+            "<dark_aqua>Costs <dark_green><b>125 <dark_aqua>Taunt Points", "", "<gray>Gives all seekers",
+            "<gray>blindness for 10 seconds"));
+
+        inv = inventory;
+    }
+
+    private ItemStack getItem(Material item, String title, String... lore) {
+        ItemStack itemStack = new ItemStack(item);
+        ItemMeta meta = itemStack.getItemMeta();
+        List<Component> parsedLore = new ArrayList<>();
+
+        meta.displayName(Component.text(title).color(NamedTextColor.AQUA).decorate(TextDecoration.BOLD)
+            .decoration(TextDecoration.ITALIC, false));
+        for (String customLore : lore)
+            parsedLore.add(MiniMessage.miniMessage().deserialize("<!i>" + customLore));
+        meta.lore(parsedLore);
+        meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+        itemStack.setItemMeta(meta);
+
+        return itemStack;
+    }
+
     // Bark / Bone
     private void bark(Player player) {
         player.getWorld()
@@ -442,160 +544,5 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
         player.getWorld()
             .spawnParticle(Particle.TOTEM, player.getLocation().add(0, 0.5, 0), 1000, -2f, 5f, -2f, 0f, null,
                 true);
-    }
-
-    // Inventory items
-    public static void createInv() {
-
-        inv = Bukkit.createInventory(null, 45,
-            Component.text("Taunts").color(NamedTextColor.DARK_RED).decorate(TextDecoration.BOLD));
-
-        ItemStack item = new ItemStack(Material.BLACK_STAINED_GLASS_PANE);
-        ItemMeta meta = item.getItemMeta();
-        List<Component> lore = new ArrayList<>();
-
-        // Fill items
-        meta.displayName(Component.text(""));
-        item.setItemMeta(meta);
-        IntStream.rangeClosed(0, 44).boxed().toList().forEach(slot -> inv.setItem(slot, item));
-
-        // Bark
-        item.setType(Material.BONE);
-        meta.displayName(Component.text("Bark").color(NamedTextColor.AQUA).decorate(TextDecoration.BOLD));
-        lore.add(Component.text()
-            .append(Component.text("1").color(NamedTextColor.DARK_AQUA).decorate(TextDecoration.BOLD))
-            .append(Component.text(" Taunt Point").color(NamedTextColor.DARK_GREEN)).build());
-        meta.lore(lore);
-        item.setItemMeta(meta);
-        inv.setItem(10, item);
-
-        // Ding
-        item.setType(Material.BELL);
-        meta.displayName(Component.text("Ding").color(NamedTextColor.AQUA).decorate(TextDecoration.BOLD));
-        lore.clear();
-        lore.add(Component.text()
-            .append(Component.text("2").color(NamedTextColor.DARK_AQUA).decorate(TextDecoration.BOLD))
-            .append(Component.text(" Taunt Points").color(NamedTextColor.DARK_GREEN)).build());
-        meta.lore(lore);
-        item.setItemMeta(meta);
-        inv.setItem(11, item);
-
-        // Scream
-        item.setType(Material.GHAST_TEAR);
-        meta.displayName(Component.text("Scream").color(NamedTextColor.AQUA).decorate(TextDecoration.BOLD));
-        lore.clear();
-        lore.add(Component.text()
-            .append(Component.text("3").color(NamedTextColor.DARK_AQUA).decorate(TextDecoration.BOLD))
-            .append(Component.text(" Taunt Points").color(NamedTextColor.DARK_GREEN)).build());
-        meta.lore(lore);
-        item.setItemMeta(meta);
-        inv.setItem(12, item);
-
-        // Roar
-        item.setType(Material.DRAGON_HEAD);
-        meta.displayName(Component.text("Roar").color(NamedTextColor.AQUA).decorate(TextDecoration.BOLD));
-        lore.clear();
-        lore.add(Component.text()
-            .append(Component.text("5").color(NamedTextColor.DARK_AQUA).decorate(TextDecoration.BOLD))
-            .append(Component.text(" Taunt Points").color(NamedTextColor.DARK_GREEN)).build());
-        meta.lore(lore);
-        item.setItemMeta(meta);
-        inv.setItem(13, item);
-
-        // Explosion
-        item.setType(Material.TNT);
-        meta.displayName(
-            Component.text("Explosion").color(NamedTextColor.AQUA).decorate(TextDecoration.BOLD));
-        lore.clear();
-        lore.add(Component.text()
-            .append(Component.text("8").color(NamedTextColor.DARK_AQUA).decorate(TextDecoration.BOLD))
-            .append(Component.text(" Taunt Points").color(NamedTextColor.DARK_GREEN)).build());
-        meta.lore(lore);
-        item.setItemMeta(meta);
-        inv.setItem(14, item);
-
-        // Fireworks
-        item.setType(Material.FIREWORK_ROCKET);
-        meta.displayName(
-            Component.text("Fireworks").color(NamedTextColor.AQUA).decorate(TextDecoration.BOLD));
-        lore.clear();
-        lore.add(Component.text()
-            .append(Component.text("13").color(NamedTextColor.DARK_AQUA).decorate(TextDecoration.BOLD))
-            .append(Component.text(" Taunt Points").color(NamedTextColor.DARK_GREEN)).build());
-        meta.lore(lore);
-        item.setItemMeta(meta);
-        inv.setItem(15, item);
-
-        // Boom
-        item.setType(Material.TOTEM_OF_UNDYING);
-        meta.displayName(Component.text("Boom").color(NamedTextColor.AQUA).decorate(TextDecoration.BOLD));
-        lore.clear();
-        lore.add(Component.text()
-            .append(Component.text("15").color(NamedTextColor.DARK_AQUA).decorate(TextDecoration.BOLD))
-            .append(Component.text(" Taunt Points").color(NamedTextColor.DARK_GREEN)).build());
-        meta.lore(lore);
-        item.setItemMeta(meta);
-        inv.setItem(16, item);
-
-
-        // Random taunt
-        ItemStack skullItem = new ItemStack(Material.PLAYER_HEAD);
-        SkullMeta skullMeta = (SkullMeta) skullItem.getItemMeta();
-        List<Component> skullLore = new ArrayList<>();
-
-        GameProfile skullProfile = new GameProfile(UUID.randomUUID(), null);
-        skullProfile.getProperties().put("textures", new Property("textures",
-            "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDZiYTYzMzQ0ZjQ5ZGQxYzRmNTQ4OGU5MjZiZjNkOWUyYjI5OTE2YTZjNTBkNjEwYmI0MGE1MjczZGM4YzgyIn19fQ=="));
-
-        try {
-            Field field = skullMeta.getClass().getDeclaredField("profile");
-            field.setAccessible(true);
-            field.set(skullMeta, skullProfile);
-            field.setAccessible(false);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        skullMeta.displayName(Component.text("Taunt at random player").color(NamedTextColor.AQUA)
-            .decorate(TextDecoration.BOLD));
-        skullLore.add(Component.text("Costs ").color(NamedTextColor.DARK_AQUA)
-            .append(Component.text("60").color(NamedTextColor.DARK_GREEN).decorate(TextDecoration.BOLD))
-            .append(Component.text(" Taunt Points").color(NamedTextColor.DARK_AQUA)));
-        skullLore.add(Component.text("Sends a random taunt").color(NamedTextColor.GRAY));
-        skullLore.add(Component.text("to a random hider").color(NamedTextColor.GRAY));
-        skullLore.add(Component.text("(This can include yourself!)").color(TextColor.fromHexString("#858585"))
-            .decorate(TextDecoration.ITALIC));
-        skullMeta.lore(skullLore);
-        skullItem.setItemMeta(skullMeta);
-        inv.setItem(28, skullItem);
-
-        // Slowness
-        item.setType(Material.NETHERITE_BOOTS);
-        meta.displayName(
-            Component.text("Give seekers slowness").color(NamedTextColor.AQUA).decorate(TextDecoration.BOLD));
-        meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
-        lore.clear();
-        lore.add(Component.text("Costs ").color(NamedTextColor.DARK_AQUA)
-            .append(Component.text("100").color(NamedTextColor.DARK_GREEN).decorate(TextDecoration.BOLD))
-            .append(Component.text(" Taunt Points").color(NamedTextColor.DARK_AQUA)));
-        lore.add(Component.text("Slows all seekers").color(NamedTextColor.GRAY));
-        lore.add(Component.text("down for 15 seconds").color(NamedTextColor.GRAY));
-        meta.lore(lore);
-        item.setItemMeta(meta);
-        inv.setItem(31, item);
-
-        // Blindness
-        item.setType(Material.NETHERITE_HELMET);
-        meta.displayName(Component.text("Give seekers blindness").color(NamedTextColor.AQUA)
-            .decorate(TextDecoration.BOLD));
-        lore.clear();
-        lore.add(Component.text("Costs ").color(NamedTextColor.DARK_AQUA)
-            .append(Component.text("125").color(NamedTextColor.DARK_GREEN).decorate(TextDecoration.BOLD))
-            .append(Component.text(" Taunt Points").color(NamedTextColor.DARK_AQUA)));
-        lore.add(Component.text("Gives all seekers").color(NamedTextColor.GRAY));
-        lore.add(Component.text("blindness for 10 seconds").color(NamedTextColor.GRAY));
-        meta.lore(lore);
-        item.setItemMeta(meta);
-        inv.setItem(34, item);
     }
 }
