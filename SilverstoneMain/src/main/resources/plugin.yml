@@ -13,3 +13,6 @@ commands:
     description: "Get started message"
   homec:
     permission: silverstone.owner
+  velocitytest:
+    permission: silverstone.console
+    usage: "/velocitytest <player> <x> <y> <z>"

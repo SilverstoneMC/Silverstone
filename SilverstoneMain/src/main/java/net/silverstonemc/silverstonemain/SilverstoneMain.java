@@ -4,6 +4,7 @@ import github.scarsz.discordsrv.DiscordSRV;
 import net.ess3.api.IEssentials;
 import net.silverstonemc.silverstonemain.commands.GettingStarted;
 import net.silverstonemc.silverstonemain.commands.JHome;
+import net.silverstonemc.silverstonemain.commands.VelocityTest;
 import net.silverstonemc.silverstonemain.events.WirelessButtons;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginManager;
@@ -28,6 +29,7 @@ public class SilverstoneMain extends JavaPlugin implements Listener {
 
         getCommand("gettingstarted").setExecutor(new GettingStarted());
         getCommand("homec").setExecutor(new JHome(this));
+        getCommand("velocitytest").setExecutor(new VelocityTest());
 
         PluginManager pluginManager = this.getServer().getPluginManager();
         pluginManager.registerEvents(new TabComplete(), this);
