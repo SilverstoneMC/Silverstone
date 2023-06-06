@@ -69,7 +69,7 @@ public class QuitEvent implements Listener {
     private void removeLeave(ProxiedPlayer player) {
         Runnable task = () -> {
             leaves.put(player.getUniqueId(), leaves.get(player.getUniqueId()) - 1);
-            if (leaves.get(player.getUniqueId()) == 0) leaves.remove(player.getUniqueId());
+            if (leaves.get(player.getUniqueId()) <= 0) leaves.remove(player.getUniqueId());
         };
 
         leaveTasks.add(plugin.getProxy().getScheduler()
