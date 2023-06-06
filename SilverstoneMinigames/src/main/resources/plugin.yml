@@ -28,9 +28,9 @@ commands:
   sendtoflyingcourse:
     permission: silverstone.console
     usage: "/sendtoflyingcourse <player>"
-  ssmi:
+  ssmrl:
+    aliases: [ ssmreload ]
     permission: silverstone.admin
-    usage: "/silverstoneminigames reload"
   taunt:
     permission: silverstone.minigames.hideseek.taunt
   tntrun:

@@ -70,8 +70,8 @@ commands:
     permission: silverstone.admin
   shrug:
     description: "Shrug emote"
-  silverstoneglobal:
-    aliases: [ ssg ]
+  ssg:
+    aliases: [ silverstoneglobal ]
     permission: silverstone.admin
     usage: "Usage: /ssg reload"
   spectate:
