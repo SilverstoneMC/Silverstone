@@ -72,45 +72,42 @@ public record Minigames(JavaPlugin plugin) implements CommandExecutor, Listener 
 
         Player player = (Player) event.getWhoClicked();
 
-        //todo update descriptions
         if (event.getInventory().equals(htpInv)) switch (event.getRawSlot()) {
             case 10 -> openBook(player, "Boat Racing", """
-                Basically Mario Kart except you have little control over the direction you're driving in. Will select 1 out of 4 maps randomly.
+                Race your boat to reach the finish line before the other players. 1 of the 4 available maps will be randomly selected.
                                 
                 <b>The goal:</b> Get to the finish line first.""");
 
             case 11 -> openBook(player, "Death Run", """
                     A random person is selected to choose a map. Once the map is chosen, another random person is selected to be the killer.""",
                 """
-                    <b>The goal (runners):</b> Race to be the first person to reach the finish line. Be wary of the killer as they have multiple ways to slow you down!""",
+                    <b>The goal (runners):</b> Race to be the first person to reach the finish line. Be wary of the killer as they have multiple ways to slow you down.""",
                 """
-                    <b>The goal (killer):</b> Try to slow everyone down as much as possible. Killing players will give you a temporary speed boost. If the timer finishes before anyone makes it to the end, you win!""");
+                    <b>The goal (killer):</b> Slow everyone down as much as possible. Killing players will give you a temporary speed boost. If the timer finishes before anyone makes it to the end, you win!""");
 
             case 12 -> openBook(player, "Flying Course", """
-                Fly through the rings in the correct order without touching anything! The arrows on the ground are boost pads.
+                Fly through the rings in the correct order without touching anything. The arrows on the ground are boost pads, and the arrows on the rings point to the next ring.
 
-                <b>The goal:</b> Reach the finish area without punching your monitor.""");
+                <b>The goal:</b> Reach the finish area.""");
 
             case 13 -> openBook(player, "Hide & Seek", """
                     A random player is selected to be the seeker. An additional seeker will be selected if there are 5 or more players, and a third seeker will be chosen if there are 7 or more players.""",
                 """
-                    The seeker's job is to try and kill all the disguised hiders within 10 minutes. Hints will be given out whenever the timer in your hotbar reaches 0.""",
-                """
                     Each hider will be disguised as one of seven random blocks. The possible disguises are Grass Block, Stone, Dark Prismarine, Spruce Leaves, Oak Leaves, Poppy, and Cornflower, in no particular order.""",
+                """
+                    The seeker's job is to try and kill all the disguised hiders within 10 minutes. Hints will be given out whenever the timer in your hotbar reaches 0.""",
                 """
                     The amount of remaining hiders correspond to the block(s) displayed in your hotbar.
                     Hiders may use taunts to play sounds and effects at their location once every 15 seconds. Each taunt will provide a different number of Taunt Points.""",
                 """
                     The number of bells in a hider's hotbar corresponds to the amount of Taunt Points they currently have, with a maximum display limit of 125 (there is no internal Taunt Point limit, however).""",
                 """
-                    Once a hider reaches 60 or more Taunt Points, they can choose to spend them to play a random taunt at a random hider's location (this can include the player themself).""",
+                    <b>The goal (hiders):</b> Avoid getting caught and killed by the seeker(s). If there are hiders remaining when the 10 minutes is up, the hiders will win.""",
                 """
-                    <b>The goal (hiders):</b> Do your best to not be caught and killed by the seekers. If there are hiders remaining when the 10 minutes is up, the hiders will win.""",
-                """
-                    <b>The goal (seekers):</b> Try to kill every hider you can find. If there are no more hiders before the 10 minutes is up, the seekers will win.""");
+                    <b>The goal (seekers):</b> Kill every hider. If there are no more hiders before the 10 minutes is up, the seekers will win.""");
 
             case 14 -> openBook(player, "Mazes", """
-                A random maze that has no players in it will be assigned to a random player in the maze lobby. There are currently 8 different mazes (possibly more coming soon).
+                A random maze that has no players in it will be assigned to a random player in the maze lobby. There are 8 different mazes.
 
                 <b>The goal:</b> Find the golden pressure plate at the end of the maze.""");
 
@@ -119,13 +116,11 @@ public record Minigames(JavaPlugin plugin) implements CommandExecutor, Listener 
 
                     Stand on the <b>black</b> carpet and press <b><key:key.drop></b> to throw the ball towards the hole or the next checkpoint.
                     Checkpoints are <b><gray>gray</gray></b> carpet.""", """
-                    If the ball misses and stops on any <b><dark_green>green</dark_green></b> or <b><dark_red>red</dark_red></b> carpet, retrieve the ball and shoot again from the latest checkpoint. Once the ball makes it in the hole, you may continue to the next level.""",
+                    If the ball misses and stops on any <b><dark_green>green</dark_green></b> or <b><dark_red>red</dark_red></b> carpet, retrieve the ball and shoot again from the latest checkpoint. Once the ball makes it in the hole, move on to the next level.""",
                 """
-                    <b>The goal:</b> Get to the last hole and finish the game in as little strokes as possible.""");
+                    <b>The goal:</b> Complete the final hole and finish the game in as few strokes as possible.""");
 
             case 16 -> openBook(player, "Parkour", """
-                Jump! (More maps planned)
-
                 <b>The goal:</b> Get to the end without rage quitting.""");
 
             case 21 -> openBook(player, "PvP", """
@@ -136,16 +131,16 @@ public record Minigames(JavaPlugin plugin) implements CommandExecutor, Listener 
                     <b>The goal:</b> Be the last person standing.""", """
                                         
                     <b>FFA</b>
-                    Kill the other players with your fist! Killing other players will result in you being healed.
+                    Kill the other players with your fist! Killing others will result in you being healed.
 
                     <b>The goal:</b> Don't die.""", """
                                         
                     <b>Sumo</b>
-                    Hit the other player off the edge of the map! If nobody has died after 1 minute and 30 seconds, you will get Knockback Sticks (Knockback I).""",
+                    Hit the other player off the edge of the map. If nobody has died after 1.5 minutes, you will get Knockback Sticks (Knockback I).""",
                 """
                                         
                     <b>Sumo (Continued)</b>
-                    If everyone is still alive after an additional 1 minute and 30 seconds, you will get Knockback Rods (Knockback II).
+                    If everyone is still alive after an additional 1.5 minutes, you will get Knockback Rods (Knockback II).
 
                     <b>The goal:</b> Be the last person standing.""");
 
@@ -154,12 +149,12 @@ public record Minigames(JavaPlugin plugin) implements CommandExecutor, Listener 
                 """
                     You can override this by choosing <b>FORCE 5 LAYERS</b> instead of <b>START DEFAULT</b>.
 
-                    <b>The goal:</b> Try and get the other players into the water at the bottom of the layers of snow. The last person standing is the winner.""");
+                    <b>The goal:</b> Get the other players out by making them fall into the water at the bottom. The last person standing is the winner.""");
 
             case 23 -> openBook(player, "TNT Run", """
                 You will start with 5 double jumps. Click with the feather in hand to consume a double jump.
 
-                <b>The goal:</b> Try to get the other players out by making them drop through the bottom layer.""");
+                <b>The goal:</b> Get the other players out by making them drop through the bottom layer.""");
         }
 
         else switch (event.getRawSlot()) {
