@@ -7,6 +7,7 @@ import net.luckperms.api.LuckPerms;
 import net.silverstonemc.silverstoneglobal.commands.*;
 import net.silverstonemc.silverstoneglobal.commands.guis.BuyGUI;
 import net.silverstonemc.silverstoneglobal.commands.guis.ChatColorGUI;
+import net.silverstonemc.silverstoneglobal.commands.guis.Tips;
 import net.silverstonemc.silverstoneglobal.events.ChatnSounds;
 import net.silverstonemc.silverstoneglobal.events.Gamemode;
 import net.silverstonemc.silverstoneglobal.events.JoinnLeave;
@@ -72,6 +73,7 @@ public class SilverstoneGlobal extends JavaPlugin implements Listener {
         getCommand("silverstoneglobal").setTabCompleter(new TabComplete());
         getCommand("spectate").setExecutor(new Spectate(this));
         getCommand("tableflip").setExecutor(new ChatEmotes());
+        getCommand("tips").setExecutor(new Tips(this));
         getCommand("tpchunk").setExecutor(new TP());
         getCommand("tpregion").setExecutor(new TP());
         getCommand("updatecommands").setExecutor(new UpdateCommands());

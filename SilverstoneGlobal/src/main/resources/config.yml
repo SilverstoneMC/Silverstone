@@ -1,6 +1,18 @@
 # minigames, creative, survival (#serverSpecific)
 server: "minigames"
 
+tips:
+  1:
+    header: "Toggles"
+    tips:
+      - "<b>/command</b> - Neat!"
+      - "<b>/command2</b> - Neat2!"
+      - "<b>/command3</b> - Neat3!"
+  2:
+    header: "Pain"
+    tips:
+      - "<b>/kill</b> - Kills"
+
 # Lore for the buy GUI
 buy-gui:
   member:

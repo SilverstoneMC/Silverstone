@@ -80,6 +80,8 @@ commands:
     usage: "§cUsage: /spectate <player>"
   tableflip:
     description: "Tableflip emote"
+  tips:
+    description: "Server tips"
   tpchunk:
     permission: silverstone.admin
     usage: "§cUsage: /tpchunk <x> <z> [world]"
