@@ -5,6 +5,14 @@ minimum-protocol-version: 759 #1.19
 current-protocol-version: 762
 current-version: 1.19.4
 
+join-leave-spam:
+  # After how long in seconds the leave count should expire
+  expire-after: 25
+  # After how many joins and leaves should the player be warned?
+  leaves: 4
+  # What should we warn them for?
+  warn: "join-leave-spam"
+
 rules:
   # The text to add before the rule number when sending a player a rule
   rule-prefix: "<dark_green>{#} <gray>| <#23B8CF>"

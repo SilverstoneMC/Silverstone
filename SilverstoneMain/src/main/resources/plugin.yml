@@ -13,10 +13,3 @@ commands:
     description: "Get started message"
   homec:
     permission: silverstone.owner
-  ssm:
-    permission: silverstone.admin
-    usage: "§cUsage: /ssm reload"
-
-permissions:
-  silverstone.joinleavespam.bypass:
-    default: op

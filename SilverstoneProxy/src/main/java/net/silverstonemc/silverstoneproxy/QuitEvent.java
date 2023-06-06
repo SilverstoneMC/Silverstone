@@ -9,9 +9,16 @@ import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.event.EventHandler;
 
 import java.awt.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 @SuppressWarnings("DataFlowIssue")
 public class QuitEvent implements Listener {
+    private final Map<UUID, Integer> leaves = new HashMap<>();
+    private final SilverstoneProxy plugin = SilverstoneProxy.getPlugin();
+
     @EventHandler
     public void onQuit(PlayerDisconnectEvent event) {
         ProxiedPlayer player = event.getPlayer();
@@ -34,5 +41,34 @@ public class QuitEvent implements Listener {
 
             JoinEvent.newPlayers.remove(player);
         }
+
+        // Join/leave spam
+        if (player.hasPermission("silverstone.joinleavespam.bypass")) return;
+
+        if (leaves.containsKey(player.getUniqueId()))
+            if (leaves.get(player.getUniqueId()) >= ConfigurationManager.config.getInt(
+                "join-leave-spam.leaves")) plugin.getProxy().getPluginManager()
+                .dispatchCommand(plugin.getProxy().getConsole(),
+                    "warn " + player.getName() + " " + ConfigurationManager.config.getString(
+                        "join-leave-spam.warn"));
+            else {
+                leaves.put(player.getUniqueId(), leaves.get(player.getUniqueId()) + 1);
+                removeLeave(player);
+            }
+        else {
+            leaves.put(player.getUniqueId(), 1);
+            removeLeave(player);
+        }
+    }
+
+    private void removeLeave(ProxiedPlayer player) {
+        Runnable task = () -> {
+            leaves.put(player.getUniqueId(), leaves.get(player.getUniqueId()) - 1);
+            if (leaves.get(player.getUniqueId()) == 0) leaves.remove(player.getUniqueId());
+        };
+        
+        plugin.getProxy().getScheduler()
+            .schedule(plugin, task, ConfigurationManager.config.getInt("join-leave-spam.expire-after") * 20L,
+                TimeUnit.SECONDS);
     }
 }
