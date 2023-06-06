@@ -1,0 +1,36 @@
+name: Ban Appeal
+description: Use this if you believe you were unfairly banned
+title: Ban Appeal
+labels: [ Appeal ]
+body:
+  - type: input
+    attributes:
+      label: My Minecraft username
+      placeholder: JasonHorkles
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: What I did to get banned
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Why I want my ban to be lifted
+    validations:
+      required: true
+
+  - type: input
+    attributes:
+      label: "Will I ever repeat what I did to get banned?"
+    validations:
+      required: true
+
+  - type: checkboxes
+    attributes:
+      label: "I understand that future appeals may not be accepted if I am banned again."
+      options:
+        - label: I agree
+          required: true
