@@ -56,7 +56,6 @@ public class SilverstoneProxy extends Plugin implements Listener {
         pluginManager.registerCommand(this, new Restart());
         pluginManager.registerCommand(this, new RestartWhenEmpty());
         pluginManager.registerCommand(this, new Rules());
-        pluginManager.registerCommand(this, new Tips());
 
         Runnable task = () -> {
             pluginManager.registerCommand(plugin, new WarnReasons());
