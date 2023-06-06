@@ -8,6 +8,7 @@ import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Command;
 import net.md_5.bungee.api.plugin.TabExecutor;
+import net.md_5.bungee.api.scheduler.ScheduledTask;
 import net.silverstonemc.silverstoneproxy.*;
 
 import java.awt.*;
@@ -45,6 +46,10 @@ public class BaseCommand extends Command implements TabExecutor {
                 String username = ConfigurationManager.userCache.getString("users." + key);
                 UserManager.playerMap.put(uuid, username);
             }
+            
+            // Reset player quits
+            for (ScheduledTask task : QuitEvent.leaveTasks) task.cancel();
+            QuitEvent.leaves.clear();
 
             sender.sendMessage(TextComponent.fromLegacyText(ChatColor.GREEN + "SilverstoneProxy reloaded!"));
         } else sender.sendMessage(

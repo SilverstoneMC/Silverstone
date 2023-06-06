@@ -6,9 +6,11 @@ import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.event.PlayerDisconnectEvent;
 import net.md_5.bungee.api.plugin.Listener;
+import net.md_5.bungee.api.scheduler.ScheduledTask;
 import net.md_5.bungee.event.EventHandler;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -16,7 +18,9 @@ import java.util.concurrent.TimeUnit;
 
 @SuppressWarnings("DataFlowIssue")
 public class QuitEvent implements Listener {
-    private final Map<UUID, Integer> leaves = new HashMap<>();
+    public static final Map<UUID, Integer> leaves = new HashMap<>();
+    public static ArrayList<ScheduledTask> leaveTasks = new ArrayList<>();
+
     private final SilverstoneProxy plugin = SilverstoneProxy.getPlugin();
 
     @EventHandler
@@ -44,6 +48,7 @@ public class QuitEvent implements Listener {
 
         // Join/leave spam
         if (player.hasPermission("silverstone.joinleavespam.bypass")) return;
+        if (event.getPlayer().getServer() == null) return;
 
         if (leaves.containsKey(player.getUniqueId()))
             if (leaves.get(player.getUniqueId()) >= ConfigurationManager.config.getInt(
@@ -66,9 +71,9 @@ public class QuitEvent implements Listener {
             leaves.put(player.getUniqueId(), leaves.get(player.getUniqueId()) - 1);
             if (leaves.get(player.getUniqueId()) == 0) leaves.remove(player.getUniqueId());
         };
-        
-        plugin.getProxy().getScheduler()
-            .schedule(plugin, task, ConfigurationManager.config.getInt("join-leave-spam.expire-after") * 20L,
-                TimeUnit.SECONDS);
+
+        leaveTasks.add(plugin.getProxy().getScheduler()
+            .schedule(plugin, task, ConfigurationManager.config.getInt("join-leave-spam.expire-after"),
+                TimeUnit.SECONDS));
     }
 }
