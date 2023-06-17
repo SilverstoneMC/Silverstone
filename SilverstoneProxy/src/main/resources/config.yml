@@ -1,6 +1,7 @@
 # https://wiki.vg/Protocol_version_numbers
 # Kick the player if protocol version is below this value
-minimum-protocol-version: 759 #1.19
+minimum-protocol-version: 762 #1.19.4
+minimum-version: 1.19.4
 # Send warning message to the player if protocol version is below this value
 current-protocol-version: 762
 current-version: 1.19.4
