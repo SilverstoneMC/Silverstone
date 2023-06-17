@@ -147,7 +147,7 @@ public class BuyGUI implements CommandExecutor, Listener {
         List<Component> lore = new ArrayList<>();
 
         meta.displayName(Component.text(rank).color(NamedTextColor.AQUA).decorate(TextDecoration.BOLD)
-            .decoration(TextDecoration.ITALIC, false));
+            .decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE));
         for (String customLore : plugin.getConfig().getStringList("buy-gui." + rank.toLowerCase()))
             lore.add(MiniMessage.miniMessage().deserialize("<!i>" + customLore));
         meta.lore(lore);

@@ -210,7 +210,7 @@ public record Minigames(JavaPlugin plugin) implements CommandExecutor, Listener 
         ItemMeta meta = itemStack.getItemMeta();
 
         meta.displayName(Component.text(title).color(NamedTextColor.AQUA).decorate(TextDecoration.BOLD)
-            .decoration(TextDecoration.ITALIC, false));
+            .decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE));
         meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
         itemStack.setItemMeta(meta);
 

@@ -224,7 +224,7 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
         ItemStack item = new ItemStack(Material.BELL);
         ItemMeta meta = item.getItemMeta();
         meta.displayName(Component.text("Taunt").color(NamedTextColor.AQUA).decorate(TextDecoration.BOLD)
-            .decoration(TextDecoration.ITALIC, false));
+            .decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE));
         item.setItemMeta(meta);
 
         int currentPoints = 0;
@@ -359,19 +359,19 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
                 item.setAmount(newPoints);
                 item.getItemMeta().displayName(
                     Component.text("Taunt").color(NamedTextColor.AQUA).decorate(TextDecoration.BOLD)
-                        .decoration(TextDecoration.ITALIC, false));
+                        .decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE));
                 player.getInventory().setItem(0, item);
             } else if (newPoints == 0) {
                 item.setAmount(1);
                 item.getItemMeta().displayName(
                     Component.text("Taunt").color(NamedTextColor.AQUA).decorate(TextDecoration.BOLD)
-                        .decoration(TextDecoration.ITALIC, false));
+                        .decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE));
                 player.getInventory().setItem(0, item);
             } else if (newPoints > 125) {
                 item.setAmount(125);
                 item.getItemMeta().displayName(
                     Component.text("Taunt").color(NamedTextColor.AQUA).decorate(TextDecoration.BOLD)
-                        .decoration(TextDecoration.ITALIC, false));
+                        .decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE));
                 player.getInventory().setItem(0, item);
             }
         }
@@ -392,7 +392,7 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
 
         if (player.getInventory().getItemInMainHand().getItemMeta().displayName().equals(
             Component.text("Taunt").color(NamedTextColor.AQUA).decorate(TextDecoration.BOLD)
-                .decoration(TextDecoration.ITALIC, false))) {
+                .decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE))) {
             event.setCancelled(true);
 
             // Still on cooldown
@@ -449,16 +449,16 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
 
         skullMeta.displayName(
             Component.text("Taunt at random player").color(NamedTextColor.AQUA).decorate(TextDecoration.BOLD)
-                .decoration(TextDecoration.ITALIC, false));
-        skullLore.add(
-            Component.text("Costs ").color(NamedTextColor.DARK_AQUA).decoration(TextDecoration.ITALIC, false)
-                .append(Component.text("60").color(NamedTextColor.DARK_GREEN).decorate(TextDecoration.BOLD))
-                .append(Component.text(" Taunt Points").color(NamedTextColor.DARK_AQUA)));
+                .decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE));
+        skullLore.add(Component.text("Costs ").color(NamedTextColor.DARK_AQUA)
+            .decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE)
+            .append(Component.text("60").color(NamedTextColor.DARK_GREEN).decorate(TextDecoration.BOLD))
+            .append(Component.text(" Taunt Points").color(NamedTextColor.DARK_AQUA)));
         skullLore.add(Component.text(""));
         skullLore.add(Component.text("Sends a random taunt").color(NamedTextColor.GRAY)
-            .decoration(TextDecoration.ITALIC, false));
+            .decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE));
         skullLore.add(Component.text("to a random hider").color(NamedTextColor.GRAY)
-            .decoration(TextDecoration.ITALIC, false));
+            .decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE));
         skullLore.add(Component.text("(This can include yourself!)").color(TextColor.fromHexString("#858585"))
             .decorate(TextDecoration.ITALIC));
         skullMeta.lore(skullLore);
@@ -484,7 +484,7 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
         List<Component> parsedLore = new ArrayList<>();
 
         meta.displayName(Component.text(title).color(NamedTextColor.AQUA).decorate(TextDecoration.BOLD)
-            .decoration(TextDecoration.ITALIC, false));
+            .decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE));
         for (String customLore : lore)
             parsedLore.add(MiniMessage.miniMessage().deserialize("<!i>" + customLore));
         meta.lore(parsedLore);
