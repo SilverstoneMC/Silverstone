@@ -13,7 +13,7 @@ public class Relay extends Command {
     }
 
     public void execute(CommandSender sender, String[] args) {
-        if (args.length > 2) {
+        if (args.length > 1) {
             String message = "";
             int iteration = 0;
             for (String s : args) {
