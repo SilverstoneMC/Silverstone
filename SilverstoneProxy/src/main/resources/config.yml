@@ -1,10 +1,10 @@
 # https://wiki.vg/Protocol_version_numbers
 # Kick the player if protocol version is below this value
-minimum-protocol-version: 762 #1.19.4
-minimum-version: 1.19.4
+minimum-protocol-version: 763
+minimum-version: 1.20
 # Send warning message to the player if protocol version is below this value
-current-protocol-version: 762
-current-version: 1.19.4
+current-protocol-version: 763
+current-version: 1.20.1
 
 join-leave-spam:
   # After how long in seconds the leave count should expire
