@@ -19,7 +19,7 @@ import java.util.concurrent.TimeUnit;
 @SuppressWarnings("DataFlowIssue")
 public class QuitEvent implements Listener {
     public static final Map<UUID, Integer> leaves = new HashMap<>();
-    public static ArrayList<ScheduledTask> leaveTasks = new ArrayList<>();
+    public static final ArrayList<ScheduledTask> leaveTasks = new ArrayList<>();
 
     private final SilverstoneProxy plugin = SilverstoneProxy.getPlugin();
 
