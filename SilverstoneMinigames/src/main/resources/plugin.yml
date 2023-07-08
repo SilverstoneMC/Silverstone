@@ -20,7 +20,7 @@ commands:
   hsresettauntpoints:
     permission: silverstone.console
   htp:
-    aliases: [ howtoplay, help ]
+    aliases: [ howtoplay ]
     description: "GUI for how to play the minigames"
   minigame:
     aliases: [ game, whatminigameshouldiplay ]

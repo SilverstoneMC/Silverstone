@@ -41,6 +41,8 @@ commands:
   freezeserver:
     permission: silverstone.owner
     usage: "§cUsage: /freezeserver <seconds> confirm"
+  help:
+    description: "Shows help"
   joinleavesounds:
     permission: silverstone.jlsounds
   listops:

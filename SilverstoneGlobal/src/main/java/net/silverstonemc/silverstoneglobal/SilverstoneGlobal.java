@@ -59,6 +59,7 @@ public class SilverstoneGlobal extends JavaPlugin implements Listener {
         getCommand("facepalm").setExecutor(new ChatEmotes());
         getCommand("forcerestart").setExecutor(new Restart(this));
         getCommand("freezeserver").setExecutor(new Freeze());
+        getCommand("help").setExecutor(new Help(this));
         getCommand("joinleavesounds").setExecutor(new ChatnSounds(this));
         getCommand("listops").setExecutor(new ListOPs(this));
         getCommand("live").setExecutor(new Live(this));
