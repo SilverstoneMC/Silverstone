@@ -1,5 +1,7 @@
 package net.silverstonemc.silverstoneglobal;
 
+import com.google.common.io.ByteArrayDataOutput;
+import com.google.common.io.ByteStreams;
 import net.luckperms.api.LuckPerms;
 import net.luckperms.api.model.group.Group;
 import net.luckperms.api.model.user.User;
@@ -42,8 +44,11 @@ public record Security(JavaPlugin plugin) {
                                     plugin.getLogger().warning("Deopping " + player.getName() + "...");
                                     if (player.isOp()) player.setOp(false);
                                     plugin.getLogger().warning("Warning " + player.getName() + "...");
-                                    Bukkit.dispatchCommand(Bukkit.getConsoleSender(),
-                                        "hopecommander warn " + player.getName() + " admin");
+
+                                    ByteArrayDataOutput out = ByteStreams.newDataOutput();
+                                    out.writeUTF("warn-admin");
+                                    player.sendPluginMessage(SilverstoneGlobal.getInstance(),
+                                        "silverstone:pluginmsg", out.toByteArray());
                                 }
                             }.runTask(plugin);
                         }

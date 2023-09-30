@@ -29,7 +29,6 @@ public class SilverstoneGlobal extends JavaPlugin implements Listener {
     private LuckPerms luckPerms;
     private static SilverstoneGlobal instance;
 
-    // Startup
     @Override
     public void onEnable() {
         instance = this;
@@ -37,13 +36,9 @@ public class SilverstoneGlobal extends JavaPlugin implements Listener {
 
         RegisteredServiceProvider<LuckPerms> provider = Bukkit.getServicesManager()
             .getRegistration(LuckPerms.class);
-        if (provider != null)
-            //noinspection ResultOfMethodCallIgnored
-            provider.getProvider();
+        if (provider != null) provider.getProvider();
 
         saveDefaultConfig();
-
-        getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
 
         getCommand("bclag").setExecutor(new Broadcasts());
         getCommand("bcnolag").setExecutor(new Broadcasts());
@@ -94,6 +89,9 @@ public class SilverstoneGlobal extends JavaPlugin implements Listener {
         new BuyGUI(this).createInv();
         new ChatColorGUI(this).createInv();
 
+        getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
+        getServer().getMessenger().registerOutgoingPluginChannel(this, "silverstone:pluginmsg");
+
         if (!getConfig().getString("server").equalsIgnoreCase("survival")) {
             new Security(this).check();
 
@@ -111,6 +109,11 @@ public class SilverstoneGlobal extends JavaPlugin implements Listener {
                 }
             }.runTaskTimerAsynchronously(this, 600, 20);
         }
+    }
+
+    @Override
+    public void onDisable() {
+        getServer().getMessenger().unregisterOutgoingPluginChannel(this);
     }
 
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {

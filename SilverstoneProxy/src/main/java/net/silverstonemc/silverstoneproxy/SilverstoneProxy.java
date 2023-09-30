@@ -69,8 +69,9 @@ public class SilverstoneProxy extends Plugin implements Listener {
         };
         getProxy().getScheduler().schedule(this, task, 5, TimeUnit.SECONDS);
 
-        pluginManager.registerListener(this, new QuitEvent());
         pluginManager.registerListener(this, new JoinEvent());
+        pluginManager.registerListener(this, new PluginMessage());
+        pluginManager.registerListener(this, new QuitEvent());
 
         getProxy().registerChannel("silverstone:pluginmsg");
     }

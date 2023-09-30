@@ -23,7 +23,7 @@
                 <artifactId>maven-jar-plugin</artifactId>
                 <version>2.3.1</version>
                 <configuration>
-                    <outputDirectory>C:\Users\jason\OneDrive\Server Plugins\Minigames</outputDirectory>
+                    <outputDirectory>C:\Users\jason\OneDrive\MC Server Plugins\Minigames</outputDirectory>
                 </configuration>
             </plugin>
 

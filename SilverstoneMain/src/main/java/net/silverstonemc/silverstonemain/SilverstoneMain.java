@@ -34,6 +34,13 @@ public class SilverstoneMain extends JavaPlugin implements Listener {
         PluginManager pluginManager = this.getServer().getPluginManager();
         pluginManager.registerEvents(new TabComplete(), this);
         pluginManager.registerEvents(new WirelessButtons(), this);
+
+        getServer().getMessenger().registerOutgoingPluginChannel(this, "silverstone:pluginmsg");
+    }
+
+    @Override
+    public void onDisable() {
+        getServer().getMessenger().unregisterOutgoingPluginChannel(this);
     }
 
     public IEssentials getEssentials() {

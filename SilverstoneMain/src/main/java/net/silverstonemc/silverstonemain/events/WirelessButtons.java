@@ -1,6 +1,8 @@
 package net.silverstonemc.silverstonemain.events;
 
-import org.bukkit.Bukkit;
+import com.google.common.io.ByteArrayDataOutput;
+import com.google.common.io.ByteStreams;
+import net.silverstonemc.silverstonemain.SilverstoneMain;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -30,8 +32,11 @@ public class WirelessButtons implements Listener {
                     // Still on cooldown
                     if (rulesCooldown.containsKey(player))
                         if (rulesCooldown.get(player) > System.currentTimeMillis()) return;
-                    Bukkit.dispatchCommand(Bukkit.getConsoleSender(),
-                        "hopecommander rules " + player.getName() + " -1 -s");
+
+                    ByteArrayDataOutput out = ByteStreams.newDataOutput();
+                    out.writeUTF("rules");
+                    player.sendPluginMessage(SilverstoneMain.getInstance(), "silverstone:pluginmsg", out.toByteArray());
+                    
                     rulesCooldown.put(player, System.currentTimeMillis() + 1000);
 
                 } else if (loc.getX() == -98 && loc.getY() == 67 && loc.getZ() == -102) {

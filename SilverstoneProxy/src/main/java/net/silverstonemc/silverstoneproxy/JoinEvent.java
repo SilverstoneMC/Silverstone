@@ -35,7 +35,7 @@ public class JoinEvent implements Listener {
 
         if (version < ConfigurationManager.config.getInt("minimum-protocol-version")) {
             event.setCancelled(true);
-            event.getPlayer().disconnect(net.md_5.bungee.api.chat.TextComponent.fromLegacyText(
+            event.getPlayer().disconnect(TextComponent.fromLegacyText(
                 ChatColor.translateAlternateColorCodes('&',
                     "&cYour client isn't compatible with the server!\n\n&7Please update to at least Minecraft " + ConfigurationManager.config.getString(
                         "minimum-version") + " to join.")));
