@@ -189,7 +189,7 @@
             <artifactId>Matrix</artifactId>
             <version>0</version>
             <scope>system</scope>
-            <systemPath>C:/Users/jason/OneDrive/Server Plugins/Non-Survival/Matrix.jar</systemPath>
+            <systemPath>C:/Users/jason/OneDrive/MC Server Plugins/Non-Survival/Matrix.jar</systemPath>
         </dependency>
     </dependencies>
 
