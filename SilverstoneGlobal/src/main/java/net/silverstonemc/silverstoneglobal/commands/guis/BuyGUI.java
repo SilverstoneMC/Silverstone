@@ -146,8 +146,17 @@ public class BuyGUI implements CommandExecutor, Listener {
         ItemMeta meta = itemStack.getItemMeta();
         List<Component> lore = new ArrayList<>();
 
-        meta.displayName(Component.text(rank).color(NamedTextColor.AQUA).decorate(TextDecoration.BOLD)
+        // Title
+        NamedTextColor color = switch (rank) {
+            case "VIP" -> NamedTextColor.GREEN;
+            case "VIP+" -> NamedTextColor.GOLD;
+            case "MVP" -> NamedTextColor.LIGHT_PURPLE;
+            default -> NamedTextColor.DARK_GREEN;
+        };
+        meta.displayName(Component.text(rank, color, TextDecoration.BOLD)
             .decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE));
+
+        // Contents
         for (String customLore : plugin.getConfig().getStringList("buy-gui." + rank.toLowerCase()))
             lore.add(MiniMessage.miniMessage().deserialize("<!i>" + customLore));
         meta.lore(lore);
