@@ -3,7 +3,6 @@ package net.silverstonemc.silverstoneproxy.events;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageEmbed;
-import net.kyori.adventure.platform.bungeecord.BungeeAudiences;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.event.PlayerDisconnectEvent;
 import net.md_5.bungee.api.plugin.Listener;
@@ -24,7 +23,6 @@ public class Leave implements Listener {
     public static final Map<UUID, Integer> leaves = new HashMap<>();
     public static final ArrayList<ScheduledTask> leaveTasks = new ArrayList<>();
 
-    private final BungeeAudiences audience = SilverstoneProxy.getAdventure();
     private final SilverstoneProxy plugin = SilverstoneProxy.getPlugin();
 
     @EventHandler
