@@ -1,10 +1,13 @@
-package net.silverstonemc.silverstoneproxy;
+package net.silverstonemc.silverstoneproxy.events;
 
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import net.dv8tion.jda.api.entities.emoji.Emoji;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
+import net.kyori.adventure.key.Key;
+import net.kyori.adventure.platform.bungeecord.BungeeAudiences;
+import net.kyori.adventure.sound.Sound;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.md_5.bungee.api.ChatColor;
@@ -14,6 +17,10 @@ import net.md_5.bungee.api.event.ServerConnectEvent;
 import net.md_5.bungee.api.event.ServerConnectedEvent;
 import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.event.EventHandler;
+import net.silverstonemc.silverstoneproxy.ConfigurationManager;
+import net.silverstonemc.silverstoneproxy.SilverstoneProxy;
+import net.silverstonemc.silverstoneproxy.UserManager;
+import net.silverstonemc.silverstoneproxy.WarnPlayer;
 
 import java.awt.*;
 import java.util.HashMap;
@@ -21,9 +28,10 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
-public class JoinEvent implements Listener {
+public class Join implements Listener {
     public static final Map<ProxiedPlayer, Message> newPlayers = new HashMap<>();
 
+    private final BungeeAudiences audience = SilverstoneProxy.getAdventure();
     private final SilverstoneProxy plugin = SilverstoneProxy.getPlugin();
 
     @EventHandler
@@ -57,12 +65,25 @@ public class JoinEvent implements Listener {
     public void onServerConnected(ServerConnectedEvent event) {
         if (event.getPlayer().getServer() != null) return;
 
-        UUID uuid = event.getPlayer().getUniqueId();
-        String username = event.getPlayer().getName();
+        ProxiedPlayer player = event.getPlayer();
+        boolean isVanished = player.hasPermission("silverstone.vanished");
+
+        // Join sounds
+        for (ProxiedPlayer players : plugin.getProxy().getPlayers()) {
+            if (players == player) continue;
+            // If original player is vanished, only play sound to moderators
+            if (isVanished) if (!players.hasPermission("silverstone.moderator")) continue;
+
+            if (players.hasPermission("silverstone.jlsounds.enabled")) audience.player(players)
+                .playSound(Sound.sound(Key.key("block.bell.use"), Sound.Source.PLAYER, 1, 1.5f));
+        }
+
+        UUID uuid = player.getUniqueId();
+        String username = player.getName();
         boolean userExists = UserManager.playerMap.containsKey(uuid);
 
         // Silent join message
-        if (event.getPlayer().hasPermission("silverstone.vanished")) {
+        if (isVanished) {
             int nonStaff = 0;
             for (ProxiedPlayer players : plugin.getProxy().getPlayers())
                 if (!players.hasPermission("silverstone.moderator")) nonStaff++;
@@ -80,10 +101,10 @@ public class JoinEvent implements Listener {
         // Update the username if it has changed
         if (userExists && !UserManager.playerMap.get(uuid).equals(username)) {
             // Notify everyone online if not vanished
-            if (!event.getPlayer().hasPermission("silverstone.vanished")) {
+            if (!isVanished) {
                 Runnable task = () -> {
-                    for (ProxiedPlayer player : plugin.getProxy().getPlayers())
-                        SilverstoneProxy.getAdventure().player(player).sendMessage(
+                    for (ProxiedPlayer players : plugin.getProxy().getPlayers())
+                        audience.player(players).sendMessage(
                             Component.text(username).color(NamedTextColor.AQUA).append(
                                     Component.text(" was previously known as ").color(NamedTextColor.GRAY))
                                 .append(Component.text(new UserManager().getUsername(uuid))
@@ -108,8 +129,8 @@ public class JoinEvent implements Listener {
         // Add the user if they don't exist and send a notification
         if (!userExists) {
             int staff = 0;
-            for (ProxiedPlayer player : plugin.getProxy().getPlayers())
-                if (player.hasPermission("silverstone.moderator")) staff++;
+            for (ProxiedPlayer players : plugin.getProxy().getPlayers())
+                if (players.hasPermission("silverstone.moderator")) staff++;
             int finalStaff = staff;
 
             new Thread(() -> {
@@ -126,7 +147,7 @@ public class JoinEvent implements Listener {
                 Message message = discord.sendMessageEmbeds(embed.build()).setActionRow(
                     Button.danger("warnskin:" + username, "Warn for inappropriate skin")
                         .withEmoji(Emoji.fromUnicode("⚠"))).complete();
-                newPlayers.put(event.getPlayer(), message);
+                newPlayers.put(player, message);
             }, "New Player Discord").start();
 
             new UserManager().addUser(uuid, username);

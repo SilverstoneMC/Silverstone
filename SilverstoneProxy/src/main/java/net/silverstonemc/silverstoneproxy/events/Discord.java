@@ -1,16 +1,18 @@
-package net.silverstonemc.silverstoneproxy;
+package net.silverstonemc.silverstoneproxy.events;
 
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.interactions.components.ActionRow;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
+import net.silverstonemc.silverstoneproxy.SilverstoneProxy;
+import net.silverstonemc.silverstoneproxy.UserManager;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class DiscordEvents extends ListenerAdapter {
+public class Discord extends ListenerAdapter {
     private final SilverstoneProxy plugin = SilverstoneProxy.getPlugin();
 
     @SuppressWarnings("DataFlowIssue")

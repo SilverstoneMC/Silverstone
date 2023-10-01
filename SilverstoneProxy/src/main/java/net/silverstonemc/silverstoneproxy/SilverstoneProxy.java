@@ -12,6 +12,10 @@ import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.api.plugin.Plugin;
 import net.md_5.bungee.api.plugin.PluginManager;
 import net.silverstonemc.silverstoneproxy.commands.*;
+import net.silverstonemc.silverstoneproxy.events.Discord;
+import net.silverstonemc.silverstoneproxy.events.Join;
+import net.silverstonemc.silverstoneproxy.events.Leave;
+import net.silverstonemc.silverstoneproxy.events.PluginMessage;
 
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
@@ -44,14 +48,16 @@ public class SilverstoneProxy extends Plugin implements Listener {
             builder.setStatus(OnlineStatus.ONLINE);
             builder.setActivity(Activity.watching("for cheaters"));
             builder.setEnableShutdownHook(false);
-            builder.addEventListeners(new DiscordEvents());
+            builder.addEventListeners(new Discord());
             jda = builder.build();
         }, "Discord Bot").start();
 
         PluginManager pluginManager = getProxy().getPluginManager();
 
         pluginManager.registerCommand(this, new BaseCommand());
+        pluginManager.registerCommand(this, new ChatSounds());
         pluginManager.registerCommand(this, new Forums());
+        pluginManager.registerCommand(this, new JoinLeaveSounds());
         pluginManager.registerCommand(this, new Mods());
         pluginManager.registerCommand(this, new Restart());
         pluginManager.registerCommand(this, new RestartWhenEmpty());
@@ -69,9 +75,9 @@ public class SilverstoneProxy extends Plugin implements Listener {
         };
         getProxy().getScheduler().schedule(this, task, 5, TimeUnit.SECONDS);
 
-        pluginManager.registerListener(this, new JoinEvent());
+        pluginManager.registerListener(this, new Join());
         pluginManager.registerListener(this, new PluginMessage());
-        pluginManager.registerListener(this, new QuitEvent());
+        pluginManager.registerListener(this, new Leave());
 
         getProxy().registerChannel("silverstone:pluginmsg");
     }

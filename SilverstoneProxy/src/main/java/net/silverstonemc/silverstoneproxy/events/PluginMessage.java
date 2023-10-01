@@ -1,4 +1,4 @@
-package net.silverstonemc.silverstoneproxy;
+package net.silverstonemc.silverstoneproxy.events;
 
 import com.google.common.io.ByteStreams;
 import net.kyori.adventure.platform.bungeecord.BungeeAudiences;
@@ -9,6 +9,8 @@ import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.event.PluginMessageEvent;
 import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.event.EventHandler;
+import net.silverstonemc.silverstoneproxy.SilverstoneProxy;
+import net.silverstonemc.silverstoneproxy.WarnPlayer;
 
 public class PluginMessage implements Listener {
     private final BungeeAudiences audience = SilverstoneProxy.getAdventure();
