@@ -3,9 +3,7 @@ package net.silverstonemc.silverstoneproxy.events;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageEmbed;
-import net.kyori.adventure.key.Key;
 import net.kyori.adventure.platform.bungeecord.BungeeAudiences;
-import net.kyori.adventure.sound.Sound;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.event.PlayerDisconnectEvent;
 import net.md_5.bungee.api.plugin.Listener;
@@ -32,17 +30,6 @@ public class Leave implements Listener {
     @EventHandler
     public void onQuit(PlayerDisconnectEvent event) {
         ProxiedPlayer player = event.getPlayer();
-        boolean isVanished = player.hasPermission("silverstone.vanished");
-
-        // Leave sounds
-        for (ProxiedPlayer players : plugin.getProxy().getPlayers()) {
-            if (players == player) continue;
-            // If original player is vanished, only play sound to moderators
-            if (isVanished) if (!players.hasPermission("silverstone.moderator")) continue;
-
-            if (players.hasPermission("silverstone.jlsounds.enabled")) audience.player(players)
-                .playSound(Sound.sound(Key.key("block.beacon.deactivate"), Sound.Source.PLAYER, 100, 1.75f));
-        }
 
         if (Join.newPlayers.containsKey(player)) {
             int x = 0;

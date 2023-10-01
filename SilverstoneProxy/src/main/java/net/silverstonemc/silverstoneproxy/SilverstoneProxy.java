@@ -55,9 +55,7 @@ public class SilverstoneProxy extends Plugin implements Listener {
         PluginManager pluginManager = getProxy().getPluginManager();
 
         pluginManager.registerCommand(this, new BaseCommand());
-        pluginManager.registerCommand(this, new ChatSounds());
         pluginManager.registerCommand(this, new Forums());
-        pluginManager.registerCommand(this, new JoinLeaveSounds());
         pluginManager.registerCommand(this, new Mods());
         pluginManager.registerCommand(this, new Restart());
         pluginManager.registerCommand(this, new RestartWhenEmpty());

@@ -10,7 +10,7 @@ import net.silverstonemc.silverstoneglobal.commands.guis.ChatColorGUI;
 import net.silverstonemc.silverstoneglobal.commands.guis.Tips;
 import net.silverstonemc.silverstoneglobal.events.ChatnSounds;
 import net.silverstonemc.silverstoneglobal.events.Gamemode;
-import net.silverstonemc.silverstoneglobal.events.JoinnLeave;
+import net.silverstonemc.silverstoneglobal.events.JoinAndLeave;
 import net.silverstonemc.silverstoneglobal.events.Load;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -36,7 +36,8 @@ public class SilverstoneGlobal extends JavaPlugin implements Listener {
 
         RegisteredServiceProvider<LuckPerms> provider = Bukkit.getServicesManager()
             .getRegistration(LuckPerms.class);
-        if (provider != null) provider.getProvider();
+        if (provider != null) //noinspection ResultOfMethodCallIgnored
+            provider.getProvider();
 
         saveDefaultConfig();
 
@@ -81,7 +82,7 @@ public class SilverstoneGlobal extends JavaPlugin implements Listener {
         pluginManager.registerEvents(new ChatnSounds(this), this);
         pluginManager.registerEvents(new Exit(this), this);
         pluginManager.registerEvents(new Gamemode(), this);
-        pluginManager.registerEvents(new JoinnLeave(), this);
+        pluginManager.registerEvents(new JoinAndLeave(), this);
         pluginManager.registerEvents(new Load(this), this);
         pluginManager.registerEvents(new TabComplete(), this);
         pluginManager.registerEvents(new TimeOut(), this);

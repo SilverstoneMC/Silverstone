@@ -36,7 +36,6 @@ public class ChatnSounds implements CommandExecutor, Listener {
             return true;
         }
 
-        //todo migrate to proxy
         switch (cmd.getName().toLowerCase()) {
             case "chatsounds" -> {
                 boolean value = !sender.hasPermission("silverstone.chatsounds.enabled");
@@ -83,18 +82,14 @@ public class ChatnSounds implements CommandExecutor, Listener {
         return true;
     }
 
-    @EventHandler(priority = EventPriority.HIGHEST)
-    public void cancelChat(AsyncChatEvent event) {
-        event.setCancelled(true);
-    }
-
-    @EventHandler(priority = EventPriority.HIGH)
+    @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
     public void onChat(AsyncChatEvent event) {
-        if (event.isCancelled()) return;
         // Play chat sound
         for (Player player : Bukkit.getOnlinePlayers())
             if (player.hasPermission("silverstone.chatsounds.enabled")) if (player != event.getPlayer())
                 player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP,
                     SoundCategory.PLAYERS, 0.5f, 1);
+
+        event.setCancelled(true);
     }
 }

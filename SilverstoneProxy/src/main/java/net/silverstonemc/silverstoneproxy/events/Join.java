@@ -5,9 +5,7 @@ import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import net.dv8tion.jda.api.entities.emoji.Emoji;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
-import net.kyori.adventure.key.Key;
 import net.kyori.adventure.platform.bungeecord.BungeeAudiences;
-import net.kyori.adventure.sound.Sound;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.md_5.bungee.api.ChatColor;
@@ -67,19 +65,8 @@ public class Join implements Listener {
 
         ProxiedPlayer player = event.getPlayer();
         boolean isVanished = player.hasPermission("silverstone.vanished");
-
-        // Join sounds
-        for (ProxiedPlayer players : plugin.getProxy().getPlayers()) {
-            if (players == player) continue;
-            // If original player is vanished, only play sound to moderators
-            if (isVanished) if (!players.hasPermission("silverstone.moderator")) continue;
-
-            if (players.hasPermission("silverstone.jlsounds.enabled")) audience.player(players)
-                .playSound(Sound.sound(Key.key("block.bell.use"), Sound.Source.PLAYER, 1, 1.5f));
-        }
-
-        UUID uuid = player.getUniqueId();
         String username = player.getName();
+        UUID uuid = player.getUniqueId();
         boolean userExists = UserManager.playerMap.containsKey(uuid);
 
         // Silent join message
