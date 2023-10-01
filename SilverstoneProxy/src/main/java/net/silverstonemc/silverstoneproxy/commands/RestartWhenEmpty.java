@@ -28,7 +28,7 @@ public class RestartWhenEmpty extends Command {
         plugin.getLogger().info("Server scheduled to restart when empty.");
 
         Runnable task = () -> {
-            if (plugin.getProxy().getPlayers().size() == 0) plugin.getProxy().stop();
+            if (plugin.getProxy().getPlayers().isEmpty()) plugin.getProxy().stop();
         };
         plugin.getProxy().getScheduler().schedule(plugin, task, 0, 15, TimeUnit.SECONDS);
     }

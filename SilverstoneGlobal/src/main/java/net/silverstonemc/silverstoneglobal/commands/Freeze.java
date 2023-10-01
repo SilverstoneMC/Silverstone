@@ -16,7 +16,6 @@ public class Freeze implements CommandExecutor {
                 Component.text("Freezing server for " + x + " seconds...").color(NamedTextColor.RED)
                     .decorate(TextDecoration.BOLD));
             try {
-                //noinspection BlockingMethodInNonBlockingContext
                 Thread.sleep(x * 1000L);
             } catch (InterruptedException ignored) {
             }

@@ -44,7 +44,7 @@ public record Restart(JavaPlugin plugin) implements CommandExecutor {
                                 return;
                             }
 
-                            if (Bukkit.getOnlinePlayers().size() == 0) {
+                            if (Bukkit.getOnlinePlayers().isEmpty()) {
                                 this.cancel();
                                 plugin.getServer().spigot().restart();
                                 return;
@@ -118,7 +118,7 @@ public record Restart(JavaPlugin plugin) implements CommandExecutor {
             case "forcerestart" -> plugin.getServer().spigot().restart();
 
             case "quickrestart" -> {
-                if (Bukkit.getOnlinePlayers().size() > 0) {
+                if (!Bukkit.getOnlinePlayers().isEmpty()) {
                     plugin.getLogger().info("Restarting...");
                     for (Player player : Bukkit.getOnlinePlayers()) {
                         player.sendActionBar(
@@ -146,7 +146,7 @@ public record Restart(JavaPlugin plugin) implements CommandExecutor {
                 new BukkitRunnable() {
                     @Override
                     public void run() {
-                        if (Bukkit.getOnlinePlayers().size() == 0) plugin.getServer().spigot().restart();
+                        if (Bukkit.getOnlinePlayers().isEmpty()) plugin.getServer().spigot().restart();
                     }
                 }.runTaskTimer(plugin, 0, 300);
             }
