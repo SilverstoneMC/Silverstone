@@ -1,5 +1,6 @@
 package net.silverstonemc.silverstoneproxy.events;
 
+import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -11,6 +12,8 @@ import net.silverstonemc.silverstoneproxy.UserManager;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 public class Discord extends ListenerAdapter {
     private final SilverstoneProxy plugin = SilverstoneProxy.getPlugin();
@@ -24,13 +27,22 @@ public class Discord extends ListenerAdapter {
             String player = message.getEmbeds().get(0).getAuthor().getName();
             player = player.substring(0, player.indexOf(' '));
             String finalPlayer = player;
-            
+
             plugin.getProxy().getPluginManager()
                 .dispatchCommand(plugin.getProxy().getConsole(), "warn " + finalPlayer + " skin");
 
             event.deferEdit().queue();
             Button button = event.getButton().asDisabled();
             message.editMessageComponents(ActionRow.of(button)).queue();
+
+            Executors.newSingleThreadScheduledExecutor().schedule(() -> {
+                Message latestMessage = event.getChannel().retrieveMessageById(event.getMessageId())
+                    .complete();
+                EmbedBuilder embed = new EmbedBuilder(latestMessage.getEmbeds().get(0));
+                embed.setDescription("Warned by " + event.getUser().getAsMention());
+                latestMessage.editMessageEmbeds(embed.build()).queue();
+            }, 3, TimeUnit.SECONDS);
+
             return;
         }
 
@@ -96,5 +108,9 @@ public class Discord extends ListenerAdapter {
         }
 
         message.editMessageComponents(ActionRow.of(newButtons)).queue();
+
+        EmbedBuilder embed = new EmbedBuilder(message.getEmbeds().get(0));
+        embed.setDescription("Last action performed by " + event.getUser().getAsMention());
+        message.editMessageEmbeds(embed.build()).queue();
     }
 }

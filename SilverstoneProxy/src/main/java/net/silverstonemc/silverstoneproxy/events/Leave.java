@@ -37,9 +37,8 @@ public class Leave implements Listener {
             Message message = Join.newPlayers.get(player);
             MessageEmbed oldEmbed = message.getEmbeds().get(0);
 
-            EmbedBuilder embed = new EmbedBuilder();
+            EmbedBuilder embed = new EmbedBuilder(oldEmbed);
             embed.setAuthor(player.getName() + " was new", null, oldEmbed.getAuthor().getIconUrl());
-            embed.setImage(oldEmbed.getImage().getUrl());
             embed.setFooter("Player has left | " + x + " staff members online");
             embed.setColor(Color.RED);
 

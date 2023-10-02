@@ -71,7 +71,7 @@ public class SilverstoneProxy extends Plugin implements Listener {
             pluginManager.registerCommand(plugin, new WarnQueue());
             getLogger().info("Warning commands registered!");
         };
-        getProxy().getScheduler().schedule(this, task, 5, TimeUnit.SECONDS);
+        getProxy().getScheduler().schedule(this, task, 3, TimeUnit.SECONDS);
 
         pluginManager.registerListener(this, new Join());
         pluginManager.registerListener(this, new PluginMessage());
