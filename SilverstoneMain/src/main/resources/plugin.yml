@@ -3,7 +3,7 @@ name: SilverstoneMain
 description: Designed for whatever the main server is at the time
 version: %VERSION%
 author: JasonHorkles
-api-version: 1.19
+api-version: '1.20'
 softdepend:
   - DiscordSRV
   - Essentials
