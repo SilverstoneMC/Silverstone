@@ -16,24 +16,24 @@ join-leave-spam:
 
 rules:
   # The text to add before the rule number when sending a player a rule
-  rule-prefix: "<dark_green>{#} <gray>| <#23B8CF>"
+  rule-prefix: "<dark_green>{#} <gray>| <bold>"
   header:
     - ""
     - "<dark_aqua> ---------- <green>Rules <dark_aqua>----------"
     - ""
   rules:
-    1: "No NSFW content"
-    2: "Don't spam"
-    3: "Be kind and use common sense"
-    4: "No advertising"
-    5: "Respect all players & staff"
-    6: "Only speak English <dark_aqua>(use <gray><click:suggest_command:/tell >/tell <player></click> <dark_aqua>to speak another language)"
-    7: "Avoid excessive swearing"
-    8: "No hacked or unfairly modified clients"
-    9: "No exploits / cheating"
-    10: "No anti-AFK methods"
-    11: "Don't impersonate others"
-    12: "Don't intentionally lag the server or abuse the Creative plots"
+    1: "<dark_green>DO</bold> <#23B8CF>be kind and use common sense"
+    2: "<dark_green>DO</bold> <#23B8CF>respect all players & staff"
+    3: "<gold>PLEASE</bold> <#23B8CF>only speak English <dark_aqua>(use <gray><click:suggest_command:/tell >/tell <player></click> <dark_aqua>to speak another language)"
+    4: "<gold>PLEASE</bold> <#23B8CF>avoid excessive swearing"
+    5: "<red>DON'T</bold> <#23B8CF>spam"
+    6: "<red>DON'T</bold> <#23B8CF>impersonate others"
+    7: "<red>DON'T</bold> <#23B8CF>intentionally lag the server or abuse the Creative plots"
+    8: "<red>NO</bold> <#23B8CF>NSFW content"
+    9: "<red>NO</bold> <#23B8CF>advertising"
+    10: "<red>NO</bold> <#23B8CF>hacked or unfairly modified clients"
+    11: "<red>NO</bold> <#23B8CF>exploits / cheating"
+    12: "<red>NO</bold> <#23B8CF>anti-AFK methods"
   footer:
     - ""
     - "<dark_aqua>Type <green><click:suggest_command:/tips>/tips</click> <dark_aqua>to get a list of all tips for the server!"

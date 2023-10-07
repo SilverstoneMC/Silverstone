@@ -29,7 +29,7 @@ public class BaseCommand extends Command implements TabExecutor {
         TextChannel warningChannel = SilverstoneProxy.jda.getTextChannelById(1075643034634563695L);
 
         if (args.length == 0) {
-            sender.sendMessage(TextComponent.fromLegacyText(ChatColor.RED + "/ssp <reload|remove|clear>"));
+            sender.sendMessage(TextComponent.fromLegacyText(ChatColor.RED + "/ssp <reload | remove | clear>"));
             return;
         }
 
