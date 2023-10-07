@@ -33,7 +33,7 @@ public class SilverstoneMinigames extends JavaPlugin implements CommandExecutor 
         getCommand("sendtoflyingcourse").setExecutor(new FlyingCourse(this));
         getCommand("taunt").setExecutor(new HideSeek(this));
         getCommand("tntrun").setExecutor(new TNTRun(this));
-        getCommand("zfcfinish").setExecutor(new FlyingCourse(this));
+        getCommand("fcfinish").setExecutor(new FlyingCourse(this));
 
         PluginManager pluginManager = this.getServer().getPluginManager();
 

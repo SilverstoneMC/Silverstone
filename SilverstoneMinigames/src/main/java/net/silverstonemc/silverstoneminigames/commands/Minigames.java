@@ -226,7 +226,7 @@ public record Minigames(JavaPlugin plugin) implements CommandExecutor, Listener 
         ItemStack skullItem = new ItemStack(Material.PLAYER_HEAD);
         SkullMeta skullMeta = (SkullMeta) skullItem.getItemMeta();
 
-        GameProfile skullProfile = new GameProfile(UUID.randomUUID(), null);
+        GameProfile skullProfile = new GameProfile(UUID.randomUUID(), "1");
         skullProfile.getProperties().put("textures", new Property("textures",
             "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDJhNmYwZTg0ZGFlZmM4YjIxYWE5OTQxNWIxNmVkNWZkYWE2ZDhkYzBjM2NkNTkxZjQ5Y2E4MzJiNTc1In19fQ=="));
 
@@ -239,13 +239,13 @@ public record Minigames(JavaPlugin plugin) implements CommandExecutor, Listener 
             e.printStackTrace();
         }
 
-        skullMeta.displayName(
-            Component.text("1 Player").color(NamedTextColor.GRAY).decorate(TextDecoration.BOLD));
+        skullMeta.displayName(Component.text("1 Player", NamedTextColor.GRAY, TextDecoration.BOLD)
+            .decoration(TextDecoration.ITALIC, false));
         skullItem.setItemMeta(skullMeta);
         inventory.setItem(3, skullItem);
 
         // 2
-        skullProfile = new GameProfile(UUID.randomUUID(), null);
+        skullProfile = new GameProfile(UUID.randomUUID(), "2");
         skullProfile.getProperties().put("textures", new Property("textures",
             "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOWEyZDg5MWM2YWU5ZjZiYWEwNDBkNzM2YWI4NGQ0ODM0NGJiNmI3MGQ3ZjFhMjgwZGQxMmNiYWM0ZDc3NyJ9fX0="));
 
@@ -258,8 +258,8 @@ public record Minigames(JavaPlugin plugin) implements CommandExecutor, Listener 
             e.printStackTrace();
         }
 
-        skullMeta.displayName(
-            Component.text("2+ Players").color(NamedTextColor.GRAY).decorate(TextDecoration.BOLD));
+        skullMeta.displayName(Component.text("2+ Players", NamedTextColor.GRAY, TextDecoration.BOLD)
+            .decoration(TextDecoration.BOLD, false));
         skullItem.setItemMeta(skullMeta);
         inventory.setItem(5, skullItem);
 
@@ -268,7 +268,7 @@ public record Minigames(JavaPlugin plugin) implements CommandExecutor, Listener 
 
     private void openBook(Player player, String title, String... pages) {
         Component newTitle = Component.text(title);
-        Component author = Component.text("Jason");
+        Component author = Component.text("JasonHorkles");
         List<Component> newPages = new ArrayList<>();
         newPages.add(Component.text().append(Component.text(title + "\n").decorate(TextDecoration.BOLD))
             .append(MiniMessage.miniMessage().deserialize(pages[0])).build());

@@ -3,7 +3,7 @@ name: SilverstoneMinigames
 description: Designed for the Minigame server
 version: %VERSION%
 author: JasonHorkles
-api-version: 1.19
+api-version: '1.20'
 
 commands:
   doublejump:
@@ -36,20 +36,11 @@ commands:
   tntrun:
     permission: silverstone.console
     usage: "/tntrun <player>"
-  zfcfinish:
+  fcfinish:
     description: "Ran when the flying course is completed"
-    permission: silverstone.minigames.flyingcourse
-    usage: "§cYou must be in adventure mode for that."
+    permission: silverstone.console
 
 permissions:
-  silverstone.minigames.flyingcourse.easy:
-    default: false
-  silverstone.minigames.flyingcourse.hard:
-    default: false
-  silverstone.minigames.flyingcourse.medium:
-    default: false
-  silverstone.minigames.flyingcourse.multiplayer:
-    default: false
   silverstone.minigames.flyingcourse:
     default: false
     description: Allow using `/zfinish` command

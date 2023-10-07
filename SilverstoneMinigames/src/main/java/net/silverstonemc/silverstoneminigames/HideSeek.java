@@ -434,7 +434,7 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
         SkullMeta skullMeta = (SkullMeta) skullItem.getItemMeta();
         List<Component> skullLore = new ArrayList<>();
 
-        GameProfile skullProfile = new GameProfile(UUID.randomUUID(), null);
+        GameProfile skullProfile = new GameProfile(UUID.randomUUID(), "Taunt");
         skullProfile.getProperties().put("textures", new Property("textures",
             "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDZiYTYzMzQ0ZjQ5ZGQxYzRmNTQ4OGU5MjZiZjNkOWUyYjI5OTE2YTZjNTBkNjEwYmI0MGE1MjczZGM4YzgyIn19fQ=="));
 
