@@ -1,7 +1,6 @@
 package net.silverstonemc.silverstonemain.events;
 
 import github.scarsz.discordsrv.dependencies.jda.api.events.interaction.ButtonClickEvent;
-import github.scarsz.discordsrv.dependencies.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import github.scarsz.discordsrv.dependencies.jda.api.hooks.ListenerAdapter;
 import github.scarsz.discordsrv.dependencies.jda.api.interactions.components.Button;
 import org.bukkit.Bukkit;
@@ -19,74 +18,68 @@ public class DiscordEvents extends ListenerAdapter {
 
     @SuppressWarnings("DataFlowIssue")
     public void onButtonClick(ButtonClickEvent event) {
+        if (!event.getComponentId().startsWith("vanish-")) return;
+
         String componentId = event.getComponentId();
-
-        if (componentId.equals("vanish")) if (event.getMember().getIdLong() == 277291758503723010L)
-            event.reply("**Select a status:**")
-                .addActionRow(Button.success("vanish:on:jasonmain", "Vanish main"),
-                    Button.danger("vanish:off:jasonmain", "Un-vanish main"),
-                    Button.success("vanish:on:jasonalt", "Vanish alt"),
-                    Button.danger("vanish:off:jasonalt", "Un-vanish alt")).setEphemeral(true).queue();
-        else event.reply("**Select a status:**")
-                .addActionRow(Button.success("vanish:on", "Vanish"), Button.danger("vanish:off", "Un-vanish"))
-                .setEphemeral(true).queue();
-
-        if (componentId.startsWith("vanish:")) {
-            UUID uuid = null;
-
-            if (componentId.endsWith("jasonmain"))
-                uuid = UUID.fromString("a28173af-f0a9-47fe-8549-19c6bccf68da");
-            else if (componentId.endsWith("jasonalt"))
-                uuid = UUID.fromString("bc9848dd-5dd9-4141-9790-f023134cbb7d");
-            else switch (event.getMember().getId()) {
-                    // Ace
-                    case "287993228026707971" ->
-                        uuid = UUID.fromString("5c3d3b7c-aa02-4751-ae4b-60b277da9c35");
-                    // Panda
-                    case "361767232805535746" ->
-                        uuid = UUID.fromString("75fb05a2-9d9e-49cb-be34-6bd5215548ba");
-                    // Dragon
-                    case "340508770788573186" ->
-                        uuid = UUID.fromString("e70a4622-85b6-417d-9201-7322e5094465");
+        UUID uuid = null;
+        switch (event.getMember().getId()) {
+            // Ace
+            case "287993228026707971" -> uuid = UUID.fromString("5c3d3b7c-aa02-4751-ae4b-60b277da9c35");
+            // Panda
+            case "361767232805535746" -> uuid = UUID.fromString("75fb05a2-9d9e-49cb-be34-6bd5215548ba");
+            // Dragon
+            case "340508770788573186" -> uuid = UUID.fromString("e70a4622-85b6-417d-9201-7322e5094465");
+            // Jason
+            case "277291758503723010" -> {
+                if (componentId.endsWith("main")) {
+                    uuid = UUID.fromString("a28173af-f0a9-47fe-8549-19c6bccf68da");
+                    break;
+                } else if (componentId.endsWith("alt")) {
+                    uuid = UUID.fromString("bc9848dd-5dd9-4141-9790-f023134cbb7d");
+                    break;
                 }
 
-            if (uuid == null) {
-                event.reply("Couldn't find you in the database! Please contact Jason for help.")
-                    .setEphemeral(true).queue();
+                switch (componentId) {
+                    case "vanish-on" -> event.reply("**Which account?**")
+                        .addActionRow(Button.primary("vanish-on-main", "Vanish main"),
+                            Button.secondary("vanish-on-alt", "Vanish alt")).setEphemeral(true).queue();
+                    case "vanish-off" -> event.reply("**Which account?**")
+                        .addActionRow(Button.primary("vanish-off-main", "Un-vanish main"),
+                            Button.secondary("vanish-off-alt", "Un-vanish alt")).setEphemeral(true).queue();
+                }
+
                 return;
-            } else event.deferReply(true).queue();
+            }
+        }
 
-            String username = Bukkit.getOfflinePlayer(uuid).getName();
+        if (uuid == null) {
+            event.reply("Couldn't find your account! Please contact Jason for help.").setEphemeral(true)
+                .queue();
+            return;
+        } else event.deferReply(true).queue();
 
-            if (componentId.replace("vanish:", "").startsWith("on")) {
+        String username = Bukkit.getOfflinePlayer(uuid).getName();
+
+        switch (componentId.replace("-alt", "").replace("-main", "")) {
+            case "vanish-on" -> {
                 new BukkitRunnable() {
                     @Override
                     public void run() {
                         Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "v on " + username);
                     }
                 }.runTask(plugin);
-                event.getHook().editOriginal("Successfully vanished " + username).queue();
+                event.getHook().editOriginal("Successfully vanished your account: " + username).queue();
+            }
 
-            } else if (componentId.replace("vanish:", "").startsWith("off")) {
+            case "vanish-off" -> {
                 new BukkitRunnable() {
                     @Override
                     public void run() {
                         Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "v off " + username);
                     }
                 }.runTask(plugin);
-                event.getHook().editOriginal("Successfully un-vanished " + username).queue();
-
-            } else event.getHook().editOriginal(
-                    "Error: No status in component ID `" + componentId + "` - Please report this to Jason")
-                .queue();
+                event.getHook().editOriginal("Successfully un-vanished your account: " + username).queue();
+            }
         }
-    }
-
-    public void onGuildMessageReceived(GuildMessageReceivedEvent event) {
-        if (event.getAuthor().isBot()) return;
-
-        if (event.getChannel().getIdLong() == 1075640285083734067L)
-            event.getChannel().sendMessage("**Click the button below to change your vanish status:**")
-                .setActionRow(Button.primary("vanish", "Vanish")).queue();
     }
 }
