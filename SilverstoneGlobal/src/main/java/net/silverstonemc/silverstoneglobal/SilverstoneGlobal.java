@@ -36,8 +36,7 @@ public class SilverstoneGlobal extends JavaPlugin implements Listener {
 
         RegisteredServiceProvider<LuckPerms> provider = Bukkit.getServicesManager()
             .getRegistration(LuckPerms.class);
-        if (provider != null) //noinspection ResultOfMethodCallIgnored
-            provider.getProvider();
+        if (provider != null) provider.getProvider();
 
         saveDefaultConfig();
 
