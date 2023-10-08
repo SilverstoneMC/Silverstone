@@ -1,9 +1,9 @@
 package net.silverstonemc.silverstonemain.events;
 
-import net.dv8tion.jda.api.events.interaction.ButtonClickEvent;
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
-import net.dv8tion.jda.api.hooks.ListenerAdapter;
-import net.dv8tion.jda.api.interactions.components.Button;
+import github.scarsz.discordsrv.dependencies.jda.api.events.interaction.ButtonClickEvent;
+import github.scarsz.discordsrv.dependencies.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import github.scarsz.discordsrv.dependencies.jda.api.hooks.ListenerAdapter;
+import github.scarsz.discordsrv.dependencies.jda.api.interactions.components.Button;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -85,7 +85,7 @@ public class DiscordEvents extends ListenerAdapter {
     public void onGuildMessageReceived(GuildMessageReceivedEvent event) {
         if (event.getAuthor().isBot()) return;
 
-        if (event.getChannel().getIdLong() == 869674733925449758L)
+        if (event.getChannel().getIdLong() == 1075640285083734067L)
             event.getChannel().sendMessage("**Click the button below to change your vanish status:**")
                 .setActionRow(Button.primary("vanish", "Vanish")).queue();
     }
