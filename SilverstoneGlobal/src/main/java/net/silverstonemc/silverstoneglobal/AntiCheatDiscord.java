@@ -15,6 +15,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class AntiCheatDiscord implements Listener {
+    @SuppressWarnings("DataFlowIssue")
     @EventHandler
     public void violation(PlayerViolationCommandEvent event) {
         Player player = event.getPlayer();
@@ -28,7 +29,7 @@ public class AntiCheatDiscord implements Listener {
         for (Player players : Bukkit.getOnlinePlayers())
             if (players.hasPermission("silverstone.moderator")) x++;
 
-        TextChannel discord = DiscordSRV.getPlugin().getDestinationTextChannelForGameChannelName("matrix");
+        TextChannel discord = DiscordSRV.getPlugin().getJda().getTextChannelById(1075643318265974864L);
 
         EmbedBuilder embed = new EmbedBuilder();
         embed.setAuthor(

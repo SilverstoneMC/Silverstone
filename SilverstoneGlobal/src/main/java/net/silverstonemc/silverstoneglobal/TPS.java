@@ -47,9 +47,11 @@ public class TPS {
         sendMessage(average);
     }
 
+    @SuppressWarnings("DataFlowIssue")
     private static void sendMessage(double tps) {
+        TextChannel channel = DiscordSRV.getPlugin().getJda().getTextChannelById(1075643352814456892L);
+
         if (tps < 17 && tps > 12) {
-            TextChannel discord = DiscordSRV.getPlugin().getDestinationTextChannelForGameChannelName("tps");
             EmbedBuilder embed = new EmbedBuilder();
             DateTimeFormatter dtf = DateTimeFormatter.ofPattern("h:mm:ss a");
             LocalDateTime time = LocalDateTime.now();
@@ -57,10 +59,11 @@ public class TPS {
             embed.setDescription("Players: " + Bukkit.getOnlinePlayers().size());
             embed.setColor(new Color(245, 167, 0));
             embed.setFooter(dtf.format(time));
-            discord.sendMessageEmbeds(embed.build()).queue();
+
+            channel.sendMessageEmbeds(embed.build()).queue();
             cooldown();
+
         } else if (tps <= 12) {
-            TextChannel discord = DiscordSRV.getPlugin().getDestinationTextChannelForGameChannelName("tps");
             EmbedBuilder embed = new EmbedBuilder();
             DateTimeFormatter dtf = DateTimeFormatter.ofPattern("h:mm:ss a");
             LocalDateTime time = LocalDateTime.now();
@@ -68,7 +71,8 @@ public class TPS {
             embed.setDescription("Players: " + Bukkit.getOnlinePlayers().size());
             embed.setColor(new Color(204, 27, 53));
             embed.setFooter(dtf.format(time));
-            discord.sendMessageEmbeds(embed.build()).queue();
+
+            channel.sendMessageEmbeds(embed.build()).queue();
             cooldown();
         }
     }
