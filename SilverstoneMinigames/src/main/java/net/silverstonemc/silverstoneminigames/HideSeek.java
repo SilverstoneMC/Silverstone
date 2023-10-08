@@ -87,11 +87,9 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
             if (!player.hasPermission("silverstone.minigames.hideseek.taunt.bypasscooldown"))
                 if (cooldowns.containsKey(player)) if (cooldowns.get(player) > System.currentTimeMillis()) {
                     // Still on cooldown
-                    player.sendMessage(
-                        Component.text("&cYou may use a taunt again in ").color(NamedTextColor.RED).append(
-                                Component.text(cooldowns.get(player) - System.currentTimeMillis() / 1000)
-                                    .color(NamedTextColor.GRAY))
-                            .append(Component.text(" seconds.").color(NamedTextColor.RED)));
+                    player.sendMessage(Component.text("You may use a taunt again in ", NamedTextColor.RED)
+                        .append(Component.text((cooldowns.get(player) - System.currentTimeMillis()) / 1000,
+                            NamedTextColor.GRAY)).append(Component.text(" seconds.", NamedTextColor.RED)));
                     return true;
                 }
 
@@ -358,19 +356,19 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
             if (newPoints > 0 && newPoints <= 125) {
                 item.setAmount(newPoints);
                 item.getItemMeta().displayName(
-                    Component.text("Taunt").color(NamedTextColor.AQUA).decorate(TextDecoration.BOLD)
+                    Component.text("Taunt", NamedTextColor.AQUA, TextDecoration.BOLD)
                         .decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE));
                 player.getInventory().setItem(0, item);
             } else if (newPoints == 0) {
                 item.setAmount(1);
                 item.getItemMeta().displayName(
-                    Component.text("Taunt").color(NamedTextColor.AQUA).decorate(TextDecoration.BOLD)
+                    Component.text("Taunt", NamedTextColor.AQUA, TextDecoration.BOLD)
                         .decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE));
                 player.getInventory().setItem(0, item);
             } else if (newPoints > 125) {
                 item.setAmount(125);
                 item.getItemMeta().displayName(
-                    Component.text("Taunt").color(NamedTextColor.AQUA).decorate(TextDecoration.BOLD)
+                    Component.text("Taunt", NamedTextColor.AQUA, TextDecoration.BOLD)
                         .decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE));
                 player.getInventory().setItem(0, item);
             }
