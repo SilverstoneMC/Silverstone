@@ -180,7 +180,7 @@
         <dependency>
             <groupId>com.discordsrv</groupId>
             <artifactId>discordsrv</artifactId>
-            <version>1.26.2</version>
+            <version>1.26.3-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
 
