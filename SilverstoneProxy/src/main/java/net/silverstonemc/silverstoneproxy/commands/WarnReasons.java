@@ -18,7 +18,7 @@ import java.util.List;
 
 public class WarnReasons extends Command {
     public WarnReasons() {
-        super("reasons", "silverstone.moderator", "categories");
+        super("warnreasons", "silverstone.moderator", "categories", "reasons");
     }
 
     public void execute(CommandSender sender, String[] args) {
