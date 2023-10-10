@@ -42,6 +42,7 @@ public class TPS {
 
         int sum = 0;
         double average;
+        //bug ConcurrentModificationException, NPE, not rounded to nearest tenth
         for (int x : tickList) sum += x;
         average = (double) sum / tickList.size();
         sendMessage(average);
