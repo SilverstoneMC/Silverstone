@@ -25,9 +25,6 @@ commands:
   minigame:
     aliases: [ game, whatminigameshouldiplay ]
     description: "Choose a random minigame!"
-  sendtoflyingcourse:
-    permission: silverstone.console
-    usage: "/sendtoflyingcourse <player>"
   ssmrl:
     aliases: [ ssmreload ]
     permission: silverstone.admin

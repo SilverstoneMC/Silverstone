@@ -117,15 +117,6 @@ public record FlyingCourse(JavaPlugin plugin) implements CommandExecutor {
                 return true;
             }
             return false;
-
-        } else if (cmd.getName().equalsIgnoreCase("sendtoflyingcourse")) {
-            if (args.length < 1) return false;
-            Player player = Bukkit.getPlayer(args[0]);
-            if (player == null) return true;
-
-            player.teleportAsync(
-                new Location(Bukkit.getWorld(plugin.getConfig().getString("amplified-minigame-world")), 23.5,
-                    131.0, 88.5, 0, 10));
         }
         return true;
     }
