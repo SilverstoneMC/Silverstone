@@ -267,6 +267,8 @@ public record Minigames(JavaPlugin plugin) implements CommandExecutor, Listener 
     }
 
     private void openBook(Player player, String title, String... pages) {
+        player.playSound(player.getLocation(), Sound.UI_BUTTON_CLICK, SoundCategory.MASTER, 1, 1);
+        
         Component newTitle = Component.text(title);
         Component author = Component.text("JasonHorkles");
         List<Component> newPages = new ArrayList<>();
