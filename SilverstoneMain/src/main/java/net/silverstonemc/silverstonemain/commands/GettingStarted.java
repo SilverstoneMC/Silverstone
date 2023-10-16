@@ -17,10 +17,10 @@ public class GettingStarted implements CommandExecutor {
         sender.sendMessage(Component.text("-----------------", TextColor.fromHexString("#305abf")));
 
         sender.sendMessage(Component.text("/htp", TextColor.fromHexString("#305abf"))
-            .clickEvent(ClickEvent.runCommand("/htp"))
+            .clickEvent(ClickEvent.suggestCommand("/htp"))
             .append(Component.text(" - Open the How to Play menu\n", TextColor.fromHexString("#18c1c7")))
-            .append(Component.text("/warps", TextColor.fromHexString("#305abf"))
-                .clickEvent(ClickEvent.runCommand("/warps")))
+            .append(Component.text("/warp", TextColor.fromHexString("#305abf"))
+                .clickEvent(ClickEvent.runCommand("/warp")))
             .append(Component.text(" - List all available warps\n", TextColor.fromHexString("#18c1c7")))
             .append(Component.text("/server", TextColor.fromHexString("#305abf"))
                 .clickEvent(ClickEvent.runCommand("/server")))
