@@ -17,16 +17,16 @@ public class GettingStarted implements CommandExecutor {
         sender.sendMessage(Component.text("-----------------", TextColor.fromHexString("#305abf")));
 
         sender.sendMessage(Component.text("/htp", TextColor.fromHexString("#305abf"))
-            .clickEvent(ClickEvent.suggestCommand("/htp"))
+            .clickEvent(ClickEvent.runCommand("/htp"))
             .append(Component.text(" - Open the How to Play menu\n", TextColor.fromHexString("#18c1c7")))
             .append(Component.text("/warps", TextColor.fromHexString("#305abf"))
-                .clickEvent(ClickEvent.suggestCommand("/warps")))
+                .clickEvent(ClickEvent.runCommand("/warps")))
             .append(Component.text(" - List all available warps\n", TextColor.fromHexString("#18c1c7")))
             .append(Component.text("/server", TextColor.fromHexString("#305abf"))
-                .clickEvent(ClickEvent.suggestCommand("/server")))
+                .clickEvent(ClickEvent.runCommand("/server")))
             .append(Component.text(" - List all available servers\n", TextColor.fromHexString("#18c1c7")))
             .append(Component.text("/tips", TextColor.fromHexString("#305abf"))
-                .clickEvent(ClickEvent.suggestCommand("/tips")))
+                .clickEvent(ClickEvent.runCommand("/tips")))
             .append(Component.text(" - View tips about the network", TextColor.fromHexString("#18c1c7"))));
         return true;
     }
