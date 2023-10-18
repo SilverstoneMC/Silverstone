@@ -86,6 +86,12 @@
             <id>papermc</id>
             <url>https://repo.papermc.io/repository/maven-public/</url>
         </repository>
+
+        <repository>
+            <id>fancyplugins-releases</id>
+            <name>FancyPlugins Repository</name>
+            <url>https://repo.fancyplugins.de/releases</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -100,6 +106,13 @@
             <groupId>com.mojang</groupId>
             <artifactId>authlib</artifactId>
             <version>3.17.30</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>de.oliver</groupId>
+            <artifactId>FancyHolograms</artifactId>
+            <version>2.0.1</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>

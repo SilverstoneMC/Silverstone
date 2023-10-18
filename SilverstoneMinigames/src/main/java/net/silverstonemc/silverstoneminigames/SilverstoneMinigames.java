@@ -3,6 +3,7 @@ package net.silverstonemc.silverstoneminigames;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.silverstonemc.silverstoneminigames.commands.Back;
+import net.silverstonemc.silverstoneminigames.commands.Holograms;
 import net.silverstonemc.silverstoneminigames.commands.Minigames;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -33,6 +34,8 @@ public class SilverstoneMinigames extends JavaPlugin implements CommandExecutor 
         getCommand("taunt").setExecutor(new HideSeek(this));
         getCommand("tntrun").setExecutor(new TNTRun(this));
         getCommand("fcfinish").setExecutor(new FlyingCourse(this));
+        getCommand("miniholo").setExecutor(new Holograms());
+        getCommand("miniholo").setTabCompleter(new TabComplete());
 
         PluginManager pluginManager = this.getServer().getPluginManager();
 

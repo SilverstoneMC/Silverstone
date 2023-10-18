@@ -36,6 +36,9 @@ commands:
   fcfinish:
     description: "Ran when the flying course is completed"
     permission: silverstone.console
+  miniholo:
+    permission: silverstone.admin
+    usage: "/miniholo <hologram> <open | ready | in_session | resetting | closed>"
 
 permissions:
   silverstone.minigames.flyingcourse:
