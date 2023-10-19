@@ -39,6 +39,7 @@ public class Holograms implements CommandExecutor {
         ArrayList<String> holoText = new ArrayList<>(hologram.getData().getText());
         holoText.set(holoText.size() - 1, text);
         hologram.getData().setText(holoText);
+        hologram.updateHologram();
         hologram.refreshHologram(Bukkit.getOnlinePlayers());
         return true;
     }
