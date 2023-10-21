@@ -39,24 +39,24 @@ public class Join implements Listener {
         int version = event.getPlayer().getPendingConnection().getVersion();
         plugin.getLogger().info(event.getPlayer().getName() + " is joining with protocol version " + version);
 
-        if (version < ConfigurationManager.config.getInt("minimum-protocol-version")) {
-            event.setCancelled(true);
-            event.getPlayer().disconnect(TextComponent.fromLegacyText(
-                ChatColor.translateAlternateColorCodes('&',
-                    "&cYour client isn't compatible with the server!\n\n&7Please update to at least Minecraft " + ConfigurationManager.config.getString(
-                        "minimum-version") + " to join.")));
+        // Anything less than current version and not staff
+        if (version < ConfigurationManager.config.getInt("current-protocol-version") && !event.getPlayer()
+            .hasPermission("silverstone.moderator")) {
+            incompatibleClient(event, false, "current-version");
             return;
         }
 
-        if (version < ConfigurationManager.config.getInt("current-protocol-version")) {
-            Runnable task = () -> {
-                if (event.getPlayer().getServer() != null) event.getPlayer().sendMessage(
-                    TextComponent.fromLegacyText(
-                        ChatColor.GRAY + "The server is currently built using Minecraft " + ConfigurationManager.config.getString(
-                            "current-version") + " - please update your client to use all the features."));
-            };
-            plugin.getProxy().getScheduler().schedule(plugin, task, 2, TimeUnit.SECONDS);
-        }
+        // Anything less than minimum version and staff
+        if (version < ConfigurationManager.config.getInt("minimum-protocol-version"))
+            incompatibleClient(event, true, "minimum-version");
+    }
+
+    private void incompatibleClient(ServerConnectEvent event, boolean atLeast, String versionPath) {
+        event.setCancelled(true);
+        String text = atLeast ? "at least " : "";
+        event.getPlayer().disconnect(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&',
+            "&cYour client isn't compatible with the server!\n\n&7Please update to " + text + "Minecraft " + ConfigurationManager.config.getString(
+                versionPath) + " to join.")));
     }
 
     @EventHandler
@@ -68,6 +68,12 @@ public class Join implements Listener {
         String username = player.getName();
         UUID uuid = player.getUniqueId();
         boolean userExists = UserManager.playerMap.containsKey(uuid);
+
+        // Older version message (should only be seen by staff)
+        if (event.getPlayer().getPendingConnection().getVersion() < ConfigurationManager.config.getInt(
+            "current-protocol-version")) event.getPlayer().sendMessage(TextComponent.fromLegacyText(
+            ChatColor.RED + "The server is currently built using Minecraft " + ConfigurationManager.config.getString(
+                "current-version") + " - please update your client to use all the features."));
 
         // Silent join message
         if (isVanished) {
