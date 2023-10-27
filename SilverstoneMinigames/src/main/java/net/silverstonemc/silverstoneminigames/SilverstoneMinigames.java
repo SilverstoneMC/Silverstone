@@ -16,7 +16,6 @@ import org.jetbrains.annotations.NotNull;
 public class SilverstoneMinigames extends JavaPlugin implements CommandExecutor {
     public static DataManager data;
 
-    // Startup
     @Override
     public void onEnable() {
         data = new DataManager(this);
