@@ -35,7 +35,7 @@ public record FlyingCourse(JavaPlugin plugin) implements CommandExecutor {
                 @Override
                 public void run() {
                     Location location = new Location(
-                        Bukkit.getWorld(plugin.getConfig().getString("amplified-minigame-world")), 23.5, 131,
+                        Bukkit.getWorld(plugin.getConfig().getString("amplified-minigame-world")), 23.5, 132,
                         88.5, 0, 10);
 
                     switch (args[1].toLowerCase()) {
@@ -88,7 +88,7 @@ public record FlyingCourse(JavaPlugin plugin) implements CommandExecutor {
                             };
                             // If touching a block that's not allowed, send them back
                             if (block.getType() != Material.AIR && block.getType() != Material.CAVE_AIR && block.getType() != Material.MAGENTA_GLAZED_TERRACOTTA && block.getType() != Material.BLACK_STAINED_GLASS) {
-                                player.teleportAsync(new Location(player.getWorld(), 23.5, 131, 88.5, 0, 10));
+                                player.teleportAsync(new Location(player.getWorld(), 23.5, 132, 88.5, 0, 10));
                                 break;
                             }
                         }
