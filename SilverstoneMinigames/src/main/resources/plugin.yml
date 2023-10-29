@@ -7,18 +7,18 @@ api-version: '1.20'
 
 commands:
   doublejump:
-    permission: silverstone.console
+    permission: silverstone.owner
     usage: "§cUsage: /doublejump <player> <count>"
   flyingcourse:
     description: "Reset the player if they touch an illegal block"
-    permission: silverstone.console
+    permission: silverstone.owner
     usage: "/flyingcourse <player>"
   hsheartbeat:
-    permission: silverstone.console
+    permission: silverstone.owner
   hsrandomtaunt:
-    permission: silverstone.console
+    permission: silverstone.owner
   hsresettauntpoints:
-    permission: silverstone.console
+    permission: silverstone.owner
   htp:
     aliases: [ howtoplay ]
     description: "GUI for how to play the minigames"
@@ -31,11 +31,11 @@ commands:
   taunt:
     permission: silverstone.minigames.hideseek.taunt
   tntrun:
-    permission: silverstone.console
+    permission: silverstone.owner
     usage: "/tntrun <player>"
   fcfinish:
     description: "Ran when the flying course is completed"
-    permission: silverstone.console
+    permission: silverstone.owner
   miniholo:
     permission: silverstone.admin
     usage: "/miniholo <hologram> <open | ready | in_session | resetting | closed>"

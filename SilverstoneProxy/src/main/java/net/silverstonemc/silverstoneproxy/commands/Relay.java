@@ -9,7 +9,7 @@ import net.silverstonemc.silverstoneproxy.SilverstoneProxy;
 @SuppressWarnings("DataFlowIssue")
 public class Relay extends Command {
     public Relay() {
-        super("relay", "silverstone.console");
+        super("relay", "silverstone.owner");
     }
 
     public void execute(CommandSender sender, String[] args) {

@@ -105,8 +105,6 @@ permissions:
     default: false
   silverstone.chatsounds:
     default: false
-  silverstone.console:
-    default: op
   silverstone.exit:
     default: true
   silverstone.jlsounds.enabled:
