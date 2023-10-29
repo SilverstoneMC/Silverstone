@@ -1,4 +1,4 @@
-package net.silverstonemc.silverstoneminigames;
+package net.silverstonemc.silverstoneminigames.minigames;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;

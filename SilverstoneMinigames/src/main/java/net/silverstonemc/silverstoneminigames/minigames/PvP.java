@@ -1,4 +1,4 @@
-package net.silverstonemc.silverstoneminigames;
+package net.silverstonemc.silverstoneminigames.minigames;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
