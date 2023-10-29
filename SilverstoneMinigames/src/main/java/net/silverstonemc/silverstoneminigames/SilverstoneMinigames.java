@@ -45,11 +45,10 @@ public class SilverstoneMinigames extends JavaPlugin implements CommandExecutor 
         pluginManager.registerEvents(new Minigames(this), this);
         pluginManager.registerEvents(new PvP(), this);
         pluginManager.registerEvents(new Void(), this);
-        
+
         new FlyingCourse(this).updateFCScoreboard();
         new HideSeek(this).createInv();
-        new Minigames(this).createGameInv();
-        new Minigames(this).createHtpInv();
+        new Minigames(this).initializeInventories();
     }
 
     public boolean onCommand(CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {

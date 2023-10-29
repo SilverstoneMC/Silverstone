@@ -1,7 +1,5 @@
 package net.silverstonemc.silverstoneminigames;
 
-import com.mojang.authlib.GameProfile;
-import com.mojang.authlib.properties.Property;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextColor;
@@ -33,7 +31,6 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 
-import java.lang.reflect.Field;
 import java.util.*;
 import java.util.stream.IntStream;
 
@@ -428,39 +425,31 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
             getItem(Material.TOTEM_OF_UNDYING, "Boom", "<dark_aqua><b>15</b> <dark_green>Taunt Points"));
 
         // Random taunt
-        ItemStack skullItem = new ItemStack(Material.PLAYER_HEAD);
+        ItemStack skullItem = new CustomSkull().createCustomSkull(
+            "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDZiYTYzMzQ0ZjQ5ZGQxYzRmNTQ4OGU5MjZiZjNkOWUyYjI5OTE2YTZjNTBkNjEwYmI0MGE1MjczZGM4YzgyIn19fQ==",
+            "Taunt");
         SkullMeta skullMeta = (SkullMeta) skullItem.getItemMeta();
-        List<Component> skullLore = new ArrayList<>();
-
-        GameProfile skullProfile = new GameProfile(UUID.randomUUID(), "Taunt");
-        skullProfile.getProperties().put("textures", new Property("textures",
-            "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDZiYTYzMzQ0ZjQ5ZGQxYzRmNTQ4OGU5MjZiZjNkOWUyYjI5OTE2YTZjNTBkNjEwYmI0MGE1MjczZGM4YzgyIn19fQ=="));
-
-        try {
-            Field field = skullMeta.getClass().getDeclaredField("profile");
-            field.setAccessible(true);
-            field.set(skullMeta, skullProfile);
-            field.setAccessible(false);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 
         skullMeta.displayName(
             Component.text("Taunt at random player").color(NamedTextColor.AQUA).decorate(TextDecoration.BOLD)
                 .decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE));
-        skullLore.add(Component.text("Costs ").color(NamedTextColor.DARK_AQUA)
+
+        List<Component> skullLore = new ArrayList<>();
+        skullLore.add(Component.text("Costs ", NamedTextColor.DARK_AQUA)
             .decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE)
-            .append(Component.text("60").color(NamedTextColor.DARK_GREEN).decorate(TextDecoration.BOLD))
-            .append(Component.text(" Taunt Points").color(NamedTextColor.DARK_AQUA)));
+            .append(Component.text("60", NamedTextColor.DARK_GREEN, TextDecoration.BOLD))
+            .append(Component.text(" Taunt Points", NamedTextColor.DARK_AQUA)));
         skullLore.add(Component.text(""));
-        skullLore.add(Component.text("Sends a random taunt").color(NamedTextColor.GRAY)
+        skullLore.add(Component.text("Sends a random taunt", NamedTextColor.GRAY)
             .decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE));
-        skullLore.add(Component.text("to a random hider").color(NamedTextColor.GRAY)
+        skullLore.add(Component.text("to a random hider", NamedTextColor.GRAY)
             .decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE));
-        skullLore.add(Component.text("(This can include yourself!)").color(TextColor.fromHexString("#858585"))
-            .decorate(TextDecoration.ITALIC));
+        skullLore.add(Component.text("(This can include yourself!)", TextColor.fromHexString("#858585"),
+            TextDecoration.ITALIC));
+
         skullMeta.lore(skullLore);
         skullItem.setItemMeta(skullMeta);
+
         inventory.setItem(28, skullItem);
 
         // Slowness

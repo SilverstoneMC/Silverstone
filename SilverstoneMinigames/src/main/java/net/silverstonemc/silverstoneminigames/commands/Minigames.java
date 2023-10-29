@@ -1,12 +1,11 @@
 package net.silverstonemc.silverstoneminigames.commands;
 
-import com.mojang.authlib.GameProfile;
-import com.mojang.authlib.properties.Property;
 import net.kyori.adventure.inventory.Book;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.kyori.adventure.text.minimessage.MiniMessage;
+import net.silverstonemc.silverstoneminigames.CustomSkull;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -27,27 +26,21 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.UUID;
 import java.util.stream.IntStream;
 
-public record Minigames(JavaPlugin plugin) implements CommandExecutor, Listener {
+public class Minigames implements CommandExecutor, Listener {
     private static Inventory gameInv;
     private static Inventory htpInv;
+    private final JavaPlugin plugin;
 
-    public void closeInv(Player player) {
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                player.closeInventory();
-                player.playSound(player.getLocation(), Sound.UI_BUTTON_CLICK, SoundCategory.MASTER, 1, 1);
-            }
-        }.runTask(plugin);
+    public Minigames(JavaPlugin plugin) {
+        this.plugin = plugin;
     }
 
+    @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
         if (!(sender instanceof Player player)) {
             sender.sendMessage(
@@ -61,18 +54,85 @@ public record Minigames(JavaPlugin plugin) implements CommandExecutor, Listener 
         return true;
     }
 
-    // On item click
+    public void initializeInventories() {
+        gameInv = Bukkit.createInventory(null, 9,
+            Component.text("Select Player Count", NamedTextColor.DARK_GRAY, TextDecoration.BOLD));
+        htpInv = Bukkit.createInventory(null, 36,
+            Component.text("Select a Minigame", NamedTextColor.DARK_GRAY, TextDecoration.BOLD));
+
+        // HTP
+        // Filler
+        ItemStack item = new ItemStack(Material.BLACK_STAINED_GLASS_PANE);
+        ItemMeta meta = item.getItemMeta();
+        meta.displayName(Component.text(""));
+        item.setItemMeta(meta);
+        IntStream.rangeClosed(0, 35).boxed().toList().forEach(slot -> htpInv.setItem(slot, item));
+
+        htpInv.setItem(10, createHtpGuiItem(Material.SPRUCE_BOAT, "Boat Racing"));
+        htpInv.setItem(11, createHtpGuiItem(Material.NETHERITE_BOOTS, "Death Run"));
+        htpInv.setItem(12, createHtpGuiItem(Material.ELYTRA, "Flying Course"));
+        htpInv.setItem(13, createHtpGuiItem(Material.COMPASS, "Hide & Seek"));
+        htpInv.setItem(14, createHtpGuiItem(Material.JUNGLE_LEAVES, "Mazes"));
+        htpInv.setItem(15, createHtpGuiItem(Material.SNOWBALL, "Mini Golf"));
+        htpInv.setItem(16, createHtpGuiItem(Material.SLIME_BLOCK, "Parkour"));
+        htpInv.setItem(21, createHtpGuiItem(Material.DIAMOND_SWORD, "PvP"));
+        htpInv.setItem(22, createHtpGuiItem(Material.NETHERITE_SHOVEL, "Spleef"));
+        htpInv.setItem(23, createHtpGuiItem(Material.TNT, "TNT Run"));
+
+        // Game
+        // 1
+        ItemStack onePlayer = new CustomSkull().createCustomSkull(
+            "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDJhNmYwZTg0ZGFlZmM4YjIxYWE5OTQxNWIxNmVkNWZkYWE2ZDhkYzBjM2NkNTkxZjQ5Y2E4MzJiNTc1In19fQ==",
+            "GameInv1");
+        SkullMeta onePlayerMeta = (SkullMeta) onePlayer.getItemMeta();
+
+        onePlayerMeta.displayName(Component.text("1 Player", NamedTextColor.GRAY, TextDecoration.BOLD)
+            .decoration(TextDecoration.ITALIC, false));
+        onePlayer.setItemMeta(onePlayerMeta);
+        gameInv.setItem(3, onePlayer);
+
+        // 2
+        ItemStack twoPlusPlayers = new CustomSkull().createCustomSkull(
+            "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOWEyZDg5MWM2YWU5ZjZiYWEwNDBkNzM2YWI4NGQ0ODM0NGJiNmI3MGQ3ZjFhMjgwZGQxMmNiYWM0ZDc3NyJ9fX0=",
+            "GameInv2");
+        SkullMeta twoPlayerMeta = (SkullMeta) twoPlusPlayers.getItemMeta();
+
+        twoPlayerMeta.displayName(Component.text("2+ Players", NamedTextColor.GRAY, TextDecoration.BOLD)
+            .decoration(TextDecoration.ITALIC, false));
+        twoPlusPlayers.setItemMeta(twoPlayerMeta);
+        gameInv.setItem(5, twoPlusPlayers);
+    }
+
+    protected ItemStack createHtpGuiItem(final Material material, final String itemName) {
+        final ItemStack item = new ItemStack(material, 1);
+        final ItemMeta meta = item.getItemMeta();
+
+        // Set the name of the item
+        meta.displayName(Component.text(itemName, NamedTextColor.AQUA, TextDecoration.BOLD)
+            .decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE));
+
+        // Set the item flags
+        meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+
+        item.setItemMeta(meta);
+
+        return item;
+    }
+
     @EventHandler
-    public void onClick(InventoryClickEvent event) {
-        if (!event.getInventory().equals(htpInv) && !event.getInventory().equals(gameInv)) return;
-        if (event.getCurrentItem() == null) return;
-        if (event.getCurrentItem().getItemMeta() == null) return;
+    public void onHtpInventoryClick(final InventoryClickEvent event) {
+        if (!event.getInventory().equals(htpInv)) return;
 
         event.setCancelled(true);
 
+        final ItemStack clickedItem = event.getCurrentItem();
+
+        // Verify current item is not null
+        if (clickedItem == null || clickedItem.getType().isAir()) return;
+
         Player player = (Player) event.getWhoClicked();
 
-        if (event.getInventory().equals(htpInv)) switch (event.getRawSlot()) {
+        switch (event.getRawSlot()) {
             case 10 -> openBook(player, "Boat Racing", """
                 Race your boat to reach the finish line before the other players. 1 of the 4 available maps will be randomly selected.
                                 
@@ -156,8 +216,37 @@ public record Minigames(JavaPlugin plugin) implements CommandExecutor, Listener 
 
                 <b>The goal:</b> Get the other players out by making them drop through the bottom layer.""");
         }
+    }
 
-        else switch (event.getRawSlot()) {
+    private void openBook(Player player, String title, String... pages) {
+        player.playSound(player.getLocation(), Sound.UI_BUTTON_CLICK, SoundCategory.MASTER, 1, 1);
+
+        Component newTitle = Component.text(title);
+        Component author = Component.text("JasonHorkles");
+        List<Component> newPages = new ArrayList<>();
+        newPages.add(Component.text().append(Component.text(title + "\n").decorate(TextDecoration.BOLD))
+            .append(MiniMessage.miniMessage().deserialize(pages[0])).build());
+
+        if (pages.length > 1) for (int i = 1; i < pages.length; i++)
+            newPages.add(MiniMessage.miniMessage().deserialize("<b>" + title + "</b>\n" + pages[i]));
+
+        player.openBook(Book.book(newTitle, author, newPages));
+    }
+
+    @EventHandler
+    public void onGameInventoryClick(final InventoryClickEvent event) {
+        if (!event.getInventory().equals(gameInv)) return;
+
+        event.setCancelled(true);
+
+        final ItemStack clickedItem = event.getCurrentItem();
+
+        // Verify current item is not null
+        if (clickedItem == null || clickedItem.getType().isAir()) return;
+
+        Player player = (Player) event.getWhoClicked();
+
+        switch (event.getRawSlot()) {
             case 3 -> {
                 closeInv(player);
                 ArrayList<String> games = new ArrayList<>(
@@ -178,106 +267,13 @@ public record Minigames(JavaPlugin plugin) implements CommandExecutor, Listener 
         }
     }
 
-    // Inventory items
-    public void createHtpInv() {
-        Inventory inventory = Bukkit.createInventory(null, 36,
-            Component.text("Select a Minigame").color(NamedTextColor.DARK_GRAY)
-                .decorate(TextDecoration.BOLD));
-
-        // Filler
-        ItemStack item = new ItemStack(Material.BLACK_STAINED_GLASS_PANE);
-        ItemMeta meta = item.getItemMeta();
-        meta.displayName(Component.text(""));
-        item.setItemMeta(meta);
-        IntStream.rangeClosed(0, 35).boxed().toList().forEach(slot -> inventory.setItem(slot, item));
-
-        inventory.setItem(10, getItem(Material.SPRUCE_BOAT, "Boat Racing"));
-        inventory.setItem(11, getItem(Material.NETHERITE_BOOTS, "Death Run"));
-        inventory.setItem(12, getItem(Material.ELYTRA, "Flying Course"));
-        inventory.setItem(13, getItem(Material.COMPASS, "Hide & Seek"));
-        inventory.setItem(14, getItem(Material.JUNGLE_LEAVES, "Mazes"));
-        inventory.setItem(15, getItem(Material.SNOWBALL, "Mini Golf"));
-        inventory.setItem(16, getItem(Material.SLIME_BLOCK, "Parkour"));
-        inventory.setItem(21, getItem(Material.DIAMOND_SWORD, "PvP"));
-        inventory.setItem(22, getItem(Material.NETHERITE_SHOVEL, "Spleef"));
-        inventory.setItem(23, getItem(Material.TNT, "TNT Run"));
-
-        htpInv = inventory;
-    }
-
-    private ItemStack getItem(Material item, String title) {
-        ItemStack itemStack = new ItemStack(item);
-        ItemMeta meta = itemStack.getItemMeta();
-
-        meta.displayName(Component.text(title).color(NamedTextColor.AQUA).decorate(TextDecoration.BOLD)
-            .decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE));
-        meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
-        itemStack.setItemMeta(meta);
-
-        return itemStack;
-    }
-
-    public void createGameInv() {
-        Inventory inventory = Bukkit.createInventory(null, 9,
-            Component.text("Select Player Count").color(NamedTextColor.DARK_GRAY)
-                .decorate(TextDecoration.BOLD));
-
-        // 1
-        ItemStack skullItem = new ItemStack(Material.PLAYER_HEAD);
-        SkullMeta skullMeta = (SkullMeta) skullItem.getItemMeta();
-
-        GameProfile skullProfile = new GameProfile(UUID.randomUUID(), "1");
-        skullProfile.getProperties().put("textures", new Property("textures",
-            "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDJhNmYwZTg0ZGFlZmM4YjIxYWE5OTQxNWIxNmVkNWZkYWE2ZDhkYzBjM2NkNTkxZjQ5Y2E4MzJiNTc1In19fQ=="));
-
-        try {
-            Field field = skullMeta.getClass().getDeclaredField("profile");
-            field.setAccessible(true);
-            field.set(skullMeta, skullProfile);
-            field.setAccessible(false);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        skullMeta.displayName(Component.text("1 Player", NamedTextColor.GRAY, TextDecoration.BOLD)
-            .decoration(TextDecoration.ITALIC, false));
-        skullItem.setItemMeta(skullMeta);
-        inventory.setItem(3, skullItem);
-
-        // 2
-        skullProfile = new GameProfile(UUID.randomUUID(), "2");
-        skullProfile.getProperties().put("textures", new Property("textures",
-            "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOWEyZDg5MWM2YWU5ZjZiYWEwNDBkNzM2YWI4NGQ0ODM0NGJiNmI3MGQ3ZjFhMjgwZGQxMmNiYWM0ZDc3NyJ9fX0="));
-
-        try {
-            Field field = skullMeta.getClass().getDeclaredField("profile");
-            field.setAccessible(true);
-            field.set(skullMeta, skullProfile);
-            field.setAccessible(false);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        skullMeta.displayName(Component.text("2+ Players", NamedTextColor.GRAY, TextDecoration.BOLD)
-            .decoration(TextDecoration.BOLD, false));
-        skullItem.setItemMeta(skullMeta);
-        inventory.setItem(5, skullItem);
-
-        gameInv = inventory;
-    }
-
-    private void openBook(Player player, String title, String... pages) {
-        player.playSound(player.getLocation(), Sound.UI_BUTTON_CLICK, SoundCategory.MASTER, 1, 1);
-        
-        Component newTitle = Component.text(title);
-        Component author = Component.text("JasonHorkles");
-        List<Component> newPages = new ArrayList<>();
-        newPages.add(Component.text().append(Component.text(title + "\n").decorate(TextDecoration.BOLD))
-            .append(MiniMessage.miniMessage().deserialize(pages[0])).build());
-
-        if (pages.length > 1) for (int i = 1; i < pages.length; i++)
-            newPages.add(MiniMessage.miniMessage().deserialize("<b>" + title + "</b>\n" + pages[i]));
-
-        player.openBook(Book.book(newTitle, author, newPages));
+    private void closeInv(Player player) {
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                player.closeInventory();
+                player.playSound(player.getLocation(), Sound.UI_BUTTON_CLICK, SoundCategory.MASTER, 1, 1);
+            }
+        }.runTask(plugin);
     }
 }
