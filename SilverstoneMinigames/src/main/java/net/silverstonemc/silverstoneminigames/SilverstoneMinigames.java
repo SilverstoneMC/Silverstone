@@ -45,6 +45,7 @@ public class SilverstoneMinigames extends JavaPlugin implements CommandExecutor 
         pluginManager.registerEvents(new Minigames(this), this);
         pluginManager.registerEvents(new PvP(), this);
         pluginManager.registerEvents(new Void(), this);
+        pluginManager.registerEvents(new WorldChange(), this);
 
         new FlyingCourse(this).updateFCScoreboard();
         new HideSeek(this).createInv();
