@@ -40,7 +40,6 @@ public class Minigames implements CommandExecutor, Listener {
         this.plugin = plugin;
     }
 
-    @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
         if (!(sender instanceof Player player)) {
             sender.sendMessage(

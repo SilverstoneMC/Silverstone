@@ -28,8 +28,6 @@ commands:
   ssmrl:
     aliases: [ ssmreload ]
     permission: silverstone.admin
-  taunt:
-    permission: silverstone.minigames.hideseek.taunt
   tntrun:
     permission: silverstone.owner
     usage: "/tntrun <player>"
@@ -47,7 +45,7 @@ permissions:
   silverstone.minigames.hideseek.taunt.bypasscooldown:
     default: false
   silverstone.minigames.hideseek.taunt:
-    default: op
+    default: false
   silverstone.minigames.pvp:
     default: false
     description: Will heal players with this perm on kill

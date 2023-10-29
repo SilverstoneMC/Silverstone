@@ -67,35 +67,6 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
     }
 
     public boolean onCommand(@NotNull CommandSender sender, Command cmd, @NotNull String label, String[] args) {
-        if (cmd.getName().equalsIgnoreCase("taunt")) {
-            if (!(sender instanceof Player player)) {
-                sender.sendMessage(
-                    Component.text("Sorry, but only players can do that.").color(NamedTextColor.RED));
-                return true;
-            }
-
-            // Check if allowed to do command
-            if (player.getScoreboardTags().contains("Seeker")) {
-                player.sendMessage(
-                    Component.text("You must be a hider to use taunts!").color(NamedTextColor.RED));
-                return true;
-            }
-
-            // Check if on cooldown
-            if (!player.hasPermission("silverstone.minigames.hideseek.taunt.bypasscooldown"))
-                if (cooldowns.containsKey(player)) if (cooldowns.get(player) > System.currentTimeMillis()) {
-                    // Still on cooldown
-                    player.sendMessage(Component.text("You may use a taunt again in ", NamedTextColor.RED)
-                        .append(Component.text((cooldowns.get(player) - System.currentTimeMillis()) / 1000,
-                            NamedTextColor.GRAY)).append(Component.text(" seconds.", NamedTextColor.RED)));
-                    return true;
-                }
-
-            // Open GUI
-            player.openInventory(inv);
-            return true;
-        }
-
         if (cmd.getName().equalsIgnoreCase("hsresettauntpoints")) {
             points.clear();
             sender.sendMessage(Component.text("Points reset!").color(NamedTextColor.GREEN));
@@ -158,6 +129,55 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
             return true;
         }
         return false;
+    }
+
+    // On bell click
+    @EventHandler
+    public void onClick(PlayerInteractEvent event) {
+        Player player = event.getPlayer();
+
+        if (!event.getAction().equals(Action.RIGHT_CLICK_AIR) && !event.getAction()
+            .equals(Action.RIGHT_CLICK_BLOCK)) return;
+        if (player.getInventory().getItemInMainHand().getType() != Material.BELL) return;
+        if (!player.getWorld().getName()
+            .equalsIgnoreCase(plugin.getConfig().getString("empty-minigame-world"))) return;
+        if (!player.getInventory().getItemInMainHand().hasItemMeta()) return;
+        if (!player.getInventory().getItemInMainHand().getItemMeta().hasDisplayName()) return;
+
+        if (player.getInventory().getItemInMainHand().getItemMeta().displayName().equals(
+            Component.text("Taunt").color(NamedTextColor.AQUA).decorate(TextDecoration.BOLD)
+                .decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE))) {
+            event.setCancelled(true);
+
+            // Still on cooldown
+            if (spamCooldown.containsKey(player))
+                if (spamCooldown.get(player) > System.currentTimeMillis()) return;
+
+            playerTaunt(player);
+            spamCooldown.put(player, System.currentTimeMillis() + 1000);
+        }
+    }
+
+    private void playerTaunt(Player player) {
+        // Check if allowed to do command
+        if (player.getScoreboardTags().contains("Seeker")) {
+            player.sendMessage(
+                Component.text("You must be a hider to use taunts!").color(NamedTextColor.RED));
+            return;
+        }
+
+        // Check if on cooldown
+        if (!player.hasPermission("silverstone.minigames.hideseek.taunt.bypasscooldown"))
+            if (cooldowns.containsKey(player)) if (cooldowns.get(player) > System.currentTimeMillis()) {
+                // Still on cooldown
+                player.sendMessage(Component.text("You may use a taunt again in ", NamedTextColor.RED).append(
+                    Component.text((cooldowns.get(player) - System.currentTimeMillis()) / 1000,
+                        NamedTextColor.GRAY)).append(Component.text(" seconds.", NamedTextColor.RED)));
+                return;
+            }
+
+        // Open GUI
+        player.openInventory(inv);
     }
 
     private void playHeartbeat(Player player, int speed1, int speed2, int stopAfter) {
@@ -370,33 +390,6 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
                         .decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE));
                 player.getInventory().setItem(0, item);
             }
-        }
-    }
-
-    // On bell click
-    @EventHandler
-    public void onClick(PlayerInteractEvent event) {
-        Player player = event.getPlayer();
-
-        if (!event.getAction().equals(Action.RIGHT_CLICK_AIR) && !event.getAction()
-            .equals(Action.RIGHT_CLICK_BLOCK)) return;
-        if (player.getInventory().getItemInMainHand().getType() != Material.BELL) return;
-        if (!player.getWorld().getName()
-            .equalsIgnoreCase(plugin.getConfig().getString("empty-minigame-world"))) return;
-        if (!player.getInventory().getItemInMainHand().hasItemMeta()) return;
-        if (!player.getInventory().getItemInMainHand().getItemMeta().hasDisplayName()) return;
-
-        if (player.getInventory().getItemInMainHand().getItemMeta().displayName().equals(
-            Component.text("Taunt").color(NamedTextColor.AQUA).decorate(TextDecoration.BOLD)
-                .decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE))) {
-            event.setCancelled(true);
-
-            // Still on cooldown
-            if (spamCooldown.containsKey(player))
-                if (spamCooldown.get(player) > System.currentTimeMillis()) return;
-
-            player.performCommand("taunt");
-            spamCooldown.put(player, System.currentTimeMillis() + 1000);
         }
     }
 
