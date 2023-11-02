@@ -36,7 +36,8 @@ public class SilverstoneGlobal extends JavaPlugin implements Listener {
 
         RegisteredServiceProvider<LuckPerms> provider = Bukkit.getServicesManager()
             .getRegistration(LuckPerms.class);
-        if (provider != null) provider.getProvider();
+        if (provider != null) //noinspection ResultOfMethodCallIgnored
+            provider.getProvider();
 
         saveDefaultConfig();
 
@@ -54,6 +55,8 @@ public class SilverstoneGlobal extends JavaPlugin implements Listener {
         getCommand("facepalm").setExecutor(new ChatEmotes());
         getCommand("forcerestart").setExecutor(new Restart(this));
         getCommand("freezeserver").setExecutor(new Freeze());
+        getCommand("ggamerule").setExecutor(new GlobalGameRule());
+        getCommand("ggamerule").setTabCompleter(new TabComplete());
         getCommand("help").setExecutor(new Help(this));
         getCommand("joinleavesounds").setExecutor(new ChatnSounds(this));
         getCommand("listops").setExecutor(new ListOPs(this));
@@ -66,7 +69,6 @@ public class SilverstoneGlobal extends JavaPlugin implements Listener {
         getCommand("restartwhenempty").setExecutor(new Restart(this));
         getCommand("schedulerestart").setExecutor(new Restart(this));
         getCommand("shrug").setExecutor(new ChatEmotes());
-        getCommand("silverstoneglobal").setTabCompleter(new TabComplete());
         getCommand("spectate").setExecutor(new Spectate(this));
         getCommand("tableflip").setExecutor(new ChatEmotes());
         getCommand("tips").setExecutor(new Tips(this));
@@ -117,14 +119,11 @@ public class SilverstoneGlobal extends JavaPlugin implements Listener {
     }
 
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
-        if (args.length > 0) if (args[0].equalsIgnoreCase("reload")) {
-            saveDefaultConfig();
-            reloadConfig();
-            new BuyGUI(this).createInv();
-            sender.sendMessage(Component.text("SilverstoneGlobal reloaded!").color(NamedTextColor.GREEN));
-            return true;
-        }
-        return false;
+        saveDefaultConfig();
+        reloadConfig();
+        new BuyGUI(this).createInv();
+        sender.sendMessage(Component.text("SilverstoneGlobal reloaded!").color(NamedTextColor.GREEN));
+        return true;
     }
 
     public static SilverstoneGlobal getInstance() {

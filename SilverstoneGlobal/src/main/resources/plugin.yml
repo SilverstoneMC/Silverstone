@@ -72,10 +72,8 @@ commands:
     permission: silverstone.admin
   shrug:
     description: "Shrug emote"
-  ssg:
-    aliases: [ silverstoneglobal ]
+  ssgrl:
     permission: silverstone.admin
-    usage: "Usage: /ssg reload"
   spectate:
     aliases: [ spec ]
     permission: silverstone.moderator
@@ -95,6 +93,9 @@ commands:
   watch:
     permission: silverstone.moderator
     usage: "§cUsage: /watch <player>"
+  ggamerule:
+    permission: silverstone.admin
+    usage: "§cUsage: /globalgamerule <gamerule> <value>"
 
 permissions:
   silverstone.admin:
