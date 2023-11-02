@@ -26,7 +26,6 @@ commands:
     aliases: [ game, whatminigameshouldiplay ]
     description: "Choose a random minigame!"
   ssmrl:
-    aliases: [ ssmreload ]
     permission: silverstone.admin
   tntrun:
     permission: silverstone.owner
