@@ -67,7 +67,7 @@ public class DoubleJump implements CommandExecutor, Listener {
             .equals(Action.RIGHT_CLICK_BLOCK) || event.getAction()
             .equals(Action.LEFT_CLICK_AIR) || event.getAction().equals(Action.LEFT_CLICK_BLOCK))
             if (player.getWorld().getName()
-                .equalsIgnoreCase(plugin.getConfig().getString("empty-minigame-world")))
+                .equalsIgnoreCase(plugin.getConfig().getString("minigame-world")))
                 if (player.getInventory().getItemInMainHand().getType() == Material.FEATHER)
                     if (player.getInventory().getItemInMainHand().getItemMeta().hasDisplayName())
                         //noinspection DataFlowIssue

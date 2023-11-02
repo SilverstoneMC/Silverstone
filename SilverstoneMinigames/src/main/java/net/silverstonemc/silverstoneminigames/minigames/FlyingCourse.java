@@ -36,7 +36,7 @@ public record FlyingCourse(JavaPlugin plugin) implements CommandExecutor {
                 @Override
                 public void run() {
                     Location location = new Location(
-                        Bukkit.getWorld(plugin.getConfig().getString("amplified-minigame-world")), 23.5, 132,
+                        Bukkit.getWorld(plugin.getConfig().getString("flying-course-world")), 23.5, 132,
                         88.5, 0, 10);
 
                     switch (args[1].toLowerCase()) {
@@ -240,7 +240,7 @@ public record FlyingCourse(JavaPlugin plugin) implements CommandExecutor {
 
         for (Player players : Bukkit.getOnlinePlayers())
             if (players.getWorld().getName()
-                .equalsIgnoreCase(plugin.getConfig().getString("amplified-minigame-world")))
+                .equalsIgnoreCase(plugin.getConfig().getString("flying-course-world")))
                 players.sendMessage(
                     Component.text().append(Component.text("NOTICE", NamedTextColor.RED, TextDecoration.BOLD))
                         .append(Component.text(" > ", NamedTextColor.AQUA, TextDecoration.BOLD)).append(

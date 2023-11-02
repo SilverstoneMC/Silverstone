@@ -140,7 +140,7 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
             .equals(Action.RIGHT_CLICK_BLOCK)) return;
         if (player.getInventory().getItemInMainHand().getType() != Material.BELL) return;
         if (!player.getWorld().getName()
-            .equalsIgnoreCase(plugin.getConfig().getString("empty-minigame-world"))) return;
+            .equalsIgnoreCase(plugin.getConfig().getString("minigame-world"))) return;
         if (!player.getInventory().getItemInMainHand().hasItemMeta()) return;
         if (!player.getInventory().getItemInMainHand().getItemMeta().hasDisplayName()) return;
 
@@ -254,7 +254,7 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
                 bark(player);
                 closeInv(player);
                 if (player.getGameMode().equals(GameMode.ADVENTURE) && player.getWorld().getName()
-                    .equalsIgnoreCase(plugin.getConfig().getString("empty-minigame-world")))
+                    .equalsIgnoreCase(plugin.getConfig().getString("minigame-world")))
                     points.put(player, currentPoints + 1);
                 tauntTimer(player);
             }
@@ -264,7 +264,7 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
                 ding(player);
                 closeInv(player);
                 if (player.getGameMode().equals(GameMode.ADVENTURE) && player.getWorld().getName()
-                    .equalsIgnoreCase(plugin.getConfig().getString("empty-minigame-world")))
+                    .equalsIgnoreCase(plugin.getConfig().getString("minigame-world")))
                     points.put(player, currentPoints + 2);
                 tauntTimer(player);
             }
@@ -274,7 +274,7 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
                 scream(player);
                 closeInv(player);
                 if (player.getGameMode().equals(GameMode.ADVENTURE) && player.getWorld().getName()
-                    .equalsIgnoreCase(plugin.getConfig().getString("empty-minigame-world")))
+                    .equalsIgnoreCase(plugin.getConfig().getString("minigame-world")))
                     points.put(player, currentPoints + 3);
                 tauntTimer(player);
             }
@@ -284,7 +284,7 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
                 roar(player);
                 closeInv(player);
                 if (player.getGameMode().equals(GameMode.ADVENTURE) && player.getWorld().getName()
-                    .equalsIgnoreCase(plugin.getConfig().getString("empty-minigame-world")))
+                    .equalsIgnoreCase(plugin.getConfig().getString("minigame-world")))
                     points.put(player, currentPoints + 5);
                 tauntTimer(player);
             }
@@ -294,7 +294,7 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
                 explosion(player);
                 closeInv(player);
                 if (player.getGameMode().equals(GameMode.ADVENTURE) && player.getWorld().getName()
-                    .equalsIgnoreCase(plugin.getConfig().getString("empty-minigame-world")))
+                    .equalsIgnoreCase(plugin.getConfig().getString("minigame-world")))
                     points.put(player, currentPoints + 8);
                 tauntTimer(player);
             }
@@ -304,7 +304,7 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
                 fireworks(player);
                 closeInv(player);
                 if (player.getGameMode().equals(GameMode.ADVENTURE) && player.getWorld().getName()
-                    .equalsIgnoreCase(plugin.getConfig().getString("empty-minigame-world")))
+                    .equalsIgnoreCase(plugin.getConfig().getString("minigame-world")))
                     points.put(player, currentPoints + 13);
                 tauntTimer(player);
             }
@@ -314,7 +314,7 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
                 boom(player);
                 closeInv(player);
                 if (player.getGameMode().equals(GameMode.ADVENTURE) && player.getWorld().getName()
-                    .equalsIgnoreCase(plugin.getConfig().getString("empty-minigame-world")))
+                    .equalsIgnoreCase(plugin.getConfig().getString("minigame-world")))
                     points.put(player, currentPoints + 15);
                 tauntTimer(player);
             }
@@ -324,10 +324,10 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
                 if (currentPoints >= 60) {
                     closeInv(player);
                     if (player.getGameMode().equals(GameMode.ADVENTURE) && player.getWorld().getName()
-                        .equalsIgnoreCase(plugin.getConfig().getString("empty-minigame-world")))
+                        .equalsIgnoreCase(plugin.getConfig().getString("minigame-world")))
                         points.put(player, currentPoints - 60);
                     Location loc = new Location(
-                        Bukkit.getWorld(plugin.getConfig().getString("empty-minigame-world")), -372, 9, -65);
+                        Bukkit.getWorld(plugin.getConfig().getString("minigame-world")), -372, 9, -65);
                     loc.getBlock().setType(Material.REDSTONE_BLOCK);
                     tauntTimer(player);
                 } else player.sendMessage(
@@ -339,10 +339,10 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
                 if (currentPoints >= 100) {
                     closeInv(player);
                     if (player.getGameMode().equals(GameMode.ADVENTURE) && player.getWorld().getName()
-                        .equalsIgnoreCase(plugin.getConfig().getString("empty-minigame-world")))
+                        .equalsIgnoreCase(plugin.getConfig().getString("minigame-world")))
                         points.put(player, currentPoints - 100);
                     Location loc = new Location(
-                        Bukkit.getWorld(plugin.getConfig().getString("empty-minigame-world")), -374, 9, -62);
+                        Bukkit.getWorld(plugin.getConfig().getString("minigame-world")), -374, 9, -62);
                     loc.getBlock().setType(Material.REDSTONE_BLOCK);
                     tauntTimer(player);
                 } else player.sendMessage(
@@ -354,10 +354,10 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
                 if (currentPoints >= 125) {
                     closeInv(player);
                     if (player.getGameMode().equals(GameMode.ADVENTURE) && player.getWorld().getName()
-                        .equalsIgnoreCase(plugin.getConfig().getString("empty-minigame-world")))
+                        .equalsIgnoreCase(plugin.getConfig().getString("minigame-world")))
                         points.put(player, currentPoints - 125);
                     Location loc = new Location(
-                        Bukkit.getWorld(plugin.getConfig().getString("empty-minigame-world")), -376, 9, -62);
+                        Bukkit.getWorld(plugin.getConfig().getString("minigame-world")), -376, 9, -62);
                     loc.getBlock().setType(Material.REDSTONE_BLOCK);
                     tauntTimer(player);
                 } else player.sendMessage(
@@ -367,7 +367,7 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
 
         // Set bell points if in adventure
         if (player.getGameMode().equals(GameMode.ADVENTURE) && player.getWorld().getName()
-            .equalsIgnoreCase(plugin.getConfig().getString("empty-minigame-world"))) {
+            .equalsIgnoreCase(plugin.getConfig().getString("minigame-world"))) {
             int newPoints = 0;
             // Check if they have points already, and if so, save it
             if (points.containsKey(player)) newPoints = points.get(player);

@@ -1,6 +1,5 @@
-empty-minigame-world: mini_empty
-terrain-minigame-world: mini_terrain
-amplified-minigame-world: mini_amplified
+minigame-world: minigames
+flying-course-world: mini_amplified
 
 random-game:
   singleplayer:
