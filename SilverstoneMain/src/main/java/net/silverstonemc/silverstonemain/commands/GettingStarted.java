@@ -27,7 +27,10 @@ public class GettingStarted implements CommandExecutor {
             .append(Component.text(" - List all available servers\n", TextColor.fromHexString("#18c1c7")))
             .append(Component.text("/tips", TextColor.fromHexString("#305abf"))
                 .clickEvent(ClickEvent.runCommand("/tips")))
-            .append(Component.text(" - View tips about the network", TextColor.fromHexString("#18c1c7"))));
+            .append(Component.text(" - View tips about the network\n", TextColor.fromHexString("#18c1c7")))
+            .append(Component.text("/game", TextColor.fromHexString("#305abf"))
+                .clickEvent(ClickEvent.runCommand("/game"))).append(
+                Component.text(" - Get a random minigame to play\n", TextColor.fromHexString("#18c1c7"))));
         return true;
     }
 }
