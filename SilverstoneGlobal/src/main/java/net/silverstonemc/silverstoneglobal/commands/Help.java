@@ -43,13 +43,17 @@ public record Help(JavaPlugin plugin) implements CommandExecutor {
                     .clickEvent(ClickEvent.clickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/p delete")))
                 .append(Component.text("to delete your plot", NamedTextColor.GREEN))
 
+                .append(Component.text("\n/stuck ", NamedTextColor.AQUA)
+                    .clickEvent(ClickEvent.clickEvent(ClickEvent.Action.RUN_COMMAND, "/stuck")))
+                .append(Component.text("if trapped in a plot", NamedTextColor.GREEN))
+
                 .append(Component.text("\n/wesui toggle ", NamedTextColor.AQUA)
                     .clickEvent(ClickEvent.clickEvent(ClickEvent.Action.RUN_COMMAND, "/wesui toggle")))
                 .append(Component.text("to toggle the selection particles", NamedTextColor.GREEN))
 
                 .append(Component.text("\nLow-effort plots are deleted after 60 days of inactivity.",
                     NamedTextColor.RED, TextDecoration.BOLD)));
-            
+
             case "survival" -> plugin.getServer().dispatchCommand(sender, "tips");
         }
         return true;

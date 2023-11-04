@@ -2,6 +2,7 @@ package net.silverstonemc.silverstoneglobal.commands;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -19,6 +20,8 @@ public class Stuck implements CommandExecutor {
 
         Location loc = player.getWorld().getSpawnLocation().add(0.5, 0, 0.5);
         player.teleportAsync(loc);
+        player.setFlying(false);
+        player.setGameMode(GameMode.CREATIVE);
         return true;
     }
 }
