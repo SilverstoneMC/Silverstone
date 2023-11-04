@@ -70,6 +70,7 @@ public class SilverstoneGlobal extends JavaPlugin implements Listener {
         getCommand("schedulerestart").setExecutor(new Restart(this));
         getCommand("shrug").setExecutor(new ChatEmotes());
         getCommand("spectate").setExecutor(new Spectate(this));
+        getCommand("stuck").setExecutor(new Stuck());
         getCommand("tableflip").setExecutor(new ChatEmotes());
         getCommand("tips").setExecutor(new Tips(this));
         getCommand("tpchunk").setExecutor(new TP());
@@ -81,7 +82,6 @@ public class SilverstoneGlobal extends JavaPlugin implements Listener {
         pluginManager.registerEvents(new BuyGUI(this), this);
         pluginManager.registerEvents(new ChatColorGUI(this), this);
         pluginManager.registerEvents(new ChatnSounds(this), this);
-        pluginManager.registerEvents(new Exit(this), this);
         pluginManager.registerEvents(new Gamemode(), this);
         pluginManager.registerEvents(new JoinAndLeave(this), this);
         pluginManager.registerEvents(new Load(this), this);

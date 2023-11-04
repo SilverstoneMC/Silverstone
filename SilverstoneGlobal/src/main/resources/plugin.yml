@@ -32,7 +32,6 @@ commands:
   effects:
     permission: silverstone.moderator
   exit:
-    description: "Exit the server"
     permission: silverstone.exit
   facepalm:
     description: "Facepalm emote"
@@ -78,6 +77,9 @@ commands:
     aliases: [ spec ]
     permission: silverstone.moderator
     usage: "§cUsage: /spectate <player>"
+  stuck:
+    aliases: [ trapped ]
+    permission: silverstone.stuck
   tableflip:
     description: "Tableflip emote"
   tips:
@@ -120,3 +122,5 @@ permissions:
     default: op
   silverstone.owner:
     default: op
+  silverstone.stuck:
+    default: false
