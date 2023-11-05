@@ -16,6 +16,7 @@ body:
         - flying_course
         - mini_golf
         - minigames
+        - utility
     validations:
       required: true
 
