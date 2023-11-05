@@ -13,7 +13,7 @@ body:
       description: Your current world can be found in the player tab list
       options:
         - creative
-        - flyingcourse
+        - flying_course
         - mini_golf
         - minigames
     validations:
