@@ -13,9 +13,9 @@ body:
       description: Your current world can be found in the player tab list
       options:
         - creative
-        - mini_amplified
-        - mini_empty
-        - mini_terrain
+        - flyingcourse
+        - mini_golf
+        - minigames
     validations:
       required: true
 
