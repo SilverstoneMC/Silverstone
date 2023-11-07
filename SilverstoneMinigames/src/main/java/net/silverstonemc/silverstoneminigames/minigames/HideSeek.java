@@ -139,13 +139,13 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
         if (!event.getAction().equals(Action.RIGHT_CLICK_AIR) && !event.getAction()
             .equals(Action.RIGHT_CLICK_BLOCK)) return;
         if (player.getInventory().getItemInMainHand().getType() != Material.BELL) return;
-        if (!player.getWorld().getName()
-            .equalsIgnoreCase(plugin.getConfig().getString("minigame-world"))) return;
         if (!player.getInventory().getItemInMainHand().hasItemMeta()) return;
         if (!player.getInventory().getItemInMainHand().getItemMeta().hasDisplayName()) return;
+        if (!player.getWorld().getName()
+            .equalsIgnoreCase(plugin.getConfig().getString("minigame-world"))) return;
 
         if (player.getInventory().getItemInMainHand().getItemMeta().displayName().equals(
-            Component.text("Taunt").color(NamedTextColor.AQUA).decorate(TextDecoration.BOLD)
+            Component.text("Click to Taunt",NamedTextColor.AQUA,TextDecoration.BOLD)
                 .decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE))) {
             event.setCancelled(true);
 
