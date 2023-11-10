@@ -1,6 +1,5 @@
 package net.silverstonemc.silverstonemain;
 
-import github.scarsz.discordsrv.DiscordSRV;
 import net.ess3.api.IEssentials;
 import net.silverstonemc.silverstonemain.commands.GettingStarted;
 import net.silverstonemc.silverstonemain.commands.JHome;
@@ -22,8 +21,6 @@ public class SilverstoneMain extends JavaPlugin implements Listener {
     public void onEnable() {
         instance = this;
         essentials = (IEssentials) getServer().getPluginManager().getPlugin("Essentials");
-
-        DiscordSRV.api.subscribe(new DiscordReady(this));
 
         getCommand("gettingstarted").setExecutor(new GettingStarted());
         getCommand("homec").setExecutor(new JHome(this));
