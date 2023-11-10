@@ -23,8 +23,7 @@ public class SilverstoneMain extends JavaPlugin implements Listener {
         instance = this;
         essentials = (IEssentials) getServer().getPluginManager().getPlugin("Essentials");
 
-        if (getServer().getPluginManager().getPlugin("DiscordSRV") != null)
-            DiscordSRV.api.subscribe(new DiscordReady(this));
+        DiscordSRV.api.subscribe(new DiscordReady(this));
 
         getCommand("gettingstarted").setExecutor(new GettingStarted());
         getCommand("homec").setExecutor(new JHome(this));
