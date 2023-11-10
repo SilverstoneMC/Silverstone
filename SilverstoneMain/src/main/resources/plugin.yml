@@ -4,8 +4,6 @@ description: Designed for whatever the main server is at the time
 version: %VERSION%
 author: JasonHorkles
 api-version: '1.20'
-depend:
-  - DiscordSRV
 softdepend:
   - Essentials
 
