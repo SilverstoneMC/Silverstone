@@ -1,10 +1,10 @@
-package net.silverstonemc.silverstoneglobal.events;
+package net.silverstonemc.silverstoneglobal.discord;
 
-import github.scarsz.discordsrv.DiscordSRV;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageEmbed;
-import net.dv8tion.jda.api.entities.TextChannel;
+import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
+import net.silverstonemc.silverstoneglobal.SilverstoneGlobal;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.SoundCategory;
@@ -33,7 +33,7 @@ public class JoinAndLeave implements Listener {
     public void onJoin(PlayerJoinEvent event) {
         event.joinMessage(null);
 
-        //#serverSpecific
+        // #serverSpecific
         //noinspection DataFlowIssue
         if (plugin.getConfig().getString("server").equalsIgnoreCase("creative") && !event.getPlayer()
             .hasPlayedBefore()) {
@@ -47,8 +47,7 @@ public class JoinAndLeave implements Listener {
             UUID uuid = player.getUniqueId();
 
             new Thread(() -> {
-                TextChannel channel = DiscordSRV.getPlugin().getJda()
-                    .getTextChannelById(1160724667817017414L);
+                TextChannel channel = SilverstoneGlobal.jda.getTextChannelById(1160724667817017414L);
 
                 EmbedBuilder embed = new EmbedBuilder();
                 embed.setAuthor(username + " is new", null,
@@ -83,7 +82,7 @@ public class JoinAndLeave implements Listener {
     public void onQuit(PlayerQuitEvent event) {
         event.quitMessage(null);
 
-        //#serverSpecific
+        // #serverSpecific
         if (plugin.getConfig().getString("server").equalsIgnoreCase("creative"))
             if (newPlayers.containsKey(event.getPlayer())) {
                 Player player = event.getPlayer();

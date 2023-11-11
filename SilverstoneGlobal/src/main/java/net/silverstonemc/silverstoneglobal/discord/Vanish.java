@@ -1,23 +1,24 @@
-package net.silverstonemc.silverstonemain.events;
+package net.silverstonemc.silverstoneglobal.discord;
 
-import net.dv8tion.jda.api.events.interaction.ButtonClickEvent;
+import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
-import net.dv8tion.jda.api.interactions.components.Button;
+import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.UUID;
 
-public class DiscordEvents extends ListenerAdapter {
-    public DiscordEvents(JavaPlugin plugin) {
+public class Vanish extends ListenerAdapter {
+    public Vanish(JavaPlugin plugin) {
         this.plugin = plugin;
     }
 
     private final JavaPlugin plugin;
 
     @SuppressWarnings("DataFlowIssue")
-    public void onButtonClick(ButtonClickEvent event) {
+    @Override
+    public void onButtonInteraction(ButtonInteractionEvent event) {
         if (!event.getComponentId().startsWith("vanish-")) return;
 
         String componentId = event.getComponentId();

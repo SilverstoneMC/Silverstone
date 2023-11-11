@@ -1,10 +1,10 @@
-package net.silverstonemc.silverstoneglobal;
+package net.silverstonemc.silverstoneglobal.discord;
 
-import github.scarsz.discordsrv.DiscordSRV;
 import me.rerere.matrix.api.HackType;
 import me.rerere.matrix.api.events.PlayerViolationCommandEvent;
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.entities.TextChannel;
+import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
+import net.silverstonemc.silverstoneglobal.SilverstoneGlobal;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -14,7 +14,7 @@ import java.awt.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-public class AntiCheatDiscord implements Listener {
+public class AntiCheat implements Listener {
     @SuppressWarnings("DataFlowIssue")
     @EventHandler
     public void violation(PlayerViolationCommandEvent event) {
@@ -29,7 +29,7 @@ public class AntiCheatDiscord implements Listener {
         for (Player players : Bukkit.getOnlinePlayers())
             if (players.hasPermission("silverstone.moderator")) x++;
 
-        TextChannel discord = DiscordSRV.getPlugin().getJda().getTextChannelById(1075643318265974864L);
+        TextChannel discord = SilverstoneGlobal.jda.getTextChannelById(1075643318265974864L);
 
         EmbedBuilder embed = new EmbedBuilder();
         embed.setAuthor(

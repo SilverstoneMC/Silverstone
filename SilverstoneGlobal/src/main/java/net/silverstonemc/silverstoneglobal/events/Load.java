@@ -1,7 +1,7 @@
 package net.silverstonemc.silverstoneglobal.events;
 
 import me.rerere.matrix.api.MatrixAPIProvider;
-import net.silverstonemc.silverstoneglobal.AntiCheatDiscord;
+import net.silverstonemc.silverstoneglobal.discord.AntiCheat;
 import net.silverstonemc.silverstoneglobal.SilverstoneGlobal;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -13,7 +13,7 @@ public record Load(JavaPlugin plugin) implements Listener {
     public void onLoad(ServerLoadEvent event) {
         if (plugin.getServer().getPluginManager().getPlugin("Matrix") != null) {
             SilverstoneGlobal.matrix = MatrixAPIProvider.getAPI();
-            plugin.getServer().getPluginManager().registerEvents(new AntiCheatDiscord(), plugin);
+            plugin.getServer().getPluginManager().registerEvents(new AntiCheat(), plugin);
             plugin.getLogger().info("Hooked into the Matrix api!");
         }
     }

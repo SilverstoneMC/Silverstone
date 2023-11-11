@@ -1,6 +1,14 @@
 package net.silverstonemc.silverstoneglobal;
 
 import me.rerere.matrix.api.MatrixAPI;
+import net.dv8tion.jda.api.JDA;
+import net.dv8tion.jda.api.JDABuilder;
+import net.dv8tion.jda.api.OnlineStatus;
+import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
+import net.dv8tion.jda.api.interactions.components.buttons.Button;
+import net.dv8tion.jda.api.requests.GatewayIntent;
+import net.dv8tion.jda.api.utils.MemberCachePolicy;
+import net.dv8tion.jda.api.utils.cache.CacheFlag;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.luckperms.api.LuckPerms;
@@ -8,9 +16,12 @@ import net.silverstonemc.silverstoneglobal.commands.*;
 import net.silverstonemc.silverstoneglobal.commands.guis.BuyGUI;
 import net.silverstonemc.silverstoneglobal.commands.guis.ChatColorGUI;
 import net.silverstonemc.silverstoneglobal.commands.guis.Tips;
+import net.silverstonemc.silverstoneglobal.discord.Errors;
+import net.silverstonemc.silverstoneglobal.discord.JoinAndLeave;
+import net.silverstonemc.silverstoneglobal.discord.TPS;
+import net.silverstonemc.silverstoneglobal.discord.Vanish;
 import net.silverstonemc.silverstoneglobal.events.ChatnSounds;
 import net.silverstonemc.silverstoneglobal.events.Gamemode;
-import net.silverstonemc.silverstoneglobal.events.JoinAndLeave;
 import net.silverstonemc.silverstoneglobal.events.Load;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -22,10 +33,17 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
+
 @SuppressWarnings("DataFlowIssue")
 public class SilverstoneGlobal extends JavaPlugin implements Listener {
+    public static JDA jda;
     public static MatrixAPI matrix;
 
+    private Errors errors;
     private LuckPerms luckPerms;
     private static SilverstoneGlobal instance;
 
@@ -41,6 +59,38 @@ public class SilverstoneGlobal extends JavaPlugin implements Listener {
 
         saveDefaultConfig();
 
+        new Thread(() -> {
+            getLogger().info("Starting Discord bot...");
+            JDABuilder builder = JDABuilder.createDefault(getConfig().getString("discord-token"));
+            builder.disableIntents(GatewayIntent.GUILD_MESSAGE_TYPING);
+            builder.disableCache(CacheFlag.ACTIVITY, CacheFlag.VOICE_STATE);
+            builder.setMemberCachePolicy(MemberCachePolicy.NONE);
+            builder.setStatus(OnlineStatus.ONLINE);
+            builder.setEnableShutdownHook(false);
+            // #serverSpecific
+            if (getConfig().getString("server").equalsIgnoreCase("minigames"))
+                builder.addEventListeners(new Vanish(this));
+            jda = builder.build();
+
+            try {
+                jda.awaitReady();
+
+                TextChannel channel = jda.getTextChannelById(1075640285083734067L);
+                //noinspection DataFlowIssue
+                if (channel.getIterableHistory().takeAsync(1).thenApply(ArrayList::new)
+                    .get(30, TimeUnit.SECONDS).isEmpty()) channel.sendMessage("## Select a vanish state")
+                    .setActionRow(Button.success("vanish-on", "Vanish"),
+                        Button.danger("vanish-off", "Un-vanish")).queue();
+
+                errors = new Errors(this);
+                errors.start();
+                getLogger().severe("TEST!");
+
+            } catch (InterruptedException | ExecutionException | TimeoutException e) {
+                throw new RuntimeException(e);
+            }
+        }, "Discord Bot").start();
+        
         getCommand("bclag").setExecutor(new Broadcasts());
         getCommand("bcnolag").setExecutor(new Broadcasts());
         getCommand("bcrestart").setExecutor(new Broadcasts());
@@ -49,10 +99,8 @@ public class SilverstoneGlobal extends JavaPlugin implements Listener {
         getCommand("centeronblock").setExecutor(new CenterOnBlock());
         getCommand("chatcolor").setExecutor(new ChatColorGUI(this));
         getCommand("chatsounds").setExecutor(new ChatnSounds(this));
-        getCommand("discord").setExecutor(new Discord());
         getCommand("effects").setExecutor(new Effects());
         getCommand("exit").setExecutor(new Exit(this));
-        getCommand("facepalm").setExecutor(new ChatEmotes());
         getCommand("forcerestart").setExecutor(new Restart(this));
         getCommand("freezeserver").setExecutor(new Freeze());
         getCommand("ggamerule").setExecutor(new GlobalGameRule());
@@ -68,10 +116,8 @@ public class SilverstoneGlobal extends JavaPlugin implements Listener {
         getCommand("restart").setExecutor(new Restart(this));
         getCommand("restartwhenempty").setExecutor(new Restart(this));
         getCommand("schedulerestart").setExecutor(new Restart(this));
-        getCommand("shrug").setExecutor(new ChatEmotes());
         getCommand("spectate").setExecutor(new Spectate(this));
         getCommand("stuck").setExecutor(new Stuck());
-        getCommand("tableflip").setExecutor(new ChatEmotes());
         getCommand("tips").setExecutor(new Tips(this));
         getCommand("tpchunk").setExecutor(new TP());
         getCommand("tpregion").setExecutor(new TP());
@@ -116,6 +162,22 @@ public class SilverstoneGlobal extends JavaPlugin implements Listener {
     @Override
     public void onDisable() {
         getServer().getMessenger().unregisterOutgoingPluginChannel(this);
+        
+        errors.dumpQueue();
+        errors.remove();
+
+        getLogger().info("Shutting down Discord bot...");
+        try {
+            // Initating the shutdown, this closes the gateway connection and subsequently closes the requester queue
+            jda.shutdown();
+            // Allow at most 10 seconds for remaining requests to finish
+            if (!jda.awaitShutdown(10,
+                TimeUnit.SECONDS)) { // returns true if shutdown is graceful, false if timeout exceeded
+                jda.shutdownNow(); // Cancel all remaining requests, and stop thread-pools
+                jda.awaitShutdown(); // Wait until shutdown is complete (indefinitely)
+            }
+        } catch (NoClassDefFoundError | InterruptedException ignored) {
+        }
     }
 
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {

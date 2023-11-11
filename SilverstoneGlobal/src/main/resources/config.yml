@@ -73,3 +73,5 @@ buy-gui:
     - ""
     - "<#34baeb>All donations are greatly appreciated"
     - "<#34baeb>and help the server a ton"
+
+discord-token: ""

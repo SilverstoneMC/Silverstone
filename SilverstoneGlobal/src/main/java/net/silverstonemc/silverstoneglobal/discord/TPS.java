@@ -1,8 +1,8 @@
-package net.silverstonemc.silverstoneglobal;
+package net.silverstonemc.silverstoneglobal.discord;
 
-import github.scarsz.discordsrv.DiscordSRV;
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.entities.TextChannel;
+import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
+import net.silverstonemc.silverstoneglobal.SilverstoneGlobal;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -50,7 +50,7 @@ public class TPS {
 
     @SuppressWarnings("DataFlowIssue")
     private static void sendMessage(double tps) {
-        TextChannel channel = DiscordSRV.getPlugin().getJda().getTextChannelById(1075643352814456892L);
+        TextChannel channel = SilverstoneGlobal.jda.getTextChannelById(1075643352814456892L);
 
         if (tps < 17 && tps > 12) {
             EmbedBuilder embed = new EmbedBuilder();
@@ -64,7 +64,7 @@ public class TPS {
             channel.sendMessageEmbeds(embed.build()).queue();
             cooldown();
 
-        } else if (tps <= 12) {
+        } else if (tps <= 10) {
             EmbedBuilder embed = new EmbedBuilder();
             DateTimeFormatter dtf = DateTimeFormatter.ofPattern("h:mm:ss a");
             LocalDateTime time = LocalDateTime.now();
@@ -73,7 +73,8 @@ public class TPS {
             embed.setColor(new Color(204, 27, 53));
             embed.setFooter(dtf.format(time));
 
-            channel.sendMessageEmbeds(embed.build()).queue();
+            channel.sendMessage(":warning: <@&667793980318154783>, the server is crashing! :warning:")
+                .setEmbeds(embed.build()).queue();
             cooldown();
         }
     }
