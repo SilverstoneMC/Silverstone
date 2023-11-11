@@ -59,7 +59,8 @@ public class SilverstoneGlobal extends JavaPlugin implements Listener {
 
         saveDefaultConfig();
 
-        new Thread(() -> {
+        // #serverSpecific
+        if (!getConfig().getString("server").equalsIgnoreCase("survival")) new Thread(() -> {
             getLogger().info("Starting Discord bot...");
             JDABuilder builder = JDABuilder.createDefault(getConfig().getString("discord-token"));
             builder.disableIntents(GatewayIntent.GUILD_MESSAGE_TYPING);
@@ -84,13 +85,12 @@ public class SilverstoneGlobal extends JavaPlugin implements Listener {
 
                 errors = new Errors(this);
                 errors.start();
-                getLogger().severe("TEST!");
 
             } catch (InterruptedException | ExecutionException | TimeoutException e) {
                 throw new RuntimeException(e);
             }
         }, "Discord Bot").start();
-        
+
         getCommand("bclag").setExecutor(new Broadcasts());
         getCommand("bcnolag").setExecutor(new Broadcasts());
         getCommand("bcrestart").setExecutor(new Broadcasts());
@@ -162,7 +162,7 @@ public class SilverstoneGlobal extends JavaPlugin implements Listener {
     @Override
     public void onDisable() {
         getServer().getMessenger().unregisterOutgoingPluginChannel(this);
-        
+
         errors.dumpQueue();
         errors.remove();
 
