@@ -12,7 +12,10 @@ import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.api.plugin.Plugin;
 import net.md_5.bungee.api.plugin.PluginManager;
 import net.silverstonemc.silverstoneproxy.commands.*;
-import net.silverstonemc.silverstoneproxy.events.Discord;
+import net.silverstonemc.silverstoneproxy.commands.chatemotes.FacePalm;
+import net.silverstonemc.silverstoneproxy.commands.chatemotes.Shrug;
+import net.silverstonemc.silverstoneproxy.commands.chatemotes.TableFlip;
+import net.silverstonemc.silverstoneproxy.events.DiscordButtons;
 import net.silverstonemc.silverstoneproxy.events.Join;
 import net.silverstonemc.silverstoneproxy.events.Leave;
 import net.silverstonemc.silverstoneproxy.events.PluginMessage;
@@ -48,18 +51,22 @@ public class SilverstoneProxy extends Plugin implements Listener {
             builder.setStatus(OnlineStatus.ONLINE);
             builder.setActivity(Activity.watching("for cheaters"));
             builder.setEnableShutdownHook(false);
-            builder.addEventListeners(new Discord());
+            builder.addEventListeners(new DiscordButtons());
             jda = builder.build();
         }, "Discord Bot").start();
 
         PluginManager pluginManager = getProxy().getPluginManager();
 
         pluginManager.registerCommand(this, new BaseCommand());
+        pluginManager.registerCommand(this, new Discord());
+        pluginManager.registerCommand(this, new FacePalm());
         pluginManager.registerCommand(this, new Forums());
         pluginManager.registerCommand(this, new Mods());
         pluginManager.registerCommand(this, new Restart());
         pluginManager.registerCommand(this, new RestartWhenEmpty());
         pluginManager.registerCommand(this, new Rules());
+        pluginManager.registerCommand(this, new Shrug());
+        pluginManager.registerCommand(this, new TableFlip());
 
         Runnable task = () -> {
             pluginManager.registerCommand(plugin, new WarnReasons());
@@ -87,7 +94,7 @@ public class SilverstoneProxy extends Plugin implements Listener {
             adventure = null;
         }
 
-        plugin.getLogger().info("Shutting down Discord bot...");
+        getLogger().info("Shutting down Discord bot...");
         try {
             // Initating the shutdown, this closes the gateway connection and subsequently closes the requester queue
             jda.shutdown();

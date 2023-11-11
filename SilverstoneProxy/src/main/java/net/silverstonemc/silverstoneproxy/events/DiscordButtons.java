@@ -15,7 +15,7 @@ import java.util.UUID;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
-public class Discord extends ListenerAdapter {
+public class DiscordButtons extends ListenerAdapter {
     private final SilverstoneProxy plugin = SilverstoneProxy.getPlugin();
 
     @SuppressWarnings("DataFlowIssue")

@@ -33,8 +33,6 @@ commands:
     permission: silverstone.moderator
   exit:
     permission: silverstone.exit
-  facepalm:
-    description: "Facepalm emote"
   forcerestart:
     permission: silverstone.admin
   freezeserver:
@@ -69,8 +67,6 @@ commands:
     permission: silverstone.admin
   schedulerestart:
     permission: silverstone.admin
-  shrug:
-    description: "Shrug emote"
   ssgrl:
     permission: silverstone.admin
   spectate:
@@ -80,8 +76,6 @@ commands:
   stuck:
     aliases: [ trapped ]
     permission: silverstone.stuck
-  tableflip:
-    description: "Tableflip emote"
   tips:
     description: "Server tips"
   tpchunk:
