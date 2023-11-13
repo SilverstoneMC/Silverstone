@@ -147,7 +147,6 @@ public class Join {
             new UserManager(i).addUser(uuid, username);
         }
 
-        System.out.println(i.fileManager.files.get(WARNQUEUE).getNode("queue", uuid.toString()));
         if (i.fileManager.files.get(WARNQUEUE).getNode("queue", uuid.toString()).isVirtual()) return;
 
         i.server.getScheduler().buildTask(i, () -> {
