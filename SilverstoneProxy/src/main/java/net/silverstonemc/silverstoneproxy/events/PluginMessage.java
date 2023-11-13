@@ -1,60 +1,58 @@
 package net.silverstonemc.silverstoneproxy.events;
 
 import com.google.common.io.ByteStreams;
-import net.kyori.adventure.platform.bungeecord.BungeeAudiences;
+import com.velocitypowered.api.event.Subscribe;
+import com.velocitypowered.api.event.connection.PluginMessageEvent;
+import com.velocitypowered.api.proxy.Player;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
-import net.md_5.bungee.api.CommandSender;
-import net.md_5.bungee.api.connection.ProxiedPlayer;
-import net.md_5.bungee.api.event.PluginMessageEvent;
-import net.md_5.bungee.api.plugin.Listener;
-import net.md_5.bungee.event.EventHandler;
 import net.silverstonemc.silverstoneproxy.SilverstoneProxy;
 import net.silverstonemc.silverstoneproxy.WarnPlayer;
 
-public class PluginMessage implements Listener {
-    private final BungeeAudiences audience = SilverstoneProxy.getAdventure();
-    private final SilverstoneProxy plugin = SilverstoneProxy.getPlugin();
+public class PluginMessage {
+    public PluginMessage(SilverstoneProxy instance) {
+        i = instance;
+    }
 
-    @EventHandler
+    private final SilverstoneProxy i;
+
+    @Subscribe
     public void onMessageReceive(PluginMessageEvent event) {
-        if (!event.getTag().equals("silverstone:pluginmsg")) return;
+        if (event.getIdentifier() != SilverstoneProxy.IDENTIFIER) return;
+
+        // Return if not from a player
+        if (!(event.getSource() instanceof Player sender)) return;
 
         String input = ByteStreams.newDataInput(event.getData()).readUTF();
-        CommandSender sender = (CommandSender) event.getReceiver();
 
         if (input.startsWith("chatcolor-")) {
             String colorCode = input.replace("chatcolor-", "");
 
-            if (colorCode.equals("reset")) plugin.getProxy().getPluginManager()
-                .dispatchCommand(plugin.getProxy().getConsole(),
-                    "lpb user " + sender.getName() + " meta removesuffix 500");
-            else plugin.getProxy().getPluginManager().dispatchCommand(plugin.getProxy().getConsole(),
-                "lpb user " + sender.getName() + " meta setsuffix 500 &" + colorCode);
+            if (colorCode.equals("reset")) i.server.getCommandManager()
+                .executeAsync(i.server.getConsoleCommandSource(),
+                    "lpb user " + sender.getUsername() + " meta removesuffix 500");
+            else i.server.getCommandManager().executeAsync(i.server.getConsoleCommandSource(),
+                "lpb user " + sender.getUsername() + " meta setsuffix 500 &" + colorCode);
             return;
         }
 
         switch (input) {
-            case "warn-admin" -> {
-                ProxiedPlayer player = (ProxiedPlayer) event.getReceiver();
-                new WarnPlayer().warn(player.getUniqueId(), "admin");
-            }
+            case "warn-admin" -> new WarnPlayer(i).warn(sender.getUniqueId(), "admin");
 
-            case "rules" -> plugin.getProxy().getPluginManager().dispatchCommand(sender, "rules");
+            case "rules" -> i.server.getCommandManager().executeAsync(sender, "rules");
 
             case "live" -> {
-                plugin.getProxy().getPluginManager().dispatchCommand(sender, "socialspy");
+                i.server.getCommandManager().executeAsync(sender, "socialspy");
 
-                if (sender.hasPermission("silverstone.live")) plugin.getProxy().getPluginManager()
-                    .dispatchCommand(plugin.getProxy().getConsole(),
-                        "lpb user " + sender.getName() + " parent remove live");
+                if (sender.hasPermission("silverstone.live")) i.server.getCommandManager()
+                    .executeAsync(i.server.getConsoleCommandSource(),
+                        "lpb user " + sender.getUsername() + " parent remove live");
                 else {
-                    plugin.getProxy().getPluginManager().dispatchCommand(plugin.getProxy().getConsole(),
-                        "lpb user " + sender.getName() + " parent add live");
+                    i.server.getCommandManager().executeAsync(i.server.getConsoleCommandSource(),
+                        "lpb user " + sender.getUsername() + " parent add live");
 
-                    for (int x = 0; x < 50; x++) audience.sender(sender).sendMessage(Component.empty());
-                    audience.sender(sender)
-                        .sendMessage(Component.text("You are now live!", NamedTextColor.LIGHT_PURPLE));
+                    for (int x = 0; x < 50; x++) sender.sendMessage(Component.empty());
+                    sender.sendMessage(Component.text("You are now live!", NamedTextColor.LIGHT_PURPLE));
                 }
             }
         }

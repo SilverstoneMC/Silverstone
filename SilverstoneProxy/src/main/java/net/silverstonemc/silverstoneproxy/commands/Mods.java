@@ -1,17 +1,18 @@
 package net.silverstonemc.silverstoneproxy.commands;
 
-import net.md_5.bungee.api.ChatColor;
-import net.md_5.bungee.api.CommandSender;
-import net.md_5.bungee.api.chat.TextComponent;
-import net.md_5.bungee.api.plugin.Command;
+import com.velocitypowered.api.command.CommandSource;
+import com.velocitypowered.api.command.SimpleCommand;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.event.ClickEvent;
+import net.kyori.adventure.text.format.NamedTextColor;
 
-public class Mods extends Command {
-    public Mods() {
-        super("mods");
-    }
+public class Mods implements SimpleCommand {
+    @Override
+    public void execute(final Invocation invocation) {
+        CommandSource sender = invocation.source();
 
-    public void execute(CommandSender sender, String[] args) {
-        sender.sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&',
-            "&2Modifications we recommend: &3&ngist.github.com/JasonHorkles/bcf3532a9fbda145fd0a0b172ec8fc2d")));
+        sender.sendMessage(
+            Component.text("Click here for modifications we recommend", NamedTextColor.DARK_AQUA).clickEvent(
+                ClickEvent.openUrl("https://gist.github.com/JasonHorkles/bcf3532a9fbda145fd0a0b172ec8fc2d")));
     }
 }

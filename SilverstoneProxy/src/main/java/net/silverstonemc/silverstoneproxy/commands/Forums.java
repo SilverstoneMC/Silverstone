@@ -1,18 +1,18 @@
 package net.silverstonemc.silverstoneproxy.commands;
 
-import net.md_5.bungee.api.ChatColor;
-import net.md_5.bungee.api.CommandSender;
-import net.md_5.bungee.api.chat.TextComponent;
-import net.md_5.bungee.api.plugin.Command;
+import com.velocitypowered.api.command.CommandSource;
+import com.velocitypowered.api.command.SimpleCommand;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.event.ClickEvent;
+import net.kyori.adventure.text.format.NamedTextColor;
 
-public class Forums extends Command {
-    public Forums() {
-        super("forums", null, "site", "bugreport", "reportbug", "report", "reportplayer", "playerreport",
-            "builder");
-    }
+public class Forums implements SimpleCommand {
+    @Override
+    public void execute(final Invocation invocation) {
+        CommandSource sender = invocation.source();
 
-    public void execute(CommandSender sender, String[] args) {
-        sender.sendMessage(TextComponent.fromLegacyText(
-            ChatColor.translateAlternateColorCodes('&', "&aVisit the forums at &bsilverstonemc.net")));
+        sender.sendMessage(Component.text("Visit the forums at ", NamedTextColor.GREEN).append(
+            Component.text("silverstonemc.net", NamedTextColor.AQUA)
+                .clickEvent(ClickEvent.openUrl("https://silverstonemc.net"))));
     }
 }

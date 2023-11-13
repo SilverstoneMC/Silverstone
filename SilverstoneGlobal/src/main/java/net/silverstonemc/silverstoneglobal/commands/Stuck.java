@@ -13,8 +13,7 @@ import org.jetbrains.annotations.NotNull;
 public class Stuck implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
         if (!(sender instanceof Player player)) {
-            sender.sendMessage(
-                Component.text("Sorry, but only players can do that.").color(NamedTextColor.RED));
+            sender.sendMessage(Component.text("Sorry, but only players can do that.", NamedTextColor.RED));
             return true;
         }
 

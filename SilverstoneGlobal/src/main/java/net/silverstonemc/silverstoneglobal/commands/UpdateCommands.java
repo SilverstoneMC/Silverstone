@@ -21,24 +21,22 @@ public class UpdateCommands implements CommandExecutor {
 
             // If player is null, cancel the check
             if (player == null) {
-                sender.sendMessage(
-                    Component.text("Please provide an online player!").color(NamedTextColor.RED));
+                sender.sendMessage(Component.text("Please provide an online player!", NamedTextColor.RED));
                 return true;
             }
 
             player.updateCommands();
             String username = player.getName();
             sender.sendMessage(
-                Component.text("Commands updated for " + username + "!").color(NamedTextColor.GREEN));
+                Component.text("Commands updated for " + username + "!", NamedTextColor.GREEN));
 
-        } else sender.sendMessage(
-            Component.text("You don't have permission to do that!").color(NamedTextColor.RED));
+        } else
+            sender.sendMessage(Component.text("You don't have permission to do that!", NamedTextColor.RED));
 
         else {
             // If console does not specify a player
             if (!(sender instanceof Player player)) {
-                sender.sendMessage(
-                    Component.text("Please provide an online player!").color(NamedTextColor.RED));
+                sender.sendMessage(Component.text("Please provide an online player!", NamedTextColor.RED));
                 return true;
             }
 
@@ -46,17 +44,17 @@ public class UpdateCommands implements CommandExecutor {
                 if (cooldowns.get(player.getName()) > System.currentTimeMillis()) {
                     // Still on cooldown
                     player.sendMessage(
-                        Component.text("You may update your commands again in ").color(NamedTextColor.RED)
-                            .append(Component.text(
-                                    (cooldowns.get(player.getName()) - System.currentTimeMillis()) / 1000)
-                                .color(NamedTextColor.GRAY))
-                            .append(Component.text(" seconds.").color(NamedTextColor.RED)));
+                        Component.text("You may update your commands again in ", NamedTextColor.RED).append(
+                                Component.text(
+                                    (cooldowns.get(player.getName()) - System.currentTimeMillis()) / 1000,
+                                    NamedTextColor.GRAY))
+                            .append(Component.text(" seconds.", NamedTextColor.RED)));
                     return true;
                 }
 
             player.updateCommands();
             cooldowns.put(player.getName(), System.currentTimeMillis() + 30000);
-            sender.sendMessage(Component.text("Commands updated!").color(NamedTextColor.GREEN));
+            sender.sendMessage(Component.text("Commands updated!", NamedTextColor.GREEN));
         }
         return true;
     }

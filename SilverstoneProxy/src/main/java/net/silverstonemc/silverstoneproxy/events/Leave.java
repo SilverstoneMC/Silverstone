@@ -1,44 +1,37 @@
 package net.silverstonemc.silverstoneproxy.events;
 
+import com.velocitypowered.api.event.Subscribe;
+import com.velocitypowered.api.event.connection.DisconnectEvent;
+import com.velocitypowered.api.proxy.Player;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageEmbed;
-import net.md_5.bungee.api.connection.ProxiedPlayer;
-import net.md_5.bungee.api.event.PlayerDisconnectEvent;
-import net.md_5.bungee.api.plugin.Listener;
-import net.md_5.bungee.api.scheduler.ScheduledTask;
-import net.md_5.bungee.event.EventHandler;
-import net.silverstonemc.silverstoneproxy.ConfigurationManager;
 import net.silverstonemc.silverstoneproxy.SilverstoneProxy;
 
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
-import java.util.concurrent.TimeUnit;
 
 @SuppressWarnings("DataFlowIssue")
-public class Leave implements Listener {
-    public static final Map<UUID, Integer> leaves = new HashMap<>();
-    public static final ArrayList<ScheduledTask> leaveTasks = new ArrayList<>();
+public class Leave {
+    public Leave(SilverstoneProxy instance) {
+        i = instance;
+    }
 
-    private final SilverstoneProxy plugin = SilverstoneProxy.getPlugin();
+    private final SilverstoneProxy i;
 
-    @EventHandler
-    public void onQuit(PlayerDisconnectEvent event) {
-        ProxiedPlayer player = event.getPlayer();
+    @Subscribe
+    public void onQuit(DisconnectEvent event) {
+        Player player = event.getPlayer();
 
         if (Join.newPlayers.containsKey(player)) {
             int x = 0;
-            for (ProxiedPlayer players : SilverstoneProxy.getPlugin().getProxy().getPlayers())
+            for (Player players : i.server.getAllPlayers())
                 if (players.hasPermission("silverstone.moderator")) x++;
 
             Message message = Join.newPlayers.get(player);
             MessageEmbed oldEmbed = message.getEmbeds().get(0);
 
             EmbedBuilder embed = new EmbedBuilder(oldEmbed);
-            embed.setAuthor(player.getName() + " was new", null, oldEmbed.getAuthor().getIconUrl());
+            embed.setAuthor(player.getUsername() + " was new", null, oldEmbed.getAuthor().getIconUrl());
             embed.setFooter("Player has left | " + x + " staff members online");
             embed.setColor(Color.RED);
 
@@ -46,35 +39,5 @@ public class Leave implements Listener {
 
             Join.newPlayers.remove(player);
         }
-
-        // Join/leave spam
-        if (player.hasPermission("silverstone.joinleavespam.bypass")) return;
-        if (event.getPlayer().getServer() == null) return;
-
-        if (leaves.containsKey(player.getUniqueId()))
-            if (leaves.get(player.getUniqueId()) >= ConfigurationManager.config.getInt(
-                "join-leave-spam.leaves")) plugin.getProxy().getPluginManager()
-                .dispatchCommand(plugin.getProxy().getConsole(),
-                    "warn " + player.getName() + " " + ConfigurationManager.config.getString(
-                        "join-leave-spam.warn"));
-            else {
-                leaves.put(player.getUniqueId(), leaves.get(player.getUniqueId()) + 1);
-                removeLeave(player);
-            }
-        else {
-            leaves.put(player.getUniqueId(), 1);
-            removeLeave(player);
-        }
-    }
-
-    private void removeLeave(ProxiedPlayer player) {
-        Runnable task = () -> {
-            leaves.put(player.getUniqueId(), leaves.get(player.getUniqueId()) - 1);
-            if (leaves.get(player.getUniqueId()) <= 0) leaves.remove(player.getUniqueId());
-        };
-
-        leaveTasks.add(plugin.getProxy().getScheduler()
-            .schedule(plugin, task, ConfigurationManager.config.getInt("join-leave-spam.expire-after"),
-                TimeUnit.SECONDS));
     }
 }

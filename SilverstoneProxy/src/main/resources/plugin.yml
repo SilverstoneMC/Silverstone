@@ -1,5 +1,0 @@
-main: net.silverstonemc.silverstoneproxy.SilverstoneProxy
-name: SilverstoneProxy
-description: Features for the Silverstone proxy, including warnings
-version: %VERSION%
-author: JasonHorkles

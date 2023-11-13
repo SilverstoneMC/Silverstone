@@ -83,12 +83,12 @@ public class SilverstoneGlobal extends JavaPlugin implements Listener {
                     .setActionRow(Button.success("vanish-on", "Vanish"),
                         Button.danger("vanish-off", "Un-vanish")).queue();
 
-                errors = new Errors(this);
-                errors.start();
-
             } catch (InterruptedException | ExecutionException | TimeoutException e) {
                 throw new RuntimeException(e);
             }
+
+            errors = new Errors(this);
+            errors.start();
         }, "Discord Bot").start();
 
         getCommand("bclag").setExecutor(new Broadcasts());
@@ -187,7 +187,7 @@ public class SilverstoneGlobal extends JavaPlugin implements Listener {
         saveDefaultConfig();
         reloadConfig();
         new BuyGUI(this).createInv();
-        sender.sendMessage(Component.text("SilverstoneGlobal reloaded!").color(NamedTextColor.GREEN));
+        sender.sendMessage(Component.text("SilverstoneGlobal reloaded!", NamedTextColor.GREEN));
         return true;
     }
 

@@ -19,14 +19,14 @@ public class Broadcasts implements CommandExecutor {
                 sendBroadcast("WARNING", "The server may experience lag for a moment!");
 
                 if (!(sender instanceof Player))
-                    sender.sendMessage(Component.text("Lag broadcast sent!").color(NamedTextColor.GREEN));
+                    sender.sendMessage(Component.text("Lag broadcast sent!", NamedTextColor.GREEN));
             }
 
             case "bcnolag" -> {
                 sendBroadcast("NOTICE", "The server should no longer lag.");
 
-                if (!(sender instanceof Player)) sender.sendMessage(
-                    Component.text("No more lag broadcast sent!").color(NamedTextColor.GREEN));
+                if (!(sender instanceof Player))
+                    sender.sendMessage(Component.text("No more lag broadcast sent!", NamedTextColor.GREEN));
             }
 
             case "bcrestart" -> {
@@ -36,7 +36,7 @@ public class Broadcasts implements CommandExecutor {
                         100, 1.6f);
 
                 if (!(sender instanceof Player))
-                    sender.sendMessage(Component.text("Restart broadcast sent!").color(NamedTextColor.GREEN));
+                    sender.sendMessage(Component.text("Restart broadcast sent!", NamedTextColor.GREEN));
             }
 
             case "bcshutdown" -> {
@@ -45,8 +45,8 @@ public class Broadcasts implements CommandExecutor {
                     player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_HARP, SoundCategory.MASTER,
                         100, 1.6f);
 
-                if (!(sender instanceof Player)) sender.sendMessage(
-                    Component.text("Shutdown broadcast sent!").color(NamedTextColor.GREEN));
+                if (!(sender instanceof Player))
+                    sender.sendMessage(Component.text("Shutdown broadcast sent!", NamedTextColor.GREEN));
             }
         }
         return true;
@@ -54,9 +54,9 @@ public class Broadcasts implements CommandExecutor {
 
     private void sendBroadcast(String pretext, String message) {
         for (Player player : Bukkit.getOnlinePlayers())
-            player.sendMessage(Component.text()
-                .append(Component.text(pretext).color(NamedTextColor.RED).decorate(TextDecoration.BOLD))
-                .append(Component.text(" > ").color(NamedTextColor.AQUA).decorate(TextDecoration.BOLD))
-                .append(Component.text(message).color(NamedTextColor.GREEN)));
+            player.sendMessage(
+                Component.text().append(Component.text(pretext, NamedTextColor.RED, TextDecoration.BOLD))
+                    .append(Component.text(" > ", NamedTextColor.AQUA, TextDecoration.BOLD))
+                    .append(Component.text(message, NamedTextColor.GREEN)));
     }
 }

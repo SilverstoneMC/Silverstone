@@ -1,73 +1,80 @@
 package net.silverstonemc.silverstoneproxy;
 
-import net.md_5.bungee.config.Configuration;
-import net.md_5.bungee.config.ConfigurationProvider;
-import net.md_5.bungee.config.YamlConfiguration;
+import ninja.leaping.configurate.ConfigurationNode;
+import ninja.leaping.configurate.yaml.YAMLConfigurationLoader;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
 public class ConfigurationManager {
-    public static Configuration config;
-    public static Configuration data;
-    public static Configuration queue;
-    public static Configuration userCache;
-    
-    private final SilverstoneProxy plugin = SilverstoneProxy.getPlugin();
-    
-    public void initialize() {
-        config = loadFile("config.yml");
-        data = loadFile("data.yml");
-        queue = loadFile("queue.yml");
-        userCache = loadFile("usercache.yml");
+    public ConfigurationManager(Path dataDirectory) {
+        this.dataDirectory = dataDirectory;
     }
-    
-    public Configuration loadFile(String fileName) {
-        if (!plugin.getDataFolder().exists())
-            //noinspection ResultOfMethodCallIgnored
-            plugin.getDataFolder().mkdir();
 
-        File file = new File(plugin.getDataFolder(), fileName);
+    public final Map<FileType, ConfigurationNode> files = new HashMap<>();
 
-        if (!file.exists()) try (InputStream in = plugin.getResourceAsStream(fileName)) {
-            Files.copy(in, file.toPath());
-        } catch (IOException e) {
-            e.printStackTrace();
+    private final Map<FileType, YAMLConfigurationLoader> loaders = new HashMap<>();
+    private final Path dataDirectory;
+
+    public enum FileType {
+        CONFIG("config.yml"), USERCACHE("usercache.yml"), WARNDATA("warndata.yml"), WARNQUEUE(
+            "warnqueue.yml");
+
+        private final String fileName;
+
+        FileType(String fileName) {
+            this.fileName = fileName;
         }
 
+        public String getFileName() {
+            return fileName;
+        }
+    }
+
+    public void loadFiles() {
+        // Generate configs if they don't exist
+        if (!dataDirectory.toFile().exists()) //noinspection ResultOfMethodCallIgnored
+            dataDirectory.toFile().mkdir();
+
+        files.clear();
+
+        files.put(FileType.CONFIG, loadFile(FileType.CONFIG));
+        files.put(FileType.USERCACHE, loadFile(FileType.USERCACHE));
+        files.put(FileType.WARNDATA, loadFile(FileType.WARNDATA));
+        files.put(FileType.WARNQUEUE, loadFile(FileType.WARNQUEUE));
+    }
+
+    private ConfigurationNode loadFile(FileType fileType) {
+        File file = new File(dataDirectory.toFile(), fileType.getFileName());
+
+        if (!file.exists())
+            try (InputStream in = getClass().getClassLoader().getResourceAsStream(fileType.getFileName())) {
+                Files.copy(Objects.requireNonNull(in), file.toPath());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        // Load the config
+        YAMLConfigurationLoader loader = YAMLConfigurationLoader.builder().setPath(file.toPath()).build();
+        loaders.put(fileType, loader);
+
         try {
-            return ConfigurationProvider.getProvider(YamlConfiguration.class)
-                .load(new File(plugin.getDataFolder(), fileName));
+            return loader.load();
         } catch (IOException e) {
             e.printStackTrace();
             return null;
         }
     }
 
-    public void saveData() {
+    public void save(FileType fileType) {
         try {
-            ConfigurationProvider.getProvider(YamlConfiguration.class)
-                .save(data, new File(plugin.getDataFolder(), "data.yml"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void saveQueue() {
-        try {
-            ConfigurationProvider.getProvider(YamlConfiguration.class)
-                .save(queue, new File(plugin.getDataFolder(), "queue.yml"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void saveUserCache() {
-        try {
-            ConfigurationProvider.getProvider(YamlConfiguration.class)
-                .save(userCache, new File(plugin.getDataFolder(), "usercache.yml"));
+            loaders.get(fileType).save(files.get(fileType));
         } catch (IOException e) {
             e.printStackTrace();
         }

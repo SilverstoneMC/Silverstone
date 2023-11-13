@@ -32,10 +32,10 @@ public class TimeOut implements Listener {
         for (MetadataValue meta : player.getMetadata("vanished")) if (meta.asBoolean()) return;
 
         for (Player online : Bukkit.getOnlinePlayers())
-            online.sendMessage(Component.text(player.getName()).color(NamedTextColor.GRAY)
-                .append(Component.text(" timed out.").color(NamedTextColor.RED)));
+            online.sendMessage(Component.text(player.getName(), NamedTextColor.GRAY)
+                .append(Component.text(" timed out.", NamedTextColor.RED)));
 
         Bukkit.getConsoleSender()
-            .sendMessage(Component.text("Sending timeout message (kick)").color(NamedTextColor.GOLD));
+            .sendMessage(Component.text("Sending timeout message (kick)", NamedTextColor.GOLD));
     }
 }

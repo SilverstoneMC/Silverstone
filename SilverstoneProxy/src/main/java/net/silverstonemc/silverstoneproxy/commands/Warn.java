@@ -1,104 +1,128 @@
 package net.silverstonemc.silverstoneproxy.commands;
 
-import net.md_5.bungee.api.ChatColor;
-import net.md_5.bungee.api.CommandSender;
-import net.md_5.bungee.api.chat.TextComponent;
-import net.md_5.bungee.api.connection.ProxiedPlayer;
-import net.md_5.bungee.api.plugin.Command;
-import net.md_5.bungee.api.plugin.TabExecutor;
-import net.silverstonemc.silverstoneproxy.*;
+import com.velocitypowered.api.command.CommandSource;
+import com.velocitypowered.api.command.SimpleCommand;
+import com.velocitypowered.api.proxy.Player;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.silverstonemc.silverstoneproxy.SilverstoneProxy;
+import net.silverstonemc.silverstoneproxy.UserManager;
+import net.silverstonemc.silverstoneproxy.Utils;
+import net.silverstonemc.silverstoneproxy.WarnPlayer;
+import ninja.leaping.configurate.ConfigurationNode;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 
-public class Warn extends Command implements TabExecutor {
-    public Warn() {
-        super("warn", "silverstone.moderator", "swarn");
+import static net.silverstonemc.silverstoneproxy.ConfigurationManager.FileType.CONFIG;
+
+public class Warn implements SimpleCommand {
+    public Warn(SilverstoneProxy instance) {
+        i = instance;
     }
 
-    private final SilverstoneProxy plugin = SilverstoneProxy.getPlugin();
+    @Override
+    public boolean hasPermission(final Invocation invocation) {
+        return invocation.source().hasPermission("silverstone.moderator");
+    }
 
-    public void execute(CommandSender sender, String[] args) {
+    private final SilverstoneProxy i;
+
+    @Override
+    public void execute(final Invocation invocation) {
+        CommandSource sender = invocation.source();
+        String[] args = invocation.arguments();
+
         // If console does the command
-        if (!(sender instanceof ProxiedPlayer)) switch (args.length) {
-            case 0, 1 ->
-                sender.sendMessage(TextComponent.fromLegacyText(ChatColor.RED + "/warn <player> <reason>"));
+        if (!(sender instanceof Player)) switch (args.length) {
+            case 0, 1 -> sender.sendMessage(Component.text("/warn <player> <reason>", NamedTextColor.RED));
 
             case 2 -> {
                 // Warn the targeted player
                 if (checkIfValidReason(args[1])) {
-                    plugin.getProxy().getPluginManager()
-                        .dispatchCommand(plugin.getProxy().getConsole(), "reasons");
+                    i.server.getCommandManager().executeAsync(i.server.getConsoleCommandSource(), "reasons");
                     return;
                 }
 
-                UUID uuid = new UserManager().getUUID(args[0]);
-                String username = new UserManager().getUsername(uuid);
+                UUID uuid = new UserManager(i).getUUID(args[0]);
+                String username = new UserManager(i).getUsername(uuid);
 
                 if (uuid == null) {
                     new Utils().nonexistentPlayerMessage(args[0], sender);
                     return;
                 }
 
-                sender.sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&',
-                    "&cWarning &7" + username + " &cfor reason: &7" + args[1])));
-                new WarnPlayer().warn(uuid, args[1]);
+                sender.sendMessage(Component.text("Warning ", NamedTextColor.RED)
+                    .append(Component.text(username, NamedTextColor.GRAY))
+                    .append(Component.text(" for reason: ", NamedTextColor.RED))
+                    .append(Component.text(args[1], NamedTextColor.GRAY)));
+
+                new WarnPlayer(i).warn(uuid, args[1]);
             }
         }
         else switch (args.length) {
-            case 0 ->
-                sender.sendMessage(TextComponent.fromLegacyText(ChatColor.RED + "/warn <player> <reason>"));
+            case 0 -> sender.sendMessage(Component.text("/warn <player> <reason>", NamedTextColor.RED));
 
             case 1 -> {
-                UUID uuid = new UserManager().getUUID(args[0]);
-                String username = new UserManager().getUsername(uuid);
+                UUID uuid = new UserManager(i).getUUID(args[0]);
+                String username = new UserManager(i).getUsername(uuid);
 
                 if (uuid == null) {
                     new Utils().nonexistentPlayerMessage(args[0], sender);
                     return;
                 }
 
-                new WarnReasons().sendReasonList(true, SilverstoneProxy.getAdventure().sender(sender), username);
+                new WarnReasons(i).sendReasonList(true, sender, username);
             }
 
             case 2 -> {
                 // Warn the targeted player
                 if (checkIfValidReason(args[1])) {
-                    plugin.getProxy().getPluginManager().dispatchCommand(sender, "warn " + args[0]);
+                    i.server.getCommandManager().executeAsync(sender, "warn " + args[0]);
                     return;
                 }
 
-                UUID uuid = new UserManager().getUUID(args[0]);
-                String username = new UserManager().getUsername(uuid);
+                UUID uuid = new UserManager(i).getUUID(args[0]);
+                String username = new UserManager(i).getUsername(uuid);
 
                 if (uuid == null) {
                     new Utils().nonexistentPlayerMessage(args[0], sender);
                     return;
                 }
 
-                TextComponent blank = new TextComponent();
-                for (int x = 0; x < 50; x++) sender.sendMessage(blank);
-                sender.sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&',
-                    "&cWarning &7" + username + " &cfor reason: &7" + args[1])));
-                new WarnPlayer().warn(uuid, args[1]);
+                for (int x = 0; x < 50; x++) sender.sendMessage(Component.empty());
+                sender.sendMessage(Component.text("Warning ", NamedTextColor.RED)
+                    .append(Component.text(username, NamedTextColor.GRAY))
+                    .append(Component.text(" for reason: ", NamedTextColor.RED))
+                    .append(Component.text(args[1], NamedTextColor.GRAY)));
+
+                new WarnPlayer(i).warn(uuid, args[1]);
             }
         }
     }
 
     private boolean checkIfValidReason(String reason) {
-        ArrayList<String> reasonList = new ArrayList<>(
-            ConfigurationManager.config.getSection("reasons").getKeys());
+        ArrayList<String> reasonList = new ArrayList<>();
+        for (ConfigurationNode reasons : i.fileManager.files.get(CONFIG).getNode("reasons").getChildrenList())
+            //noinspection DataFlowIssue
+            reasonList.add(reasons.getKey().toString());
         return !reasonList.contains(reason);
     }
 
     @Override
-    public Iterable<String> onTabComplete(CommandSender sender, String[] args) {
-        List<String> arguments = new ArrayList<>();
-        for (ProxiedPlayer player : plugin.getProxy().getPlayers())
-            arguments.add(player.getName());
+    public CompletableFuture<List<String>> suggestAsync(final Invocation invocation) {
+        String[] args = invocation.arguments();
 
-        List<String> arguments2 = new ArrayList<>(ConfigurationManager.config.getSection("reasons").getKeys());
+        List<String> arguments = new ArrayList<>();
+        for (Player player : i.server.getAllPlayers())
+            arguments.add(player.getUsername());
+
+        List<String> arguments2 = new ArrayList<>();
+        for (ConfigurationNode reasons : i.fileManager.files.get(CONFIG).getNode("reasons").getChildrenList())
+            //noinspection DataFlowIssue
+            arguments2.add(reasons.getKey().toString());
 
         List<String> result = new ArrayList<>();
         switch (args.length) {
@@ -112,6 +136,6 @@ public class Warn extends Command implements TabExecutor {
                     if (a.toLowerCase().startsWith(args[1].toLowerCase())) result.add(a);
             }
         }
-        return result;
+        return CompletableFuture.completedFuture(result);
     }
 }

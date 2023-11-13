@@ -1,5 +1,15 @@
 package net.silverstonemc.silverstoneproxy;
 
+import com.google.inject.Inject;
+import com.velocitypowered.api.command.CommandManager;
+import com.velocitypowered.api.event.EventManager;
+import com.velocitypowered.api.event.Subscribe;
+import com.velocitypowered.api.event.proxy.ProxyInitializeEvent;
+import com.velocitypowered.api.event.proxy.ProxyShutdownEvent;
+import com.velocitypowered.api.plugin.Plugin;
+import com.velocitypowered.api.plugin.annotation.DataDirectory;
+import com.velocitypowered.api.proxy.ProxyServer;
+import com.velocitypowered.api.proxy.messages.MinecraftChannelIdentifier;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.OnlineStatus;
@@ -7,10 +17,6 @@ import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.utils.MemberCachePolicy;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
-import net.kyori.adventure.platform.bungeecord.BungeeAudiences;
-import net.md_5.bungee.api.plugin.Listener;
-import net.md_5.bungee.api.plugin.Plugin;
-import net.md_5.bungee.api.plugin.PluginManager;
 import net.silverstonemc.silverstoneproxy.commands.*;
 import net.silverstonemc.silverstoneproxy.commands.chatemotes.FacePalm;
 import net.silverstonemc.silverstoneproxy.commands.chatemotes.Shrug;
@@ -19,31 +25,47 @@ import net.silverstonemc.silverstoneproxy.events.DiscordButtons;
 import net.silverstonemc.silverstoneproxy.events.Join;
 import net.silverstonemc.silverstoneproxy.events.Leave;
 import net.silverstonemc.silverstoneproxy.events.PluginMessage;
+import ninja.leaping.configurate.ConfigurationNode;
+import org.slf4j.Logger;
 
+import java.nio.file.Path;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
-public class SilverstoneProxy extends Plugin implements Listener {
+import static net.silverstonemc.silverstoneproxy.ConfigurationManager.FileType.USERCACHE;
+
+@Plugin(id = "silverstoneproxy", name = "SilverstoneProxy", version = "%VERSION%", description = "Features for the Silverstone proxy, including warnings", authors = {"JasonHorkles"})
+public class SilverstoneProxy {
+    @Inject
+    public SilverstoneProxy(ProxyServer server, Logger logger, @DataDirectory Path dataDirectory) {
+        this.server = server;
+        this.logger = logger;
+        this.fileManager = new ConfigurationManager(dataDirectory);
+
+        fileManager.loadFiles();
+    }
+
     public static JDA jda;
+    public final Logger logger;
+    public final ProxyServer server;
+    public final ConfigurationManager fileManager;
+    public static final MinecraftChannelIdentifier IDENTIFIER = MinecraftChannelIdentifier.from(
+        "silverstone:pluginmsg");
 
-    private static BungeeAudiences adventure;
-    private static SilverstoneProxy plugin;
+    private ConsoleErrors errors;
 
-    @Override
-    public void onEnable() {
-        plugin = this;
-        new ConfigurationManager().initialize();
-        adventure = BungeeAudiences.create(this);
-
+    @Subscribe
+    public void onProxyInitialize(ProxyInitializeEvent event) {
         // Cache users
-        for (String key : ConfigurationManager.userCache.getSection("users").getKeys()) {
-            UUID uuid = UUID.fromString(key);
-            String username = ConfigurationManager.userCache.getString("users." + key);
+        for (ConfigurationNode users : fileManager.files.get(USERCACHE).getNode("users").getChildrenList()) {
+            //noinspection DataFlowIssue
+            UUID uuid = UUID.fromString(users.getKey().toString());
+            String username = fileManager.files.get(USERCACHE).getNode("users", users.getKey()).getString();
             UserManager.playerMap.put(uuid, username);
         }
 
         new Thread(() -> {
-            getLogger().info("Starting Discord bot...");
+            logger.info("Starting Discord bot...");
             JDABuilder builder = JDABuilder.createDefault(new Secrets().getBotToken());
             builder.disableIntents(GatewayIntent.GUILD_MESSAGE_TYPING);
             builder.disableCache(CacheFlag.ACTIVITY, CacheFlag.VOICE_STATE);
@@ -51,24 +73,33 @@ public class SilverstoneProxy extends Plugin implements Listener {
             builder.setStatus(OnlineStatus.ONLINE);
             builder.setActivity(Activity.watching("for cheaters"));
             builder.setEnableShutdownHook(false);
-            builder.addEventListeners(new DiscordButtons());
+            builder.addEventListeners(new DiscordButtons(this));
             jda = builder.build();
+
+            errors = new ConsoleErrors(this);
+            errors.start();
         }, "Discord Bot").start();
 
-        PluginManager pluginManager = getProxy().getPluginManager();
+        CommandManager commandManager = server.getCommandManager();
+        commandManager.register("bcnetworkrestart", new Restart(this));
+        commandManager.register("discord", new Discord());
+        commandManager.register("facepalm", new FacePalm(), "ssw");
+        commandManager.register("forums", new Forums(), "site", "bugreport", "reportbug", "report",
+            "reportplayer", "playerreport", "builder");
+        commandManager.register("mods", new Mods());
+        commandManager.register("prestartwhenempty", new RestartWhenEmpty(this));
+        commandManager.register("relay", new Relay());
+        commandManager.register("rules", new Rules(this));
+        commandManager.register("shrug", new Shrug());
+        commandManager.register("ssp", new BaseCommand(this), "ssw");
+        commandManager.register("tableflip", new TableFlip());
+        commandManager.register("warn", new Warn(this));
+        commandManager.register("warnings", new Warnings(this));
+        commandManager.register("warnlist", new WarnList(this));
+        commandManager.register("warnqueue", new WarnQueue(this));
+        commandManager.register("warnreasons", new WarnReasons(this), "categories", "reasons");
 
-        pluginManager.registerCommand(this, new BaseCommand());
-        pluginManager.registerCommand(this, new Discord());
-        pluginManager.registerCommand(this, new FacePalm());
-        pluginManager.registerCommand(this, new Forums());
-        pluginManager.registerCommand(this, new Mods());
-        pluginManager.registerCommand(this, new Restart());
-        pluginManager.registerCommand(this, new RestartWhenEmpty());
-        pluginManager.registerCommand(this, new Rules());
-        pluginManager.registerCommand(this, new Shrug());
-        pluginManager.registerCommand(this, new TableFlip());
-
-        Runnable task = () -> {
+        /*Runnable task = () -> {
             pluginManager.registerCommand(plugin, new WarnReasons());
             pluginManager.registerCommand(plugin, new BaseCommand());
             pluginManager.registerCommand(plugin, new Relay());
@@ -78,23 +109,21 @@ public class SilverstoneProxy extends Plugin implements Listener {
             pluginManager.registerCommand(plugin, new WarnQueue());
             getLogger().info("Warning commands registered!");
         };
-        getProxy().getScheduler().schedule(this, task, 3, TimeUnit.SECONDS);
+        getProxy().getScheduler().schedule(this, task, 3, TimeUnit.SECONDS);*/
 
-        pluginManager.registerListener(this, new Join());
-        pluginManager.registerListener(this, new PluginMessage());
-        pluginManager.registerListener(this, new Leave());
+        EventManager eventManager = server.getEventManager();
+        eventManager.register(this, new Join(this));
+        eventManager.register(this, new Leave(this));
+        eventManager.register(this, new PluginMessage(this));
 
-        getProxy().registerChannel("silverstone:pluginmsg");
+        server.getChannelRegistrar().register(IDENTIFIER);
     }
 
-    @Override
-    public void onDisable() {
-        if (adventure != null) {
-            adventure.close();
-            adventure = null;
-        }
+    @Subscribe
+    public void onProxyShutdown(ProxyShutdownEvent event) {
+        errors.remove();
 
-        getLogger().info("Shutting down Discord bot...");
+        logger.info("Shutting down Discord bot...");
         try {
             // Initating the shutdown, this closes the gateway connection and subsequently closes the requester queue
             jda.shutdown();
@@ -106,15 +135,5 @@ public class SilverstoneProxy extends Plugin implements Listener {
             }
         } catch (NoClassDefFoundError | InterruptedException ignored) {
         }
-    }
-
-    public static BungeeAudiences getAdventure() {
-        if (adventure == null)
-            throw new IllegalStateException("Cannot retrieve audience provider while plugin is not enabled");
-        return adventure;
-    }
-
-    public static SilverstoneProxy getPlugin() {
-        return plugin;
     }
 }

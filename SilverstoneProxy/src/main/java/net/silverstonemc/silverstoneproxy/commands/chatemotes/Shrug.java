@@ -1,24 +1,24 @@
 package net.silverstonemc.silverstoneproxy.commands.chatemotes;
 
+import com.velocitypowered.api.command.CommandSource;
+import com.velocitypowered.api.command.SimpleCommand;
+import com.velocitypowered.api.proxy.Player;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.event.ClickEvent;
 import net.kyori.adventure.text.format.NamedTextColor;
-import net.md_5.bungee.api.CommandSender;
-import net.md_5.bungee.api.connection.ProxiedPlayer;
-import net.md_5.bungee.api.plugin.Command;
-import net.silverstonemc.silverstoneproxy.SilverstoneProxy;
 
-public class Shrug extends Command {
-    public Shrug() {
-        super("shrug");
-    }
+public class Shrug implements SimpleCommand {
+    @Override
+    public void execute(final Invocation invocation) {
+        CommandSource sender = invocation.source();
 
-    public void execute(CommandSender sender, String[] args) {
-        if (!(sender instanceof ProxiedPlayer player)) {
-            SilverstoneProxy.getAdventure().sender(sender).sendMessage(
-                Component.text("Sorry, but only players can do that.").color(NamedTextColor.RED));
+        if (!(sender instanceof Player player)) {
+            sender.sendMessage(Component.text("Sorry, but only players can do that.", NamedTextColor.RED));
             return;
         }
 
-        player.chat("¯\\_(ツ)_/¯");
+        player.sendMessage(Component.text("Click ", NamedTextColor.GREEN).append(
+                Component.text("here", NamedTextColor.AQUA).clickEvent(ClickEvent.suggestCommand("¯\\_(ツ)_/¯")))
+            .append(Component.text(" to shrug", NamedTextColor.AQUA)));
     }
 }

@@ -1,8 +1,8 @@
 package net.silverstonemc.silverstoneglobal.events;
 
 import me.rerere.matrix.api.MatrixAPIProvider;
-import net.silverstonemc.silverstoneglobal.discord.AntiCheat;
 import net.silverstonemc.silverstoneglobal.SilverstoneGlobal;
+import net.silverstonemc.silverstoneglobal.discord.AntiCheat;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.server.ServerLoadEvent;

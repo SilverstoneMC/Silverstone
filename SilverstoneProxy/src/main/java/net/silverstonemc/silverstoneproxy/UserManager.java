@@ -5,9 +5,17 @@ import org.apache.commons.collections4.bidimap.DualHashBidiMap;
 
 import java.util.UUID;
 
+import static net.silverstonemc.silverstoneproxy.ConfigurationManager.FileType.USERCACHE;
+
 public class UserManager {
+    public UserManager(SilverstoneProxy instance) {
+        i = instance;
+    }
+
     public static final BidiMap<UUID, String> playerMap = new DualHashBidiMap<>();
-    
+
+    private final SilverstoneProxy i;
+
     public UUID getUUID(String username) {
         return playerMap.inverseBidiMap().get(username);
     }
@@ -18,7 +26,7 @@ public class UserManager {
 
     public void addUser(UUID uuid, String username) {
         playerMap.put(uuid, username);
-        ConfigurationManager.userCache.set("users." + uuid.toString(), username);
-        new ConfigurationManager().saveUserCache();
+        i.fileManager.files.get(USERCACHE).getNode("users", uuid.toString()).setValue(username);
+        i.fileManager.save(USERCACHE);
     }
 }

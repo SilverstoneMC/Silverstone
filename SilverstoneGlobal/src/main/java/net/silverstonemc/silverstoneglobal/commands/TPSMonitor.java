@@ -10,6 +10,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 
+@SuppressWarnings("unused")
 public record TPSMonitor(JavaPlugin plugin) implements CommandExecutor {
     private static BukkitRunnable task;
 
@@ -19,7 +20,7 @@ public record TPSMonitor(JavaPlugin plugin) implements CommandExecutor {
             try {
                 interval = Double.parseDouble(args[0]) * 20;
             } catch (NumberFormatException ignored) {
-                sender.sendMessage(Component.text("That number ain't right").color(NamedTextColor.RED));
+                sender.sendMessage(Component.text("That number ain't right", NamedTextColor.RED));
                 return true;
             }
 
@@ -27,8 +28,8 @@ public record TPSMonitor(JavaPlugin plugin) implements CommandExecutor {
                 task.cancel();
                 Bukkit.dispatchCommand(sender, cmd.getName() + " " + args[0]);
                 sender.sendMessage(
-                    Component.text("Successfully changed the interval to " + interval / 20 + " seconds.")
-                        .color(NamedTextColor.GREEN));
+                    Component.text("Successfully changed the interval to " + interval / 20 + " seconds.",
+                        NamedTextColor.GREEN));
                 return true;
             }
 
@@ -42,12 +43,11 @@ public record TPSMonitor(JavaPlugin plugin) implements CommandExecutor {
 
         } else {
             if (task == null || task.isCancelled()) {
-                sender.sendMessage(
-                    Component.text("The monitor was already inactive.").color(NamedTextColor.RED));
+                sender.sendMessage(Component.text("The monitor was already inactive.", NamedTextColor.RED));
                 return true;
             }
             task.cancel();
-            sender.sendMessage(Component.text("TPS monitoring deactivated.").color(NamedTextColor.GREEN));
+            sender.sendMessage(Component.text("TPS monitoring deactivated.", NamedTextColor.GREEN));
         }
         return true;
     }

@@ -48,8 +48,7 @@ public class BuyGUI implements CommandExecutor, Listener {
 
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
         if (!(sender instanceof Player player)) {
-            sender.sendMessage(
-                Component.text("Sorry, but only players can do that.").color(NamedTextColor.RED));
+            sender.sendMessage(Component.text("Sorry, but only players can do that.", NamedTextColor.RED));
             return true;
         }
         // Open GUI
@@ -72,48 +71,48 @@ public class BuyGUI implements CommandExecutor, Listener {
         switch (event.getRawSlot()) {
             case 11 -> {
                 // Member
-                player.sendMessage(Component.text("\nPurchase the ").color(NamedTextColor.GREEN)
-                    .append(Component.text("Member ").color(NamedTextColor.AQUA))
-                    .append(Component.text("rank ").color(NamedTextColor.GREEN)).append(
-                        Component.text("here").color(NamedTextColor.AQUA).clickEvent(
+                player.sendMessage(Component.text("\nPurchase the ", NamedTextColor.GREEN)
+                    .append(Component.text("Member ", NamedTextColor.AQUA))
+                    .append(Component.text("rank ", NamedTextColor.GREEN)).append(
+                        Component.text("here", NamedTextColor.AQUA).clickEvent(
                             ClickEvent.openUrl("https://silverstone.craftingstore.net/category/261250"))));
                 closeInv(player);
             }
 
             case 12 -> {
                 // VIP
-                player.sendMessage(Component.text("\nPurchase the ").color(NamedTextColor.GREEN)
-                    .append(Component.text("VIP ").color(NamedTextColor.AQUA))
-                    .append(Component.text("rank ").color(NamedTextColor.GREEN)).append(
-                        Component.text("here").color(NamedTextColor.AQUA).clickEvent(
+                player.sendMessage(Component.text("\nPurchase the ", NamedTextColor.GREEN)
+                    .append(Component.text("VIP ", NamedTextColor.AQUA))
+                    .append(Component.text("rank ", NamedTextColor.GREEN)).append(
+                        Component.text("here", NamedTextColor.AQUA).clickEvent(
                             ClickEvent.openUrl("https://silverstone.craftingstore.net/category/261250"))));
                 closeInv(player);
             }
 
             case 13 -> {
                 // VIP+
-                player.sendMessage(Component.text("\nPurchase the ").color(NamedTextColor.GREEN)
-                    .append(Component.text("VIP+ ").color(NamedTextColor.AQUA))
-                    .append(Component.text("rank ").color(NamedTextColor.GREEN)).append(
-                        Component.text("here").color(NamedTextColor.AQUA).clickEvent(
+                player.sendMessage(Component.text("\nPurchase the ", NamedTextColor.GREEN)
+                    .append(Component.text("VIP+ ", NamedTextColor.AQUA))
+                    .append(Component.text("rank ", NamedTextColor.GREEN)).append(
+                        Component.text("here", NamedTextColor.AQUA).clickEvent(
                             ClickEvent.openUrl("https://silverstone.craftingstore.net/category/261250"))));
                 closeInv(player);
             }
 
             case 14 -> {
                 // MVP
-                player.sendMessage(Component.text("\nPurchase the ").color(NamedTextColor.GREEN)
-                    .append(Component.text("MVP ").color(NamedTextColor.AQUA))
-                    .append(Component.text("rank ").color(NamedTextColor.GREEN)).append(
-                        Component.text("here").color(NamedTextColor.AQUA).clickEvent(
+                player.sendMessage(Component.text("\nPurchase the ", NamedTextColor.GREEN)
+                    .append(Component.text("MVP ", NamedTextColor.AQUA))
+                    .append(Component.text("rank ", NamedTextColor.GREEN)).append(
+                        Component.text("here", NamedTextColor.AQUA).clickEvent(
                             ClickEvent.openUrl("https://silverstone.craftingstore.net/category/261250"))));
                 closeInv(player);
             }
 
             case 15 -> {
                 // Donate
-                player.sendMessage(Component.text("\nDonate to the server ").color(NamedTextColor.GREEN)
-                    .append(Component.text("here").color(NamedTextColor.AQUA).clickEvent(
+                player.sendMessage(Component.text("\nDonate to the server ", NamedTextColor.GREEN).append(
+                    Component.text("here", NamedTextColor.AQUA).clickEvent(
                         ClickEvent.openUrl("https://silverstone.craftingstore.net/category/261655"))));
                 closeInv(player);
             }
@@ -122,8 +121,7 @@ public class BuyGUI implements CommandExecutor, Listener {
 
     public void createInv() {
         Inventory inventory = Bukkit.createInventory(null, 27,
-            Component.text("Available Ranks").color(TextColor.fromHexString("#048a3e"))
-                .decorate(TextDecoration.BOLD));
+            Component.text("Available Ranks", TextColor.fromHexString("#048a3e"), TextDecoration.BOLD));
 
         // Filler
         ItemStack item = new ItemStack(Material.BLACK_STAINED_GLASS_PANE);

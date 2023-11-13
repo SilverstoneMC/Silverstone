@@ -49,7 +49,7 @@ public record TNTRun(JavaPlugin plugin) implements CommandExecutor {
 
                 }
             } catch (IndexOutOfBoundsException e) {
-                sender.sendMessage(Component.text("Please provide a valid selector!").color(NamedTextColor.RED));
+                sender.sendMessage(Component.text("Please provide a valid selector!", NamedTextColor.RED));
             }
             return true;
         }

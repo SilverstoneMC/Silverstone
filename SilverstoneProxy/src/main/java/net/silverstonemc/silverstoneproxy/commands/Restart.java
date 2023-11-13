@@ -1,31 +1,36 @@
 package net.silverstonemc.silverstoneproxy.commands;
 
-import net.kyori.adventure.key.Key;
-import net.kyori.adventure.platform.bungeecord.BungeeAudiences;
-import net.kyori.adventure.sound.Sound;
-import net.md_5.bungee.api.ChatColor;
-import net.md_5.bungee.api.CommandSender;
-import net.md_5.bungee.api.chat.TextComponent;
-import net.md_5.bungee.api.connection.ProxiedPlayer;
-import net.md_5.bungee.api.plugin.Command;
+import com.velocitypowered.api.command.CommandSource;
+import com.velocitypowered.api.command.SimpleCommand;
+import com.velocitypowered.api.proxy.Player;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextDecoration;
 import net.silverstonemc.silverstoneproxy.SilverstoneProxy;
 
-public class Restart extends Command {
-    public Restart() {
-        super("bcnetworkrestart", "silverstone.admin");
+public class Restart implements SimpleCommand {
+    public Restart(SilverstoneProxy instance) {
+        i = instance;
     }
-    
-    private final BungeeAudiences audience = SilverstoneProxy.getAdventure();
 
-    public void execute(CommandSender sender, String[] args) {
-        for (ProxiedPlayer player : SilverstoneProxy.getPlugin().getProxy().getPlayers()) {
-            player.sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&',
-                "&c&lWARNING &b&l> &aThe network will restart soon!")));
-            audience.player(player)
-                .playSound(Sound.sound(Key.key("block.note_block.harp"), Sound.Source.MASTER, 100, 1.6f));
-        }
+    @Override
+    public boolean hasPermission(final Invocation invocation) {
+        return invocation.source().hasPermission("silverstone.admin");
+    }
 
-        if (!(sender instanceof ProxiedPlayer))
-            sender.sendMessage(TextComponent.fromLegacyText(ChatColor.GREEN + "Restart broadcast sent!"));
+    private final SilverstoneProxy i;
+
+    @Override
+    public void execute(final Invocation invocation) {
+        CommandSource sender = invocation.source();
+
+        for (Player player : i.server.getAllPlayers())
+            player.sendMessage(Component.text().append(
+                Component.text("WARNING ", NamedTextColor.RED, TextDecoration.BOLD)
+                    .append(Component.text("> ", NamedTextColor.AQUA, TextDecoration.BOLD))
+                    .append(Component.text("The network will restart soon!", NamedTextColor.GREEN))));
+
+        if (!(sender instanceof Player))
+            sender.sendMessage(Component.text("Restart broadcast sent!", NamedTextColor.GREEN));
     }
 }

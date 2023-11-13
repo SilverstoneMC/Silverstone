@@ -31,8 +31,7 @@ public class ChatnSounds implements CommandExecutor, Listener {
 
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
         if (!(sender instanceof Player player)) {
-            sender.sendMessage(
-                Component.text("Sorry, but only players can do that.").color(NamedTextColor.RED));
+            sender.sendMessage(Component.text("Sorry, but only players can do that.", NamedTextColor.RED));
             return true;
         }
 
@@ -45,12 +44,10 @@ public class ChatnSounds implements CommandExecutor, Listener {
                         User user = luckPerms.getPlayerAdapter(Player.class).getUser(player);
                         if (value) {
                             user.data().add(Node.builder("silverstone.chatsounds.enabled").build());
-                            sender.sendMessage(
-                                Component.text("Chat sounds enabled.").color(NamedTextColor.GREEN));
+                            sender.sendMessage(Component.text("Chat sounds enabled.", NamedTextColor.GREEN));
                         } else {
                             user.data().remove(Node.builder("silverstone.chatsounds.enabled").build());
-                            sender.sendMessage(
-                                Component.text("Chat sounds disabled.").color(NamedTextColor.RED));
+                            sender.sendMessage(Component.text("Chat sounds disabled.", NamedTextColor.RED));
                         }
                         luckPerms.getUserManager().saveUser(user);
                     }
@@ -66,11 +63,11 @@ public class ChatnSounds implements CommandExecutor, Listener {
                         if (value) {
                             user.data().add(Node.builder("silverstone.jlsounds.enabled").build());
                             sender.sendMessage(
-                                Component.text("Join/leave sounds enabled.").color(NamedTextColor.GREEN));
+                                Component.text("Join/leave sounds enabled.", NamedTextColor.GREEN));
                         } else {
                             user.data().remove(Node.builder("silverstone.jlsounds.enabled").build());
                             sender.sendMessage(
-                                Component.text("Join/leave sounds disabled.").color(NamedTextColor.RED));
+                                Component.text("Join/leave sounds disabled.", NamedTextColor.RED));
                         }
                         luckPerms.getUserManager().saveUser(user);
                     }

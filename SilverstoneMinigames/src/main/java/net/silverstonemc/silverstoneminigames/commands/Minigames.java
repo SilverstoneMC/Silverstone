@@ -42,8 +42,7 @@ public class Minigames implements CommandExecutor, Listener {
 
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
         if (!(sender instanceof Player player)) {
-            sender.sendMessage(
-                Component.text("Sorry, but only players can do that.").color(NamedTextColor.RED));
+            sender.sendMessage(Component.text("Sorry, but only players can do that.", NamedTextColor.RED));
             return true;
         }
 
@@ -251,8 +250,8 @@ public class Minigames implements CommandExecutor, Listener {
                 ArrayList<String> games = new ArrayList<>(
                     plugin.getConfig().getStringList("random-game.singleplayer"));
                 Random r = new Random();
-                player.sendMessage(Component.text("You should play ").color(NamedTextColor.GREEN)
-                    .append(Component.text(games.get(r.nextInt(games.size()))).color(NamedTextColor.AQUA)));
+                player.sendMessage(Component.text("You should play ", NamedTextColor.GREEN)
+                    .append(Component.text(games.get(r.nextInt(games.size())), NamedTextColor.AQUA)));
             }
 
             case 5 -> {
@@ -260,8 +259,8 @@ public class Minigames implements CommandExecutor, Listener {
                 ArrayList<String> games = new ArrayList<>(
                     plugin.getConfig().getStringList("random-game.multiplayer"));
                 Random r = new Random();
-                player.sendMessage(Component.text("You should play ").color(NamedTextColor.GREEN)
-                    .append(Component.text(games.get(r.nextInt(games.size()))).color(NamedTextColor.AQUA)));
+                player.sendMessage(Component.text("You should play ", NamedTextColor.GREEN)
+                    .append(Component.text(games.get(r.nextInt(games.size())), NamedTextColor.AQUA)));
             }
         }
     }

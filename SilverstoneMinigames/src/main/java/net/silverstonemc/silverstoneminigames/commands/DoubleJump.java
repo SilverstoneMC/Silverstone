@@ -45,14 +45,12 @@ public class DoubleJump implements CommandExecutor, Listener {
 
                     ItemStack item = new ItemStack(Material.FEATHER);
                     ItemMeta meta = item.getItemMeta();
-                    meta.displayName(Component.text("Double Jump").color(NamedTextColor.RED)
-                        .decorate(TextDecoration.BOLD));
+                    meta.displayName(Component.text("Double Jump", NamedTextColor.RED, TextDecoration.BOLD));
                     item.setItemMeta(meta);
                     player.getInventory().addItem(item);
                 }
             } catch (IndexOutOfBoundsException e) {
-                sender.sendMessage(
-                    Component.text("Please provide a valid selector!").color(NamedTextColor.RED));
+                sender.sendMessage(Component.text("Please provide a valid selector!", NamedTextColor.RED));
             }
             return true;
         }
@@ -66,14 +64,12 @@ public class DoubleJump implements CommandExecutor, Listener {
         if (event.getAction().equals(Action.RIGHT_CLICK_AIR) || event.getAction()
             .equals(Action.RIGHT_CLICK_BLOCK) || event.getAction()
             .equals(Action.LEFT_CLICK_AIR) || event.getAction().equals(Action.LEFT_CLICK_BLOCK))
-            if (player.getWorld().getName()
-                .equalsIgnoreCase(plugin.getConfig().getString("minigame-world")))
+            if (player.getWorld().getName().equalsIgnoreCase(plugin.getConfig().getString("minigame-world")))
                 if (player.getInventory().getItemInMainHand().getType() == Material.FEATHER)
                     if (player.getInventory().getItemInMainHand().getItemMeta().hasDisplayName())
                         //noinspection DataFlowIssue
-                        if (player.getInventory().getItemInMainHand().getItemMeta().displayName().equals(
-                            Component.text("Double Jump").color(NamedTextColor.RED)
-                                .decorate(TextDecoration.BOLD))) {
+                        if (player.getInventory().getItemInMainHand().getItemMeta().displayName()
+                            .equals(Component.text("Double Jump", NamedTextColor.RED, TextDecoration.BOLD))) {
                             // Still on cooldown
                             if (cooldowns.containsKey(player.getName()))
                                 if (cooldowns.get(player.getName()) > System.currentTimeMillis()) return;
@@ -83,8 +79,8 @@ public class DoubleJump implements CommandExecutor, Listener {
                             if (jumps.containsKey(player)) jumpCount = jumps.get(player);
 
                             if (jumpCount == 0) {
-                                player.sendMessage(Component.text("You can't double jump any more!")
-                                    .color(NamedTextColor.RED));
+                                player.sendMessage(
+                                    Component.text("You can't double jump any more!", NamedTextColor.RED));
                                 return;
                             }
 
@@ -92,8 +88,8 @@ public class DoubleJump implements CommandExecutor, Listener {
                             player.setVelocity(vector);
                             jumps.put(player, jumpCount - 1);
                             player.sendMessage(
-                                Component.text("You have " + (jumpCount - 1) + " double jumps remaining.")
-                                    .color(NamedTextColor.RED));
+                                Component.text("You have " + (jumpCount - 1) + " double jumps remaining.",
+                                    NamedTextColor.RED));
                         }
     }
 }

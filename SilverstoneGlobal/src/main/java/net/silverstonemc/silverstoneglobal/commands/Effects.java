@@ -17,30 +17,28 @@ public class Effects implements CommandExecutor {
 
             // If player is null, cancel the command
             if (player == null) {
-                sender.sendMessage(
-                    Component.text("Please provide an online player!").color(NamedTextColor.RED));
+                sender.sendMessage(Component.text("Please provide an online player!", NamedTextColor.RED));
                 return true;
             }
 
             String username = player.getName();
 
             if (player.getActivePotionEffects().isEmpty()) {
-                sender.sendMessage(Component.text(username).color(NamedTextColor.AQUA)
-                    .append(Component.text(" has no active effects.").color(NamedTextColor.GREEN)));
+                sender.sendMessage(Component.text(username, NamedTextColor.AQUA)
+                    .append(Component.text(" has no active effects.", NamedTextColor.GREEN)));
                 return true;
             }
 
-            sender.sendMessage(Component.text("\n" + username).color(NamedTextColor.AQUA)
-                .append(Component.text(" has the following effects:\n ").color(NamedTextColor.GREEN)));
+            sender.sendMessage(Component.text("\n" + username, NamedTextColor.AQUA)
+                .append(Component.text(" has the following effects:\n ", NamedTextColor.GREEN)));
 
             for (PotionEffect effect : player.getActivePotionEffects())
                 sender.sendMessage(
-                    Component.text(effect.getType().getName() + " " + (effect.getAmplifier() + 1))
-                        .color(NamedTextColor.AQUA)
-                        .append(Component.text(" | ").color(NamedTextColor.DARK_AQUA)).append(
-                            Component.text((effect.getDuration() / 20) + "s").color(NamedTextColor.AQUA)));
+                    Component.text(effect.getType().getName() + " " + (effect.getAmplifier() + 1),
+                            NamedTextColor.AQUA).append(Component.text(" | ", NamedTextColor.DARK_AQUA))
+                        .append(Component.text((effect.getDuration() / 20) + "s", NamedTextColor.AQUA)));
 
-        } else sender.sendMessage(Component.text("Please provide a player!").color(NamedTextColor.RED));
+        } else sender.sendMessage(Component.text("Please provide a player!", NamedTextColor.RED));
         return true;
     }
 }

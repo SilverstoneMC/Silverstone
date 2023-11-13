@@ -28,13 +28,11 @@ public record Exit(JavaPlugin plugin) implements CommandExecutor {
     // Perm based, so won't show up in minigames server
     public boolean onCommand(@NotNull CommandSender sender, Command cmd, @NotNull String label, String[] args) {
         if (!(sender instanceof Player player)) {
-            sender.sendMessage(
-                Component.text("Sorry, but only players can do that.").color(NamedTextColor.RED));
+            sender.sendMessage(Component.text("Sorry, but only players can do that.", NamedTextColor.RED));
             return true;
         }
-        
-        player.sendMessage(
-            Component.text("Returning you to the Minigames server!").color(NamedTextColor.GREEN));
+
+        player.sendMessage(Component.text("Returning you to the Minigames server!", NamedTextColor.GREEN));
         send(player);
 
         return true;

@@ -59,7 +59,7 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
                 public void run() {
                     if (player.hasPermission("silverstone.minigames.hideseek.taunt")) player.showTitle(
                         Title.title(Component.text(""),
-                            Component.text("You may now taunt again.").color(NamedTextColor.RED),
+                            Component.text("You may now taunt again.", NamedTextColor.RED),
                             Title.DEFAULT_TIMES));
                 }
             }.runTaskLater(plugin, 300);
@@ -69,7 +69,7 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
     public boolean onCommand(@NotNull CommandSender sender, Command cmd, @NotNull String label, String[] args) {
         if (cmd.getName().equalsIgnoreCase("hsresettauntpoints")) {
             points.clear();
-            sender.sendMessage(Component.text("Points reset!").color(NamedTextColor.GREEN));
+            sender.sendMessage(Component.text("Points reset!", NamedTextColor.GREEN));
             return true;
         }
 
@@ -81,7 +81,7 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
                     randomPlayer = (Player) player.get(0);
                 } catch (IndexOutOfBoundsException e) {
                     sender.sendMessage(
-                        Component.text("Please provide a valid selector!").color(NamedTextColor.RED));
+                        Component.text("Please provide a valid selector!", NamedTextColor.RED));
                     return true;
                 }
 
@@ -97,8 +97,7 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
                     case 6 -> fireworks(randomPlayer);
                     case 7 -> boom(randomPlayer);
                 }
-            } else sender.sendMessage(
-                Component.text("Please provide a valid selector!").color(NamedTextColor.RED));
+            } else sender.sendMessage(Component.text("Please provide a valid selector!", NamedTextColor.RED));
             return true;
         }
 
@@ -124,8 +123,7 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
                     }
                 }.runTaskLater(plugin, 11 * 20L);
             }
-            else sender.sendMessage(
-                Component.text("Please provide a valid selector!").color(NamedTextColor.RED));
+            else sender.sendMessage(Component.text("Please provide a valid selector!", NamedTextColor.RED));
             return true;
         }
         return false;
@@ -141,11 +139,11 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
         if (player.getInventory().getItemInMainHand().getType() != Material.BELL) return;
         if (!player.getInventory().getItemInMainHand().hasItemMeta()) return;
         if (!player.getInventory().getItemInMainHand().getItemMeta().hasDisplayName()) return;
-        if (!player.getWorld().getName()
-            .equalsIgnoreCase(plugin.getConfig().getString("minigame-world"))) return;
+        if (!player.getWorld().getName().equalsIgnoreCase(plugin.getConfig().getString("minigame-world")))
+            return;
 
         if (player.getInventory().getItemInMainHand().getItemMeta().displayName().equals(
-            Component.text("Taunt Menu",NamedTextColor.AQUA,TextDecoration.BOLD)
+            Component.text("Taunt Menu", NamedTextColor.AQUA, TextDecoration.BOLD)
                 .decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE))) {
             event.setCancelled(true);
 
@@ -161,8 +159,7 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
     private void playerTaunt(Player player) {
         // Check if allowed to do command
         if (player.getScoreboardTags().contains("Seeker")) {
-            player.sendMessage(
-                Component.text("You must be a hider to use taunts!").color(NamedTextColor.RED));
+            player.sendMessage(Component.text("You must be a hider to use taunts!", NamedTextColor.RED));
             return;
         }
 
@@ -239,7 +236,7 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
         Player player = (Player) event.getWhoClicked();
         ItemStack item = new ItemStack(Material.BELL);
         ItemMeta meta = item.getItemMeta();
-        meta.displayName(Component.text("Taunt").color(NamedTextColor.AQUA).decorate(TextDecoration.BOLD)
+        meta.displayName(Component.text("Taunt", NamedTextColor.AQUA, TextDecoration.BOLD)
             .decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE));
         item.setItemMeta(meta);
 
@@ -331,7 +328,7 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
                     loc.getBlock().setType(Material.REDSTONE_BLOCK);
                     tauntTimer(player);
                 } else player.sendMessage(
-                    Component.text("You don't have enough points to do that!").color(NamedTextColor.RED));
+                    Component.text("You don't have enough points to do that!", NamedTextColor.RED));
             }
 
             case 31 -> {
@@ -346,7 +343,7 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
                     loc.getBlock().setType(Material.REDSTONE_BLOCK);
                     tauntTimer(player);
                 } else player.sendMessage(
-                    Component.text("You don't have enough points to do that!").color(NamedTextColor.RED));
+                    Component.text("You don't have enough points to do that!", NamedTextColor.RED));
             }
 
             case 34 -> {
@@ -361,7 +358,7 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
                     loc.getBlock().setType(Material.REDSTONE_BLOCK);
                     tauntTimer(player);
                 } else player.sendMessage(
-                    Component.text("You don't have enough points to do that!").color(NamedTextColor.RED));
+                    Component.text("You don't have enough points to do that!", NamedTextColor.RED));
             }
         }
 
@@ -396,7 +393,7 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
     // Inventory items
     public void createInv() {
         Inventory inventory = Bukkit.createInventory(null, 45,
-            Component.text("Taunts").color(NamedTextColor.DARK_RED).decorate(TextDecoration.BOLD));
+            Component.text("Taunts", NamedTextColor.DARK_RED, TextDecoration.BOLD));
 
         // Filler
         ItemStack item = new ItemStack(Material.BLACK_STAINED_GLASS_PANE);
@@ -425,7 +422,7 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
         SkullMeta skullMeta = (SkullMeta) skullItem.getItemMeta();
 
         skullMeta.displayName(
-            Component.text("Taunt at random player").color(NamedTextColor.AQUA).decorate(TextDecoration.BOLD)
+            Component.text("Taunt at random player", NamedTextColor.AQUA, TextDecoration.BOLD)
                 .decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE));
 
         List<Component> skullLore = new ArrayList<>();
@@ -464,7 +461,7 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
         ItemMeta meta = itemStack.getItemMeta();
         List<Component> parsedLore = new ArrayList<>();
 
-        meta.displayName(Component.text(title).color(NamedTextColor.AQUA).decorate(TextDecoration.BOLD)
+        meta.displayName(Component.text(title, NamedTextColor.AQUA, TextDecoration.BOLD)
             .decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE));
         for (String customLore : lore)
             parsedLore.add(MiniMessage.miniMessage().deserialize("<!i>" + customLore));

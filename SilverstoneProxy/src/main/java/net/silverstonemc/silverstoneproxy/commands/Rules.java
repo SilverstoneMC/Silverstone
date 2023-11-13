@@ -1,42 +1,46 @@
 package net.silverstonemc.silverstoneproxy.commands;
 
-import net.kyori.adventure.platform.bungeecord.BungeeAudiences;
+import com.google.common.reflect.TypeToken;
+import com.velocitypowered.api.command.CommandSource;
+import com.velocitypowered.api.command.SimpleCommand;
+import com.velocitypowered.api.proxy.Player;
+import net.kyori.adventure.identity.Identity;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.minimessage.MiniMessage;
-import net.md_5.bungee.api.ChatColor;
-import net.md_5.bungee.api.CommandSender;
-import net.md_5.bungee.api.chat.ComponentBuilder;
-import net.md_5.bungee.api.connection.ProxiedPlayer;
-import net.md_5.bungee.api.plugin.Command;
-import net.md_5.bungee.api.plugin.Plugin;
-import net.md_5.bungee.api.plugin.TabExecutor;
-import net.silverstonemc.silverstoneproxy.ConfigurationManager;
 import net.silverstonemc.silverstoneproxy.SilverstoneProxy;
+import ninja.leaping.configurate.ConfigurationNode;
+import ninja.leaping.configurate.objectmapping.ObjectMappingException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
-public class Rules extends Command implements TabExecutor {
-    public Rules() {
-        super("rules");
+import static net.silverstonemc.silverstoneproxy.ConfigurationManager.FileType.CONFIG;
+
+public class Rules implements SimpleCommand {
+    public Rules(SilverstoneProxy instance) {
+        i = instance;
     }
 
-    private final BungeeAudiences audience = SilverstoneProxy.getAdventure();
-    private final Plugin plugin = SilverstoneProxy.getPlugin();
+    private final SilverstoneProxy i;
 
-    public void execute(CommandSender sender, String[] args) {
+    @Override
+    public void execute(final Invocation invocation) {
+        CommandSource sender = invocation.source();
+        String[] args = invocation.arguments();
+
         if (args.length > 0) {
             if (!sender.hasPermission("silverstone.moderator")) {
-                sendSelfRules(sender);
+                sendRules(sender, -1, true);
                 return;
             }
 
-            ProxiedPlayer target = plugin.getProxy().getPlayer(args[0]);
+            Player target = i.server.getPlayer(args[0]).isPresent() ? i.server.getPlayer(args[0])
+                .get() : null;
             // If target is null, cancel the command
             if (target == null) {
-                sender.sendMessage(
-                    new ComponentBuilder("Please provide an online player!").color(ChatColor.RED).create());
+                sender.sendMessage(Component.text("Please provide an online player!", NamedTextColor.RED));
                 return;
             }
 
@@ -47,76 +51,94 @@ public class Rules extends Command implements TabExecutor {
                 try {
                     rule = Integer.parseInt(args[1]);
                 } catch (NumberFormatException ignored) {
-                    sender.sendMessage(new ComponentBuilder("Not a number!").color(ChatColor.RED).create());
+                    sender.sendMessage(Component.text("Not a number!", NamedTextColor.RED));
                     return;
                 }
 
                 if (args.length > 2) sendRules(target, rule, args[2].equalsIgnoreCase("-s"));
                 else sendRules(target, rule, false);
-                
+
             } else sendRuleGUI(sender, target);
-        } else sendSelfRules(sender);
+        } else sendRules(sender, -1, true);
     }
 
-    private void sendRules(ProxiedPlayer target, int rule, boolean silent) {
+    private void sendRules(CommandSource target, int rule, boolean silent) {
+        String targetName = target.get(Identity.NAME).orElse("Console");
+
         if (rule == -1) {
-            for (String header : ConfigurationManager.config.getStringList("rules.header"))
-                audience.player(target).sendMessage(MiniMessage.miniMessage().deserialize(header));
-            for (int x = 1; x <= ConfigurationManager.config.getSection("rules.rules").getKeys().size(); x++)
-                audience.player(target).sendMessage(MiniMessage.miniMessage().deserialize(
-                    ConfigurationManager.config.getString("rules.rule-prefix")
-                        .replace("{#}", String.valueOf(x)) + ConfigurationManager.config.getString(
-                        "rules.rules." + x)));
-            for (String footer : ConfigurationManager.config.getStringList("rules.footer"))
-                audience.player(target).sendMessage(MiniMessage.miniMessage().deserialize(footer));
+            try {
+                for (String header : i.fileManager.files.get(CONFIG).getNode("rules", "header")
+                    .getList(TypeToken.of(String.class)))
+                    target.sendMessage(MiniMessage.miniMessage().deserialize(header));
+
+                for (ConfigurationNode rules : i.fileManager.files.get(CONFIG).getNode("rules", "rules")
+                    .getChildrenList())
+                    //noinspection DataFlowIssue
+                    target.sendMessage(MiniMessage.miniMessage().deserialize(
+                        i.fileManager.files.get(CONFIG).getNode("rules", "rule-prefix").getString("null")
+                            .replace("{#}", rules.getKey().toString()) + rules.getString()));
+
+                for (String footer : i.fileManager.files.get(CONFIG).getNode("rules", "footer")
+                    .getList(TypeToken.of(String.class)))
+                    target.sendMessage(MiniMessage.miniMessage().deserialize(footer));
+
+            } catch (ObjectMappingException e) {
+                throw new RuntimeException(e);
+            }
 
             // Tell mod+
-            if (!silent) for (ProxiedPlayer online : plugin.getProxy().getPlayers())
-                if (online.hasPermission("silverstone.moderator")) audience.player(online).sendMessage(
-                    Component.text("The rules have been sent to ").color(NamedTextColor.RED)
-                        .append(Component.text(target.getName()).color(NamedTextColor.GRAY)));
+            if (!silent) for (Player online : i.server.getAllPlayers())
+                if (online.hasPermission("silverstone.moderator")) online.sendMessage(
+                    Component.text("The rules have been sent to ", NamedTextColor.RED)
+                        .append(Component.text(targetName, NamedTextColor.GRAY)));
         } else {
-            audience.player(target).sendMessage(MiniMessage.miniMessage().deserialize(
-                "<dark_green>Rule " + ConfigurationManager.config.getString("rules.rule-prefix")
-                    .replace("{#}", String.valueOf(rule)) + ConfigurationManager.config.getString(
-                    "rules.rules." + rule)));
+            target.sendMessage(MiniMessage.miniMessage().deserialize(
+                "<dark_green>Rule " + i.fileManager.files.get(CONFIG).getNode("rules", "rule-prefix")
+                    .getString("null").replace("{#}", String.valueOf(rule)) + i.fileManager.files.get(CONFIG)
+                    .getNode("rules", "rules", rule).getString()));
 
             // Tell mod+
-            if (!silent) for (ProxiedPlayer online : plugin.getProxy().getPlayers())
-                if (online.hasPermission("silverstone.moderator")) audience.player(online).sendMessage(
-                    Component.text("Rule ").color(NamedTextColor.RED)
-                        .append(Component.text(rule).color(NamedTextColor.GRAY))
-                        .append(Component.text(" has been sent to ").color(NamedTextColor.RED))
-                        .append(Component.text(target.getName()).color(NamedTextColor.GRAY)));
+            if (!silent) for (Player online : i.server.getAllPlayers())
+                if (online.hasPermission("silverstone.moderator")) online.sendMessage(
+                    Component.text("Rule ", NamedTextColor.RED)
+                        .append(Component.text(rule, NamedTextColor.GRAY))
+                        .append(Component.text(" has been sent to ", NamedTextColor.RED))
+                        .append(Component.text(targetName, NamedTextColor.GRAY)));
         }
     }
 
-    private void sendSelfRules(CommandSender sender) {
-        for (String header : ConfigurationManager.config.getStringList("rules.header"))
-            audience.sender(sender).sendMessage(MiniMessage.miniMessage().deserialize(header));
-        for (int x = 1; x <= ConfigurationManager.config.getSection("rules.rules").getKeys().size(); x++)
-            audience.sender(sender).sendMessage(MiniMessage.miniMessage().deserialize(
-                ConfigurationManager.config.getString("rules.rule-prefix")
-                    .replace("{#}", String.valueOf(x)) + ConfigurationManager.config.getString(
-                    "rules.rules." + x)));
-        for (String footer : ConfigurationManager.config.getStringList("rules.footer"))
-            audience.sender(sender).sendMessage(MiniMessage.miniMessage().deserialize(footer));
-    }
-
-    private void sendRuleGUI(CommandSender sender, ProxiedPlayer target) {
+    private void sendRuleGUI(CommandSource sender, Player target) {
         String header = "<red><bold>Available rules:";
-        int ruleCount = ConfigurationManager.config.getSection("rules.rules").getKeys().size();
+
         ArrayList<String> rules = new ArrayList<>();
-        for (int rule = 1; rule <= ruleCount; rule++)
-            rules.add(ConfigurationManager.config.getString("rules.rules." + rule));
-        String footer = "\n\n<reset><gray><italic>Click to send rule to " + target.getName();
+        for (ConfigurationNode rule : i.fileManager.files.get(CONFIG).getNode("rules", "rules")
+            .getChildrenList())
+            rules.add(rule.getString());
+
+        String footer = "\n\n<reset><gray><italic>Click to send rule to " + target.getUsername();
 
         StringBuilder message = new StringBuilder(header);
         message.append("\n<bold><gray><hover:show_text:'<#23B8CF>All rules").append(footer)
-            .append("'><click:run_command:/rules ").append(target.getName())
+            .append("'><click:run_command:/rules ").append(target.getUsername())
             .append(" -1>ALL</click></hover>");
 
-        for (int x = 0; x < ruleCount; x = x + 3) {
+        for (int x = 0; x < rules.size(); x += 3) {
+            message.append("\n");
+
+            for (int i = 0; i < 3; i++) {
+                int ruleIndex = x + i;
+                String rule = rules.get(ruleIndex);
+                String command = "/rules " + target.getUsername() + " " + (ruleIndex + 1);
+
+                message.append("<bold><gray><hover:show_text:'<#23B8CF>").append(rule).append(footer)
+                    .append("'><click:run_command:").append(command).append(">").append(ruleIndex + 1)
+                    .append("</click></hover>");
+
+                if (i < 2) message.append(" <dark_gray><bold>| ");
+            }
+        }
+
+        /*for (int x = 0; x < ruleCount; x = x + 3) {
             message.append("\n");
 
             try {
@@ -124,9 +146,9 @@ public class Rules extends Command implements TabExecutor {
                 String rule2 = rules.get(x + 1).replace("'", "\\'");
                 String rule3 = rules.get(x + 2).replace("'", "\\'");
 
-                String command1 = "/rules " + target.getName() + " " + (x + 1);
-                String command2 = "/rules " + target.getName() + " " + (x + 2);
-                String command3 = "/rules " + target.getName() + " " + (x + 3);
+                String command1 = "/rules " + target.getUsername() + " " + (x + 1);
+                String command2 = "/rules " + target.getUsername() + " " + (x + 2);
+                String command3 = "/rules " + target.getUsername() + " " + (x + 3);
 
                 message.append("<bold><gray><hover:show_text:'<#23B8CF>").append(rule1).append(footer)
                     .append("'><click:run_command:").append(command1).append(">").append(x + 1)
@@ -142,8 +164,8 @@ public class Rules extends Command implements TabExecutor {
                     String rule1 = rules.get(x).replace("'", "\\'");
                     String rule2 = rules.get(x + 1).replace("'", "\\'");
 
-                    String command1 = "/rules " + target.getName() + " " + (x + 1);
-                    String command2 = "/rules " + target.getName() + " " + (x + 2);
+                    String command1 = "/rules " + target.getUsername() + " " + (x + 1);
+                    String command2 = "/rules " + target.getUsername() + " " + (x + 2);
 
                     message.append("<bold><gray><hover:show_text:'<#23B8CF>").append(rule1).append(footer)
                         .append("'><click:run_command:").append(command1).append(">").append(x + 1)
@@ -154,26 +176,29 @@ public class Rules extends Command implements TabExecutor {
                 } catch (IndexOutOfBoundsException e2) {
                     String rule1 = rules.get(x).replace("'", "\\'");
 
-                    String command1 = "/rules " + target.getName() + " " + (x + 1);
+                    String command1 = "/rules " + target.getUsername() + " " + (x + 1);
 
                     message.append("<bold><gray><hover:show_text:'<#23B8CF>").append(rule1).append(footer)
                         .append("'><click:run_command:").append(command1).append(">").append(x + 1)
                         .append("</click></hover>");
                 }
             }
-        }
+        }*/
 
-        audience.sender(sender).sendMessage(MiniMessage.miniMessage().deserialize(message.toString()));
+        sender.sendMessage(MiniMessage.miniMessage().deserialize(message.toString()));
     }
 
     @Override
-    public Iterable<String> onTabComplete(CommandSender sender, String[] args) {
+    public CompletableFuture<List<String>> suggestAsync(final Invocation invocation) {
+        String[] args = invocation.arguments();
+
         List<String> arguments = new ArrayList<>();
-        for (ProxiedPlayer players : plugin.getProxy().getPlayers()) arguments.add(players.getName());
+        for (Player players : i.server.getAllPlayers()) arguments.add(players.getUsername());
 
         List<String> result = new ArrayList<>();
         if (args.length == 1) for (String a : arguments)
             if (a.toLowerCase().startsWith(args[0].toLowerCase())) result.add(a);
-        return result;
+
+        return CompletableFuture.completedFuture(result);
     }
 }

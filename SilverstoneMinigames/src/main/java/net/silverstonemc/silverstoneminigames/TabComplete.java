@@ -28,7 +28,7 @@ public class TabComplete implements TabCompleter {
                     if (a.toLowerCase().startsWith(args[0].toLowerCase())) result.add(a);
                 return result;
             }
-            
+
             if (args.length == 2) {
                 if (arguments2.isEmpty()) {
                     arguments2.add("open");

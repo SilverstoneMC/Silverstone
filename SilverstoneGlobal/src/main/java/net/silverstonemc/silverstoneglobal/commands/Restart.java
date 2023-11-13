@@ -52,17 +52,16 @@ public record Restart(JavaPlugin plugin) implements CommandExecutor {
 
                             for (Player player : Bukkit.getOnlinePlayers())
                                 player.sendActionBar(
-                                    Component.text("SERVER RESTARTING IN: ").color(NamedTextColor.GOLD)
-                                        .decorate(TextDecoration.BOLD)
-                                        .append(Component.text(sec[0]).color(NamedTextColor.YELLOW)));
+                                    Component.text("SERVER RESTARTING IN: ", NamedTextColor.GOLD,
+                                            TextDecoration.BOLD)
+                                        .append(Component.text(sec[0], NamedTextColor.YELLOW)));
                             plugin.getLogger().info("Server restarting in: " + sec[0]);
 
-                            TextComponent evacuate = Component.text("Click ").color(NamedTextColor.RED)
-                                .decorate(TextDecoration.BOLD).append(
-                                    Component.text("here").color(NamedTextColor.GRAY)
-                                        .decorate(TextDecoration.UNDERLINED)
+                            TextComponent evacuate = Component.text("Click ", NamedTextColor.RED,
+                                    TextDecoration.BOLD).append(
+                                    Component.text("here", NamedTextColor.GRAY, TextDecoration.UNDERLINED)
                                         .clickEvent(ClickEvent.runCommand("/server " + finalServer)))
-                                .append(Component.text(" to evacuate!").color(NamedTextColor.RED));
+                                .append(Component.text(" to evacuate!", NamedTextColor.RED));
 
                             switch (sec[0]) {
                                 case 10 -> {
@@ -108,9 +107,8 @@ public record Restart(JavaPlugin plugin) implements CommandExecutor {
                 } else {
                     restarting = false;
                     for (Player player : Bukkit.getOnlinePlayers())
-                        player.sendActionBar(
-                            Component.text("SERVER RESTART CANCELLED!").color(NamedTextColor.GREEN)
-                                .decorate(TextDecoration.BOLD));
+                        player.sendActionBar(Component.text("SERVER RESTART CANCELLED!", NamedTextColor.GREEN,
+                            TextDecoration.BOLD));
                     plugin.getLogger().info("Server restart cancelled!");
                 }
             }
@@ -122,8 +120,8 @@ public record Restart(JavaPlugin plugin) implements CommandExecutor {
                     plugin.getLogger().info("Restarting...");
                     for (Player player : Bukkit.getOnlinePlayers()) {
                         player.sendActionBar(
-                            Component.text("SERVER RESTARTING... ATTEMPTING TO TRANSFER PLAYERS")
-                                .color(NamedTextColor.AQUA).decorate(TextDecoration.BOLD));
+                            Component.text("SERVER RESTARTING... ATTEMPTING TO TRANSFER PLAYERS",
+                                NamedTextColor.AQUA, TextDecoration.BOLD));
                         send(player, server);
                     }
 
@@ -139,8 +137,8 @@ public record Restart(JavaPlugin plugin) implements CommandExecutor {
             case "restartwhenempty" -> {
                 for (Player player : Bukkit.getOnlinePlayers())
                     player.sendActionBar(
-                        Component.text("SERVER SCHEDULED TO RESTART WHEN EMPTY").color(NamedTextColor.RED)
-                            .decorate(TextDecoration.BOLD));
+                        Component.text("SERVER SCHEDULED TO RESTART WHEN EMPTY", NamedTextColor.RED,
+                            TextDecoration.BOLD));
                 plugin.getLogger().info("Server scheduled to restart when empty.");
 
                 new BukkitRunnable() {
@@ -153,14 +151,12 @@ public record Restart(JavaPlugin plugin) implements CommandExecutor {
 
             case "schedulerestart" -> {
                 for (Player player : Bukkit.getOnlinePlayers()) {
-                    player.sendMessage(Component.text().append(
-                            Component.text("WARNING").color(NamedTextColor.RED).decorate(TextDecoration.BOLD))
-                        .append(
-                            Component.text(" > ").color(NamedTextColor.AQUA).decorate(TextDecoration.BOLD))
-                        .append(Component.text("The server is scheduled to restart in ")
-                            .color(NamedTextColor.GREEN))
-                        .append(Component.text("5").color(NamedTextColor.AQUA))
-                        .append(Component.text(" minutes!").color(NamedTextColor.GREEN)));
+                    player.sendMessage(Component.text()
+                        .append(Component.text("WARNING", NamedTextColor.RED, TextDecoration.BOLD))
+                        .append(Component.text(" > ", NamedTextColor.AQUA, TextDecoration.BOLD)).append(
+                            Component.text("The server is scheduled to restart in ", NamedTextColor.GREEN))
+                        .append(Component.text("5", NamedTextColor.AQUA))
+                        .append(Component.text(" minutes!", NamedTextColor.GREEN)));
 
                     player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_HARP, SoundCategory.MASTER,
                         100, 1.6f);
@@ -170,15 +166,12 @@ public record Restart(JavaPlugin plugin) implements CommandExecutor {
                     @Override
                     public void run() {
                         for (Player player : Bukkit.getOnlinePlayers()) {
-                            player.sendMessage(Component.text().append(
-                                    Component.text("WARNING").color(NamedTextColor.RED)
-                                        .decorate(TextDecoration.BOLD)).append(
-                                    Component.text(" > ").color(NamedTextColor.AQUA)
-                                        .decorate(TextDecoration.BOLD)).append(
-                                    Component.text("The server is scheduled to restart in ")
-                                        .color(NamedTextColor.GREEN))
-                                .append(Component.text("1").color(NamedTextColor.AQUA))
-                                .append(Component.text(" minute!").color(NamedTextColor.GREEN)));
+                            player.sendMessage(Component.text()
+                                .append(Component.text("WARNING", NamedTextColor.RED, TextDecoration.BOLD))
+                                .append(Component.text(" > ", NamedTextColor.AQUA, TextDecoration.BOLD))
+                                .append(Component.text("The server is scheduled to restart in ",
+                                    NamedTextColor.GREEN)).append(Component.text("1", NamedTextColor.AQUA))
+                                .append(Component.text(" minute!", NamedTextColor.GREEN)));
 
                             player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_HARP,
                                 SoundCategory.MASTER, 100, 1.6f);

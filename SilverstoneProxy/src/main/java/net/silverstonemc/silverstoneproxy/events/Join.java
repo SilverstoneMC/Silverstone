@@ -1,21 +1,16 @@
 package net.silverstonemc.silverstoneproxy.events;
 
+import com.velocitypowered.api.event.Subscribe;
+import com.velocitypowered.api.event.player.ServerConnectedEvent;
+import com.velocitypowered.api.event.player.ServerPreConnectEvent;
+import com.velocitypowered.api.proxy.Player;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import net.dv8tion.jda.api.entities.emoji.Emoji;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
-import net.kyori.adventure.platform.bungeecord.BungeeAudiences;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
-import net.md_5.bungee.api.ChatColor;
-import net.md_5.bungee.api.chat.TextComponent;
-import net.md_5.bungee.api.connection.ProxiedPlayer;
-import net.md_5.bungee.api.event.ServerConnectEvent;
-import net.md_5.bungee.api.event.ServerConnectedEvent;
-import net.md_5.bungee.api.plugin.Listener;
-import net.md_5.bungee.event.EventHandler;
-import net.silverstonemc.silverstoneproxy.ConfigurationManager;
 import net.silverstonemc.silverstoneproxy.SilverstoneProxy;
 import net.silverstonemc.silverstoneproxy.UserManager;
 import net.silverstonemc.silverstoneproxy.WarnPlayer;
@@ -26,59 +21,68 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
-public class Join implements Listener {
-    public static final Map<ProxiedPlayer, Message> newPlayers = new HashMap<>();
+import static net.silverstonemc.silverstoneproxy.ConfigurationManager.FileType.CONFIG;
+import static net.silverstonemc.silverstoneproxy.ConfigurationManager.FileType.WARNQUEUE;
 
-    private final BungeeAudiences audience = SilverstoneProxy.getAdventure();
-    private final SilverstoneProxy plugin = SilverstoneProxy.getPlugin();
+public class Join {
+    public Join(SilverstoneProxy instance) {
+        i = instance;
+    }
 
-    @EventHandler
-    public void onServerConnect(ServerConnectEvent event) {
-        if (event.getPlayer().getServer() != null) return;
+    public static final Map<Player, Message> newPlayers = new HashMap<>();
 
-        int version = event.getPlayer().getPendingConnection().getVersion();
-        plugin.getLogger().info(event.getPlayer().getName() + " is joining with protocol version " + version);
+    private final SilverstoneProxy i;
+
+    @Subscribe
+    public void onServerConnect(ServerPreConnectEvent event) {
+        if (event.getPreviousServer() != null) return;
+
+        int version = event.getPlayer().getProtocolVersion().getProtocol();
+        i.logger.info(event.getPlayer().getUsername() + " is joining with protocol version " + version);
 
         // Anything less than current version and not staff
-        if (version < ConfigurationManager.config.getInt("current-protocol-version") && !event.getPlayer()
-            .hasPermission("silverstone.moderator")) {
+        if (version < i.fileManager.files.get(CONFIG).getNode("current-protocol-version")
+            .getInt() && !event.getPlayer().hasPermission("silverstone.moderator")) {
             incompatibleClient(event, false, "current-version");
             return;
         }
 
         // Anything less than minimum version and staff
-        if (version < ConfigurationManager.config.getInt("minimum-protocol-version"))
+        if (version < i.fileManager.files.get(CONFIG).getNode("minimum-protocol-version").getInt())
             incompatibleClient(event, true, "minimum-version");
     }
 
-    private void incompatibleClient(ServerConnectEvent event, boolean atLeast, String versionPath) {
-        event.setCancelled(true);
+    private void incompatibleClient(ServerPreConnectEvent event, boolean atLeast, String versionPath) {
+        event.setResult(ServerPreConnectEvent.ServerResult.denied());
+
         String text = atLeast ? "at least " : "";
-        event.getPlayer().disconnect(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&',
-            "&cYour client isn't compatible with the server!\n\n&7Please update to " + text + "Minecraft " + ConfigurationManager.config.getString(
-                versionPath) + " to join.")));
+        event.getPlayer().disconnect(
+            Component.text("Your client isn't compatible with the server!\n\n", NamedTextColor.RED).append(
+                Component.text("Please update to " + text + "Minecraft " + i.fileManager.files.get(CONFIG)
+                    .getNode(versionPath).getString() + " to join.", NamedTextColor.GRAY)));
     }
 
-    @EventHandler
+    @Subscribe
     public void onServerConnected(ServerConnectedEvent event) {
-        if (event.getPlayer().getServer() != null) return;
+        if (event.getPreviousServer().isPresent()) return;
 
-        ProxiedPlayer player = event.getPlayer();
+        Player player = event.getPlayer();
         boolean isVanished = player.hasPermission("silverstone.vanished");
-        String username = player.getName();
+        String username = player.getUsername();
         UUID uuid = player.getUniqueId();
         boolean userExists = UserManager.playerMap.containsKey(uuid);
 
         // Older version message (should only be seen by staff)
-        if (event.getPlayer().getPendingConnection().getVersion() < ConfigurationManager.config.getInt(
-            "current-protocol-version")) event.getPlayer().sendMessage(TextComponent.fromLegacyText(
-            ChatColor.RED + "The server is currently built using Minecraft " + ConfigurationManager.config.getString(
-                "current-version") + " - please update your client to use all the features."));
+        if (event.getPlayer().getProtocolVersion().getProtocol() < i.fileManager.files.get(CONFIG)
+            .getNode("current-protocol-version").getInt()) event.getPlayer().sendMessage(Component.text(
+            "The server is currently built using Minecraft " + i.fileManager.files.get(CONFIG)
+                .getNode("current-version")
+                .getString() + " - please update your client to use all the features.", NamedTextColor.RED));
 
         // Silent join message
         if (isVanished) {
             int nonStaff = 0;
-            for (ProxiedPlayer players : plugin.getProxy().getPlayers())
+            for (Player players : i.server.getAllPlayers())
                 if (!players.hasPermission("silverstone.moderator")) nonStaff++;
             if (nonStaff == 0) return;
 
@@ -94,21 +98,16 @@ public class Join implements Listener {
         // Update the username if it has changed
         if (userExists && !UserManager.playerMap.get(uuid).equals(username)) {
             // Notify everyone online if not vanished
-            if (!isVanished) {
-                Runnable task = () -> {
-                    for (ProxiedPlayer players : plugin.getProxy().getPlayers())
-                        audience.player(players).sendMessage(
-                            Component.text(username).color(NamedTextColor.AQUA).append(
-                                    Component.text(" was previously known as ").color(NamedTextColor.GRAY))
-                                .append(Component.text(new UserManager().getUsername(uuid))
-                                    .color(NamedTextColor.AQUA)));
-                };
-                plugin.getProxy().getScheduler().schedule(plugin, task, 1, TimeUnit.SECONDS);
-            }
+            if (!isVanished) i.server.getScheduler().buildTask(i, () -> {
+                for (Player players : i.server.getAllPlayers())
+                    players.sendMessage(Component.text(username, NamedTextColor.AQUA)
+                        .append(Component.text(" was previously known as ", NamedTextColor.GRAY))
+                        .append(Component.text(new UserManager(i).getUsername(uuid), NamedTextColor.AQUA)));
+            }).delay(1, TimeUnit.SECONDS).schedule();
 
             // Notify the Discord
             EmbedBuilder embed = new EmbedBuilder();
-            embed.setAuthor(username + " was previously known as: " + new UserManager().getUsername(uuid),
+            embed.setAuthor(username + " was previously known as: " + new UserManager(i).getUsername(uuid),
                 null, "https://crafatar.com/avatars/" + uuid + "?overlay=true");
             embed.setColor(new Color(0x2b2d31));
             //noinspection DataFlowIssue
@@ -116,13 +115,13 @@ public class Join implements Listener {
                 .queue();
 
             UserManager.playerMap.remove(uuid);
-            new UserManager().addUser(uuid, username);
+            new UserManager(i).addUser(uuid, username);
         }
 
         // Add the user if they don't exist and send a notification
         if (!userExists) {
             int staff = 0;
-            for (ProxiedPlayer players : plugin.getProxy().getPlayers())
+            for (Player players : i.server.getAllPlayers())
                 if (players.hasPermission("silverstone.moderator")) staff++;
             int finalStaff = staff;
 
@@ -143,18 +142,18 @@ public class Join implements Listener {
                 newPlayers.put(player, message);
             }, "New Player Discord").start();
 
-            new UserManager().addUser(uuid, username);
+            new UserManager(i).addUser(uuid, username);
         }
 
-        if (!ConfigurationManager.queue.getSection("queue").getKeys().contains(uuid.toString())) return;
+        if (i.fileManager.files.get(WARNQUEUE).getNode("queue", uuid.toString()).isVirtual()) return;
 
-        Runnable task = () -> {
-            if (plugin.getProxy().getPlayer(uuid) != null) {
-                new WarnPlayer().warn(uuid, ConfigurationManager.queue.getString("queue." + uuid));
-                ConfigurationManager.queue.set("queue." + uuid, null);
-                new ConfigurationManager().saveQueue();
+        i.server.getScheduler().buildTask(i, () -> {
+            if (i.server.getPlayer(uuid).isPresent()) {
+                new WarnPlayer(i).warn(uuid,
+                    i.fileManager.files.get(WARNQUEUE).getNode("queue", uuid).getString());
+                i.fileManager.files.get(WARNQUEUE).getNode("queue", uuid).setValue(null);
+                i.fileManager.save(WARNQUEUE);
             }
-        };
-        plugin.getProxy().getScheduler().schedule(plugin, task, 3, TimeUnit.SECONDS);
+        }).delay(3, TimeUnit.SECONDS).schedule();
     }
 }

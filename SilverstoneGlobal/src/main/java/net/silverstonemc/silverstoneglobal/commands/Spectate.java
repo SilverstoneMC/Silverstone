@@ -21,8 +21,7 @@ public class Spectate implements CommandExecutor {
 
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
         if (!(sender instanceof Player)) {
-            sender.sendMessage(
-                Component.text("Sorry, but only players can do that.").color(NamedTextColor.RED));
+            sender.sendMessage(Component.text("Sorry, but only players can do that.", NamedTextColor.RED));
             return true;
         }
 
@@ -32,8 +31,7 @@ public class Spectate implements CommandExecutor {
 
             // If player is null
             if (target == null) {
-                sender.sendMessage(
-                    Component.text("Please provide an online player!").color(NamedTextColor.RED));
+                sender.sendMessage(Component.text("Please provide an online player!", NamedTextColor.RED));
                 return true;
             }
 
@@ -69,8 +67,7 @@ public class Spectate implements CommandExecutor {
 
             // If player is null
             if (target == null) {
-                sender.sendMessage(
-                    Component.text("Please provide an online player!").color(NamedTextColor.RED));
+                sender.sendMessage(Component.text("Please provide an online player!", NamedTextColor.RED));
                 return true;
             }
 

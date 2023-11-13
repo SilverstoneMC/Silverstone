@@ -1,35 +1,35 @@
 package net.silverstonemc.silverstoneproxy.commands;
 
-import net.kyori.adventure.platform.bungeecord.BungeeAudiences;
+import com.velocitypowered.api.command.SimpleCommand;
+import com.velocitypowered.api.proxy.Player;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
-import net.md_5.bungee.api.CommandSender;
-import net.md_5.bungee.api.connection.ProxiedPlayer;
-import net.md_5.bungee.api.plugin.Command;
-import net.md_5.bungee.api.plugin.Plugin;
 import net.silverstonemc.silverstoneproxy.SilverstoneProxy;
 
 import java.util.concurrent.TimeUnit;
 
-public class RestartWhenEmpty extends Command {
-    public RestartWhenEmpty() {
-        super("prestartwhenempty", "silverstone.admin");
+public class RestartWhenEmpty implements SimpleCommand {
+    public RestartWhenEmpty(SilverstoneProxy instance) {
+        i = instance;
     }
 
-    private final BungeeAudiences audience = SilverstoneProxy.getAdventure();
-    private final Plugin plugin = SilverstoneProxy.getPlugin();
+    @Override
+    public boolean hasPermission(final Invocation invocation) {
+        return invocation.source().hasPermission("silverstone.admin");
+    }
 
-    public void execute(CommandSender sender, String[] args) {
-        for (ProxiedPlayer player : plugin.getProxy().getPlayers())
-            audience.player(player).sendActionBar(
-                Component.text("NETWORK SCHEDULED TO RESTART WHEN EMPTY").color(NamedTextColor.RED)
-                    .decorate(TextDecoration.BOLD));
-        plugin.getLogger().info("Server scheduled to restart when empty.");
+    private final SilverstoneProxy i;
 
-        Runnable task = () -> {
-            if (plugin.getProxy().getPlayers().isEmpty()) plugin.getProxy().stop();
-        };
-        plugin.getProxy().getScheduler().schedule(plugin, task, 0, 15, TimeUnit.SECONDS);
+    @Override
+    public void execute(final Invocation invocation) {
+        for (Player player : i.server.getAllPlayers())
+            player.sendActionBar(Component.text("NETWORK SCHEDULED TO RESTART WHEN EMPTY", NamedTextColor.RED,
+                TextDecoration.BOLD));
+        i.logger.info("Server scheduled to restart when empty.");
+
+        i.server.getScheduler().buildTask(i, () -> {
+            if (i.server.getAllPlayers().isEmpty()) i.server.shutdown();
+        }).repeat(15, TimeUnit.SECONDS).schedule();
     }
 }

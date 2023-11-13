@@ -1,39 +1,50 @@
 package net.silverstonemc.silverstoneproxy;
 
+import com.google.common.reflect.TypeToken;
+import com.velocitypowered.api.proxy.Player;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import net.dv8tion.jda.api.entities.emoji.Emoji;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
-import net.md_5.bungee.api.ChatColor;
-import net.md_5.bungee.api.chat.TextComponent;
-import net.md_5.bungee.api.connection.ProxiedPlayer;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import ninja.leaping.configurate.ConfigurationNode;
+import ninja.leaping.configurate.objectmapping.ObjectMappingException;
 
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.UUID;
 
+import static net.silverstonemc.silverstoneproxy.ConfigurationManager.FileType.*;
+
 @SuppressWarnings("DataFlowIssue")
 public class WarnPlayer {
-    private final SilverstoneProxy plugin = SilverstoneProxy.getPlugin();
+    public WarnPlayer(SilverstoneProxy instance) {
+        i = instance;
+    }
+
+    private final SilverstoneProxy i;
 
     public void warn(UUID uuid, String reason) {
         TextChannel warningChannel = SilverstoneProxy.jda.getTextChannelById(1075643034634563695L);
 
-        String username = new UserManager().getUsername(uuid);
-        ProxiedPlayer player = plugin.getProxy().getPlayer(uuid);
+        String username = new UserManager(i).getUsername(uuid);
+        Player player = i.server.getPlayer(uuid).isPresent() ? i.server.getPlayer(uuid).get() : null;
 
         // If player is not online, queue the warning
         if (player == null) {
-            ConfigurationManager.queue.set("queue." + uuid, reason);
-            new ConfigurationManager().saveQueue();
+            i.fileManager.files.get(WARNQUEUE).getNode("queue", uuid).setValue(reason);
+            i.fileManager.save(WARNQUEUE);
 
+            Component offlinePlayerWarned = Component.text("Offline player ", NamedTextColor.RED)
+                .append(Component.text(username, NamedTextColor.GRAY))
+                .append(Component.text(" has been warned for reason: ", NamedTextColor.RED))
+                .append(Component.text(reason, NamedTextColor.GRAY));
+
+            i.server.getConsoleCommandSource().sendMessage(offlinePlayerWarned);
             // Message staff
-            for (ProxiedPlayer online : plugin.getProxy().getPlayers())
-                if (online.hasPermission("silverstone.moderator")) online.sendMessage(
-                    TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&',
-                        "&cOffline player &7" + username + " &chas been warned for reason: &7" + reason)));
-            plugin.getLogger().info(ChatColor.translateAlternateColorCodes('&',
-                "&cOffline player &7" + username + " &chas been warned for reason: &7" + reason));
+            for (Player online : i.server.getAllPlayers())
+                if (online.hasPermission("silverstone.moderator")) online.sendMessage(offlinePlayerWarned);
 
             EmbedBuilder embed = new EmbedBuilder();
             embed.setAuthor(username + " has a warning queued: " + reason, null,
@@ -43,21 +54,18 @@ public class WarnPlayer {
             return;
         }
 
+        ConfigurationNode warnData = i.fileManager.files.get(WARNDATA).getNode("data", uuid, reason);
         // If player doesn't have the reason in their data, add it
-        if (!ConfigurationManager.data.contains("data." + uuid + "." + reason))
-            ConfigurationManager.data.set("data." + uuid + "." + reason, 1);
-        else { // If they already had the reason, add 1 to it
-            int count = ConfigurationManager.data.getInt("data." + uuid + "." + reason);
-            ConfigurationManager.data.set("data." + uuid + "." + reason, count + 1);
-        }
-        new ConfigurationManager().saveData();
+        // If they already had the reason, add 1 to it
+        int warningCount = 1;
+        if (!warnData.isVirtual()) warningCount = warnData.getInt() + 1;
 
-        // Grab the number of times the player has been warned
-        int warningCount = ConfigurationManager.data.getInt("data." + uuid + "." + reason);
+        warnData.setValue(warningCount);
+        i.fileManager.save(WARNDATA);
 
         // Grab the amount of punishments in the config
-        int punishmentCount = ConfigurationManager.config.getSection("reasons." + reason + ".add").getKeys()
-            .toArray().length;
+        ConfigurationNode punishments = i.fileManager.files.get(CONFIG).getNode("reasons", reason, "add");
+        int punishmentCount = punishments.getChildrenList().size();
 
         // Get the correct warning number
         int punishmentNumber = warningCount % punishmentCount;
@@ -79,10 +87,15 @@ public class WarnPlayer {
                 .withEmoji(Emoji.fromUnicode("❌"))).queue();
 
         // Warn the player
-        ArrayList<String> cmdList = new ArrayList<>(
-            ConfigurationManager.config.getStringList("reasons." + reason + ".add." + punishmentNumber));
-        for (String s : cmdList)
-            plugin.getProxy().getPluginManager()
-                .dispatchCommand(plugin.getProxy().getConsole(), s.replace("{player}", username));
+        ArrayList<String> cmdList;
+        try {
+            cmdList = new ArrayList<>(
+                punishments.getNode(punishmentNumber).getList(TypeToken.of(String.class)));
+        } catch (ObjectMappingException e) {
+            throw new RuntimeException(e);
+        }
+        for (String cmd : cmdList)
+            i.server.getCommandManager()
+                .executeAsync(i.server.getConsoleCommandSource(), cmd.replace("{player}", username));
     }
 }

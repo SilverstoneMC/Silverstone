@@ -1,47 +1,56 @@
 package net.silverstonemc.silverstoneproxy.commands;
 
-import net.kyori.adventure.audience.Audience;
+import com.velocitypowered.api.command.CommandSource;
+import com.velocitypowered.api.command.SimpleCommand;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent.Builder;
 import net.kyori.adventure.text.event.ClickEvent;
 import net.kyori.adventure.text.event.HoverEvent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
-import net.md_5.bungee.api.CommandSender;
-import net.md_5.bungee.api.plugin.Command;
-import net.silverstonemc.silverstoneproxy.ConfigurationManager;
 import net.silverstonemc.silverstoneproxy.SilverstoneProxy;
+import ninja.leaping.configurate.ConfigurationNode;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class WarnReasons extends Command {
-    public WarnReasons() {
-        super("warnreasons", "silverstone.moderator", "categories", "reasons");
+import static net.silverstonemc.silverstoneproxy.ConfigurationManager.FileType.CONFIG;
+
+public class WarnReasons implements SimpleCommand {
+    public WarnReasons(SilverstoneProxy instance) {
+        i = instance;
     }
 
-    public void execute(CommandSender sender, String[] args) {
-        sendReasonList(false, SilverstoneProxy.getAdventure().sender(sender), null);
+    @Override
+    public boolean hasPermission(final Invocation invocation) {
+        return invocation.source().hasPermission("silverstone.moderator");
     }
 
-    public void sendReasonList(boolean isWarning, Audience sender, @Nullable String username) {
+    private final SilverstoneProxy i;
+
+    @Override
+    public void execute(final Invocation invocation) {
+        sendReasonList(false, invocation.source(), null);
+    }
+
+    public void sendReasonList(boolean isWarning, CommandSource sender, @Nullable String username) {
         String header = "Available warning reasons:";
         if (isWarning) header = "Warn " + username + ":";
 
         Builder footer = Component.text();
         if (isWarning) footer.append(
-            Component.text("\n\nClick to warn " + username).color(NamedTextColor.GRAY)
-                .decorate(TextDecoration.ITALIC));
+            Component.text("\n\nClick to warn " + username, NamedTextColor.GRAY, TextDecoration.ITALIC));
 
         Builder message = Component.text();
-        message.append(Component.text(header).color(NamedTextColor.RED).decorate(TextDecoration.BOLD));
+        message.append(Component.text(header, NamedTextColor.RED, TextDecoration.BOLD));
 
-        ArrayList<String> reasonList = new ArrayList<>(
-            ConfigurationManager.config.getSection("reasons").getKeys());
+        ArrayList<String> reasonList = new ArrayList<>();
+        for (ConfigurationNode reasons : i.fileManager.files.get(CONFIG).getNode("reasons").getChildrenList())
+            //noinspection DataFlowIssue
+            reasonList.add(reasons.getKey().toString());
         reasonList.sort(String.CASE_INSENSITIVE_ORDER);
 
-        // Courtesy of ChatGPT ^_^
         // Loop through the reasonList in increments of 3
         for (int i = 0; i < reasonList.size(); i += 3) {
             // Get the current reasons to display on this line, up to 3 reasons
@@ -61,13 +70,13 @@ public class WarnReasons extends Command {
                 if (isWarning) command = "/warn " + username + " " + currentReason;
 
                 // Add the current reason to the message
-                message.append(Component.text(currentReason).color(NamedTextColor.GRAY)
+                message.append(Component.text(currentReason, NamedTextColor.GRAY)
                     .clickEvent(command != null ? ClickEvent.runCommand(command) : null)
                     .hoverEvent(createHoverEvent(currentReason, footer)));
 
                 // If this is not the last reason, add a separator to the message
-                if (j < currentReasons.size() - 1) message.append(
-                    Component.text(" | ").color(NamedTextColor.DARK_GRAY).decorate(TextDecoration.BOLD));
+                if (j < currentReasons.size() - 1)
+                    message.append(Component.text(" | ", NamedTextColor.DARK_GRAY, TextDecoration.BOLD));
             }
         }
 
@@ -75,10 +84,10 @@ public class WarnReasons extends Command {
     }
 
     private HoverEvent<?> createHoverEvent(String reason, Builder footer) {
-        return HoverEvent.hoverEvent(HoverEvent.Action.SHOW_TEXT, Component.text()
-            .append(Component.text(reason + ":").color(NamedTextColor.RED).decorate(TextDecoration.BOLD))
-            .append(Component.text(
-                    "\n" + ConfigurationManager.config.getString("reasons." + reason + ".description"))
-                .color(NamedTextColor.GRAY)).append(footer).build());
+        return HoverEvent.hoverEvent(HoverEvent.Action.SHOW_TEXT,
+            Component.text().append(Component.text(reason + ":", NamedTextColor.RED, TextDecoration.BOLD))
+                .append(Component.text(
+                    "\n" + i.fileManager.files.get(CONFIG).getNode("reasons", reason, "description")
+                        .getString(), NamedTextColor.GRAY)).append(footer).build());
     }
 }

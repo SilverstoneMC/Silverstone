@@ -1,86 +1,100 @@
 package net.silverstonemc.silverstoneproxy.commands;
 
-import net.md_5.bungee.api.ChatColor;
-import net.md_5.bungee.api.CommandSender;
-import net.md_5.bungee.api.chat.TextComponent;
-import net.md_5.bungee.api.connection.ProxiedPlayer;
-import net.md_5.bungee.api.plugin.Command;
-import net.md_5.bungee.api.plugin.TabExecutor;
-import net.silverstonemc.silverstoneproxy.ConfigurationManager;
+import com.velocitypowered.api.command.CommandSource;
+import com.velocitypowered.api.command.SimpleCommand;
+import com.velocitypowered.api.proxy.Player;
+import net.kyori.adventure.identity.Identity;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextDecoration;
 import net.silverstonemc.silverstoneproxy.SilverstoneProxy;
 import net.silverstonemc.silverstoneproxy.UserManager;
 import net.silverstonemc.silverstoneproxy.Utils;
+import ninja.leaping.configurate.ConfigurationNode;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 
-public class Warnings extends Command implements TabExecutor {
-    public Warnings() {
-        super("warnings");
+import static net.silverstonemc.silverstoneproxy.ConfigurationManager.FileType.WARNDATA;
+import static net.silverstonemc.silverstoneproxy.ConfigurationManager.FileType.WARNQUEUE;
+
+public class Warnings implements SimpleCommand {
+    public Warnings(SilverstoneProxy instance) {
+        i = instance;
     }
 
-    private final SilverstoneProxy plugin = SilverstoneProxy.getPlugin();
+    private final SilverstoneProxy i;
 
-    public void execute(CommandSender sender, String[] args) {
+    @Override
+    public void execute(final Invocation invocation) {
+        CommandSource sender = invocation.source();
+        String[] args = invocation.arguments();
+        String senderName = sender.get(Identity.NAME).orElse("Console");
+
         String arg0;
         // If no player specified
         if (args.length < 1) {
             // If console didn't specify a player
-            if (!(sender instanceof ProxiedPlayer)) {
-                sender.sendMessage(TextComponent.fromLegacyText(ChatColor.RED + "Please specify a player!"));
+            if (!(sender instanceof Player)) {
+                sender.sendMessage(Component.text("Please specify a player!", NamedTextColor.RED));
                 return;
             }
-            arg0 = sender.getName();
+            arg0 = senderName;
             // If player specified but sender has no permission
-        } else if (!sender.hasPermission("silverstone.moderator")) arg0 = sender.getName();
+        } else if (!sender.hasPermission("silverstone.moderator")) arg0 = senderName;
             // If player specified and sender does have permission
         else arg0 = args[0];
 
-        UUID uuid = new UserManager().getUUID(arg0);
-        String username = new UserManager().getUsername(uuid);
+        UUID uuid = new UserManager(i).getUUID(arg0);
+        String username = new UserManager(i).getUsername(uuid);
 
         if (uuid == null) {
             new Utils().nonexistentPlayerMessage(arg0, sender);
             return;
         }
 
+        ConfigurationNode warnData = i.fileManager.files.get(WARNDATA).getNode("data", uuid);
+        ConfigurationNode warnQueue = i.fileManager.files.get(WARNQUEUE).getNode("queue", uuid);
+
         // If not in queue
-        if (!ConfigurationManager.queue.contains("queue." + uuid))
+        if (warnQueue.isVirtual())
             // And has no warnings
-            if (!ConfigurationManager.data.contains("data." + uuid)) {
-                sender.sendMessage(TextComponent.fromLegacyText(
-                    ChatColor.translateAlternateColorCodes('&', "&b" + username + " &ahas no warnings!")));
+            if (warnData.isVirtual()) {
+                sender.sendMessage(Component.text(username, NamedTextColor.AQUA)
+                    .append(Component.text(" has no warnings!", NamedTextColor.GREEN)));
                 return;
             }
 
-        sender.sendMessage(TextComponent.fromLegacyText(
-            ChatColor.translateAlternateColorCodes('&', "&c&l" + username + "'s warnings:")));
+        sender.sendMessage(
+            Component.text(username + "'s warnings:", NamedTextColor.RED, TextDecoration.BOLD));
 
         // If any warnings already exist
-        if (ConfigurationManager.data.contains("data." + uuid))
-            for (String reasonList : ConfigurationManager.data.getSection("data." + uuid).getKeys())
-                sender.sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&',
-                    "&7" + reasonList + " - " + ConfigurationManager.data.getInt(
-                        "data." + uuid + "." + reasonList))));
+        if (!warnData.isVirtual()) for (ConfigurationNode reasonList : warnData.getChildrenList())
+            //noinspection DataFlowIssue
+            sender.sendMessage(Component.text(reasonList.getKey().toString() + " - " + reasonList.getInt(),
+                NamedTextColor.GRAY));
 
         // If in queue
-        if (ConfigurationManager.queue.contains("queue." + uuid)) sender.sendMessage(
-            TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&',
-                "&7" + ConfigurationManager.queue.getString("queue." + uuid) + " (Queued)")));
+        if (!warnQueue.isVirtual())
+            sender.sendMessage(Component.text(warnQueue.getString() + " (Queued)", NamedTextColor.GRAY));
     }
 
     @Override
-    public Iterable<String> onTabComplete(CommandSender sender, String[] args) {
-        if (!sender.hasPermission("silverstone.moderator")) return new ArrayList<>();
+    public CompletableFuture<List<String>> suggestAsync(final Invocation invocation) {
+        CommandSource sender = invocation.source();
+        String[] args = invocation.arguments();
+
+        if (!sender.hasPermission("silverstone.moderator")) return new CompletableFuture<>();
 
         List<String> arguments = new ArrayList<>();
-        for (ProxiedPlayer player : plugin.getProxy().getPlayers())
-            arguments.add(player.getName());
+        for (Player player : i.server.getAllPlayers())
+            arguments.add(player.getUsername());
 
         List<String> result = new ArrayList<>();
         for (String a : arguments)
             if (a.toLowerCase().startsWith(args[0].toLowerCase())) result.add(a);
-        return result;
+        return CompletableFuture.completedFuture(result);
     }
 }

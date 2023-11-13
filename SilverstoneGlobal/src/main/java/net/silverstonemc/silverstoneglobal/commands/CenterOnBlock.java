@@ -12,12 +12,11 @@ import org.jetbrains.annotations.NotNull;
 public class CenterOnBlock implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
         if (!(sender instanceof Player player)) {
-            sender.sendMessage(
-                Component.text("Sorry, but only players can do that.").color(NamedTextColor.RED));
+            sender.sendMessage(Component.text("Sorry, but only players can do that.", NamedTextColor.RED));
             return true;
         }
 
-        player.sendMessage(Component.text("Teleporting...").color(NamedTextColor.DARK_AQUA));
+        player.sendMessage(Component.text("Teleporting...", NamedTextColor.DARK_AQUA));
 
         Location playerLoc = player.getLocation();
         Location loc = playerLoc.getBlock().getLocation().add(0.5, 0, 0.5);

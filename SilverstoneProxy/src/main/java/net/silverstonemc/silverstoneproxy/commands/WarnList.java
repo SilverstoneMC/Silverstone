@@ -1,32 +1,40 @@
 package net.silverstonemc.silverstoneproxy.commands;
 
-import net.kyori.adventure.platform.bungeecord.BungeeAudiences;
+import com.velocitypowered.api.command.CommandSource;
+import com.velocitypowered.api.command.SimpleCommand;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
-import net.md_5.bungee.api.CommandSender;
-import net.md_5.bungee.api.plugin.Command;
-import net.silverstonemc.silverstoneproxy.ConfigurationManager;
 import net.silverstonemc.silverstoneproxy.SilverstoneProxy;
 import net.silverstonemc.silverstoneproxy.UserManager;
+import ninja.leaping.configurate.ConfigurationNode;
 
 import java.util.UUID;
 
-public class WarnList extends Command {
-    public WarnList() {
-        super("warnlist", "silverstone.moderator");
+import static net.silverstonemc.silverstoneproxy.ConfigurationManager.FileType.WARNDATA;
+
+public class WarnList implements SimpleCommand {
+    public WarnList(SilverstoneProxy instance) {
+        i = instance;
     }
 
-    private final BungeeAudiences adventure = SilverstoneProxy.getAdventure();
+    @Override
+    public boolean hasPermission(final Invocation invocation) {
+        return invocation.source().hasPermission("silverstone.moderator");
+    }
 
-    public void execute(CommandSender sender, String[] args) {
-        adventure.sender(sender).sendMessage(
-            Component.text("All warnings:").color(NamedTextColor.RED).decorate(TextDecoration.BOLD));
+    private final SilverstoneProxy i;
 
-        for (String uuid : ConfigurationManager.data.getSection("data").getKeys())
-            for (String warning : ConfigurationManager.data.getSection("data." + uuid).getKeys())
-                adventure.sender(sender).sendMessage(Component.text(new UserManager().getUsername(
-                    UUID.fromString(uuid)) + " - " + warning + " - " + ConfigurationManager.data.getInt(
-                    "data." + uuid + "." + warning)).color(NamedTextColor.GRAY));
+    @Override
+    public void execute(final Invocation invocation) {
+        CommandSource sender = invocation.source();
+        sender.sendMessage(Component.text("All warnings:", NamedTextColor.RED, TextDecoration.BOLD));
+
+        for (ConfigurationNode uuid : i.fileManager.files.get(WARNDATA).getNode("data").getChildrenList())
+            for (ConfigurationNode warning : uuid.getNode(uuid).getChildrenList())
+                //noinspection DataFlowIssue
+                sender.sendMessage(Component.text(new UserManager(i).getUsername(
+                        UUID.fromString(uuid.getKey().toString())) + " - " + warning + " - " + warning.getInt(),
+                    NamedTextColor.GRAY));
     }
 }

@@ -1,119 +1,136 @@
 package net.silverstonemc.silverstoneproxy.commands;
 
+import com.velocitypowered.api.command.CommandSource;
+import com.velocitypowered.api.command.SimpleCommand;
+import com.velocitypowered.api.proxy.Player;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
-import net.md_5.bungee.api.ChatColor;
-import net.md_5.bungee.api.CommandSender;
-import net.md_5.bungee.api.chat.TextComponent;
-import net.md_5.bungee.api.connection.ProxiedPlayer;
-import net.md_5.bungee.api.plugin.Command;
-import net.md_5.bungee.api.plugin.TabExecutor;
-import net.md_5.bungee.api.scheduler.ScheduledTask;
-import net.silverstonemc.silverstoneproxy.*;
-import net.silverstonemc.silverstoneproxy.events.Leave;
+import net.kyori.adventure.identity.Identity;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.silverstonemc.silverstoneproxy.SilverstoneProxy;
+import net.silverstonemc.silverstoneproxy.UndoWarning;
+import net.silverstonemc.silverstoneproxy.UserManager;
+import net.silverstonemc.silverstoneproxy.Utils;
+import ninja.leaping.configurate.ConfigurationNode;
 
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
+
+import static net.silverstonemc.silverstoneproxy.ConfigurationManager.FileType.*;
 
 @SuppressWarnings("DataFlowIssue")
-public class BaseCommand extends Command implements TabExecutor {
-    public BaseCommand() {
-        super("ssp", "silverstone.moderator", "ssw");
+public class BaseCommand implements SimpleCommand {
+    public BaseCommand(SilverstoneProxy instance) {
+        i = instance;
     }
 
-    private final SilverstoneProxy plugin = SilverstoneProxy.getPlugin();
+    @Override
+    public boolean hasPermission(final Invocation invocation) {
+        return invocation.source().hasPermission("silverstone.moderator");
+    }
 
-    public void execute(CommandSender sender, String[] args) {
+    private final SilverstoneProxy i;
+
+    @Override
+    public void execute(final Invocation invocation) {
+        CommandSource sender = invocation.source();
+        String[] args = invocation.arguments();
+        String senderName = sender.get(Identity.NAME).orElse("Console");
+
         TextChannel warningChannel = SilverstoneProxy.jda.getTextChannelById(1075643034634563695L);
 
         if (args.length == 0) {
-            sender.sendMessage(TextComponent.fromLegacyText(ChatColor.RED + "/ssp <reload | remove | clear>"));
+            sender.sendMessage(Component.text("/ssp <reload | remove | clear>", NamedTextColor.RED));
             return;
         }
 
-        // Reload
+        // reload
         if (args[0].equalsIgnoreCase("reload")) if (sender.hasPermission("silverstone.admin")) {
-            ConfigurationManager.config = new ConfigurationManager().loadFile("config.yml");
-            ConfigurationManager.data = new ConfigurationManager().loadFile("data.yml");
-            ConfigurationManager.queue = new ConfigurationManager().loadFile("queue.yml");
-            ConfigurationManager.userCache = new ConfigurationManager().loadFile("usercache.yml");
+            i.fileManager.loadFiles();
 
             // Refresh user cache
             UserManager.playerMap.clear();
-            for (String key : ConfigurationManager.userCache.getSection("users").getKeys()) {
-                UUID uuid = UUID.fromString(key);
-                String username = ConfigurationManager.userCache.getString("users." + key);
+            for (ConfigurationNode users : i.fileManager.files.get(USERCACHE).getNode("users")
+                .getChildrenList()) {
+                UUID uuid = UUID.fromString(users.getKey().toString());
+                String username = i.fileManager.files.get(USERCACHE).getNode("users", users.getKey())
+                    .getString();
                 UserManager.playerMap.put(uuid, username);
             }
-            
-            // Reset player quits
-            for (ScheduledTask task : Leave.leaveTasks) task.cancel();
-            Leave.leaves.clear();
 
-            sender.sendMessage(TextComponent.fromLegacyText(ChatColor.GREEN + "SilverstoneProxy reloaded!"));
-        } else sender.sendMessage(
-            TextComponent.fromLegacyText(ChatColor.RED + "You don't have permission to do that!"));
+            sender.sendMessage(Component.text("SilverstoneProxy reloaded!", NamedTextColor.GREEN));
+        } else
+            sender.sendMessage(Component.text("You don't have permission to do that!", NamedTextColor.RED));
+
 
             // remove <reason> <player>
         else if (args[0].equalsIgnoreCase("remove")) {
             if (args.length < 3) {
-                sender.sendMessage(
-                    TextComponent.fromLegacyText(ChatColor.RED + "/ssp remove <reason> <player>"));
+                sender.sendMessage(Component.text("/ssp remove <reason> <player>", NamedTextColor.RED));
                 return;
             }
 
-            UUID uuid = new UserManager().getUUID(args[2]);
-            String username = new UserManager().getUsername(uuid);
-            ProxiedPlayer player = plugin.getProxy().getPlayer(uuid);
+            UUID uuid = new UserManager(i).getUUID(args[2]);
+            String username = new UserManager(i).getUsername(uuid);
+            Player player = i.server.getPlayer(uuid).isPresent() ? i.server.getPlayer(uuid).get() : null;
 
             if (uuid == null) {
                 new Utils().nonexistentPlayerMessage(args[2], sender);
                 return;
             }
 
-            int count = ConfigurationManager.data.getInt("data." + uuid + "." + args[1]);
+            int count = i.fileManager.files.get(WARNDATA).getNode("data", uuid, args[1]).getInt();
 
             // Already has 0 warnings
-            if ((count - 1) < 0) sender.sendMessage(TextComponent.fromLegacyText(
-                ChatColor.translateAlternateColorCodes('&',
-                    "&7" + username + " &calready has 0 &7" + args[1] + " &cwarnings.")));
+            if ((count - 1) < 0) sender.sendMessage(Component.text(username, NamedTextColor.GRAY)
+                .append(Component.text(" already has 0 ", NamedTextColor.RED))
+                .append(Component.text(args[1], NamedTextColor.GRAY))
+                .append(Component.text(" warnings.", NamedTextColor.RED)));
             else {
-                new UndoWarning().undoWarning(uuid, args[1], count);
+                new UndoWarning(i).undoWarning(uuid, args[1], count);
 
-                if ((count - 1) == 0) ConfigurationManager.data.set("data." + uuid + "." + args[1], null);
-                else ConfigurationManager.data.set("data." + uuid + "." + args[1], count - 1);
-                new ConfigurationManager().saveData();
+                if ((count - 1) == 0)
+                    i.fileManager.files.get(WARNDATA).getNode("data", uuid, args[1]).setValue(null);
+                else i.fileManager.files.get(WARNDATA).getNode("data", uuid, args[1]).setValue(count - 1);
+                i.fileManager.save(WARNDATA);
 
-                if (ConfigurationManager.data.getSection("data." + uuid).getKeys().isEmpty()) {
-                    ConfigurationManager.data.set("data." + uuid, null);
-                    new ConfigurationManager().saveData();
+                if (i.fileManager.files.get(WARNDATA).getNode("data", uuid).getChildrenList().isEmpty()) {
+                    i.fileManager.files.get(WARNDATA).getNode("data", uuid).setValue(null);
+                    i.fileManager.save(WARNDATA);
                 }
 
-                plugin.getLogger().info(ChatColor.translateAlternateColorCodes('&',
-                    "&7" + sender.getName() + " &cremoved a &7" + args[1] + " &cwarning from &7" + username));
+                Component warningRemovedStaff = Component.text(senderName, NamedTextColor.GRAY)
+                    .append(Component.text(" removed a ", NamedTextColor.RED))
+                    .append(Component.text(args[1], NamedTextColor.GRAY))
+                    .append(Component.text(" warning from ", NamedTextColor.RED))
+                    .append(Component.text(username, NamedTextColor.GRAY));
 
+                i.server.getConsoleCommandSource().sendMessage(warningRemovedStaff);
                 // Message staff
-                for (ProxiedPlayer online : plugin.getProxy().getPlayers())
-                    if (online.hasPermission("silverstone.moderator")) online.sendMessage(
-                        TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&',
-                            "&7" + sender.getName() + " &cremoved a &7" + args[1] + " &cwarning from &7" + username)));
+                for (Player online : i.server.getAllPlayers())
+                    if (online.hasPermission("silverstone.moderator"))
+                        online.sendMessage(warningRemovedStaff);
+
+                Component warningRemovedPlayer = Component.text(senderName, NamedTextColor.GRAY)
+                    .append(Component.text(" removed a ", NamedTextColor.RED))
+                    .append(Component.text(args[1], NamedTextColor.GRAY))
+                    .append(Component.text(" warning from you.", NamedTextColor.RED));
 
                 // Message player if online and command not silent
                 try {
-                    if (!args[3].equalsIgnoreCase("-s")) if (player != null) player.sendMessage(
-                        TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&',
-                            "&7" + sender.getName() + " &cremoved a &7" + args[1] + " &cwarning from you.")));
+                    if (!args[3].equalsIgnoreCase("-s"))
+                        if (player != null) player.sendMessage(warningRemovedPlayer);
                 } catch (ArrayIndexOutOfBoundsException ignored) {
-                    if (player != null) player.sendMessage(TextComponent.fromLegacyText(
-                        ChatColor.translateAlternateColorCodes('&',
-                            "&7" + sender.getName() + " &cremoved a &7" + args[1] + " &cwarning from you.")));
+                    if (player != null) player.sendMessage(warningRemovedPlayer);
                 }
 
                 EmbedBuilder embed = new EmbedBuilder();
-                embed.setAuthor(sender.getName() + " removed a '" + args[1] + "' warning from " + username,
-                    null, "https://crafatar.com/avatars/" + uuid + "?overlay=true");
+                embed.setAuthor(senderName + " removed a '" + args[1] + "' warning from " + username, null,
+                    "https://crafatar.com/avatars/" + uuid + "?overlay=true");
                 embed.setColor(new Color(42, 212, 85));
                 warningChannel.sendMessageEmbeds(embed.build()).queue();
             }
@@ -122,14 +139,13 @@ public class BaseCommand extends Command implements TabExecutor {
             // clear <[reason]|all> <player>
         } else if (args[0].equalsIgnoreCase("clear")) {
             if (args.length < 3) {
-                sender.sendMessage(
-                    TextComponent.fromLegacyText(ChatColor.RED + "/ssp clear <[reason]|all> <player>"));
+                sender.sendMessage(Component.text("/ssp clear <[reason]|all> <player>", NamedTextColor.RED));
                 return;
             }
 
-            UUID uuid = new UserManager().getUUID(args[2]);
-            String username = new UserManager().getUsername(uuid);
-            ProxiedPlayer player = plugin.getProxy().getPlayer(uuid);
+            UUID uuid = new UserManager(i).getUUID(args[2]);
+            String username = new UserManager(i).getUsername(uuid);
+            Player player = i.server.getPlayer(uuid).isPresent() ? i.server.getPlayer(uuid).get() : null;
 
             if (uuid == null) {
                 new Utils().nonexistentPlayerMessage(args[2], sender);
@@ -138,67 +154,74 @@ public class BaseCommand extends Command implements TabExecutor {
 
             // If all
             if (args[1].equalsIgnoreCase("all")) {
-                new UndoWarning().undoWarning(uuid, args[1], null);
+                new UndoWarning(i).undoWarning(uuid, args[1], null);
 
-                ConfigurationManager.data.set("data." + uuid, null);
-                new ConfigurationManager().saveData();
+                i.fileManager.files.get(WARNDATA).getNode("data", uuid).setValue(null);
+                i.fileManager.save(WARNDATA);
 
-                plugin.getLogger().info(ChatColor.translateAlternateColorCodes('&',
-                    "&7" + sender.getName() + " &ccleared all of &7" + username + "'s &cwarnings"));
+                Component warningsClearedStaff = Component.text(senderName, NamedTextColor.GRAY)
+                    .append(Component.text(" cleared all of ", NamedTextColor.RED))
+                    .append(Component.text(username, NamedTextColor.GRAY))
+                    .append(Component.text("'s warnings.", NamedTextColor.RED));
 
+                i.server.sendMessage(warningsClearedStaff);
                 // Message staff
-                for (ProxiedPlayer online : plugin.getProxy().getPlayers())
-                    if (online.hasPermission("silverstone.moderator")) online.sendMessage(
-                        TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&',
-                            "&7" + sender.getName() + " &ccleared all of &7" + username + "'s &cwarnings")));
+                for (Player online : i.server.getAllPlayers())
+                    if (online.hasPermission("silverstone.moderator"))
+                        online.sendMessage(warningsClearedStaff);
+
+                Component warningsClearedPlayer = Component.text(senderName, NamedTextColor.GRAY)
+                    .append(Component.text(" cleared all of your warnings.", NamedTextColor.RED));
 
                 // Message player if online and command not silent
                 try {
-                    if (!args[3].equalsIgnoreCase("-s")) if (player != null) player.sendMessage(
-                        TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&',
-                            "&7" + sender.getName() + " &ccleared all your warnings.")));
+                    if (!args[3].equalsIgnoreCase("-s"))
+                        if (player != null) player.sendMessage(warningsClearedPlayer);
                 } catch (ArrayIndexOutOfBoundsException ignored) {
-                    if (player != null) player.sendMessage(TextComponent.fromLegacyText(
-                        ChatColor.translateAlternateColorCodes('&',
-                            "&7" + sender.getName() + " &ccleared all your warnings.")));
+                    if (player != null) player.sendMessage(warningsClearedPlayer);
                 }
 
                 EmbedBuilder embed = new EmbedBuilder();
-                embed.setAuthor(sender.getName() + " cleared all of " + username + "'s warnings", null,
+                embed.setAuthor(senderName + " cleared all of " + username + "'s warnings", null,
                     "https://crafatar.com/avatars/" + uuid + "?overlay=true");
                 embed.setColor(new Color(42, 212, 85));
                 warningChannel.sendMessageEmbeds(embed.build()).queue();
 
                 // If a reason is defined
             } else {
-                new UndoWarning().undoWarning(uuid, args[1], null);
+                new UndoWarning(i).undoWarning(uuid, args[1], null);
 
-                ConfigurationManager.data.set("data." + uuid + "." + args[1], null);
-                new ConfigurationManager().saveData();
+                i.fileManager.files.get(WARNDATA).getNode("data", uuid, args[1]).setValue(null);
+                i.fileManager.save(WARNDATA);
 
-                plugin.getLogger().info(ChatColor.translateAlternateColorCodes('&',
-                    "&7" + sender.getName() + " &ccleared all &7" + args[1] + " &cwarnings from &7" + username));
+                Component warningsClearedStaff = Component.text(senderName, NamedTextColor.GRAY)
+                    .append(Component.text(" cleared all ", NamedTextColor.RED))
+                    .append(Component.text(args[1], NamedTextColor.GRAY))
+                    .append(Component.text(" warnings from ", NamedTextColor.RED))
+                    .append(Component.text(username, NamedTextColor.GRAY));
 
+                i.server.sendMessage(warningsClearedStaff);
                 // Message staff
-                for (ProxiedPlayer online : plugin.getProxy().getPlayers())
-                    if (online.hasPermission("silverstone.moderator")) online.sendMessage(
-                        TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&',
-                            "&7" + sender.getName() + " &ccleared all &7" + args[1] + " &cwarnings from &7" + username)));
+                for (Player online : i.server.getAllPlayers())
+                    if (online.hasPermission("silverstone.moderator"))
+                        online.sendMessage(warningsClearedStaff);
+
+                Component warningsClearedPlayer = Component.text(senderName, NamedTextColor.GRAY)
+                    .append(Component.text(" cleared all your ", NamedTextColor.RED))
+                    .append(Component.text(args[1], NamedTextColor.GRAY))
+                    .append(Component.text(" warnings.", NamedTextColor.RED));
 
                 // Message player if online and command not silent
                 try {
-                    if (!args[3].equalsIgnoreCase("-s")) if (player != null) player.sendMessage(
-                        TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&',
-                            "&7" + sender.getName() + " &ccleared all your &7" + args[1] + " &cwarnings.")));
+                    if (!args[3].equalsIgnoreCase("-s"))
+                        if (player != null) player.sendMessage(warningsClearedPlayer);
                 } catch (ArrayIndexOutOfBoundsException ignored) {
-                    if (player != null) player.sendMessage(TextComponent.fromLegacyText(
-                        ChatColor.translateAlternateColorCodes('&',
-                            "&7" + sender.getName() + " &ccleared all your &7" + args[1] + " &cwarnings.")));
+                    if (player != null) player.sendMessage(warningsClearedPlayer);
                 }
 
                 EmbedBuilder embed = new EmbedBuilder();
-                embed.setAuthor(sender.getName() + " cleared all '" + args[1] + "' warnings from " + username,
-                    null, "https://crafatar.com/avatars/" + uuid + "?overlay=true");
+                embed.setAuthor(senderName + " cleared all '" + args[1] + "' warnings from " + username, null,
+                    "https://crafatar.com/avatars/" + uuid + "?overlay=true");
                 embed.setColor(new Color(42, 212, 85));
                 warningChannel.sendMessageEmbeds(embed.build()).queue();
             }
@@ -208,7 +231,10 @@ public class BaseCommand extends Command implements TabExecutor {
     final List<String> arguments = new ArrayList<>();
 
     @Override
-    public Iterable<String> onTabComplete(CommandSender sender, String[] args) {
+    public CompletableFuture<List<String>> suggestAsync(final Invocation invocation) {
+        CommandSource sender = invocation.source();
+        String[] args = invocation.arguments();
+
         if (sender.hasPermission("silverstone.admin")) {
             if (!arguments.contains("reload")) arguments.add("reload");
         } else arguments.remove("reload");
@@ -217,16 +243,16 @@ public class BaseCommand extends Command implements TabExecutor {
         if (!arguments.contains("clear")) arguments.add("clear");
 
         List<String> arguments2 = new ArrayList<>();
-        if (args[0].equalsIgnoreCase("remove"))
-            arguments2.addAll(ConfigurationManager.config.getSection("reasons").getKeys());
-        else if (args[0].equalsIgnoreCase("clear")) {
-            arguments2.add("all");
-            arguments2.addAll(ConfigurationManager.config.getSection("reasons").getKeys());
-        }
+        if (args[0].equalsIgnoreCase("remove") || args[0].equalsIgnoreCase("clear"))
+            for (ConfigurationNode reason : i.fileManager.files.get(CONFIG).getNode("reasons")
+                .getChildrenList())
+                arguments2.add(reason.getKey().toString());
+
+        if (args[0].equalsIgnoreCase("clear")) arguments2.add("all");
 
         List<String> arguments3 = new ArrayList<>();
-        for (ProxiedPlayer player : plugin.getProxy().getPlayers())
-            arguments3.add(player.getName());
+        for (Player player : i.server.getAllPlayers())
+            arguments3.add(player.getUsername());
 
         List<String> result = new ArrayList<>();
         switch (args.length) {
@@ -247,6 +273,6 @@ public class BaseCommand extends Command implements TabExecutor {
 
             case 4 -> result.add("-s");
         }
-        return result;
+        return CompletableFuture.completedFuture(result);
     }
 }

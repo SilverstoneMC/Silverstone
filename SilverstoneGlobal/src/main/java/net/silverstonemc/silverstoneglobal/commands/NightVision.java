@@ -13,7 +13,7 @@ import org.jetbrains.annotations.NotNull;
 public class NightVision implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
         if (!(sender instanceof Player player)) {
-            sender.sendMessage(Component.text("You must be a player to do that!").color(NamedTextColor.RED));
+            sender.sendMessage(Component.text("You must be a player to do that!", NamedTextColor.RED));
             return true;
         }
 

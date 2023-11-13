@@ -62,7 +62,7 @@ public class SilverstoneMinigames extends JavaPlugin implements CommandExecutor 
         data.saveDefaultConfig();
         data.reloadConfig();
         new FlyingCourse(this).updateFCScoreboard();
-        sender.sendMessage(Component.text("SilverstoneMinigames reloaded!").color(NamedTextColor.GREEN));
+        sender.sendMessage(Component.text("SilverstoneMinigames reloaded!", NamedTextColor.GREEN));
         return true;
     }
 }

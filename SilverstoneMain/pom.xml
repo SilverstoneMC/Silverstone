@@ -42,7 +42,6 @@
                 <configuration>
                     <includes>
                         <include>${project.build.directory}\classes\plugin.yml</include>
-                        <include>${project.build.directory}\classes\config.yml</include>
                     </includes>
                     <replacements>
                         <replacement>

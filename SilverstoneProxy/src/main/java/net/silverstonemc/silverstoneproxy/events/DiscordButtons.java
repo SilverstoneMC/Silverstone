@@ -16,7 +16,11 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 public class DiscordButtons extends ListenerAdapter {
-    private final SilverstoneProxy plugin = SilverstoneProxy.getPlugin();
+    public DiscordButtons(SilverstoneProxy instance) {
+        i = instance;
+    }
+
+    private final SilverstoneProxy i;
 
     @SuppressWarnings("DataFlowIssue")
     @Override
@@ -28,8 +32,8 @@ public class DiscordButtons extends ListenerAdapter {
             player = player.substring(0, player.indexOf(' '));
             String finalPlayer = player;
 
-            plugin.getProxy().getPluginManager()
-                .dispatchCommand(plugin.getProxy().getConsole(), "warn " + finalPlayer + " skin");
+            i.server.getCommandManager()
+                .executeAsync(i.server.getConsoleCommandSource(), "warn " + finalPlayer + " skin");
 
             event.deferEdit().queue();
             Button button = event.getButton().asDisabled();
@@ -47,32 +51,32 @@ public class DiscordButtons extends ListenerAdapter {
         }
 
         UUID uuid = UUID.fromString(event.getComponentId().replaceAll(".*:", ""));
-        String username = new UserManager().getUsername(uuid);
+        String username = new UserManager(i).getUsername(uuid);
         String warning = event.getComponentId().replaceFirst(".*: ", "").replaceAll(" :.*", "");
 
         String type = event.getComponentId().replaceFirst(":.*", "");
         switch (type) {
             case "removewarning" -> {
-                plugin.getProxy().getPluginManager().dispatchCommand(plugin.getProxy().getConsole(),
+                i.server.getCommandManager().executeAsync(i.server.getConsoleCommandSource(),
                     "ssw remove " + warning + " " + username);
                 disableButtons(event, 1);
             }
 
             case "removewarningsilently" -> {
-                plugin.getProxy().getPluginManager().dispatchCommand(plugin.getProxy().getConsole(),
+                i.server.getCommandManager().executeAsync(i.server.getConsoleCommandSource(),
                     "ssw remove " + warning + " " + username + " -s");
                 disableButtons(event, 1);
             }
 
             case "clearwarning" -> {
-                plugin.getProxy().getPluginManager()
-                    .dispatchCommand(plugin.getProxy().getConsole(), "ssw clear " + warning + " " + username);
+                i.server.getCommandManager().executeAsync(i.server.getConsoleCommandSource(),
+                    "ssw clear " + warning + " " + username);
                 disableButtons(event, 2);
             }
 
             case "clearallwarnings" -> {
-                plugin.getProxy().getPluginManager()
-                    .dispatchCommand(plugin.getProxy().getConsole(), "ssw clear all " + username);
+                i.server.getCommandManager()
+                    .executeAsync(i.server.getConsoleCommandSource(), "ssw clear all " + username);
                 disableButtons(event, 3);
             }
         }

@@ -1,26 +1,39 @@
 package net.silverstonemc.silverstoneproxy.commands;
 
-import net.md_5.bungee.api.ChatColor;
-import net.md_5.bungee.api.CommandSender;
-import net.md_5.bungee.api.chat.TextComponent;
-import net.md_5.bungee.api.plugin.Command;
-import net.silverstonemc.silverstoneproxy.ConfigurationManager;
+import com.velocitypowered.api.command.CommandSource;
+import com.velocitypowered.api.command.SimpleCommand;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextDecoration;
+import net.silverstonemc.silverstoneproxy.SilverstoneProxy;
 import net.silverstonemc.silverstoneproxy.UserManager;
+import ninja.leaping.configurate.ConfigurationNode;
 
 import java.util.UUID;
 
-public class WarnQueue extends Command {
-    public WarnQueue() {
-        super("warnqueue", "silverstone.moderator");
+import static net.silverstonemc.silverstoneproxy.ConfigurationManager.FileType.WARNQUEUE;
+
+public class WarnQueue implements SimpleCommand {
+    public WarnQueue(SilverstoneProxy instance) {
+        i = instance;
     }
 
-    public void execute(CommandSender sender, String[] args) {
-        sender.sendMessage(TextComponent.fromLegacyText(
-            ChatColor.translateAlternateColorCodes('&', "&c&lQueued warnings:")));
+    @Override
+    public boolean hasPermission(final Invocation invocation) {
+        return invocation.source().hasPermission("silverstone.moderator");
+    }
 
-        for (String uuid : ConfigurationManager.queue.getSection("queue").getKeys())
-            sender.sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&',
-                "&7" + new UserManager().getUsername(
-                    UUID.fromString(uuid)) + " - " + ConfigurationManager.queue.getString("queue." + uuid))));
+    private final SilverstoneProxy i;
+
+    @Override
+    public void execute(final Invocation invocation) {
+        CommandSource sender = invocation.source();
+
+        sender.sendMessage(Component.text("Queued warnings:", NamedTextColor.RED, TextDecoration.BOLD));
+
+        for (ConfigurationNode uuid : i.fileManager.files.get(WARNQUEUE).getNode("queue").getChildrenList())
+            //noinspection DataFlowIssue
+            sender.sendMessage(Component.text(new UserManager(i).getUsername(
+                UUID.fromString(uuid.getKey().toString())) + " - " + uuid.getString(), NamedTextColor.GRAY));
     }
 }

@@ -1,21 +1,18 @@
 package net.silverstonemc.silverstoneproxy.commands;
 
+import com.velocitypowered.api.command.CommandSource;
+import com.velocitypowered.api.command.SimpleCommand;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.ClickEvent;
 import net.kyori.adventure.text.format.NamedTextColor;
-import net.md_5.bungee.api.CommandSender;
-import net.md_5.bungee.api.plugin.Command;
-import net.silverstonemc.silverstoneproxy.SilverstoneProxy;
 
-public class Discord extends Command {
-    public Discord() {
-        super("discord");
-    }
+public class Discord implements SimpleCommand {
+    @Override
+    public void execute(final Invocation invocation) {
+        CommandSource sender = invocation.source();
 
-    public void execute(CommandSender sender, String[] args) {
-        SilverstoneProxy.getAdventure().sender(sender).sendMessage(
-            Component.text("Join the Discord server at ").color(NamedTextColor.DARK_AQUA).append(
-                Component.text("discord.gg/VVSUEPd").color(NamedTextColor.GREEN)
-                    .clickEvent(ClickEvent.openUrl("https://discord.gg/VVSUEPd"))));
+        sender.sendMessage(Component.text("Join the Discord server at ", NamedTextColor.DARK_AQUA).append(
+            Component.text("discord.gg/VVSUEPd", NamedTextColor.GREEN)
+                .clickEvent(ClickEvent.openUrl("https://discord.gg/VVSUEPd"))));
     }
 }
