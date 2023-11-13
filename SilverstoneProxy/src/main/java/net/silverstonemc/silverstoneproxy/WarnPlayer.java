@@ -33,7 +33,7 @@ public class WarnPlayer {
 
         // If player is not online, queue the warning
         if (player == null) {
-            i.fileManager.files.get(WARNQUEUE).getNode("queue", uuid).setValue(reason);
+            i.fileManager.files.get(WARNQUEUE).getNode("queue", uuid.toString()).setValue(reason);
             i.fileManager.save(WARNQUEUE);
 
             Component offlinePlayerWarned = Component.text("Offline player ", NamedTextColor.RED)
@@ -54,7 +54,7 @@ public class WarnPlayer {
             return;
         }
 
-        ConfigurationNode warnData = i.fileManager.files.get(WARNDATA).getNode("data", uuid, reason);
+        ConfigurationNode warnData = i.fileManager.files.get(WARNDATA).getNode("data", uuid.toString(), reason);
         // If player doesn't have the reason in their data, add it
         // If they already had the reason, add 1 to it
         int warningCount = 1;
@@ -65,7 +65,7 @@ public class WarnPlayer {
 
         // Grab the amount of punishments in the config
         ConfigurationNode punishments = i.fileManager.files.get(CONFIG).getNode("reasons", reason, "add");
-        int punishmentCount = punishments.getChildrenList().size();
+        int punishmentCount = punishments.getChildrenMap().values().size();
 
         // Get the correct warning number
         int punishmentNumber = warningCount % punishmentCount;

@@ -57,7 +57,7 @@ public class SilverstoneProxy {
     @Subscribe
     public void onProxyInitialize(ProxyInitializeEvent event) {
         // Cache users
-        for (ConfigurationNode users : fileManager.files.get(USERCACHE).getNode("users").getChildrenList()) {
+        for (ConfigurationNode users : fileManager.files.get(USERCACHE).getNode("users").getChildrenMap().values()) {
             //noinspection DataFlowIssue
             UUID uuid = UUID.fromString(users.getKey().toString());
             String username = fileManager.files.get(USERCACHE).getNode("users", users.getKey()).getString();

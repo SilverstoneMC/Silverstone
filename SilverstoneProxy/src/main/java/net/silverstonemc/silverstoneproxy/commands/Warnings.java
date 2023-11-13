@@ -55,8 +55,8 @@ public class Warnings implements SimpleCommand {
             return;
         }
 
-        ConfigurationNode warnData = i.fileManager.files.get(WARNDATA).getNode("data", uuid);
-        ConfigurationNode warnQueue = i.fileManager.files.get(WARNQUEUE).getNode("queue", uuid);
+        ConfigurationNode warnData = i.fileManager.files.get(WARNDATA).getNode("data", uuid.toString());
+        ConfigurationNode warnQueue = i.fileManager.files.get(WARNQUEUE).getNode("queue", uuid.toString());
 
         // If not in queue
         if (warnQueue.isVirtual())
@@ -71,7 +71,7 @@ public class Warnings implements SimpleCommand {
             Component.text(username + "'s warnings:", NamedTextColor.RED, TextDecoration.BOLD));
 
         // If any warnings already exist
-        if (!warnData.isVirtual()) for (ConfigurationNode reasonList : warnData.getChildrenList())
+        if (!warnData.isVirtual()) for (ConfigurationNode reasonList : warnData.getChildrenMap().values())
             //noinspection DataFlowIssue
             sender.sendMessage(Component.text(reasonList.getKey().toString() + " - " + reasonList.getInt(),
                 NamedTextColor.GRAY));
@@ -92,6 +92,8 @@ public class Warnings implements SimpleCommand {
         for (Player player : i.server.getAllPlayers())
             arguments.add(player.getUsername());
 
+        if (args.length == 0) return CompletableFuture.completedFuture(arguments);
+        
         List<String> result = new ArrayList<>();
         for (String a : arguments)
             if (a.toLowerCase().startsWith(args[0].toLowerCase())) result.add(a);

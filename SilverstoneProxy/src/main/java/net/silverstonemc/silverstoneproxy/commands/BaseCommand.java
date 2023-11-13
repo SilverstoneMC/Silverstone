@@ -55,7 +55,7 @@ public class BaseCommand implements SimpleCommand {
             // Refresh user cache
             UserManager.playerMap.clear();
             for (ConfigurationNode users : i.fileManager.files.get(USERCACHE).getNode("users")
-                .getChildrenList()) {
+                .getChildrenMap().values()) {
                 UUID uuid = UUID.fromString(users.getKey().toString());
                 String username = i.fileManager.files.get(USERCACHE).getNode("users", users.getKey())
                     .getString();
@@ -83,7 +83,7 @@ public class BaseCommand implements SimpleCommand {
                 return;
             }
 
-            int count = i.fileManager.files.get(WARNDATA).getNode("data", uuid, args[1]).getInt();
+            int count = i.fileManager.files.get(WARNDATA).getNode("data", uuid.toString(), args[1]).getInt();
 
             // Already has 0 warnings
             if ((count - 1) < 0) sender.sendMessage(Component.text(username, NamedTextColor.GRAY)
@@ -94,12 +94,12 @@ public class BaseCommand implements SimpleCommand {
                 new UndoWarning(i).undoWarning(uuid, args[1], count);
 
                 if ((count - 1) == 0)
-                    i.fileManager.files.get(WARNDATA).getNode("data", uuid, args[1]).setValue(null);
-                else i.fileManager.files.get(WARNDATA).getNode("data", uuid, args[1]).setValue(count - 1);
+                    i.fileManager.files.get(WARNDATA).getNode("data", uuid.toString(), args[1]).setValue(null);
+                else i.fileManager.files.get(WARNDATA).getNode("data", uuid.toString(), args[1]).setValue(count - 1);
                 i.fileManager.save(WARNDATA);
 
-                if (i.fileManager.files.get(WARNDATA).getNode("data", uuid).getChildrenList().isEmpty()) {
-                    i.fileManager.files.get(WARNDATA).getNode("data", uuid).setValue(null);
+                if (i.fileManager.files.get(WARNDATA).getNode("data", uuid.toString()).getChildrenMap().values().isEmpty()) {
+                    i.fileManager.files.get(WARNDATA).getNode("data", uuid.toString()).setValue(null);
                     i.fileManager.save(WARNDATA);
                 }
 
@@ -156,7 +156,7 @@ public class BaseCommand implements SimpleCommand {
             if (args[1].equalsIgnoreCase("all")) {
                 new UndoWarning(i).undoWarning(uuid, args[1], null);
 
-                i.fileManager.files.get(WARNDATA).getNode("data", uuid).setValue(null);
+                i.fileManager.files.get(WARNDATA).getNode("data", uuid.toString()).setValue(null);
                 i.fileManager.save(WARNDATA);
 
                 Component warningsClearedStaff = Component.text(senderName, NamedTextColor.GRAY)
@@ -191,7 +191,7 @@ public class BaseCommand implements SimpleCommand {
             } else {
                 new UndoWarning(i).undoWarning(uuid, args[1], null);
 
-                i.fileManager.files.get(WARNDATA).getNode("data", uuid, args[1]).setValue(null);
+                i.fileManager.files.get(WARNDATA).getNode("data", uuid.toString(), args[1]).setValue(null);
                 i.fileManager.save(WARNDATA);
 
                 Component warningsClearedStaff = Component.text(senderName, NamedTextColor.GRAY)
@@ -242,10 +242,12 @@ public class BaseCommand implements SimpleCommand {
         if (!arguments.contains("remove")) arguments.add("remove");
         if (!arguments.contains("clear")) arguments.add("clear");
 
+        if (args.length == 0) return CompletableFuture.completedFuture(arguments);
+
         List<String> arguments2 = new ArrayList<>();
         if (args[0].equalsIgnoreCase("remove") || args[0].equalsIgnoreCase("clear"))
             for (ConfigurationNode reason : i.fileManager.files.get(CONFIG).getNode("reasons")
-                .getChildrenList())
+                .getChildrenMap().values())
                 arguments2.add(reason.getKey().toString());
 
         if (args[0].equalsIgnoreCase("clear")) arguments2.add("all");

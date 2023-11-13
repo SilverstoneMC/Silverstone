@@ -97,17 +97,19 @@ public class Join {
 
         // Update the username if it has changed
         if (userExists && !UserManager.playerMap.get(uuid).equals(username)) {
+            String oldUsername = new UserManager(i).getUsername(uuid);
+            
             // Notify everyone online if not vanished
             if (!isVanished) i.server.getScheduler().buildTask(i, () -> {
                 for (Player players : i.server.getAllPlayers())
                     players.sendMessage(Component.text(username, NamedTextColor.AQUA)
                         .append(Component.text(" was previously known as ", NamedTextColor.GRAY))
-                        .append(Component.text(new UserManager(i).getUsername(uuid), NamedTextColor.AQUA)));
+                        .append(Component.text(oldUsername, NamedTextColor.AQUA)));
             }).delay(1, TimeUnit.SECONDS).schedule();
 
             // Notify the Discord
             EmbedBuilder embed = new EmbedBuilder();
-            embed.setAuthor(username + " was previously known as: " + new UserManager(i).getUsername(uuid),
+            embed.setAuthor(username + " was previously known as: " + oldUsername,
                 null, "https://crafatar.com/avatars/" + uuid + "?overlay=true");
             embed.setColor(new Color(0x2b2d31));
             //noinspection DataFlowIssue
@@ -145,13 +147,14 @@ public class Join {
             new UserManager(i).addUser(uuid, username);
         }
 
+        System.out.println(i.fileManager.files.get(WARNQUEUE).getNode("queue", uuid.toString()));
         if (i.fileManager.files.get(WARNQUEUE).getNode("queue", uuid.toString()).isVirtual()) return;
 
         i.server.getScheduler().buildTask(i, () -> {
             if (i.server.getPlayer(uuid).isPresent()) {
                 new WarnPlayer(i).warn(uuid,
-                    i.fileManager.files.get(WARNQUEUE).getNode("queue", uuid).getString());
-                i.fileManager.files.get(WARNQUEUE).getNode("queue", uuid).setValue(null);
+                    i.fileManager.files.get(WARNQUEUE).getNode("queue", uuid.toString()).getString());
+                i.fileManager.files.get(WARNQUEUE).getNode("queue", uuid.toString()).setValue(null);
                 i.fileManager.save(WARNQUEUE);
             }
         }).delay(3, TimeUnit.SECONDS).schedule();

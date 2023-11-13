@@ -23,7 +23,7 @@ public class UndoWarning {
         if (currentWarningCount != null) {
             // Grab the amount of un-punishments in the config
             int unpunishmentCount = i.fileManager.files.get(CONFIG).getNode("reasons", reason, "remove")
-                .getChildrenList().size();
+                .getChildrenMap().values().size();
 
             // Get the correct warning number
             int unpunishmentNumber = currentWarningCount % unpunishmentCount;
@@ -32,7 +32,7 @@ public class UndoWarning {
             // Un-warn the player
             ArrayList<String> cmdList = new ArrayList<>(
                 i.fileManager.files.get(CONFIG).getNode("reasons", reason, "remove", unpunishmentNumber)
-                    .getChildrenList().stream().map(ConfigurationNode::toString).toList());
+                    .getChildrenMap().values().stream().map(ConfigurationNode::toString).toList());
             for (String cmd : cmdList)
                 i.server.getCommandManager()
                     .executeAsync(i.server.getConsoleCommandSource(), cmd.replace("{player}", username));
@@ -48,9 +48,9 @@ public class UndoWarning {
             new Thread(() -> {
                 try {
                     for (ConfigurationNode configReasons : i.fileManager.files.get(CONFIG).getNode("reasons")
-                        .getChildrenList()) {
+                        .getChildrenMap().values()) {
                         for (ConfigurationNode configReasonNumbers : configReasons.getNode("remove")
-                            .getChildrenList()) {
+                            .getChildrenMap().values()) {
                             for (String configReasonCommands : configReasonNumbers.getList(
                                 TypeToken.of(String.class)))
                                 i.server.getCommandManager().executeAsync(i.server.getConsoleCommandSource(),
@@ -79,7 +79,7 @@ public class UndoWarning {
             new Thread(() -> {
                 try {
                     for (ConfigurationNode configReasonNumbers : i.fileManager.files.get(CONFIG)
-                        .getNode("reasons", reason, "remove").getChildrenList()) {
+                        .getNode("reasons", reason, "remove").getChildrenMap().values()) {
                         for (String configReasonCommands : configReasonNumbers.getList(
                             TypeToken.of(String.class)))
                             i.server.getCommandManager().executeAsync(i.server.getConsoleCommandSource(),

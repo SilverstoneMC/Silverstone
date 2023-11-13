@@ -46,7 +46,7 @@ public class WarnReasons implements SimpleCommand {
         message.append(Component.text(header, NamedTextColor.RED, TextDecoration.BOLD));
 
         ArrayList<String> reasonList = new ArrayList<>();
-        for (ConfigurationNode reasons : i.fileManager.files.get(CONFIG).getNode("reasons").getChildrenList())
+        for (ConfigurationNode reasons : i.fileManager.files.get(CONFIG).getNode("reasons").getChildrenMap().values())
             //noinspection DataFlowIssue
             reasonList.add(reasons.getKey().toString());
         reasonList.sort(String.CASE_INSENSITIVE_ORDER);

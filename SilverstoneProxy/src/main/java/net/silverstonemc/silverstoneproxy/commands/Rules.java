@@ -72,7 +72,7 @@ public class Rules implements SimpleCommand {
                     target.sendMessage(MiniMessage.miniMessage().deserialize(header));
 
                 for (ConfigurationNode rules : i.fileManager.files.get(CONFIG).getNode("rules", "rules")
-                    .getChildrenList())
+                    .getChildrenMap().values())
                     //noinspection DataFlowIssue
                     target.sendMessage(MiniMessage.miniMessage().deserialize(
                         i.fileManager.files.get(CONFIG).getNode("rules", "rule-prefix").getString("null")
@@ -112,7 +112,7 @@ public class Rules implements SimpleCommand {
 
         ArrayList<String> rules = new ArrayList<>();
         for (ConfigurationNode rule : i.fileManager.files.get(CONFIG).getNode("rules", "rules")
-            .getChildrenList())
+            .getChildrenMap().values())
             rules.add(rule.getString());
 
         String footer = "\n\n<reset><gray><italic>Click to send rule to " + target.getUsername();
@@ -138,53 +138,6 @@ public class Rules implements SimpleCommand {
             }
         }
 
-        /*for (int x = 0; x < ruleCount; x = x + 3) {
-            message.append("\n");
-
-            try {
-                String rule1 = rules.get(x).replace("'", "\\'");
-                String rule2 = rules.get(x + 1).replace("'", "\\'");
-                String rule3 = rules.get(x + 2).replace("'", "\\'");
-
-                String command1 = "/rules " + target.getUsername() + " " + (x + 1);
-                String command2 = "/rules " + target.getUsername() + " " + (x + 2);
-                String command3 = "/rules " + target.getUsername() + " " + (x + 3);
-
-                message.append("<bold><gray><hover:show_text:'<#23B8CF>").append(rule1).append(footer)
-                    .append("'><click:run_command:").append(command1).append(">").append(x + 1)
-                    .append("</click></hover> <dark_gray><bold>| ")
-                    .append("<bold><gray><hover:show_text:'<#23B8CF>").append(rule2).append(footer)
-                    .append("'><click:run_command:").append(command2).append(">").append(x + 2)
-                    .append("</click></hover> <dark_gray><bold>| ")
-                    .append("<bold><gray><hover:show_text:'<#23B8CF>").append(rule3).append(footer)
-                    .append("'><click:run_command:").append(command3).append(">").append(x + 3)
-                    .append("</click></hover>");
-            } catch (IndexOutOfBoundsException e1) {
-                try {
-                    String rule1 = rules.get(x).replace("'", "\\'");
-                    String rule2 = rules.get(x + 1).replace("'", "\\'");
-
-                    String command1 = "/rules " + target.getUsername() + " " + (x + 1);
-                    String command2 = "/rules " + target.getUsername() + " " + (x + 2);
-
-                    message.append("<bold><gray><hover:show_text:'<#23B8CF>").append(rule1).append(footer)
-                        .append("'><click:run_command:").append(command1).append(">").append(x + 1)
-                        .append("</click></hover> <dark_gray><bold>| ")
-                        .append("<bold><gray><hover:show_text:'<#23B8CF>").append(rule2).append(footer)
-                        .append("'><click:run_command:").append(command2).append(">").append(x + 2)
-                        .append("</click></hover>");
-                } catch (IndexOutOfBoundsException e2) {
-                    String rule1 = rules.get(x).replace("'", "\\'");
-
-                    String command1 = "/rules " + target.getUsername() + " " + (x + 1);
-
-                    message.append("<bold><gray><hover:show_text:'<#23B8CF>").append(rule1).append(footer)
-                        .append("'><click:run_command:").append(command1).append(">").append(x + 1)
-                        .append("</click></hover>");
-                }
-            }
-        }*/
-
         sender.sendMessage(MiniMessage.miniMessage().deserialize(message.toString()));
     }
 
@@ -194,6 +147,8 @@ public class Rules implements SimpleCommand {
 
         List<String> arguments = new ArrayList<>();
         for (Player players : i.server.getAllPlayers()) arguments.add(players.getUsername());
+
+        if (args.length == 0) return CompletableFuture.completedFuture(arguments);
 
         List<String> result = new ArrayList<>();
         if (args.length == 1) for (String a : arguments)
