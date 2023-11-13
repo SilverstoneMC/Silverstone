@@ -99,18 +99,6 @@ public class SilverstoneProxy {
         commandManager.register("warnqueue", new WarnQueue(this));
         commandManager.register("warnreasons", new WarnReasons(this), "categories", "reasons");
 
-        /*Runnable task = () -> {
-            pluginManager.registerCommand(plugin, new WarnReasons());
-            pluginManager.registerCommand(plugin, new BaseCommand());
-            pluginManager.registerCommand(plugin, new Relay());
-            pluginManager.registerCommand(plugin, new Warn());
-            pluginManager.registerCommand(plugin, new Warnings());
-            pluginManager.registerCommand(plugin, new WarnList());
-            pluginManager.registerCommand(plugin, new WarnQueue());
-            getLogger().info("Warning commands registered!");
-        };
-        getProxy().getScheduler().schedule(this, task, 3, TimeUnit.SECONDS);*/
-
         EventManager eventManager = server.getEventManager();
         eventManager.register(this, new Join(this));
         eventManager.register(this, new Leave(this));
