@@ -98,7 +98,7 @@ public class Join {
         // Update the username if it has changed
         if (userExists && !UserManager.playerMap.get(uuid).equals(username)) {
             String oldUsername = new UserManager(i).getUsername(uuid);
-            
+
             // Notify everyone online if not vanished
             if (!isVanished) i.server.getScheduler().buildTask(i, () -> {
                 for (Player players : i.server.getAllPlayers())
@@ -109,8 +109,8 @@ public class Join {
 
             // Notify the Discord
             EmbedBuilder embed = new EmbedBuilder();
-            embed.setAuthor(username + " was previously known as: " + oldUsername,
-                null, "https://crafatar.com/avatars/" + uuid + "?overlay=true");
+            embed.setAuthor(username + " was previously known as: " + oldUsername, null,
+                "https://crafatar.com/avatars/" + uuid + "?overlay=true");
             embed.setColor(new Color(0x2b2d31));
             //noinspection DataFlowIssue
             SilverstoneProxy.jda.getTextChannelById(1075680288841138257L).sendMessageEmbeds(embed.build())
@@ -124,8 +124,9 @@ public class Join {
         if (!userExists) {
             int staff = 0;
             for (Player players : i.server.getAllPlayers()) {
-                //todo
-                players.sendMessage(Component.text("Welcome"));
+                players.sendMessage(Component.text("Welcome to Silverstone, ", NamedTextColor.GREEN)
+                    .append(Component.text(username, NamedTextColor.AQUA))
+                    .append(Component.text("!", NamedTextColor.GREEN)));
                 if (players.hasPermission("silverstone.moderator")) staff++;
             }
             int finalStaff = staff;
