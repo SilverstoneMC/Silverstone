@@ -4,6 +4,7 @@ import com.google.common.io.ByteStreams;
 import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.event.connection.PluginMessageEvent;
 import com.velocitypowered.api.proxy.Player;
+import com.velocitypowered.api.proxy.ServerConnection;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.silverstonemc.silverstoneproxy.SilverstoneProxy;
@@ -19,9 +20,8 @@ public class PluginMessage {
     @Subscribe
     public void onMessageReceive(PluginMessageEvent event) {
         if (event.getIdentifier() != SilverstoneProxy.IDENTIFIER) return;
-
-        // Return if not from a player
-        if (!(event.getSource() instanceof Player sender)) return;
+        if (!(event.getSource() instanceof ServerConnection connection)) return;
+        Player sender = connection.getPlayer();
 
         String input = ByteStreams.newDataInput(event.getData()).readUTF();
 
@@ -30,9 +30,9 @@ public class PluginMessage {
 
             if (colorCode.equals("reset")) i.server.getCommandManager()
                 .executeAsync(i.server.getConsoleCommandSource(),
-                    "lpb user " + sender.getUsername() + " meta removesuffix 500");
+                    "lpv user " + sender.getUsername() + " meta removesuffix 500");
             else i.server.getCommandManager().executeAsync(i.server.getConsoleCommandSource(),
-                "lpb user " + sender.getUsername() + " meta setsuffix 500 &" + colorCode);
+                "lpv user " + sender.getUsername() + " meta setsuffix 500 &" + colorCode);
             return;
         }
 
@@ -46,10 +46,10 @@ public class PluginMessage {
 
                 if (sender.hasPermission("silverstone.live")) i.server.getCommandManager()
                     .executeAsync(i.server.getConsoleCommandSource(),
-                        "lpb user " + sender.getUsername() + " parent remove live");
+                        "lpv user " + sender.getUsername() + " parent remove live");
                 else {
                     i.server.getCommandManager().executeAsync(i.server.getConsoleCommandSource(),
-                        "lpb user " + sender.getUsername() + " parent add live");
+                        "lpv user " + sender.getUsername() + " parent add live");
 
                     for (int x = 0; x < 50; x++) sender.sendMessage(Component.empty());
                     sender.sendMessage(Component.text("You are now live!", NamedTextColor.LIGHT_PURPLE));

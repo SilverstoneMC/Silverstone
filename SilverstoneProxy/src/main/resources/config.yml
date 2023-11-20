@@ -318,29 +318,29 @@ reasons:
     add:
       1:
         - "resetname {player}"
-        - "lpb user {player} parent addtemp nonick 7d"
+        - "lpv user {player} parent addtemp nonick 7d"
         - "bc &7{player} &ccan no longer change their nickname for &77 days &3[Warning 1/4]"
       2:
         - "resetname {player}"
-        - "lpb user {player} parent addtemp nonick 14d"
+        - "lpv user {player} parent addtemp nonick 14d"
         - "bc &7{player} &ccan no longer change their nickname for &714 days &3[Warning 2/4]"
       3:
         - "resetname {player}"
-        - "lpb user {player} parent addtemp nonick 1mo"
+        - "lpv user {player} parent addtemp nonick 1mo"
         - "bc &7{player} &ccan no longer change their nickname for &71 month &3[Warning 3/4]"
       4:
         - "resetname {player}"
-        - "lpb user {player} parent add nonick"
+        - "lpv user {player} parent add nonick"
         - "bc &7{player} &ccan no longer change their nickname &3[Warning 4/4]"
     remove:
       1:
-        - "lpb user {player} parent removetemp nonick"
+        - "lpv user {player} parent removetemp nonick"
       2:
-        - "lpb user {player} parent removetemp nonick"
+        - "lpv user {player} parent removetemp nonick"
       3:
-        - "lpb user {player} parent removetemp nonick"
+        - "lpv user {player} parent removetemp nonick"
       4:
-        - "lpb user {player} parent remove nonick"
+        - "lpv user {player} parent remove nonick"
 
   other:
     description: "Any rule violation that doesn't have its own dedicated warning (non-hacking)"
@@ -399,21 +399,21 @@ reasons:
     description: "Attempting to make the server lag via machines, entities, etc, or any other means of abusing creative plots"
     add:
       1:
-        - "lpb user {player} permission settemp plots.permpack.basic false 7d"
+        - "lpv user {player} permission settemp plots.permpack.basic false 7d"
         - "bc &7{player} &chas been temporarily banned from using the Creative plots [7d] due to &7plot abuse &3[Warning 1/3]"
       2:
-        - "lpb user {player} permission settemp plots.permpack.basic false 1mo"
+        - "lpv user {player} permission settemp plots.permpack.basic false 1mo"
         - "bc &7{player} &chas been temporarily banned from using the Creative plots [1mo] due to &7plot abuse &3[Warning 2/3]"
       3:
-        - "lpb user {player} permission set plots.permpack.basic false"
+        - "lpv user {player} permission set plots.permpack.basic false"
         - "bc &7{player} &chas been banned from using the Creative plots due to &7plot abuse &3[Warning 3/3]"
     remove:
       1:
-        - "lpb user {player} permission unsettemp plots.permpack.basic"
+        - "lpv user {player} permission unsettemp plots.permpack.basic"
       2:
-        - "lpb user {player} permission unsettemp plots.permpack.basic"
+        - "lpv user {player} permission unsettemp plots.permpack.basic"
       3:
-        - "lpb user {player} permission unset plots.permpack.basic"
+        - "lpv user {player} permission unset plots.permpack.basic"
 
   skin:
     description: "If a player's skin is inappropriate or offensive"
