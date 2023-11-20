@@ -105,6 +105,7 @@ public class SilverstoneGlobal extends JavaPlugin implements Listener {
         getCommand("freezeserver").setExecutor(new Freeze());
         getCommand("ggamerule").setExecutor(new GlobalGameRule());
         getCommand("ggamerule").setTabCompleter(new TabComplete());
+        getCommand("glist").setExecutor(new Glist());
         getCommand("help").setExecutor(new Help(this));
         getCommand("joinleavesounds").setExecutor(new ChatnSounds(this));
         getCommand("listops").setExecutor(new ListOPs(this));

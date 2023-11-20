@@ -21,10 +21,7 @@ import net.silverstonemc.silverstoneproxy.commands.*;
 import net.silverstonemc.silverstoneproxy.commands.chatemotes.FacePalm;
 import net.silverstonemc.silverstoneproxy.commands.chatemotes.Shrug;
 import net.silverstonemc.silverstoneproxy.commands.chatemotes.TableFlip;
-import net.silverstonemc.silverstoneproxy.events.DiscordButtons;
-import net.silverstonemc.silverstoneproxy.events.Join;
-import net.silverstonemc.silverstoneproxy.events.Leave;
-import net.silverstonemc.silverstoneproxy.events.PluginMessage;
+import net.silverstonemc.silverstoneproxy.events.*;
 import ninja.leaping.configurate.ConfigurationNode;
 import org.slf4j.Logger;
 
@@ -57,7 +54,8 @@ public class SilverstoneProxy {
     @Subscribe
     public void onProxyInitialize(ProxyInitializeEvent event) {
         // Cache users
-        for (ConfigurationNode users : fileManager.files.get(USERCACHE).getNode("users").getChildrenMap().values()) {
+        for (ConfigurationNode users : fileManager.files.get(USERCACHE).getNode("users").getChildrenMap()
+            .values()) {
             //noinspection DataFlowIssue
             UUID uuid = UUID.fromString(users.getKey().toString());
             String username = fileManager.files.get(USERCACHE).getNode("users", users.getKey()).getString();
@@ -100,6 +98,7 @@ public class SilverstoneProxy {
         commandManager.register("warnreasons", new WarnReasons(this), "categories", "reasons");
 
         EventManager eventManager = server.getEventManager();
+        eventManager.register(this, new Glist(this));
         eventManager.register(this, new Join(this));
         eventManager.register(this, new Leave(this));
         eventManager.register(this, new PluginMessage(this));

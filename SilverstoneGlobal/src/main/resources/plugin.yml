@@ -38,6 +38,11 @@ commands:
   freezeserver:
     permission: silverstone.owner
     usage: "§cUsage: /freezeserver <seconds> confirm"
+  ggamerule:
+    permission: silverstone.admin
+    usage: "§cUsage: /globalgamerule <gamerule> <value>"
+  glist:
+    description: "Workaround for proxy aliasing"
   help:
     description: "Shows help"
   joinleavesounds:
@@ -67,12 +72,12 @@ commands:
     permission: silverstone.admin
   schedulerestart:
     permission: silverstone.admin
-  ssgrl:
-    permission: silverstone.admin
   spectate:
     aliases: [ spec ]
     permission: silverstone.moderator
     usage: "§cUsage: /spectate <player>"
+  ssgrl:
+    permission: silverstone.admin
   stuck:
     aliases: [ trapped ]
     permission: silverstone.stuck
@@ -89,9 +94,6 @@ commands:
   watch:
     permission: silverstone.moderator
     usage: "§cUsage: /watch <player>"
-  ggamerule:
-    permission: silverstone.admin
-    usage: "§cUsage: /globalgamerule <gamerule> <value>"
 
 permissions:
   silverstone.admin:
