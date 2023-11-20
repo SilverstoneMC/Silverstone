@@ -88,7 +88,7 @@ public class Join {
                             Component.text(event.getServer().getServerInfo().getName(), NamedTextColor.AQUA))
                         .append(Component.text(" server", NamedTextColor.GRAY)));
             }).delay(100, TimeUnit.MILLISECONDS).schedule();
-            
+
             return;
         }
 
@@ -116,14 +116,12 @@ public class Join {
             //noinspection DataFlowIssue
             SilverstoneProxy.jda.getTextChannelById(1075643381734195210L).sendMessageEmbeds(embed.build())
                 .queue();
-            
-        } else i.server.getScheduler().buildTask(i, () -> {
-            for (Player players : i.server.getAllPlayers())
-                //todo change to displayname
-                players.sendMessage(Component.text()
-                    .append(Component.text("+ ", NamedTextColor.DARK_GREEN, TextDecoration.BOLD))
+
+        } else for (Player players : i.server.getAllPlayers())
+            //todo change to displayname
+            players.sendMessage(
+                Component.text().append(Component.text("+ ", NamedTextColor.DARK_GREEN, TextDecoration.BOLD))
                     .append(Component.text(username, NamedTextColor.AQUA)));
-        }).delay(75, TimeUnit.MILLISECONDS).schedule();
 
         // Update the username if it has changed
         if (userExists && !UserManager.playerMap.get(uuid).equals(username)) {
