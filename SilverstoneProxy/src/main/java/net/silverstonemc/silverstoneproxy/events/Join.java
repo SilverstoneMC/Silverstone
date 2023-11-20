@@ -11,6 +11,7 @@ import net.dv8tion.jda.api.entities.emoji.Emoji;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextDecoration;
 import net.silverstonemc.silverstoneproxy.SilverstoneProxy;
 import net.silverstonemc.silverstoneproxy.UserManager;
 import net.silverstonemc.silverstoneproxy.WarnPlayer;
@@ -64,11 +65,30 @@ public class Join {
 
     @Subscribe
     public void onServerConnected(ServerConnectedEvent event) {
-        if (event.getPreviousServer().isPresent()) return;
-
         Player player = event.getPlayer();
-        boolean isVanished = player.hasPermission("silverstone.vanished");
         String username = player.getUsername();
+        boolean isVanished = player.hasPermission("silverstone.vanished");
+
+        if (event.getPreviousServer().isPresent()) {
+            if (isVanished) {
+                for (Player players : i.server.getAllPlayers())
+                    if (players.hasPermission("silverstone.moderator")) players.sendMessage(
+                        //todo change to displayname
+                        Component.text(username, NamedTextColor.DARK_AQUA)
+                            .append(Component.text(" has switched to the ", NamedTextColor.DARK_GRAY)).append(
+                                Component.text(event.getServer().getServerInfo().getName(),
+                                    NamedTextColor.DARK_AQUA))
+                            .append(Component.text(" server", NamedTextColor.DARK_GRAY)));
+
+            } else for (Player players : i.server.getAllPlayers())
+                //todo change to displayname
+                players.sendMessage(Component.text(username, NamedTextColor.AQUA)
+                    .append(Component.text(" has switched to the ", NamedTextColor.GRAY))
+                    .append(Component.text(event.getServer().getServerInfo().getName(), NamedTextColor.AQUA))
+                    .append(Component.text(" server", NamedTextColor.GRAY)));
+            return;
+        }
+
         UUID uuid = player.getUniqueId();
         boolean userExists = UserManager.playerMap.containsKey(uuid);
 
@@ -93,7 +113,11 @@ public class Join {
             //noinspection DataFlowIssue
             SilverstoneProxy.jda.getTextChannelById(1075643381734195210L).sendMessageEmbeds(embed.build())
                 .queue();
-        }
+        } else for (Player players : i.server.getAllPlayers())
+            //todo change to displayname
+            players.sendMessage(
+                Component.text().append(Component.text("+ ", NamedTextColor.DARK_GREEN, TextDecoration.BOLD))
+                    .append(Component.text(username, NamedTextColor.AQUA)));
 
         // Update the username if it has changed
         if (userExists && !UserManager.playerMap.get(uuid).equals(username)) {

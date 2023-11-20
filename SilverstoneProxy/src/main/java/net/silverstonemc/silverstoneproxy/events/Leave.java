@@ -6,6 +6,9 @@ import com.velocitypowered.api.proxy.Player;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageEmbed;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextDecoration;
 import net.silverstonemc.silverstoneproxy.SilverstoneProxy;
 
 import java.awt.*;
@@ -21,6 +24,14 @@ public class Leave {
     @Subscribe
     public void onQuit(DisconnectEvent event) {
         Player player = event.getPlayer();
+        String username = player.getUsername();
+        boolean isVanished = player.hasPermission("silverstone.vanished");
+
+        if (!isVanished) for (Player players : i.server.getAllPlayers())
+            //todo change to displayname
+            players.sendMessage(
+                Component.text().append(Component.text("- ", NamedTextColor.RED, TextDecoration.BOLD))
+                    .append(Component.text(username, NamedTextColor.AQUA)));
 
         if (Join.newPlayers.containsKey(player)) {
             int x = 0;
