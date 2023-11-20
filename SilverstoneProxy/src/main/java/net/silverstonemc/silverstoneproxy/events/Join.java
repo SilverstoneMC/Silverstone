@@ -123,8 +123,11 @@ public class Join {
         // Add the user if they don't exist and send a notification
         if (!userExists) {
             int staff = 0;
-            for (Player players : i.server.getAllPlayers())
+            for (Player players : i.server.getAllPlayers()) {
+                //todo
+                players.sendMessage(Component.text("Welcome"));
                 if (players.hasPermission("silverstone.moderator")) staff++;
+            }
             int finalStaff = staff;
 
             new Thread(() -> {
