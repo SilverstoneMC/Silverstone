@@ -31,8 +31,8 @@ public class ConsoleErrors extends AbstractAppender {
 
     @Override
     public void append(LogEvent event) {
-        //todo suppress unable to connect to server errors
-//        if (event.getMessage().getFormattedMessage().contains())
+        if (event.getMessage().getFormattedMessage().contains("unable to connect to server")) return;
+        
         if (event.getLevel() != Level.ERROR && event.getLevel() != Level.FATAL && event.getLevel() != Level.TRACE) {
             if (isErrorGroup) {
                 dumpQueue();
