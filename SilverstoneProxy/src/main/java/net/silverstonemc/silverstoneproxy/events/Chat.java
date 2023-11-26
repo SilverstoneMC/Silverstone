@@ -20,6 +20,8 @@ public class Chat {
 
     @Subscribe
     public void onChat(PlayerChatEvent event) {
+        if (event.getResult() == PlayerChatEvent.ChatResult.denied()) return;
+        
         if (!event.getPlayer().hasPermission("silverstone.chatspam.bypass")) {
             if (lastMessages.containsKey(event.getPlayer().getUniqueId()))
                 if (lastMessages.get(event.getPlayer().getUniqueId()).equalsIgnoreCase(event.getMessage())) {
