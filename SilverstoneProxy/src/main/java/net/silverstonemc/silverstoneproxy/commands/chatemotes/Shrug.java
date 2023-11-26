@@ -19,6 +19,6 @@ public class Shrug implements SimpleCommand {
 
         player.sendMessage(Component.text("Click ", NamedTextColor.GREEN).append(
                 Component.text("here", NamedTextColor.AQUA).clickEvent(ClickEvent.suggestCommand("¯\\_(ツ)_/¯")))
-            .append(Component.text(" to shrug", NamedTextColor.AQUA)));
+            .append(Component.text(" to shrug", NamedTextColor.GREEN)));
     }
 }
