@@ -104,6 +104,8 @@ public class SilverstoneProxy {
         eventManager.register(this, new PluginMessage(this));
 
         server.getChannelRegistrar().register(IDENTIFIER);
+        
+        new AutoBroadcast(this).scheduleBroadcasts();
     }
 
     @Subscribe
