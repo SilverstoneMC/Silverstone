@@ -10,8 +10,8 @@ import net.kyori.adventure.text.format.NamedTextColor;
 import net.silverstonemc.silverstoneproxy.SilverstoneProxy;
 import net.silverstonemc.silverstoneproxy.WarnPlayer;
 
-public class PluginMessage {
-    public PluginMessage(SilverstoneProxy instance) {
+public class PluginMessages {
+    public PluginMessages(SilverstoneProxy instance) {
         i = instance;
     }
 
