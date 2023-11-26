@@ -25,8 +25,6 @@ commands:
     permission: silverstone.admin
   chatcolor:
     permission: silverstone.chatcolor
-  chatsounds:
-    permission: silverstone.chatsounds
   discord:
     aliases: [ news ]
   effects:
@@ -45,8 +43,6 @@ commands:
     description: "Workaround for proxy aliasing"
   help:
     description: "Shows help"
-  joinleavesounds:
-    permission: silverstone.jlsounds
   listops:
     aliases: [ oplist ]
     permission: silverstone.admin
@@ -100,16 +96,8 @@ permissions:
     default: op
   silverstone.chatcolor:
     default: op
-  silverstone.chatsounds.enabled:
-    default: false
-  silverstone.chatsounds:
-    default: false
   silverstone.exit:
     default: true
-  silverstone.jlsounds.enabled:
-    default: false
-  silverstone.jlsounds:
-    default: op
   silverstone.live:
     default: false
   silverstone.moderator:

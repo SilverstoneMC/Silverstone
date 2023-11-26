@@ -1,9 +1,12 @@
 package net.silverstonemc.silverstoneproxy.events;
 
+import com.google.common.io.ByteArrayDataOutput;
+import com.google.common.io.ByteStreams;
 import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.event.player.ServerConnectedEvent;
 import com.velocitypowered.api.event.player.ServerPreConnectEvent;
 import com.velocitypowered.api.proxy.Player;
+import com.velocitypowered.api.proxy.server.RegisteredServer;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
@@ -122,6 +125,14 @@ public class Join {
             players.sendMessage(
                 Component.text().append(Component.text("+ ", NamedTextColor.DARK_GREEN, TextDecoration.BOLD))
                     .append(Component.text(username, NamedTextColor.AQUA)));
+
+        // Vanish status handled on backend
+        ByteArrayDataOutput out = ByteStreams.newDataOutput();
+        out.writeUTF("joinsound");
+        out.writeUTF(event.getPlayer().getUniqueId().toString());
+        out.writeBoolean(isVanished);
+        for (RegisteredServer servers : i.server.getAllServers())
+            servers.sendPluginMessage(SilverstoneProxy.IDENTIFIER, out.toByteArray());
 
         // Update the username if it has changed
         if (userExists && !UserManager.playerMap.get(uuid).equals(username)) {

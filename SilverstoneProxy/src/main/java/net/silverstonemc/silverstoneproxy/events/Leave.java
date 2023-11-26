@@ -1,8 +1,11 @@
 package net.silverstonemc.silverstoneproxy.events;
 
+import com.google.common.io.ByteArrayDataOutput;
+import com.google.common.io.ByteStreams;
 import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.event.connection.DisconnectEvent;
 import com.velocitypowered.api.proxy.Player;
+import com.velocitypowered.api.proxy.server.RegisteredServer;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageEmbed;
@@ -32,6 +35,14 @@ public class Leave {
             players.sendMessage(
                 Component.text().append(Component.text("- ", NamedTextColor.RED, TextDecoration.BOLD))
                     .append(Component.text(username, NamedTextColor.AQUA)));
+
+        // Vanish status handled on backend
+        ByteArrayDataOutput out = ByteStreams.newDataOutput();
+        out.writeUTF("leavesound");
+        out.writeUTF(event.getPlayer().getUniqueId().toString());
+        out.writeBoolean(isVanished);
+        for (RegisteredServer servers : i.server.getAllServers())
+            servers.sendPluginMessage(SilverstoneProxy.IDENTIFIER, out.toByteArray());
 
         if (Join.newPlayers.containsKey(player)) {
             int x = 0;

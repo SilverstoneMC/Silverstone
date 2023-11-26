@@ -6,6 +6,7 @@ import com.velocitypowered.api.event.EventManager;
 import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.event.proxy.ProxyInitializeEvent;
 import com.velocitypowered.api.event.proxy.ProxyShutdownEvent;
+import com.velocitypowered.api.plugin.Dependency;
 import com.velocitypowered.api.plugin.Plugin;
 import com.velocitypowered.api.plugin.annotation.DataDirectory;
 import com.velocitypowered.api.proxy.ProxyServer;
@@ -17,6 +18,8 @@ import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.utils.MemberCachePolicy;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
+import net.luckperms.api.LuckPerms;
+import net.luckperms.api.LuckPermsProvider;
 import net.silverstonemc.silverstoneproxy.commands.*;
 import net.silverstonemc.silverstoneproxy.commands.chatemotes.FacePalm;
 import net.silverstonemc.silverstoneproxy.commands.chatemotes.Shrug;
@@ -31,7 +34,7 @@ import java.util.concurrent.TimeUnit;
 
 import static net.silverstonemc.silverstoneproxy.ConfigurationManager.FileType.USERCACHE;
 
-@Plugin(id = "silverstoneproxy", name = "SilverstoneProxy", version = "%VERSION%", description = "Features for the Silverstone proxy, including warnings", authors = {"JasonHorkles"})
+@Plugin(id = "silverstoneproxy", name = "SilverstoneProxy", version = "%VERSION%", description = "Features for the Silverstone proxy, including warnings", authors = {"JasonHorkles"}, dependencies = {@Dependency(id = "luckperms")})
 public class SilverstoneProxy {
     @Inject
     public SilverstoneProxy(ProxyServer server, Logger logger, @DataDirectory Path dataDirectory) {
@@ -50,9 +53,12 @@ public class SilverstoneProxy {
         "silverstone:pluginmsg");
 
     private ConsoleErrors errors;
+    private LuckPerms luckPerms;
 
     @Subscribe
     public void onProxyInitialize(ProxyInitializeEvent event) {
+        luckPerms = LuckPermsProvider.get();
+
         // Cache users
         for (ConfigurationNode users : fileManager.files.get(USERCACHE).getNode("users").getChildrenMap()
             .values()) {
@@ -80,10 +86,12 @@ public class SilverstoneProxy {
 
         CommandManager commandManager = server.getCommandManager();
         commandManager.register("bcnetworkrestart", new Restart(this));
+        commandManager.register("chatsounds", new ChatSounds(this));
         commandManager.register("discord", new Discord());
         commandManager.register("facepalm", new FacePalm(), "ssw");
         commandManager.register("forums", new Forums(), "site", "bugreport", "reportbug", "report",
             "reportplayer", "playerreport", "builder");
+        commandManager.register("joinleavesounds", new JoinLeaveSounds(this));
         commandManager.register("mods", new Mods());
         commandManager.register("prestartwhenempty", new RestartWhenEmpty(this));
         commandManager.register("relay", new Relay());
@@ -105,7 +113,7 @@ public class SilverstoneProxy {
         eventManager.register(this, new PluginMessages(this));
 
         server.getChannelRegistrar().register(IDENTIFIER);
-        
+
         new AutoBroadcast(this).scheduleBroadcasts();
     }
 
@@ -125,5 +133,9 @@ public class SilverstoneProxy {
             }
         } catch (NoClassDefFoundError | InterruptedException ignored) {
         }
+    }
+
+    public LuckPerms getLuckPerms() {
+        return luckPerms;
     }
 }

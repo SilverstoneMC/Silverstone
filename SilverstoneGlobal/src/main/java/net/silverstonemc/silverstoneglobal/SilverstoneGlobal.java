@@ -20,9 +20,10 @@ import net.silverstonemc.silverstoneglobal.discord.Errors;
 import net.silverstonemc.silverstoneglobal.discord.JoinAndLeave;
 import net.silverstonemc.silverstoneglobal.discord.TPS;
 import net.silverstonemc.silverstoneglobal.discord.Vanish;
-import net.silverstonemc.silverstoneglobal.events.ChatnSounds;
+import net.silverstonemc.silverstoneglobal.events.CancelChat;
 import net.silverstonemc.silverstoneglobal.events.Gamemode;
 import net.silverstonemc.silverstoneglobal.events.Load;
+import net.silverstonemc.silverstoneglobal.events.PluginMessages;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -98,7 +99,6 @@ public class SilverstoneGlobal extends JavaPlugin implements Listener {
         getCommand("buy").setExecutor(new BuyGUI(this));
         getCommand("centeronblock").setExecutor(new CenterOnBlock());
         getCommand("chatcolor").setExecutor(new ChatColorGUI(this));
-        getCommand("chatsounds").setExecutor(new ChatnSounds(this));
         getCommand("effects").setExecutor(new Effects());
         getCommand("exit").setExecutor(new Exit(this));
         getCommand("forcerestart").setExecutor(new Restart(this));
@@ -107,7 +107,6 @@ public class SilverstoneGlobal extends JavaPlugin implements Listener {
         getCommand("ggamerule").setTabCompleter(new TabComplete());
         getCommand("glist").setExecutor(new Glist());
         getCommand("help").setExecutor(new Help(this));
-        getCommand("joinleavesounds").setExecutor(new ChatnSounds(this));
         getCommand("listops").setExecutor(new ListOPs(this));
         getCommand("live").setExecutor(new Live(this));
         getCommand("localchat").setExecutor(new LocalChat());
@@ -128,7 +127,7 @@ public class SilverstoneGlobal extends JavaPlugin implements Listener {
         PluginManager pluginManager = this.getServer().getPluginManager();
         pluginManager.registerEvents(new BuyGUI(this), this);
         pluginManager.registerEvents(new ChatColorGUI(this), this);
-        pluginManager.registerEvents(new ChatnSounds(this), this);
+        pluginManager.registerEvents(new CancelChat(), this);
         pluginManager.registerEvents(new Gamemode(), this);
         pluginManager.registerEvents(new JoinAndLeave(this), this);
         pluginManager.registerEvents(new Load(this), this);
@@ -138,6 +137,8 @@ public class SilverstoneGlobal extends JavaPlugin implements Listener {
         new BuyGUI(this).createInv();
         new ChatColorGUI(this).createInv();
 
+        getServer().getMessenger()
+            .registerIncomingPluginChannel(this, "silverstone:pluginmsg", new PluginMessages());
         getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
         getServer().getMessenger().registerOutgoingPluginChannel(this, "silverstone:pluginmsg");
 
