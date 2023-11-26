@@ -98,10 +98,11 @@ public class SilverstoneProxy {
         commandManager.register("warnreasons", new WarnReasons(this), "categories", "reasons");
 
         EventManager eventManager = server.getEventManager();
+        eventManager.register(this, new Chat(this));
         eventManager.register(this, new Glist(this));
         eventManager.register(this, new Join(this));
         eventManager.register(this, new Leave(this));
-        eventManager.register(this, new PluginMessage(this));
+        eventManager.register(this, new PluginMessages(this));
 
         server.getChannelRegistrar().register(IDENTIFIER);
         
