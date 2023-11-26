@@ -92,6 +92,7 @@ public class SilverstoneProxy {
         commandManager.register("forums", new Forums(), "site", "bugreport", "reportbug", "report",
             "reportplayer", "playerreport", "builder");
         commandManager.register("joinleavesounds", new JoinLeaveSounds(this));
+        commandManager.register("mmotd", new MiniMOTDControls(this));
         commandManager.register("mods", new Mods());
         commandManager.register("prestartwhenempty", new RestartWhenEmpty(this));
         commandManager.register("relay", new Relay());
