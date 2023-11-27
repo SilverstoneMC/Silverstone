@@ -26,6 +26,16 @@ public class WarnPlayer {
     private final SilverstoneProxy i;
 
     public void warn(UUID uuid, String reason) {
+        // Me, dragon, panda, ace
+        if (uuid.toString().equals("a28173af-f0a9-47fe-8549-19c6bccf68da") || uuid.toString()
+            .equals("e70a4622-85b6-417d-9201-7322e5094465") || uuid.toString()
+            .equals("75fb05a2-9d9e-49cb-be34-6bd5215548ba") || uuid.toString()
+            .equals("5c3d3b7c-aa02-4751-ae4b-60b277da9c35")) {
+            i.logger.error(
+                "Cancelled warning " + new UserManager(i).getUsername(uuid) + " for reason: " + reason);
+            return;
+        }
+
         TextChannel warningChannel = SilverstoneProxy.jda.getTextChannelById(1075643034634563695L);
 
         String username = new UserManager(i).getUsername(uuid);
@@ -54,7 +64,8 @@ public class WarnPlayer {
             return;
         }
 
-        ConfigurationNode warnData = i.fileManager.files.get(WARNDATA).getNode("data", uuid.toString(), reason);
+        ConfigurationNode warnData = i.fileManager.files.get(WARNDATA)
+            .getNode("data", uuid.toString(), reason);
         // If player doesn't have the reason in their data, add it
         // If they already had the reason, add 1 to it
         int warningCount = 1;
