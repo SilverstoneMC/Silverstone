@@ -252,9 +252,7 @@ public class BaseCommand implements SimpleCommand {
 
         if (args[0].equalsIgnoreCase("clear")) arguments2.add("all");
 
-        List<String> arguments3 = new ArrayList<>();
-        for (Player player : i.server.getAllPlayers())
-            arguments3.add(player.getUsername());
+        List<String> arguments3 = new ArrayList<>(UserManager.playerMap.values());
 
         List<String> result = new ArrayList<>();
         switch (args.length) {

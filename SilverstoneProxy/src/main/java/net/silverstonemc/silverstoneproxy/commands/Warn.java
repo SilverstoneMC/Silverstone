@@ -105,7 +105,8 @@ public class Warn implements SimpleCommand {
 
     private boolean checkIfValidReason(String reason) {
         ArrayList<String> reasonList = new ArrayList<>();
-        for (ConfigurationNode reasons : i.fileManager.files.get(CONFIG).getNode("reasons").getChildrenMap().values())
+        for (ConfigurationNode reasons : i.fileManager.files.get(CONFIG).getNode("reasons").getChildrenMap()
+            .values())
             //noinspection DataFlowIssue
             reasonList.add(reasons.getKey().toString());
         return !reasonList.contains(reason);
@@ -115,14 +116,13 @@ public class Warn implements SimpleCommand {
     public CompletableFuture<List<String>> suggestAsync(final Invocation invocation) {
         String[] args = invocation.arguments();
 
-        List<String> arguments = new ArrayList<>();
-        for (Player player : i.server.getAllPlayers())
-            arguments.add(player.getUsername());
+        List<String> arguments = new ArrayList<>(UserManager.playerMap.values());
 
         if (args.length == 0) return CompletableFuture.completedFuture(arguments);
 
         List<String> arguments2 = new ArrayList<>();
-        for (ConfigurationNode reasons : i.fileManager.files.get(CONFIG).getNode("reasons").getChildrenMap().values())
+        for (ConfigurationNode reasons : i.fileManager.files.get(CONFIG).getNode("reasons").getChildrenMap()
+            .values())
             //noinspection DataFlowIssue
             arguments2.add(reasons.getKey().toString());
 

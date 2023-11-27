@@ -88,9 +88,7 @@ public class Warnings implements SimpleCommand {
 
         if (!sender.hasPermission("silverstone.moderator")) return new CompletableFuture<>();
 
-        List<String> arguments = new ArrayList<>();
-        for (Player player : i.server.getAllPlayers())
-            arguments.add(player.getUsername());
+        List<String> arguments = new ArrayList<>(UserManager.playerMap.values());
 
         if (args.length == 0) return CompletableFuture.completedFuture(arguments);
         
