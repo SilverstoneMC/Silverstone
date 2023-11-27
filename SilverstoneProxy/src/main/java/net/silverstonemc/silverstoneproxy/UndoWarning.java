@@ -6,6 +6,7 @@ import ninja.leaping.configurate.objectmapping.ObjectMappingException;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.UUID;
 
 import static net.silverstonemc.silverstoneproxy.ConfigurationManager.FileType.CONFIG;
@@ -47,18 +48,20 @@ public class UndoWarning {
             // Run each command in each number
             new Thread(() -> {
                 try {
+                    HashSet<String> commands = new HashSet<>();
                     for (ConfigurationNode configReasons : i.fileManager.files.get(CONFIG).getNode("reasons")
-                        .getChildrenMap().values()) {
+                        .getChildrenMap().values())
                         for (ConfigurationNode configReasonNumbers : configReasons.getNode("remove")
-                            .getChildrenMap().values()) {
+                            .getChildrenMap().values())
                             for (String configReasonCommands : configReasonNumbers.getList(
                                 TypeToken.of(String.class)))
-                                i.server.getCommandManager().executeAsync(i.server.getConsoleCommandSource(),
-                                    configReasonCommands.replace("{player}", username));
-                            Thread.sleep(100);
-                        }
-                        Thread.sleep(50);
-                    }
+                                commands.add(configReasonCommands.replace("{player}", username));
+
+                    for (String command : commands)
+                        i.server.getCommandManager()
+                            .executeAsync(i.server.getConsoleCommandSource(), command);
+                    
+                    Thread.sleep(100);
 
                     i.logger.info("=============================================");
                     i.logger.info("Done clearing all of " + username + "'s warnings!");
@@ -78,12 +81,17 @@ public class UndoWarning {
             // Run each command in each number
             new Thread(() -> {
                 try {
+                    HashSet<String> commands = new HashSet<>();
                     for (ConfigurationNode configReasonNumbers : i.fileManager.files.get(CONFIG)
                         .getNode("reasons", reason, "remove").getChildrenMap().values()) {
                         for (String configReasonCommands : configReasonNumbers.getList(
                             TypeToken.of(String.class)))
-                            i.server.getCommandManager().executeAsync(i.server.getConsoleCommandSource(),
-                                configReasonCommands.replace("{player}", username));
+                            commands.add(configReasonCommands.replace("{player}", username));
+
+                        for (String command : commands)
+                            i.server.getCommandManager()
+                                .executeAsync(i.server.getConsoleCommandSource(), command);
+                        
                         Thread.sleep(100);
                     }
 

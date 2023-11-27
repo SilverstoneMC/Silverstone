@@ -164,7 +164,7 @@ public class BaseCommand implements SimpleCommand {
                     .append(Component.text(username, NamedTextColor.GRAY))
                     .append(Component.text("'s warnings.", NamedTextColor.RED));
 
-                i.server.sendMessage(warningsClearedStaff);
+                i.server.getConsoleCommandSource().sendMessage(warningsClearedStaff);
                 // Message staff
                 for (Player online : i.server.getAllPlayers())
                     if (online.hasPermission("silverstone.moderator"))
@@ -200,7 +200,7 @@ public class BaseCommand implements SimpleCommand {
                     .append(Component.text(" warnings from ", NamedTextColor.RED))
                     .append(Component.text(username, NamedTextColor.GRAY));
 
-                i.server.sendMessage(warningsClearedStaff);
+                i.server.getConsoleCommandSource().sendMessage(warningsClearedStaff);
                 // Message staff
                 for (Player online : i.server.getAllPlayers())
                     if (online.hasPermission("silverstone.moderator"))
