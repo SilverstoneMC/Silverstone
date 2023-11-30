@@ -1,5 +1,6 @@
 package net.silverstonemc.silverstoneproxy.events;
 
+import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteStreams;
 import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.event.connection.PluginMessageEvent;
@@ -23,20 +24,20 @@ public class PluginMessages {
         if (!(event.getSource() instanceof ServerConnection connection)) return;
         Player sender = connection.getPlayer();
 
-        String input = ByteStreams.newDataInput(event.getData()).readUTF();
+        ByteArrayDataInput in = ByteStreams.newDataInput(event.getData());
+        String subchannel = in.readUTF();
 
-        if (input.startsWith("chatcolor-")) {
-            String colorCode = input.replace("chatcolor-", "");
+        switch (subchannel) {
+            case "chatcolor" -> {
+                char value = in.readChar();
 
-            if (colorCode.equals("reset")) i.server.getCommandManager()
-                .executeAsync(i.server.getConsoleCommandSource(),
-                    "lpv user " + sender.getUsername() + " meta removesuffix 500");
-            else i.server.getCommandManager().executeAsync(i.server.getConsoleCommandSource(),
-                "lpv user " + sender.getUsername() + " meta setsuffix 500 &" + colorCode);
-            return;
-        }
+                if (value == 'r') i.server.getCommandManager()
+                    .executeAsync(i.server.getConsoleCommandSource(),
+                        "lpv user " + sender.getUsername() + " meta removesuffix 500");
+                else i.server.getCommandManager().executeAsync(i.server.getConsoleCommandSource(),
+                    "lpv user " + sender.getUsername() + " meta setsuffix 500 &" + value);
+            }
 
-        switch (input) {
             case "warn-admin" -> new WarnPlayer(i).warn(sender.getUniqueId(), "admin");
 
             case "rules" -> i.server.getCommandManager().executeAsync(sender, "rules");
