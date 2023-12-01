@@ -33,6 +33,7 @@ public class ConsoleErrors extends AbstractAppender {
     public void append(LogEvent event) {
         if (event.getMessage().getFormattedMessage().contains("unable to connect to server")) return;
         if (event.getMessage().getFormattedMessage().contains("disconnected while connecting to")) return;
+        if (event.getMessage().getFormattedMessage().contains("exception encountered in com.velocitypowered.proxy.connection.backend.BackendPlaySessionHandler")) return;
         
         if (event.getLevel() != Level.ERROR && event.getLevel() != Level.FATAL && event.getLevel() != Level.TRACE) {
             if (isErrorGroup) {
