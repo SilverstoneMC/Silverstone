@@ -18,6 +18,7 @@ public class LockInv implements Listener {
         if (event.getCurrentItem().getItemMeta() == null) return;
         if (!player.getGameMode().equals(GameMode.ADVENTURE)) return;
         if (player.getInventory().getItem(22) == null) return;
+        if (!player.getInventory().getItem(22).hasItemMeta()) return;
         if (!PlainTextComponentSerializer.plainText()
             .serialize(player.getInventory().getItem(22).getItemMeta().displayName()).equals("☺")) return;
 
@@ -30,6 +31,7 @@ public class LockInv implements Listener {
 
         if (!player.getGameMode().equals(GameMode.ADVENTURE)) return;
         if (player.getInventory().getItem(22) == null) return;
+        if (!player.getInventory().getItem(22).hasItemMeta()) return;
         if (!PlainTextComponentSerializer.plainText()
             .serialize(player.getInventory().getItem(22).getItemMeta().displayName()).equals("☺")) return;
 
