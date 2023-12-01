@@ -7,7 +7,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.silverstonemc.silverstoneproxy.SilverstoneProxy;
 import net.silverstonemc.silverstoneproxy.UserManager;
-import net.silverstonemc.silverstoneproxy.Utils;
+import net.silverstonemc.silverstoneproxy.utils.NoPlayerMsg;
 import net.silverstonemc.silverstoneproxy.WarnPlayer;
 import ninja.leaping.configurate.ConfigurationNode;
 
@@ -50,7 +50,7 @@ public class Warn implements SimpleCommand {
                 String username = new UserManager(i).getUsername(uuid);
 
                 if (uuid == null) {
-                    new Utils().nonexistentPlayerMessage(args[0], sender);
+                    new NoPlayerMsg().nonExistentPlayerMessage(args[0], sender);
                     return;
                 }
 
@@ -70,7 +70,7 @@ public class Warn implements SimpleCommand {
                 String username = new UserManager(i).getUsername(uuid);
 
                 if (uuid == null) {
-                    new Utils().nonexistentPlayerMessage(args[0], sender);
+                    new NoPlayerMsg().nonExistentPlayerMessage(args[0], sender);
                     return;
                 }
 
@@ -88,7 +88,7 @@ public class Warn implements SimpleCommand {
                 String username = new UserManager(i).getUsername(uuid);
 
                 if (uuid == null) {
-                    new Utils().nonexistentPlayerMessage(args[0], sender);
+                    new NoPlayerMsg().nonExistentPlayerMessage(args[0], sender);
                     return;
                 }
 

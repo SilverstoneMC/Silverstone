@@ -18,6 +18,7 @@ import net.kyori.adventure.text.format.TextDecoration;
 import net.silverstonemc.silverstoneproxy.SilverstoneProxy;
 import net.silverstonemc.silverstoneproxy.UserManager;
 import net.silverstonemc.silverstoneproxy.WarnPlayer;
+import net.silverstonemc.silverstoneproxy.utils.NicknameUtils;
 
 import java.awt.*;
 import java.util.HashMap;
@@ -71,27 +72,28 @@ public class Join {
         Player player = event.getPlayer();
         String username = player.getUsername();
         boolean isVanished = player.hasPermission("silverstone.vanished");
+        Component displayName = new NicknameUtils(i).getDisplayName(player.getUniqueId());
+        new NicknameUtils(i).changeDisplayName(player, displayName);
 
         if (event.getPreviousServer().isPresent()) {
             i.server.getScheduler().buildTask(i, () -> {
                 if (isVanished) {
                     for (Player players : i.server.getAllPlayers())
                         if (players.hasPermission("silverstone.moderator")) players.sendMessage(
-                            //todo change to displayname
-                            Component.text(username, NamedTextColor.DARK_AQUA)
+                            Component.text().append(displayName).colorIfAbsent(NamedTextColor.AQUA)
                                 .append(Component.text(" has switched to the ", NamedTextColor.DARK_GRAY))
                                 .append(Component.text(event.getServer().getServerInfo().getName(),
                                     NamedTextColor.DARK_AQUA))
                                 .append(Component.text(" server", NamedTextColor.DARK_GRAY)));
 
                 } else for (Player players : i.server.getAllPlayers())
-                    //todo change to displayname
-                    players.sendMessage(Component.text(username, NamedTextColor.AQUA)
-                        .append(Component.text(" has switched to the ", NamedTextColor.GRAY)).append(
-                            Component.text(event.getServer().getServerInfo().getName(), NamedTextColor.AQUA))
-                        .append(Component.text(" server", NamedTextColor.GRAY)));
-            }).delay(100, TimeUnit.MILLISECONDS).schedule();
+                    players.sendMessage(
+                        Component.text().append(displayName).colorIfAbsent(NamedTextColor.AQUA)
+                            .append(Component.text(" has switched to the ", NamedTextColor.GRAY)).append(
+                                Component.text(event.getServer().getServerInfo().getName(), NamedTextColor.AQUA))
+                            .append(Component.text(" server", NamedTextColor.GRAY)));
 
+            }).delay(100, TimeUnit.MILLISECONDS).schedule();
             return;
         }
 
@@ -121,10 +123,9 @@ public class Join {
                 .queue();
 
         } else for (Player players : i.server.getAllPlayers())
-            //todo change to displayname
             players.sendMessage(
                 Component.text().append(Component.text("+ ", NamedTextColor.DARK_GREEN, TextDecoration.BOLD))
-                    .append(Component.text(username, NamedTextColor.AQUA)));
+                    .append(displayName.colorIfAbsent(NamedTextColor.AQUA)));
 
         // Vanish status handled on backend
         ByteArrayDataOutput out = ByteStreams.newDataOutput();

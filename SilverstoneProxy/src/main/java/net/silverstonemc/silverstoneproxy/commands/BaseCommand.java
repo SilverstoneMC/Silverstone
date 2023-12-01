@@ -11,7 +11,8 @@ import net.kyori.adventure.text.format.NamedTextColor;
 import net.silverstonemc.silverstoneproxy.SilverstoneProxy;
 import net.silverstonemc.silverstoneproxy.UndoWarning;
 import net.silverstonemc.silverstoneproxy.UserManager;
-import net.silverstonemc.silverstoneproxy.Utils;
+import net.silverstonemc.silverstoneproxy.utils.NicknameUtils;
+import net.silverstonemc.silverstoneproxy.utils.NoPlayerMsg;
 import ninja.leaping.configurate.ConfigurationNode;
 
 import java.awt.*;
@@ -61,6 +62,11 @@ public class BaseCommand implements SimpleCommand {
                     .getString();
                 UserManager.playerMap.put(uuid, username);
             }
+            
+            // Update nicknames
+            for (Player player : i.server.getAllPlayers())
+                new NicknameUtils(i).changeDisplayName(player,
+                    new NicknameUtils(i).getDisplayName(player.getUniqueId()));
 
             sender.sendMessage(Component.text("SilverstoneProxy reloaded!", NamedTextColor.GREEN));
         } else
@@ -79,7 +85,7 @@ public class BaseCommand implements SimpleCommand {
             Player player = i.server.getPlayer(uuid).isPresent() ? i.server.getPlayer(uuid).get() : null;
 
             if (uuid == null) {
-                new Utils().nonexistentPlayerMessage(args[2], sender);
+                new NoPlayerMsg().nonExistentPlayerMessage(args[2], sender);
                 return;
             }
 
@@ -148,7 +154,7 @@ public class BaseCommand implements SimpleCommand {
             Player player = i.server.getPlayer(uuid).isPresent() ? i.server.getPlayer(uuid).get() : null;
 
             if (uuid == null) {
-                new Utils().nonexistentPlayerMessage(args[2], sender);
+                new NoPlayerMsg().nonExistentPlayerMessage(args[2], sender);
                 return;
             }
 

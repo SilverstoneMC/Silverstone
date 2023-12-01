@@ -9,7 +9,7 @@ import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.silverstonemc.silverstoneproxy.SilverstoneProxy;
 import net.silverstonemc.silverstoneproxy.UserManager;
-import net.silverstonemc.silverstoneproxy.Utils;
+import net.silverstonemc.silverstoneproxy.utils.NoPlayerMsg;
 import ninja.leaping.configurate.ConfigurationNode;
 
 import java.util.ArrayList;
@@ -51,7 +51,7 @@ public class Warnings implements SimpleCommand {
         String username = new UserManager(i).getUsername(uuid);
 
         if (uuid == null) {
-            new Utils().nonexistentPlayerMessage(arg0, sender);
+            new NoPlayerMsg().nonExistentPlayerMessage(arg0, sender);
             return;
         }
 

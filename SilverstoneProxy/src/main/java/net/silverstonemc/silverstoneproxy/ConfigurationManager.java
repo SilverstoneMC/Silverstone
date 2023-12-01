@@ -23,7 +23,7 @@ public class ConfigurationManager {
     private final Path dataDirectory;
 
     public enum FileType {
-        CONFIG("config.yml"), USERCACHE("usercache.yml"), WARNDATA("warndata.yml"), WARNQUEUE(
+        CONFIG("config.yml"), NICKNAMES("nicknames.yml"), USERCACHE("usercache.yml"), WARNDATA("warndata.yml"), WARNQUEUE(
             "warnqueue.yml");
 
         private final String fileName;
@@ -45,6 +45,7 @@ public class ConfigurationManager {
         files.clear();
 
         files.put(FileType.CONFIG, loadFile(FileType.CONFIG));
+        files.put(FileType.NICKNAMES, loadFile(FileType.NICKNAMES));
         files.put(FileType.USERCACHE, loadFile(FileType.USERCACHE));
         files.put(FileType.WARNDATA, loadFile(FileType.WARNDATA));
         files.put(FileType.WARNQUEUE, loadFile(FileType.WARNQUEUE));

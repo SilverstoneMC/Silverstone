@@ -30,6 +30,14 @@ rules:
     - ""
     - "<dark_aqua>Type <green><click:suggest_command:/tips>/tips</click> <dark_aqua>to get a list of all tips for the server!"
 
+nicknames:
+  # The prefix and suffix for all users with nicknames - leave blank for no prefix/suffix
+  prefix: ''
+  suffix: ''
+
+  # The maximum length of a nickname
+  max-length: 16
+
 
 
 ########################################

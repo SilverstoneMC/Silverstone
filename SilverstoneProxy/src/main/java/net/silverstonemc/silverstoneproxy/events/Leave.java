@@ -13,6 +13,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.silverstonemc.silverstoneproxy.SilverstoneProxy;
+import net.silverstonemc.silverstoneproxy.utils.NicknameUtils;
 
 import java.awt.*;
 
@@ -27,14 +28,13 @@ public class Leave {
     @Subscribe
     public void onQuit(DisconnectEvent event) {
         Player player = event.getPlayer();
-        String username = player.getUsername();
         boolean isVanished = player.hasPermission("silverstone.vanished");
 
         if (!isVanished) for (Player players : i.server.getAllPlayers())
-            //todo change to displayname
             players.sendMessage(
                 Component.text().append(Component.text("- ", NamedTextColor.RED, TextDecoration.BOLD))
-                    .append(Component.text(username, NamedTextColor.AQUA)));
+                    .append(new NicknameUtils(i).getDisplayName(player.getUniqueId()))
+                    .colorIfAbsent(NamedTextColor.AQUA));
 
         // Vanish status handled on backend
         ByteArrayDataOutput out = ByteStreams.newDataOutput();
