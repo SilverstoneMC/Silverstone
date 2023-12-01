@@ -17,6 +17,8 @@ import net.silverstonemc.silverstoneproxy.utils.NicknameUtils;
 
 import java.awt.*;
 
+import static com.velocitypowered.api.event.connection.DisconnectEvent.LoginStatus.*;
+
 @SuppressWarnings("DataFlowIssue")
 public class Leave {
     public Leave(SilverstoneProxy instance) {
@@ -27,6 +29,9 @@ public class Leave {
 
     @Subscribe
     public void onQuit(DisconnectEvent event) {
+        if (event.getLoginStatus() == PRE_SERVER_JOIN || event.getLoginStatus() == CANCELLED_BY_PROXY || event.getLoginStatus() == CANCELLED_BY_USER_BEFORE_COMPLETE)
+            return;
+
         Player player = event.getPlayer();
         boolean isVanished = player.hasPermission("silverstone.vanished");
 
