@@ -2,9 +2,10 @@ package net.silverstonemc.silverstoneproxy.events;
 
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
-import com.velocitypowered.api.event.Subscribe;
-import com.velocitypowered.api.event.player.PlayerChatEvent;
 import com.velocitypowered.api.proxy.server.RegisteredServer;
+import net.draycia.carbon.api.event.events.CarbonChatEvent;
+import net.draycia.carbon.api.event.events.CarbonPrivateChatEvent;
+import net.draycia.carbon.api.users.CarbonPlayer;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.silverstonemc.silverstoneproxy.SilverstoneProxy;
@@ -19,31 +20,50 @@ public class Chat {
     }
 
     private final SilverstoneProxy i;
-    private static final HashMap<UUID, String> lastMessages = new HashMap<>();
+    private static final HashMap<UUID, Component> lastMessages = new HashMap<>();
 
-    @Subscribe
-    public void onChat(PlayerChatEvent event) {
-        if (event.getResult() == PlayerChatEvent.ChatResult.denied()) return;
+    public void onChat(CarbonChatEvent event) {
+        CarbonPlayer player = event.sender();
 
-        //todo ignore channels other than global
-        if (!event.getPlayer().hasPermission("silverstone.chatspam.bypass")) {
-            if (lastMessages.containsKey(event.getPlayer().getUniqueId()))
-                if (lastMessages.get(event.getPlayer().getUniqueId()).equalsIgnoreCase(event.getMessage())) {
-                    event.getPlayer().sendMessage(
+        if (!player.hasPermission("silverstone.chatspam.bypass")) {
+            if (lastMessages.containsKey(player.uuid()))
+                if (lastMessages.get(player.uuid()).equals(event.message())) {
+                    player.sendMessage(
                         Component.text("Please don't spam the same message!", NamedTextColor.RED));
-                    event.setResult(PlayerChatEvent.ChatResult.denied());
+                    event.cancelled(true);
                     return;
                 }
 
-            lastMessages.put(event.getPlayer().getUniqueId(), event.getMessage());
+            lastMessages.put(player.uuid(), event.message());
 
-            i.server.getScheduler().buildTask(i, () -> lastMessages.remove(event.getPlayer().getUniqueId()))
+            i.server.getScheduler().buildTask(i, () -> lastMessages.remove(player.uuid()))
                 .delay(15, TimeUnit.SECONDS).schedule();
         }
 
         ByteArrayDataOutput out = ByteStreams.newDataOutput();
-        out.writeUTF("chatsound");
-        out.writeUTF(event.getPlayer().getUniqueId().toString());
+        switch (event.chatChannel().key().toString()) {
+            case "carbon:global", "carbon:jsay" -> {
+                out.writeUTF("globalchatsound");
+                out.writeUTF(player.uuid().toString());
+            }
+            
+            case "carbon:staffchat" -> {
+                out.writeUTF("staffchatsound");
+                out.writeUTF(player.uuid().toString());
+            }
+            
+            case "carbon:broadcast" -> out.writeUTF("broadcastsound");
+        }
+        
+        for (RegisteredServer servers : i.server.getAllServers())
+            servers.sendPluginMessage(SilverstoneProxy.IDENTIFIER, out.toByteArray());
+    }
+    
+    public void onPrivateChat(CarbonPrivateChatEvent event) {
+        ByteArrayDataOutput out = ByteStreams.newDataOutput();
+        out.writeUTF("privatesound");
+        out.writeUTF(event.recipient().uuid().toString());
+        
         for (RegisteredServer servers : i.server.getAllServers())
             servers.sendPluginMessage(SilverstoneProxy.IDENTIFIER, out.toByteArray());
     }

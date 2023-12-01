@@ -11,6 +11,9 @@ import com.velocitypowered.api.plugin.Plugin;
 import com.velocitypowered.api.plugin.annotation.DataDirectory;
 import com.velocitypowered.api.proxy.ProxyServer;
 import com.velocitypowered.api.proxy.messages.MinecraftChannelIdentifier;
+import net.draycia.carbon.api.CarbonChatProvider;
+import net.draycia.carbon.api.event.events.CarbonChatEvent;
+import net.draycia.carbon.api.event.events.CarbonPrivateChatEvent;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.OnlineStatus;
@@ -114,6 +117,11 @@ public class SilverstoneProxy {
         eventManager.register(this, new Join(this));
         eventManager.register(this, new Leave(this));
         eventManager.register(this, new PluginMessages(this));
+
+        CarbonChatProvider.carbonChat().eventHandler()
+            .subscribe(CarbonChatEvent.class, 0, false, chatEvent -> new Chat(this).onChat(chatEvent));
+        CarbonChatProvider.carbonChat().eventHandler().subscribe(CarbonPrivateChatEvent.class, 0, false,
+            chatEvent -> new Chat(this).onPrivateChat(chatEvent));
 
         server.getChannelRegistrar().register(IDENTIFIER);
 

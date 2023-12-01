@@ -17,21 +17,44 @@ public class PluginMessages implements PluginMessageListener {
 
         ByteArrayDataInput in = ByteStreams.newDataInput(bytes);
         String message = in.readUTF();
-        Player player = Bukkit.getPlayer(UUID.fromString(in.readUTF()));
+        Player sender = null;
+        if (!message.equals("broadcastsound")) sender = Bukkit.getPlayer(UUID.fromString(in.readUTF()));
 
         switch (message) {
-            case "chatsound" -> {
+            case "globalchatsound" -> {
                 for (Player players : Bukkit.getOnlinePlayers())
-                    if (players.hasPermission("silverstone.chatsounds.enabled")) if (players != player)
+                    if (players.hasPermission("silverstone.chatsounds.enabled")) if (players != sender)
                         players.playSound(players.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP,
-                            SoundCategory.PLAYERS, 0.5f, 1);
+                            SoundCategory.PLAYERS, 0.4f, 1);
+            }
+
+            case "privatesound" -> {
+                // In this case, the sender variable is actually the receiver
+                if (sender == null) return;
+                if (sender.hasPermission("silverstone.chatsounds.enabled"))
+                    sender.playSound(sender.getLocation(), Sound.ENTITY_ITEM_FRAME_REMOVE_ITEM,
+                        SoundCategory.PLAYERS, 1, 2);
+            }
+
+            case "staffchatsound" -> {
+                for (Player players : Bukkit.getOnlinePlayers())
+                    if (players.hasPermission("silverstone.chatsounds.enabled") && players.hasPermission(
+                        "silverstone.moderator")) if (players != sender)
+                        players.playSound(players.getLocation(), Sound.ENTITY_EXPERIENCE_BOTTLE_THROW,
+                            SoundCategory.PLAYERS, 0.6f, 2);
+            }
+
+            case "broadcastsound" -> {
+                for (Player players : Bukkit.getOnlinePlayers())
+                    players.playSound(players.getLocation(), Sound.BLOCK_BELL_USE, SoundCategory.MASTER, 1,
+                        0);
             }
 
             case "joinsound" -> {
                 boolean isVanished = in.readBoolean();
-                
+
                 for (Player players : Bukkit.getOnlinePlayers()) {
-                    if (players == player) continue;
+                    if (players == sender) continue;
                     if (isVanished) if (!players.hasPermission("silverstone.moderator")) continue;
 
                     if (players.hasPermission("silverstone.jlsounds.enabled"))
@@ -40,11 +63,24 @@ public class PluginMessages implements PluginMessageListener {
                 }
             }
 
+            case "switchsound" -> {
+                boolean isVanished = in.readBoolean();
+
+                for (Player players : Bukkit.getOnlinePlayers()) {
+                    if (players == sender) continue;
+                    if (isVanished) if (!players.hasPermission("silverstone.moderator")) continue;
+
+                    if (players.hasPermission("silverstone.jlsounds.enabled"))
+                        players.playSound(players.getLocation(), Sound.UI_TOAST_IN, SoundCategory.PLAYERS, 1,
+                            1.3f);
+                }
+            }
+
             case "leavesound" -> {
                 boolean isVanished = in.readBoolean();
-                
+
                 for (Player players : Bukkit.getOnlinePlayers()) {
-                    if (players == player) continue;
+                    if (players == sender) continue;
                     if (isVanished) if (!players.hasPermission("silverstone.moderator")) continue;
 
                     if (players.hasPermission("silverstone.jlsounds.enabled"))

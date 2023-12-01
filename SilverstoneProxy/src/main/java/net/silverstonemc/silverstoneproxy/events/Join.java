@@ -95,6 +95,13 @@ public class Join {
                                 Component.text(event.getServer().getServerInfo().getName(), NamedTextColor.AQUA))
                             .append(Component.text(" server", NamedTextColor.GRAY)));
 
+                ByteArrayDataOutput out = ByteStreams.newDataOutput();
+                out.writeUTF("switchsound");
+                out.writeUTF(event.getPlayer().getUniqueId().toString());
+                out.writeBoolean(isVanished);
+                for (RegisteredServer servers : i.server.getAllServers())
+                    servers.sendPluginMessage(SilverstoneProxy.IDENTIFIER, out.toByteArray());
+
                 return;
             }
 
@@ -128,7 +135,6 @@ public class Join {
                     .append(Component.text("+ ", NamedTextColor.DARK_GREEN, TextDecoration.BOLD))
                     .append(displayName.colorIfAbsent(NamedTextColor.AQUA)));
 
-            // Vanish status handled on backend
             ByteArrayDataOutput out = ByteStreams.newDataOutput();
             out.writeUTF("joinsound");
             out.writeUTF(event.getPlayer().getUniqueId().toString());
