@@ -38,7 +38,7 @@ public class PluginMessages {
                     "lpv user " + sender.getUsername() + " meta setsuffix 500 &" + value);
             }
 
-            case "warn-admin" -> new WarnPlayer(i).warn(sender.getUniqueId(), "admin");
+            case "warn" -> new WarnPlayer(i).warn(sender.getUniqueId(), in.readUTF());
 
             case "rules" -> i.server.getCommandManager().executeAsync(sender, "rules");
 

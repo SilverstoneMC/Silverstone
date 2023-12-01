@@ -21,6 +21,10 @@ commands:
     permission: silverstone.admin
   buy:
     aliases: [ ranks, donate ]
+  bwarn:
+    description: "Send warning from backend server to proxy"
+    permission: silverstone.owner
+    usage: "§cUsage: /bwarn <player> <reason>"
   centeronblock:
     permission: silverstone.admin
   chatcolor:

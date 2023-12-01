@@ -46,7 +46,8 @@ public record Security(JavaPlugin plugin) {
                                     plugin.getLogger().warning("Warning " + player.getName() + "...");
 
                                     ByteArrayDataOutput out = ByteStreams.newDataOutput();
-                                    out.writeUTF("warn-admin");
+                                    out.writeUTF("warn");
+                                    out.writeUTF("admin");
                                     player.sendPluginMessage(SilverstoneGlobal.getInstance(),
                                         "silverstone:pluginmsg", out.toByteArray());
                                 }
