@@ -72,11 +72,13 @@ public class Join {
         Player player = event.getPlayer();
         String username = player.getUsername();
         boolean isVanished = player.hasPermission("silverstone.vanished");
-        Component displayName = new NicknameUtils(i).getDisplayName(player.getUniqueId());
-        new NicknameUtils(i).changeDisplayName(player, displayName);
+        UUID uuid = player.getUniqueId();
 
-        if (event.getPreviousServer().isPresent()) {
-            i.server.getScheduler().buildTask(i, () -> {
+        i.server.getScheduler().buildTask(i, () -> {
+            Component displayName = new NicknameUtils(i).getDisplayName(uuid);
+            new NicknameUtils(i).changeDisplayName(player, displayName);
+
+            if (event.getPreviousServer().isPresent()) {
                 if (isVanished) {
                     for (Player players : i.server.getAllPlayers())
                         if (players.hasPermission("silverstone.moderator")) players.sendMessage(
@@ -93,103 +95,103 @@ public class Join {
                                 Component.text(event.getServer().getServerInfo().getName(), NamedTextColor.AQUA))
                             .append(Component.text(" server", NamedTextColor.GRAY)));
 
-            }).delay(100, TimeUnit.MILLISECONDS).schedule();
-            return;
-        }
-
-        UUID uuid = player.getUniqueId();
-        boolean userExists = UserManager.playerMap.containsKey(uuid);
-
-        // Older version message (should only be seen by staff)
-        if (event.getPlayer().getProtocolVersion().getProtocol() < i.fileManager.files.get(CONFIG)
-            .getNode("current-protocol-version").getInt()) event.getPlayer().sendMessage(Component.text(
-            "The server is currently built using Minecraft " + i.fileManager.files.get(CONFIG)
-                .getNode("current-version")
-                .getString() + " - please update your client to use all the features.", NamedTextColor.RED));
-
-        // Silent join message
-        if (isVanished) {
-            int nonStaff = 0;
-            for (Player players : i.server.getAllPlayers())
-                if (!players.hasPermission("silverstone.moderator")) nonStaff++;
-            if (nonStaff == 0) return;
-
-            EmbedBuilder embed = new EmbedBuilder();
-            embed.setAuthor(username + " silently joined the server", null,
-                "https://crafatar.com/avatars/" + uuid + "?overlay=true");
-            embed.setColor(new Color(0x2b2d31));
-            //noinspection DataFlowIssue
-            SilverstoneProxy.jda.getTextChannelById(1075643381734195210L).sendMessageEmbeds(embed.build())
-                .queue();
-
-        } else for (Player players : i.server.getAllPlayers())
-            players.sendMessage(
-                Component.text().append(Component.text("+ ", NamedTextColor.DARK_GREEN, TextDecoration.BOLD))
-                    .append(displayName.colorIfAbsent(NamedTextColor.AQUA)));
-
-        // Vanish status handled on backend
-        ByteArrayDataOutput out = ByteStreams.newDataOutput();
-        out.writeUTF("joinsound");
-        out.writeUTF(event.getPlayer().getUniqueId().toString());
-        out.writeBoolean(isVanished);
-        for (RegisteredServer servers : i.server.getAllServers())
-            servers.sendPluginMessage(SilverstoneProxy.IDENTIFIER, out.toByteArray());
-
-        // Update the username if it has changed
-        if (userExists && !UserManager.playerMap.get(uuid).equals(username)) {
-            String oldUsername = new UserManager(i).getUsername(uuid);
-
-            // Notify everyone online if not vanished
-            if (!isVanished) i.server.getScheduler().buildTask(i, () -> {
-                for (Player players : i.server.getAllPlayers())
-                    players.sendMessage(Component.text(username, NamedTextColor.AQUA)
-                        .append(Component.text(" was previously known as ", NamedTextColor.GRAY))
-                        .append(Component.text(oldUsername, NamedTextColor.AQUA)));
-            }).delay(1, TimeUnit.SECONDS).schedule();
-
-            // Notify the Discord
-            EmbedBuilder embed = new EmbedBuilder();
-            embed.setAuthor(username + " was previously known as: " + oldUsername, null,
-                "https://crafatar.com/avatars/" + uuid + "?overlay=true");
-            embed.setColor(new Color(0x2b2d31));
-            //noinspection DataFlowIssue
-            SilverstoneProxy.jda.getTextChannelById(1075680288841138257L).sendMessageEmbeds(embed.build())
-                .queue();
-
-            UserManager.playerMap.remove(uuid);
-            new UserManager(i).addUser(uuid, username);
-        }
-
-        // Add the user if they don't exist and send a notification
-        if (!userExists) {
-            int staff = 0;
-            for (Player players : i.server.getAllPlayers()) {
-                players.sendMessage(Component.text("Welcome to Silverstone, ", NamedTextColor.GREEN)
-                    .append(Component.text(username, NamedTextColor.AQUA))
-                    .append(Component.text("!", NamedTextColor.GREEN)));
-                if (players.hasPermission("silverstone.moderator")) staff++;
+                return;
             }
-            int finalStaff = staff;
 
-            new Thread(() -> {
-                TextChannel discord = SilverstoneProxy.jda.getTextChannelById(1075643222832984075L);
+            boolean userExists = UserManager.playerMap.containsKey(uuid);
+
+            // Older version message (should only be seen by staff)
+            if (event.getPlayer().getProtocolVersion().getProtocol() < i.fileManager.files.get(CONFIG)
+                .getNode("current-protocol-version").getInt()) event.getPlayer().sendMessage(Component.text(
+                "The server is currently built using Minecraft " + i.fileManager.files.get(CONFIG)
+                    .getNode("current-version")
+                    .getString() + " - please update your client to use all the features.",
+                NamedTextColor.RED));
+
+            // Silent join message
+            if (isVanished) {
+                int nonStaff = 0;
+                for (Player players : i.server.getAllPlayers())
+                    if (!players.hasPermission("silverstone.moderator")) nonStaff++;
+                if (nonStaff == 0) return;
 
                 EmbedBuilder embed = new EmbedBuilder();
-                embed.setAuthor(username + " is new", null,
+                embed.setAuthor(username + " silently joined the server", null,
                     "https://crafatar.com/avatars/" + uuid + "?overlay=true");
-                embed.setImage("https://crafatar.com/renders/body/" + uuid + "?overlay=true");
-                embed.setFooter(finalStaff + " staff members online");
-                embed.setColor(new Color(36, 197, 19));
-
+                embed.setColor(new Color(0x2b2d31));
                 //noinspection DataFlowIssue
-                Message message = discord.sendMessageEmbeds(embed.build()).setActionRow(
-                    Button.danger("warnskin:" + username, "Warn for inappropriate skin")
-                        .withEmoji(Emoji.fromUnicode("⚠"))).complete();
-                newPlayers.put(player, message);
-            }, "New Player Discord").start();
+                SilverstoneProxy.jda.getTextChannelById(1075643381734195210L).sendMessageEmbeds(embed.build())
+                    .queue();
 
-            new UserManager(i).addUser(uuid, username);
-        }
+            } else for (Player players : i.server.getAllPlayers())
+                players.sendMessage(Component.text()
+                    .append(Component.text("+ ", NamedTextColor.DARK_GREEN, TextDecoration.BOLD))
+                    .append(displayName.colorIfAbsent(NamedTextColor.AQUA)));
+
+            // Vanish status handled on backend
+            ByteArrayDataOutput out = ByteStreams.newDataOutput();
+            out.writeUTF("joinsound");
+            out.writeUTF(event.getPlayer().getUniqueId().toString());
+            out.writeBoolean(isVanished);
+            for (RegisteredServer servers : i.server.getAllServers())
+                servers.sendPluginMessage(SilverstoneProxy.IDENTIFIER, out.toByteArray());
+
+            // Update the username if it has changed
+            if (userExists && !UserManager.playerMap.get(uuid).equals(username)) {
+                String oldUsername = new UserManager(i).getUsername(uuid);
+
+                // Notify everyone online if not vanished
+                if (!isVanished) i.server.getScheduler().buildTask(i, () -> {
+                    for (Player players : i.server.getAllPlayers())
+                        players.sendMessage(Component.text(username, NamedTextColor.AQUA)
+                            .append(Component.text(" was previously known as ", NamedTextColor.GRAY))
+                            .append(Component.text(oldUsername, NamedTextColor.AQUA)));
+                }).delay(1, TimeUnit.SECONDS).schedule();
+
+                // Notify the Discord
+                EmbedBuilder embed = new EmbedBuilder();
+                embed.setAuthor(username + " was previously known as: " + oldUsername, null,
+                    "https://crafatar.com/avatars/" + uuid + "?overlay=true");
+                embed.setColor(new Color(0x2b2d31));
+                //noinspection DataFlowIssue
+                SilverstoneProxy.jda.getTextChannelById(1075680288841138257L).sendMessageEmbeds(embed.build())
+                    .queue();
+
+                UserManager.playerMap.remove(uuid);
+                new UserManager(i).addUser(uuid, username);
+            }
+
+            // Add the user if they don't exist and send a notification
+            if (!userExists) {
+                int staff = 0;
+                for (Player players : i.server.getAllPlayers()) {
+                    players.sendMessage(Component.text("Welcome to Silverstone, ", NamedTextColor.GREEN)
+                        .append(Component.text(username, NamedTextColor.AQUA))
+                        .append(Component.text("!", NamedTextColor.GREEN)));
+                    if (players.hasPermission("silverstone.moderator")) staff++;
+                }
+                int finalStaff = staff;
+
+                new Thread(() -> {
+                    TextChannel discord = SilverstoneProxy.jda.getTextChannelById(1075643222832984075L);
+
+                    EmbedBuilder embed = new EmbedBuilder();
+                    embed.setAuthor(username + " is new", null,
+                        "https://crafatar.com/avatars/" + uuid + "?overlay=true");
+                    embed.setImage("https://crafatar.com/renders/body/" + uuid + "?overlay=true");
+                    embed.setFooter(finalStaff + " staff members online");
+                    embed.setColor(new Color(36, 197, 19));
+
+                    //noinspection DataFlowIssue
+                    Message message = discord.sendMessageEmbeds(embed.build()).setActionRow(
+                        Button.danger("warnskin:" + username, "Warn for inappropriate skin")
+                            .withEmoji(Emoji.fromUnicode("⚠"))).complete();
+                    newPlayers.put(player, message);
+                }, "New Player Discord").start();
+
+                new UserManager(i).addUser(uuid, username);
+            }
+        }).delay(50, TimeUnit.MILLISECONDS).schedule();
 
         if (i.fileManager.files.get(WARNQUEUE).getNode("queue", uuid.toString()).isVirtual()) return;
 
