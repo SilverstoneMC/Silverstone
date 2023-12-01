@@ -41,6 +41,7 @@ public class Join {
     @Subscribe
     public void onServerConnect(ServerPreConnectEvent event) {
         if (event.getPreviousServer() != null) return;
+        if (!event.getResult().isAllowed()) return;
 
         int version = event.getPlayer().getProtocolVersion().getProtocol();
         i.logger.info(event.getPlayer().getUsername() + " is joining with protocol version " + version);
