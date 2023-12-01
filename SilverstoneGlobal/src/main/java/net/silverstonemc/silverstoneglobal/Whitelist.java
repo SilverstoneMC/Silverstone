@@ -3,14 +3,11 @@ package net.silverstonemc.silverstoneglobal;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
-import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.UUID;
 
 @SuppressWarnings("DataFlowIssue")
 public class Whitelist {
-    private static final JavaPlugin plugin = SilverstoneGlobal.getInstance();
-
     public static void whitelist() {
         if (Bukkit.getServer().hasWhitelist()) {
             try {
@@ -19,7 +16,7 @@ public class Whitelist {
             } catch (NullPointerException ignored) {
             }
 
-            plugin.getLogger().warning("Whitelist is on");
+            SilverstoneGlobal.getInstance().getLogger().warning("Whitelist is on");
         }
     }
 }
