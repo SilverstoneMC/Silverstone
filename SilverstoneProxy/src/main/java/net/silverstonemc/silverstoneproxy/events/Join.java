@@ -198,7 +198,7 @@ public class Join {
 
                 new UserManager(i).addUser(uuid, username);
             }
-        }).delay(50, TimeUnit.MILLISECONDS).schedule();
+        }).delay(40, TimeUnit.MILLISECONDS).schedule();
 
         if (i.fileManager.files.get(WARNQUEUE).getNode("queue", uuid.toString()).isVirtual()) return;
 
