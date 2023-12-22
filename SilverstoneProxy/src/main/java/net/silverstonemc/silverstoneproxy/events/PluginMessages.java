@@ -45,10 +45,12 @@ public class PluginMessages {
             case "live" -> {
                 i.server.getCommandManager().executeAsync(sender, "socialspy");
 
-                if (sender.hasPermission("silverstone.live")) i.server.getCommandManager()
-                    .executeAsync(i.server.getConsoleCommandSource(),
+                if (sender.hasPermission("silverstone.live")) {
+                    i.server.getCommandManager().executeAsync(i.server.getConsoleCommandSource(),
                         "lpv user " + sender.getUsername() + " parent remove live");
-                else {
+                    sender.sendMessage(Component.text("You are no longer live.", NamedTextColor.GRAY));
+
+                } else {
                     i.server.getCommandManager().executeAsync(i.server.getConsoleCommandSource(),
                         "lpv user " + sender.getUsername() + " parent add live");
 
