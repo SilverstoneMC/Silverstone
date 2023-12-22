@@ -43,7 +43,7 @@ public class NicknameUtils {
                 .setValue(null);
             i.fileManager.save(NICKNAMES);
 
-            return true;
+            return false;
         } else changeDisplayName(player, nickname);
 
         i.fileManager.files.get(NICKNAMES).getNode("nicknames", player.getUniqueId().toString())
