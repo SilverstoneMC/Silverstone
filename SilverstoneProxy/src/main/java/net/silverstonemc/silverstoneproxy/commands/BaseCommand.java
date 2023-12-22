@@ -110,7 +110,7 @@ public class BaseCommand implements SimpleCommand {
                 }
 
                 Component warningRemovedStaff = Component.text(senderName, NamedTextColor.GRAY)
-                    .append(Component.text(" removed a ", NamedTextColor.RED))
+                    .append(Component.text(" removed a(n) ", NamedTextColor.RED))
                     .append(Component.text(args[1], NamedTextColor.GRAY))
                     .append(Component.text(" warning from ", NamedTextColor.RED))
                     .append(Component.text(username, NamedTextColor.GRAY));
@@ -122,7 +122,7 @@ public class BaseCommand implements SimpleCommand {
                         online.sendMessage(warningRemovedStaff);
 
                 Component warningRemovedPlayer = Component.text(senderName, NamedTextColor.GRAY)
-                    .append(Component.text(" removed a ", NamedTextColor.RED))
+                    .append(Component.text(" removed a(n) ", NamedTextColor.RED))
                     .append(Component.text(args[1], NamedTextColor.GRAY))
                     .append(Component.text(" warning from you.", NamedTextColor.RED));
 
@@ -135,7 +135,7 @@ public class BaseCommand implements SimpleCommand {
                 }
 
                 EmbedBuilder embed = new EmbedBuilder();
-                embed.setAuthor(senderName + " removed a '" + args[1] + "' warning from " + username, null,
+                embed.setAuthor(senderName + " removed a(n) '" + args[1] + "' warning from " + username, null,
                     "https://crafatar.com/avatars/" + uuid + "?overlay=true");
                 embed.setColor(new Color(42, 212, 85));
                 warningChannel.sendMessageEmbeds(embed.build()).queue();
