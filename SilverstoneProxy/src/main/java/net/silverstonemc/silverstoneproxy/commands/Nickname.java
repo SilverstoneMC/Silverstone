@@ -143,6 +143,8 @@ public class Nickname implements SimpleCommand {
 
         if (!arguments.contains("reset")) arguments.add("reset");
 
+        if (args.length == 0) return CompletableFuture.completedFuture(arguments);
+
         List<String> arguments2 = new ArrayList<>();
         if (sender.hasPermission("silverstone.nickname.others"))
             for (Player player : i.server.getAllPlayers())
