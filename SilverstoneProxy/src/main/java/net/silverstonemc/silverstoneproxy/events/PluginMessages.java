@@ -65,7 +65,7 @@ public class PluginMessages {
                 User user = luckPerms.getPlayerAdapter(Player.class).getUser(sender);
 
                 if (sender.hasPermission("silverstone.live")) {
-                    i.server.getCommandManager().executeAsync(sender, "socialspy enable");
+                    i.server.getCommandManager().executeAsync(sender, "socialspy enabled");
                     
                     luckPerms.getUserManager().modifyUser(user.getUniqueId(), u -> {
                         Node node = InheritanceNode.builder(liveGroup).value(true).build();
