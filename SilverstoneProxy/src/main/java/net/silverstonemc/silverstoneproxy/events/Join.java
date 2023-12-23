@@ -46,14 +46,14 @@ public class Join {
         int version = event.getPlayer().getProtocolVersion().getProtocol();
         i.logger.info(event.getPlayer().getUsername() + " is joining with protocol version " + version);
 
-        // Anything less than current version and not staff
+        // Anything less than current version and not with perm
         if (version < i.fileManager.files.get(CONFIG).getNode("current-protocol-version")
-            .getInt() && !event.getPlayer().hasPermission("silverstone.moderator")) {
+            .getInt() && !event.getPlayer().hasPermission("silverstone.bypassversion")) {
             incompatibleClient(event, false, "current-version");
             return;
         }
 
-        // Anything less than minimum version and staff
+        // Anything less than minimum version and with perm
         if (version < i.fileManager.files.get(CONFIG).getNode("minimum-protocol-version").getInt())
             incompatibleClient(event, true, "minimum-version");
     }
