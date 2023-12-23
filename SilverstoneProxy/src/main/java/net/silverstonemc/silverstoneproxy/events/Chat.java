@@ -2,13 +2,16 @@ package net.silverstonemc.silverstoneproxy.events;
 
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
+import com.velocitypowered.api.proxy.Player;
 import com.velocitypowered.api.proxy.server.RegisteredServer;
 import net.draycia.carbon.api.event.events.CarbonChatEvent;
 import net.draycia.carbon.api.event.events.CarbonPrivateChatEvent;
 import net.draycia.carbon.api.users.CarbonPlayer;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextDecoration;
 import net.silverstonemc.silverstoneproxy.SilverstoneProxy;
+import net.silverstonemc.silverstoneproxy.utils.NicknameUtils;
 
 import java.util.HashMap;
 import java.util.UUID;
@@ -46,25 +49,39 @@ public class Chat {
                 out.writeUTF("globalchatsound");
                 out.writeUTF(player.uuid().toString());
             }
-            
+
             case "carbon:staffchat" -> {
                 out.writeUTF("staffchatsound");
                 out.writeUTF(player.uuid().toString());
             }
-            
+
             case "carbon:broadcast" -> out.writeUTF("broadcastsound");
         }
-        
+
         for (RegisteredServer servers : i.server.getAllServers())
             servers.sendPluginMessage(SilverstoneProxy.IDENTIFIER, out.toByteArray());
     }
-    
+
     public void onPrivateChat(CarbonPrivateChatEvent event) {
         ByteArrayDataOutput out = ByteStreams.newDataOutput();
         out.writeUTF("privatesound");
         out.writeUTF(event.recipient().uuid().toString());
-        
+
         for (RegisteredServer servers : i.server.getAllServers())
             servers.sendPluginMessage(SilverstoneProxy.IDENTIFIER, out.toByteArray());
+
+        for (Player player : i.server.getAllPlayers())
+            if (player.hasPermission("silverstone.socialspy.enabled"))
+                if (player.getUniqueId() != event.sender().uuid() && player.getUniqueId() != event.recipient()
+                    .uuid()) player.sendMessage(
+                    Component.text().append(Component.text("SPY ", NamedTextColor.BLUE, TextDecoration.BOLD))
+                        .append(Component.text("> ", NamedTextColor.AQUA, TextDecoration.BOLD)).append(
+                            new NicknameUtils(i).getDisplayName(event.sender().uuid())
+                                .colorIfAbsent(NamedTextColor.GOLD))
+                        .append(Component.text(" ➡ ", NamedTextColor.DARK_GRAY)).append(
+                            new NicknameUtils(i).getDisplayName(event.recipient().uuid())
+                                .colorIfAbsent(NamedTextColor.GRAY))
+                        .append(Component.text(" | ", NamedTextColor.DARK_AQUA))
+                        .append(event.message().colorIfAbsent(NamedTextColor.GRAY)).build());
     }
 }

@@ -103,6 +103,7 @@ public class SilverstoneProxy {
         commandManager.register("relay", new Relay());
         commandManager.register("rules", new Rules(this));
         commandManager.register("shrug", new Shrug());
+        commandManager.register("socialspy", new SocialSpy(this));
         commandManager.register("ssp", new BaseCommand(this), "ssw");
         commandManager.register("tableflip", new TableFlip());
         commandManager.register("warn", new Warn(this));
