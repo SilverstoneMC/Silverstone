@@ -24,8 +24,6 @@ public class Live implements CommandExecutor {
             return true;
         }
 
-        player.performCommand("esocialspy");
-
         ByteArrayDataOutput out = ByteStreams.newDataOutput();
         out.writeUTF("live");
         player.sendPluginMessage(plugin, "silverstone:pluginmsg", out.toByteArray());
