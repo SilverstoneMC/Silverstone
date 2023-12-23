@@ -71,17 +71,17 @@ public class Chat {
             servers.sendPluginMessage(SilverstoneProxy.IDENTIFIER, out.toByteArray());
 
         for (Player player : i.server.getAllPlayers())
-            if (player.hasPermission("silverstone.socialspy.enabled"))
-                if (player.getUniqueId() != event.sender().uuid() && player.getUniqueId() != event.recipient()
-                    .uuid()) player.sendMessage(
-                    Component.text().append(Component.text("SPY ", NamedTextColor.BLUE, TextDecoration.BOLD))
-                        .append(Component.text("> ", NamedTextColor.AQUA, TextDecoration.BOLD)).append(
-                            new NicknameUtils(i).getDisplayName(event.sender().uuid())
-                                .colorIfAbsent(NamedTextColor.GOLD))
-                        .append(Component.text(" ➡ ", NamedTextColor.DARK_GRAY)).append(
-                            new NicknameUtils(i).getDisplayName(event.recipient().uuid())
-                                .colorIfAbsent(NamedTextColor.GRAY))
-                        .append(Component.text(" | ", NamedTextColor.DARK_AQUA))
-                        .append(event.message().colorIfAbsent(NamedTextColor.GRAY)).build());
+            if (player.hasPermission("silverstone.socialspy.enabled")) if (!player.getUniqueId().toString()
+                .equals(event.sender().uuid().toString()) && !player.getUniqueId().toString()
+                .equals(event.recipient().uuid().toString())) player.sendMessage(
+                Component.text().append(Component.text("SPY ", NamedTextColor.BLUE, TextDecoration.BOLD))
+                    .append(Component.text("> ", NamedTextColor.AQUA, TextDecoration.BOLD)).append(
+                        new NicknameUtils(i).getDisplayName(event.sender().uuid())
+                            .colorIfAbsent(NamedTextColor.GOLD))
+                    .append(Component.text(" ➡ ", NamedTextColor.DARK_GRAY)).append(
+                        new NicknameUtils(i).getDisplayName(event.recipient().uuid())
+                            .colorIfAbsent(NamedTextColor.GRAY))
+                    .append(Component.text(" | ", NamedTextColor.DARK_AQUA))
+                    .append(event.message().colorIfAbsent(NamedTextColor.GRAY)).build());
     }
 }
