@@ -19,28 +19,28 @@ public record Help(JavaPlugin plugin) implements CommandExecutor {
             case "creative" -> sender.sendMessage(Component.text("")
                 .append(Component.text("\nCommands:", NamedTextColor.GREEN, TextDecoration.BOLD))
 
-                .append(Component.text("\n/p claim ", NamedTextColor.AQUA)
-                    .clickEvent(ClickEvent.clickEvent(ClickEvent.Action.RUN_COMMAND, "/p claim")))
+                .append(Component.text("\n/p2 claim ", NamedTextColor.AQUA)
+                    .clickEvent(ClickEvent.clickEvent(ClickEvent.Action.RUN_COMMAND, "/p2 claim")))
                 .append(Component.text("on an unclaimed plot to get started", NamedTextColor.GREEN))
 
-                .append(Component.text("\n/p home [#] ", NamedTextColor.AQUA)
-                    .clickEvent(ClickEvent.clickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/p home ")))
+                .append(Component.text("\n/p2 home [#] ", NamedTextColor.AQUA)
+                    .clickEvent(ClickEvent.clickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/p2 home ")))
                 .append(Component.text("to teleport to your plot(s)", NamedTextColor.GREEN))
 
-                .append(Component.text("\n/p set ", NamedTextColor.AQUA)
-                    .clickEvent(ClickEvent.clickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/p set ")))
+                .append(Component.text("\n/p2 set ", NamedTextColor.AQUA)
+                    .clickEvent(ClickEvent.clickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/p2 set ")))
                 .append(Component.text("to see multiple plot options", NamedTextColor.GREEN))
 
-                .append(Component.text("\n/p merge all ", NamedTextColor.AQUA)
-                    .clickEvent(ClickEvent.clickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/p merge all")))
+                .append(Component.text("\n/p2 merge all ", NamedTextColor.AQUA)
+                    .clickEvent(ClickEvent.clickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/p2 merge all")))
                 .append(Component.text("to merge all your plots together", NamedTextColor.GREEN))
 
-                .append(Component.text("\n/p clear ", NamedTextColor.AQUA)
-                    .clickEvent(ClickEvent.clickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/p clear")))
+                .append(Component.text("\n/p2 clear ", NamedTextColor.AQUA)
+                    .clickEvent(ClickEvent.clickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/p2 clear")))
                 .append(Component.text("to clear your plot", NamedTextColor.GREEN))
 
-                .append(Component.text("\n/p delete ", NamedTextColor.AQUA)
-                    .clickEvent(ClickEvent.clickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/p delete")))
+                .append(Component.text("\n/p2 delete ", NamedTextColor.AQUA)
+                    .clickEvent(ClickEvent.clickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/p2 delete")))
                 .append(Component.text("to delete your plot", NamedTextColor.GREEN))
 
                 .append(Component.text("\n/stuck ", NamedTextColor.AQUA)
