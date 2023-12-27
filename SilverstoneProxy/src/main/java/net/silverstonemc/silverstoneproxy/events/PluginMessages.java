@@ -17,6 +17,8 @@ import net.luckperms.api.node.types.SuffixNode;
 import net.silverstonemc.silverstoneproxy.SilverstoneProxy;
 import net.silverstonemc.silverstoneproxy.WarnPlayer;
 
+import java.util.concurrent.TimeUnit;
+
 public class PluginMessages {
     public PluginMessages(SilverstoneProxy instance) {
         i = instance;
@@ -82,8 +84,10 @@ public class PluginMessages {
                         u.data().add(node);
                     });
 
-                    for (int x = 0; x < 50; x++) sender.sendMessage(Component.empty());
-                    sender.sendMessage(Component.text("You are now live!", NamedTextColor.LIGHT_PURPLE));
+                    i.server.getScheduler().buildTask(i, () -> {
+                        for (int x = 0; x < 50; x++) sender.sendMessage(Component.empty());
+                        sender.sendMessage(Component.text("You are now live!", NamedTextColor.LIGHT_PURPLE));
+                    }).delay(100, TimeUnit.MILLISECONDS).schedule();
                 }
 
                 luckPerms.getUserManager().saveUser(user);
