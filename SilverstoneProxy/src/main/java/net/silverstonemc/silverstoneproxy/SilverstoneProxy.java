@@ -98,6 +98,7 @@ public class SilverstoneProxy {
         commandManager.register("mmotd", new MiniMOTDControls(this));
         commandManager.register("mods", new Mods());
         commandManager.register("nickname", new Nickname(this), "nick");
+        commandManager.register("prefixes", new Prefixes(this));
         commandManager.register("prestartwhenempty", new RestartWhenEmpty(this));
         commandManager.register("realname", new Realname(this));
         commandManager.register("relay", new Relay());
