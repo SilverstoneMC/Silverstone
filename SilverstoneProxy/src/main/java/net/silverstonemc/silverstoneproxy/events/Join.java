@@ -125,7 +125,7 @@ public class Join {
 
                 EmbedBuilder embed = new EmbedBuilder();
                 embed.setAuthor(username + " silently joined the server", null,
-                    "https://crafatar.com/avatars/" + uuid + "?overlay=true");
+                    "https://mc-heads.net/avatar/" + uuid);
                 embed.setColor(new Color(0x2b2d31));
                 //noinspection DataFlowIssue
                 SilverstoneProxy.jda.getTextChannelById(1075643381734195210L).sendMessageEmbeds(embed.build())
@@ -158,7 +158,7 @@ public class Join {
                 // Notify the Discord
                 EmbedBuilder embed = new EmbedBuilder();
                 embed.setAuthor(username + " was previously known as: " + oldUsername, null,
-                    "https://crafatar.com/avatars/" + uuid + "?overlay=true");
+                    "https://mc-heads.net/avatar/" + uuid);
                 embed.setColor(new Color(0x2b2d31));
                 //noinspection DataFlowIssue
                 SilverstoneProxy.jda.getTextChannelById(1075680288841138257L).sendMessageEmbeds(embed.build())
@@ -184,8 +184,8 @@ public class Join {
 
                     EmbedBuilder embed = new EmbedBuilder();
                     embed.setAuthor(username + " is new", null,
-                        "https://crafatar.com/avatars/" + uuid + "?overlay=true");
-                    embed.setImage("https://crafatar.com/renders/body/" + uuid + "?overlay=true");
+                        "https://mc-heads.net/avatar/" + uuid);
+                    embed.setImage("https://mc-heads.net/body/" + uuid);
                     embed.setFooter(finalStaff + " staff members online");
                     embed.setColor(new Color(36, 197, 19));
 

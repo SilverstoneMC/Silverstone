@@ -136,7 +136,7 @@ public class BaseCommand implements SimpleCommand {
 
                 EmbedBuilder embed = new EmbedBuilder();
                 embed.setAuthor(senderName + " removed a(n) '" + args[1] + "' warning from " + username, null,
-                    "https://crafatar.com/avatars/" + uuid + "?overlay=true");
+                    "https://mc-heads.net/avatar/" + uuid);
                 embed.setColor(new Color(42, 212, 85));
                 warningChannel.sendMessageEmbeds(embed.build()).queue();
             }
@@ -189,7 +189,7 @@ public class BaseCommand implements SimpleCommand {
 
                 EmbedBuilder embed = new EmbedBuilder();
                 embed.setAuthor(senderName + " cleared all of " + username + "'s warnings", null,
-                    "https://crafatar.com/avatars/" + uuid + "?overlay=true");
+                    "https://mc-heads.net/avatar/" + uuid);
                 embed.setColor(new Color(42, 212, 85));
                 warningChannel.sendMessageEmbeds(embed.build()).queue();
 
@@ -227,7 +227,7 @@ public class BaseCommand implements SimpleCommand {
 
                 EmbedBuilder embed = new EmbedBuilder();
                 embed.setAuthor(senderName + " cleared all '" + args[1] + "' warnings from " + username, null,
-                    "https://crafatar.com/avatars/" + uuid + "?overlay=true");
+                    "https://mc-heads.net/avatar/" + uuid);
                 embed.setColor(new Color(42, 212, 85));
                 warningChannel.sendMessageEmbeds(embed.build()).queue();
             }

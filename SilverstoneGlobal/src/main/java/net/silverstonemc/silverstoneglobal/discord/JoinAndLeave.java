@@ -47,7 +47,7 @@ public class JoinAndLeave implements Listener {
 
                 EmbedBuilder embed = new EmbedBuilder();
                 embed.setAuthor(username + " is new", null,
-                    "https://crafatar.com/avatars/" + uuid + "?overlay=true");
+                    "https://mc-heads.net/avatar/" + uuid);
                 embed.setFooter(finalStaff + " staff members online");
                 embed.setColor(new Color(36, 197, 19));
 

@@ -58,7 +58,7 @@ public class WarnPlayer {
 
             EmbedBuilder embed = new EmbedBuilder();
             embed.setAuthor(username + " has a warning queued: " + reason, null,
-                "https://crafatar.com/avatars/" + uuid + "?overlay=true");
+                "https://mc-heads.net/avatar/" + uuid);
             embed.setColor(new Color(255, 217, 0));
             warningChannel.sendMessageEmbeds(embed.build()).queue();
             return;
@@ -85,7 +85,7 @@ public class WarnPlayer {
         EmbedBuilder embed = new EmbedBuilder();
         embed.setAuthor(
             username + " was warned for reason: " + reason + " | Warning " + punishmentNumber + "/" + punishmentCount,
-            null, "https://crafatar.com/avatars/" + uuid + "?overlay=true");
+            null, "https://mc-heads.net/avatar/" + uuid);
         embed.setColor(new Color(204, 27, 53));
         warningChannel.sendMessageEmbeds(embed.build()).setActionRow(
             Button.success("removewarning: " + reason + " :" + uuid, "Undo '" + reason + "' warning")
