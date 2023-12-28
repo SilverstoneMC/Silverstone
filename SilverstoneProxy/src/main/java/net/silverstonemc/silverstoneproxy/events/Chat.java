@@ -26,6 +26,8 @@ public class Chat {
     private static final HashMap<UUID, Component> lastMessages = new HashMap<>();
 
     public void onChat(CarbonChatEvent event) {
+        if (event.cancelled()) return;
+
         CarbonPlayer player = event.sender();
 
         if (!player.hasPermission("silverstone.chatspam.bypass")) {
@@ -56,6 +58,10 @@ public class Chat {
             }
 
             case "carbon:broadcast" -> out.writeUTF("broadcastsound");
+
+            default -> {
+                return;
+            }
         }
 
         for (RegisteredServer servers : i.server.getAllServers())
@@ -63,6 +69,8 @@ public class Chat {
     }
 
     public void onPrivateChat(CarbonPrivateChatEvent event) {
+        if (event.cancelled()) return;
+
         ByteArrayDataOutput out = ByteStreams.newDataOutput();
         out.writeUTF("privatesound");
         out.writeUTF(event.recipient().uuid().toString());
