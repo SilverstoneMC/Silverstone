@@ -15,8 +15,8 @@ public class GettingStarted implements CommandExecutor {
         sender.sendMessage(
             Component.text("\nGETTING STARTED", TextColor.fromHexString("#18d958"), TextDecoration.BOLD));
 
-        sender.sendMessage(
-            Component.text("                     ", NamedTextColor.GRAY, TextDecoration.STRIKETHROUGH));
+        sender.sendMessage(Component.text("                         ", NamedTextColor.DARK_GRAY,
+            TextDecoration.STRIKETHROUGH));
 
         sender.sendMessage(Component.text("/htp", TextColor.fromHexString("#305abf"))
             .clickEvent(ClickEvent.suggestCommand("/htp"))
