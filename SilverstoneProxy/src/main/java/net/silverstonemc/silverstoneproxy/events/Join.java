@@ -72,14 +72,13 @@ public class Join {
     public void onServerConnected(ServerConnectedEvent event) {
         Player player = event.getPlayer();
         String username = player.getUsername();
-        boolean isVanished = player.hasPermission("silverstone.vanished");
         UUID uuid = player.getUniqueId();
 
         i.server.getScheduler().buildTask(i, () -> {
-            Component displayName = new NicknameUtils(i).getDisplayName(uuid);
-            new NicknameUtils(i).changeDisplayName(player, displayName);
+            boolean isVanished = player.hasPermission("silverstone.vanished");
 
             if (event.getPreviousServer().isPresent()) {
+                Component displayName = new NicknameUtils(i).getDisplayName(uuid);
                 if (isVanished) {
                     for (Player players : i.server.getAllPlayers())
                         if (players.hasPermission("silverstone.moderator")) players.sendMessage(
@@ -108,13 +107,46 @@ public class Join {
 
             boolean userExists = UserManager.playerMap.containsKey(uuid);
 
-            // Older version message (should only be seen by staff)
+            // Older version message
             if (event.getPlayer().getProtocolVersion().getProtocol() < i.fileManager.files.get(CONFIG)
                 .getNode("current-protocol-version").getInt()) event.getPlayer().sendMessage(Component.text(
                 "The server is currently built using Minecraft " + i.fileManager.files.get(CONFIG)
                     .getNode("current-version")
                     .getString() + " - please update your client to use all the features.",
                 NamedTextColor.RED));
+
+            // Add the user if they don't exist and send a notification
+            if (!userExists) {
+                int staff = 0;
+                for (Player players : i.server.getAllPlayers()) {
+                    players.sendMessage(Component.text("Welcome to Silverstone, ", NamedTextColor.GREEN)
+                        .append(Component.text(username, NamedTextColor.AQUA))
+                        .append(Component.text("!", NamedTextColor.GREEN)));
+                    if (players.hasPermission("silverstone.moderator")) staff++;
+                }
+                int finalStaff = staff;
+
+                new Thread(() -> {
+                    TextChannel discord = SilverstoneProxy.jda.getTextChannelById(1075643222832984075L);
+
+                    EmbedBuilder embed = new EmbedBuilder();
+                    embed.setAuthor(username + " is new", null, "https://mc-heads.net/avatar/" + uuid);
+                    embed.setImage("https://mc-heads.net/body/" + uuid);
+                    embed.setFooter(finalStaff + " staff members online");
+                    embed.setColor(new Color(36, 197, 19));
+
+                    //noinspection DataFlowIssue
+                    Message message = discord.sendMessageEmbeds(embed.build()).setActionRow(
+                        Button.danger("warnskin:" + username, "Warn for inappropriate skin")
+                            .withEmoji(Emoji.fromUnicode("⚠"))).complete();
+                    newPlayers.put(player, message);
+                }, "New Player Discord").start();
+
+                new UserManager(i).addUser(uuid, username);
+            }
+
+            Component displayName = new NicknameUtils(i).getDisplayName(uuid);
+            new NicknameUtils(i).changeDisplayName(player, displayName);
 
             // Silent join message
             if (isVanished) {
@@ -168,47 +200,16 @@ public class Join {
                 new UserManager(i).addUser(uuid, username);
             }
 
-            // Add the user if they don't exist and send a notification
-            if (!userExists) {
-                int staff = 0;
-                for (Player players : i.server.getAllPlayers()) {
-                    players.sendMessage(Component.text("Welcome to Silverstone, ", NamedTextColor.GREEN)
-                        .append(Component.text(username, NamedTextColor.AQUA))
-                        .append(Component.text("!", NamedTextColor.GREEN)));
-                    if (players.hasPermission("silverstone.moderator")) staff++;
+            if (i.fileManager.files.get(WARNQUEUE).getNode("queue", uuid.toString()).isVirtual()) return;
+
+            i.server.getScheduler().buildTask(i, () -> {
+                if (i.server.getPlayer(uuid).isPresent()) {
+                    new WarnPlayer(i).warn(uuid,
+                        i.fileManager.files.get(WARNQUEUE).getNode("queue", uuid.toString()).getString());
+                    i.fileManager.files.get(WARNQUEUE).getNode("queue", uuid.toString()).setValue(null);
+                    i.fileManager.save(WARNQUEUE);
                 }
-                int finalStaff = staff;
-
-                new Thread(() -> {
-                    TextChannel discord = SilverstoneProxy.jda.getTextChannelById(1075643222832984075L);
-
-                    EmbedBuilder embed = new EmbedBuilder();
-                    embed.setAuthor(username + " is new", null,
-                        "https://mc-heads.net/avatar/" + uuid);
-                    embed.setImage("https://mc-heads.net/body/" + uuid);
-                    embed.setFooter(finalStaff + " staff members online");
-                    embed.setColor(new Color(36, 197, 19));
-
-                    //noinspection DataFlowIssue
-                    Message message = discord.sendMessageEmbeds(embed.build()).setActionRow(
-                        Button.danger("warnskin:" + username, "Warn for inappropriate skin")
-                            .withEmoji(Emoji.fromUnicode("⚠"))).complete();
-                    newPlayers.put(player, message);
-                }, "New Player Discord").start();
-
-                new UserManager(i).addUser(uuid, username);
-            }
+            }).delay(3, TimeUnit.SECONDS).schedule();
         }).delay(40, TimeUnit.MILLISECONDS).schedule();
-
-        if (i.fileManager.files.get(WARNQUEUE).getNode("queue", uuid.toString()).isVirtual()) return;
-
-        i.server.getScheduler().buildTask(i, () -> {
-            if (i.server.getPlayer(uuid).isPresent()) {
-                new WarnPlayer(i).warn(uuid,
-                    i.fileManager.files.get(WARNQUEUE).getNode("queue", uuid.toString()).getString());
-                i.fileManager.files.get(WARNQUEUE).getNode("queue", uuid.toString()).setValue(null);
-                i.fileManager.save(WARNQUEUE);
-            }
-        }).delay(3, TimeUnit.SECONDS).schedule();
     }
 }
