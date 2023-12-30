@@ -233,11 +233,13 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
 
         event.setCancelled(true);
 
+        Component itemName = Component.text("Click to Taunt", NamedTextColor.AQUA, TextDecoration.BOLD)
+            .decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE);
+
         Player player = (Player) event.getWhoClicked();
         ItemStack item = new ItemStack(Material.BELL);
         ItemMeta meta = item.getItemMeta();
-        meta.displayName(Component.text("Taunt", NamedTextColor.AQUA, TextDecoration.BOLD)
-            .decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE));
+        meta.displayName(itemName);
         item.setItemMeta(meta);
 
         int currentPoints = 0;
@@ -370,21 +372,15 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
             if (points.containsKey(player)) newPoints = points.get(player);
             if (newPoints > 0 && newPoints <= 125) {
                 item.setAmount(newPoints);
-                item.getItemMeta().displayName(
-                    Component.text("Taunt", NamedTextColor.AQUA, TextDecoration.BOLD)
-                        .decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE));
+                item.getItemMeta().displayName(itemName);
                 player.getInventory().setItem(0, item);
             } else if (newPoints == 0) {
                 item.setAmount(1);
-                item.getItemMeta().displayName(
-                    Component.text("Taunt", NamedTextColor.AQUA, TextDecoration.BOLD)
-                        .decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE));
+                item.getItemMeta().displayName(itemName);
                 player.getInventory().setItem(0, item);
             } else if (newPoints > 125) {
                 item.setAmount(125);
-                item.getItemMeta().displayName(
-                    Component.text("Taunt", NamedTextColor.AQUA, TextDecoration.BOLD)
-                        .decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE));
+                item.getItemMeta().displayName(itemName);
                 player.getInventory().setItem(0, item);
             }
         }
