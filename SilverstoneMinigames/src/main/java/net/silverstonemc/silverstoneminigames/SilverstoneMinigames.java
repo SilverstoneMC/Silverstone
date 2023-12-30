@@ -2,10 +2,7 @@ package net.silverstonemc.silverstoneminigames;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
-import net.silverstonemc.silverstoneminigames.commands.Back;
-import net.silverstonemc.silverstoneminigames.commands.DoubleJump;
-import net.silverstonemc.silverstoneminigames.commands.Holograms;
-import net.silverstonemc.silverstoneminigames.commands.Minigames;
+import net.silverstonemc.silverstoneminigames.commands.*;
 import net.silverstonemc.silverstoneminigames.minigames.FlyingCourse;
 import net.silverstonemc.silverstoneminigames.minigames.HideSeek;
 import net.silverstonemc.silverstoneminigames.minigames.PvP;
@@ -43,6 +40,7 @@ public class SilverstoneMinigames extends JavaPlugin implements CommandExecutor 
         PluginManager pluginManager = this.getServer().getPluginManager();
 
         pluginManager.registerEvents(new Back(), this);
+        pluginManager.registerEvents(new Disguise(), this);
         pluginManager.registerEvents(new DoubleJump(this), this);
         pluginManager.registerEvents(new HideSeek(this), this);
         pluginManager.registerEvents(new LockInv(), this);
