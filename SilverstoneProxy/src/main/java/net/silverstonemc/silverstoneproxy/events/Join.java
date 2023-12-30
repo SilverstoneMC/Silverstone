@@ -210,6 +210,6 @@ public class Join {
                     i.fileManager.save(WARNQUEUE);
                 }
             }).delay(3, TimeUnit.SECONDS).schedule();
-        }).delay(40, TimeUnit.MILLISECONDS).schedule();
+        }).delay(38, TimeUnit.MILLISECONDS).schedule();
     }
 }
