@@ -95,6 +95,12 @@ public class Join {
                                 Component.text(event.getServer().getServerInfo().getName(), NamedTextColor.AQUA))
                             .append(Component.text(" server", NamedTextColor.GRAY)));
 
+                i.server.getConsoleCommandSource().sendMessage(
+                    Component.text().append(displayName).colorIfAbsent(NamedTextColor.AQUA)
+                        .append(Component.text(" has switched to the ", NamedTextColor.GRAY)).append(
+                            Component.text(event.getServer().getServerInfo().getName(), NamedTextColor.AQUA))
+                        .append(Component.text(" server", NamedTextColor.GRAY)));
+
                 ByteArrayDataOutput out = ByteStreams.newDataOutput();
                 out.writeUTF("switchsound");
                 out.writeUTF(event.getPlayer().getUniqueId().toString());
@@ -163,10 +169,16 @@ public class Join {
                 SilverstoneProxy.jda.getTextChannelById(1075643381734195210L).sendMessageEmbeds(embed.build())
                     .queue();
 
-            } else for (Player players : i.server.getAllPlayers())
-                players.sendMessage(Component.text()
+            } else {
+                for (Player players : i.server.getAllPlayers())
+                    players.sendMessage(Component.text()
+                        .append(Component.text("+ ", NamedTextColor.DARK_GREEN, TextDecoration.BOLD))
+                        .append(displayName.colorIfAbsent(NamedTextColor.AQUA)));
+
+                i.server.getConsoleCommandSource().sendMessage(Component.text()
                     .append(Component.text("+ ", NamedTextColor.DARK_GREEN, TextDecoration.BOLD))
                     .append(displayName.colorIfAbsent(NamedTextColor.AQUA)));
+            }
 
             ByteArrayDataOutput out = ByteStreams.newDataOutput();
             out.writeUTF("joinsound");
