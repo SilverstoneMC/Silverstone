@@ -45,7 +45,8 @@ public class DoubleJump implements CommandExecutor, Listener {
 
                     ItemStack item = new ItemStack(Material.FEATHER);
                     ItemMeta meta = item.getItemMeta();
-                    meta.displayName(Component.text("Double Jump", NamedTextColor.RED, TextDecoration.BOLD));
+                    meta.displayName(Component.text("Double Jump", NamedTextColor.RED, TextDecoration.BOLD)
+                        .decoration(TextDecoration.ITALIC, false));
                     item.setItemMeta(meta);
                     player.getInventory().addItem(item);
                 }
@@ -68,8 +69,9 @@ public class DoubleJump implements CommandExecutor, Listener {
                 if (player.getInventory().getItemInMainHand().getType() == Material.FEATHER)
                     if (player.getInventory().getItemInMainHand().getItemMeta().hasDisplayName())
                         //noinspection DataFlowIssue
-                        if (player.getInventory().getItemInMainHand().getItemMeta().displayName()
-                            .equals(Component.text("Double Jump", NamedTextColor.RED, TextDecoration.BOLD))) {
+                        if (player.getInventory().getItemInMainHand().getItemMeta().displayName().equals(
+                            Component.text("Double Jump", NamedTextColor.RED, TextDecoration.BOLD)
+                                .decoration(TextDecoration.ITALIC, false))) {
                             // Still on cooldown
                             if (cooldowns.containsKey(player.getName()))
                                 if (cooldowns.get(player.getName()) > System.currentTimeMillis()) return;
