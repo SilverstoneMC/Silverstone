@@ -1,3 +1,5 @@
+### play.silverstonemc.net
+
 # Forums
 
 ### [CLICK HERE TO LEARN HOW TO PROPERLY SUBMIT AN ISSUE (BUG REPORT, FEATURE REQUEST, ETC)](https://github.com/SilverstoneMC/Silverstone/wiki)
