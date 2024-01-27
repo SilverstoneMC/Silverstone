@@ -118,7 +118,7 @@
             <name>m2-dv8tion</name>
             <url>https://m2.dv8tion.net/releases</url>
         </repository>
-        
+
         <!-- TAB -->
         <repository>
             <id>krypton</id>
