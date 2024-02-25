@@ -34,8 +34,8 @@ public record TNTRun(JavaPlugin plugin) implements CommandExecutor {
             try {
                 for (Entity entity : selector) {
                     Player player = Bukkit.getPlayer(entity.getName());
-                    if (player == null) break;
-                    if (!player.getGameMode().equals(GameMode.ADVENTURE)) break;
+                    if (player == null) continue;
+                    if (!player.getGameMode().equals(GameMode.ADVENTURE)) continue;
 
                     int[] xOffset = {-1, 1, -1, 1};
                     int[] zOffset = {-1, -1, 1, 1};
