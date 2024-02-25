@@ -14,7 +14,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.HashMap;
 
 public class BossBarManager implements CommandExecutor {
-    private static final HashMap<Player, BossBar> bossBars = new HashMap<>();
+    public static final HashMap<Player, BossBar> bossBars = new HashMap<>();
 
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
         if (args.length > 0) {

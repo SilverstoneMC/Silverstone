@@ -41,6 +41,7 @@ commands:
     usage: "/corruptedtagstart <players>"
   corruptedtagstop:
     permission: silverstone.owner
+    usage: "/corruptedtagstop <players>"
   clearbossbars:
     permission: silverstone.owner
     usage: "/clearbossbars <player>"
