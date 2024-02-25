@@ -74,7 +74,7 @@ public class SilverstoneGlobal extends JavaPlugin implements Listener {
             if (getConfig().getString("server").equalsIgnoreCase("minigames"))
                 builder.addEventListeners(new Vanish(this));
             switch (getConfig().getString("server")) {
-                case "minigames" -> builder.setActivity(Activity.watching("the Minigame server"));
+                case "minigames" -> builder.setActivity(Activity.watching("the Minigames server"));
                 case "creative" -> builder.setActivity(Activity.watching("the Creative server"));
             }
             jda = builder.build();
