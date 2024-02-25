@@ -76,7 +76,6 @@ public class SilverstoneGlobal extends JavaPlugin implements Listener {
             switch (getConfig().getString("server")) {
                 case "minigames" -> builder.setActivity(Activity.watching("the Minigame server"));
                 case "creative" -> builder.setActivity(Activity.watching("the Creative server"));
-                case "survival" -> builder.setActivity(Activity.watching("the Survival server"));
             }
             jda = builder.build();
 
