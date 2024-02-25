@@ -86,9 +86,7 @@ public class CorruptedTag implements CommandExecutor {
                     }
                 }
             }
-
             return true;
-
         }
         return false;
     }

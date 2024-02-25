@@ -39,7 +39,12 @@ public class BossBarManager implements CommandExecutor {
     }
 
     public void setBossBarProgress(Player player, float progress) {
-        if (bossBars.containsKey(player)) bossBars.get(player).progress(progress);
+        if (bossBars.containsKey(player)) {
+            if (progress > 1.0f) progress = 1.0f;
+            else if (progress < 0.0f) progress = 0.0f;
+            
+            bossBars.get(player).progress(progress);
+        }
     }
 
     public void setBossBarColor(Player player, BossBar.Color color, TextColor textColor) {
