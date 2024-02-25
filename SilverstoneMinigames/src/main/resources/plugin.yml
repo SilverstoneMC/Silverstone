@@ -36,6 +36,10 @@ commands:
   miniholo:
     permission: silverstone.admin
     usage: "/miniholo <hologram> <open | ready | in_session | resetting | closed>"
+  corruptedtagtest:
+    permission: silverstone.owner
+  corruptedtagclear:
+    permission: silverstone.owner
 
 permissions:
   silverstone.minigames.flyingcourse:
