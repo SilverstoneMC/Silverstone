@@ -57,7 +57,7 @@ public class CorruptedTag implements CommandExecutor {
 
                                 //noinspection DataFlowIssue
                                 float value = Bukkit.getScoreboardManager().getMainScoreboard()
-                                    .getObjective("mctagcorruption").getScore(players).getScore() / 1000f;
+                                    .getObjective("mctagcorruption").getScore(players).getScore() / 10000f;
                                 new BossBarManager().setBossBarProgress(players, value);
                             }
                         }
