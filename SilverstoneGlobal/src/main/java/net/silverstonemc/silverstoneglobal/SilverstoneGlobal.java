@@ -4,6 +4,7 @@ import me.rerere.matrix.api.MatrixAPI;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.OnlineStatus;
+import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import net.dv8tion.jda.api.requests.GatewayIntent;
@@ -72,6 +73,11 @@ public class SilverstoneGlobal extends JavaPlugin implements Listener {
             // #serverSpecific
             if (getConfig().getString("server").equalsIgnoreCase("minigames"))
                 builder.addEventListeners(new Vanish(this));
+            switch (getConfig().getString("server")) {
+                case "minigames" -> builder.setActivity(Activity.watching("the Minigame server"));
+                case "creative" -> builder.setActivity(Activity.watching("the Creative server"));
+                case "survival" -> builder.setActivity(Activity.watching("the Survival server"));
+            }
             jda = builder.build();
 
             try {
