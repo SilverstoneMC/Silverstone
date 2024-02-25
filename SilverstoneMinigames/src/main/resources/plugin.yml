@@ -1,6 +1,6 @@
 main: net.silverstonemc.silverstoneminigames.SilverstoneMinigames
 name: SilverstoneMinigames
-description: Designed for the Minigame server
+description: Designed for the Minigames server
 version: %VERSION%
 author: JasonHorkles
 api-version: '1.20'
