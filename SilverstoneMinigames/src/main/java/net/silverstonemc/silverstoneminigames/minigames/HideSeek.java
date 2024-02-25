@@ -294,7 +294,7 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
                 closeInv(player);
                 if (player.getGameMode().equals(GameMode.ADVENTURE) && player.getWorld().getName()
                     .equalsIgnoreCase(plugin.getConfig().getString("minigame-world")))
-                    points.put(player, currentPoints + 8);
+                    points.put(player, currentPoints + 7);
                 tauntTimer(player);
             }
 
@@ -304,7 +304,7 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
                 closeInv(player);
                 if (player.getGameMode().equals(GameMode.ADVENTURE) && player.getWorld().getName()
                     .equalsIgnoreCase(plugin.getConfig().getString("minigame-world")))
-                    points.put(player, currentPoints + 13);
+                    points.put(player, currentPoints + 9);
                 tauntTimer(player);
             }
 
@@ -314,17 +314,17 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
                 closeInv(player);
                 if (player.getGameMode().equals(GameMode.ADVENTURE) && player.getWorld().getName()
                     .equalsIgnoreCase(plugin.getConfig().getString("minigame-world")))
-                    points.put(player, currentPoints + 15);
+                    points.put(player, currentPoints + 10);
                 tauntTimer(player);
             }
 
-            case 28 -> {
+            case 29 -> {
                 // Random taunt random player
-                if (currentPoints >= 60) {
+                if (currentPoints >= 45) {
                     closeInv(player);
                     if (player.getGameMode().equals(GameMode.ADVENTURE) && player.getWorld().getName()
                         .equalsIgnoreCase(plugin.getConfig().getString("minigame-world")))
-                        points.put(player, currentPoints - 60);
+                        points.put(player, currentPoints - 45);
                     Location loc = new Location(
                         Bukkit.getWorld(plugin.getConfig().getString("minigame-world")), -372, 9, -65);
                     loc.getBlock().setType(Material.REDSTONE_BLOCK);
@@ -333,13 +333,28 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
                     Component.text("You don't have enough points to do that!", NamedTextColor.RED));
             }
 
-            case 31 -> {
-                // Seekers slowness
-                if (currentPoints >= 100) {
+            case 30 -> {
+                // Seekers darkness
+                if (currentPoints >= 60) {
                     closeInv(player);
                     if (player.getGameMode().equals(GameMode.ADVENTURE) && player.getWorld().getName()
                         .equalsIgnoreCase(plugin.getConfig().getString("minigame-world")))
-                        points.put(player, currentPoints - 100);
+                        points.put(player, currentPoints - 60);
+                    Location loc = new Location(
+                        Bukkit.getWorld(plugin.getConfig().getString("minigame-world")), -372, 9, -61);
+                    loc.getBlock().setType(Material.REDSTONE_BLOCK);
+                    tauntTimer(player);
+                } else player.sendMessage(
+                    Component.text("You don't have enough points to do that!", NamedTextColor.RED));
+            }
+
+            case 31 -> {
+                // Seekers slowness
+                if (currentPoints >= 60) {
+                    closeInv(player);
+                    if (player.getGameMode().equals(GameMode.ADVENTURE) && player.getWorld().getName()
+                        .equalsIgnoreCase(plugin.getConfig().getString("minigame-world")))
+                        points.put(player, currentPoints - 60);
                     Location loc = new Location(
                         Bukkit.getWorld(plugin.getConfig().getString("minigame-world")), -374, 9, -62);
                     loc.getBlock().setType(Material.REDSTONE_BLOCK);
@@ -348,15 +363,30 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
                     Component.text("You don't have enough points to do that!", NamedTextColor.RED));
             }
 
-            case 34 -> {
+            case 32 -> {
                 // Seekers blindness
-                if (currentPoints >= 125) {
+                if (currentPoints >= 90) {
                     closeInv(player);
                     if (player.getGameMode().equals(GameMode.ADVENTURE) && player.getWorld().getName()
                         .equalsIgnoreCase(plugin.getConfig().getString("minigame-world")))
-                        points.put(player, currentPoints - 125);
+                        points.put(player, currentPoints - 90);
                     Location loc = new Location(
                         Bukkit.getWorld(plugin.getConfig().getString("minigame-world")), -376, 9, -62);
+                    loc.getBlock().setType(Material.REDSTONE_BLOCK);
+                    tauntTimer(player);
+                } else player.sendMessage(
+                    Component.text("You don't have enough points to do that!", NamedTextColor.RED));
+            }
+
+            case 33 -> {
+                // Instant kill seeker
+                if (currentPoints >= 120) {
+                    closeInv(player);
+                    if (player.getGameMode().equals(GameMode.ADVENTURE) && player.getWorld().getName()
+                        .equalsIgnoreCase(plugin.getConfig().getString("minigame-world")))
+                        points.put(player, currentPoints - 120);
+                    Location loc = new Location(
+                        Bukkit.getWorld(plugin.getConfig().getString("minigame-world")), -372, 13, -61);
                     loc.getBlock().setType(Material.REDSTONE_BLOCK);
                     tauntTimer(player);
                 } else player.sendMessage(
@@ -405,11 +435,11 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
         inventory.setItem(13,
             getItem(Material.DRAGON_HEAD, "Roar", "<dark_aqua><b>5</b> <dark_green>Taunt Points"));
         inventory.setItem(14,
-            getItem(Material.TNT, "Explosion", "<dark_aqua><b>8</b> <dark_green>Taunt Points"));
+            getItem(Material.TNT, "Explosion", "<dark_aqua><b>7</b> <dark_green>Taunt Points"));
         inventory.setItem(15,
-            getItem(Material.FIREWORK_ROCKET, "Fireworks", "<dark_aqua><b>13</b> <dark_green>Taunt Points"));
+            getItem(Material.FIREWORK_ROCKET, "Fireworks", "<dark_aqua><b>9</b> <dark_green>Taunt Points"));
         inventory.setItem(16,
-            getItem(Material.TOTEM_OF_UNDYING, "Boom", "<dark_aqua><b>15</b> <dark_green>Taunt Points"));
+            getItem(Material.TOTEM_OF_UNDYING, "Boom", "<dark_aqua><b>10</b> <dark_green>Taunt Points"));
 
         // Random taunt
         ItemStack skullItem = new CustomSkull().createCustomSkull(
@@ -424,7 +454,7 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
         List<Component> skullLore = new ArrayList<>();
         skullLore.add(Component.text("Costs ", NamedTextColor.DARK_AQUA)
             .decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE)
-            .append(Component.text("60", NamedTextColor.DARK_GREEN, TextDecoration.BOLD))
+            .append(Component.text("45", NamedTextColor.DARK_GREEN, TextDecoration.BOLD))
             .append(Component.text(" Taunt Points", NamedTextColor.DARK_AQUA)));
         skullLore.add(Component.text(""));
         skullLore.add(Component.text("Sends a random taunt", NamedTextColor.GRAY)
@@ -437,17 +467,27 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
         skullMeta.lore(skullLore);
         skullItem.setItemMeta(skullMeta);
 
-        inventory.setItem(28, skullItem);
+        inventory.setItem(29, skullItem);
+
+        // Darkness
+        inventory.setItem(30, getItem(Material.TINTED_GLASS, "Give seekers darkness",
+            "<dark_aqua>Costs <dark_green><b>60</b> <dark_aqua>Taunt Points", "", "<gray>Gives all seekers",
+            "<gray>darkness for 10 seconds"));
 
         // Slowness
         inventory.setItem(31, getItem(Material.NETHERITE_BOOTS, "Give seekers slowness",
-            "<dark_aqua>Costs <dark_green><b>100</b> <dark_aqua>Taunt Points", "", "<gray>Slows all seekers",
+            "<dark_aqua>Costs <dark_green><b>60</b> <dark_aqua>Taunt Points", "", "<gray>Slows all seekers",
             "<gray>down for 15 seconds"));
 
         // Blindness
-        inventory.setItem(34, getItem(Material.NETHERITE_HELMET, "Give seekers blindness",
-            "<dark_aqua>Costs <dark_green><b>125</b> <dark_aqua>Taunt Points", "", "<gray>Gives all seekers",
+        inventory.setItem(32, getItem(Material.NETHERITE_HELMET, "Give seekers blindness",
+            "<dark_aqua>Costs <dark_green><b>90</b> <dark_aqua>Taunt Points", "", "<gray>Gives all seekers",
             "<gray>blindness for 10 seconds"));
+
+        // Kill
+        inventory.setItem(33, getItem(Material.NETHERITE_SWORD, "Insta-kill a random seeker",
+            "<dark_aqua>Costs <dark_green><b>120</b> <dark_aqua>Taunt Points", "",
+            "<gray>Instantly kills a random seeker"));
 
         inv = inventory;
     }
