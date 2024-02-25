@@ -26,7 +26,7 @@ public record FlyingCourse(JavaPlugin plugin) implements CommandExecutor {
         if (cmd.getName().equalsIgnoreCase("fcfinish")) {
             Player player = Bukkit.getPlayer(args[0]);
             if (player == null) {
-                sender.sendMessage(Component.text("Please provide a valid player!", NamedTextColor.RED));
+                sender.sendMessage(Component.text("Please provide an online player!", NamedTextColor.RED));
                 return true;
             }
 

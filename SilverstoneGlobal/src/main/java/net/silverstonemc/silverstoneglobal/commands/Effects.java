@@ -38,7 +38,7 @@ public class Effects implements CommandExecutor {
                             NamedTextColor.AQUA).append(Component.text(" | ", NamedTextColor.DARK_AQUA))
                         .append(Component.text((effect.getDuration() / 20) + "s", NamedTextColor.AQUA)));
 
-        } else sender.sendMessage(Component.text("Please provide a player!", NamedTextColor.RED));
+        } else sender.sendMessage(Component.text("Please provide an online player!", NamedTextColor.RED));
         return true;
     }
 }
