@@ -36,12 +36,9 @@ commands:
   miniholo:
     permission: silverstone.admin
     usage: "/miniholo <hologram> <open | ready | in_session | resetting | closed>"
-  corruptedtagstart:
+  corruptedtag:
     permission: silverstone.owner
-    usage: "/corruptedtagstart <players>"
-  corruptedtagstop:
-    permission: silverstone.owner
-    usage: "/corruptedtagstop <players>"
+    usage: "/corruptedtag <start | stop | kitselect | corrupt | uncorrupt> <players>"
   clearbossbars:
     permission: silverstone.owner
     usage: "/clearbossbars <player>"

@@ -417,7 +417,7 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
     }
 
     // Inventory items
-    public void createInv() {
+    public void createInventory() {
         Inventory inventory = Bukkit.createInventory(null, 45,
             Component.text("Taunts", NamedTextColor.DARK_RED, TextDecoration.BOLD));
 

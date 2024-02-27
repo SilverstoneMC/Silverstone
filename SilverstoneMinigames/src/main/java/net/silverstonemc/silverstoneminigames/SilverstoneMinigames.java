@@ -23,23 +23,25 @@ public class SilverstoneMinigames extends JavaPlugin implements CommandExecutor 
         data.saveDefaultConfig();
 
         getCommand("doublejump").setExecutor(new DoubleJump(this));
+        getCommand("clearbossbars").setExecutor(new BossBarManager());
+        getCommand("corruptedtag").setExecutor(new CorruptedTag(this));
+        getCommand("fcfinish").setExecutor(new FlyingCourse(this));
         getCommand("flyingcourse").setExecutor(new FlyingCourse(this));
         getCommand("hsheartbeat").setExecutor(new HideSeek(this));
         getCommand("hsrandomtaunt").setExecutor(new HideSeek(this));
         getCommand("hsresettauntpoints").setExecutor(new HideSeek(this));
         getCommand("htp").setExecutor(new Minigames(this));
         getCommand("minigame").setExecutor(new Minigames(this));
-        getCommand("tntrun").setExecutor(new TNTRun(this));
-        getCommand("fcfinish").setExecutor(new FlyingCourse(this));
         getCommand("miniholo").setExecutor(new Holograms());
+        getCommand("tntrun").setExecutor(new TNTRun(this));
+
+        getCommand("corruptedtag").setTabCompleter(new TabComplete());
         getCommand("miniholo").setTabCompleter(new TabComplete());
-        getCommand("corruptedtagstart").setExecutor(new CorruptedTag(this));
-        getCommand("corruptedtagstop").setExecutor(new CorruptedTag(this));
-        getCommand("clearbossbars").setExecutor(new BossBarManager());
 
         PluginManager pluginManager = this.getServer().getPluginManager();
 
         pluginManager.registerEvents(new Back(), this);
+        pluginManager.registerEvents(new CorruptedTag(this), this);
         pluginManager.registerEvents(new Disguise(), this);
         pluginManager.registerEvents(new DoubleJump(this), this);
         pluginManager.registerEvents(new HideSeek(this), this);
@@ -49,9 +51,10 @@ public class SilverstoneMinigames extends JavaPlugin implements CommandExecutor 
         pluginManager.registerEvents(new Void(), this);
         pluginManager.registerEvents(new WorldChange(), this);
 
+        new CorruptedTag(this).createInventories();
         new FlyingCourse(this).updateFCScoreboard();
-        new HideSeek(this).createInv();
-        new Minigames(this).initializeInventories();
+        new HideSeek(this).createInventory();
+        new Minigames(this).createInventories();
     }
 
     public boolean onCommand(CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {

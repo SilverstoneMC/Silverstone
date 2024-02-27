@@ -52,7 +52,7 @@ public class Minigames implements CommandExecutor, Listener {
         return true;
     }
 
-    public void initializeInventories() {
+    public void createInventories() {
         gameInv = Bukkit.createInventory(null, 9,
             Component.text("Select Player Count", NamedTextColor.DARK_GRAY, TextDecoration.BOLD));
         htpInv = Bukkit.createInventory(null, 36,

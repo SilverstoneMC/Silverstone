@@ -33,6 +33,7 @@ public class DoubleJump implements CommandExecutor, Listener {
     private final Map<String, Long> cooldowns = new HashMap<>();
     private static final Map<Player, Integer> jumps = new HashMap<>();
 
+    //todo add reset command
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
         if (args.length > 1) {
             List<Entity> selector = Bukkit.selectEntities(sender, args[0]);
