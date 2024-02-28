@@ -8,7 +8,7 @@ api-version: '1.20'
 commands:
   doublejump:
     permission: silverstone.owner
-    usage: "§cUsage: /doublejump <player> <count>"
+    usage: "§cUsage: /doublejump <player> <count | reset>"
   flyingcourse:
     description: "Reset the player if they touch an illegal block"
     permission: silverstone.owner

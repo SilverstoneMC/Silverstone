@@ -42,16 +42,20 @@ public class DoubleJump implements CommandExecutor, Listener {
                     Player player = Bukkit.getPlayer(entity.getName());
                     if (player == null) break;
 
-                    jumps.put(player, Integer.parseInt(args[1]));
+                    if (args[1].equalsIgnoreCase("reset")) jumps.remove(player);
+                    else {
+                        jumps.put(player, Integer.parseInt(args[1]));
 
-                    ItemStack item = new ItemStack(Material.FEATHER);
-                    ItemMeta meta = item.getItemMeta();
-                    meta.displayName(Component.text("Double Jump", NamedTextColor.RED, TextDecoration.BOLD)
-                        .decoration(TextDecoration.ITALIC, false));
-                    item.setItemMeta(meta);
-                    player.getInventory().addItem(item);
+                        ItemStack item = new ItemStack(Material.FEATHER);
+                        ItemMeta meta = item.getItemMeta();
+                        meta.displayName(Component
+                            .text("Double Jump", NamedTextColor.RED, TextDecoration.BOLD)
+                            .decoration(TextDecoration.ITALIC, false));
+                        item.setItemMeta(meta);
+                        player.getInventory().addItem(item);
+                    }
                 }
-            } catch (IndexOutOfBoundsException e) {
+            } catch (IndexOutOfBoundsException | NumberFormatException e) {
                 sender.sendMessage(Component.text("Please provide a valid selector!", NamedTextColor.RED));
             }
             return true;
@@ -64,15 +68,15 @@ public class DoubleJump implements CommandExecutor, Listener {
         Player player = event.getPlayer();
 
         if (event.getAction().equals(Action.RIGHT_CLICK_AIR) || event.getAction()
-            .equals(Action.RIGHT_CLICK_BLOCK) || event.getAction()
-            .equals(Action.LEFT_CLICK_AIR) || event.getAction().equals(Action.LEFT_CLICK_BLOCK))
+                                                                     .equals(Action.RIGHT_CLICK_BLOCK) || event
+            .getAction().equals(Action.LEFT_CLICK_AIR) || event.getAction().equals(Action.LEFT_CLICK_BLOCK))
             if (player.getWorld().getName().equalsIgnoreCase(plugin.getConfig().getString("minigame-world")))
                 if (player.getInventory().getItemInMainHand().getType() == Material.FEATHER)
                     if (player.getInventory().getItemInMainHand().getItemMeta().hasDisplayName())
                         //noinspection DataFlowIssue
                         if (player.getInventory().getItemInMainHand().getItemMeta().displayName().equals(
                             Component.text("Double Jump", NamedTextColor.RED, TextDecoration.BOLD)
-                                .decoration(TextDecoration.ITALIC, false))) {
+                                     .decoration(TextDecoration.ITALIC, false))) {
                             // Still on cooldown
                             if (cooldowns.containsKey(player.getName()))
                                 if (cooldowns.get(player.getName()) > System.currentTimeMillis()) return;
@@ -82,17 +86,18 @@ public class DoubleJump implements CommandExecutor, Listener {
                             if (jumps.containsKey(player)) jumpCount = jumps.get(player);
 
                             if (jumpCount == 0) {
-                                player.sendMessage(
-                                    Component.text("You can't double jump any more!", NamedTextColor.RED));
+                                player.sendMessage(Component.text("You can't double jump any more!",
+                                    NamedTextColor.RED
+                                ));
                                 return;
                             }
 
                             Vector vector = player.getLocation().getDirection().multiply(0.5).setY(0.85);
                             player.setVelocity(vector);
                             jumps.put(player, jumpCount - 1);
-                            player.sendMessage(
-                                Component.text("You have " + (jumpCount - 1) + " double jumps remaining.",
-                                    NamedTextColor.RED));
+                            player.sendMessage(Component.text("You have " + (jumpCount - 1) + " double jumps remaining.",
+                                NamedTextColor.RED
+                            ));
                         }
     }
 }
