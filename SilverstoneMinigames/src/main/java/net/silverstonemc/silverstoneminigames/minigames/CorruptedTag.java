@@ -7,7 +7,6 @@ import net.kyori.adventure.text.format.TextDecoration;
 import net.silverstonemc.silverstoneminigames.BossBarManager;
 import net.silverstonemc.silverstoneminigames.CustomSkull;
 import org.bukkit.*;
-import org.bukkit.attribute.Attribute;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -20,6 +19,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.PotionMeta;
@@ -239,36 +239,21 @@ public class CorruptedTag implements CommandExecutor, Listener {
                     type = "Tank";
 
                     ItemStack shield = new ItemStack(Material.SHIELD);
-                    ItemMeta shieldMeta = shield.getItemMeta();
-                    shieldMeta.setUnbreakable(true);
-                    shield.setItemMeta(shieldMeta);
                     player.getInventory().setItem(EquipmentSlot.OFF_HAND, shield);
 
                     ItemStack axe = new ItemStack(Material.IRON_AXE);
-                    ItemMeta axeMeta = axe.getItemMeta();
-                    axeMeta.setUnbreakable(true);
-                    axe.setItemMeta(axeMeta);
                     player.getInventory().setItem(player.getInventory().getHeldItemSlot(), axe);
-
-                    //noinspection DataFlowIssue
-                    player.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).setBaseValue(0.08);
 
                 } else if (inventory.equals(confirmNinjaInv)) {
                     type = "Ninja";
 
                     ItemStack sword = new ItemStack(Material.IRON_SWORD);
-                    ItemMeta swordMeta = sword.getItemMeta();
-                    swordMeta.setUnbreakable(true);
-                    sword.setItemMeta(swordMeta);
                     player.getInventory().setItem(player.getInventory().getHeldItemSlot(), sword);
 
                 } else if (inventory.equals(confirmHealerInv)) {
                     type = "Healer";
 
                     ItemStack hoe = new ItemStack(Material.IRON_HOE);
-                    ItemMeta hoeMeta = hoe.getItemMeta();
-                    hoeMeta.setUnbreakable(true);
-                    hoe.setItemMeta(hoeMeta);
                     player.getInventory().setItem(player.getInventory().getHeldItemSlot(), hoe);
 
                 } else if (inventory.equals(confirmKBInv)) {
@@ -276,7 +261,6 @@ public class CorruptedTag implements CommandExecutor, Listener {
 
                     ItemStack trident = new ItemStack(Material.TRIDENT);
                     ItemMeta tridentMeta = trident.getItemMeta();
-                    tridentMeta.setUnbreakable(true);
                     tridentMeta.addEnchant(Enchantment.LOYALTY, 3, false);
                     trident.setItemMeta(tridentMeta);
                     player.getInventory().setItem(player.getInventory().getHeldItemSlot(), trident);
@@ -326,7 +310,7 @@ public class CorruptedTag implements CommandExecutor, Listener {
             "Tank",
             "Axe & Shield",
             List.of("20% corruption resistance"),
-            List.of("80% movement speed")
+            List.of("Much slower health regeneration")
         ));
 
         kitInv.setItem(2, createKitItem(Material.IRON_SWORD,
@@ -420,6 +404,7 @@ public class CorruptedTag implements CommandExecutor, Listener {
         if (item == Material.POTION) {
             PotionMeta potionMeta = (PotionMeta) meta;
             potionMeta.setColor(Color.RED);
+            potionMeta.addItemFlags(ItemFlag.HIDE_ITEM_SPECIFICS);
         }
 
         // Title
@@ -429,7 +414,8 @@ public class CorruptedTag implements CommandExecutor, Listener {
         ArrayList<Component> loreList = new ArrayList<>();
 
         // Description
-        loreList.add(Component.text(description, NamedTextColor.AQUA).decoration(TextDecoration.ITALIC, false));
+        loreList.add(Component.text(description, NamedTextColor.AQUA)
+                              .decoration(TextDecoration.ITALIC, false));
         loreList.add(Component.empty());
 
         // Advantages
