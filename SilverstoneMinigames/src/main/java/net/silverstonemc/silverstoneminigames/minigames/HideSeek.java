@@ -58,7 +58,7 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
                 @Override
                 public void run() {
                     if (player.hasPermission("silverstone.minigames.hideseek.taunt")) player.showTitle(
-                        Title.title(Component.text(""),
+                        Title.title(Component.empty(),
                             Component.text("You may now taunt again.", NamedTextColor.RED),
                             Title.DEFAULT_TIMES));
                 }
@@ -424,7 +424,7 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
         // Filler
         ItemStack item = new ItemStack(Material.BLACK_STAINED_GLASS_PANE);
         ItemMeta meta = item.getItemMeta();
-        meta.displayName(Component.text(""));
+        meta.displayName(Component.empty());
         item.setItemMeta(meta);
         IntStream.rangeClosed(0, 44).boxed().toList().forEach(slot -> inventory.setItem(slot, item));
 
@@ -456,7 +456,7 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
             .decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE)
             .append(Component.text("45", NamedTextColor.DARK_GREEN, TextDecoration.BOLD))
             .append(Component.text(" Taunt Points", NamedTextColor.DARK_AQUA)));
-        skullLore.add(Component.text(""));
+        skullLore.add(Component.empty());
         skullLore.add(Component.text("Sends a random taunt", NamedTextColor.GRAY)
             .decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE));
         skullLore.add(Component.text("to a random hider", NamedTextColor.GRAY)

@@ -16,7 +16,7 @@ public record Help(JavaPlugin plugin) implements CommandExecutor {
         // #serverSpecific
         switch (plugin.getConfig().getString("server").toLowerCase()) {
             case "minigames" -> plugin.getServer().dispatchCommand(sender, "htp");
-            case "creative" -> sender.sendMessage(Component.text("")
+            case "creative" -> sender.sendMessage(Component.empty()
                 .append(Component.text("\nCommands:", NamedTextColor.GREEN, TextDecoration.BOLD))
 
                 .append(Component.text("\n/p2 claim ", NamedTextColor.AQUA)

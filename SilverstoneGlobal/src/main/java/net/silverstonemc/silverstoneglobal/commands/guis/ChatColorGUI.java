@@ -216,7 +216,7 @@ public class ChatColorGUI implements CommandExecutor, Listener {
         // Filler
         ItemStack item = new ItemStack(Material.BLACK_STAINED_GLASS_PANE);
         ItemMeta meta = item.getItemMeta();
-        meta.displayName(Component.text(""));
+        meta.displayName(Component.empty());
         item.setItemMeta(meta);
         IntStream.rangeClosed(0, 44).boxed().toList().forEach(slot -> inventory.setItem(slot, item));
 
