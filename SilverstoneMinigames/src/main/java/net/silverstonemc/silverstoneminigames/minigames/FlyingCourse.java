@@ -35,9 +35,13 @@ public record FlyingCourse(JavaPlugin plugin) implements CommandExecutor {
             new BukkitRunnable() {
                 @Override
                 public void run() {
-                    Location location = new Location(
-                        Bukkit.getWorld(plugin.getConfig().getString("flying-course-world")), 23.5, 132, 88.5,
-                        0, 10);
+                    Location location = new Location(Bukkit.getWorld(plugin.getConfig()
+                        .getString("flying-course-world")),
+                        23.5,
+                        132,
+                        88.5,
+                        0,
+                        10);
 
                     switch (args[1].toLowerCase()) {
                         case "easy" -> {
@@ -59,8 +63,8 @@ public record FlyingCourse(JavaPlugin plugin) implements CommandExecutor {
                             sendFinishMessage(player, Difficulty.MULTIPLAYER);
                             player.teleportAsync(location);
                         }
-                        default -> sender.sendMessage(
-                            Component.text("Please provide a valid difficulty!", NamedTextColor.RED));
+                        default -> sender.sendMessage(Component.text("Please provide a valid difficulty!",
+                            NamedTextColor.RED));
                     }
                 }
             }.runTaskLater(plugin, 5);
@@ -106,14 +110,17 @@ public record FlyingCourse(JavaPlugin plugin) implements CommandExecutor {
                             // If speed is greater than 0.05 or -0.05
                             if (((speed.getX() > 0.05) || (speed.getX() < -0.05)) || ((speed.getZ() > 0.05) || (speed.getZ() < -0.05))) {
                                 player.setVelocity(speed.multiply(1.075));
-                                player.playSound(player.getLocation(), Sound.BLOCK_BEACON_ACTIVATE,
-                                    SoundCategory.BLOCKS, 10, 2);
+                                player.playSound(player.getLocation(),
+                                    Sound.BLOCK_BEACON_ACTIVATE,
+                                    SoundCategory.BLOCKS,
+                                    10,
+                                    2);
                             }
                         }
                     }
                 } catch (IndexOutOfBoundsException e) {
-                    sender.sendMessage(
-                        Component.text("Please provide a valid selector!", NamedTextColor.RED));
+                    sender.sendMessage(Component.text("Please provide a valid selector!",
+                        NamedTextColor.RED));
                 }
                 return true;
             }
@@ -239,12 +246,12 @@ public record FlyingCourse(JavaPlugin plugin) implements CommandExecutor {
         }
 
         for (Player players : Bukkit.getOnlinePlayers())
-            if (players.getWorld().getName()
-                .equalsIgnoreCase(plugin.getConfig().getString("flying-course-world"))) players.sendMessage(
-                Component.text().append(Component.text("NOTICE", NamedTextColor.RED, TextDecoration.BOLD))
-                    .append(Component.text(" > ", NamedTextColor.AQUA, TextDecoration.BOLD))
-                    .append(Component.text(player.getName() + " just finished the ", NamedTextColor.GREEN))
-                    .append(Component.text(difficultyType, namedTextColor))
-                    .append(Component.text(" course!", NamedTextColor.GREEN)).build());
+            if (players.getWorld().getName().equalsIgnoreCase(plugin.getConfig()
+                .getString("flying-course-world"))) players.sendMessage(Component.text()
+                .append(Component.text("NOTICE", NamedTextColor.RED, TextDecoration.BOLD))
+                .append(Component.text(" > ", NamedTextColor.AQUA, TextDecoration.BOLD))
+                .append(Component.text(player.getName() + " just finished the ", NamedTextColor.GREEN))
+                .append(Component.text(difficultyType, namedTextColor))
+                .append(Component.text(" course!", NamedTextColor.GREEN)).build());
     }
 }

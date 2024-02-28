@@ -23,30 +23,42 @@ public class PluginMessages implements PluginMessageListener {
         switch (message) {
             case "globalchatsound" -> {
                 for (Player players : Bukkit.getOnlinePlayers())
-                    if (players.hasPermission("silverstone.chatsounds.enabled")) if (players != sender)
-                        players.playSound(players.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP,
-                            SoundCategory.PLAYERS, 0.4f, 1);
+                    if (players.hasPermission("silverstone.chatsounds.enabled"))
+                        if (players != sender) players.playSound(players.getLocation(),
+                            Sound.ENTITY_EXPERIENCE_ORB_PICKUP,
+                            SoundCategory.PLAYERS,
+                            0.4f,
+                            1);
             }
 
             case "privatesound" -> {
                 // In this case, the sender variable is actually the receiver
                 if (sender == null) return;
                 if (sender.hasPermission("silverstone.chatsounds.enabled"))
-                    sender.playSound(sender.getLocation(), Sound.ENTITY_ITEM_FRAME_REMOVE_ITEM,
-                        SoundCategory.PLAYERS, 1, 2);
+                    sender.playSound(sender.getLocation(),
+                        Sound.ENTITY_ITEM_FRAME_REMOVE_ITEM,
+                        SoundCategory.PLAYERS,
+                        1,
+                        2);
             }
 
             case "staffchatsound" -> {
                 for (Player players : Bukkit.getOnlinePlayers())
                     if (players.hasPermission("silverstone.chatsounds.enabled") && players.hasPermission(
-                        "silverstone.moderator")) if (players != sender)
-                        players.playSound(players.getLocation(), Sound.ENTITY_EXPERIENCE_BOTTLE_THROW,
-                            SoundCategory.PLAYERS, 0.6f, 2);
+                        "silverstone.moderator"))
+                        if (players != sender) players.playSound(players.getLocation(),
+                            Sound.ENTITY_EXPERIENCE_BOTTLE_THROW,
+                            SoundCategory.PLAYERS,
+                            0.6f,
+                            2);
             }
 
             case "broadcastsound" -> {
                 for (Player players : Bukkit.getOnlinePlayers())
-                    players.playSound(players.getLocation(), Sound.BLOCK_BELL_USE, SoundCategory.MASTER, 1,
+                    players.playSound(players.getLocation(),
+                        Sound.BLOCK_BELL_USE,
+                        SoundCategory.MASTER,
+                        1,
                         0);
             }
 
@@ -58,8 +70,11 @@ public class PluginMessages implements PluginMessageListener {
                     if (isVanished) if (!players.hasPermission("silverstone.moderator")) continue;
 
                     if (players.hasPermission("silverstone.jlsounds.enabled"))
-                        players.playSound(players.getLocation(), Sound.BLOCK_BELL_USE, SoundCategory.PLAYERS,
-                            1, 1.5f);
+                        players.playSound(players.getLocation(),
+                            Sound.BLOCK_BELL_USE,
+                            SoundCategory.PLAYERS,
+                            1,
+                            1.5f);
                 }
             }
 
@@ -71,7 +86,10 @@ public class PluginMessages implements PluginMessageListener {
                     if (isVanished) if (!players.hasPermission("silverstone.moderator")) continue;
 
                     if (players.hasPermission("silverstone.jlsounds.enabled"))
-                        players.playSound(players.getLocation(), Sound.UI_TOAST_IN, SoundCategory.PLAYERS, 1,
+                        players.playSound(players.getLocation(),
+                            Sound.UI_TOAST_IN,
+                            SoundCategory.PLAYERS,
+                            1,
                             1.3f);
                 }
             }
@@ -84,8 +102,11 @@ public class PluginMessages implements PluginMessageListener {
                     if (isVanished) if (!players.hasPermission("silverstone.moderator")) continue;
 
                     if (players.hasPermission("silverstone.jlsounds.enabled"))
-                        players.playSound(players.getLocation(), Sound.BLOCK_BEACON_DEACTIVATE,
-                            SoundCategory.PLAYERS, 1, 1.75f);
+                        players.playSound(players.getLocation(),
+                            Sound.BLOCK_BEACON_DEACTIVATE,
+                            SoundCategory.PLAYERS,
+                            1,
+                            1.75f);
                 }
             }
         }

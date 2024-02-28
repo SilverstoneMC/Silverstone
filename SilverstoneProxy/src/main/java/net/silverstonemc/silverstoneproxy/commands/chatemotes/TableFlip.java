@@ -17,8 +17,9 @@ public class TableFlip implements SimpleCommand {
             return;
         }
 
-        player.sendMessage(Component.text("Click ", NamedTextColor.GREEN).append(
-                Component.text("here", NamedTextColor.AQUA).clickEvent(ClickEvent.suggestCommand("╯°□°）╯︵ ┻━┻")))
+        player.sendMessage(Component.text("Click ", NamedTextColor.GREEN)
+            .append(Component.text("here", NamedTextColor.AQUA)
+                .clickEvent(ClickEvent.suggestCommand("╯°□°）╯︵ ┻━┻")))
             .append(Component.text(" to tableflip", NamedTextColor.GREEN)));
     }
 }

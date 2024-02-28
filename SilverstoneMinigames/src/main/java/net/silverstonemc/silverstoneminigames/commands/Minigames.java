@@ -53,9 +53,11 @@ public class Minigames implements CommandExecutor, Listener {
     }
 
     public void createInventories() {
-        gameInv = Bukkit.createInventory(null, 9,
+        gameInv = Bukkit.createInventory(null,
+            9,
             Component.text("Select Player Count", NamedTextColor.DARK_GRAY, TextDecoration.BOLD));
-        htpInv = Bukkit.createInventory(null, 36,
+        htpInv = Bukkit.createInventory(null,
+            36,
             Component.text("Select a Minigame", NamedTextColor.DARK_GRAY, TextDecoration.BOLD));
 
         // HTP
@@ -136,7 +138,9 @@ public class Minigames implements CommandExecutor, Listener {
                                 
                 <b>The goal:</b> Get to the finish line first.""");
 
-            case 11 -> openBook(player, "Death Run", """
+            case 11 -> openBook(player,
+                "Death Run",
+                """
                     A random person is selected to choose a map. Once the map is chosen, another random person is selected to be the killer.""",
                 """
                     <b>The goal (runners):</b> Race to be the first person to reach the finish line. Be wary of the killer as they have multiple ways to slow you down.""",
@@ -148,7 +152,9 @@ public class Minigames implements CommandExecutor, Listener {
 
                 <b>The goal:</b> Reach the finish area.""");
 
-            case 13 -> openBook(player, "Hide & Seek", """
+            case 13 -> openBook(player,
+                "Hide & Seek",
+                """
                     A random player is selected to be the seeker. An additional seeker will be selected if there are 5 or more players, and a third seeker will be chosen if there are 7 or more players.""",
                 """
                     Each hider will be disguised as one of seven random blocks. The possible disguises are Grass Block, Stone, Dark Prismarine, Spruce Leaves, Oak Leaves, Poppy, and Cornflower, in no particular order.""",
@@ -169,11 +175,14 @@ public class Minigames implements CommandExecutor, Listener {
 
                 <b>The goal:</b> Find the golden pressure plate at the end of the maze.""");
 
-            case 15 -> openBook(player, "Mini Golf", """
+            case 15 -> openBook(player,
+                "Mini Golf",
+                """
                     Select your ball.
 
                     Stand on the <b>black</b> carpet and press <b><key:key.drop></b> to throw the ball towards the hole or the next checkpoint.
-                    Checkpoints are <b><gray>gray</gray></b> carpet.""", """
+                    Checkpoints are <b><gray>gray</gray></b> carpet.""",
+                """
                     If the ball misses and stops on any <b><dark_green>green</dark_green></b> or <b><dark_red>red</dark_red></b> carpet, retrieve the ball and shoot again from the latest checkpoint. Once the ball makes it in the hole, move on to the next level.""",
                 """
                     <b>The goal:</b> Complete the final hole and finish the game in as few strokes as possible.""");
@@ -181,17 +190,21 @@ public class Minigames implements CommandExecutor, Listener {
             case 16 -> openBook(player, "Parkour", """
                 <b>The goal:</b> Get to the end without rage quitting.""");
 
-            case 21 -> openBook(player, "PvP", """
+            case 21 -> openBook(player,
+                "PvP",
+                """
                                         
                     <b>1v1</b>
                     Kill the other player with your fist!
 
-                    <b>The goal:</b> Be the last person standing.""", """
+                    <b>The goal:</b> Be the last person standing.""",
+                """
                                         
                     <b>FFA</b>
                     Kill the other players with your fist! Killing others will result in you being healed.
 
-                    <b>The goal:</b> Don't die.""", """
+                    <b>The goal:</b> Don't die.""",
+                """
                                         
                     <b>Sumo</b>
                     Hit the other player off the edge of the map. If nobody has died after 1.5 minutes, you will get Knockback Sticks (Knockback I).""",
@@ -202,7 +215,9 @@ public class Minigames implements CommandExecutor, Listener {
 
                     <b>The goal:</b> Be the last person standing.""");
 
-            case 22 -> openBook(player, "Spleef", """
+            case 22 -> openBook(player,
+                "Spleef",
+                """
                     When the game begins, you will be given a shovel, bow, and some arrows. The the shovel has Efficiency V, the bow has Punch I, and the arrows have Knockback I. You will receive 9 arrows per layer, with 1 layer for each person (max 5 layers).""",
                 """
                     You can override this by choosing <b>FORCE 5 LAYERS</b> instead of <b>START DEFAULT</b>.
@@ -247,8 +262,8 @@ public class Minigames implements CommandExecutor, Listener {
         switch (event.getRawSlot()) {
             case 3 -> {
                 closeInv(player);
-                ArrayList<String> games = new ArrayList<>(
-                    plugin.getConfig().getStringList("random-game.singleplayer"));
+                ArrayList<String> games = new ArrayList<>(plugin.getConfig()
+                    .getStringList("random-game.singleplayer"));
                 Random r = new Random();
                 player.sendMessage(Component.text("You should play ", NamedTextColor.GREEN)
                     .append(Component.text(games.get(r.nextInt(games.size())), NamedTextColor.AQUA)));
@@ -256,8 +271,8 @@ public class Minigames implements CommandExecutor, Listener {
 
             case 5 -> {
                 closeInv(player);
-                ArrayList<String> games = new ArrayList<>(
-                    plugin.getConfig().getStringList("random-game.multiplayer"));
+                ArrayList<String> games = new ArrayList<>(plugin.getConfig()
+                    .getStringList("random-game.multiplayer"));
                 Random r = new Random();
                 player.sendMessage(Component.text("You should play ", NamedTextColor.GREEN)
                     .append(Component.text(games.get(r.nextInt(games.size())), NamedTextColor.AQUA)));

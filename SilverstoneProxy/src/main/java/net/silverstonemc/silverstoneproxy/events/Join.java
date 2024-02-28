@@ -47,8 +47,8 @@ public class Join {
         i.logger.info(event.getPlayer().getUsername() + " is joining with protocol version " + version);
 
         // Anything less than current version and not with perm
-        if (version < i.fileManager.files.get(CONFIG).getNode("current-protocol-version")
-            .getInt() && !event.getPlayer().hasPermission("silverstone.bypassversion")) {
+        if (version < i.fileManager.files.get(CONFIG).getNode("current-protocol-version").getInt() && !event
+            .getPlayer().hasPermission("silverstone.bypassversion")) {
             incompatibleClient(event, false, "current-version");
             return;
         }
@@ -62,10 +62,10 @@ public class Join {
         event.setResult(ServerPreConnectEvent.ServerResult.denied());
 
         String text = atLeast ? "at least " : "";
-        event.getPlayer().disconnect(
-            Component.text("Your client isn't compatible with the server!\n\n", NamedTextColor.RED).append(
-                Component.text("Please update to " + text + "Minecraft " + i.fileManager.files.get(CONFIG)
-                    .getNode(versionPath).getString() + " to join.", NamedTextColor.GRAY)));
+        event.getPlayer().disconnect(Component
+            .text("Your client isn't compatible with the server!\n\n", NamedTextColor.RED)
+            .append(Component.text("Please update to " + text + "Minecraft " + i.fileManager.files.get(CONFIG)
+                .getNode(versionPath).getString() + " to join.", NamedTextColor.GRAY)));
     }
 
     @Subscribe
@@ -81,25 +81,25 @@ public class Join {
                 Component displayName = new NicknameUtils(i).getDisplayName(uuid);
                 if (isVanished) {
                     for (Player players : i.server.getAllPlayers())
-                        if (players.hasPermission("silverstone.moderator")) players.sendMessage(
-                            Component.text().append(displayName).colorIfAbsent(NamedTextColor.AQUA)
-                                .append(Component.text(" has switched to the ", NamedTextColor.DARK_GRAY))
-                                .append(Component.text(event.getServer().getServerInfo().getName(),
-                                    NamedTextColor.DARK_AQUA))
-                                .append(Component.text(" server", NamedTextColor.DARK_GRAY)));
+                        if (players.hasPermission("silverstone.moderator")) players.sendMessage(Component
+                            .text().append(displayName).colorIfAbsent(NamedTextColor.AQUA)
+                            .append(Component.text(" has switched to the ", NamedTextColor.DARK_GRAY))
+                            .append(Component.text(event.getServer().getServerInfo().getName(),
+                                NamedTextColor.DARK_AQUA))
+                            .append(Component.text(" server", NamedTextColor.DARK_GRAY)));
 
                 } else for (Player players : i.server.getAllPlayers())
-                    players.sendMessage(
-                        Component.text().append(displayName).colorIfAbsent(NamedTextColor.AQUA)
-                            .append(Component.text(" has switched to the ", NamedTextColor.GRAY)).append(
-                                Component.text(event.getServer().getServerInfo().getName(), NamedTextColor.AQUA))
-                            .append(Component.text(" server", NamedTextColor.GRAY)));
+                    players.sendMessage(Component.text().append(displayName)
+                        .colorIfAbsent(NamedTextColor.AQUA).append(Component.text(" has switched to the ",
+                            NamedTextColor.GRAY))
+                        .append(Component.text(event.getServer().getServerInfo().getName(),
+                            NamedTextColor.AQUA)).append(Component.text(" server", NamedTextColor.GRAY)));
 
-                i.server.getConsoleCommandSource().sendMessage(
-                    Component.text().append(displayName).colorIfAbsent(NamedTextColor.AQUA)
-                        .append(Component.text(" has switched to the ", NamedTextColor.GRAY)).append(
-                            Component.text(event.getServer().getServerInfo().getName(), NamedTextColor.AQUA))
-                        .append(Component.text(" server", NamedTextColor.GRAY)));
+                i.server.getConsoleCommandSource().sendMessage(Component.text().append(displayName)
+                    .colorIfAbsent(NamedTextColor.AQUA).append(Component.text(" has switched to the ",
+                        NamedTextColor.GRAY))
+                    .append(Component.text(event.getServer().getServerInfo().getName(), NamedTextColor.AQUA))
+                    .append(Component.text(" server", NamedTextColor.GRAY)));
 
                 ByteArrayDataOutput out = ByteStreams.newDataOutput();
                 out.writeUTF("switchsound");
@@ -142,9 +142,9 @@ public class Join {
                     embed.setColor(new Color(36, 197, 19));
 
                     //noinspection DataFlowIssue
-                    Message message = discord.sendMessageEmbeds(embed.build()).setActionRow(
-                        Button.danger("warnskin:" + username, "Warn for inappropriate skin")
-                            .withEmoji(Emoji.fromUnicode("⚠"))).complete();
+                    Message message = discord.sendMessageEmbeds(embed.build()).setActionRow(Button
+                        .danger("warnskin:" + username, "Warn for inappropriate skin")
+                        .withEmoji(Emoji.fromUnicode("⚠"))).complete();
                     newPlayers.put(player, message);
                 }, "New Player Discord").start();
 
@@ -162,7 +162,8 @@ public class Join {
                 if (nonStaff == 0) return;
 
                 EmbedBuilder embed = new EmbedBuilder();
-                embed.setAuthor(username + " silently joined the server", null,
+                embed.setAuthor(username + " silently joined the server",
+                    null,
                     "https://mc-heads.net/avatar/" + uuid);
                 embed.setColor(new Color(0x2b2d31));
                 //noinspection DataFlowIssue
@@ -201,7 +202,8 @@ public class Join {
 
                 // Notify the Discord
                 EmbedBuilder embed = new EmbedBuilder();
-                embed.setAuthor(username + " was previously known as: " + oldUsername, null,
+                embed.setAuthor(username + " was previously known as: " + oldUsername,
+                    null,
                     "https://mc-heads.net/avatar/" + uuid);
                 embed.setColor(new Color(0x2b2d31));
                 //noinspection DataFlowIssue

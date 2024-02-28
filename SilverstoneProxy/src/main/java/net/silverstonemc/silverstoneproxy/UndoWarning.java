@@ -31,12 +31,14 @@ public class UndoWarning {
             if (unpunishmentNumber == 0) unpunishmentNumber = unpunishmentCount;
 
             // Un-warn the player
-            ArrayList<String> cmdList = new ArrayList<>(
-                i.fileManager.files.get(CONFIG).getNode("reasons", reason, "remove", unpunishmentNumber)
-                    .getChildrenMap().values().stream().map(ConfigurationNode::toString).toList());
+            ArrayList<String> cmdList = new ArrayList<>(i.fileManager.files.get(CONFIG).getNode("reasons",
+                    reason,
+                    "remove",
+                    unpunishmentNumber).getChildrenMap().values().stream().map(ConfigurationNode::toString)
+                .toList());
             for (String cmd : cmdList)
-                i.server.getCommandManager()
-                    .executeAsync(i.server.getConsoleCommandSource(), cmd.replace("{player}", username));
+                i.server.getCommandManager().executeAsync(i.server.getConsoleCommandSource(),
+                    cmd.replace("{player}", username));
 
         } else if (reason.equals("all")) {
             i.logger.info("=============================================");
@@ -53,14 +55,13 @@ public class UndoWarning {
                         .getChildrenMap().values())
                         for (ConfigurationNode configReasonNumbers : configReasons.getNode("remove")
                             .getChildrenMap().values())
-                            for (String configReasonCommands : configReasonNumbers.getList(
-                                TypeToken.of(String.class)))
+                            for (String configReasonCommands : configReasonNumbers.getList(TypeToken.of(String.class)))
                                 commands.add(configReasonCommands.replace("{player}", username));
 
                     for (String command : commands)
-                        i.server.getCommandManager()
-                            .executeAsync(i.server.getConsoleCommandSource(), command);
-                    
+                        i.server.getCommandManager().executeAsync(i.server.getConsoleCommandSource(),
+                            command);
+
                     Thread.sleep(100);
 
                     i.logger.info("=============================================");
@@ -82,16 +83,16 @@ public class UndoWarning {
             new Thread(() -> {
                 try {
                     HashSet<String> commands = new HashSet<>();
-                    for (ConfigurationNode configReasonNumbers : i.fileManager.files.get(CONFIG)
-                        .getNode("reasons", reason, "remove").getChildrenMap().values()) {
-                        for (String configReasonCommands : configReasonNumbers.getList(
-                            TypeToken.of(String.class)))
+                    for (ConfigurationNode configReasonNumbers : i.fileManager.files.get(CONFIG).getNode("reasons",
+                        reason,
+                        "remove").getChildrenMap().values()) {
+                        for (String configReasonCommands : configReasonNumbers.getList(TypeToken.of(String.class)))
                             commands.add(configReasonCommands.replace("{player}", username));
 
                         for (String command : commands)
-                            i.server.getCommandManager()
-                                .executeAsync(i.server.getConsoleCommandSource(), command);
-                        
+                            i.server.getCommandManager().executeAsync(i.server.getConsoleCommandSource(),
+                                command);
+
                         Thread.sleep(100);
                     }
 

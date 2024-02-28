@@ -30,10 +30,10 @@ public class Relay implements SimpleCommand {
             message = message.trim();
 
             switch (args[0]) {
-                case "mcchat" ->
-                    SilverstoneProxy.jda.getTextChannelById(592208420602380328L).sendMessage(message).queue();
-                case "staff" ->
-                    SilverstoneProxy.jda.getTextChannelById(667793661991583744L).sendMessage(message).queue();
+                case "mcchat" -> SilverstoneProxy.jda.getTextChannelById(592208420602380328L).sendMessage(
+                    message).queue();
+                case "staff" -> SilverstoneProxy.jda.getTextChannelById(667793661991583744L).sendMessage(
+                    message).queue();
                 default -> sender.sendMessage(Component.text("Invalid channel!", NamedTextColor.RED));
             }
         }

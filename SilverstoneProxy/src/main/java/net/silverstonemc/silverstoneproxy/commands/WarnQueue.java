@@ -31,9 +31,10 @@ public class WarnQueue implements SimpleCommand {
 
         sender.sendMessage(Component.text("Queued warnings:", NamedTextColor.RED, TextDecoration.BOLD));
 
-        for (ConfigurationNode uuid : i.fileManager.files.get(WARNQUEUE).getNode("queue").getChildrenMap().values())
+        for (ConfigurationNode uuid : i.fileManager.files.get(WARNQUEUE).getNode("queue").getChildrenMap()
+            .values())
             //noinspection DataFlowIssue
-            sender.sendMessage(Component.text(new UserManager(i).getUsername(
-                UUID.fromString(uuid.getKey().toString())) + " - " + uuid.getString(), NamedTextColor.GRAY));
+            sender.sendMessage(Component.text(new UserManager(i).getUsername(UUID.fromString(uuid.getKey()
+                .toString())) + " - " + uuid.getString(), NamedTextColor.GRAY));
     }
 }

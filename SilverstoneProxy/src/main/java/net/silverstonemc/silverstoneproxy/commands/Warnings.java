@@ -67,8 +67,9 @@ public class Warnings implements SimpleCommand {
                 return;
             }
 
-        sender.sendMessage(
-            Component.text(username + "'s warnings:", NamedTextColor.RED, TextDecoration.BOLD));
+        sender.sendMessage(Component.text(username + "'s warnings:",
+            NamedTextColor.RED,
+            TextDecoration.BOLD));
 
         // If any warnings already exist
         if (!warnData.isVirtual()) for (ConfigurationNode reasonList : warnData.getChildrenMap().values())
@@ -77,8 +78,8 @@ public class Warnings implements SimpleCommand {
                 NamedTextColor.GRAY));
 
         // If in queue
-        if (!warnQueue.isVirtual())
-            sender.sendMessage(Component.text(warnQueue.getString() + " (Queued)", NamedTextColor.GRAY));
+        if (!warnQueue.isVirtual()) sender.sendMessage(Component.text(warnQueue.getString() + " (Queued)",
+            NamedTextColor.GRAY));
     }
 
     @Override
@@ -91,7 +92,7 @@ public class Warnings implements SimpleCommand {
         List<String> arguments = new ArrayList<>(UserManager.playerMap.values());
 
         if (args.length == 0) return CompletableFuture.completedFuture(arguments);
-        
+
         List<String> result = new ArrayList<>();
         for (String a : arguments)
             if (a.toLowerCase().startsWith(args[0].toLowerCase())) result.add(a);

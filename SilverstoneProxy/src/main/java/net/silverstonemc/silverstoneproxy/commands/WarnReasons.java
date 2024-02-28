@@ -39,14 +39,16 @@ public class WarnReasons implements SimpleCommand {
         if (isWarning) header = "Warn " + username + ":";
 
         Builder footer = Component.text();
-        if (isWarning) footer.append(
-            Component.text("\n\nClick to warn " + username, NamedTextColor.GRAY, TextDecoration.ITALIC));
+        if (isWarning) footer.append(Component.text("\n\nClick to warn " + username,
+            NamedTextColor.GRAY,
+            TextDecoration.ITALIC));
 
         Builder message = Component.text();
         message.append(Component.text(header, NamedTextColor.RED, TextDecoration.BOLD));
 
         ArrayList<String> reasonList = new ArrayList<>();
-        for (ConfigurationNode reasons : i.fileManager.files.get(CONFIG).getNode("reasons").getChildrenMap().values())
+        for (ConfigurationNode reasons : i.fileManager.files.get(CONFIG).getNode("reasons").getChildrenMap()
+            .values())
             //noinspection DataFlowIssue
             reasonList.add(reasons.getKey().toString());
         reasonList.sort(String.CASE_INSENSITIVE_ORDER);
@@ -54,8 +56,8 @@ public class WarnReasons implements SimpleCommand {
         // Loop through the reasonList in increments of 3
         for (int i = 0; i < reasonList.size(); i += 3) {
             // Get the current reasons to display on this line, up to 3 reasons
-            List<String> currentReasons = new ArrayList<>(
-                reasonList.subList(i, Math.min(i + 3, reasonList.size())));
+            List<String> currentReasons = new ArrayList<>(reasonList.subList(i,
+                Math.min(i + 3, reasonList.size())));
 
             // Append a new line to the message
             message.append(Component.text("\n"));
@@ -75,8 +77,9 @@ public class WarnReasons implements SimpleCommand {
                     .hoverEvent(createHoverEvent(currentReason, footer)));
 
                 // If this is not the last reason, add a separator to the message
-                if (j < currentReasons.size() - 1)
-                    message.append(Component.text(" | ", NamedTextColor.DARK_GRAY, TextDecoration.BOLD));
+                if (j < currentReasons.size() - 1) message.append(Component.text(" | ",
+                    NamedTextColor.DARK_GRAY,
+                    TextDecoration.BOLD));
             }
         }
 
@@ -84,10 +87,10 @@ public class WarnReasons implements SimpleCommand {
     }
 
     private HoverEvent<?> createHoverEvent(String reason, Builder footer) {
-        return HoverEvent.hoverEvent(HoverEvent.Action.SHOW_TEXT,
-            Component.text().append(Component.text(reason + ":", NamedTextColor.RED, TextDecoration.BOLD))
-                .append(Component.text(
-                    "\n" + i.fileManager.files.get(CONFIG).getNode("reasons", reason, "description")
-                        .getString(), NamedTextColor.GRAY)).append(footer).build());
+        return HoverEvent.hoverEvent(HoverEvent.Action.SHOW_TEXT, Component.text().append(Component.text(reason + ":",
+                NamedTextColor.RED,
+                TextDecoration.BOLD)).append(Component.text("\n" + i.fileManager.files.get(CONFIG)
+                .getNode("reasons", reason, "description").getString(), NamedTextColor.GRAY)).append(footer)
+            .build());
     }
 }

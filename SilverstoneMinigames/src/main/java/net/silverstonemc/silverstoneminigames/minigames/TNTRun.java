@@ -40,7 +40,8 @@ public record TNTRun(JavaPlugin plugin) implements CommandExecutor {
                     int[] xOffset = {-1, 1, -1, 1};
                     int[] zOffset = {-1, -1, 1, 1};
                     for (int i = 0; i < 4; i++) {
-                        Block block = player.getLocation().subtract(player.getWidth() / 2 * xOffset[i], 1,
+                        Block block = player.getLocation().subtract(player.getWidth() / 2 * xOffset[i],
+                            1,
                             player.getWidth() / 2 * zOffset[i]).getBlock();
                         switch (block.getType()) {
                             case SAND, RED_SAND, GRAVEL, ORANGE_CONCRETE_POWDER -> deleteBlocks(block);

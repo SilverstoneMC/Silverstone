@@ -11,8 +11,8 @@ public class Forums implements SimpleCommand {
     public void execute(final Invocation invocation) {
         CommandSource sender = invocation.source();
 
-        sender.sendMessage(Component.text("Visit the forums at ", NamedTextColor.GREEN).append(
-            Component.text("silverstonemc.net", NamedTextColor.AQUA)
+        sender.sendMessage(Component.text("Visit the forums at ", NamedTextColor.GREEN)
+            .append(Component.text("silverstonemc.net", NamedTextColor.AQUA)
                 .clickEvent(ClickEvent.openUrl("https://silverstonemc.net"))));
     }
 }

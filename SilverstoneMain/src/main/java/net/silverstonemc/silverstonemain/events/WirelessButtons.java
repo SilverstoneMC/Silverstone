@@ -35,8 +35,10 @@ public class WirelessButtons implements Listener {
 
                     ByteArrayDataOutput out = ByteStreams.newDataOutput();
                     out.writeUTF("rules");
-                    player.sendPluginMessage(SilverstoneMain.getInstance(), "silverstone:pluginmsg", out.toByteArray());
-                    
+                    player.sendPluginMessage(SilverstoneMain.getInstance(),
+                        "silverstone:pluginmsg",
+                        out.toByteArray());
+
                     rulesCooldown.put(player, System.currentTimeMillis() + 1000);
 
                 } else if (loc.getX() == -98 && loc.getY() == 67 && loc.getZ() == -102) {

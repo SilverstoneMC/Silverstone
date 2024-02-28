@@ -40,21 +40,21 @@ public class MiniMOTDControls implements SimpleCommand {
             case "enable" -> {
                 editMotdFiles("/home/container/plugins/minimotd-velocity/main.conf", true);
                 editMotdFiles("/home/container/plugins/minimotd-velocity/extra-configs/survival.conf", true);
-                i.server.getCommandManager()
-                    .executeAsync(i.server.getConsoleCommandSource(), "minimotd reload");
+                i.server.getCommandManager().executeAsync(i.server.getConsoleCommandSource(),
+                    "minimotd reload");
                 sender.sendMessage(Component.text("MiniMOTD enabled.", NamedTextColor.GREEN));
             }
 
             case "disable" -> {
                 editMotdFiles("/home/container/plugins/minimotd-velocity/main.conf", false);
                 editMotdFiles("/home/container/plugins/minimotd-velocity/extra-configs/survival.conf", false);
-                i.server.getCommandManager()
-                    .executeAsync(i.server.getConsoleCommandSource(), "minimotd reload");
+                i.server.getCommandManager().executeAsync(i.server.getConsoleCommandSource(),
+                    "minimotd reload");
                 sender.sendMessage(Component.text("MiniMOTD disabled.", NamedTextColor.RED));
             }
 
-            default ->
-                sender.sendMessage(Component.text("Usage: /mmotd <enable | disable>", NamedTextColor.RED));
+            default -> sender.sendMessage(Component.text("Usage: /mmotd <enable | disable>",
+                NamedTextColor.RED));
         }
     }
 
@@ -70,7 +70,7 @@ public class MiniMOTDControls implements SimpleCommand {
                         .replace("icon-enabled=" + !enabled, "icon-enabled=" + enabled)
                         .replace("max-players-enabled=" + !enabled, "max-players-enabled=" + enabled) + "\n");
             }
-            
+
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

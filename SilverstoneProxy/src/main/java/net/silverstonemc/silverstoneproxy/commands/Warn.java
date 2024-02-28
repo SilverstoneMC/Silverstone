@@ -7,8 +7,8 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.silverstonemc.silverstoneproxy.SilverstoneProxy;
 import net.silverstonemc.silverstoneproxy.UserManager;
-import net.silverstonemc.silverstoneproxy.utils.NoPlayerMsg;
 import net.silverstonemc.silverstoneproxy.WarnPlayer;
+import net.silverstonemc.silverstoneproxy.utils.NoPlayerMsg;
 import ninja.leaping.configurate.ConfigurationNode;
 
 import java.util.ArrayList;
@@ -54,9 +54,8 @@ public class Warn implements SimpleCommand {
                     return;
                 }
 
-                sender.sendMessage(Component.text("Warning ", NamedTextColor.RED)
-                    .append(Component.text(username, NamedTextColor.GRAY))
-                    .append(Component.text(" for reason: ", NamedTextColor.RED))
+                sender.sendMessage(Component.text("Warning ", NamedTextColor.RED).append(Component.text(username,
+                        NamedTextColor.GRAY)).append(Component.text(" for reason: ", NamedTextColor.RED))
                     .append(Component.text(args[1], NamedTextColor.GRAY)));
 
                 new WarnPlayer(i).warn(uuid, args[1]);
@@ -93,9 +92,8 @@ public class Warn implements SimpleCommand {
                 }
 
                 for (int x = 0; x < 50; x++) sender.sendMessage(Component.empty());
-                sender.sendMessage(Component.text("Warning ", NamedTextColor.RED)
-                    .append(Component.text(username, NamedTextColor.GRAY))
-                    .append(Component.text(" for reason: ", NamedTextColor.RED))
+                sender.sendMessage(Component.text("Warning ", NamedTextColor.RED).append(Component.text(username,
+                        NamedTextColor.GRAY)).append(Component.text(" for reason: ", NamedTextColor.RED))
                     .append(Component.text(args[1], NamedTextColor.GRAY)));
 
                 new WarnPlayer(i).warn(uuid, args[1]);

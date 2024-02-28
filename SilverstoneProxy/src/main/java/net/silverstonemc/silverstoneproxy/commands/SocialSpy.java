@@ -36,7 +36,7 @@ public class SocialSpy implements SimpleCommand {
 
         if (args.length > 0) if (args[0].equalsIgnoreCase("enabled")) isEnabled = false;
         else if (args[0].equalsIgnoreCase("disabled")) isEnabled = true;
-        
+
         User user = luckPerms.getPlayerAdapter(Player.class).getUser(player);
         if (isEnabled) {
             user.data().remove(Node.builder("silverstone.socialspy.enabled").build());

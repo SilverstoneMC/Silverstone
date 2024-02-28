@@ -37,8 +37,8 @@ public class NicknameUtils {
         if (nickname == null) {
             changeDisplayName(player, null);
 
-            i.fileManager.files.get(NICKNAMES).getNode("nicknames", player.getUniqueId().toString())
-                .setValue(null);
+            i.fileManager.files.get(NICKNAMES).getNode("nicknames", player.getUniqueId().toString()).setValue(
+                null);
             i.fileManager.files.get(NICKNAMES).getNode("stripped-nicknames", player.getUniqueId().toString())
                 .setValue(null);
             i.fileManager.save(NICKNAMES);
@@ -46,8 +46,8 @@ public class NicknameUtils {
             return false;
         } else changeDisplayName(player, nickname);
 
-        i.fileManager.files.get(NICKNAMES).getNode("nicknames", player.getUniqueId().toString())
-            .setValue(MiniMessage.miniMessage().serialize(nickname));
+        i.fileManager.files.get(NICKNAMES).getNode("nicknames", player.getUniqueId().toString()).setValue(
+            MiniMessage.miniMessage().serialize(nickname));
         i.fileManager.files.get(NICKNAMES).getNode("stripped-nicknames", player.getUniqueId().toString())
             .setValue(player.getUsername() + ":" + strippedName);
         i.fileManager.save(NICKNAMES);
@@ -71,26 +71,26 @@ public class NicknameUtils {
         }
         ConfigurationNode config = i.fileManager.files.get(CONFIG);
 
-        Component prefix = MiniMessage.miniMessage()
-            .deserialize(config.getNode("nicknames", "prefix").getString());
-        Component suffix = MiniMessage.miniMessage()
-            .deserialize(config.getNode("nicknames", "suffix").getString());
+        Component prefix = MiniMessage.miniMessage().deserialize(config.getNode("nicknames", "prefix")
+            .getString());
+        Component suffix = MiniMessage.miniMessage().deserialize(config.getNode("nicknames", "suffix")
+            .getString());
 
         Component displayName = Component.text().append(prefix).append(nickname).append(suffix).build();
         TabAPI.getInstance().getTabListFormatManager().setName(tabPlayer,
             LegacyComponentSerializer.builder().useUnusualXRepeatedCharacterHexFormat().hexColors().build()
                 .serialize(displayName));
         try {
-            CarbonChatProvider.carbonChat().userManager().user(player.getUniqueId()).get()
-                .nickname(displayName);
+            CarbonChatProvider.carbonChat().userManager().user(player.getUniqueId()).get().nickname(
+                displayName);
         } catch (ExecutionException | InterruptedException e) {
             throw new RuntimeException(e);
         }
     }
 
     public Component getDisplayName(UUID uuid) {
-        ConfigurationNode playerNode = i.fileManager.files.get(NICKNAMES)
-            .getNode("nicknames", uuid.toString());
+        ConfigurationNode playerNode = i.fileManager.files.get(NICKNAMES).getNode("nicknames",
+            uuid.toString());
 
         if (playerNode.isVirtual()) return Component.text(UserManager.playerMap.get(uuid));
         else //noinspection DataFlowIssue

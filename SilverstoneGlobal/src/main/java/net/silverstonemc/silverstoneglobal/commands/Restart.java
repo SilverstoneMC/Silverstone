@@ -51,47 +51,62 @@ public record Restart(JavaPlugin plugin) implements CommandExecutor {
                             }
 
                             for (Player player : Bukkit.getOnlinePlayers())
-                                player.sendActionBar(
-                                    Component.text("SERVER RESTARTING IN: ", NamedTextColor.GOLD,
-                                            TextDecoration.BOLD)
-                                        .append(Component.text(sec[0], NamedTextColor.YELLOW)));
+                                player.sendActionBar(Component
+                                    .text("SERVER RESTARTING IN: ", NamedTextColor.GOLD, TextDecoration.BOLD)
+                                    .append(Component.text(sec[0], NamedTextColor.YELLOW)));
                             plugin.getLogger().info("Server restarting in: " + sec[0]);
 
-                            TextComponent evacuate = Component.text("Click ", NamedTextColor.RED,
-                                    TextDecoration.BOLD).append(
-                                    Component.text("here", NamedTextColor.GRAY, TextDecoration.UNDERLINED)
-                                        .clickEvent(ClickEvent.runCommand("/server " + finalServer)))
+                            TextComponent evacuate = Component.text("Click ",
+                                    NamedTextColor.RED,
+                                    TextDecoration.BOLD).append(Component
+                                    .text("here", NamedTextColor.GRAY, TextDecoration.UNDERLINED)
+                                    .clickEvent(ClickEvent.runCommand("/server " + finalServer)))
                                 .append(Component.text(" to evacuate!", NamedTextColor.RED));
 
                             switch (sec[0]) {
                                 case 10 -> {
                                     for (Player player : Bukkit.getOnlinePlayers()) {
-                                        player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_HARP,
-                                            SoundCategory.MASTER, 100, 1.2f);
+                                        player.playSound(player.getLocation(),
+                                            Sound.BLOCK_NOTE_BLOCK_HARP,
+                                            SoundCategory.MASTER,
+                                            100,
+                                            1.2f);
                                         player.sendMessage(evacuate);
                                     }
                                 }
                                 case 9, 8, 7, 6, 5, 4 -> {
                                     for (Player player : Bukkit.getOnlinePlayers())
-                                        player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_HARP,
-                                            SoundCategory.MASTER, 100, 1.2f);
+                                        player.playSound(player.getLocation(),
+                                            Sound.BLOCK_NOTE_BLOCK_HARP,
+                                            SoundCategory.MASTER,
+                                            100,
+                                            1.2f);
                                 }
                                 case 3 -> {
                                     for (Player player : Bukkit.getOnlinePlayers()) {
-                                        player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_HARP,
-                                            SoundCategory.MASTER, 100, 1.6f);
+                                        player.playSound(player.getLocation(),
+                                            Sound.BLOCK_NOTE_BLOCK_HARP,
+                                            SoundCategory.MASTER,
+                                            100,
+                                            1.6f);
                                         player.sendMessage(evacuate);
                                     }
                                 }
                                 case 2, 1 -> {
                                     for (Player player : Bukkit.getOnlinePlayers())
-                                        player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_HARP,
-                                            SoundCategory.MASTER, 100, 1.6f);
+                                        player.playSound(player.getLocation(),
+                                            Sound.BLOCK_NOTE_BLOCK_HARP,
+                                            SoundCategory.MASTER,
+                                            100,
+                                            1.6f);
                                 }
                                 case 0 -> {
                                     for (Player player : Bukkit.getOnlinePlayers()) {
-                                        player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_HARP,
-                                            SoundCategory.MASTER, 100, 2);
+                                        player.playSound(player.getLocation(),
+                                            Sound.BLOCK_NOTE_BLOCK_HARP,
+                                            SoundCategory.MASTER,
+                                            100,
+                                            2);
                                         send(player, server);
                                     }
                                 }
@@ -107,7 +122,8 @@ public record Restart(JavaPlugin plugin) implements CommandExecutor {
                 } else {
                     restarting = false;
                     for (Player player : Bukkit.getOnlinePlayers())
-                        player.sendActionBar(Component.text("SERVER RESTART CANCELLED!", NamedTextColor.GREEN,
+                        player.sendActionBar(Component.text("SERVER RESTART CANCELLED!",
+                            NamedTextColor.GREEN,
                             TextDecoration.BOLD));
                     plugin.getLogger().info("Server restart cancelled!");
                 }
@@ -119,9 +135,10 @@ public record Restart(JavaPlugin plugin) implements CommandExecutor {
                 if (!Bukkit.getOnlinePlayers().isEmpty()) {
                     plugin.getLogger().info("Restarting...");
                     for (Player player : Bukkit.getOnlinePlayers()) {
-                        player.sendActionBar(
-                            Component.text("SERVER RESTARTING... ATTEMPTING TO TRANSFER PLAYERS",
-                                NamedTextColor.AQUA, TextDecoration.BOLD));
+                        player.sendActionBar(Component.text(
+                            "SERVER RESTARTING... ATTEMPTING TO TRANSFER PLAYERS",
+                            NamedTextColor.AQUA,
+                            TextDecoration.BOLD));
                         send(player, server);
                     }
 
@@ -136,9 +153,9 @@ public record Restart(JavaPlugin plugin) implements CommandExecutor {
 
             case "restartwhenempty" -> {
                 for (Player player : Bukkit.getOnlinePlayers())
-                    player.sendActionBar(
-                        Component.text("SERVER SCHEDULED TO RESTART WHEN EMPTY", NamedTextColor.RED,
-                            TextDecoration.BOLD));
+                    player.sendActionBar(Component.text("SERVER SCHEDULED TO RESTART WHEN EMPTY",
+                        NamedTextColor.RED,
+                        TextDecoration.BOLD));
                 plugin.getLogger().info("Server scheduled to restart when empty.");
 
                 new BukkitRunnable() {
@@ -151,30 +168,41 @@ public record Restart(JavaPlugin plugin) implements CommandExecutor {
 
             case "schedulerestart" -> {
                 for (Player player : Bukkit.getOnlinePlayers()) {
-                    player.sendMessage(Component.text()
-                        .append(Component.text("WARNING", NamedTextColor.RED, TextDecoration.BOLD))
-                        .append(Component.text(" > ", NamedTextColor.AQUA, TextDecoration.BOLD)).append(
-                            Component.text("The server is scheduled to restart in ", NamedTextColor.GREEN))
-                        .append(Component.text("5", NamedTextColor.AQUA))
+                    player.sendMessage(Component.text().append(Component.text("WARNING",
+                            NamedTextColor.RED,
+                            TextDecoration.BOLD)).append(Component.text(
+                            " > ",
+                            NamedTextColor.AQUA,
+                            TextDecoration.BOLD)).append(Component.text(
+                            "The server is scheduled to restart in ",
+                            NamedTextColor.GREEN)).append(Component.text("5", NamedTextColor.AQUA))
                         .append(Component.text(" minutes!", NamedTextColor.GREEN)));
 
-                    player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_HARP, SoundCategory.MASTER,
-                        100, 1.6f);
+                    player.playSound(player.getLocation(),
+                        Sound.BLOCK_NOTE_BLOCK_HARP,
+                        SoundCategory.MASTER,
+                        100,
+                        1.6f);
                 }
 
                 new BukkitRunnable() {
                     @Override
                     public void run() {
                         for (Player player : Bukkit.getOnlinePlayers()) {
-                            player.sendMessage(Component.text()
-                                .append(Component.text("WARNING", NamedTextColor.RED, TextDecoration.BOLD))
-                                .append(Component.text(" > ", NamedTextColor.AQUA, TextDecoration.BOLD))
-                                .append(Component.text("The server is scheduled to restart in ",
+                            player.sendMessage(Component.text().append(Component.text("WARNING",
+                                    NamedTextColor.RED,
+                                    TextDecoration.BOLD)).append(Component.text(
+                                    " > ",
+                                    NamedTextColor.AQUA,
+                                    TextDecoration.BOLD)).append(Component.text("The server is scheduled to restart in ",
                                     NamedTextColor.GREEN)).append(Component.text("1", NamedTextColor.AQUA))
                                 .append(Component.text(" minute!", NamedTextColor.GREEN)));
 
-                            player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_HARP,
-                                SoundCategory.MASTER, 100, 1.6f);
+                            player.playSound(player.getLocation(),
+                                Sound.BLOCK_NOTE_BLOCK_HARP,
+                                SoundCategory.MASTER,
+                                100,
+                                1.6f);
                         }
                     }
                 }.runTaskLater(plugin, 4800);

@@ -48,8 +48,10 @@ public record Security(JavaPlugin plugin) {
                                     ByteArrayDataOutput out = ByteStreams.newDataOutput();
                                     out.writeUTF("warn");
                                     out.writeUTF("admin");
-                                    player.sendPluginMessage(SilverstoneGlobal.getInstance(),
-                                        "silverstone:pluginmsg", out.toByteArray());
+                                    player.sendPluginMessage(
+                                        SilverstoneGlobal.getInstance(),
+                                        "silverstone:pluginmsg",
+                                        out.toByteArray());
                                 }
                             }.runTask(plugin);
                         }

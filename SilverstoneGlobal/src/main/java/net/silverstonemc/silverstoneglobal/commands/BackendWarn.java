@@ -15,7 +15,7 @@ import org.jetbrains.annotations.NotNull;
 public class BackendWarn implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender sender, Command cmd, @NotNull String label, String[] args) {
         if (args.length < 2) return false;
-        
+
         Player player = Bukkit.getPlayer(args[0]);
         if (player == null) {
             sender.sendMessage(Component.text("Player not found!", NamedTextColor.RED));

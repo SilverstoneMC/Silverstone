@@ -32,8 +32,8 @@ public class DiscordButtons extends ListenerAdapter {
             player = player.substring(0, player.indexOf(' '));
             String finalPlayer = player;
 
-            i.server.getCommandManager()
-                .executeAsync(i.server.getConsoleCommandSource(), "warn " + finalPlayer + " skin");
+            i.server.getCommandManager().executeAsync(i.server.getConsoleCommandSource(),
+                "warn " + finalPlayer + " skin");
 
             event.deferEdit().queue();
             Button button = event.getButton().asDisabled();
@@ -75,8 +75,8 @@ public class DiscordButtons extends ListenerAdapter {
             }
 
             case "clearallwarnings" -> {
-                i.server.getCommandManager()
-                    .executeAsync(i.server.getConsoleCommandSource(), "ssw clear all " + username);
+                i.server.getCommandManager().executeAsync(i.server.getConsoleCommandSource(),
+                    "ssw clear all " + username);
                 disableButtons(event, 3);
             }
         }

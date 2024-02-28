@@ -29,8 +29,11 @@ public class TabComplete implements TabCompleter {
                 }
 
                 if (args.length == 2) {
-                    final List<String> arguments = new ArrayList<>(
-                        List.of("open", "ready", "in_session", "resetting", "closed"));
+                    final List<String> arguments = new ArrayList<>(List.of("open",
+                        "ready",
+                        "in_session",
+                        "resetting",
+                        "closed"));
 
                     for (String a : arguments)
                         if (a.toLowerCase().startsWith(args[1].toLowerCase())) result.add(a);
@@ -40,8 +43,11 @@ public class TabComplete implements TabCompleter {
 
             case "corruptedtag" -> {
                 if (args.length == 1) {
-                    final List<String> arguments = new ArrayList<>(
-                        List.of("start", "stop", "corrupt", "uncorrupt", "kitselect"));
+                    final List<String> arguments = new ArrayList<>(List.of("start",
+                        "stop",
+                        "corrupt",
+                        "uncorrupt",
+                        "kitselect"));
 
                     for (String a : arguments)
                         if (a.toLowerCase().startsWith(args[0].toLowerCase())) result.add(a);

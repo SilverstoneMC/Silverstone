@@ -62,15 +62,15 @@ public class BaseCommand implements SimpleCommand {
                     .getString();
                 UserManager.playerMap.put(uuid, username);
             }
-            
+
             // Update nicknames
             for (Player player : i.server.getAllPlayers())
                 new NicknameUtils(i).changeDisplayName(player,
                     new NicknameUtils(i).getDisplayName(player.getUniqueId()));
 
             sender.sendMessage(Component.text("SilverstoneProxy reloaded!", NamedTextColor.GREEN));
-        } else
-            sender.sendMessage(Component.text("You don't have permission to do that!", NamedTextColor.RED));
+        } else sender.sendMessage(Component.text("You don't have permission to do that!",
+            NamedTextColor.RED));
 
 
             // remove <reason> <player>
@@ -92,28 +92,31 @@ public class BaseCommand implements SimpleCommand {
             int count = i.fileManager.files.get(WARNDATA).getNode("data", uuid.toString(), args[1]).getInt();
 
             // Already has 0 warnings
-            if ((count - 1) < 0) sender.sendMessage(Component.text(username, NamedTextColor.GRAY)
-                .append(Component.text(" already has 0 ", NamedTextColor.RED))
+            if ((count - 1) < 0) sender.sendMessage(Component.text(username, NamedTextColor.GRAY).append(
+                    Component.text(" already has 0 ", NamedTextColor.RED))
                 .append(Component.text(args[1], NamedTextColor.GRAY))
                 .append(Component.text(" warnings.", NamedTextColor.RED)));
             else {
                 new UndoWarning(i).undoWarning(uuid, args[1], count);
 
-                if ((count - 1) == 0)
-                    i.fileManager.files.get(WARNDATA).getNode("data", uuid.toString(), args[1]).setValue(null);
-                else i.fileManager.files.get(WARNDATA).getNode("data", uuid.toString(), args[1]).setValue(count - 1);
+                if ((count - 1) == 0) i.fileManager.files.get(WARNDATA).getNode("data",
+                    uuid.toString(),
+                    args[1]).setValue(null);
+                else i.fileManager.files.get(WARNDATA).getNode("data", uuid.toString(), args[1]).setValue(
+                    count - 1);
                 i.fileManager.save(WARNDATA);
 
-                if (i.fileManager.files.get(WARNDATA).getNode("data", uuid.toString()).getChildrenMap().values().isEmpty()) {
+                if (i.fileManager.files.get(WARNDATA).getNode("data", uuid.toString()).getChildrenMap()
+                    .values().isEmpty()) {
                     i.fileManager.files.get(WARNDATA).getNode("data", uuid.toString()).setValue(null);
                     i.fileManager.save(WARNDATA);
                 }
 
-                Component warningRemovedStaff = Component.text(senderName, NamedTextColor.GRAY)
-                    .append(Component.text(" removed a(n) ", NamedTextColor.RED))
-                    .append(Component.text(args[1], NamedTextColor.GRAY))
-                    .append(Component.text(" warning from ", NamedTextColor.RED))
-                    .append(Component.text(username, NamedTextColor.GRAY));
+                Component warningRemovedStaff = Component.text(senderName, NamedTextColor.GRAY).append(
+                    Component.text(" removed a(n) ", NamedTextColor.RED)).append(Component.text(args[1],
+                    NamedTextColor.GRAY)).append(Component.text(
+                    " warning from ",
+                    NamedTextColor.RED)).append(Component.text(username, NamedTextColor.GRAY));
 
                 i.server.getConsoleCommandSource().sendMessage(warningRemovedStaff);
                 // Message staff
@@ -121,21 +124,23 @@ public class BaseCommand implements SimpleCommand {
                     if (online.hasPermission("silverstone.moderator"))
                         online.sendMessage(warningRemovedStaff);
 
-                Component warningRemovedPlayer = Component.text(senderName, NamedTextColor.GRAY)
-                    .append(Component.text(" removed a(n) ", NamedTextColor.RED))
-                    .append(Component.text(args[1], NamedTextColor.GRAY))
-                    .append(Component.text(" warning from you.", NamedTextColor.RED));
+                Component warningRemovedPlayer = Component.text(senderName, NamedTextColor.GRAY).append(
+                    Component.text(" removed a(n) ", NamedTextColor.RED)).append(Component.text(args[1],
+                    NamedTextColor.GRAY)).append(Component.text(
+                    " warning from you.",
+                    NamedTextColor.RED));
 
                 // Message player if online and command not silent
                 try {
-                    if (!args[3].equalsIgnoreCase("-s"))
-                        if (player != null) player.sendMessage(warningRemovedPlayer);
+                    if (!args[3].equalsIgnoreCase("-s")) if (player != null) player.sendMessage(
+                        warningRemovedPlayer);
                 } catch (ArrayIndexOutOfBoundsException ignored) {
                     if (player != null) player.sendMessage(warningRemovedPlayer);
                 }
 
                 EmbedBuilder embed = new EmbedBuilder();
-                embed.setAuthor(senderName + " removed a(n) '" + args[1] + "' warning from " + username, null,
+                embed.setAuthor(senderName + " removed a(n) '" + args[1] + "' warning from " + username,
+                    null,
                     "https://mc-heads.net/avatar/" + uuid);
                 embed.setColor(new Color(42, 212, 85));
                 warningChannel.sendMessageEmbeds(embed.build()).queue();
@@ -165,10 +170,11 @@ public class BaseCommand implements SimpleCommand {
                 i.fileManager.files.get(WARNDATA).getNode("data", uuid.toString()).setValue(null);
                 i.fileManager.save(WARNDATA);
 
-                Component warningsClearedStaff = Component.text(senderName, NamedTextColor.GRAY)
-                    .append(Component.text(" cleared all of ", NamedTextColor.RED))
-                    .append(Component.text(username, NamedTextColor.GRAY))
-                    .append(Component.text("'s warnings.", NamedTextColor.RED));
+                Component warningsClearedStaff = Component.text(senderName, NamedTextColor.GRAY).append(
+                    Component.text(" cleared all of ", NamedTextColor.RED)).append(Component.text(username,
+                    NamedTextColor.GRAY)).append(Component.text(
+                    "'s warnings.",
+                    NamedTextColor.RED));
 
                 i.server.getConsoleCommandSource().sendMessage(warningsClearedStaff);
                 // Message staff
@@ -176,19 +182,20 @@ public class BaseCommand implements SimpleCommand {
                     if (online.hasPermission("silverstone.moderator"))
                         online.sendMessage(warningsClearedStaff);
 
-                Component warningsClearedPlayer = Component.text(senderName, NamedTextColor.GRAY)
-                    .append(Component.text(" cleared all of your warnings.", NamedTextColor.RED));
+                Component warningsClearedPlayer = Component.text(senderName, NamedTextColor.GRAY).append(
+                    Component.text(" cleared all of your warnings.", NamedTextColor.RED));
 
                 // Message player if online and command not silent
                 try {
-                    if (!args[3].equalsIgnoreCase("-s"))
-                        if (player != null) player.sendMessage(warningsClearedPlayer);
+                    if (!args[3].equalsIgnoreCase("-s")) if (player != null) player.sendMessage(
+                        warningsClearedPlayer);
                 } catch (ArrayIndexOutOfBoundsException ignored) {
                     if (player != null) player.sendMessage(warningsClearedPlayer);
                 }
 
                 EmbedBuilder embed = new EmbedBuilder();
-                embed.setAuthor(senderName + " cleared all of " + username + "'s warnings", null,
+                embed.setAuthor(senderName + " cleared all of " + username + "'s warnings",
+                    null,
                     "https://mc-heads.net/avatar/" + uuid);
                 embed.setColor(new Color(42, 212, 85));
                 warningChannel.sendMessageEmbeds(embed.build()).queue();
@@ -200,11 +207,11 @@ public class BaseCommand implements SimpleCommand {
                 i.fileManager.files.get(WARNDATA).getNode("data", uuid.toString(), args[1]).setValue(null);
                 i.fileManager.save(WARNDATA);
 
-                Component warningsClearedStaff = Component.text(senderName, NamedTextColor.GRAY)
-                    .append(Component.text(" cleared all ", NamedTextColor.RED))
-                    .append(Component.text(args[1], NamedTextColor.GRAY))
-                    .append(Component.text(" warnings from ", NamedTextColor.RED))
-                    .append(Component.text(username, NamedTextColor.GRAY));
+                Component warningsClearedStaff = Component.text(senderName, NamedTextColor.GRAY).append(
+                    Component.text(" cleared all ", NamedTextColor.RED)).append(Component.text(args[1],
+                    NamedTextColor.GRAY)).append(Component.text(
+                    " warnings from ",
+                    NamedTextColor.RED)).append(Component.text(username, NamedTextColor.GRAY));
 
                 i.server.getConsoleCommandSource().sendMessage(warningsClearedStaff);
                 // Message staff
@@ -212,21 +219,21 @@ public class BaseCommand implements SimpleCommand {
                     if (online.hasPermission("silverstone.moderator"))
                         online.sendMessage(warningsClearedStaff);
 
-                Component warningsClearedPlayer = Component.text(senderName, NamedTextColor.GRAY)
-                    .append(Component.text(" cleared all your ", NamedTextColor.RED))
-                    .append(Component.text(args[1], NamedTextColor.GRAY))
-                    .append(Component.text(" warnings.", NamedTextColor.RED));
+                Component warningsClearedPlayer = Component.text(senderName, NamedTextColor.GRAY).append(
+                    Component.text(" cleared all your ", NamedTextColor.RED)).append(Component.text(args[1],
+                    NamedTextColor.GRAY)).append(Component.text(" warnings.", NamedTextColor.RED));
 
                 // Message player if online and command not silent
                 try {
-                    if (!args[3].equalsIgnoreCase("-s"))
-                        if (player != null) player.sendMessage(warningsClearedPlayer);
+                    if (!args[3].equalsIgnoreCase("-s")) if (player != null) player.sendMessage(
+                        warningsClearedPlayer);
                 } catch (ArrayIndexOutOfBoundsException ignored) {
                     if (player != null) player.sendMessage(warningsClearedPlayer);
                 }
 
                 EmbedBuilder embed = new EmbedBuilder();
-                embed.setAuthor(senderName + " cleared all '" + args[1] + "' warnings from " + username, null,
+                embed.setAuthor(senderName + " cleared all '" + args[1] + "' warnings from " + username,
+                    null,
                     "https://mc-heads.net/avatar/" + uuid);
                 embed.setColor(new Color(42, 212, 85));
                 warningChannel.sendMessageEmbeds(embed.build()).queue();

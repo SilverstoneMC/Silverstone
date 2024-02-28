@@ -92,8 +92,15 @@ public class SilverstoneProxy {
         commandManager.register("chatsounds", new ChatSounds(this));
         commandManager.register("discord", new Discord());
         commandManager.register("facepalm", new FacePalm(), "ssw");
-        commandManager.register("forums", new Forums(), "site", "bugreport", "reportbug", "report",
-            "reportplayer", "playerreport", "builder");
+        commandManager.register("forums",
+            new Forums(),
+            "site",
+            "bugreport",
+            "reportbug",
+            "report",
+            "reportplayer",
+            "playerreport",
+            "builder");
         commandManager.register("joinleavesounds", new JoinLeaveSounds(this));
         commandManager.register("mmotd", new MiniMOTDControls(this));
         commandManager.register("mods", new Mods());
@@ -120,9 +127,13 @@ public class SilverstoneProxy {
         eventManager.register(this, new Leave(this));
         eventManager.register(this, new PluginMessages(this));
 
-        CarbonChatProvider.carbonChat().eventHandler()
-            .subscribe(CarbonChatEvent.class, 0, false, chatEvent -> new Chat(this).onChat(chatEvent));
-        CarbonChatProvider.carbonChat().eventHandler().subscribe(CarbonPrivateChatEvent.class, 0, false,
+        CarbonChatProvider.carbonChat().eventHandler().subscribe(CarbonChatEvent.class,
+            0,
+            false,
+            chatEvent -> new Chat(this).onChat(chatEvent));
+        CarbonChatProvider.carbonChat().eventHandler().subscribe(CarbonPrivateChatEvent.class,
+            0,
+            false,
             chatEvent -> new Chat(this).onPrivateChat(chatEvent));
 
         server.getChannelRegistrar().register(IDENTIFIER);

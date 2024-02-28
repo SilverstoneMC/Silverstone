@@ -27,8 +27,8 @@ public class DataManager {
 
         InputStream defaultStream = plugin.getResource("data.yml");
         if (defaultStream != null) {
-            YamlConfiguration defaultConfig = YamlConfiguration.loadConfiguration(
-                new InputStreamReader(defaultStream));
+            YamlConfiguration defaultConfig = YamlConfiguration.loadConfiguration(new InputStreamReader(
+                defaultStream));
             dataConfig.setDefaults(defaultConfig);
         }
     }

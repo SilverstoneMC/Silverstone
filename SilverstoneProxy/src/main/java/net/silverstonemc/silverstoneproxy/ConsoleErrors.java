@@ -25,8 +25,8 @@ public class ConsoleErrors extends AbstractAppender {
         super("SilverstoneErrorLogger", null, null, false, null);
         ((Logger) LogManager.getRootLogger()).addAppender(this);
 
-        dumpTask = instance.server.getScheduler().buildTask(instance, this::dumpQueue)
-            .delay(5, TimeUnit.SECONDS).repeat(5, TimeUnit.SECONDS).schedule();
+        dumpTask = instance.server.getScheduler().buildTask(instance, this::dumpQueue).delay(5,
+            TimeUnit.SECONDS).repeat(5, TimeUnit.SECONDS).schedule();
     }
 
     @Override

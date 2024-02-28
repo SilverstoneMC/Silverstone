@@ -37,15 +37,15 @@ public class Leave {
 
         if (!isVanished) {
             for (Player players : i.server.getAllPlayers())
-                players.sendMessage(
-                    Component.text().append(Component.text("- ", NamedTextColor.RED, TextDecoration.BOLD))
-                        .append(new NicknameUtils(i).getDisplayName(player.getUniqueId()))
-                        .colorIfAbsent(NamedTextColor.AQUA));
-
-            i.server.getConsoleCommandSource().sendMessage(
-                Component.text().append(Component.text("- ", NamedTextColor.RED, TextDecoration.BOLD))
-                    .append(new NicknameUtils(i).getDisplayName(player.getUniqueId()))
+                players.sendMessage(Component.text().append(Component.text("- ",
+                        NamedTextColor.RED,
+                        TextDecoration.BOLD)).append(new NicknameUtils(i).getDisplayName(player.getUniqueId()))
                     .colorIfAbsent(NamedTextColor.AQUA));
+
+            i.server.getConsoleCommandSource().sendMessage(Component.text().append(Component.text("- ",
+                    NamedTextColor.RED,
+                    TextDecoration.BOLD)).append(new NicknameUtils(i).getDisplayName(player.getUniqueId()))
+                .colorIfAbsent(NamedTextColor.AQUA));
         }
 
         // Vanish status handled on backend

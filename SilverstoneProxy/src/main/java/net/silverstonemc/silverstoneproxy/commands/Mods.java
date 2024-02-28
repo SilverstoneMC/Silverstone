@@ -11,8 +11,9 @@ public class Mods implements SimpleCommand {
     public void execute(final Invocation invocation) {
         CommandSource sender = invocation.source();
 
-        sender.sendMessage(
-            Component.text("Click here for modifications we recommend", NamedTextColor.DARK_AQUA).clickEvent(
-                ClickEvent.openUrl("https://gist.github.com/JasonHorkles/bcf3532a9fbda145fd0a0b172ec8fc2d")));
+        sender.sendMessage(Component
+            .text("Click here for modifications we recommend", NamedTextColor.DARK_AQUA)
+            .clickEvent(ClickEvent.openUrl(
+                "https://gist.github.com/JasonHorkles/bcf3532a9fbda145fd0a0b172ec8fc2d")));
     }
 }

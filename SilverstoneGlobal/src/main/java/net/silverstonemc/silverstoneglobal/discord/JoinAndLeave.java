@@ -46,8 +46,7 @@ public class JoinAndLeave implements Listener {
                 TextChannel channel = SilverstoneGlobal.jda.getTextChannelById(1160724667817017414L);
 
                 EmbedBuilder embed = new EmbedBuilder();
-                embed.setAuthor(username + " is new", null,
-                    "https://mc-heads.net/avatar/" + uuid);
+                embed.setAuthor(username + " is new", null, "https://mc-heads.net/avatar/" + uuid);
                 embed.setFooter(finalStaff + " staff members online");
                 embed.setColor(new Color(36, 197, 19));
 
@@ -64,25 +63,25 @@ public class JoinAndLeave implements Listener {
         event.quitMessage(null);
 
         // #serverSpecific
-        if (plugin.getConfig().getString("server").equalsIgnoreCase("creative"))
-            if (newPlayers.containsKey(event.getPlayer())) {
-                Player player = event.getPlayer();
+        if (plugin.getConfig().getString("server").equalsIgnoreCase("creative")) if (newPlayers.containsKey(
+            event.getPlayer())) {
+            Player player = event.getPlayer();
 
-                int x = 0;
-                for (Player players : plugin.getServer().getOnlinePlayers())
-                    if (players.hasPermission("silverstone.moderator")) x++;
+            int x = 0;
+            for (Player players : plugin.getServer().getOnlinePlayers())
+                if (players.hasPermission("silverstone.moderator")) x++;
 
-                Message message = newPlayers.get(player);
-                MessageEmbed oldEmbed = message.getEmbeds().get(0);
+            Message message = newPlayers.get(player);
+            MessageEmbed oldEmbed = message.getEmbeds().get(0);
 
-                EmbedBuilder embed = new EmbedBuilder(oldEmbed);
-                embed.setAuthor(player.getName() + " was new", null, oldEmbed.getAuthor().getIconUrl());
-                embed.setFooter("Player has left | " + x + " staff members online");
-                embed.setColor(Color.RED);
+            EmbedBuilder embed = new EmbedBuilder(oldEmbed);
+            embed.setAuthor(player.getName() + " was new", null, oldEmbed.getAuthor().getIconUrl());
+            embed.setFooter("Player has left | " + x + " staff members online");
+            embed.setColor(Color.RED);
 
-                message.editMessageEmbeds(embed.build()).queue();
+            message.editMessageEmbeds(embed.build()).queue();
 
-                newPlayers.remove(player);
-            }
+            newPlayers.remove(player);
+        }
     }
 }

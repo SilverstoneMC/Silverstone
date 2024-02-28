@@ -210,7 +210,8 @@ public class ChatColorGUI implements CommandExecutor, Listener {
     }
 
     public void createInv() {
-        Inventory inventory = Bukkit.createInventory(null, 45,
+        Inventory inventory = Bukkit.createInventory(null,
+            45,
             Component.text("Chat Colors", TextColor.fromHexString("#a62828"), TextDecoration.BOLD));
 
         // Filler

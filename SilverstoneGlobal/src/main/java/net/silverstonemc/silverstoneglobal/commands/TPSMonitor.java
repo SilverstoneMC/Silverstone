@@ -27,9 +27,9 @@ public record TPSMonitor(JavaPlugin plugin) implements CommandExecutor {
             if (task != null && !task.isCancelled()) {
                 task.cancel();
                 Bukkit.dispatchCommand(sender, cmd.getName() + " " + args[0]);
-                sender.sendMessage(
-                    Component.text("Successfully changed the interval to " + interval / 20 + " seconds.",
-                        NamedTextColor.GREEN));
+                sender.sendMessage(Component.text(
+                    "Successfully changed the interval to " + interval / 20 + " seconds.",
+                    NamedTextColor.GREEN));
                 return true;
             }
 

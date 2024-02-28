@@ -46,7 +46,7 @@ public class PluginMessages {
                     Node node = SuffixNode.builder().priority(500).build();
                     u.data().remove(node);
                 });
-                    
+
                 else luckPerms.getUserManager().modifyUser(user.getUniqueId(), u -> {
                     Node node = SuffixNode.builder("&" + value, 500).build();
                     u.data().add(node);
@@ -68,7 +68,7 @@ public class PluginMessages {
 
                 if (sender.hasPermission("silverstone.live")) {
                     i.server.getCommandManager().executeAsync(sender, "socialspy enabled");
-                    
+
                     luckPerms.getUserManager().modifyUser(user.getUniqueId(), u -> {
                         Node node = InheritanceNode.builder(liveGroup).value(true).build();
                         u.data().remove(node);
@@ -78,7 +78,7 @@ public class PluginMessages {
 
                 } else {
                     i.server.getCommandManager().executeAsync(sender, "socialspy disable");
-                    
+
                     luckPerms.getUserManager().modifyUser(user.getUniqueId(), u -> {
                         Node node = InheritanceNode.builder(liveGroup).value(true).build();
                         u.data().add(node);

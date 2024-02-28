@@ -33,16 +33,16 @@ public class Chat {
         if (!player.hasPermission("silverstone.chatspam.bypass")) {
             if (lastMessages.containsKey(player.uuid()))
                 if (lastMessages.get(player.uuid()).equals(event.message())) {
-                    player.sendMessage(
-                        Component.text("Please don't spam the same message!", NamedTextColor.RED));
+                    player.sendMessage(Component.text("Please don't spam the same message!",
+                        NamedTextColor.RED));
                     event.cancelled(true);
                     return;
                 }
 
             lastMessages.put(player.uuid(), event.message());
 
-            i.server.getScheduler().buildTask(i, () -> lastMessages.remove(player.uuid()))
-                .delay(15, TimeUnit.SECONDS).schedule();
+            i.server.getScheduler().buildTask(i, () -> lastMessages.remove(player.uuid())).delay(15,
+                TimeUnit.SECONDS).schedule();
         }
 
         ByteArrayDataOutput out = ByteStreams.newDataOutput();
@@ -79,17 +79,16 @@ public class Chat {
             servers.sendPluginMessage(SilverstoneProxy.IDENTIFIER, out.toByteArray());
 
         for (Player player : i.server.getAllPlayers())
-            if (player.hasPermission("silverstone.socialspy.enabled")) if (!player.getUniqueId().toString()
-                .equals(event.sender().uuid().toString()) && !player.getUniqueId().toString()
-                .equals(event.recipient().uuid().toString())) player.sendMessage(
-                Component.text().append(Component.text("SPY ", NamedTextColor.BLUE, TextDecoration.BOLD))
-                    .append(Component.text("> ", NamedTextColor.AQUA, TextDecoration.BOLD)).append(
-                        new NicknameUtils(i).getDisplayName(event.sender().uuid())
-                            .colorIfAbsent(NamedTextColor.GOLD))
-                    .append(Component.text(" ➡ ", NamedTextColor.DARK_GRAY)).append(
-                        new NicknameUtils(i).getDisplayName(event.recipient().uuid())
-                            .colorIfAbsent(NamedTextColor.GRAY))
-                    .append(Component.text(" | ", NamedTextColor.DARK_AQUA))
-                    .append(event.message().colorIfAbsent(NamedTextColor.GRAY)).build());
+            if (player.hasPermission("silverstone.socialspy.enabled"))
+                if (!player.getUniqueId().toString().equals(event.sender().uuid().toString()) && !player
+                    .getUniqueId().toString().equals(event.recipient().uuid().toString())) player.sendMessage(
+                    Component.text().append(Component.text("SPY ", NamedTextColor.BLUE, TextDecoration.BOLD))
+                        .append(Component.text("> ", NamedTextColor.AQUA, TextDecoration.BOLD))
+                        .append(new NicknameUtils(i).getDisplayName(event.sender().uuid())
+                            .colorIfAbsent(NamedTextColor.GOLD)).append(Component.text(" ➡ ",
+                            NamedTextColor.DARK_GRAY)).append(new NicknameUtils(i)
+                            .getDisplayName(event.recipient().uuid()).colorIfAbsent(NamedTextColor.GRAY)).append(
+                            Component.text(" | ", NamedTextColor.DARK_AQUA))
+                        .append(event.message().colorIfAbsent(NamedTextColor.GRAY)).build());
     }
 }

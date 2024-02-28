@@ -8,9 +8,9 @@ public class Glist {
     public Glist(SilverstoneProxy instance) {
         i = instance;
     }
-    
+
     private final SilverstoneProxy i;
-    
+
     @Subscribe
     public void onCommand(CommandExecuteEvent event) {
         if (event.getCommand().equalsIgnoreCase("glist")) {

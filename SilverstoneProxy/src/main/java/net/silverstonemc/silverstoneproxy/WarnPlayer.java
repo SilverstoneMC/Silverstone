@@ -27,12 +27,11 @@ public class WarnPlayer {
 
     public void warn(UUID uuid, String reason) {
         // Me, dragon, panda, ace
-        if (uuid.toString().equals("a28173af-f0a9-47fe-8549-19c6bccf68da") || uuid.toString()
-            .equals("e70a4622-85b6-417d-9201-7322e5094465") || uuid.toString()
-            .equals("75fb05a2-9d9e-49cb-be34-6bd5215548ba") || uuid.toString()
-            .equals("5c3d3b7c-aa02-4751-ae4b-60b277da9c35")) {
-            i.logger.error(
-                "Cancelled warning " + new UserManager(i).getUsername(uuid) + " for reason: " + reason);
+        if (uuid.toString().equals("a28173af-f0a9-47fe-8549-19c6bccf68da") || uuid.toString().equals(
+            "e70a4622-85b6-417d-9201-7322e5094465") || uuid.toString().equals(
+            "75fb05a2-9d9e-49cb-be34-6bd5215548ba") || uuid.toString().equals(
+            "5c3d3b7c-aa02-4751-ae4b-60b277da9c35")) {
+            i.logger.error("Cancelled warning " + new UserManager(i).getUsername(uuid) + " for reason: " + reason);
             return;
         }
 
@@ -46,10 +45,11 @@ public class WarnPlayer {
             i.fileManager.files.get(WARNQUEUE).getNode("queue", uuid.toString()).setValue(reason);
             i.fileManager.save(WARNQUEUE);
 
-            Component offlinePlayerWarned = Component.text("Offline player ", NamedTextColor.RED)
-                .append(Component.text(username, NamedTextColor.GRAY))
-                .append(Component.text(" has been warned for reason: ", NamedTextColor.RED))
-                .append(Component.text(reason, NamedTextColor.GRAY));
+            Component offlinePlayerWarned = Component.text("Offline player ", NamedTextColor.RED).append(
+                Component.text(username, NamedTextColor.GRAY)).append(Component.text(" has been warned for reason: ",
+                NamedTextColor.RED)).append(Component.text(
+                reason,
+                NamedTextColor.GRAY));
 
             i.server.getConsoleCommandSource().sendMessage(offlinePlayerWarned);
             // Message staff
@@ -57,15 +57,17 @@ public class WarnPlayer {
                 if (online.hasPermission("silverstone.moderator")) online.sendMessage(offlinePlayerWarned);
 
             EmbedBuilder embed = new EmbedBuilder();
-            embed.setAuthor(username + " has a warning queued: " + reason, null,
+            embed.setAuthor(username + " has a warning queued: " + reason,
+                null,
                 "https://mc-heads.net/avatar/" + uuid);
             embed.setColor(new Color(255, 217, 0));
             warningChannel.sendMessageEmbeds(embed.build()).queue();
             return;
         }
 
-        ConfigurationNode warnData = i.fileManager.files.get(WARNDATA)
-            .getNode("data", uuid.toString(), reason);
+        ConfigurationNode warnData = i.fileManager.files.get(WARNDATA).getNode("data",
+            uuid.toString(),
+            reason);
         // If player doesn't have the reason in their data, add it
         // If they already had the reason, add 1 to it
         int warningCount = 1;
@@ -85,10 +87,11 @@ public class WarnPlayer {
         EmbedBuilder embed = new EmbedBuilder();
         embed.setAuthor(
             username + " was warned for reason: " + reason + " | Warning " + punishmentNumber + "/" + punishmentCount,
-            null, "https://mc-heads.net/avatar/" + uuid);
+            null,
+            "https://mc-heads.net/avatar/" + uuid);
         embed.setColor(new Color(204, 27, 53));
-        warningChannel.sendMessageEmbeds(embed.build()).setActionRow(
-            Button.success("removewarning: " + reason + " :" + uuid, "Undo '" + reason + "' warning")
+        warningChannel.sendMessageEmbeds(embed.build()).setActionRow(Button
+                .success("removewarning: " + reason + " :" + uuid, "Undo '" + reason + "' warning")
                 .withEmoji(Emoji.fromUnicode("↩")),
             Button.primary("removewarningsilently: " + reason + " :" + uuid,
                 "Undo '" + reason + "' warning silently").withEmoji(Emoji.fromUnicode("↩")),
@@ -100,13 +103,13 @@ public class WarnPlayer {
         // Warn the player
         ArrayList<String> cmdList;
         try {
-            cmdList = new ArrayList<>(
-                punishments.getNode(punishmentNumber).getList(TypeToken.of(String.class)));
+            cmdList = new ArrayList<>(punishments.getNode(punishmentNumber)
+                .getList(TypeToken.of(String.class)));
         } catch (ObjectMappingException e) {
             throw new RuntimeException(e);
         }
         for (String cmd : cmdList)
-            i.server.getCommandManager()
-                .executeAsync(i.server.getConsoleCommandSource(), cmd.replace("{player}", username));
+            i.server.getCommandManager().executeAsync(i.server.getConsoleCommandSource(),
+                cmd.replace("{player}", username));
     }
 }

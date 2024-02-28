@@ -16,8 +16,8 @@ public class Disguise implements Listener {
     @EventHandler
     public void onDisguiseCommand(ServerCommandEvent event) {
         if (event.getCommand().toLowerCase().startsWith("disguiseplayer") || event.getCommand().toLowerCase()
-            .startsWith("disguisemodifyplayer") || event.getCommand().toLowerCase()
-            .startsWith("undisguiseplayer")) {
+            .startsWith("disguisemodifyplayer") || event.getCommand().toLowerCase().startsWith(
+            "undisguiseplayer")) {
             event.setCancelled(true);
             runForPlayers(event.getCommand(), event.getSender());
         }

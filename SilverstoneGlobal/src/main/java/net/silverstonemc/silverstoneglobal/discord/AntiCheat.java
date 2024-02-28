@@ -34,8 +34,9 @@ public class AntiCheat implements Listener {
         EmbedBuilder embed = new EmbedBuilder();
         embed.setAuthor(
             player.getName() + " may be hacking (" + event.getHackType() + ") | Violations: " + SilverstoneGlobal.matrix.getViolations(
-                player, event.getHackType()) + " | Ping: " + SilverstoneGlobal.matrix.getLatency(
-                player) + "ms | TPS: " + SilverstoneGlobal.matrix.getTPS(), null,
+                player,
+                event.getHackType()) + " | Ping: " + SilverstoneGlobal.matrix.getLatency(player) + "ms | TPS: " + SilverstoneGlobal.matrix.getTPS(),
+            null,
             "https://mc-heads.net/avatar/" + player.getUniqueId());
         embed.setColor(new Color(204, 27, 53));
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("h:mm:ss.SSS a");

@@ -24,8 +24,8 @@ public class TimeOut implements Listener {
     public void onKick(PlayerKickEvent event) {
         Player player = event.getPlayer();
 
-        if (PlainTextComponentSerializer.plainText().serialize(event.reason())
-            .equalsIgnoreCase("disconnect.timeout")) sendTimeoutMessage(player);
+        if (PlainTextComponentSerializer.plainText().serialize(event.reason()).equalsIgnoreCase(
+            "disconnect.timeout")) sendTimeoutMessage(player);
     }
 
     private void sendTimeoutMessage(Player player) {
@@ -35,7 +35,8 @@ public class TimeOut implements Listener {
             online.sendMessage(Component.text(player.getName(), NamedTextColor.GRAY)
                 .append(Component.text(" timed out.", NamedTextColor.RED)));
 
-        Bukkit.getConsoleSender()
-            .sendMessage(Component.text("Sending timeout message (kick)", NamedTextColor.GOLD));
+        Bukkit.getConsoleSender().sendMessage(Component.text(
+            "Sending timeout message (kick)",
+            NamedTextColor.GOLD));
     }
 }

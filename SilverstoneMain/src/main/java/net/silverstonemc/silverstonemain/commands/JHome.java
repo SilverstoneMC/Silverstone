@@ -34,9 +34,15 @@ public class JHome implements CommandExecutor {
 
         player.sendMessage(Component.text("Teleporting...", NamedTextColor.DARK_AQUA));
         if (player.getGameMode().equals(GameMode.SPECTATOR)) player.setSpectatorTarget(null);
-        essentials.getUser(player).getAsyncTeleport()
-            .now(new Location(Bukkit.getWorld("utility"), 79.5, 71, 135.5, 0, 0), false,
-                PlayerTeleportEvent.TeleportCause.COMMAND, new CompletableFuture<>());
+        essentials.getUser(player).getAsyncTeleport().now(new Location(Bukkit.getWorld("utility"),
+                79.5,
+                71,
+                135.5,
+                0,
+                0),
+            false,
+            PlayerTeleportEvent.TeleportCause.COMMAND,
+            new CompletableFuture<>());
 
         new BukkitRunnable() {
             @Override

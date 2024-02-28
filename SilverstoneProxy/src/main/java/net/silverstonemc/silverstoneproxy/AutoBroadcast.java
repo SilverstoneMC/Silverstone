@@ -15,15 +15,14 @@ public class AutoBroadcast {
 
     private final SilverstoneProxy i;
     private static int lastMessage = 0;
-    
+
     private final TextComponent[] messages = {Component.text("Love the server? Help keep it going with ",
         NamedTextColor.DARK_GREEN).append(Component.text("/buy", NamedTextColor.DARK_AQUA)
-        .clickEvent(ClickEvent.runCommand("/buy"))), Component.text(
-        "Have a suggestion or bug report? Submit it at ", NamedTextColor.GRAY).append(
-        Component.text("/forums", NamedTextColor.AQUA)
-            .clickEvent(ClickEvent.runCommand("/forums"))), Component.text("Report misbehaving players with ",
-        NamedTextColor.RED).append(
-        Component.text("/report", NamedTextColor.GRAY).clickEvent(ClickEvent.runCommand("/report")))};
+        .clickEvent(ClickEvent.runCommand("/buy"))), Component.text("Have a suggestion or bug report? Submit it at ",
+        NamedTextColor.GRAY).append(Component.text("/forums", NamedTextColor.AQUA)
+        .clickEvent(ClickEvent.runCommand("/forums"))), Component.text("Report misbehaving players with ",
+        NamedTextColor.RED).append(Component.text("/report", NamedTextColor.GRAY)
+        .clickEvent(ClickEvent.runCommand("/report")))};
 
     public void scheduleBroadcasts() {
         i.server.getScheduler().buildTask(i, () -> {

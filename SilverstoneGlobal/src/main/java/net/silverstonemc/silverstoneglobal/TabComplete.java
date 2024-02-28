@@ -18,15 +18,17 @@ public class TabComplete implements TabCompleter, Listener {
         //noinspection SwitchStatementWithTooFewBranches
         switch (cmd.getName().toLowerCase()) {
             case "ggamerule" -> {
-                if (args.length == 1) return returnResult(args, 0,
+                if (args.length == 1) return returnResult(args,
+                    0,
                     Arrays.stream(GameRule.values()).map(GameRule::getName).toArray(String[]::new));
 
                 if (args.length == 2) {
                     List<String> gameRuleValues = new ArrayList<>();
                     GameRule<?> gameRule = GameRule.getByName(args[0]);
                     if (gameRule == null) return new ArrayList<>();
-                    if (gameRule.getType() == Boolean.class)
-                        gameRuleValues.addAll(Arrays.asList("true", "false"));
+                    if (gameRule.getType() == Boolean.class) gameRuleValues.addAll(Arrays.asList(
+                        "true",
+                        "false"));
                     else if (gameRule.getType() == Integer.class) gameRuleValues.add("<integer>");
 
                     return returnResult(args, 1, gameRuleValues.toArray(String[]::new));

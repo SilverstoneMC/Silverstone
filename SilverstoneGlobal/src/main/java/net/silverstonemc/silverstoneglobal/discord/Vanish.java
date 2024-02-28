@@ -41,12 +41,12 @@ public class Vanish extends ListenerAdapter {
                 }
 
                 switch (componentId) {
-                    case "vanish-on" -> event.reply("**Which account?**")
-                        .addActionRow(Button.primary("vanish-on-main", "Vanish main"),
-                            Button.secondary("vanish-on-alt", "Vanish alt")).setEphemeral(true).queue();
-                    case "vanish-off" -> event.reply("**Which account?**")
-                        .addActionRow(Button.primary("vanish-off-main", "Un-vanish main"),
-                            Button.secondary("vanish-off-alt", "Un-vanish alt")).setEphemeral(true).queue();
+                    case "vanish-on" -> event.reply("**Which account?**").addActionRow(
+                        Button.primary("vanish-on-main", "Vanish main"),
+                        Button.secondary("vanish-on-alt", "Vanish alt")).setEphemeral(true).queue();
+                    case "vanish-off" -> event.reply("**Which account?**").addActionRow(
+                        Button.primary("vanish-off-main", "Un-vanish main"),
+                        Button.secondary("vanish-off-alt", "Un-vanish alt")).setEphemeral(true).queue();
                 }
 
                 return;

@@ -11,8 +11,8 @@ public class Discord implements SimpleCommand {
     public void execute(final Invocation invocation) {
         CommandSource sender = invocation.source();
 
-        sender.sendMessage(Component.text("Join the Discord server at ", NamedTextColor.DARK_AQUA).append(
-            Component.text("discord.gg/VVSUEPd", NamedTextColor.GREEN)
+        sender.sendMessage(Component.text("Join the Discord server at ", NamedTextColor.DARK_AQUA)
+            .append(Component.text("discord.gg/VVSUEPd", NamedTextColor.GREEN)
                 .clickEvent(ClickEvent.openUrl("https://discord.gg/VVSUEPd"))));
     }
 }

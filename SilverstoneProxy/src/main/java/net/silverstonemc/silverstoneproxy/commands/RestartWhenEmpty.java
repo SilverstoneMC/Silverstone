@@ -24,7 +24,8 @@ public class RestartWhenEmpty implements SimpleCommand {
     @Override
     public void execute(final Invocation invocation) {
         for (Player player : i.server.getAllPlayers())
-            player.sendActionBar(Component.text("NETWORK SCHEDULED TO RESTART WHEN EMPTY", NamedTextColor.RED,
+            player.sendActionBar(Component.text("NETWORK SCHEDULED TO RESTART WHEN EMPTY",
+                NamedTextColor.RED,
                 TextDecoration.BOLD));
         i.logger.info("Server scheduled to restart when empty.");
 
