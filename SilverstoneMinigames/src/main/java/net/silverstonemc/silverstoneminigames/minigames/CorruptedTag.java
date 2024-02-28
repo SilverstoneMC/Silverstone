@@ -261,7 +261,7 @@ public class CorruptedTag implements CommandExecutor, Listener {
 
                     ItemStack trident = new ItemStack(Material.TRIDENT);
                     ItemMeta tridentMeta = trident.getItemMeta();
-                    tridentMeta.addEnchant(Enchantment.LOYALTY, 3, false);
+                    tridentMeta.addEnchant(Enchantment.LOYALTY, 1, false);
                     trident.setItemMeta(tridentMeta);
                     player.getInventory().setItem(player.getInventory().getHeldItemSlot(), trident);
 
@@ -416,7 +416,7 @@ public class CorruptedTag implements CommandExecutor, Listener {
         // Description
         loreList.add(Component.text(description, NamedTextColor.AQUA)
                               .decoration(TextDecoration.ITALIC, false));
-        loreList.add(Component.empty());
+        if (!advantages.isEmpty() || !disadvantages.isEmpty()) loreList.add(Component.empty());
 
         // Advantages
         for (String advantage : advantages)
