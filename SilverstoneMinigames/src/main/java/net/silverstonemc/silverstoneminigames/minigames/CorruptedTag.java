@@ -345,14 +345,14 @@ public class CorruptedTag implements CommandExecutor, Listener {
         );
         SkullMeta confirmMeta = (SkullMeta) confirm.getItemMeta();
         confirmMeta.displayName(Component.text("Confirm", NamedTextColor.GREEN, TextDecoration.BOLD)
-                                         .decoration(TextDecoration.ITALIC, false));
+            .decoration(TextDecoration.ITALIC, false));
         confirm.setItemMeta(confirmMeta);
 
         // Cancel button
         final ItemStack cancel = new ItemStack(Material.STRUCTURE_VOID);
         ItemMeta cancelMeta = cancel.getItemMeta();
         cancelMeta.displayName(Component.text("Cancel", NamedTextColor.RED, TextDecoration.BOLD)
-                                        .decoration(TextDecoration.ITALIC, false));
+            .decoration(TextDecoration.ITALIC, false));
         cancel.setItemMeta(cancelMeta);
 
         // Tank
@@ -409,25 +409,25 @@ public class CorruptedTag implements CommandExecutor, Listener {
 
         // Title
         meta.displayName(Component.text(title, NamedTextColor.GREEN, TextDecoration.BOLD)
-                                  .decoration(TextDecoration.ITALIC, TextDecoration.State.FALSE));
+            .decoration(TextDecoration.ITALIC, TextDecoration.State.FALSE));
 
         ArrayList<Component> loreList = new ArrayList<>();
 
         // Description
         loreList.add(Component.text(description, NamedTextColor.AQUA)
-                              .decoration(TextDecoration.ITALIC, false));
+            .decoration(TextDecoration.ITALIC, false));
         if (!advantages.isEmpty() || !disadvantages.isEmpty()) loreList.add(Component.empty());
 
         // Advantages
         for (String advantage : advantages)
             loreList.add(Component.text("+ ", NamedTextColor.DARK_GREEN)
-                                  .decoration(TextDecoration.ITALIC, false)
-                                  .append(Component.text(advantage, NamedTextColor.DARK_AQUA)));
+                .decoration(TextDecoration.ITALIC, false)
+                .append(Component.text(advantage, NamedTextColor.DARK_AQUA)));
 
         // Disadvantages
         for (String disadvantage : disadvantages)
             loreList.add(Component.text("- ", NamedTextColor.RED).decoration(TextDecoration.ITALIC, false)
-                                  .append(Component.text(disadvantage, NamedTextColor.DARK_AQUA)));
+                .append(Component.text(disadvantage, NamedTextColor.DARK_AQUA)));
 
         meta.lore(loreList);
         itemStack.setItemMeta(meta);

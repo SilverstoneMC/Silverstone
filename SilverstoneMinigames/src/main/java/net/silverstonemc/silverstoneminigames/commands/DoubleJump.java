@@ -33,7 +33,6 @@ public class DoubleJump implements CommandExecutor, Listener {
     private final Map<String, Long> cooldowns = new HashMap<>();
     private static final Map<Player, Integer> jumps = new HashMap<>();
 
-    //todo add reset command
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
         if (args.length > 1) {
             List<Entity> selector = Bukkit.selectEntities(sender, args[0]);
@@ -68,36 +67,36 @@ public class DoubleJump implements CommandExecutor, Listener {
         Player player = event.getPlayer();
 
         if (event.getAction().equals(Action.RIGHT_CLICK_AIR) || event.getAction()
-                                                                     .equals(Action.RIGHT_CLICK_BLOCK) || event
-            .getAction().equals(Action.LEFT_CLICK_AIR) || event.getAction().equals(Action.LEFT_CLICK_BLOCK))
-            if (player.getWorld().getName().equalsIgnoreCase(plugin.getConfig().getString("minigame-world")))
-                if (player.getInventory().getItemInMainHand().getType() == Material.FEATHER)
-                    if (player.getInventory().getItemInMainHand().getItemMeta().hasDisplayName())
-                        //noinspection DataFlowIssue
-                        if (player.getInventory().getItemInMainHand().getItemMeta().displayName().equals(
-                            Component.text("Double Jump", NamedTextColor.RED, TextDecoration.BOLD)
-                                     .decoration(TextDecoration.ITALIC, false))) {
-                            // Still on cooldown
-                            if (cooldowns.containsKey(player.getName()))
-                                if (cooldowns.get(player.getName()) > System.currentTimeMillis()) return;
-                            cooldowns.put(player.getName(), System.currentTimeMillis() + 750);
+            .equals(Action.RIGHT_CLICK_BLOCK) || event.getAction().equals(Action.LEFT_CLICK_AIR) || event
+            .getAction().equals(Action.LEFT_CLICK_BLOCK)) if (player.getWorld().getName().equalsIgnoreCase(
+            plugin.getConfig().getString("minigame-world")))
+            if (player.getInventory().getItemInMainHand().getType() == Material.FEATHER)
+                if (player.getInventory().getItemInMainHand().getItemMeta().hasDisplayName())
+                    //noinspection DataFlowIssue
+                    if (player.getInventory().getItemInMainHand().getItemMeta().displayName().equals(Component
+                        .text("Double Jump", NamedTextColor.RED, TextDecoration.BOLD)
+                        .decoration(TextDecoration.ITALIC, false))) {
+                        // Still on cooldown
+                        if (cooldowns.containsKey(player.getName()))
+                            if (cooldowns.get(player.getName()) > System.currentTimeMillis()) return;
+                        cooldowns.put(player.getName(), System.currentTimeMillis() + 750);
 
-                            int jumpCount = 0;
-                            if (jumps.containsKey(player)) jumpCount = jumps.get(player);
+                        int jumpCount = 0;
+                        if (jumps.containsKey(player)) jumpCount = jumps.get(player);
 
-                            if (jumpCount == 0) {
-                                player.sendMessage(Component.text("You can't double jump any more!",
-                                    NamedTextColor.RED
-                                ));
-                                return;
-                            }
-
-                            Vector vector = player.getLocation().getDirection().multiply(0.5).setY(0.85);
-                            player.setVelocity(vector);
-                            jumps.put(player, jumpCount - 1);
-                            player.sendMessage(Component.text("You have " + (jumpCount - 1) + " double jumps remaining.",
+                        if (jumpCount == 0) {
+                            player.sendMessage(Component.text("You can't double jump any more!",
                                 NamedTextColor.RED
                             ));
+                            return;
                         }
+
+                        Vector vector = player.getLocation().getDirection().multiply(0.5).setY(0.85);
+                        player.setVelocity(vector);
+                        jumps.put(player, jumpCount - 1);
+                        player.sendMessage(Component.text("You have " + (jumpCount - 1) + " double jumps remaining.",
+                            NamedTextColor.RED
+                        ));
+                    }
     }
 }

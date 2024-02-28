@@ -12,8 +12,6 @@ import java.util.Collection;
 import java.util.List;
 
 public class TabComplete implements TabCompleter {
-    private final List<String> arguments2 = new ArrayList<>();
-
     public List<String> onTabComplete(@NotNull CommandSender sender, Command cmd, @NotNull String label, String[] args) {
         List<String> result = new ArrayList<>();
 
@@ -22,24 +20,19 @@ public class TabComplete implements TabCompleter {
                 if (args.length == 1) {
                     Collection<Hologram> holograms = FancyHologramsPlugin.get().getHologramManager()
                         .getHolograms();
-                    List<String> arguments1 = new ArrayList<>();
-                    holograms.forEach(hologram -> arguments1.add(hologram.getData().getName()));
+                    List<String> arguments = new ArrayList<>();
+                    holograms.forEach(hologram -> arguments.add(hologram.getData().getName()));
 
-                    for (String a : arguments1)
+                    for (String a : arguments)
                         if (a.toLowerCase().startsWith(args[0].toLowerCase())) result.add(a);
                     return result;
                 }
 
                 if (args.length == 2) {
-                    if (arguments2.isEmpty()) {
-                        arguments2.add("open");
-                        arguments2.add("ready");
-                        arguments2.add("in_session");
-                        arguments2.add("resetting");
-                        arguments2.add("closed");
-                    }
+                    final List<String> arguments = new ArrayList<>(
+                        List.of("open", "ready", "in_session", "resetting", "closed"));
 
-                    for (String a : arguments2)
+                    for (String a : arguments)
                         if (a.toLowerCase().startsWith(args[1].toLowerCase())) result.add(a);
                     return result;
                 }
@@ -47,10 +40,10 @@ public class TabComplete implements TabCompleter {
 
             case "corruptedtag" -> {
                 if (args.length == 1) {
-                    List<String> arguments1 = new ArrayList<>(
+                    final List<String> arguments = new ArrayList<>(
                         List.of("start", "stop", "corrupt", "uncorrupt", "kitselect"));
 
-                    for (String a : arguments1)
+                    for (String a : arguments)
                         if (a.toLowerCase().startsWith(args[0].toLowerCase())) result.add(a);
                     return result;
                 }
