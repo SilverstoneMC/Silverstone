@@ -33,8 +33,8 @@ public class Effects implements CommandExecutor {
                 .append(Component.text(" has the following effects:\n ", NamedTextColor.GREEN)));
 
             for (PotionEffect effect : player.getActivePotionEffects())
-                sender.sendMessage(Component.text(effect.getType()
-                        .getName() + " " + (effect.getAmplifier() + 1), NamedTextColor.AQUA)
+                sender.sendMessage(Component.text(effect.getType().getKey().value()
+                        .toUpperCase() + " " + (effect.getAmplifier() + 1), NamedTextColor.AQUA)
                     .append(Component.text(" | ", NamedTextColor.DARK_AQUA))
                     .append(Component.text((effect.getDuration() / 20) + "s", NamedTextColor.AQUA)));
 
