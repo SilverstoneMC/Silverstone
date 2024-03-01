@@ -106,6 +106,24 @@ public class CorruptedTag implements CommandExecutor, Listener {
                     }
                 }
 
+                case "closeinv" -> {
+                    try {
+                        for (Entity entity : selector) {
+                            Player player = Bukkit.getPlayer(entity.getName());
+                            if (player == null) continue;
+
+                            closeInv(player);
+                            player.getInventory().clear();
+                            player.addScoreboardTag("CorruptedNothing");
+                            player.sendMessage(Component.text("Time's up! You have the Nothing kit.",
+                                NamedTextColor.RED));
+                        }
+                    } catch (IndexOutOfBoundsException e) {
+                        sender.sendMessage(Component.text("Please provide a valid selector!",
+                            NamedTextColor.RED));
+                    }
+                }
+
                 case "corrupt" -> {
                     try {
                         for (Entity entity : selector) {

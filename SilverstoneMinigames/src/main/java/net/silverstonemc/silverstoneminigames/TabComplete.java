@@ -47,7 +47,8 @@ public class TabComplete implements TabCompleter {
                         "stop",
                         "corrupt",
                         "uncorrupt",
-                        "kitselect"));
+                        "kitselect",
+                        "closeinv"));
 
                     for (String a : arguments)
                         if (a.toLowerCase().startsWith(args[0].toLowerCase())) result.add(a);
