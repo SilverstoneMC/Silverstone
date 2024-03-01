@@ -10,5 +10,7 @@ public class WorldChange implements Listener {
     public void onWorldChange(PlayerChangedWorldEvent event) {
         if (!event.getPlayer().getGameMode().equals(GameMode.SPECTATOR) && !event.getPlayer().getGameMode()
             .equals(GameMode.CREATIVE)) event.getPlayer().clearActivePotionEffects();
+        event.getPlayer().resetPlayerTime();
+        event.getPlayer().resetPlayerWeather();
     }
 }
