@@ -113,7 +113,6 @@ public class CorruptedTag implements CommandExecutor, Listener {
                             if (player == null) continue;
 
                             closeInv(player);
-                            player.getInventory().clear();
                             player.addScoreboardTag("CorruptedNothing");
                             player.sendMessage(Component.text("Time's up! You have the Nothing kit.",
                                 NamedTextColor.RED));
@@ -241,8 +240,6 @@ public class CorruptedTag implements CommandExecutor, Listener {
         else switch (event.getRawSlot()) {
             case 3 -> {
                 String type;
-
-                player.getInventory().clear();
 
                 if (inventory.equals(confirmTankInv)) {
                     type = "Tank";
