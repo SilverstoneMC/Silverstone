@@ -87,8 +87,7 @@ public class CorruptedTag implements CommandExecutor, Listener {
                             }
                         }
                     };
-                    //todo remove arg value after development
-                    bossBarUpdater.runTaskTimer(plugin, 0, Long.parseLong(args[2]));
+                    bossBarUpdater.runTaskTimer(plugin, 0, 10);
                 }
 
                 case "kitselect" -> {
