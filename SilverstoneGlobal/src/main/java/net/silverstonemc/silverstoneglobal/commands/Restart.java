@@ -147,7 +147,7 @@ public record Restart(JavaPlugin plugin) implements CommandExecutor {
                         public void run() {
                             plugin.getServer().spigot().restart();
                         }
-                    }.runTaskLater(plugin, 20);
+                    }.runTaskLater(plugin, 100);
                 } else plugin.getServer().spigot().restart();
             }
 
