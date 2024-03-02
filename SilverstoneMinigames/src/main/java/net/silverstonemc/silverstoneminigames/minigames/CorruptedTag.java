@@ -58,7 +58,7 @@ public class CorruptedTag implements CommandExecutor, Listener {
 
                             // Create the boss bar
                             new BossBarManager().createBossBar(player,
-                                Component.text("CorruptionHunter",
+                                Component.text("Corruption",
                                     NamedTextColor.LIGHT_PURPLE,
                                     TextDecoration.BOLD),
                                 0f,
@@ -78,7 +78,7 @@ public class CorruptedTag implements CommandExecutor, Listener {
                         public void run() {
                             for (Player players : BossBarManager.bossBars.keySet()) {
                                 if (!BossBarManager.bossBars.get(players).name().toString().contains(
-                                    "CorruptionHunter")) continue;
+                                    "Corruption")) continue;
 
                                 //noinspection DataFlowIssue
                                 float value = Bukkit.getScoreboardManager().getMainScoreboard().getObjective(
