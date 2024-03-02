@@ -323,7 +323,7 @@ public class CorruptedTag implements CommandExecutor, Listener {
             "Healer",
             "Hoe",
             List.of("Faster health regeneration"),
-            List.of("10% faster corruption")));
+            List.of("20% faster corruption")));
 
         kitInv.setItem(6, createKitItem(Material.TRIDENT,
             "Knockbacker9000",
