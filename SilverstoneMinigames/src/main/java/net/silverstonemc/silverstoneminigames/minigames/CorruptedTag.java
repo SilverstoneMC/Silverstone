@@ -132,7 +132,7 @@ public class CorruptedTag implements CommandExecutor, Listener {
                             new BossBarManager().setBossBarColor(player,
                                 BossBar.Color.RED,
                                 NamedTextColor.RED);
-                            player.addScoreboardTag("Corrupted");
+                            player.addScoreboardTag("CorruptedHunter");
                         }
                     } catch (IndexOutOfBoundsException e) {
                         sender.sendMessage(Component.text("Please provide a valid selector!",
@@ -149,9 +149,7 @@ public class CorruptedTag implements CommandExecutor, Listener {
                             new BossBarManager().setBossBarColor(player,
                                 BossBar.Color.PURPLE,
                                 NamedTextColor.LIGHT_PURPLE);
-                            player.removeScoreboardTag("Corrupted");
-                            player.getActivePotionEffects().forEach(potionEffect -> player.removePotionEffect(
-                                potionEffect.getType()));
+                            player.removeScoreboardTag("CorruptedHunter");
                         }
                     } catch (IndexOutOfBoundsException e) {
                         sender.sendMessage(Component.text("Please provide a valid selector!",
