@@ -69,15 +69,16 @@ public class Minigames implements CommandExecutor, Listener {
         IntStream.rangeClosed(0, 35).boxed().toList().forEach(slot -> htpInv.setItem(slot, item));
 
         htpInv.setItem(10, createHtpGuiItem(Material.SPRUCE_BOAT, "Boat Racing"));
-        htpInv.setItem(11, createHtpGuiItem(Material.NETHERITE_BOOTS, "Death Run"));
-        htpInv.setItem(12, createHtpGuiItem(Material.ELYTRA, "Flying Course"));
-        htpInv.setItem(13, createHtpGuiItem(Material.COMPASS, "Hide & Seek"));
-        htpInv.setItem(14, createHtpGuiItem(Material.JUNGLE_LEAVES, "Mazes"));
-        htpInv.setItem(15, createHtpGuiItem(Material.SNOWBALL, "Mini Golf"));
-        htpInv.setItem(16, createHtpGuiItem(Material.SLIME_BLOCK, "Parkour"));
+        htpInv.setItem(11, createHtpGuiItem(Material.SKELETON_SKULL, "Corrupted Tag"));
+        htpInv.setItem(12, createHtpGuiItem(Material.NETHERITE_BOOTS, "Death Run"));
+        htpInv.setItem(13, createHtpGuiItem(Material.ELYTRA, "Flying Course"));
+        htpInv.setItem(14, createHtpGuiItem(Material.COMPASS, "Hide & Seek"));
+        htpInv.setItem(15, createHtpGuiItem(Material.JUNGLE_LEAVES, "Mazes"));
+        htpInv.setItem(16, createHtpGuiItem(Material.SNOWBALL, "Mini Golf"));
+        htpInv.setItem(19, createHtpGuiItem(Material.SLIME_BLOCK, "Parkour"));
         htpInv.setItem(21, createHtpGuiItem(Material.DIAMOND_SWORD, "PvP"));
-        htpInv.setItem(22, createHtpGuiItem(Material.NETHERITE_SHOVEL, "Spleef"));
-        htpInv.setItem(23, createHtpGuiItem(Material.TNT, "TNT Run"));
+        htpInv.setItem(23, createHtpGuiItem(Material.NETHERITE_SHOVEL, "Spleef"));
+        htpInv.setItem(25, createHtpGuiItem(Material.TNT, "TNT Run"));
 
         // Game
         // 1
@@ -139,6 +140,17 @@ public class Minigames implements CommandExecutor, Listener {
                 <b>The goal:</b> Get to the finish line first.""");
 
             case 11 -> openBook(player,
+                "Corrupted Tag",
+                """
+                    A random player is selected to be the hunter. Their job is to try and kill another player to transfer the corruption to them.""",
+                """
+                    If a player becomes fully corrupted, the corruption will be transferred to the nearst player. The game will end when only one person remains.""",
+                """
+                    <b>The goal (runners):</b> Avoid getting killed by the hunter. Kill them if you must.""",
+                """
+                    <b>The goal (hunter):</b> Kill any player to stop your corruption.""");
+
+            case 12 -> openBook(player,
                 "Death Run",
                 """
                     A random person is selected to choose a map. Once the map is chosen, another random person is selected to be the killer.""",
@@ -147,12 +159,12 @@ public class Minigames implements CommandExecutor, Listener {
                 """
                     <b>The goal (killer):</b> Slow everyone down as much as possible. Killing players will give you a temporary speed boost. If the timer finishes before anyone makes it to the end, you win!""");
 
-            case 12 -> openBook(player, "Flying Course", """
+            case 13 -> openBook(player, "Flying Course", """
                 Fly through the rings in the correct order without touching anything. The arrows on the ground are boost pads, and the arrows on the rings point to the next ring.
 
                 <b>The goal:</b> Reach the finish area.""");
 
-            case 13 -> openBook(player,
+            case 14 -> openBook(player,
                 "Hide & Seek",
                 """
                     A random player is selected to be the seeker. An additional seeker will be selected if there are 5 or more players, and a third seeker will be chosen if there are 7 or more players.""",
@@ -170,12 +182,12 @@ public class Minigames implements CommandExecutor, Listener {
                 """
                     <b>The goal (seekers):</b> Kill every hider. If there are no more hiders before the 10 minutes is up, the seekers will win.""");
 
-            case 14 -> openBook(player, "Mazes", """
+            case 15 -> openBook(player, "Mazes", """
                 A random maze that has no players in it will be assigned to a random player in the maze lobby. There are 8 different mazes.
 
                 <b>The goal:</b> Find the golden pressure plate at the end of the maze.""");
 
-            case 15 -> openBook(player,
+            case 16 -> openBook(player,
                 "Mini Golf",
                 """
                     Select your ball.
@@ -187,7 +199,7 @@ public class Minigames implements CommandExecutor, Listener {
                 """
                     <b>The goal:</b> Complete the final hole and finish the game in as few strokes as possible.""");
 
-            case 16 -> openBook(player, "Parkour", """
+            case 19 -> openBook(player, "Parkour", """
                 <b>The goal:</b> Get to the end without rage quitting.""");
 
             case 21 -> openBook(player,
@@ -215,7 +227,7 @@ public class Minigames implements CommandExecutor, Listener {
 
                     <b>The goal:</b> Be the last person standing.""");
 
-            case 22 -> openBook(player,
+            case 23 -> openBook(player,
                 "Spleef",
                 """
                     When the game begins, you will be given a shovel, bow, and some arrows. The the shovel has Efficiency V, the bow has Punch I, and the arrows have Knockback I. You will receive 9 arrows per layer, with 1 layer for each person (max 5 layers).""",
@@ -224,7 +236,7 @@ public class Minigames implements CommandExecutor, Listener {
 
                     <b>The goal:</b> Get the other players out by making them fall into the water at the bottom. The last person standing is the winner.""");
 
-            case 23 -> openBook(player, "TNT Run", """
+            case 25 -> openBook(player, "TNT Run", """
                 You will start with 5 double jumps. Click with the feather in hand to consume a double jump.
 
                 <b>The goal:</b> Get the other players out by making them drop through the bottom layer.""");
