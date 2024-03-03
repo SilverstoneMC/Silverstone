@@ -144,7 +144,7 @@ public class Minigames implements CommandExecutor, Listener {
                 """
                     A random player is selected to be the hunter. Their job is to try and kill another player to transfer the corruption to them.""",
                 """
-                    If a player becomes fully corrupted, the corruption will be transferred to the nearst player. The game will end when only one person remains.""",
+                    If a player becomes fully corrupted, the corruption will be transferred to the nearest player. The game will end when only one person remains.""",
                 """
                     <b>The goal (runners):</b> Avoid getting killed by the hunter. Kill them if you must.""",
                 """
