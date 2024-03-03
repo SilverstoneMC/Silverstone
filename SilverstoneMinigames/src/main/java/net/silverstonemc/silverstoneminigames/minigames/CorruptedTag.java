@@ -17,7 +17,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
-import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
@@ -40,9 +39,7 @@ public class CorruptedTag implements CommandExecutor, Listener {
     private static BukkitRunnable bossBarUpdater = null;
     private static Inventory confirmTankInv;
     private static Inventory confirmNinjaInv;
-    private static Inventory confirmHealerInv;
     private static Inventory confirmRangedInv;
-    private static Inventory confirmNothingInv;
     private static Inventory kitInv;
 
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
@@ -112,8 +109,8 @@ public class CorruptedTag implements CommandExecutor, Listener {
                             if (player == null) continue;
 
                             closeInv(player);
-                            player.addScoreboardTag("CorruptedNothing");
-                            player.sendMessage(Component.text("Time's up! You have the Nothing kit.",
+                            player.addScoreboardTag("CorruptedNinja");
+                            player.sendMessage(Component.text("Time's up! You have the Ninja kit.",
                                 NamedTextColor.RED));
                         }
                     } catch (IndexOutOfBoundsException e) {
@@ -195,7 +192,7 @@ public class CorruptedTag implements CommandExecutor, Listener {
     }
 
     private enum KitType {
-        TANK, NINJA, HEALER, RANGED, NOTHING
+        TANK, NINJA, RANGED
     }
 
     private void confirmInv(Player player, KitType kitType) {
@@ -205,9 +202,7 @@ public class CorruptedTag implements CommandExecutor, Listener {
                 switch (kitType) {
                     case TANK -> player.openInventory(confirmTankInv);
                     case NINJA -> player.openInventory(confirmNinjaInv);
-                    case HEALER -> player.openInventory(confirmHealerInv);
                     case RANGED -> player.openInventory(confirmRangedInv);
-                    case NOTHING -> player.openInventory(confirmNothingInv);
                 }
                 player.playSound(player.getLocation(), Sound.UI_BUTTON_CLICK, SoundCategory.MASTER, 1, 1);
             }
@@ -220,58 +215,45 @@ public class CorruptedTag implements CommandExecutor, Listener {
         Inventory inventory = event.getInventory();
 
         if (!inventory.equals(kitInv) && !inventory.equals(confirmTankInv) && !inventory.equals(
-            confirmNinjaInv) && !inventory.equals(confirmHealerInv) && !inventory.equals(confirmRangedInv) && !inventory.equals(
-            confirmNothingInv)) return;
+            confirmNinjaInv) && !inventory.equals(confirmRangedInv)) return;
         if (event.getCurrentItem() == null) return;
         if (event.getCurrentItem().getItemMeta() == null) return;
 
         event.setCancelled(true);
 
         if (inventory.equals(kitInv)) switch (event.getRawSlot()) {
-            case 0 -> confirmInv(player, KitType.TANK);
-            case 2 -> confirmInv(player, KitType.NINJA);
-            case 4 -> confirmInv(player, KitType.HEALER);
+            case 2 -> confirmInv(player, KitType.TANK);
+            case 4 -> confirmInv(player, KitType.NINJA);
             case 6 -> confirmInv(player, KitType.RANGED);
-            case 8 -> confirmInv(player, KitType.NOTHING);
         }
         else switch (event.getRawSlot()) {
             case 3 -> {
-                String type;
+                String type = null;
 
                 if (inventory.equals(confirmTankInv)) {
                     type = "Tank";
 
-                    ItemStack shield = new ItemStack(Material.SHIELD);
-                    player.getInventory().setItem(EquipmentSlot.OFF_HAND, shield);
-
-                    ItemStack axe = new ItemStack(Material.WOODEN_AXE);
-                    player.getInventory().addItem(axe);
+                    ItemStack item = new ItemStack(Material.IRON_PICKAXE);
+                    player.getInventory().addItem(item);
 
                 } else if (inventory.equals(confirmNinjaInv)) {
                     type = "Ninja";
-
-                    ItemStack sword = new ItemStack(Material.IRON_SWORD);
-                    player.getInventory().addItem(sword);
-
-                } else if (inventory.equals(confirmHealerInv)) {
-                    type = "Healer";
-
-                    ItemStack hoe = new ItemStack(Material.IRON_SHOVEL);
-                    player.getInventory().addItem(hoe);
-
+                    
+                    ItemStack item = new ItemStack(Material.IRON_SWORD);
+                    player.getInventory().addItem(item);
+                    
                 } else if (inventory.equals(confirmRangedInv)) {
                     type = "Ranged";
 
-                    ItemStack crossbow = new ItemStack(Material.CROSSBOW);
-                    ItemMeta crossbowMeta = crossbow.getItemMeta();
-                    crossbowMeta.addEnchant(Enchantment.ARROW_INFINITE, 1, false);
-                    crossbow.setItemMeta(crossbowMeta);
+                    ItemStack bow = new ItemStack(Material.BOW);
+                    ItemMeta bowMeta = bow.getItemMeta();
+                    bowMeta.addEnchant(Enchantment.ARROW_INFINITE, 1, true);
+                    bow.setItemMeta(bowMeta);
 
                     ItemStack arrow = new ItemStack(Material.ARROW, 1);
-
-                    player.getInventory().addItem(crossbow, arrow);
-
-                } else type = "Nothing";
+                    
+                    player.getInventory().addItem(bow, arrow);
+                }
 
                 player.addScoreboardTag("Corrupted" + type);
                 player.addScoreboardTag("Ready");
@@ -293,8 +275,7 @@ public class CorruptedTag implements CommandExecutor, Listener {
 
         if (event.getReason() != InventoryCloseEvent.Reason.PLAYER) return;
         if (!inventory.equals(kitInv) && !inventory.equals(confirmTankInv) && !inventory.equals(
-            confirmNinjaInv) && !inventory.equals(confirmHealerInv) && !inventory.equals(confirmRangedInv) && !inventory.equals(
-            confirmNothingInv)) return;
+            confirmNinjaInv) && !inventory.equals(confirmRangedInv)) return;
 
         new BukkitRunnable() {
             @Override
@@ -310,36 +291,23 @@ public class CorruptedTag implements CommandExecutor, Listener {
             9,
             Component.text("Select a Kit", NamedTextColor.BLACK, TextDecoration.BOLD));
 
-        kitInv.setItem(0, createKitItem(Material.SHIELD,
+        kitInv.setItem(2, createKitItem(Material.IRON_CHESTPLATE,
             "Tank",
-            "Axe & Shield",
-            List.of("20% corruption resistance"),
+            "Pickaxe",
+            List.of("20% corruption resistance", "10 hearts"),
             List.of("Much slower health regeneration")));
 
-        kitInv.setItem(2, createKitItem(Material.IRON_SWORD,
+        kitInv.setItem(4, createKitItem(Material.IRON_SWORD,
             "Ninja",
-            "Sword & 3 Double Jumps",
-            List.of("10% speed boost when Hunter"),
-            List.of("Slower health regeneration")));
+            "Sword",
+            List.of("3 jump boosts per life", "40% speed boost when Hunter"),
+            List.of("7 hearts")));
 
-        kitInv.setItem(4, createKitItem(Material.POTION,
-            "Healer",
-            "Hoe",
-            List.of("Faster health regeneration"),
-            List.of("20% faster corruption")));
-
-        kitInv.setItem(6, createKitItem(Material.CROSSBOW,
+        kitInv.setItem(6, createKitItem(Material.BOW,
             "Ranged",
-            "Crossbow",
+            "Bow",
             List.of("Ranged attack"),
-            List.of("Glowing at all times")));
-
-        kitInv.setItem(8,
-            createKitItem(Material.BARRIER,
-                "Nothing",
-                "No advantages or disadvantages",
-                List.of(),
-                List.of()));
+            List.of("Glowing at all times", "5 hearts")));
 
         // Confirm button
         final ItemStack confirm = new CustomSkull().createCustomSkull(
@@ -371,26 +339,12 @@ public class CorruptedTag implements CommandExecutor, Listener {
         confirmNinjaInv.setItem(3, confirm);
         confirmNinjaInv.setItem(5, cancel);
 
-        // Healer
-        confirmHealerInv = Bukkit.createInventory(null,
-            9,
-            Component.text("Confirm Healer Kit?", NamedTextColor.BLACK, TextDecoration.BOLD));
-        confirmHealerInv.setItem(3, confirm);
-        confirmHealerInv.setItem(5, cancel);
-
         // Ranged
         confirmRangedInv = Bukkit.createInventory(null,
             9,
             Component.text("Confirm Ranged Kit?", NamedTextColor.BLACK, TextDecoration.BOLD));
         confirmRangedInv.setItem(3, confirm);
         confirmRangedInv.setItem(5, cancel);
-
-        // Nothing
-        confirmNothingInv = Bukkit.createInventory(null,
-            9,
-            Component.text("Confirm Nothing Kit?", NamedTextColor.BLACK, TextDecoration.BOLD));
-        confirmNothingInv.setItem(3, confirm);
-        confirmNothingInv.setItem(5, cancel);
     }
 
     private ItemStack createKitItem(Material item, String title, String description, List<String> advantages, List<String> disadvantages) {
