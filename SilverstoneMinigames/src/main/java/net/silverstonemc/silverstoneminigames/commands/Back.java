@@ -14,7 +14,7 @@ public class Back implements Listener {
             if (player.hasPermission("silverstone.moderator")) return;
 
             event.setCancelled(true);
-            player.performCommand("warp Mini");
+            player.performCommand("spawn");
         }
     }
 }

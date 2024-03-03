@@ -12,6 +12,6 @@ public class Void implements Listener {
         Player player = event.getPlayer();
         if (player.getLocation().getBlockY() <= -90)
             if (!player.isFlying()) Bukkit.dispatchCommand(Bukkit.getConsoleSender(),
-                "warp Mini " + player.getName());
+                "spawn " + player.getName());
     }
 }
