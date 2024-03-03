@@ -41,7 +41,7 @@ public class CorruptedTag implements CommandExecutor, Listener {
     private static Inventory confirmTankInv;
     private static Inventory confirmNinjaInv;
     private static Inventory confirmHealerInv;
-    private static Inventory confirmKBInv;
+    private static Inventory confirmRangedInv;
     private static Inventory confirmNothingInv;
     private static Inventory kitInv;
 
@@ -195,7 +195,7 @@ public class CorruptedTag implements CommandExecutor, Listener {
     }
 
     private enum KitType {
-        TANK, NINJA, HEALER, KNOCKBACK, NOTHING
+        TANK, NINJA, HEALER, RANGED, NOTHING
     }
 
     private void confirmInv(Player player, KitType kitType) {
@@ -206,7 +206,7 @@ public class CorruptedTag implements CommandExecutor, Listener {
                     case TANK -> player.openInventory(confirmTankInv);
                     case NINJA -> player.openInventory(confirmNinjaInv);
                     case HEALER -> player.openInventory(confirmHealerInv);
-                    case KNOCKBACK -> player.openInventory(confirmKBInv);
+                    case RANGED -> player.openInventory(confirmRangedInv);
                     case NOTHING -> player.openInventory(confirmNothingInv);
                 }
                 player.playSound(player.getLocation(), Sound.UI_BUTTON_CLICK, SoundCategory.MASTER, 1, 1);
@@ -220,7 +220,7 @@ public class CorruptedTag implements CommandExecutor, Listener {
         Inventory inventory = event.getInventory();
 
         if (!inventory.equals(kitInv) && !inventory.equals(confirmTankInv) && !inventory.equals(
-            confirmNinjaInv) && !inventory.equals(confirmHealerInv) && !inventory.equals(confirmKBInv) && !inventory.equals(
+            confirmNinjaInv) && !inventory.equals(confirmHealerInv) && !inventory.equals(confirmRangedInv) && !inventory.equals(
             confirmNothingInv)) return;
         if (event.getCurrentItem() == null) return;
         if (event.getCurrentItem().getItemMeta() == null) return;
@@ -231,7 +231,7 @@ public class CorruptedTag implements CommandExecutor, Listener {
             case 0 -> confirmInv(player, KitType.TANK);
             case 2 -> confirmInv(player, KitType.NINJA);
             case 4 -> confirmInv(player, KitType.HEALER);
-            case 6 -> confirmInv(player, KitType.KNOCKBACK);
+            case 6 -> confirmInv(player, KitType.RANGED);
             case 8 -> confirmInv(player, KitType.NOTHING);
         }
         else switch (event.getRawSlot()) {
@@ -244,29 +244,32 @@ public class CorruptedTag implements CommandExecutor, Listener {
                     ItemStack shield = new ItemStack(Material.SHIELD);
                     player.getInventory().setItem(EquipmentSlot.OFF_HAND, shield);
 
-                    ItemStack axe = new ItemStack(Material.IRON_AXE);
-                    player.getInventory().setItem(player.getInventory().getHeldItemSlot(), axe);
+                    ItemStack axe = new ItemStack(Material.WOODEN_AXE);
+                    player.getInventory().addItem(axe);
 
                 } else if (inventory.equals(confirmNinjaInv)) {
                     type = "Ninja";
 
                     ItemStack sword = new ItemStack(Material.IRON_SWORD);
-                    player.getInventory().setItem(player.getInventory().getHeldItemSlot(), sword);
+                    player.getInventory().addItem(sword);
 
                 } else if (inventory.equals(confirmHealerInv)) {
                     type = "Healer";
 
-                    ItemStack hoe = new ItemStack(Material.IRON_HOE);
-                    player.getInventory().setItem(player.getInventory().getHeldItemSlot(), hoe);
+                    ItemStack hoe = new ItemStack(Material.IRON_SHOVEL);
+                    player.getInventory().addItem(hoe);
 
-                } else if (inventory.equals(confirmKBInv)) {
-                    type = "Knockbacker9000";
+                } else if (inventory.equals(confirmRangedInv)) {
+                    type = "Ranged";
 
-                    ItemStack trident = new ItemStack(Material.TRIDENT);
-                    ItemMeta tridentMeta = trident.getItemMeta();
-                    tridentMeta.addEnchant(Enchantment.LOYALTY, 1, false);
-                    trident.setItemMeta(tridentMeta);
-                    player.getInventory().setItem(player.getInventory().getHeldItemSlot(), trident);
+                    ItemStack crossbow = new ItemStack(Material.CROSSBOW);
+                    ItemMeta crossbowMeta = crossbow.getItemMeta();
+                    crossbowMeta.addEnchant(Enchantment.ARROW_INFINITE, 1, false);
+                    crossbow.setItemMeta(crossbowMeta);
+
+                    ItemStack arrow = new ItemStack(Material.ARROW, 1);
+
+                    player.getInventory().addItem(crossbow, arrow);
 
                 } else type = "Nothing";
 
@@ -290,7 +293,7 @@ public class CorruptedTag implements CommandExecutor, Listener {
 
         if (event.getReason() != InventoryCloseEvent.Reason.PLAYER) return;
         if (!inventory.equals(kitInv) && !inventory.equals(confirmTankInv) && !inventory.equals(
-            confirmNinjaInv) && !inventory.equals(confirmHealerInv) && !inventory.equals(confirmKBInv) && !inventory.equals(
+            confirmNinjaInv) && !inventory.equals(confirmHealerInv) && !inventory.equals(confirmRangedInv) && !inventory.equals(
             confirmNothingInv)) return;
 
         new BukkitRunnable() {
@@ -325,9 +328,9 @@ public class CorruptedTag implements CommandExecutor, Listener {
             List.of("Faster health regeneration"),
             List.of("20% faster corruption")));
 
-        kitInv.setItem(6, createKitItem(Material.TRIDENT,
-            "Knockbacker9000",
-            "Trident",
+        kitInv.setItem(6, createKitItem(Material.CROSSBOW,
+            "Ranged",
+            "Crossbow",
             List.of("Ranged attack"),
             List.of("Glowing at all times")));
 
@@ -375,12 +378,12 @@ public class CorruptedTag implements CommandExecutor, Listener {
         confirmHealerInv.setItem(3, confirm);
         confirmHealerInv.setItem(5, cancel);
 
-        // Knockback
-        confirmKBInv = Bukkit.createInventory(null,
+        // Ranged
+        confirmRangedInv = Bukkit.createInventory(null,
             9,
-            Component.text("Confirm Knockbacker Kit?", NamedTextColor.BLACK, TextDecoration.BOLD));
-        confirmKBInv.setItem(3, confirm);
-        confirmKBInv.setItem(5, cancel);
+            Component.text("Confirm Ranged Kit?", NamedTextColor.BLACK, TextDecoration.BOLD));
+        confirmRangedInv.setItem(3, confirm);
+        confirmRangedInv.setItem(5, cancel);
 
         // Nothing
         confirmNothingInv = Bukkit.createInventory(null,
