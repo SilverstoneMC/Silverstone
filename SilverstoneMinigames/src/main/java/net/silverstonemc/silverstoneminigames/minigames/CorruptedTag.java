@@ -10,7 +10,6 @@ import org.bukkit.*;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -24,6 +23,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.potion.PotionType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 
@@ -246,11 +246,10 @@ public class CorruptedTag implements CommandExecutor, Listener {
                     type = "Ranged";
 
                     ItemStack bow = new ItemStack(Material.BOW);
-                    ItemMeta bowMeta = bow.getItemMeta();
-                    bowMeta.addEnchant(Enchantment.ARROW_INFINITE, 1, true);
-                    bow.setItemMeta(bowMeta);
-
-                    ItemStack arrow = new ItemStack(Material.ARROW, 1);
+                    ItemStack arrow = new ItemStack(Material.TIPPED_ARROW, 64);
+                    PotionMeta arrowMeta = (PotionMeta) arrow.getItemMeta();
+                    arrowMeta.setBasePotionType(PotionType.INSTANT_HEAL);
+                    arrow.setItemMeta(arrowMeta);
                     
                     player.getInventory().addItem(bow, arrow);
                 }
@@ -307,7 +306,7 @@ public class CorruptedTag implements CommandExecutor, Listener {
             "Ranged",
             "Bow",
             List.of("Ranged attack"),
-            List.of("Glowing at all times", "5 hearts")));
+            List.of("No melee attack", "Limited arrows per life", "5 hearts")));
 
         // Confirm button
         final ItemStack confirm = new CustomSkull().createCustomSkull(
