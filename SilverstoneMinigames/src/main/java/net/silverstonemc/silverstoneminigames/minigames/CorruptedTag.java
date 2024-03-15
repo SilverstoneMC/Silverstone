@@ -238,20 +238,27 @@ public class CorruptedTag implements CommandExecutor, Listener {
 
                 } else if (inventory.equals(confirmNinjaInv)) {
                     type = "Ninja";
-                    
+
                     ItemStack item = new ItemStack(Material.IRON_SWORD);
                     player.getInventory().addItem(item);
-                    
+
                 } else if (inventory.equals(confirmRangedInv)) {
                     type = "Ranged";
 
                     ItemStack bow = new ItemStack(Material.BOW);
+                    ItemStack crossbow = new ItemStack(Material.CROSSBOW);
                     ItemStack arrow = new ItemStack(Material.TIPPED_ARROW, 64);
                     PotionMeta arrowMeta = (PotionMeta) arrow.getItemMeta();
                     arrowMeta.setBasePotionType(PotionType.INSTANT_HEAL);
                     arrow.setItemMeta(arrowMeta);
-                    
-                    player.getInventory().addItem(bow, arrow);
+
+                    player.getInventory().setItem(0, bow);
+                    player.getInventory().setItem(2, crossbow);
+                    player.getInventory().setItem(3, crossbow);
+                    player.getInventory().setItem(4, crossbow);
+                    player.getInventory().setItem(5, crossbow);
+                    player.getInventory().setItem(6, crossbow);
+                    player.getInventory().setItem(8, arrow);
                 }
 
                 player.addScoreboardTag("Corrupted" + type);
