@@ -6,7 +6,7 @@
 
     <groupId>net.silverstonemc</groupId>
     <artifactId>SilverstoneMinigames</artifactId>
-    <version>3.3.9</version>
+    <version>3.3.10</version>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
@@ -93,8 +93,8 @@
 
         <!-- FancyHolograms Dependency -->
         <repository>
-            <id>jitpack.io</id>
-            <url>https://jitpack.io</url>
+            <id>smrt-1.com</id>
+            <url>https://repo.smrt-1.com/releases/</url>
         </repository>
 
         <!-- Lib's Disguises -->
@@ -122,14 +122,14 @@
         <dependency>
             <groupId>de.oliver</groupId>
             <artifactId>FancyHolograms</artifactId>
-            <version>2.0.4</version>
+            <version>2.0.6</version>
             <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>LibsDisguises</groupId>
             <artifactId>LibsDisguises</artifactId>
-            <version>10.0.40</version>
+            <version>10.0.42</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
