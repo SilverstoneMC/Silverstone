@@ -2,7 +2,7 @@ package net.silverstonemc.silverstoneglobal.events;
 
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
-import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
+import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
 import net.silverstonemc.silverstoneglobal.SilverstoneGlobal;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -15,7 +15,7 @@ public class Kick implements Listener {
 
         ByteArrayDataOutput out = ByteStreams.newDataOutput();
         out.writeUTF("kick");
-        out.writeUTF(PlainTextComponentSerializer.plainText().serialize(event.reason()));
+        out.writeUTF(GsonComponentSerializer.gson().serialize(event.reason()));
         event.getPlayer().sendPluginMessage(SilverstoneGlobal.getInstance(),
             "silverstone:pluginmsg",
             out.toByteArray());
