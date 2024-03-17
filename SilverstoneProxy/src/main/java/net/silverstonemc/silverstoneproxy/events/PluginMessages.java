@@ -95,7 +95,7 @@ public class PluginMessages {
             }
 
             case "kick" -> sender.disconnect(Component.empty()
-                .append(Component.text("You've been kicked!", NamedTextColor.RED))
+                .append(Component.text("You've been kicked!\n\n", NamedTextColor.RED))
                 .append(GsonComponentSerializer.gson().deserialize(in.readUTF())
                     .colorIfAbsent(NamedTextColor.GRAY)));
         }
