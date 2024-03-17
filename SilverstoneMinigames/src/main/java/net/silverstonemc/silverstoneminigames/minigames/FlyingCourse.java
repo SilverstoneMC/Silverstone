@@ -188,12 +188,12 @@ public record FlyingCourse(JavaPlugin plugin) implements CommandExecutor {
 
         for (String score : fctop.getEntries()) fctop.resetScores(score);
 
-        int score = 11;
+        int score = 15;
 
         int x = 0;
         fctop.getObjective("FCTop").getScore("§a§lEasy:").setScore(score);
         for (OfflinePlayer player : easyScores.keySet()) {
-            if (x >= 3) break;
+            if (x >= 2) break;
             fctop.getObjective("FCTop").getScore("§2" + player.getName() + ": §b" + easyScores.get(player))
                 .setScore(--score);
             x++;
