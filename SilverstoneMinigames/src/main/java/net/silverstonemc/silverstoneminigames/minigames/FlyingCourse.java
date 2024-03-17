@@ -59,8 +59,9 @@ public record FlyingCourse(JavaPlugin plugin) implements CommandExecutor {
                             addToTopScores(player, "hard");
                             player.teleportAsync(location);
                         }
-                        case "multiplayer" -> {
-                            sendFinishMessage(player, Difficulty.MULTIPLAYER);
+                        case "extended" -> {
+                            sendFinishMessage(player, Difficulty.EXTENDED);
+                            addToTopScores(player, "extended");
                             player.teleportAsync(location);
                         }
                         default -> sender.sendMessage(Component.text("Please provide a valid difficulty!",
@@ -154,6 +155,7 @@ public record FlyingCourse(JavaPlugin plugin) implements CommandExecutor {
         Map<OfflinePlayer, Integer> easyScores = new HashMap<>();
         Map<OfflinePlayer, Integer> mediumScores = new HashMap<>();
         Map<OfflinePlayer, Integer> hardScores = new HashMap<>();
+        Map<OfflinePlayer, Integer> extendedScores = new HashMap<>();
 
         // Stop if there's no data
         try {
@@ -173,11 +175,16 @@ public record FlyingCourse(JavaPlugin plugin) implements CommandExecutor {
             if (config.contains("data." + uuid + ".flyingcourse.hard"))
                 hardScores.put(Bukkit.getOfflinePlayer(UUID.fromString(uuid)),
                     config.getInt("data." + uuid + ".flyingcourse.hard"));
+
+            if (config.contains("data." + uuid + ".flyingcourse.extended"))
+                extendedScores.put(Bukkit.getOfflinePlayer(UUID.fromString(uuid)),
+                    config.getInt("data." + uuid + ".flyingcourse.extended"));
         }
 
         easyScores = sortScores(easyScores);
         mediumScores = sortScores(mediumScores);
         hardScores = sortScores(hardScores);
+        extendedScores = sortScores(extendedScores);
 
         for (String score : fctop.getEntries()) fctop.resetScores(score);
 
@@ -209,6 +216,15 @@ public record FlyingCourse(JavaPlugin plugin) implements CommandExecutor {
                 .setScore(--score);
             x++;
         }
+
+        x = 0;
+        fctop.getObjective("FCTop").getScore("§8§lExtended:").setScore(--score);
+        for (OfflinePlayer player : extendedScores.keySet()) {
+            if (x >= 3) break;
+            fctop.getObjective("FCTop")
+                .getScore("§7" + player.getName() + ": §b" + extendedScores.get(player)).setScore(--score);
+            x++;
+        }
     }
 
     private Map<OfflinePlayer, Integer> sortScores(Map<OfflinePlayer, Integer> scores) {
@@ -219,7 +235,7 @@ public record FlyingCourse(JavaPlugin plugin) implements CommandExecutor {
     }
 
     private enum Difficulty {
-        EASY, MEDIUM, HARD, MULTIPLAYER
+        EASY, MEDIUM, HARD, EXTENDED
     }
 
     private void sendFinishMessage(Player player, Difficulty difficulty) {
@@ -239,8 +255,8 @@ public record FlyingCourse(JavaPlugin plugin) implements CommandExecutor {
                 difficultyType = "Hard";
                 namedTextColor = NamedTextColor.RED;
             }
-            case MULTIPLAYER -> {
-                difficultyType = "Multiplayer";
+            case EXTENDED -> {
+                difficultyType = "Extended";
                 namedTextColor = NamedTextColor.GRAY;
             }
         }
