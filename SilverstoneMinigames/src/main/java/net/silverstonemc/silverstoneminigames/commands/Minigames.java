@@ -219,11 +219,11 @@ public class Minigames implements CommandExecutor, Listener {
                 """
                                         
                     <b>Sumo</b>
-                    Hit the other player off the edge of the map. If nobody has died after 1.5 minutes, you will get Knockback Sticks (Knockback I).""",
+                    Hit the other player off the edge of the map. If nobody has died after 1 minute, you will get Knockback Sticks (Knockback I).""",
                 """
                                         
                     <b>Sumo (Continued)</b>
-                    If everyone is still alive after an additional 1.5 minutes, you will get Knockback Rods (Knockback II).
+                    If everyone is still alive after an additional 1 minute, you will get Knockback Rods (Knockback II).
 
                     <b>The goal:</b> Be the last person standing.""");
 
