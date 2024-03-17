@@ -8,6 +8,7 @@ import com.velocitypowered.api.proxy.Player;
 import com.velocitypowered.api.proxy.ServerConnection;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
 import net.luckperms.api.LuckPerms;
 import net.luckperms.api.model.group.Group;
 import net.luckperms.api.model.user.User;
@@ -92,6 +93,11 @@ public class PluginMessages {
 
                 luckPerms.getUserManager().saveUser(user);
             }
+
+            case "kick" -> sender.disconnect(Component.empty()
+                .append(Component.text("You've been kicked!", NamedTextColor.RED))
+                .append(GsonComponentSerializer.gson().deserialize(in.readUTF())
+                    .colorIfAbsent(NamedTextColor.GRAY)));
         }
     }
 }

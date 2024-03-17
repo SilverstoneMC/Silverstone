@@ -37,7 +37,8 @@ import java.util.concurrent.TimeUnit;
 
 import static net.silverstonemc.silverstoneproxy.ConfigurationManager.FileType.USERCACHE;
 
-@Plugin(id = "silverstoneproxy", name = "SilverstoneProxy", version = "%VERSION%", description = "Features for the Silverstone proxy, including warnings", authors = {"JasonHorkles"}, dependencies = {@Dependency(id = "luckperms")})
+@Plugin(id = "silverstoneproxy", name = "SilverstoneProxy", version = "%VERSION%", description = "Features for the Silverstone proxy, including warnings", authors = {"JasonHorkles"}, dependencies = {@Dependency(id = "luckperms"), @Dependency(id = "carbonchat"), @Dependency(id = "libertybans")})
+
 public class SilverstoneProxy {
     @Inject
     public SilverstoneProxy(ProxyServer server, Logger logger, @DataDirectory Path dataDirectory) {

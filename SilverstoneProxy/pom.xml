@@ -6,7 +6,7 @@
 
     <groupId>net.silverstonemc</groupId>
     <artifactId>SilverstoneProxy</artifactId>
-    <version>3.0.5</version>
+    <version>3.1.0</version>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
@@ -125,6 +125,12 @@
             <id>krypton</id>
             <url>https://repo.kryptonmc.org/releases</url>
         </repository>
+
+        <!-- LibertyBans -->
+        <repository>
+            <id>arim-mvn-agpl3</id>
+            <url>https://mvn-repo.arim.space/affero-gpl3/</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -172,6 +178,12 @@
             <artifactId>tab-api</artifactId>
             <version>4.0.2</version>
             <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>space.arim.libertybans</groupId>
+            <artifactId>bans-api</artifactId>
+            <version>1.1.0-RC1</version>
         </dependency>
     </dependencies>
 
