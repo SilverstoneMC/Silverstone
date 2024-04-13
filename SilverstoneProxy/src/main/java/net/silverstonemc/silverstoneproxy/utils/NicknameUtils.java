@@ -58,6 +58,8 @@ public class NicknameUtils {
     // Set the player's display name without saving anything
     @SuppressWarnings("DataFlowIssue")
     public void changeDisplayName(Player player, Component nickname) {
+        if (player == null) return;
+        
         TabPlayer tabPlayer = TabAPI.getInstance().getPlayer(player.getUniqueId());
         if (nickname == null) {
             TabAPI.getInstance().getTabListFormatManager().setName(tabPlayer, null);
