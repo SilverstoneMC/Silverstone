@@ -9,6 +9,8 @@ softdepend:
   - Matrix
 depend:
   - LuckPerms
+loadbefore:
+  - WorldGuardExtraFlags
 
 commands:
   bclag:
