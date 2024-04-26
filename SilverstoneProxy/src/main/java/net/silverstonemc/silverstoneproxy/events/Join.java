@@ -113,12 +113,12 @@ public class Join {
 
             boolean userExists = UserManager.playerMap.containsKey(uuid);
 
-            // Older version message
-            if (event.getPlayer().getProtocolVersion().getProtocol() < i.fileManager.files.get(CONFIG)
+            // Non-same client/server version message
+            if (event.getPlayer().getProtocolVersion().getProtocol() != i.fileManager.files.get(CONFIG)
                 .getNode("current-protocol-version").getInt()) event.getPlayer().sendMessage(Component.text(
                 "The server is currently built using Minecraft " + i.fileManager.files.get(CONFIG)
                     .getNode("current-version")
-                    .getString() + " - please update your client to use all the features.",
+                    .getString() + " and is recommended to use this version to avoid any issues.",
                 NamedTextColor.RED));
 
             // Add the user if they don't exist and send a notification

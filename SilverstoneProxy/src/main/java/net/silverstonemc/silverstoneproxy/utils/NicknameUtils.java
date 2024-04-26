@@ -59,7 +59,7 @@ public class NicknameUtils {
     @SuppressWarnings("DataFlowIssue")
     public void changeDisplayName(Player player, Component nickname) {
         if (player == null) return;
-        
+
         TabPlayer tabPlayer = TabAPI.getInstance().getPlayer(player.getUniqueId());
         if (nickname == null) {
             TabAPI.getInstance().getTabListFormatManager().setName(tabPlayer, null);
