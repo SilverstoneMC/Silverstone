@@ -74,7 +74,7 @@ public class SilverstoneProxy {
 
         new Thread(() -> {
             logger.info("Starting Discord bot...");
-            JDABuilder builder = JDABuilder.createDefault(new Secrets().getBotToken());
+            JDABuilder builder = JDABuilder.createDefault(new Secrets().botToken());
             builder.disableIntents(GatewayIntent.GUILD_MESSAGE_TYPING);
             builder.disableCache(CacheFlag.ACTIVITY, CacheFlag.VOICE_STATE);
             builder.setMemberCachePolicy(MemberCachePolicy.NONE);
