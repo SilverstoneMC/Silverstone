@@ -13,7 +13,8 @@ import net.silverstonemc.silverstoneproxy.UndoWarning;
 import net.silverstonemc.silverstoneproxy.UserManager;
 import net.silverstonemc.silverstoneproxy.utils.NicknameUtils;
 import net.silverstonemc.silverstoneproxy.utils.NoPlayerMsg;
-import ninja.leaping.configurate.ConfigurationNode;
+import org.spongepowered.configurate.ConfigurationNode;
+import org.spongepowered.configurate.serialize.SerializationException;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -50,194 +51,200 @@ public class BaseCommand implements SimpleCommand {
         }
 
         // reload
-        if (args[0].equalsIgnoreCase("reload")) if (sender.hasPermission("silverstone.admin")) {
-            i.fileManager.loadFiles();
+        try {
+            if (args[0].equalsIgnoreCase("reload")) if (sender.hasPermission("silverstone.admin")) {
+                i.fileManager.loadFiles();
 
-            // Refresh user cache
-            UserManager.playerMap.clear();
-            for (ConfigurationNode users : i.fileManager.files.get(USERCACHE).getNode("users")
-                .getChildrenMap().values()) {
-                UUID uuid = UUID.fromString(users.getKey().toString());
-                String username = i.fileManager.files.get(USERCACHE).getNode("users", users.getKey())
-                    .getString();
-                UserManager.playerMap.put(uuid, username);
-            }
+                // Refresh user cache
+                UserManager.playerMap.clear();
+                for (ConfigurationNode users : i.fileManager.files.get(USERCACHE).node("users").childrenMap()
+                    .values()) {
+                    UUID uuid = UUID.fromString(users.key().toString());
+                    String username = i.fileManager.files.get(USERCACHE).node("users", users.key())
+                        .getString();
+                    UserManager.playerMap.put(uuid, username);
+                }
 
-            // Update nicknames
-            for (Player player : i.server.getAllPlayers())
-                new NicknameUtils(i).changeDisplayName(player,
-                    new NicknameUtils(i).getDisplayName(player.getUniqueId()));
+                // Update nicknames
+                for (Player player : i.server.getAllPlayers())
+                    new NicknameUtils(i).changeDisplayName(player,
+                        new NicknameUtils(i).getDisplayName(player.getUniqueId()));
 
-            sender.sendMessage(Component.text("SilverstoneProxy reloaded!", NamedTextColor.GREEN));
-        } else sender.sendMessage(Component.text("You don't have permission to do that!",
-            NamedTextColor.RED));
+                sender.sendMessage(Component.text("SilverstoneProxy reloaded!", NamedTextColor.GREEN));
+            } else sender.sendMessage(Component.text("You don't have permission to do that!",
+                NamedTextColor.RED));
 
 
-            // remove <reason> <player>
-        else if (args[0].equalsIgnoreCase("remove")) {
-            if (args.length < 3) {
-                sender.sendMessage(Component.text("/ssp remove <reason> <player>", NamedTextColor.RED));
-                return;
-            }
+                // remove <reason> <player>
+            else if (args[0].equalsIgnoreCase("remove")) {
+                if (args.length < 3) {
+                    sender.sendMessage(Component.text("/ssp remove <reason> <player>", NamedTextColor.RED));
+                    return;
+                }
 
-            UUID uuid = new UserManager(i).getUUID(args[2]);
-            String username = new UserManager(i).getUsername(uuid);
-            Player player = i.server.getPlayer(uuid).isPresent() ? i.server.getPlayer(uuid).get() : null;
+                UUID uuid = new UserManager(i).getUUID(args[2]);
+                String username = new UserManager(i).getUsername(uuid);
+                Player player = i.server.getPlayer(uuid).isPresent() ? i.server.getPlayer(uuid).get() : null;
 
-            if (uuid == null) {
-                new NoPlayerMsg().nonExistentPlayerMessage(args[2], sender);
-                return;
-            }
+                if (uuid == null) {
+                    new NoPlayerMsg().nonExistentPlayerMessage(args[2], sender);
+                    return;
+                }
 
-            int count = i.fileManager.files.get(WARNDATA).getNode("data", uuid.toString(), args[1]).getInt();
+                int count = i.fileManager.files.get(WARNDATA).node("data", uuid.toString(), args[1]).getInt();
 
-            // Already has 0 warnings
-            if ((count - 1) < 0) sender.sendMessage(Component.text(username, NamedTextColor.GRAY).append(
-                    Component.text(" already has 0 ", NamedTextColor.RED))
-                .append(Component.text(args[1], NamedTextColor.GRAY))
-                .append(Component.text(" warnings.", NamedTextColor.RED)));
-            else {
-                new UndoWarning(i).undoWarning(uuid, args[1], count);
+                // Already has 0 warnings
+                if ((count - 1) < 0) sender.sendMessage(Component.text(username, NamedTextColor.GRAY).append(
+                        Component.text(" already has 0 ", NamedTextColor.RED))
+                    .append(Component.text(args[1], NamedTextColor.GRAY))
+                    .append(Component.text(" warnings.", NamedTextColor.RED)));
+                else {
+                    new UndoWarning(i).undoWarning(uuid, args[1], count);
 
-                if ((count - 1) == 0) i.fileManager.files.get(WARNDATA).getNode("data",
-                    uuid.toString(),
-                    args[1]).setValue(null);
-                else i.fileManager.files.get(WARNDATA).getNode("data", uuid.toString(), args[1]).setValue(
-                    count - 1);
-                i.fileManager.save(WARNDATA);
-
-                if (i.fileManager.files.get(WARNDATA).getNode("data", uuid.toString()).getChildrenMap()
-                    .values().isEmpty()) {
-                    i.fileManager.files.get(WARNDATA).getNode("data", uuid.toString()).setValue(null);
+                    if ((count - 1) == 0) i.fileManager.files.get(WARNDATA).node("data",
+                        uuid.toString(),
+                        args[1]).set(null);
+                    else i.fileManager.files.get(WARNDATA).node("data", uuid.toString(), args[1])
+                        .set(count - 1);
                     i.fileManager.save(WARNDATA);
+
+                    if (i.fileManager.files.get(WARNDATA).node("data", uuid.toString()).childrenMap().values()
+                        .isEmpty()) {
+                        i.fileManager.files.get(WARNDATA).node("data", uuid.toString()).set(null);
+                        i.fileManager.save(WARNDATA);
+                    }
+
+                    Component warningRemovedStaff = Component.text(senderName, NamedTextColor.GRAY).append(
+                            Component.text(" removed a(n) ", NamedTextColor.RED)).append(Component.text(args[1],
+                            NamedTextColor.GRAY)).append(Component.text(" warning from ", NamedTextColor.RED))
+                        .append(Component.text(
+                            username,
+                            NamedTextColor.GRAY));
+
+                    i.server.getConsoleCommandSource().sendMessage(warningRemovedStaff);
+                    // Message staff
+                    for (Player online : i.server.getAllPlayers())
+                        if (online.hasPermission("silverstone.moderator")) online.sendMessage(
+                            warningRemovedStaff);
+
+                    Component warningRemovedPlayer = Component.text(senderName, NamedTextColor.GRAY).append(
+                        Component.text(" removed a(n) ", NamedTextColor.RED)).append(Component.text(args[1],
+                        NamedTextColor.GRAY)).append(Component.text(" warning from you.",
+                        NamedTextColor.RED));
+
+                    // Message player if online and command not silent
+                    try {
+                        if (!args[3].equalsIgnoreCase("-s")) if (player != null) player.sendMessage(
+                            warningRemovedPlayer);
+                    } catch (ArrayIndexOutOfBoundsException ignored) {
+                        if (player != null) player.sendMessage(warningRemovedPlayer);
+                    }
+
+                    EmbedBuilder embed = new EmbedBuilder();
+                    embed.setAuthor(senderName + " removed a(n) '" + args[1] + "' warning from " + username,
+                        null,
+                        "https://mc-heads.net/avatar/" + uuid);
+                    embed.setColor(new Color(42, 212, 85));
+                    warningChannel.sendMessageEmbeds(embed.build()).queue();
                 }
 
-                Component warningRemovedStaff = Component.text(senderName, NamedTextColor.GRAY).append(
-                    Component.text(" removed a(n) ", NamedTextColor.RED)).append(Component.text(args[1],
-                    NamedTextColor.GRAY)).append(Component.text(
-                    " warning from ",
-                    NamedTextColor.RED)).append(Component.text(username, NamedTextColor.GRAY));
 
-                i.server.getConsoleCommandSource().sendMessage(warningRemovedStaff);
-                // Message staff
-                for (Player online : i.server.getAllPlayers())
-                    if (online.hasPermission("silverstone.moderator"))
-                        online.sendMessage(warningRemovedStaff);
-
-                Component warningRemovedPlayer = Component.text(senderName, NamedTextColor.GRAY).append(
-                    Component.text(" removed a(n) ", NamedTextColor.RED)).append(Component.text(args[1],
-                    NamedTextColor.GRAY)).append(Component.text(
-                    " warning from you.",
-                    NamedTextColor.RED));
-
-                // Message player if online and command not silent
-                try {
-                    if (!args[3].equalsIgnoreCase("-s")) if (player != null) player.sendMessage(
-                        warningRemovedPlayer);
-                } catch (ArrayIndexOutOfBoundsException ignored) {
-                    if (player != null) player.sendMessage(warningRemovedPlayer);
+                // clear <[reason]|all> <player>
+            } else if (args[0].equalsIgnoreCase("clear")) {
+                if (args.length < 3) {
+                    sender.sendMessage(Component.text("/ssp clear <[reason]|all> <player>",
+                        NamedTextColor.RED));
+                    return;
                 }
 
-                EmbedBuilder embed = new EmbedBuilder();
-                embed.setAuthor(senderName + " removed a(n) '" + args[1] + "' warning from " + username,
-                    null,
-                    "https://mc-heads.net/avatar/" + uuid);
-                embed.setColor(new Color(42, 212, 85));
-                warningChannel.sendMessageEmbeds(embed.build()).queue();
-            }
+                UUID uuid = new UserManager(i).getUUID(args[2]);
+                String username = new UserManager(i).getUsername(uuid);
+                Player player = i.server.getPlayer(uuid).isPresent() ? i.server.getPlayer(uuid).get() : null;
 
-
-            // clear <[reason]|all> <player>
-        } else if (args[0].equalsIgnoreCase("clear")) {
-            if (args.length < 3) {
-                sender.sendMessage(Component.text("/ssp clear <[reason]|all> <player>", NamedTextColor.RED));
-                return;
-            }
-
-            UUID uuid = new UserManager(i).getUUID(args[2]);
-            String username = new UserManager(i).getUsername(uuid);
-            Player player = i.server.getPlayer(uuid).isPresent() ? i.server.getPlayer(uuid).get() : null;
-
-            if (uuid == null) {
-                new NoPlayerMsg().nonExistentPlayerMessage(args[2], sender);
-                return;
-            }
-
-            // If all
-            if (args[1].equalsIgnoreCase("all")) {
-                new UndoWarning(i).undoWarning(uuid, args[1], null);
-
-                i.fileManager.files.get(WARNDATA).getNode("data", uuid.toString()).setValue(null);
-                i.fileManager.save(WARNDATA);
-
-                Component warningsClearedStaff = Component.text(senderName, NamedTextColor.GRAY).append(
-                    Component.text(" cleared all of ", NamedTextColor.RED)).append(Component.text(username,
-                    NamedTextColor.GRAY)).append(Component.text(
-                    "'s warnings.",
-                    NamedTextColor.RED));
-
-                i.server.getConsoleCommandSource().sendMessage(warningsClearedStaff);
-                // Message staff
-                for (Player online : i.server.getAllPlayers())
-                    if (online.hasPermission("silverstone.moderator"))
-                        online.sendMessage(warningsClearedStaff);
-
-                Component warningsClearedPlayer = Component.text(senderName, NamedTextColor.GRAY).append(
-                    Component.text(" cleared all of your warnings.", NamedTextColor.RED));
-
-                // Message player if online and command not silent
-                try {
-                    if (!args[3].equalsIgnoreCase("-s")) if (player != null) player.sendMessage(
-                        warningsClearedPlayer);
-                } catch (ArrayIndexOutOfBoundsException ignored) {
-                    if (player != null) player.sendMessage(warningsClearedPlayer);
+                if (uuid == null) {
+                    new NoPlayerMsg().nonExistentPlayerMessage(args[2], sender);
+                    return;
                 }
 
-                EmbedBuilder embed = new EmbedBuilder();
-                embed.setAuthor(senderName + " cleared all of " + username + "'s warnings",
-                    null,
-                    "https://mc-heads.net/avatar/" + uuid);
-                embed.setColor(new Color(42, 212, 85));
-                warningChannel.sendMessageEmbeds(embed.build()).queue();
+                // If all
+                if (args[1].equalsIgnoreCase("all")) {
+                    new UndoWarning(i).undoWarning(uuid, args[1], null);
 
-                // If a reason is defined
-            } else {
-                new UndoWarning(i).undoWarning(uuid, args[1], null);
+                    i.fileManager.files.get(WARNDATA).node("data", uuid.toString()).set(null);
+                    i.fileManager.save(WARNDATA);
 
-                i.fileManager.files.get(WARNDATA).getNode("data", uuid.toString(), args[1]).setValue(null);
-                i.fileManager.save(WARNDATA);
+                    Component warningsClearedStaff = Component.text(senderName, NamedTextColor.GRAY).append(
+                            Component.text(" cleared all of ", NamedTextColor.RED))
+                        .append(Component.text(username, NamedTextColor.GRAY)).append(Component.text("'s warnings.",
+                            NamedTextColor.RED));
 
-                Component warningsClearedStaff = Component.text(senderName, NamedTextColor.GRAY).append(
-                    Component.text(" cleared all ", NamedTextColor.RED)).append(Component.text(args[1],
-                    NamedTextColor.GRAY)).append(Component.text(
-                    " warnings from ",
-                    NamedTextColor.RED)).append(Component.text(username, NamedTextColor.GRAY));
+                    i.server.getConsoleCommandSource().sendMessage(warningsClearedStaff);
+                    // Message staff
+                    for (Player online : i.server.getAllPlayers())
+                        if (online.hasPermission("silverstone.moderator")) online.sendMessage(
+                            warningsClearedStaff);
 
-                i.server.getConsoleCommandSource().sendMessage(warningsClearedStaff);
-                // Message staff
-                for (Player online : i.server.getAllPlayers())
-                    if (online.hasPermission("silverstone.moderator"))
-                        online.sendMessage(warningsClearedStaff);
+                    Component warningsClearedPlayer = Component.text(senderName, NamedTextColor.GRAY).append(
+                        Component.text(" cleared all of your warnings.", NamedTextColor.RED));
 
-                Component warningsClearedPlayer = Component.text(senderName, NamedTextColor.GRAY).append(
-                    Component.text(" cleared all your ", NamedTextColor.RED)).append(Component.text(args[1],
-                    NamedTextColor.GRAY)).append(Component.text(" warnings.", NamedTextColor.RED));
+                    // Message player if online and command not silent
+                    try {
+                        if (!args[3].equalsIgnoreCase("-s")) if (player != null) player.sendMessage(
+                            warningsClearedPlayer);
+                    } catch (ArrayIndexOutOfBoundsException ignored) {
+                        if (player != null) player.sendMessage(warningsClearedPlayer);
+                    }
 
-                // Message player if online and command not silent
-                try {
-                    if (!args[3].equalsIgnoreCase("-s")) if (player != null) player.sendMessage(
-                        warningsClearedPlayer);
-                } catch (ArrayIndexOutOfBoundsException ignored) {
-                    if (player != null) player.sendMessage(warningsClearedPlayer);
+                    EmbedBuilder embed = new EmbedBuilder();
+                    embed.setAuthor(senderName + " cleared all of " + username + "'s warnings",
+                        null,
+                        "https://mc-heads.net/avatar/" + uuid);
+                    embed.setColor(new Color(42, 212, 85));
+                    warningChannel.sendMessageEmbeds(embed.build()).queue();
+
+                    // If a reason is defined
+                } else {
+                    new UndoWarning(i).undoWarning(uuid, args[1], null);
+
+                    i.fileManager.files.get(WARNDATA).node("data", uuid.toString(), args[1]).set(null);
+                    i.fileManager.save(WARNDATA);
+
+                    Component warningsClearedStaff = Component.text(senderName, NamedTextColor.GRAY).append(
+                            Component.text(" cleared all ", NamedTextColor.RED)).append(Component.text(args[1],
+                            NamedTextColor.GRAY)).append(Component.text(" warnings from ", NamedTextColor.RED))
+                        .append(Component.text(
+                            username,
+                            NamedTextColor.GRAY));
+
+                    i.server.getConsoleCommandSource().sendMessage(warningsClearedStaff);
+                    // Message staff
+                    for (Player online : i.server.getAllPlayers())
+                        if (online.hasPermission("silverstone.moderator")) online.sendMessage(
+                            warningsClearedStaff);
+
+                    Component warningsClearedPlayer = Component.text(senderName, NamedTextColor.GRAY).append(
+                            Component.text(" cleared all your ", NamedTextColor.RED))
+                        .append(Component.text(args[1], NamedTextColor.GRAY)).append(Component.text(" warnings.",
+                            NamedTextColor.RED));
+
+                    // Message player if online and command not silent
+                    try {
+                        if (!args[3].equalsIgnoreCase("-s")) if (player != null) player.sendMessage(
+                            warningsClearedPlayer);
+                    } catch (ArrayIndexOutOfBoundsException ignored) {
+                        if (player != null) player.sendMessage(warningsClearedPlayer);
+                    }
+
+                    EmbedBuilder embed = new EmbedBuilder();
+                    embed.setAuthor(senderName + " cleared all '" + args[1] + "' warnings from " + username,
+                        null,
+                        "https://mc-heads.net/avatar/" + uuid);
+                    embed.setColor(new Color(42, 212, 85));
+                    warningChannel.sendMessageEmbeds(embed.build()).queue();
                 }
-
-                EmbedBuilder embed = new EmbedBuilder();
-                embed.setAuthor(senderName + " cleared all '" + args[1] + "' warnings from " + username,
-                    null,
-                    "https://mc-heads.net/avatar/" + uuid);
-                embed.setColor(new Color(42, 212, 85));
-                warningChannel.sendMessageEmbeds(embed.build()).queue();
             }
+        } catch (SerializationException e) {
+            e.printStackTrace();
         }
     }
 
@@ -259,9 +266,9 @@ public class BaseCommand implements SimpleCommand {
 
         List<String> arguments2 = new ArrayList<>();
         if (args[0].equalsIgnoreCase("remove") || args[0].equalsIgnoreCase("clear"))
-            for (ConfigurationNode reason : i.fileManager.files.get(CONFIG).getNode("reasons")
-                .getChildrenMap().values())
-                arguments2.add(reason.getKey().toString());
+            for (ConfigurationNode reason : i.fileManager.files.get(CONFIG).node("reasons").childrenMap()
+                .values())
+                arguments2.add(reason.key().toString());
 
         if (args[0].equalsIgnoreCase("clear")) arguments2.add("all");
 

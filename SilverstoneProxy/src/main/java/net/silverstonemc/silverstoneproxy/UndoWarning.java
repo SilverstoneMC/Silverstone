@@ -1,8 +1,7 @@
 package net.silverstonemc.silverstoneproxy;
 
-import com.google.common.reflect.TypeToken;
-import ninja.leaping.configurate.ConfigurationNode;
-import ninja.leaping.configurate.objectmapping.ObjectMappingException;
+import org.spongepowered.configurate.ConfigurationNode;
+import org.spongepowered.configurate.serialize.SerializationException;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -23,18 +22,18 @@ public class UndoWarning {
 
         if (currentWarningCount != null) {
             // Grab the amount of un-punishments in the config
-            int unpunishmentCount = i.fileManager.files.get(CONFIG).getNode("reasons", reason, "remove")
-                .getChildrenMap().values().size();
+            int unpunishmentCount = i.fileManager.files.get(CONFIG).node("reasons", reason, "remove")
+                .childrenMap().values().size();
 
             // Get the correct warning number
             int unpunishmentNumber = currentWarningCount % unpunishmentCount;
             if (unpunishmentNumber == 0) unpunishmentNumber = unpunishmentCount;
 
             // Un-warn the player
-            ArrayList<String> cmdList = new ArrayList<>(i.fileManager.files.get(CONFIG).getNode("reasons",
+            ArrayList<String> cmdList = new ArrayList<>(i.fileManager.files.get(CONFIG).node("reasons",
                     reason,
                     "remove",
-                    unpunishmentNumber).getChildrenMap().values().stream().map(ConfigurationNode::toString)
+                    unpunishmentNumber).childrenMap().values().stream().map(ConfigurationNode::toString)
                 .toList());
             for (String cmd : cmdList)
                 i.server.getCommandManager().executeAsync(i.server.getConsoleCommandSource(),
@@ -51,11 +50,11 @@ public class UndoWarning {
             new Thread(() -> {
                 try {
                     HashSet<String> commands = new HashSet<>();
-                    for (ConfigurationNode configReasons : i.fileManager.files.get(CONFIG).getNode("reasons")
-                        .getChildrenMap().values())
-                        for (ConfigurationNode configReasonNumbers : configReasons.getNode("remove")
-                            .getChildrenMap().values())
-                            for (String configReasonCommands : configReasonNumbers.getList(TypeToken.of(String.class)))
+                    for (ConfigurationNode configReasons : i.fileManager.files.get(CONFIG).node("reasons")
+                        .childrenMap().values())
+                        for (ConfigurationNode configReasonNumbers : configReasons.node("remove")
+                            .childrenMap().values())
+                            for (String configReasonCommands : configReasonNumbers.getList(String.class))
                                 commands.add(configReasonCommands.replace("{player}", username));
 
                     for (String command : commands)
@@ -68,7 +67,7 @@ public class UndoWarning {
                     i.logger.info("Done clearing all of " + username + "'s warnings!");
                     i.logger.info("=============================================");
                 } catch (InterruptedException ignored) {
-                } catch (ObjectMappingException e) {
+                } catch (SerializationException e) {
                     throw new RuntimeException(e);
                 }
             }).start();
@@ -83,10 +82,10 @@ public class UndoWarning {
             new Thread(() -> {
                 try {
                     HashSet<String> commands = new HashSet<>();
-                    for (ConfigurationNode configReasonNumbers : i.fileManager.files.get(CONFIG).getNode("reasons",
+                    for (ConfigurationNode configReasonNumbers : i.fileManager.files.get(CONFIG).node("reasons",
                         reason,
-                        "remove").getChildrenMap().values()) {
-                        for (String configReasonCommands : configReasonNumbers.getList(TypeToken.of(String.class)))
+                        "remove").childrenMap().values()) {
+                        for (String configReasonCommands : configReasonNumbers.getList(String.class))
                             commands.add(configReasonCommands.replace("{player}", username));
 
                         for (String command : commands)
@@ -100,7 +99,7 @@ public class UndoWarning {
                     i.logger.info("Done clearing all of " + username + "'s '" + reason + "' warnings!");
                     i.logger.info("=============================================");
                 } catch (InterruptedException ignored) {
-                } catch (ObjectMappingException e) {
+                } catch (SerializationException e) {
                     throw new RuntimeException(e);
                 }
             }).start();

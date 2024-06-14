@@ -19,6 +19,7 @@ import net.silverstonemc.silverstoneproxy.SilverstoneProxy;
 import net.silverstonemc.silverstoneproxy.UserManager;
 import net.silverstonemc.silverstoneproxy.WarnPlayer;
 import net.silverstonemc.silverstoneproxy.utils.NicknameUtils;
+import org.spongepowered.configurate.serialize.SerializationException;
 
 import java.awt.*;
 import java.util.HashMap;
@@ -47,14 +48,14 @@ public class Join {
         i.logger.info(event.getPlayer().getUsername() + " is joining with protocol version " + version);
 
         // Anything less than current version and not with perm
-        if (version < i.fileManager.files.get(CONFIG).getNode("current-protocol-version").getInt() && !event
+        if (version < i.fileManager.files.get(CONFIG).node("current-protocol-version").getInt() && !event
             .getPlayer().hasPermission("silverstone.bypassversion")) {
             incompatibleClient(event, false, "current-version");
             return;
         }
 
         // Anything less than minimum version and with perm
-        if (version < i.fileManager.files.get(CONFIG).getNode("minimum-protocol-version").getInt())
+        if (version < i.fileManager.files.get(CONFIG).node("minimum-protocol-version").getInt())
             incompatibleClient(event, true, "minimum-version");
     }
 
@@ -65,7 +66,7 @@ public class Join {
         event.getPlayer().disconnect(Component
             .text("Your client isn't compatible with the server!\n\n", NamedTextColor.RED)
             .append(Component.text("Please update to " + text + "Minecraft " + i.fileManager.files.get(CONFIG)
-                .getNode(versionPath).getString() + " to join.", NamedTextColor.GRAY)));
+                .node(versionPath).getString() + " to join.", NamedTextColor.GRAY)));
     }
 
     @Subscribe
@@ -114,10 +115,10 @@ public class Join {
             boolean userExists = UserManager.playerMap.containsKey(uuid);
 
             // Non-same client/server version message
-            if (event.getPlayer().getProtocolVersion().getProtocol() != i.fileManager.files.get(CONFIG)
-                .getNode("current-protocol-version").getInt()) event.getPlayer().sendMessage(Component.text(
+            if (event.getPlayer().getProtocolVersion().getProtocol() != i.fileManager.files.get(CONFIG).node(
+                "current-protocol-version").getInt()) event.getPlayer().sendMessage(Component.text(
                 "The server is currently built using Minecraft " + i.fileManager.files.get(CONFIG)
-                    .getNode("current-version")
+                    .node("current-version")
                     .getString() + " and is recommended to use this version to avoid any issues.",
                 NamedTextColor.RED));
 
@@ -214,14 +215,18 @@ public class Join {
                 new UserManager(i).addUser(uuid, username);
             }
 
-            if (i.fileManager.files.get(WARNQUEUE).getNode("queue", uuid.toString()).isVirtual()) return;
+            if (i.fileManager.files.get(WARNQUEUE).node("queue", uuid.toString()).virtual()) return;
 
             i.server.getScheduler().buildTask(i, () -> {
                 if (i.server.getPlayer(uuid).isPresent()) {
-                    new WarnPlayer(i).warn(uuid,
-                        i.fileManager.files.get(WARNQUEUE).getNode("queue", uuid.toString()).getString());
-                    i.fileManager.files.get(WARNQUEUE).getNode("queue", uuid.toString()).setValue(null);
-                    i.fileManager.save(WARNQUEUE);
+                    try {
+                        new WarnPlayer(i).warn(uuid,
+                            i.fileManager.files.get(WARNQUEUE).node("queue", uuid.toString()).getString());
+                        i.fileManager.files.get(WARNQUEUE).node("queue", uuid.toString()).set(null);
+                        i.fileManager.save(WARNQUEUE);
+                    } catch (SerializationException e) {
+                        throw new RuntimeException(e);
+                    }
                 }
             }).delay(3, TimeUnit.SECONDS).schedule();
         }).delay(38, TimeUnit.MILLISECONDS).schedule();

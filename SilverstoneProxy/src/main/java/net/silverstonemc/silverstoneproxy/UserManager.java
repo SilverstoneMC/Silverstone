@@ -2,6 +2,7 @@ package net.silverstonemc.silverstoneproxy;
 
 import org.apache.commons.collections4.BidiMap;
 import org.apache.commons.collections4.bidimap.DualHashBidiMap;
+import org.spongepowered.configurate.serialize.SerializationException;
 
 import java.util.UUID;
 
@@ -25,8 +26,12 @@ public class UserManager {
     }
 
     public void addUser(UUID uuid, String username) {
-        playerMap.put(uuid, username);
-        i.fileManager.files.get(USERCACHE).getNode("users", uuid.toString()).setValue(username);
-        i.fileManager.save(USERCACHE);
+        try {
+            playerMap.put(uuid, username);
+            i.fileManager.files.get(USERCACHE).node("users", uuid.toString()).set(username);
+            i.fileManager.save(USERCACHE);
+        } catch (SerializationException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

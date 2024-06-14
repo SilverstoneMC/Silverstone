@@ -6,7 +6,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.silverstonemc.silverstoneproxy.SilverstoneProxy;
 import net.silverstonemc.silverstoneproxy.utils.NicknameUtils;
-import ninja.leaping.configurate.ConfigurationNode;
+import org.spongepowered.configurate.ConfigurationNode;
 
 import java.util.UUID;
 
@@ -36,14 +36,14 @@ public class Realname implements SimpleCommand {
         }
 
         boolean playerFound = false;
-        for (ConfigurationNode uuid : i.fileManager.files.get(NICKNAMES).getNode("stripped-nicknames")
-            .getChildrenMap().values()) {
+        for (ConfigurationNode uuid : i.fileManager.files.get(NICKNAMES).node("stripped-nicknames")
+            .childrenMap().values()) {
             String strippedNickname = uuid.getString();
             if (strippedNickname.toLowerCase().replaceFirst(".*:", "").startsWith(args[0].toLowerCase())) {
-                if (i.fileManager.files.get(NICKNAMES).getNode("nicknames", uuid.getKey().toString())
-                    .isVirtual()) continue;
+                if (i.fileManager.files.get(NICKNAMES).node("nicknames", uuid.key().toString())
+                    .virtual()) continue;
 
-                Component nickname = new NicknameUtils(i).getDisplayName(UUID.fromString(uuid.getKey()
+                Component nickname = new NicknameUtils(i).getDisplayName(UUID.fromString(uuid.key()
                     .toString()));
                 sender.sendMessage(Component.text().append(nickname)
                     .append(Component.text("'s real name is " + strippedNickname.replaceFirst(":.*",

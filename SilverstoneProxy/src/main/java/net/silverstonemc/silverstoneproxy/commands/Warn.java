@@ -9,7 +9,7 @@ import net.silverstonemc.silverstoneproxy.SilverstoneProxy;
 import net.silverstonemc.silverstoneproxy.UserManager;
 import net.silverstonemc.silverstoneproxy.WarnPlayer;
 import net.silverstonemc.silverstoneproxy.utils.NoPlayerMsg;
-import ninja.leaping.configurate.ConfigurationNode;
+import org.spongepowered.configurate.ConfigurationNode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -103,10 +103,10 @@ public class Warn implements SimpleCommand {
 
     private boolean checkIfValidReason(String reason) {
         ArrayList<String> reasonList = new ArrayList<>();
-        for (ConfigurationNode reasons : i.fileManager.files.get(CONFIG).getNode("reasons").getChildrenMap()
+        for (ConfigurationNode reasons : i.fileManager.files.get(CONFIG).node("reasons").childrenMap()
             .values())
             //noinspection DataFlowIssue
-            reasonList.add(reasons.getKey().toString());
+            reasonList.add(reasons.key().toString());
         return !reasonList.contains(reason);
     }
 
@@ -119,10 +119,10 @@ public class Warn implements SimpleCommand {
         if (args.length == 0) return CompletableFuture.completedFuture(arguments);
 
         List<String> arguments2 = new ArrayList<>();
-        for (ConfigurationNode reasons : i.fileManager.files.get(CONFIG).getNode("reasons").getChildrenMap()
+        for (ConfigurationNode reasons : i.fileManager.files.get(CONFIG).node("reasons").childrenMap()
             .values())
             //noinspection DataFlowIssue
-            arguments2.add(reasons.getKey().toString());
+            arguments2.add(reasons.key().toString());
 
         List<String> result = new ArrayList<>();
         switch (args.length) {

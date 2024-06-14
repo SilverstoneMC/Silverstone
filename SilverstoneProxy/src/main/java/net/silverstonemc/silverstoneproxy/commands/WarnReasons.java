@@ -9,7 +9,7 @@ import net.kyori.adventure.text.event.HoverEvent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.silverstonemc.silverstoneproxy.SilverstoneProxy;
-import ninja.leaping.configurate.ConfigurationNode;
+import org.spongepowered.configurate.ConfigurationNode;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -47,10 +47,10 @@ public class WarnReasons implements SimpleCommand {
         message.append(Component.text(header, NamedTextColor.RED, TextDecoration.BOLD));
 
         ArrayList<String> reasonList = new ArrayList<>();
-        for (ConfigurationNode reasons : i.fileManager.files.get(CONFIG).getNode("reasons").getChildrenMap()
+        for (ConfigurationNode reasons : i.fileManager.files.get(CONFIG).node("reasons").childrenMap()
             .values())
             //noinspection DataFlowIssue
-            reasonList.add(reasons.getKey().toString());
+            reasonList.add(reasons.key().toString());
         reasonList.sort(String.CASE_INSENSITIVE_ORDER);
 
         // Loop through the reasonList in increments of 3
@@ -90,7 +90,7 @@ public class WarnReasons implements SimpleCommand {
         return HoverEvent.hoverEvent(HoverEvent.Action.SHOW_TEXT, Component.text().append(Component.text(reason + ":",
                 NamedTextColor.RED,
                 TextDecoration.BOLD)).append(Component.text("\n" + i.fileManager.files.get(CONFIG)
-                .getNode("reasons", reason, "description").getString(), NamedTextColor.GRAY)).append(footer)
+                .node("reasons", reason, "description").getString(), NamedTextColor.GRAY)).append(footer)
             .build());
     }
 }

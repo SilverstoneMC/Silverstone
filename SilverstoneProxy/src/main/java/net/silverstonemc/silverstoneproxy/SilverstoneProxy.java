@@ -28,8 +28,8 @@ import net.silverstonemc.silverstoneproxy.commands.chatemotes.FacePalm;
 import net.silverstonemc.silverstoneproxy.commands.chatemotes.Shrug;
 import net.silverstonemc.silverstoneproxy.commands.chatemotes.TableFlip;
 import net.silverstonemc.silverstoneproxy.events.*;
-import ninja.leaping.configurate.ConfigurationNode;
 import org.slf4j.Logger;
+import org.spongepowered.configurate.ConfigurationNode;
 
 import java.nio.file.Path;
 import java.util.UUID;
@@ -64,11 +64,11 @@ public class SilverstoneProxy {
         luckPerms = LuckPermsProvider.get();
 
         // Cache users
-        for (ConfigurationNode users : fileManager.files.get(USERCACHE).getNode("users").getChildrenMap()
+        for (ConfigurationNode users : fileManager.files.get(USERCACHE).node("users").childrenMap()
             .values()) {
             //noinspection DataFlowIssue
-            UUID uuid = UUID.fromString(users.getKey().toString());
-            String username = fileManager.files.get(USERCACHE).getNode("users", users.getKey()).getString();
+            UUID uuid = UUID.fromString(users.key().toString());
+            String username = fileManager.files.get(USERCACHE).node("users", users.key()).getString();
             UserManager.playerMap.put(uuid, username);
         }
 

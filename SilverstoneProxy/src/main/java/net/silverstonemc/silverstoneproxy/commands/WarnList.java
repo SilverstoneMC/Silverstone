@@ -7,7 +7,7 @@ import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.silverstonemc.silverstoneproxy.SilverstoneProxy;
 import net.silverstonemc.silverstoneproxy.UserManager;
-import ninja.leaping.configurate.ConfigurationNode;
+import org.spongepowered.configurate.ConfigurationNode;
 
 import java.util.UUID;
 
@@ -30,11 +30,11 @@ public class WarnList implements SimpleCommand {
         CommandSource sender = invocation.source();
         sender.sendMessage(Component.text("All warnings:", NamedTextColor.RED, TextDecoration.BOLD));
 
-        for (ConfigurationNode uuid : i.fileManager.files.get(WARNDATA).getNode("data").getChildrenMap()
+        for (ConfigurationNode uuid : i.fileManager.files.get(WARNDATA).node("data").childrenMap()
             .values())
-            for (ConfigurationNode warning : uuid.getChildrenMap().values())
+            for (ConfigurationNode warning : uuid.childrenMap().values())
                 //noinspection DataFlowIssue
-                sender.sendMessage(Component.text(new UserManager(i).getUsername(UUID.fromString(uuid.getKey()
+                sender.sendMessage(Component.text(new UserManager(i).getUsername(UUID.fromString(uuid.key()
                     .toString())) + " - " + warning + " - " + warning.getInt(), NamedTextColor.GRAY));
     }
 }

@@ -11,8 +11,9 @@ import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.silverstonemc.silverstoneproxy.SilverstoneProxy;
 import net.silverstonemc.silverstoneproxy.UserManager;
-import ninja.leaping.configurate.ConfigurationNode;
 import org.jetbrains.annotations.Nullable;
+import org.spongepowered.configurate.ConfigurationNode;
+import org.spongepowered.configurate.serialize.SerializationException;
 
 import java.util.UUID;
 import java.util.concurrent.ExecutionException;
@@ -34,23 +35,27 @@ public class NicknameUtils {
             return true;
         }
 
-        if (nickname == null) {
-            changeDisplayName(player, null);
+        try {
+            if (nickname == null) {
+                changeDisplayName(player, null);
 
-            i.fileManager.files.get(NICKNAMES).getNode("nicknames", player.getUniqueId().toString()).setValue(
-                null);
-            i.fileManager.files.get(NICKNAMES).getNode("stripped-nicknames", player.getUniqueId().toString())
-                .setValue(null);
+                i.fileManager.files.get(NICKNAMES).node("nicknames", player.getUniqueId().toString())
+                    .set(null);
+                i.fileManager.files.get(NICKNAMES).node("stripped-nicknames", player.getUniqueId().toString())
+                    .set(null);
+                i.fileManager.save(NICKNAMES);
+
+                return false;
+            } else changeDisplayName(player, nickname);
+
+            i.fileManager.files.get(NICKNAMES).node("nicknames", player.getUniqueId().toString()).set(
+                MiniMessage.miniMessage().serialize(nickname));
+            i.fileManager.files.get(NICKNAMES).node("stripped-nicknames", player.getUniqueId().toString())
+                .set(player.getUsername() + ":" + strippedName);
             i.fileManager.save(NICKNAMES);
-
-            return false;
-        } else changeDisplayName(player, nickname);
-
-        i.fileManager.files.get(NICKNAMES).getNode("nicknames", player.getUniqueId().toString()).setValue(
-            MiniMessage.miniMessage().serialize(nickname));
-        i.fileManager.files.get(NICKNAMES).getNode("stripped-nicknames", player.getUniqueId().toString())
-            .setValue(player.getUsername() + ":" + strippedName);
-        i.fileManager.save(NICKNAMES);
+        } catch (SerializationException e) {
+            throw new RuntimeException(e);
+        }
 
         return false;
     }
@@ -73,13 +78,14 @@ public class NicknameUtils {
         }
         ConfigurationNode config = i.fileManager.files.get(CONFIG);
 
-        Component prefix = MiniMessage.miniMessage().deserialize(config.getNode("nicknames", "prefix")
+        Component prefix = MiniMessage.miniMessage().deserialize(config.node("nicknames", "prefix")
             .getString());
-        Component suffix = MiniMessage.miniMessage().deserialize(config.getNode("nicknames", "suffix")
+        Component suffix = MiniMessage.miniMessage().deserialize(config.node("nicknames", "suffix")
             .getString());
 
         Component displayName = Component.text().append(prefix).append(nickname).append(suffix).build();
-        TabAPI.getInstance().getTabListFormatManager().setName(tabPlayer,
+        TabAPI.getInstance().getTabListFormatManager().setName(
+            tabPlayer,
             LegacyComponentSerializer.builder().useUnusualXRepeatedCharacterHexFormat().hexColors().build()
                 .serialize(displayName));
         try {
@@ -91,10 +97,9 @@ public class NicknameUtils {
     }
 
     public Component getDisplayName(UUID uuid) {
-        ConfigurationNode playerNode = i.fileManager.files.get(NICKNAMES).getNode("nicknames",
-            uuid.toString());
+        ConfigurationNode playerNode = i.fileManager.files.get(NICKNAMES).node("nicknames", uuid.toString());
 
-        if (playerNode.isVirtual()) return Component.text(UserManager.playerMap.get(uuid));
+        if (playerNode.virtual()) return Component.text(UserManager.playerMap.get(uuid));
         else //noinspection DataFlowIssue
             return MiniMessage.miniMessage().deserialize(playerNode.getString());
     }

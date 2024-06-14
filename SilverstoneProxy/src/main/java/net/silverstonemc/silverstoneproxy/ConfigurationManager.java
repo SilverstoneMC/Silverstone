@@ -1,7 +1,9 @@
 package net.silverstonemc.silverstoneproxy;
 
-import ninja.leaping.configurate.ConfigurationNode;
-import ninja.leaping.configurate.yaml.YAMLConfigurationLoader;
+
+import org.jetbrains.annotations.Nullable;
+import org.spongepowered.configurate.ConfigurationNode;
+import org.spongepowered.configurate.yaml.YamlConfigurationLoader;
 
 import java.io.File;
 import java.io.IOException;
@@ -19,7 +21,7 @@ public class ConfigurationManager {
 
     public final Map<FileType, ConfigurationNode> files = new HashMap<>();
 
-    private final Map<FileType, YAMLConfigurationLoader> loaders = new HashMap<>();
+    private final Map<FileType, YamlConfigurationLoader> loaders = new HashMap<>();
     private final Path dataDirectory;
 
     public enum FileType {
@@ -51,6 +53,7 @@ public class ConfigurationManager {
         files.put(FileType.WARNQUEUE, loadFile(FileType.WARNQUEUE));
     }
 
+    @Nullable
     private ConfigurationNode loadFile(FileType fileType) {
         File file = new File(dataDirectory.toFile(), fileType.getFileName());
 
@@ -62,7 +65,7 @@ public class ConfigurationManager {
             }
 
         // Load the config
-        YAMLConfigurationLoader loader = YAMLConfigurationLoader.builder().setPath(file.toPath()).build();
+        YamlConfigurationLoader loader = YamlConfigurationLoader.builder().path(file.toPath()).build();
         loaders.put(fileType, loader);
 
         try {

@@ -1,6 +1,5 @@
 package net.silverstonemc.silverstoneproxy.commands;
 
-import com.google.common.reflect.TypeToken;
 import com.velocitypowered.api.command.CommandSource;
 import com.velocitypowered.api.command.SimpleCommand;
 import com.velocitypowered.api.proxy.Player;
@@ -9,8 +8,8 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.silverstonemc.silverstoneproxy.SilverstoneProxy;
-import ninja.leaping.configurate.ConfigurationNode;
-import ninja.leaping.configurate.objectmapping.ObjectMappingException;
+import org.spongepowered.configurate.ConfigurationNode;
+import org.spongepowered.configurate.serialize.SerializationException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,23 +66,22 @@ public class Rules implements SimpleCommand {
 
         if (rule == -1) {
             try {
-                for (String header : i.fileManager.files.get(CONFIG).getNode("rules", "header").getList(
-                    TypeToken.of(String.class)))
+                for (String header : i.fileManager.files.get(CONFIG).node("rules", "header")
+                    .getList(String.class))
                     target.sendMessage(MiniMessage.miniMessage().deserialize(header));
 
-                for (ConfigurationNode rules : i.fileManager.files.get(CONFIG).getNode("rules", "rules")
-                    .getChildrenMap().values())
+                for (ConfigurationNode rules : i.fileManager.files.get(CONFIG).node("rules", "rules")
+                    .childrenMap().values())
                     //noinspection DataFlowIssue
                     target.sendMessage(MiniMessage.miniMessage()
-                        .deserialize(i.fileManager.files.get(CONFIG).getNode("rules", "rule-prefix")
-                            .getString("null")
-                            .replace("{#}", rules.getKey().toString()) + rules.getString()));
+                        .deserialize(i.fileManager.files.get(CONFIG).node("rules", "rule-prefix")
+                            .getString("null").replace("{#}", rules.key().toString()) + rules.getString()));
 
-                for (String footer : i.fileManager.files.get(CONFIG).getNode("rules", "footer").getList(
-                    TypeToken.of(String.class)))
+                for (String footer : i.fileManager.files.get(CONFIG).node("rules", "footer")
+                    .getList(String.class))
                     target.sendMessage(MiniMessage.miniMessage().deserialize(footer));
 
-            } catch (ObjectMappingException e) {
+            } catch (SerializationException e) {
                 throw new RuntimeException(e);
             }
 
@@ -94,10 +92,10 @@ public class Rules implements SimpleCommand {
                     .append(Component.text(targetName, NamedTextColor.GRAY)));
         } else {
             target.sendMessage(MiniMessage.miniMessage()
-                .deserialize("<dark_green>Rule " + i.fileManager.files.get(CONFIG).getNode("rules",
+                .deserialize("<dark_green>Rule " + i.fileManager.files.get(CONFIG).node("rules",
                         "rule-prefix").getString("null")
                     .replace("{#}", String.valueOf(rule)) + i.fileManager.files.get(CONFIG)
-                    .getNode("rules", "rules", rule).getString()));
+                    .node("rules", "rules", rule).getString()));
 
             // Tell mod+
             if (!silent) for (Player online : i.server.getAllPlayers())
@@ -112,8 +110,8 @@ public class Rules implements SimpleCommand {
         String header = "<red><bold>Available rules:";
 
         ArrayList<String> rules = new ArrayList<>();
-        for (ConfigurationNode rule : i.fileManager.files.get(CONFIG).getNode("rules", "rules")
-            .getChildrenMap().values())
+        for (ConfigurationNode rule : i.fileManager.files.get(CONFIG).node("rules", "rules").childrenMap()
+            .values())
             rules.add(rule.getString());
 
         String footer = "\n\n<reset><gray><italic>Click to send rule to " + target.getUsername();

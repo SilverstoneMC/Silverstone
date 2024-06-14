@@ -106,7 +106,7 @@ public class Nickname implements SimpleCommand {
 
         // Check if nickname is too long
         if (!sender.hasPermission("silverstone.nickname.bypass.length")) {
-            int maxLength = i.fileManager.files.get(CONFIG).getNode("nicknames", "max-length").getInt();
+            int maxLength = i.fileManager.files.get(CONFIG).node("nicknames", "max-length").getInt();
             if (strippedName.length() > maxLength) {
                 sender.sendMessage(Component.text("Nicknames cannot be longer than " + maxLength + " characters!",
                     NamedTextColor.RED));

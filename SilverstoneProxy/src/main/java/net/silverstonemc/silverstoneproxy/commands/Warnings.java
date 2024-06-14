@@ -10,7 +10,7 @@ import net.kyori.adventure.text.format.TextDecoration;
 import net.silverstonemc.silverstoneproxy.SilverstoneProxy;
 import net.silverstonemc.silverstoneproxy.UserManager;
 import net.silverstonemc.silverstoneproxy.utils.NoPlayerMsg;
-import ninja.leaping.configurate.ConfigurationNode;
+import org.spongepowered.configurate.ConfigurationNode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,13 +55,13 @@ public class Warnings implements SimpleCommand {
             return;
         }
 
-        ConfigurationNode warnData = i.fileManager.files.get(WARNDATA).getNode("data", uuid.toString());
-        ConfigurationNode warnQueue = i.fileManager.files.get(WARNQUEUE).getNode("queue", uuid.toString());
+        ConfigurationNode warnData = i.fileManager.files.get(WARNDATA).node("data", uuid.toString());
+        ConfigurationNode warnQueue = i.fileManager.files.get(WARNQUEUE).node("queue", uuid.toString());
 
         // If not in queue
-        if (warnQueue.isVirtual())
+        if (warnQueue.virtual())
             // And has no warnings
-            if (warnData.isVirtual()) {
+            if (warnData.virtual()) {
                 sender.sendMessage(Component.text(username, NamedTextColor.AQUA)
                     .append(Component.text(" has no warnings!", NamedTextColor.GREEN)));
                 return;
@@ -72,13 +72,13 @@ public class Warnings implements SimpleCommand {
             TextDecoration.BOLD));
 
         // If any warnings already exist
-        if (!warnData.isVirtual()) for (ConfigurationNode reasonList : warnData.getChildrenMap().values())
+        if (!warnData.virtual()) for (ConfigurationNode reasonList : warnData.childrenMap().values())
             //noinspection DataFlowIssue
-            sender.sendMessage(Component.text(reasonList.getKey().toString() + " - " + reasonList.getInt(),
+            sender.sendMessage(Component.text(reasonList.key().toString() + " - " + reasonList.getInt(),
                 NamedTextColor.GRAY));
 
         // If in queue
-        if (!warnQueue.isVirtual()) sender.sendMessage(Component.text(warnQueue.getString() + " (Queued)",
+        if (!warnQueue.virtual()) sender.sendMessage(Component.text(warnQueue.getString() + " (Queued)",
             NamedTextColor.GRAY));
     }
 
