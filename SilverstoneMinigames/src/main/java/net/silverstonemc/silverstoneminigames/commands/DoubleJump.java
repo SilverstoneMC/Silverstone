@@ -66,35 +66,34 @@ public class DoubleJump implements CommandExecutor, Listener {
     public void doubleJump(PlayerInteractEvent event) {
         Player player = event.getPlayer();
 
-        if (event.getAction().equals(Action.RIGHT_CLICK_AIR) || event.getAction()
-            .equals(Action.RIGHT_CLICK_BLOCK) || event.getAction().equals(Action.LEFT_CLICK_AIR) || event
-            .getAction().equals(Action.LEFT_CLICK_BLOCK)) if (player.getWorld().getName().equalsIgnoreCase(
-            plugin.getConfig().getString("minigame-world")))
-            if (player.getInventory().getItemInMainHand().getType() == Material.FEATHER)
-                if (player.getInventory().getItemInMainHand().getItemMeta().hasDisplayName())
-                    //noinspection DataFlowIssue
-                    if (player.getInventory().getItemInMainHand().getItemMeta().displayName().equals(Component
-                        .text("Double Jump", NamedTextColor.RED, TextDecoration.BOLD)
-                        .decoration(TextDecoration.ITALIC, false))) {
-                        // Still on cooldown
-                        if (cooldowns.containsKey(player.getName()))
-                            if (cooldowns.get(player.getName()) > System.currentTimeMillis()) return;
-                        cooldowns.put(player.getName(), System.currentTimeMillis() + 750);
+        if (event.getAction() != Action.RIGHT_CLICK_AIR && event.getAction() != Action.RIGHT_CLICK_BLOCK && event.getAction() != Action.LEFT_CLICK_AIR && event.getAction() != Action.LEFT_CLICK_BLOCK)
+            return;
+        if (!player.getWorld().getName().equalsIgnoreCase(plugin.getConfig().getString("minigame-world")))
+            return;
+        if (player.getInventory().getItemInMainHand().getType() != Material.FEATHER) return;
+        if (!player.getInventory().getItemInMainHand().getItemMeta().hasDisplayName()) return;
+        //noinspection DataFlowIssue
+        if (!player.getInventory().getItemInMainHand().getItemMeta().displayName().equals(Component
+            .text("Double Jump", NamedTextColor.RED, TextDecoration.BOLD)
+            .decoration(TextDecoration.ITALIC, false))) return;
 
-                        int jumpCount = 0;
-                        if (jumps.containsKey(player)) jumpCount = jumps.get(player);
+        // Still on cooldown
+        if (cooldowns.containsKey(player.getName()))
+            if (cooldowns.get(player.getName()) > System.currentTimeMillis()) return;
+        cooldowns.put(player.getName(), System.currentTimeMillis() + 750);
 
-                        if (jumpCount == 0) {
-                            player.sendMessage(Component.text("You can't double jump any more!",
-                                NamedTextColor.RED));
-                            return;
-                        }
+        int jumpCount = 0;
+        if (jumps.containsKey(player)) jumpCount = jumps.get(player);
 
-                        Vector vector = player.getLocation().getDirection().multiply(0.5).setY(0.85);
-                        player.setVelocity(vector);
-                        jumps.put(player, jumpCount - 1);
-                        player.sendMessage(Component.text("You have " + (jumpCount - 1) + " double jumps remaining.",
-                            NamedTextColor.RED));
-                    }
+        if (jumpCount == 0) {
+            player.sendMessage(Component.text("You can't double jump any more!", NamedTextColor.RED));
+            return;
+        }
+
+        Vector vector = player.getLocation().getDirection().multiply(0.5).setY(0.85);
+        player.setVelocity(vector);
+        jumps.put(player, jumpCount - 1);
+        player.sendMessage(Component.text("You have " + (jumpCount - 1) + " double jumps remaining.",
+            NamedTextColor.RED));
     }
 }

@@ -22,7 +22,7 @@ public class WirelessButtons implements Listener {
     public void clickEvent(PlayerInteractEvent event) {
         if (event.getClickedBlock() == null) return;
 
-        if (event.getClickedBlock().getType().equals(Material.STONE_BUTTON))
+        if (event.getClickedBlock().getType() == Material.STONE_BUTTON)
             if (event.getClickedBlock().getLocation().getWorld().getName().equalsIgnoreCase("utility")) {
                 Location loc = event.getClickedBlock().getLocation();
                 Player player = event.getPlayer();

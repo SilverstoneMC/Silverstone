@@ -35,33 +35,7 @@ public class Warn implements SimpleCommand {
         CommandSource sender = invocation.source();
         String[] args = invocation.arguments();
 
-        // If console does the command
-        if (!(sender instanceof Player)) switch (args.length) {
-            case 0, 1 -> sender.sendMessage(Component.text("/warn <player> <reason>", NamedTextColor.RED));
-
-            case 2 -> {
-                // Warn the targeted player
-                if (checkIfValidReason(args[1])) {
-                    i.server.getCommandManager().executeAsync(i.server.getConsoleCommandSource(), "reasons");
-                    return;
-                }
-
-                UUID uuid = new UserManager(i).getUUID(args[0]);
-                String username = new UserManager(i).getUsername(uuid);
-
-                if (uuid == null) {
-                    new NoPlayerMsg().nonExistentPlayerMessage(args[0], sender);
-                    return;
-                }
-
-                sender.sendMessage(Component.text("Warning ", NamedTextColor.RED).append(Component.text(username,
-                        NamedTextColor.GRAY)).append(Component.text(" for reason: ", NamedTextColor.RED))
-                    .append(Component.text(args[1], NamedTextColor.GRAY)));
-
-                new WarnPlayer(i).warn(uuid, args[1]);
-            }
-        }
-        else switch (args.length) {
+        if (sender instanceof Player) switch (args.length) {
             case 0 -> sender.sendMessage(Component.text("/warn <player> <reason>", NamedTextColor.RED));
 
             case 1 -> {
@@ -99,10 +73,38 @@ public class Warn implements SimpleCommand {
                 new WarnPlayer(i).warn(uuid, args[1]);
             }
         }
+        else // If console does the command
+            switch (args.length) {
+                case 0, 1 -> sender.sendMessage(Component.text("/warn <player> <reason>",
+                    NamedTextColor.RED));
+
+                case 2 -> {
+                    // Warn the targeted player
+                    if (checkIfValidReason(args[1])) {
+                        i.server.getCommandManager().executeAsync(i.server.getConsoleCommandSource(),
+                            "reasons");
+                        return;
+                    }
+
+                    UUID uuid = new UserManager(i).getUUID(args[0]);
+                    String username = new UserManager(i).getUsername(uuid);
+
+                    if (uuid == null) {
+                        new NoPlayerMsg().nonExistentPlayerMessage(args[0], sender);
+                        return;
+                    }
+
+                    sender.sendMessage(Component.text("Warning ", NamedTextColor.RED).append(Component.text(username,
+                            NamedTextColor.GRAY)).append(Component.text(" for reason: ", NamedTextColor.RED))
+                        .append(Component.text(args[1], NamedTextColor.GRAY)));
+
+                    new WarnPlayer(i).warn(uuid, args[1]);
+                }
+            }
     }
 
     private boolean checkIfValidReason(String reason) {
-        ArrayList<String> reasonList = new ArrayList<>();
+        List<String> reasonList = new ArrayList<>();
         for (ConfigurationNode reasons : i.fileManager.files.get(CONFIG).node("reasons").childrenMap()
             .values())
             //noinspection DataFlowIssue

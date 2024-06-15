@@ -26,14 +26,14 @@ public class JHome implements CommandExecutor {
     private final JavaPlugin plugin;
     private final IEssentials essentials = SilverstoneMain.getInstance().getEssentials();
 
-    public boolean onCommand(@NotNull CommandSender sender, Command cmd, @NotNull String label, String[] args) {
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
         if (!(sender instanceof Player player)) {
             sender.sendMessage(Component.text("Sorry, but only players can do that.", NamedTextColor.RED));
             return true;
         }
 
         player.sendMessage(Component.text("Teleporting...", NamedTextColor.DARK_AQUA));
-        if (player.getGameMode().equals(GameMode.SPECTATOR)) player.setSpectatorTarget(null);
+        if (player.getGameMode() == GameMode.SPECTATOR) player.setSpectatorTarget(null);
         essentials.getUser(player).getAsyncTeleport().now(new Location(Bukkit.getWorld("utility"),
                 79.5,
                 71,

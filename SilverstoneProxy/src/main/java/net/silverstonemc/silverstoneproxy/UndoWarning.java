@@ -6,6 +6,7 @@ import org.spongepowered.configurate.serialize.SerializationException;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 import static net.silverstonemc.silverstoneproxy.ConfigurationManager.FileType.CONFIG;
@@ -30,7 +31,7 @@ public class UndoWarning {
             if (unpunishmentNumber == 0) unpunishmentNumber = unpunishmentCount;
 
             // Un-warn the player
-            ArrayList<String> cmdList = new ArrayList<>(i.fileManager.files.get(CONFIG).node("reasons",
+            Iterable<String> cmdList = new ArrayList<>(i.fileManager.files.get(CONFIG).node("reasons",
                     reason,
                     "remove",
                     unpunishmentNumber).childrenMap().values().stream().map(ConfigurationNode::toString)
@@ -41,7 +42,7 @@ public class UndoWarning {
 
         } else if (reason.equals("all")) {
             i.logger.info("=============================================");
-            i.logger.info("Clearing all of " + username + "'s warnings...");
+            i.logger.info("Clearing all of {}'s warnings...", username);
             i.logger.info("=============================================");
 
             // For each warn reason in the config
@@ -49,11 +50,12 @@ public class UndoWarning {
             // Run each command in each number
             new Thread(() -> {
                 try {
-                    HashSet<String> commands = new HashSet<>();
+                    Set<String> commands = new HashSet<>();
                     for (ConfigurationNode configReasons : i.fileManager.files.get(CONFIG).node("reasons")
                         .childrenMap().values())
                         for (ConfigurationNode configReasonNumbers : configReasons.node("remove")
                             .childrenMap().values())
+                            //noinspection DataFlowIssue
                             for (String configReasonCommands : configReasonNumbers.getList(String.class))
                                 commands.add(configReasonCommands.replace("{player}", username));
 
@@ -64,7 +66,7 @@ public class UndoWarning {
                     Thread.sleep(100);
 
                     i.logger.info("=============================================");
-                    i.logger.info("Done clearing all of " + username + "'s warnings!");
+                    i.logger.info("Done clearing all of {}'s warnings!", username);
                     i.logger.info("=============================================");
                 } catch (InterruptedException ignored) {
                 } catch (SerializationException e) {
@@ -74,17 +76,18 @@ public class UndoWarning {
 
         } else {
             i.logger.info("=============================================");
-            i.logger.info("Clearing all of " + username + "'s '" + reason + "' warnings...");
+            i.logger.info("Clearing all of {}'s '{}' warnings...", username, reason);
             i.logger.info("=============================================");
 
             // For each number in reason
             // Run each command in each number
             new Thread(() -> {
                 try {
-                    HashSet<String> commands = new HashSet<>();
+                    Set<String> commands = new HashSet<>();
                     for (ConfigurationNode configReasonNumbers : i.fileManager.files.get(CONFIG).node("reasons",
                         reason,
                         "remove").childrenMap().values()) {
+                        //noinspection DataFlowIssue
                         for (String configReasonCommands : configReasonNumbers.getList(String.class))
                             commands.add(configReasonCommands.replace("{player}", username));
 
@@ -96,7 +99,7 @@ public class UndoWarning {
                     }
 
                     i.logger.info("=============================================");
-                    i.logger.info("Done clearing all of " + username + "'s '" + reason + "' warnings!");
+                    i.logger.info("Done clearing all of {}'s '{}' warnings!", username, reason);
                     i.logger.info("=============================================");
                 } catch (InterruptedException ignored) {
                 } catch (SerializationException e) {

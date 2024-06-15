@@ -26,8 +26,7 @@ public class TabComplete implements TabCompleter, Listener {
                     List<String> gameRuleValues = new ArrayList<>();
                     GameRule<?> gameRule = GameRule.getByName(args[0]);
                     if (gameRule == null) return new ArrayList<>();
-                    if (gameRule.getType() == Boolean.class) gameRuleValues.addAll(Arrays.asList(
-                        "true",
+                    if (gameRule.getType() == Boolean.class) gameRuleValues.addAll(Arrays.asList("true",
                         "false"));
                     else if (gameRule.getType() == Integer.class) gameRuleValues.add("<integer>");
 

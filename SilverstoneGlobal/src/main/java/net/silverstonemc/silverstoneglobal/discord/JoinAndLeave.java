@@ -72,7 +72,7 @@ public class JoinAndLeave implements Listener {
                 if (players.hasPermission("silverstone.moderator")) x++;
 
             Message message = newPlayers.get(player);
-            MessageEmbed oldEmbed = message.getEmbeds().get(0);
+            MessageEmbed oldEmbed = message.getEmbeds().getFirst();
 
             EmbedBuilder embed = new EmbedBuilder(oldEmbed);
             embed.setAuthor(player.getName() + " was new", null, oldEmbed.getAuthor().getIconUrl());

@@ -16,6 +16,7 @@ import net.silverstonemc.silverstoneproxy.SilverstoneProxy;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 
 public class Prefixes implements SimpleCommand {
     public Prefixes(SilverstoneProxy instance) {
@@ -34,7 +35,7 @@ public class Prefixes implements SimpleCommand {
             NamedTextColor.DARK_AQUA,
             TextDecoration.STRIKETHROUGH));
 
-        ArrayList<Group> sortedGroups = new ArrayList<>(luckPerms.getGroupManager().getLoadedGroups().stream()
+        List<Group> sortedGroups = new ArrayList<>(luckPerms.getGroupManager().getLoadedGroups().stream()
             .sorted(Comparator.comparingInt(group -> group.getWeight().orElse(0))).toList());
         Collections.reverse(sortedGroups);
 
@@ -45,9 +46,7 @@ public class Prefixes implements SimpleCommand {
 
             TextComponent prefix = LegacyComponentSerializer.legacy('&').deserialize(rawPrefix);
             prefixList.append(Component.text("\n")).append(prefix).append(Component.text("- ",
-                NamedTextColor.DARK_AQUA)).append(Component.text(
-                group.getName(),
-                NamedTextColor.DARK_GREEN));
+                NamedTextColor.DARK_AQUA)).append(Component.text(group.getName(), NamedTextColor.DARK_GREEN));
         }
 
         sender.sendMessage(prefixList.build());

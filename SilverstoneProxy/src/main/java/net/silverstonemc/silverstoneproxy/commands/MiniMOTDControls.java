@@ -9,6 +9,7 @@ import net.silverstonemc.silverstoneproxy.SilverstoneProxy;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
@@ -64,7 +65,7 @@ public class MiniMOTDControls implements SimpleCommand {
         try {
             content = Files.readAllLines(file.toPath());
 
-            try (FileWriter fileWriter = new FileWriter(file, false)) {
+            try (FileWriter fileWriter = new FileWriter(file, StandardCharsets.UTF_8, false)) {
                 for (String line : content)
                     fileWriter.write(line.replace("motd-enabled=" + !enabled, "motd-enabled=" + enabled)
                         .replace("icon-enabled=" + !enabled, "icon-enabled=" + enabled)

@@ -45,7 +45,7 @@ public class Join {
         if (!event.getResult().isAllowed()) return;
 
         int version = event.getPlayer().getProtocolVersion().getProtocol();
-        i.logger.info(event.getPlayer().getUsername() + " is joining with protocol version " + version);
+        i.logger.info("{} is joining with protocol version {}", event.getPlayer().getUsername(), version);
 
         // Anything less than current version and not with perm
         if (version < i.fileManager.files.get(CONFIG).node("current-protocol-version").getInt() && !event
@@ -218,15 +218,13 @@ public class Join {
             if (i.fileManager.files.get(WARNQUEUE).node("queue", uuid.toString()).virtual()) return;
 
             i.server.getScheduler().buildTask(i, () -> {
-                if (i.server.getPlayer(uuid).isPresent()) {
-                    try {
-                        new WarnPlayer(i).warn(uuid,
-                            i.fileManager.files.get(WARNQUEUE).node("queue", uuid.toString()).getString());
-                        i.fileManager.files.get(WARNQUEUE).node("queue", uuid.toString()).set(null);
-                        i.fileManager.save(WARNQUEUE);
-                    } catch (SerializationException e) {
-                        throw new RuntimeException(e);
-                    }
+                if (i.server.getPlayer(uuid).isPresent()) try {
+                    new WarnPlayer(i).warn(uuid,
+                        i.fileManager.files.get(WARNQUEUE).node("queue", uuid.toString()).getString());
+                    i.fileManager.files.get(WARNQUEUE).node("queue", uuid.toString()).set(null);
+                    i.fileManager.save(WARNQUEUE);
+                } catch (SerializationException e) {
+                    throw new RuntimeException(e);
                 }
             }).delay(3, TimeUnit.SECONDS).schedule();
         }).delay(38, TimeUnit.MILLISECONDS).schedule();

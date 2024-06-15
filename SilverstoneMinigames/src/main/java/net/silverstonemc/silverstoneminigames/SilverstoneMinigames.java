@@ -38,7 +38,7 @@ public class SilverstoneMinigames extends JavaPlugin implements CommandExecutor 
         getCommand("corruptedtag").setTabCompleter(new TabComplete());
         getCommand("miniholo").setTabCompleter(new TabComplete());
 
-        PluginManager pluginManager = this.getServer().getPluginManager();
+        PluginManager pluginManager = getServer().getPluginManager();
 
         pluginManager.registerEvents(new Back(), this);
         pluginManager.registerEvents(new CorruptedTag(this), this);

@@ -46,7 +46,7 @@ public class WarnReasons implements SimpleCommand {
         Builder message = Component.text();
         message.append(Component.text(header, NamedTextColor.RED, TextDecoration.BOLD));
 
-        ArrayList<String> reasonList = new ArrayList<>();
+        List<String> reasonList = new ArrayList<>();
         for (ConfigurationNode reasons : i.fileManager.files.get(CONFIG).node("reasons").childrenMap()
             .values())
             //noinspection DataFlowIssue
@@ -54,18 +54,18 @@ public class WarnReasons implements SimpleCommand {
         reasonList.sort(String.CASE_INSENSITIVE_ORDER);
 
         // Loop through the reasonList in increments of 3
-        for (int i = 0; i < reasonList.size(); i += 3) {
+        for (int x = 0; x < reasonList.size(); x += 3) {
             // Get the current reasons to display on this line, up to 3 reasons
-            List<String> currentReasons = new ArrayList<>(reasonList.subList(i,
-                Math.min(i + 3, reasonList.size())));
+            List<String> currentReasons = new ArrayList<>(reasonList.subList(x,
+                Math.min(x + 3, reasonList.size())));
 
             // Append a new line to the message
             message.append(Component.text("\n"));
 
             // Loop through the current reasons to add them to the message
-            for (int j = 0; j < currentReasons.size(); j++) {
+            for (int y = 0; y < currentReasons.size(); y++) {
                 // Get the current reason to add to the message
-                String currentReason = currentReasons.get(j);
+                String currentReason = currentReasons.get(y);
 
                 // Create a command to use if this is a warning message
                 String command = null;
@@ -77,7 +77,7 @@ public class WarnReasons implements SimpleCommand {
                     .hoverEvent(createHoverEvent(currentReason, footer)));
 
                 // If this is not the last reason, add a separator to the message
-                if (j < currentReasons.size() - 1) message.append(Component.text(" | ",
+                if (y < currentReasons.size() - 1) message.append(Component.text(" | ",
                     NamedTextColor.DARK_GRAY,
                     TextDecoration.BOLD));
             }

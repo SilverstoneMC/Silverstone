@@ -14,7 +14,7 @@ public class AutoBroadcast {
     }
 
     private final SilverstoneProxy i;
-    private static int lastMessage = 0;
+    private static int lastMessage;
 
     private final TextComponent[] messages = {Component.text("Love the server? Help keep it going with ",
         NamedTextColor.DARK_GREEN).append(Component.text("/buy", NamedTextColor.DARK_AQUA)

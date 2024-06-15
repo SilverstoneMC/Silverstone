@@ -29,7 +29,7 @@ public class TabComplete implements TabCompleter {
                 }
 
                 if (args.length == 2) {
-                    final List<String> arguments = new ArrayList<>(List.of("open",
+                    List<String> arguments = new ArrayList<>(List.of("open",
                         "ready",
                         "in_session",
                         "resetting",
@@ -43,7 +43,7 @@ public class TabComplete implements TabCompleter {
 
             case "corruptedtag" -> {
                 if (args.length == 1) {
-                    final List<String> arguments = new ArrayList<>(List.of("start",
+                    List<String> arguments = new ArrayList<>(List.of("start",
                         "stop",
                         "corrupt",
                         "uncorrupt",

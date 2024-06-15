@@ -115,11 +115,10 @@ public class BaseCommand implements SimpleCommand {
                     }
 
                     Component warningRemovedStaff = Component.text(senderName, NamedTextColor.GRAY).append(
-                            Component.text(" removed a(n) ", NamedTextColor.RED)).append(Component.text(args[1],
-                            NamedTextColor.GRAY)).append(Component.text(" warning from ", NamedTextColor.RED))
-                        .append(Component.text(
-                            username,
-                            NamedTextColor.GRAY));
+                        Component.text(" removed a(n) ", NamedTextColor.RED)).append(Component.text(args[1],
+                        NamedTextColor.GRAY)).append(Component.text(
+                        " warning from ",
+                        NamedTextColor.RED)).append(Component.text(username, NamedTextColor.GRAY));
 
                     i.server.getConsoleCommandSource().sendMessage(warningRemovedStaff);
                     // Message staff
@@ -210,11 +209,10 @@ public class BaseCommand implements SimpleCommand {
                     i.fileManager.save(WARNDATA);
 
                     Component warningsClearedStaff = Component.text(senderName, NamedTextColor.GRAY).append(
-                            Component.text(" cleared all ", NamedTextColor.RED)).append(Component.text(args[1],
-                            NamedTextColor.GRAY)).append(Component.text(" warnings from ", NamedTextColor.RED))
-                        .append(Component.text(
-                            username,
-                            NamedTextColor.GRAY));
+                        Component.text(" cleared all ", NamedTextColor.RED)).append(Component.text(args[1],
+                        NamedTextColor.GRAY)).append(Component.text(
+                        " warnings from ",
+                        NamedTextColor.RED)).append(Component.text(username, NamedTextColor.GRAY));
 
                     i.server.getConsoleCommandSource().sendMessage(warningsClearedStaff);
                     // Message staff

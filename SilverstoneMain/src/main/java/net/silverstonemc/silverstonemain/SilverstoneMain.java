@@ -25,7 +25,7 @@ public class SilverstoneMain extends JavaPlugin implements Listener {
         getCommand("gettingstarted").setExecutor(new GettingStarted());
         getCommand("homec").setExecutor(new JHome(this));
 
-        PluginManager pluginManager = this.getServer().getPluginManager();
+        PluginManager pluginManager = getServer().getPluginManager();
         pluginManager.registerEvents(new WirelessButtons(), this);
 
         getServer().getMessenger().registerOutgoingPluginChannel(this, "silverstone:pluginmsg");

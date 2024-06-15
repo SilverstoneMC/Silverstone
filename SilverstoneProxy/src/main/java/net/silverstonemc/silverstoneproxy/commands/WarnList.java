@@ -30,8 +30,7 @@ public class WarnList implements SimpleCommand {
         CommandSource sender = invocation.source();
         sender.sendMessage(Component.text("All warnings:", NamedTextColor.RED, TextDecoration.BOLD));
 
-        for (ConfigurationNode uuid : i.fileManager.files.get(WARNDATA).node("data").childrenMap()
-            .values())
+        for (ConfigurationNode uuid : i.fileManager.files.get(WARNDATA).node("data").childrenMap().values())
             for (ConfigurationNode warning : uuid.childrenMap().values())
                 //noinspection DataFlowIssue
                 sender.sendMessage(Component.text(new UserManager(i).getUsername(UUID.fromString(uuid.key()

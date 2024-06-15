@@ -105,8 +105,8 @@ public class Minigames implements CommandExecutor, Listener {
     }
 
     protected ItemStack createHtpGuiItem(final Material material, final String itemName) {
-        final ItemStack item = new ItemStack(material, 1);
-        final ItemMeta meta = item.getItemMeta();
+        ItemStack item = new ItemStack(material, 1);
+        ItemMeta meta = item.getItemMeta();
 
         // Set the name of the item
         meta.displayName(Component.text(itemName, NamedTextColor.AQUA, TextDecoration.BOLD)
@@ -126,7 +126,7 @@ public class Minigames implements CommandExecutor, Listener {
 
         event.setCancelled(true);
 
-        final ItemStack clickedItem = event.getCurrentItem();
+        ItemStack clickedItem = event.getCurrentItem();
 
         // Verify current item is not null
         if (clickedItem == null || clickedItem.getType().isAir()) return;
@@ -264,7 +264,7 @@ public class Minigames implements CommandExecutor, Listener {
 
         event.setCancelled(true);
 
-        final ItemStack clickedItem = event.getCurrentItem();
+        ItemStack clickedItem = event.getCurrentItem();
 
         // Verify current item is not null
         if (clickedItem == null || clickedItem.getType().isAir()) return;

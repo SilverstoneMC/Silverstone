@@ -44,7 +44,7 @@ public class SilverstoneProxy {
     public SilverstoneProxy(ProxyServer server, Logger logger, @DataDirectory Path dataDirectory) {
         this.server = server;
         this.logger = logger;
-        this.fileManager = new ConfigurationManager(dataDirectory);
+        fileManager = new ConfigurationManager(dataDirectory);
 
         fileManager.loadFiles();
     }

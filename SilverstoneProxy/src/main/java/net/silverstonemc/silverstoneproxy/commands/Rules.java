@@ -66,6 +66,7 @@ public class Rules implements SimpleCommand {
 
         if (rule == -1) {
             try {
+                //noinspection DataFlowIssue
                 for (String header : i.fileManager.files.get(CONFIG).node("rules", "header")
                     .getList(String.class))
                     target.sendMessage(MiniMessage.miniMessage().deserialize(header));
@@ -77,6 +78,7 @@ public class Rules implements SimpleCommand {
                         .deserialize(i.fileManager.files.get(CONFIG).node("rules", "rule-prefix")
                             .getString("null").replace("{#}", rules.key().toString()) + rules.getString()));
 
+                //noinspection DataFlowIssue
                 for (String footer : i.fileManager.files.get(CONFIG).node("rules", "footer")
                     .getList(String.class))
                     target.sendMessage(MiniMessage.miniMessage().deserialize(footer));
@@ -120,19 +122,28 @@ public class Rules implements SimpleCommand {
         message.append("\n<bold><gray><hover:show_text:'<#23B8CF>All rules").append(footer).append(
             "'><click:run_command:/rules ").append(target.getUsername()).append(" -1>ALL</click></hover>");
 
+        // Loop through the rules in increments of 3
         for (int x = 0; x < rules.size(); x += 3) {
+            // Append a new line to the message
             message.append("\n");
 
-            for (int i = 0; i < 3; i++) {
-                int ruleIndex = x + i;
+            // Loop through the current rules to add them to the message
+            for (int y = 0; y < 3; y++) {
+                int ruleIndex = x + y;
+
+                // Get the current rule to add to the message
                 String rule = rules.get(ruleIndex);
+
+                // Create a command to use
                 String command = "/rules " + target.getUsername() + " " + (ruleIndex + 1);
 
+                // Add the current rule to the message
                 message.append("<bold><gray><hover:show_text:'<#23B8CF>").append(rule).append(footer).append(
                     "'><click:run_command:").append(command).append(">").append(ruleIndex + 1).append(
                     "</click></hover>");
 
-                if (i < 2) message.append(" <dark_gray><bold>| ");
+                // If this is not the last rule, add a separator to the message
+                if (y < 2) message.append(" <dark_gray><bold>| ");
             }
         }
 

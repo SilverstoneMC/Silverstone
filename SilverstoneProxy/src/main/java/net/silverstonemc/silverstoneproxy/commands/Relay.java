@@ -19,21 +19,21 @@ public class Relay implements SimpleCommand {
         String[] args = invocation.arguments();
 
         if (args.length > 1) {
-            String message = "";
+            StringBuilder message = new StringBuilder();
             int iteration = 0;
             for (String s : args) {
                 iteration++;
                 if (iteration == 1) continue;
-                message = message.concat(s);
-                message = message.concat(" ");
+                message.append(s);
+                message.append(" ");
             }
-            message = message.trim();
 
+            String trimmedMessage = message.toString().trim();
             switch (args[0]) {
                 case "mcchat" -> SilverstoneProxy.jda.getTextChannelById(592208420602380328L).sendMessage(
-                    message).queue();
+                    trimmedMessage).queue();
                 case "staff" -> SilverstoneProxy.jda.getTextChannelById(667793661991583744L).sendMessage(
-                    message).queue();
+                    trimmedMessage).queue();
                 default -> sender.sendMessage(Component.text("Invalid channel!", NamedTextColor.RED));
             }
         }

@@ -15,11 +15,13 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
 @Plugin(name = "SilverstoneErrorLogger", category = "Core", elementType = "appender", printObject = true)
 public class Errors extends AbstractAppender {
-    private final ArrayList<String> errorQueue = new ArrayList<>();
-    private boolean isErrorGroup = false;
+    private final List<String> errorQueue = new ArrayList<>();
+    private boolean isErrorGroup;
 
     public Errors(JavaPlugin plugin) {
         super("SilverstoneErrorLogger", null, null, false, null);
@@ -47,7 +49,7 @@ public class Errors extends AbstractAppender {
 
         Instant instant = Instant.ofEpochMilli(event.getTimeMillis());
         ZonedDateTime zdt = instant.atZone(ZoneId.systemDefault());
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("hh:mm:ss a");
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("hh:mm:ss a", Locale.US);
         String time = dtf.format(zdt);
 
         errorQueue.add("[" + time + " | " + event.getLevel() + "]: [" + loggerName + "] " + event.getMessage()

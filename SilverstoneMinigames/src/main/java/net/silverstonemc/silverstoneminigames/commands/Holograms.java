@@ -12,6 +12,7 @@ import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 public class Holograms implements CommandExecutor {
@@ -41,7 +42,7 @@ public class Holograms implements CommandExecutor {
         }
 
         Hologram hologram = optionalHologram.get();
-        ArrayList<String> holoText = new ArrayList<>(data.getText());
+        List<String> holoText = new ArrayList<>(data.getText());
         holoText.set(holoText.size() - 1, text);
         data.setText(holoText);
         hologram.updateHologram();

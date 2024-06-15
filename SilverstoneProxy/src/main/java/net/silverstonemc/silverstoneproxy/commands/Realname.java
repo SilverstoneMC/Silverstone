@@ -35,25 +35,25 @@ public class Realname implements SimpleCommand {
             return;
         }
 
-        boolean playerFound = false;
+        boolean noPlayerFound = true;
         for (ConfigurationNode uuid : i.fileManager.files.get(NICKNAMES).node("stripped-nicknames")
             .childrenMap().values()) {
             String strippedNickname = uuid.getString();
             if (strippedNickname.toLowerCase().replaceFirst(".*:", "").startsWith(args[0].toLowerCase())) {
-                if (i.fileManager.files.get(NICKNAMES).node("nicknames", uuid.key().toString())
-                    .virtual()) continue;
+                if (i.fileManager.files.get(NICKNAMES).node("nicknames", uuid.key().toString()).virtual())
+                    continue;
 
                 Component nickname = new NicknameUtils(i).getDisplayName(UUID.fromString(uuid.key()
                     .toString()));
                 sender.sendMessage(Component.text().append(nickname)
                     .append(Component.text("'s real name is " + strippedNickname.replaceFirst(":.*",
                         "") + ".", NamedTextColor.GREEN)));
-                playerFound = true;
+                noPlayerFound = false;
                 break;
             }
         }
 
-        if (!playerFound)
+        if (noPlayerFound)
             sender.sendMessage(Component.text("No player found with the nickname " + args[0] + ".",
                 NamedTextColor.RED));
     }

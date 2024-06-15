@@ -62,7 +62,7 @@ public class Leave {
                 if (players.hasPermission("silverstone.moderator")) x++;
 
             Message message = Join.newPlayers.get(player);
-            MessageEmbed oldEmbed = message.getEmbeds().get(0);
+            MessageEmbed oldEmbed = message.getEmbeds().getFirst();
 
             EmbedBuilder embed = new EmbedBuilder(oldEmbed);
             embed.setAuthor(player.getUsername() + " was new", null, oldEmbed.getAuthor().getIconUrl());

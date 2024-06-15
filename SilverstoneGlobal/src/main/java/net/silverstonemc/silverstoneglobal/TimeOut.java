@@ -35,8 +35,7 @@ public class TimeOut implements Listener {
             online.sendMessage(Component.text(player.getName(), NamedTextColor.GRAY)
                 .append(Component.text(" timed out.", NamedTextColor.RED)));
 
-        Bukkit.getConsoleSender().sendMessage(Component.text(
-            "Sending timeout message (kick)",
+        Bukkit.getConsoleSender().sendMessage(Component.text("Sending timeout message (kick)",
             NamedTextColor.GOLD));
     }
 }

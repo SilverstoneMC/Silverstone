@@ -16,7 +16,7 @@ public class LockInv implements Listener {
 
         if (event.getCurrentItem() == null) return;
         if (event.getCurrentItem().getItemMeta() == null) return;
-        if (!player.getGameMode().equals(GameMode.ADVENTURE)) return;
+        if (player.getGameMode() != GameMode.ADVENTURE) return;
         if (player.getInventory().getItem(22) == null) return;
         if (!player.getInventory().getItem(22).hasItemMeta()) return;
         if (player.getInventory().getItem(22).getItemMeta().displayName() == null) return;
@@ -30,7 +30,7 @@ public class LockInv implements Listener {
     public void onSwap(PlayerSwapHandItemsEvent event) {
         Player player = event.getPlayer();
 
-        if (!player.getGameMode().equals(GameMode.ADVENTURE)) return;
+        if (player.getGameMode() != GameMode.ADVENTURE) return;
         if (player.getInventory().getItem(22) == null) return;
         if (!player.getInventory().getItem(22).hasItemMeta()) return;
         if (player.getInventory().getItem(22).getItemMeta().displayName() == null) return;

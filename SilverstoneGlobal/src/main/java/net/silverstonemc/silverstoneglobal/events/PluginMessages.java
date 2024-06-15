@@ -7,12 +7,13 @@ import org.bukkit.Sound;
 import org.bukkit.SoundCategory;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.messaging.PluginMessageListener;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.UUID;
 
 public class PluginMessages implements PluginMessageListener {
     @Override
-    public void onPluginMessageReceived(String channel, Player messenger, byte[] bytes) {
+    public void onPluginMessageReceived(String channel, @NotNull Player messenger, byte[] bytes) {
         if (!channel.equals("silverstone:pluginmsg")) return;
 
         ByteArrayDataInput in = ByteStreams.newDataInput(bytes);

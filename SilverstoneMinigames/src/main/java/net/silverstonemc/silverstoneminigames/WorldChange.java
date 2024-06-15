@@ -8,8 +8,8 @@ import org.bukkit.event.player.PlayerChangedWorldEvent;
 public class WorldChange implements Listener {
     @EventHandler
     public void onWorldChange(PlayerChangedWorldEvent event) {
-        if (!event.getPlayer().getGameMode().equals(GameMode.SPECTATOR) && !event.getPlayer().getGameMode()
-            .equals(GameMode.CREATIVE)) event.getPlayer().clearActivePotionEffects();
+        if (event.getPlayer().getGameMode() != GameMode.SPECTATOR && event.getPlayer()
+            .getGameMode() != GameMode.CREATIVE) event.getPlayer().clearActivePotionEffects();
         event.getPlayer().resetPlayerTime();
         event.getPlayer().resetPlayerWeather();
     }

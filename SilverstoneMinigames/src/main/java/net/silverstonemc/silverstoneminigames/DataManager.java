@@ -8,6 +8,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.logging.Level;
 
 public class DataManager {
@@ -17,18 +18,19 @@ public class DataManager {
     }
 
     private final JavaPlugin plugin;
-    private File configFile = null;
-    private FileConfiguration dataConfig = null;
+    private File configFile;
+    private FileConfiguration dataConfig;
 
     public void reloadConfig() {
         if (configFile == null) configFile = new File(plugin.getDataFolder(), "data.yml");
 
-        this.dataConfig = YamlConfiguration.loadConfiguration(configFile);
+        dataConfig = YamlConfiguration.loadConfiguration(configFile);
 
         InputStream defaultStream = plugin.getResource("data.yml");
         if (defaultStream != null) {
             YamlConfiguration defaultConfig = YamlConfiguration.loadConfiguration(new InputStreamReader(
-                defaultStream));
+                defaultStream,
+                StandardCharsets.UTF_8));
             dataConfig.setDefaults(defaultConfig);
         }
     }
@@ -42,9 +44,9 @@ public class DataManager {
         if (dataConfig == null || configFile == null) return;
 
         try {
-            this.getConfig().save(configFile);
+            getConfig().save(configFile);
         } catch (IOException e) {
-            plugin.getLogger().log(Level.SEVERE, "Could not save config to " + this.configFile, e);
+            plugin.getLogger().log(Level.SEVERE, "Could not save config to " + configFile, e);
         }
     }
 

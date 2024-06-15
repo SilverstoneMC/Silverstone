@@ -20,7 +20,7 @@ import org.jetbrains.annotations.NotNull;
 
 @SuppressWarnings({"DataFlowIssue"})
 public record Restart(JavaPlugin plugin) implements CommandExecutor {
-    private static boolean restarting = false;
+    private static boolean restarting;
 
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
         // #serverSpecific
@@ -32,20 +32,27 @@ public record Restart(JavaPlugin plugin) implements CommandExecutor {
         String finalServer = server;
         switch (cmd.getName().toLowerCase()) {
             case "restart" -> {
-                if (!restarting) {
+                if (restarting) {
+                    restarting = false;
+                    for (Player player : Bukkit.getOnlinePlayers())
+                        player.sendActionBar(Component.text("SERVER RESTART CANCELLED!",
+                            NamedTextColor.GREEN,
+                            TextDecoration.BOLD));
+                    plugin.getLogger().info("Server restart cancelled!");
+                } else {
                     restarting = true;
-                    final int[] sec = {10};
+                    int[] sec = {10};
 
                     new BukkitRunnable() {
                         @Override
                         public void run() {
                             if (!restarting) {
-                                this.cancel();
+                                cancel();
                                 return;
                             }
 
                             if (Bukkit.getOnlinePlayers().isEmpty()) {
-                                this.cancel();
+                                cancel();
                                 plugin.getServer().spigot().restart();
                                 return;
                             }
@@ -111,7 +118,7 @@ public record Restart(JavaPlugin plugin) implements CommandExecutor {
                                     }
                                 }
                                 case -10 -> {
-                                    this.cancel();
+                                    cancel();
                                     plugin.getServer().spigot().restart();
                                 }
                             }
@@ -119,20 +126,14 @@ public record Restart(JavaPlugin plugin) implements CommandExecutor {
                         }
                     }.runTaskTimer(plugin, 0, 20);
 
-                } else {
-                    restarting = false;
-                    for (Player player : Bukkit.getOnlinePlayers())
-                        player.sendActionBar(Component.text("SERVER RESTART CANCELLED!",
-                            NamedTextColor.GREEN,
-                            TextDecoration.BOLD));
-                    plugin.getLogger().info("Server restart cancelled!");
                 }
             }
 
             case "forcerestart" -> plugin.getServer().spigot().restart();
 
             case "quickrestart" -> {
-                if (!Bukkit.getOnlinePlayers().isEmpty()) {
+                if (Bukkit.getOnlinePlayers().isEmpty()) plugin.getServer().spigot().restart();
+                else {
                     plugin.getLogger().info("Restarting...");
                     for (Player player : Bukkit.getOnlinePlayers()) {
                         player.sendActionBar(Component.text(
@@ -148,7 +149,7 @@ public record Restart(JavaPlugin plugin) implements CommandExecutor {
                             plugin.getServer().spigot().restart();
                         }
                     }.runTaskLater(plugin, 100);
-                } else plugin.getServer().spigot().restart();
+                }
             }
 
             case "restartwhenempty" -> {
@@ -170,11 +171,9 @@ public record Restart(JavaPlugin plugin) implements CommandExecutor {
                 for (Player player : Bukkit.getOnlinePlayers()) {
                     player.sendMessage(Component.text().append(Component.text("WARNING",
                             NamedTextColor.RED,
-                            TextDecoration.BOLD)).append(Component.text(
-                            " > ",
+                            TextDecoration.BOLD)).append(Component.text(" > ",
                             NamedTextColor.AQUA,
-                            TextDecoration.BOLD)).append(Component.text(
-                            "The server is scheduled to restart in ",
+                            TextDecoration.BOLD)).append(Component.text("The server is scheduled to restart in ",
                             NamedTextColor.GREEN)).append(Component.text("5", NamedTextColor.AQUA))
                         .append(Component.text(" minutes!", NamedTextColor.GREEN)));
 
@@ -191,8 +190,7 @@ public record Restart(JavaPlugin plugin) implements CommandExecutor {
                         for (Player player : Bukkit.getOnlinePlayers()) {
                             player.sendMessage(Component.text().append(Component.text("WARNING",
                                     NamedTextColor.RED,
-                                    TextDecoration.BOLD)).append(Component.text(
-                                    " > ",
+                                    TextDecoration.BOLD)).append(Component.text(" > ",
                                     NamedTextColor.AQUA,
                                     TextDecoration.BOLD)).append(Component.text("The server is scheduled to restart in ",
                                     NamedTextColor.GREEN)).append(Component.text("1", NamedTextColor.AQUA))

@@ -13,12 +13,14 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 @Plugin(name = "SilverstoneErrorLogger", category = "Core", elementType = "appender", printObject = true)
 public class ConsoleErrors extends AbstractAppender {
-    private boolean isErrorGroup = false;
-    private final ArrayList<String> errorQueue = new ArrayList<>();
+    private boolean isErrorGroup;
+    private final List<String> errorQueue = new ArrayList<>();
     private final ScheduledTask dumpTask;
 
     public ConsoleErrors(SilverstoneProxy instance) {
@@ -50,7 +52,7 @@ public class ConsoleErrors extends AbstractAppender {
 
         Instant instant = Instant.ofEpochMilli(event.getTimeMillis());
         ZonedDateTime zdt = instant.atZone(ZoneId.systemDefault());
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("hh:mm:ss a");
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("hh:mm:ss a", Locale.US);
         String time = dtf.format(zdt);
 
         errorQueue.add("[" + time + " | " + event.getLevel() + "]: [" + loggerName + "] " + event.getMessage()

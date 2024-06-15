@@ -29,6 +29,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class CorruptedTag implements CommandExecutor, Listener {
     public CorruptedTag(JavaPlugin plugin) {
@@ -36,7 +37,7 @@ public class CorruptedTag implements CommandExecutor, Listener {
     }
 
     private final JavaPlugin plugin;
-    private static BukkitRunnable bossBarUpdater = null;
+    private static BukkitRunnable bossBarUpdater;
     private static Inventory confirmTankInv;
     private static Inventory confirmNinjaInv;
     private static Inventory confirmRangedInv;
@@ -58,7 +59,7 @@ public class CorruptedTag implements CommandExecutor, Listener {
                                 Component.text("Corruption",
                                     NamedTextColor.LIGHT_PURPLE,
                                     TextDecoration.BOLD),
-                                0f,
+                                0.0f,
                                 BossBar.Color.PURPLE,
                                 BossBar.Overlay.NOTCHED_10);
                         }
@@ -73,13 +74,13 @@ public class CorruptedTag implements CommandExecutor, Listener {
                     bossBarUpdater = new BukkitRunnable() {
                         @Override
                         public void run() {
-                            for (Player players : BossBarManager.bossBars.keySet()) {
-                                if (!BossBarManager.bossBars.get(players).name().toString().contains(
-                                    "Corruption")) continue;
+                            for (Map.Entry<Player, BossBar> entry : BossBarManager.bossBars.entrySet()) {
+                                Player players = entry.getKey();
+                                if (!entry.getValue().name().toString().contains("Corruption")) continue;
 
                                 //noinspection DataFlowIssue
                                 float value = Bukkit.getScoreboardManager().getMainScoreboard().getObjective(
-                                    "mctagcorruption").getScore(players).getScore() / 10000f;
+                                    "mctagcorruption").getScore(players).getScore() / 10000.0f;
                                 new BossBarManager().setBossBarProgress(players, value);
                             }
                         }
@@ -316,7 +317,7 @@ public class CorruptedTag implements CommandExecutor, Listener {
             List.of("No melee attack", "Limited arrows per life", "5 hearts")));
 
         // Confirm button
-        final ItemStack confirm = new CustomSkull().createCustomSkull(
+        ItemStack confirm = new CustomSkull().createCustomSkull(
             "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDk5ODBjMWQyMTE4MDlhOWI2NTY1MDg4ZjU2YTM4ZjJlZjQ5MTE1YzEwNTRmYTY2MjQ1MTIyZTllZWVkZWNjMiJ9fX0=",
             "Confirm");
         SkullMeta confirmMeta = (SkullMeta) confirm.getItemMeta();
@@ -325,7 +326,7 @@ public class CorruptedTag implements CommandExecutor, Listener {
         confirm.setItemMeta(confirmMeta);
 
         // Cancel button
-        final ItemStack cancel = new ItemStack(Material.STRUCTURE_VOID);
+        ItemStack cancel = new ItemStack(Material.STRUCTURE_VOID);
         ItemMeta cancelMeta = cancel.getItemMeta();
         cancelMeta.displayName(Component.text("Cancel", NamedTextColor.RED, TextDecoration.BOLD)
             .decoration(TextDecoration.ITALIC, false));
@@ -368,7 +369,7 @@ public class CorruptedTag implements CommandExecutor, Listener {
         meta.displayName(Component.text(title, NamedTextColor.GREEN, TextDecoration.BOLD)
             .decoration(TextDecoration.ITALIC, TextDecoration.State.FALSE));
 
-        ArrayList<Component> loreList = new ArrayList<>();
+        List<Component> loreList = new ArrayList<>();
 
         // Description
         loreList.add(Component.text(description, NamedTextColor.AQUA)

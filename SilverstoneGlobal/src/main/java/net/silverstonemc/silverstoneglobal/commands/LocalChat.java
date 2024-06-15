@@ -16,15 +16,14 @@ public class LocalChat implements CommandExecutor {
         }
 
         if (args.length > 0) {
-            String message = "";
+            StringBuilder message = new StringBuilder();
 
             for (String arg : args) {
-                message = message.concat(arg);
-                message = message.concat(" ");
+                message.append(arg);
+                message.append(" ");
             }
 
-            message = message.trim();
-            player.chat(message);
+            player.chat(message.toString().trim());
             return true;
         }
         return false;

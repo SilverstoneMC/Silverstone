@@ -13,6 +13,7 @@ import org.bukkit.event.Listener;
 import java.awt.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 
 public class AntiCheat implements Listener {
     @SuppressWarnings("DataFlowIssue")
@@ -22,7 +23,7 @@ public class AntiCheat implements Listener {
         if (SilverstoneGlobal.matrix.isBypass(player)) return;
         if (SilverstoneGlobal.matrix.getLatency(player) >= 750) return;
         if (SilverstoneGlobal.matrix.getTPS() <= 17) return;
-        if (event.getHackType().equals(HackType.KILLAURA) && SilverstoneGlobal.matrix.getViolations(player,
+        if (event.getHackType() == HackType.KILLAURA && SilverstoneGlobal.matrix.getViolations(player,
             HackType.KILLAURA) < 30) return;
 
         int x = 0;
@@ -39,7 +40,7 @@ public class AntiCheat implements Listener {
             null,
             "https://mc-heads.net/avatar/" + player.getUniqueId());
         embed.setColor(new Color(204, 27, 53));
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("h:mm:ss.SSS a");
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("h:mm:ss.SSS a", Locale.US);
         LocalDateTime time = LocalDateTime.now();
         embed.setFooter(dtf.format(time) + " | " + x + " staff members online");
         discord.sendMessageEmbeds(embed.build()).queue();

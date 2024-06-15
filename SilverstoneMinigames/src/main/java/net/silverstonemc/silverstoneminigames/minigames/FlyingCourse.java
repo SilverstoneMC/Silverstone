@@ -45,28 +45,74 @@ public record FlyingCourse(JavaPlugin plugin) implements CommandExecutor {
 
                     switch (args[1].toLowerCase()) {
                         case "easy" -> {
-                            sendFinishMessage(player, Difficulty.EASY);
-                            addToTopScores(player, "easy");
+                            sendFinishMessage(Difficulty.EASY);
+                            addToTopScores("easy");
                             player.teleportAsync(location);
                         }
                         case "medium" -> {
-                            sendFinishMessage(player, Difficulty.MEDIUM);
-                            addToTopScores(player, "medium");
+                            sendFinishMessage(Difficulty.MEDIUM);
+                            addToTopScores("medium");
                             player.teleportAsync(location);
                         }
                         case "hard" -> {
-                            sendFinishMessage(player, Difficulty.HARD);
-                            addToTopScores(player, "hard");
+                            sendFinishMessage(Difficulty.HARD);
+                            addToTopScores("hard");
                             player.teleportAsync(location);
                         }
                         case "extended" -> {
-                            sendFinishMessage(player, Difficulty.EXTENDED);
-                            addToTopScores(player, "extended");
+                            sendFinishMessage(Difficulty.EXTENDED);
+                            addToTopScores("extended");
                             player.teleportAsync(location);
                         }
                         default -> sender.sendMessage(Component.text("Please provide a valid difficulty!",
                             NamedTextColor.RED));
                     }
+                }
+
+                private void addToTopScores(String difficulty) {
+                    int score = 0;
+                    if (SilverstoneMinigames.data.getConfig()
+                        .contains("data." + player.getUniqueId() + ".flyingcourse." + difficulty))
+                        score = SilverstoneMinigames.data.getConfig()
+                            .getInt("data." + player.getUniqueId() + ".flyingcourse." + difficulty);
+                    SilverstoneMinigames.data.getConfig()
+                        .set("data." + player.getUniqueId() + ".flyingcourse." + difficulty, ++score);
+                    SilverstoneMinigames.data.saveConfig();
+
+                    updateFCScoreboard();
+                }
+
+                private void sendFinishMessage(Difficulty difficulty) {
+                    String difficultyType = null;
+                    NamedTextColor namedTextColor = null;
+
+                    switch (difficulty) {
+                        case EASY -> {
+                            difficultyType = "Easy";
+                            namedTextColor = NamedTextColor.DARK_GREEN;
+                        }
+                        case MEDIUM -> {
+                            difficultyType = "Medium";
+                            namedTextColor = NamedTextColor.GOLD;
+                        }
+                        case HARD -> {
+                            difficultyType = "Hard";
+                            namedTextColor = NamedTextColor.RED;
+                        }
+                        case EXTENDED -> {
+                            difficultyType = "Extended";
+                            namedTextColor = NamedTextColor.GRAY;
+                        }
+                    }
+
+                    for (Player players : Bukkit.getOnlinePlayers())
+                        if (players.getWorld().getName().equalsIgnoreCase(plugin.getConfig()
+                            .getString("flying-course-world"))) players.sendMessage(Component.text().append(
+                                Component.text("NOTICE", NamedTextColor.RED, TextDecoration.BOLD)).append(
+                                Component.text(" > ", NamedTextColor.AQUA, TextDecoration.BOLD))
+                            .append(Component.text(player.getName() + " just finished the ",
+                                NamedTextColor.GREEN)).append(Component.text(difficultyType, namedTextColor))
+                            .append(Component.text(" course!", NamedTextColor.GREEN)).build());
                 }
             }.runTaskLater(plugin, 5);
             return true;
@@ -79,7 +125,7 @@ public record FlyingCourse(JavaPlugin plugin) implements CommandExecutor {
                     for (Entity entity : selector) {
                         Player player = Bukkit.getPlayer(entity.getName());
                         if (player == null) break;
-                        if (!player.getGameMode().equals(GameMode.ADVENTURE)) break;
+                        if (player.getGameMode() != GameMode.ADVENTURE) break;
 
                         // Check all the blocks around the player
                         for (int x = 0; x < 6; x++) {
@@ -128,19 +174,6 @@ public record FlyingCourse(JavaPlugin plugin) implements CommandExecutor {
             return false;
         }
         return true;
-    }
-
-    private void addToTopScores(Player player, String difficulty) {
-        int score = 0;
-        if (SilverstoneMinigames.data.getConfig()
-            .contains("data." + player.getUniqueId() + ".flyingcourse." + difficulty))
-            score = SilverstoneMinigames.data.getConfig()
-                .getInt("data." + player.getUniqueId() + ".flyingcourse." + difficulty);
-        SilverstoneMinigames.data.getConfig()
-            .set("data." + player.getUniqueId() + ".flyingcourse." + difficulty, ++score);
-        SilverstoneMinigames.data.saveConfig();
-
-        updateFCScoreboard();
     }
 
     public void updateFCScoreboard() {
@@ -192,37 +225,37 @@ public record FlyingCourse(JavaPlugin plugin) implements CommandExecutor {
 
         int x = 0;
         fctop.getObjective("FCTop").getScore("§a§lEasy:").setScore(score);
-        for (OfflinePlayer player : easyScores.keySet()) {
+        for (Map.Entry<OfflinePlayer, Integer> entry : easyScores.entrySet()) {
             if (x >= 2) break;
-            fctop.getObjective("FCTop").getScore("§2" + player.getName() + ": §b" + easyScores.get(player))
+            fctop.getObjective("FCTop").getScore("§2" + entry.getKey().getName() + ": §b" + entry.getValue())
                 .setScore(--score);
             x++;
         }
 
         x = 0;
         fctop.getObjective("FCTop").getScore("§e§lMedium:").setScore(--score);
-        for (OfflinePlayer player : mediumScores.keySet()) {
+        for (Map.Entry<OfflinePlayer, Integer> entry : mediumScores.entrySet()) {
             if (x >= 3) break;
-            fctop.getObjective("FCTop").getScore("§6" + player.getName() + ": §b" + mediumScores.get(player))
+            fctop.getObjective("FCTop").getScore("§6" + entry.getKey().getName() + ": §b" + entry.getValue())
                 .setScore(--score);
             x++;
         }
 
         x = 0;
         fctop.getObjective("FCTop").getScore("§4§lHard:").setScore(--score);
-        for (OfflinePlayer player : hardScores.keySet()) {
+        for (Map.Entry<OfflinePlayer, Integer> entry : hardScores.entrySet()) {
             if (x >= 3) break;
-            fctop.getObjective("FCTop").getScore("§c" + player.getName() + ": §b" + hardScores.get(player))
+            fctop.getObjective("FCTop").getScore("§c" + entry.getKey().getName() + ": §b" + entry.getValue())
                 .setScore(--score);
             x++;
         }
 
         x = 0;
         fctop.getObjective("FCTop").getScore("§8§lExtended:").setScore(--score);
-        for (OfflinePlayer player : extendedScores.keySet()) {
+        for (Map.Entry<OfflinePlayer, Integer> entry : extendedScores.entrySet()) {
             if (x >= 3) break;
-            fctop.getObjective("FCTop")
-                .getScore("§7" + player.getName() + ": §b" + extendedScores.get(player)).setScore(--score);
+            fctop.getObjective("FCTop").getScore("§7" + entry.getKey().getName() + ": §b" + entry.getValue())
+                .setScore(--score);
             x++;
         }
     }
@@ -236,38 +269,5 @@ public record FlyingCourse(JavaPlugin plugin) implements CommandExecutor {
 
     private enum Difficulty {
         EASY, MEDIUM, HARD, EXTENDED
-    }
-
-    private void sendFinishMessage(Player player, Difficulty difficulty) {
-        String difficultyType = null;
-        NamedTextColor namedTextColor = null;
-
-        switch (difficulty) {
-            case EASY -> {
-                difficultyType = "Easy";
-                namedTextColor = NamedTextColor.DARK_GREEN;
-            }
-            case MEDIUM -> {
-                difficultyType = "Medium";
-                namedTextColor = NamedTextColor.GOLD;
-            }
-            case HARD -> {
-                difficultyType = "Hard";
-                namedTextColor = NamedTextColor.RED;
-            }
-            case EXTENDED -> {
-                difficultyType = "Extended";
-                namedTextColor = NamedTextColor.GRAY;
-            }
-        }
-
-        for (Player players : Bukkit.getOnlinePlayers())
-            if (players.getWorld().getName().equalsIgnoreCase(plugin.getConfig()
-                .getString("flying-course-world"))) players.sendMessage(Component.text()
-                .append(Component.text("NOTICE", NamedTextColor.RED, TextDecoration.BOLD))
-                .append(Component.text(" > ", NamedTextColor.AQUA, TextDecoration.BOLD))
-                .append(Component.text(player.getName() + " just finished the ", NamedTextColor.GREEN))
-                .append(Component.text(difficultyType, namedTextColor))
-                .append(Component.text(" course!", NamedTextColor.GREEN)).build());
     }
 }

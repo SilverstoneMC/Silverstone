@@ -81,8 +81,7 @@ public class SilverstoneGlobal extends JavaPlugin implements Listener {
 
                 TextChannel channel = jda.getTextChannelById(1075640285083734067L);
                 //noinspection DataFlowIssue
-                if (channel.getIterableHistory().takeAsync(1).thenApply(ArrayList::new).get(
-                    30,
+                if (channel.getIterableHistory().takeAsync(1).thenApply(ArrayList::new).get(30,
                     TimeUnit.SECONDS).isEmpty()) channel.sendMessage("## Select a vanish state").setActionRow(Button.success("vanish-on", "Vanish"),
                     Button.danger("vanish-off", "Un-vanish")).queue();
 
@@ -127,7 +126,7 @@ public class SilverstoneGlobal extends JavaPlugin implements Listener {
         getCommand("updatecommands").setExecutor(new UpdateCommands());
         getCommand("watch").setExecutor(new Spectate(this));
 
-        PluginManager pluginManager = this.getServer().getPluginManager();
+        PluginManager pluginManager = getServer().getPluginManager();
         pluginManager.registerEvents(new BuyGUI(this), this);
         pluginManager.registerEvents(new ChatColorGUI(this), this);
         pluginManager.registerEvents(new CancelChat(), this);
@@ -141,8 +140,7 @@ public class SilverstoneGlobal extends JavaPlugin implements Listener {
         new BuyGUI(this).createInv();
         new ChatColorGUI(this).createInv();
 
-        getServer().getMessenger().registerIncomingPluginChannel(
-            this,
+        getServer().getMessenger().registerIncomingPluginChannel(this,
             "silverstone:pluginmsg",
             new PluginMessages());
         getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");

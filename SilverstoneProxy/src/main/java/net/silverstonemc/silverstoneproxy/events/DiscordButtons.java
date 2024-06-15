@@ -28,7 +28,7 @@ public class DiscordButtons extends ListenerAdapter {
         // Warn new players with inappropriate skins
         if (event.getComponentId().startsWith("warnskin")) {
             Message message = event.getMessage();
-            String player = message.getEmbeds().get(0).getAuthor().getName();
+            String player = message.getEmbeds().getFirst().getAuthor().getName();
             player = player.substring(0, player.indexOf(' '));
             String finalPlayer = player;
 
@@ -42,7 +42,7 @@ public class DiscordButtons extends ListenerAdapter {
             Executors.newSingleThreadScheduledExecutor().schedule(() -> {
                 Message latestMessage = event.getChannel().retrieveMessageById(event.getMessageId())
                     .complete();
-                EmbedBuilder embed = new EmbedBuilder(latestMessage.getEmbeds().get(0));
+                EmbedBuilder embed = new EmbedBuilder(latestMessage.getEmbeds().getFirst());
                 embed.setDescription("Warned by " + event.getUser().getAsMention());
                 latestMessage.editMessageEmbeds(embed.build()).queue();
             }, 3, TimeUnit.SECONDS);
@@ -113,7 +113,7 @@ public class DiscordButtons extends ListenerAdapter {
 
         message.editMessageComponents(ActionRow.of(newButtons)).queue();
 
-        EmbedBuilder embed = new EmbedBuilder(message.getEmbeds().get(0));
+        EmbedBuilder embed = new EmbedBuilder(message.getEmbeds().getFirst());
         embed.setDescription("Last action performed by " + event.getUser().getAsMention());
         message.editMessageEmbeds(embed.build()).queue();
     }
