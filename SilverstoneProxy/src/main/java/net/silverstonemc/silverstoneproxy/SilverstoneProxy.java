@@ -104,7 +104,6 @@ public class SilverstoneProxy {
             "builder");
         commandManager.register("joinleavesounds", new JoinLeaveSounds(this));
         commandManager.register("mmotd", new MiniMOTDControls(this));
-        commandManager.register("mods", new Mods());
         commandManager.register("nickname", new Nickname(this), "nick");
         commandManager.register("prefixes", new Prefixes(this));
         commandManager.register("prestartwhenempty", new RestartWhenEmpty(this));
