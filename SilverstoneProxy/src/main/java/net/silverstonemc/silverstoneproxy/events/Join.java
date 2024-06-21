@@ -19,6 +19,7 @@ import net.silverstonemc.silverstoneproxy.SilverstoneProxy;
 import net.silverstonemc.silverstoneproxy.UserManager;
 import net.silverstonemc.silverstoneproxy.WarnPlayer;
 import net.silverstonemc.silverstoneproxy.utils.NicknameUtils;
+import org.geysermc.floodgate.api.FloodgateApi;
 import org.spongepowered.configurate.serialize.SerializationException;
 
 import java.awt.*;
@@ -41,8 +42,27 @@ public class Join {
 
     @Subscribe
     public void onServerConnect(ServerPreConnectEvent event) {
-        if (event.getPreviousServer() != null) return;
         if (!event.getResult().isAllowed()) return;
+
+        // Prevent Bedrock players from joining servers other than survival
+        if (!event.getOriginalServer().getServerInfo().getName().equals("survival"))
+            if (FloodgateApi.getInstance().isFloodgatePlayer(event.getPlayer().getUniqueId())) {
+                event.setResult(ServerPreConnectEvent.ServerResult.denied());
+
+                // Kick if not in a server already
+                if (event.getPreviousServer() == null) event.getPlayer().disconnect(Component.text("Sorry!\n\n",
+                        NamedTextColor.RED).append(Component.text(
+                        "Bedrock clients aren't supported on the server!\nIf you're part of the survival group, join directly via ",
+                        NamedTextColor.GRAY))
+                    .append(Component.text("survival.silverstonemc.net", NamedTextColor.AQUA)));
+
+                else event.getPlayer().sendMessage(Component.text("I'm sorry, but Bedrock clients aren't supported on that server!",
+                    NamedTextColor.RED));
+
+                return;
+            }
+
+        if (event.getPreviousServer() != null) return;
 
         int version = event.getPlayer().getProtocolVersion().getProtocol();
         i.logger.info("{} is joining with protocol version {}", event.getPlayer().getUsername(), version);
