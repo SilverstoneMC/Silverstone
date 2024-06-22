@@ -7,6 +7,7 @@ import com.velocitypowered.api.event.player.ServerConnectedEvent;
 import com.velocitypowered.api.event.player.ServerPreConnectEvent;
 import com.velocitypowered.api.proxy.Player;
 import com.velocitypowered.api.proxy.server.RegisteredServer;
+import com.velocitypowered.api.util.ServerLink;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
@@ -23,9 +24,8 @@ import org.geysermc.floodgate.api.FloodgateApi;
 import org.spongepowered.configurate.serialize.SerializationException;
 
 import java.awt.*;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.List;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 import static net.silverstonemc.silverstoneproxy.ConfigurationManager.FileType.CONFIG;
@@ -130,6 +130,19 @@ public class Join {
                     servers.sendPluginMessage(SilverstoneProxy.IDENTIFIER, out.toByteArray());
 
                 return;
+            }
+
+            // Send server links (1.21+)
+            if (event.getPlayer().getProtocolVersion().getProtocol() >= 767) {
+                List<ServerLink> links = new ArrayList<>();
+                links.add(ServerLink.serverLink(ServerLink.Type.ANNOUNCEMENTS, "https://discord.gg/VVSUEPd"));
+                links.add(ServerLink.serverLink(ServerLink.Type.BUG_REPORT, "https://silverstonemc.net"));
+                links.add(ServerLink.serverLink(ServerLink.Type.COMMUNITY, "https://discord.gg/VVSUEPd"));
+                links.add(ServerLink.serverLink(ServerLink.Type.FEEDBACK, "https://silverstonemc.net"));
+                links.add(ServerLink.serverLink(ServerLink.Type.FORUMS, "https://silverstonemc.net"));
+                links.add(ServerLink.serverLink(ServerLink.Type.NEWS, "https://discord.gg/VVSUEPd"));
+                links.add(ServerLink.serverLink(ServerLink.Type.STATUS, "https://status.silverstonemc.net"));
+                player.setServerLinks(links);
             }
 
             boolean userExists = UserManager.playerMap.containsKey(uuid);
