@@ -133,7 +133,7 @@ public class SilverstoneGlobal extends JavaPlugin implements Listener {
         pluginManager.registerEvents(new Gamemode(), this);
         pluginManager.registerEvents(new JoinAndLeave(this), this);
         pluginManager.registerEvents(new Kick(), this);
-        pluginManager.registerEvents(new Load(this), this);
+        pluginManager.registerEvents(new ServerLoad(this), this);
         pluginManager.registerEvents(new TabComplete(), this);
         pluginManager.registerEvents(new TimeOut(), this);
 
