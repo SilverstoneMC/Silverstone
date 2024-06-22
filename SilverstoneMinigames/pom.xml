@@ -6,7 +6,7 @@
 
     <groupId>net.silverstonemc</groupId>
     <artifactId>SilverstoneMinigames</artifactId>
-    <version>3.3.13-beta</version>
+    <version>3.3.13</version>
 
     <properties>
         <maven.compiler.source>21</maven.compiler.source>
@@ -122,14 +122,14 @@
         <dependency>
             <groupId>de.oliver</groupId>
             <artifactId>FancyHolograms</artifactId>
-            <version>2.0.6</version>
+            <version>2.3.0</version>
             <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>LibsDisguises</groupId>
             <artifactId>LibsDisguises</artifactId>
-            <version>10.0.42</version>
+            <version>10.0.44</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>

@@ -1,8 +1,10 @@
 package net.silverstonemc.silverstoneminigames.commands;
 
 import de.oliver.fancyholograms.api.FancyHologramsPlugin;
-import de.oliver.fancyholograms.api.Hologram;
+import de.oliver.fancyholograms.api.data.HologramData;
 import de.oliver.fancyholograms.api.data.TextHologramData;
+import de.oliver.fancyholograms.api.hologram.Hologram;
+import de.oliver.fancyholograms.api.hologram.HologramType;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
@@ -23,11 +25,13 @@ public class Holograms implements CommandExecutor {
             sender.sendMessage(Component.text("Hologram not found!", NamedTextColor.RED));
             return true;
         }
-        if (!(optionalHologram.get().getData().getTypeData() instanceof TextHologramData data)) {
+
+        HologramData data = optionalHologram.get().getData();
+        if (data.getType() != HologramType.TEXT) {
             sender.sendMessage(Component.text("Hologram not text!", NamedTextColor.RED));
             return true;
         }
-
+        
         String text = null;
         switch (args[1]) {
             case "open" -> text = "<green><bold>Open";
@@ -42,10 +46,11 @@ public class Holograms implements CommandExecutor {
         }
 
         Hologram hologram = optionalHologram.get();
-        List<String> holoText = new ArrayList<>(data.getText());
+        TextHologramData textData = (TextHologramData) data;
+        List<String> holoText = new ArrayList<>(textData.getText());
         holoText.set(holoText.size() - 1, text);
-        data.setText(holoText);
-        hologram.updateHologram();
+        textData.setText(holoText);
+        hologram.queueUpdate();
         hologram.refreshHologram(Bukkit.getOnlinePlayers());
         return true;
     }
