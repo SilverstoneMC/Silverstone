@@ -155,7 +155,7 @@ public record Restart(JavaPlugin plugin) implements CommandExecutor {
             case "restartwhenempty" -> {
                 for (Player player : Bukkit.getOnlinePlayers())
                     player.sendActionBar(Component.text("SERVER SCHEDULED TO RESTART WHEN EMPTY",
-                        NamedTextColor.RED,
+                        NamedTextColor.YELLOW,
                         TextDecoration.BOLD));
                 plugin.getLogger().info("Server scheduled to restart when empty.");
 
