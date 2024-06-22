@@ -18,7 +18,6 @@ import net.silverstonemc.silverstoneglobal.commands.guis.BuyGUI;
 import net.silverstonemc.silverstoneglobal.commands.guis.ChatColorGUI;
 import net.silverstonemc.silverstoneglobal.commands.guis.Tips;
 import net.silverstonemc.silverstoneglobal.discord.Errors;
-import net.silverstonemc.silverstoneglobal.discord.JoinAndLeave;
 import net.silverstonemc.silverstoneglobal.discord.TPS;
 import net.silverstonemc.silverstoneglobal.discord.Vanish;
 import net.silverstonemc.silverstoneglobal.events.*;
