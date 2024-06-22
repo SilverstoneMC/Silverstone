@@ -64,7 +64,7 @@ public class JoinAndLeave implements Listener {
         //noinspection DataFlowIssue
         if (plugin.getConfig().getString("server").equalsIgnoreCase("survival") && !event.getPlayer()
             .hasPlayedBefore()) Bukkit.dispatchCommand(Bukkit.getConsoleSender(),
-            "lp user " + event.getPlayer().getName() + " parent add survivalgang");
+            "lp user " + event.getPlayer().getUniqueId() + " parent add survivalgang");
     }
 
     @SuppressWarnings("DataFlowIssue")
