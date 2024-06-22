@@ -1,4 +1,4 @@
-# https://wiki.vg/Protocol_version_numbers
+# https://minecraft.wiki/w/Protocol_version#Java_Edition_2
 # Kick the player if protocol version is below this value
 minimum-protocol-version: 763
 minimum-version: '1.20'
