@@ -5,10 +5,8 @@ import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import net.luckperms.api.LuckPerms;
-import net.luckperms.api.model.group.Group;
-import net.luckperms.api.model.user.User;
-import net.luckperms.api.node.types.InheritanceNode;
 import net.silverstonemc.silverstoneglobal.SilverstoneGlobal;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -65,18 +63,8 @@ public class JoinAndLeave implements Listener {
         // Add survival gang role to new survival players
         //noinspection DataFlowIssue
         if (plugin.getConfig().getString("server").equalsIgnoreCase("survival") && !event.getPlayer()
-            .hasPlayedBefore()) {
-
-            Group survivalGang = luckPerms.getGroupManager().getGroup("survivalgang");
-            if (survivalGang == null) {
-                plugin.getLogger().severe("Group 'survivalgang' not found!");
-                return;
-            }
-            
-            User user = luckPerms.getPlayerAdapter(Player.class).getUser(event.getPlayer());
-            user.data().add(InheritanceNode.builder(survivalGang).build());
-            luckPerms.getUserManager().saveUser(user);
-        }
+            .hasPlayedBefore()) Bukkit.dispatchCommand(Bukkit.getConsoleSender(),
+            "lp user " + event.getPlayer().getName() + " parent add survivalgang");
     }
 
     @SuppressWarnings("DataFlowIssue")
