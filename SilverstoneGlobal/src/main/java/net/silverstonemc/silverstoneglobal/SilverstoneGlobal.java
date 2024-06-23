@@ -57,8 +57,7 @@ public class SilverstoneGlobal extends JavaPlugin implements Listener {
 
         saveDefaultConfig();
 
-        // #serverSpecific
-        if (!getConfig().getString("server").equalsIgnoreCase("survival")) new Thread(() -> {
+        new Thread(() -> {
             getLogger().info("Starting Discord bot...");
             JDABuilder builder = JDABuilder.createDefault(getConfig().getString("discord-token"));
             builder.disableIntents(GatewayIntent.GUILD_MESSAGE_TYPING);
@@ -72,6 +71,7 @@ public class SilverstoneGlobal extends JavaPlugin implements Listener {
             switch (getConfig().getString("server")) {
                 case "minigames" -> builder.setActivity(Activity.watching("the Minigames server"));
                 case "creative" -> builder.setActivity(Activity.watching("the Creative server"));
+                case "survival" -> builder.setActivity(Activity.watching("the Survival server"));
             }
             jda = builder.build();
 
@@ -148,6 +148,7 @@ public class SilverstoneGlobal extends JavaPlugin implements Listener {
         getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
         getServer().getMessenger().registerOutgoingPluginChannel(this, "silverstone:pluginmsg");
 
+        // #serverSpecific
         if (!getConfig().getString("server").equalsIgnoreCase("survival")) {
             new Security(this).check();
 
@@ -157,37 +158,34 @@ public class SilverstoneGlobal extends JavaPlugin implements Listener {
                     Whitelist.whitelist();
                 }
             }.runTaskTimer(this, 100, 18000);
-
-            new BukkitRunnable() {
-                @Override
-                public void run() {
-                    TPS.checkTPS();
-                }
-            }.runTaskTimerAsynchronously(this, 600, 20);
         }
+
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                TPS.checkTPS();
+            }
+        }.runTaskTimerAsynchronously(this, 600, 20);
     }
 
     @Override
     public void onDisable() {
         getServer().getMessenger().unregisterOutgoingPluginChannel(this);
 
-        // #serverSpecific
-        if (!getConfig().getString("server").equalsIgnoreCase("survival")) {
-            errors.dumpQueue();
-            errors.remove();
+        errors.dumpQueue();
+        errors.remove();
 
-            getLogger().info("Shutting down Discord bot...");
-            try {
-                // Initating the shutdown, this closes the gateway connection and subsequently closes the requester queue
-                jda.shutdown();
-                // Allow at most 10 seconds for remaining requests to finish
-                if (!jda.awaitShutdown(10,
-                    TimeUnit.SECONDS)) { // returns true if shutdown is graceful, false if timeout exceeded
-                    jda.shutdownNow(); // Cancel all remaining requests, and stop thread-pools
-                    jda.awaitShutdown(); // Wait until shutdown is complete (indefinitely)
-                }
-            } catch (NoClassDefFoundError | InterruptedException ignored) {
+        getLogger().info("Shutting down Discord bot...");
+        try {
+            // Initating the shutdown, this closes the gateway connection and subsequently closes the requester queue
+            jda.shutdown();
+            // Allow at most 10 seconds for remaining requests to finish
+            if (!jda.awaitShutdown(10,
+                TimeUnit.SECONDS)) { // returns true if shutdown is graceful, false if timeout exceeded
+                jda.shutdownNow(); // Cancel all remaining requests, and stop thread-pools
+                jda.awaitShutdown(); // Wait until shutdown is complete (indefinitely)
             }
+        } catch (NoClassDefFoundError | InterruptedException ignored) {
         }
     }
 
