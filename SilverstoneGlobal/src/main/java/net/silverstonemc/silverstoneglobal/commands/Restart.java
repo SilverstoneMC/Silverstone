@@ -183,6 +183,8 @@ public record Restart(JavaPlugin plugin) implements CommandExecutor {
                         100,
                         1.6f);
                 }
+                
+                plugin.getLogger().info("Server scheduled to restart in 5 minutes.");
 
                 new BukkitRunnable() {
                     @Override
