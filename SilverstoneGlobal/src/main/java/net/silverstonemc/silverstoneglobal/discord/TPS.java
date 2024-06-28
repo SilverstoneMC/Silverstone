@@ -48,12 +48,17 @@ public class TPS {
             private static void sendMessage(double tps) {
                 TextChannel channel = SilverstoneGlobal.jda.getTextChannelById(1075643352814456892L);
 
+                // Get the amount of players on the server, or the player's name if there is only one online
+                int size = Bukkit.getOnlinePlayers().size();
+                String players = size == 1 ? Bukkit.getOnlinePlayers().iterator().next()
+                    .getName() : String.valueOf(size);
+
                 if (tps < 17 && tps > 12) {
                     EmbedBuilder embed = new EmbedBuilder();
                     DateTimeFormatter dtf = DateTimeFormatter.ofPattern("h:mm:ss a", Locale.US);
                     LocalDateTime time = LocalDateTime.now();
                     embed.setTitle("⚠ TPS low! (" + tps + ") ⚠");
-                    embed.setDescription("Players: " + Bukkit.getOnlinePlayers().size());
+                    embed.setDescription("Players: " + players);
                     embed.setColor(new Color(245, 167, 0));
                     embed.setFooter(dtf.format(time));
 
@@ -65,7 +70,7 @@ public class TPS {
                     DateTimeFormatter dtf = DateTimeFormatter.ofPattern("h:mm:ss a", Locale.US);
                     LocalDateTime time = LocalDateTime.now();
                     embed.setTitle("⚠⚠⚠ TPS very low! (" + tps + ") ⚠⚠⚠");
-                    embed.setDescription("Players: " + Bukkit.getOnlinePlayers().size());
+                    embed.setDescription("Players: " + players);
                     embed.setColor(new Color(204, 27, 53));
                     embed.setFooter(dtf.format(time));
 
