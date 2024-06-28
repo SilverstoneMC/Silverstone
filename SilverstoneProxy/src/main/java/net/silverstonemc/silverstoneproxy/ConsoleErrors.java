@@ -38,6 +38,9 @@ public class ConsoleErrors extends AbstractAppender {
         if (event.getMessage().getFormattedMessage().contains(
             "exception encountered in com.velocitypowered.proxy.connection.backend.BackendPlaySessionHandler"))
             return;
+        if (event.getMessage().getFormattedMessage().contains(
+            "exception encountered in com.velocitypowered.proxy.connection.client.ClientPlaySessionHandler"))
+            return;
         if (event.getMessage().getFormattedMessage().contains("read timed out")) return;
 
         if (event.getLevel() != Level.ERROR && event.getLevel() != Level.FATAL && event.getLevel() != Level.TRACE) {
