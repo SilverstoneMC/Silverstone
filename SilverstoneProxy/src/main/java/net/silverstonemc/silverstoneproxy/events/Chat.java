@@ -8,6 +8,7 @@ import net.draycia.carbon.api.event.events.CarbonChatEvent;
 import net.draycia.carbon.api.event.events.CarbonPrivateChatEvent;
 import net.draycia.carbon.api.users.CarbonPlayer;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.event.ClickEvent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.silverstonemc.silverstoneproxy.SilverstoneProxy;
@@ -114,6 +115,7 @@ public class Chat {
         Pattern pattern = Pattern.compile(i.fileManager.files.get(CONFIG).node("url-filter").getString());
 
         return message.replaceText(builder -> builder.match(pattern)
-            .replacement(match -> Component.text("[URL REDACTED]", NamedTextColor.GRAY)));
+            .replacement(match -> Component.text("[URL REDACTED]", NamedTextColor.DARK_GRAY)
+                .clickEvent(ClickEvent.openUrl(""))));
     }
 }

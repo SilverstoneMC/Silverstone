@@ -38,7 +38,7 @@ nicknames:
   # The maximum length of a nickname
   max-length: 16
 
-url-filter: "\\b(?!(?:github\\.com|silverstonemc\\.net|twitch\\.tv/jasonhorkles)\\b)[a-zA-Z0-9-]+(?:\\.[a-zA-Z]{2,})+(?:/\\S*)?\\b"
+url-filter: "\\b(?:https?:\\/\\/)?(?!(?:github\\.com|(play|survival)?\\.?silverstonemc\\.net|twitch\\.tv\\/jasonhorkles)\\b)[a-zA-Z0-9-]+(?:\\.[a-zA-Z]{2,})+(?:\\/\\S*)?\\b"
 
 
 
