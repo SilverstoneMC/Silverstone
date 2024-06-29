@@ -73,5 +73,7 @@ public class Leave {
 
             Join.newPlayers.remove(player);
         }
+        
+        Chat.lastMessages.remove(player.getUniqueId());
     }
 }

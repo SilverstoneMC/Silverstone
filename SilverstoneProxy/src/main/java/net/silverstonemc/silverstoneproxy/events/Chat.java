@@ -16,6 +16,7 @@ import net.silverstonemc.silverstoneproxy.utils.NicknameUtils;
 import java.util.HashMap;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
+import java.util.regex.Pattern;
 
 public class Chat {
     public Chat(SilverstoneProxy instance) {
@@ -23,7 +24,7 @@ public class Chat {
     }
 
     private final SilverstoneProxy i;
-    private static final HashMap<UUID, Component> lastMessages = new HashMap<>();
+    public static final HashMap<UUID, Component> lastMessages = new HashMap<>();
 
     public void onChat(CarbonChatEvent event) {
         if (event.cancelled()) return;
@@ -45,6 +46,13 @@ public class Chat {
                 TimeUnit.SECONDS).schedule();
         }
 
+        // Filter URLs
+        if (!player.hasPermission("silverstone.chatfilter.bypass")) {
+            Component replacedMessage = replaceUrl(event.message());
+            if (!event.message().equals(replacedMessage)) event.message(replacedMessage);
+        }
+
+        // Send chat sounds
         ByteArrayDataOutput out = ByteStreams.newDataOutput();
         switch (event.chatChannel().key().toString()) {
             case "carbon:global", "carbon:jsay" -> {
@@ -71,6 +79,12 @@ public class Chat {
     public void onPrivateChat(CarbonPrivateChatEvent event) {
         if (event.cancelled()) return;
 
+        // Filter URLs
+        if (!event.sender().hasPermission("silverstone.chatfilter.bypass")) {
+            Component replacedMessage = replaceUrl(event.message());
+            if (!event.message().equals(replacedMessage)) event.message(replacedMessage);
+        }
+
         ByteArrayDataOutput out = ByteStreams.newDataOutput();
         out.writeUTF("privatesound");
         out.writeUTF(event.recipient().uuid().toString());
@@ -78,6 +92,7 @@ public class Chat {
         for (RegisteredServer servers : i.server.getAllServers())
             servers.sendPluginMessage(SilverstoneProxy.IDENTIFIER, out.toByteArray());
 
+        // Socialspy
         for (Player player : i.server.getAllPlayers())
             if (player.hasPermission("silverstone.socialspy.enabled"))
                 if (!player.getUniqueId().toString().equals(event.sender().uuid().toString()) && !player
@@ -90,5 +105,15 @@ public class Chat {
                             .getDisplayName(event.recipient().uuid()).colorIfAbsent(NamedTextColor.GRAY)).append(
                             Component.text(" | ", NamedTextColor.DARK_AQUA))
                         .append(event.message().colorIfAbsent(NamedTextColor.GRAY)).build());
+    }
+
+    private Component replaceUrl(Component message) {
+        Pattern pattern = Pattern.compile(
+            "\\b(?!(?:github\\.com|silverstonemc\\.net|twitch\\.tv/jasonhorkles)\\b)[a-zA-Z0-9-]+(?:\\.[a-zA-Z]{2,})+(?:/\\S*)?\\b");
+
+        if (message.toString().matches(pattern.pattern())) return message.replaceText(builder -> builder
+            .match(pattern).replacement(match -> Component.text("[URL REDACTED]")));
+
+        return message;
     }
 }

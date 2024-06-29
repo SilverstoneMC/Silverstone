@@ -3,8 +3,8 @@
 minimum-protocol-version: 763
 minimum-version: '1.20'
 # Send warning message to the player if protocol version is below this value
-current-protocol-version: 764
-current-version: '1.20.2'
+current-protocol-version: 767
+current-version: '1.21'
 
 rules:
   # The text to add before the rule number when sending a player a rule
@@ -37,6 +37,9 @@ nicknames:
 
   # The maximum length of a nickname
   max-length: 16
+
+chat:
+  # 
 
 
 
