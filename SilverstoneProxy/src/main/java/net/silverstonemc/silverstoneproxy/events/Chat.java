@@ -18,6 +18,8 @@ import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 
+import static net.silverstonemc.silverstoneproxy.ConfigurationManager.FileType.CONFIG;
+
 public class Chat {
     public Chat(SilverstoneProxy instance) {
         i = instance;
@@ -108,8 +110,8 @@ public class Chat {
     }
 
     private Component replaceUrl(Component message) {
-        Pattern pattern = Pattern.compile(
-            "\\b(?!(?:github\\.com|silverstonemc\\.net|twitch\\.tv/jasonhorkles)\\b)[a-zA-Z0-9-]+(?:\\.[a-zA-Z]{2,})+(?:/\\S*)?\\b");
+        //noinspection DataFlowIssue
+        Pattern pattern = Pattern.compile(i.fileManager.files.get(CONFIG).node("url-filter").getString());
 
         if (message.toString().matches(pattern.pattern())) return message.replaceText(builder -> builder
             .match(pattern).replacement(match -> Component.text("[URL REDACTED]")));
