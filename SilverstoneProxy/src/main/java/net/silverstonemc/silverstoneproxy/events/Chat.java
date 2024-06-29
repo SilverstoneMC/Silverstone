@@ -113,9 +113,7 @@ public class Chat {
         //noinspection DataFlowIssue
         Pattern pattern = Pattern.compile(i.fileManager.files.get(CONFIG).node("url-filter").getString());
 
-        if (message.toString().matches(pattern.pattern())) return message.replaceText(builder -> builder
-            .match(pattern).replacement(match -> Component.text("[URL REDACTED]")));
-
-        return message;
+        return message.replaceText(builder -> builder.match(pattern)
+            .replacement(match -> Component.text("[URL REDACTED]", NamedTextColor.GRAY)));
     }
 }
