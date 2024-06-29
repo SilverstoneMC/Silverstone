@@ -4,7 +4,6 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
-import net.luckperms.api.LuckPerms;
 import net.silverstonemc.silverstoneglobal.SilverstoneGlobal;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -25,7 +24,6 @@ public class JoinAndLeave implements Listener {
     }
 
     private final JavaPlugin plugin;
-    private static final LuckPerms luckPerms = SilverstoneGlobal.getInstance().getLuckPerms();
     private static final Map<Player, Message> newPlayers = new HashMap<>();
 
     @EventHandler
@@ -63,7 +61,8 @@ public class JoinAndLeave implements Listener {
         // Add survival gang role to new survival players
         //noinspection DataFlowIssue
         if (plugin.getConfig().getString("server").equalsIgnoreCase("survival") && !event.getPlayer()
-            .hasPlayedBefore()) Bukkit.dispatchCommand(Bukkit.getConsoleSender(),
+            .hasPlayedBefore()) Bukkit.dispatchCommand(
+            Bukkit.getConsoleSender(),
             "lp user " + event.getPlayer().getUniqueId() + " parent add survivalgang");
     }
 
