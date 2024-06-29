@@ -7,7 +7,6 @@ import org.bukkit.entity.Player;
 
 import java.util.UUID;
 
-@SuppressWarnings("DataFlowIssue")
 public class Whitelist {
     public static void whitelist() {
         if (Bukkit.getServer().hasWhitelist()) {
