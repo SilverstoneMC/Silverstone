@@ -22,7 +22,7 @@ public class MiniMOTDControls implements SimpleCommand {
 
     @Override
     public boolean hasPermission(final Invocation invocation) {
-        return invocation.source().hasPermission("silverstone.owner");
+        return invocation.source().hasPermission("silverstone.admin");
     }
 
     private final SilverstoneProxy i;

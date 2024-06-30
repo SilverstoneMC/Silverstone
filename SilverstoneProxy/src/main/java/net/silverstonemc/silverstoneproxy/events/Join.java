@@ -28,8 +28,7 @@ import java.util.List;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
-import static net.silverstonemc.silverstoneproxy.ConfigurationManager.FileType.CONFIG;
-import static net.silverstonemc.silverstoneproxy.ConfigurationManager.FileType.WARNQUEUE;
+import static net.silverstonemc.silverstoneproxy.ConfigurationManager.FileType.*;
 
 public class Join {
     public Join(SilverstoneProxy instance) {
@@ -61,6 +60,18 @@ public class Join {
 
                 return;
             }
+
+        // Don't allow players in if whitelist is on
+        if (i.fileManager.files.get(WHITELIST).node("enabled").getBoolean() && !event.getPlayer()
+            .hasPermission("silverstone.admin")) {
+            event.setResult(ServerPreConnectEvent.ServerResult.denied());
+
+            event.getPlayer().disconnect(Component
+                .text("The server is currently closed for maintenance!", NamedTextColor.RED)
+                .append(Component.text("\n\nSee status.silverstonemc.net for more details.",
+                    NamedTextColor.GRAY)));
+            return;
+        }
 
         if (event.getPreviousServer() != null) return;
 
