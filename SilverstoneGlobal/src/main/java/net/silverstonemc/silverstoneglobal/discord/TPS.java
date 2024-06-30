@@ -8,6 +8,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.awt.*;
+import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -37,9 +38,9 @@ public class TPS {
 
                     int sum = 0;
                     double average;
-                    //bug ConcurrentModificationException, NPE, not rounded to nearest tenth
-                    for (int x : tickList) sum += x;
-                    average = (double) sum / tickList.size();
+                    List<Integer> finalTickList = new ArrayList<>(tickList);
+                    for (Integer x : finalTickList) if (x != null) sum += x;
+                    average = Double.parseDouble(new DecimalFormat("0.00").format((double) sum / finalTickList.size()));
                     sendMessage(average);
                 }
             }
