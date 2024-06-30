@@ -29,6 +29,6 @@ public class AutoBroadcast {
             if (lastMessage == messages.length) lastMessage = 0;
             for (Player players : i.server.getAllPlayers()) players.sendMessage(messages[lastMessage]);
             lastMessage++;
-        }).delay(45, TimeUnit.MINUTES).repeat(45, TimeUnit.MINUTES).schedule();
+        }).delay(60, TimeUnit.MINUTES).repeat(60, TimeUnit.MINUTES).schedule();
     }
 }
