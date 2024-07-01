@@ -9,6 +9,7 @@ softdepend:
   - Matrix
 depend:
   - LuckPerms
+  - spark
 loadbefore:
   - WorldGuardExtraFlags
 

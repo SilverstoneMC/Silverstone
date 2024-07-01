@@ -161,11 +161,13 @@ public class SilverstoneGlobal extends JavaPlugin implements Listener {
         }
 
         new BukkitRunnable() {
+            final TPS tps = new TPS();
+
             @Override
             public void run() {
-                TPS.checkTPS();
+                tps.checkTPS();
             }
-        }.runTaskTimerAsynchronously(this, 600, 20);
+        }.runTaskTimerAsynchronously(this, 100, 20);
     }
 
     @Override
