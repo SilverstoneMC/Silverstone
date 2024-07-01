@@ -65,7 +65,8 @@ public class Errors extends AbstractAppender {
         if (errorQueue.isEmpty()) return;
 
         StringBuilder builder = new StringBuilder("```accesslog\n");
-        for (String error : errorQueue) {
+        List<String> finalErrorQueue = new ArrayList<>(errorQueue);
+        for (String error : finalErrorQueue) {
             if (builder.length() + error.length() >= 1997) {
                 sendDiscordMessage(builder);
                 builder = new StringBuilder("```accesslog\n");
@@ -74,7 +75,8 @@ public class Errors extends AbstractAppender {
             builder.append(error).append("\n");
         }
 
-        errorQueue.clear();
+        errorQueue.removeAll(finalErrorQueue);
+        finalErrorQueue.clear();
         sendDiscordMessage(builder);
     }
 
