@@ -167,7 +167,7 @@ public class SilverstoneGlobal extends JavaPlugin implements Listener {
             public void run() {
                 tps.checkTPS();
             }
-        }.runTaskTimerAsynchronously(this, 100, 20);
+        }.runTaskTimerAsynchronously(this, 300, 20);
     }
 
     @Override
