@@ -57,43 +57,46 @@ public class SilverstoneGlobal extends JavaPlugin implements Listener {
 
         saveDefaultConfig();
 
-        new Thread(() -> {
-            getLogger().info("Starting Discord bot...");
-            JDABuilder builder = JDABuilder.createDefault(getConfig().getString("discord-token"));
-            builder.disableIntents(GatewayIntent.GUILD_MESSAGE_TYPING);
-            builder.disableCache(CacheFlag.ACTIVITY, CacheFlag.VOICE_STATE);
-            builder.setMemberCachePolicy(MemberCachePolicy.NONE);
-            builder.setStatus(OnlineStatus.ONLINE);
-            builder.setEnableShutdownHook(false);
-            // #serverSpecific
-            if (getConfig().getString("server").equalsIgnoreCase("minigames"))
-                builder.addEventListeners(new Vanish(this));
-            switch (getConfig().getString("server")) {
-                case "minigames" -> builder.setActivity(Activity.watching("the Minigames server"));
-                case "creative" -> builder.setActivity(Activity.watching("the Creative server"));
-                case "survival" -> builder.setActivity(Activity.watching("the Survival server"));
-            }
-            jda = builder.build();
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                getLogger().info("Starting Discord bot...");
+                JDABuilder builder = JDABuilder.createDefault(getConfig().getString("discord-token"));
+                builder.disableIntents(GatewayIntent.GUILD_MESSAGE_TYPING);
+                builder.disableCache(CacheFlag.ACTIVITY, CacheFlag.VOICE_STATE);
+                builder.setMemberCachePolicy(MemberCachePolicy.NONE);
+                builder.setStatus(OnlineStatus.ONLINE);
+                builder.setEnableShutdownHook(false);
+                // #serverSpecific
+                if (getConfig().getString("server").equalsIgnoreCase("minigames")) builder.addEventListeners(
+                    new Vanish(instance));
+                switch (getConfig().getString("server")) {
+                    case "minigames" -> builder.setActivity(Activity.watching("the Minigames server"));
+                    case "creative" -> builder.setActivity(Activity.watching("the Creative server"));
+                    case "survival" -> builder.setActivity(Activity.watching("the Survival server"));
+                }
+                jda = builder.build();
 
-            try {
-                jda.awaitReady();
+                try {
+                    jda.awaitReady();
 
-                if (getConfig().getString("server").equalsIgnoreCase("minigames")) {
-                    TextChannel channel = jda.getTextChannelById(1075640285083734067L);
-                    //noinspection DataFlowIssue
-                    if (channel.getIterableHistory().takeAsync(1).thenApply(ArrayList::new).get(30,
-                        TimeUnit.SECONDS).isEmpty())
-                        channel.sendMessage("## Select a vanish state").setActionRow(Button.success("vanish-on",
-                            "Vanish"), Button.danger("vanish-off", "Un-vanish")).queue();
+                    if (getConfig().getString("server").equalsIgnoreCase("minigames")) {
+                        TextChannel channel = jda.getTextChannelById(1075640285083734067L);
+                        //noinspection DataFlowIssue
+                        if (channel.getIterableHistory().takeAsync(1).thenApply(ArrayList::new).get(30,
+                            TimeUnit.SECONDS).isEmpty())
+                            channel.sendMessage("## Select a vanish state").setActionRow(Button.success("vanish-on",
+                                "Vanish"), Button.danger("vanish-off", "Un-vanish")).queue();
+                    }
+
+                } catch (InterruptedException | ExecutionException | TimeoutException e) {
+                    throw new RuntimeException(e);
                 }
 
-            } catch (InterruptedException | ExecutionException | TimeoutException e) {
-                throw new RuntimeException(e);
+                errors = new Errors(instance);
+                errors.start();
             }
-
-            errors = new Errors(this);
-            errors.start();
-        }, "Discord Bot").start();
+        }.runTaskAsynchronously(this);
 
         getCommand("bclag").setExecutor(new Broadcasts());
         getCommand("bcnolag").setExecutor(new Broadcasts());
