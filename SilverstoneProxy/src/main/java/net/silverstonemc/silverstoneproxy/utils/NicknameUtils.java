@@ -17,6 +17,7 @@ import org.spongepowered.configurate.serialize.SerializationException;
 
 import java.util.UUID;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
 
 import static net.silverstonemc.silverstoneproxy.ConfigurationManager.FileType.CONFIG;
 import static net.silverstonemc.silverstoneproxy.ConfigurationManager.FileType.NICKNAMES;
@@ -84,10 +85,12 @@ public class NicknameUtils {
             .getString());
 
         Component displayName = Component.text().append(prefix).append(nickname).append(suffix).build();
-        TabAPI.getInstance().getTabListFormatManager().setName(
+        // Delay name change to let player finish loading and prevent IllegalStateException
+        i.server.getScheduler().buildTask(i, () -> TabAPI.getInstance().getTabListFormatManager().setName(
             tabPlayer,
             LegacyComponentSerializer.builder().useUnusualXRepeatedCharacterHexFormat().hexColors().build()
-                .serialize(displayName));
+                .serialize(displayName))).delay(1, TimeUnit.SECONDS).schedule();
+
         try {
             CarbonChatProvider.carbonChat().userManager().user(player.getUniqueId()).get().nickname(
                 displayName);

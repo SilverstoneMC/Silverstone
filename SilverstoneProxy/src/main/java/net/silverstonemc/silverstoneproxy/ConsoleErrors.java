@@ -1,6 +1,7 @@
 package net.silverstonemc.silverstoneproxy;
 
 import com.velocitypowered.api.scheduler.ScheduledTask;
+import net.silverstonemc.silverstoneproxy.events.Leave;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.LogEvent;
@@ -33,15 +34,33 @@ public class ConsoleErrors extends AbstractAppender {
 
     @Override
     public void append(LogEvent event) {
-        if (event.getMessage().getFormattedMessage().contains("unable to connect to server")) return;
-        if (event.getMessage().getFormattedMessage().contains("disconnected while connecting to")) return;
-        if (event.getMessage().getFormattedMessage().contains(
+        String message = event.getMessage().getFormattedMessage();
+        if (message.contains("unable to connect to server")) return;
+        if (message.contains("disconnected while connecting to")) return;
+        if (message.contains(
             "exception encountered in com.velocitypowered.proxy.connection.backend.BackendPlaySessionHandler"))
             return;
-        if (event.getMessage().getFormattedMessage().contains(
-            "exception encountered in com.velocitypowered.proxy.connection.client.ClientPlaySessionHandler"))
+        
+        if (message.contains(
+            "exception encountered in com.velocitypowered.proxy.connection.client.ClientPlaySessionHandler")) {
+            String player = getPlayerFromLog(message);
+            Leave.playersCrashed.add(player);
+
+            SilverstoneProxy i = SilverstoneProxy.getInstance();
+            i.server.getScheduler().buildTask(i, () -> Leave.playersCrashed.remove(player))
+                .delay(3, TimeUnit.SECONDS).schedule();
             return;
-        if (event.getMessage().getFormattedMessage().contains("read timed out")) return;
+        }
+        
+        if (message.contains("read timed out")) {
+            String player = getPlayerFromLog(message);
+            Leave.playersTimedOut.add(player);
+
+            SilverstoneProxy instance = SilverstoneProxy.getInstance();
+            instance.server.getScheduler().buildTask(instance, () -> Leave.playersTimedOut.remove(player))
+                .delay(3, TimeUnit.SECONDS).schedule();
+            return;
+        }
 
         if (event.getLevel() != Level.ERROR && event.getLevel() != Level.FATAL && event.getLevel() != Level.TRACE) {
             if (isErrorGroup) {
@@ -91,5 +110,9 @@ public class ConsoleErrors extends AbstractAppender {
         builder.append("```");
         //noinspection DataFlowIssue
         SilverstoneProxy.jda.getTextChannelById(1076713224612880404L).sendMessage(builder.toString()).queue();
+    }
+    
+    private String getPlayerFromLog(String log) {
+        return log.replaceAll(".*\\[connected player] ", "").replaceAll(" \\(.*", "");
     }
 }

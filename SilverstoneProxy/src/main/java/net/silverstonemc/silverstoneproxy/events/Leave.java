@@ -10,15 +10,14 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.silverstonemc.silverstoneproxy.SilverstoneProxy;
 import net.silverstonemc.silverstoneproxy.utils.NicknameUtils;
 
 import java.awt.*;
-
-import static com.velocitypowered.api.event.connection.DisconnectEvent.LoginStatus.CONFLICTING_LOGIN;
-import static com.velocitypowered.api.event.connection.DisconnectEvent.LoginStatus.SUCCESSFUL_LOGIN;
+import java.util.ArrayList;
 
 @SuppressWarnings("DataFlowIssue")
 public class Leave {
@@ -26,21 +25,35 @@ public class Leave {
         i = instance;
     }
 
+    public static final ArrayList<String> playersCrashed = new ArrayList<>();
+    public static final ArrayList<String> playersTimedOut = new ArrayList<>();
+
     private final SilverstoneProxy i;
 
     @Subscribe
     public void onQuit(DisconnectEvent event) {
-        if (event.getLoginStatus() != SUCCESSFUL_LOGIN && event.getLoginStatus() != CONFLICTING_LOGIN) return;
-
+        if (event.getLoginStatus() == DisconnectEvent.LoginStatus.CONFLICTING_LOGIN) return;
+        
         Player player = event.getPlayer();
         boolean isVanished = player.hasPermission("silverstone.vanished");
+        boolean crashed = playersCrashed.contains(player.getUsername());
+        boolean timedOut = playersTimedOut.contains(player.getUsername());
 
         if (!isVanished) {
-            for (Player players : i.server.getAllPlayers())
-                players.sendMessage(Component.text().append(Component.text("- ",
-                        NamedTextColor.RED,
-                        TextDecoration.BOLD)).append(new NicknameUtils(i).getDisplayName(player.getUniqueId()))
-                    .colorIfAbsent(NamedTextColor.AQUA));
+            TextComponent.Builder message = Component.text().append(Component.text("- ",
+                    NamedTextColor.RED,
+                    TextDecoration.BOLD)).append(new NicknameUtils(i).getDisplayName(player.getUniqueId()))
+                .colorIfAbsent(NamedTextColor.AQUA);
+
+            if (crashed) message.append(Component.text(" (likely crashed)",
+                NamedTextColor.GRAY,
+                TextDecoration.ITALIC));
+
+            else if (timedOut) message.append(Component.text(" (timed out)",
+                NamedTextColor.GRAY,
+                TextDecoration.ITALIC));
+
+            for (Player players : i.server.getAllPlayers()) players.sendMessage(message);
 
             i.server.getConsoleCommandSource().sendMessage(Component.text().append(Component.text("- ",
                     NamedTextColor.RED,
@@ -73,7 +86,7 @@ public class Leave {
 
             Join.newPlayers.remove(player);
         }
-        
+
         Chat.lastMessages.remove(player.getUniqueId());
     }
 }

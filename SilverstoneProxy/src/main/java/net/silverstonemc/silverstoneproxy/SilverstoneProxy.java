@@ -63,9 +63,11 @@ public class SilverstoneProxy {
 
     private ConsoleErrors errors;
     private LuckPerms luckPerms;
+    private static SilverstoneProxy instance;
 
     @Subscribe
     public void onProxyInitialize(ProxyInitializeEvent event) {
+        instance = this;
         luckPerms = LuckPermsProvider.get();
 
         // Cache users
@@ -178,6 +180,10 @@ public class SilverstoneProxy {
             }
         } catch (NoClassDefFoundError | InterruptedException ignored) {
         }
+    }
+
+    public static SilverstoneProxy getInstance() {
+        return instance;
     }
 
     public LuckPerms getLuckPerms() {
