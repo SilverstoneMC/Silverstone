@@ -75,3 +75,4 @@ buy-gui:
     - "<#34baeb>and help the server a ton"
 
 discord-token: ""
+heartbeat-url: ""
