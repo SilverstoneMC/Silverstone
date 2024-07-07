@@ -3,16 +3,15 @@ package net.silverstonemc.silverstoneglobal;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URL;
-import java.net.URLConnection;
 
 public class Heartbeat {
     public Heartbeat(JavaPlugin plugin) {
         this.plugin = plugin;
     }
-    
+
     private final JavaPlugin plugin;
 
     public void sendHeartbeat() {
@@ -23,11 +22,8 @@ public class Heartbeat {
         }
 
         try {
-            URL url = new URI(heartbeatUrl).toURL();
-            URLConnection connection = url.openConnection();
-            connection.setConnectTimeout(10000);
-            connection.setReadTimeout(10000);
-            connection.connect();
+            InputStream url = new URI(heartbeatUrl).toURL().openStream();
+            url.close();
 
         } catch (URISyntaxException | IOException e) {
             throw new RuntimeException(e);
