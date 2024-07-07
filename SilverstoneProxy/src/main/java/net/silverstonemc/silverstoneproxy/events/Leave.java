@@ -33,7 +33,7 @@ public class Leave {
     @Subscribe
     public void onQuit(DisconnectEvent event) {
         if (event.getLoginStatus() == DisconnectEvent.LoginStatus.CONFLICTING_LOGIN) return;
-        
+
         Player player = event.getPlayer();
         boolean isVanished = player.hasPermission("silverstone.vanished");
         boolean crashed = playersCrashed.contains(player.getUsername());
@@ -55,10 +55,7 @@ public class Leave {
 
             for (Player players : i.server.getAllPlayers()) players.sendMessage(message);
 
-            i.server.getConsoleCommandSource().sendMessage(Component.text().append(Component.text("- ",
-                    NamedTextColor.RED,
-                    TextDecoration.BOLD)).append(new NicknameUtils(i).getDisplayName(player.getUniqueId()))
-                .colorIfAbsent(NamedTextColor.AQUA));
+            i.server.getConsoleCommandSource().sendMessage(message);
         }
 
         // Vanish status handled on backend
