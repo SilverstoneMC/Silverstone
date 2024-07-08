@@ -1,7 +1,13 @@
 package net.silverstonemc.silverstoneproxy;
 
+import com.velocitypowered.api.proxy.Player;
 import com.velocitypowered.api.scheduler.ScheduledTask;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.TextComponent;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextDecoration;
 import net.silverstonemc.silverstoneproxy.events.Leave;
+import net.silverstonemc.silverstoneproxy.utils.NicknameUtils;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.LogEvent;
@@ -16,6 +22,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 @Plugin(name = "SilverstoneErrorLogger", category = "Core", elementType = "appender", printObject = true)
@@ -40,25 +47,15 @@ public class ConsoleErrors extends AbstractAppender {
         if (message.contains(
             "exception encountered in com.velocitypowered.proxy.connection.backend.BackendPlaySessionHandler"))
             return;
-        
+
         if (message.contains(
             "exception encountered in com.velocitypowered.proxy.connection.client.ClientPlaySessionHandler")) {
-            String player = getPlayerFromLog(message);
-            Leave.playersCrashed.add(player);
-
-            SilverstoneProxy i = SilverstoneProxy.getInstance();
-            i.server.getScheduler().buildTask(i, () -> Leave.playersCrashed.remove(player))
-                .delay(3, TimeUnit.SECONDS).schedule();
+            sendDisconnectMessage(message, "likely crashed");
             return;
         }
-        
-        if (message.contains("read timed out")) {
-            String player = getPlayerFromLog(message);
-            Leave.playersTimedOut.add(player);
 
-            SilverstoneProxy instance = SilverstoneProxy.getInstance();
-            instance.server.getScheduler().buildTask(instance, () -> Leave.playersTimedOut.remove(player))
-                .delay(3, TimeUnit.SECONDS).schedule();
+        if (message.contains("read timed out")) {
+            sendDisconnectMessage(message, "timed out");
             return;
         }
 
@@ -80,6 +77,20 @@ public class ConsoleErrors extends AbstractAppender {
         errorQueue.add("[" + time + " | " + event.getLevel() + "]: [" + loggerName + "] " + event.getMessage()
             .getFormattedMessage());
         isErrorGroup = true;
+    }
+
+    private void sendDisconnectMessage(String log, String reason) {
+        String username = log.replaceAll(".*\\[connected player] ", "").replaceAll(" \\(.*", "");
+        UUID uuid = Leave.recentlyQuit.get(username);
+        if (uuid == null) return;
+
+        SilverstoneProxy i = SilverstoneProxy.getInstance();
+
+        TextComponent.Builder message = Component.text().decorate(TextDecoration.ITALIC)
+            .color(NamedTextColor.GRAY).append(new NicknameUtils(i).getDisplayName(uuid)).colorIfAbsent(
+                NamedTextColor.GRAY).append(Component.text(" " + reason));
+
+        for (Player players : i.server.getAllPlayers()) players.sendMessage(message);
     }
 
     public void remove() {
@@ -110,9 +121,5 @@ public class ConsoleErrors extends AbstractAppender {
         builder.append("```");
         //noinspection DataFlowIssue
         SilverstoneProxy.jda.getTextChannelById(1076713224612880404L).sendMessage(builder.toString()).queue();
-    }
-    
-    private String getPlayerFromLog(String log) {
-        return log.replaceAll(".*\\[connected player] ", "").replaceAll(" \\(.*", "");
     }
 }

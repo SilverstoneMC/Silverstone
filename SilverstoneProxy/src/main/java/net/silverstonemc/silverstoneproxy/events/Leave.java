@@ -17,7 +17,10 @@ import net.silverstonemc.silverstoneproxy.SilverstoneProxy;
 import net.silverstonemc.silverstoneproxy.utils.NicknameUtils;
 
 import java.awt.*;
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 @SuppressWarnings("DataFlowIssue")
 public class Leave {
@@ -25,8 +28,7 @@ public class Leave {
         i = instance;
     }
 
-    public static final ArrayList<String> playersCrashed = new ArrayList<>();
-    public static final ArrayList<String> playersTimedOut = new ArrayList<>();
+    public static final Map<String, UUID> recentlyQuit = new HashMap<>();
 
     private final SilverstoneProxy i;
 
@@ -36,22 +38,18 @@ public class Leave {
 
         Player player = event.getPlayer();
         boolean isVanished = player.hasPermission("silverstone.vanished");
-        boolean crashed = playersCrashed.contains(player.getUsername());
-        boolean timedOut = playersTimedOut.contains(player.getUsername());
 
         if (!isVanished) {
+            // Maybe send message only if player's not vanished
+            recentlyQuit.put(player.getUsername(), player.getUniqueId());
+            // Then remove them from the cache after 3 seconds
+            i.server.getScheduler().buildTask(i, () -> recentlyQuit.remove(player.getUsername())).delay(3,
+                TimeUnit.SECONDS).schedule();
+
             TextComponent.Builder message = Component.text().append(Component.text("- ",
                     NamedTextColor.RED,
                     TextDecoration.BOLD)).append(new NicknameUtils(i).getDisplayName(player.getUniqueId()))
                 .colorIfAbsent(NamedTextColor.AQUA);
-
-            if (crashed) message.append(Component.text(" (likely crashed)",
-                NamedTextColor.GRAY,
-                TextDecoration.ITALIC));
-
-            else if (timedOut) message.append(Component.text(" (timed out)",
-                NamedTextColor.GRAY,
-                TextDecoration.ITALIC));
 
             for (Player players : i.server.getAllPlayers()) players.sendMessage(message);
 
