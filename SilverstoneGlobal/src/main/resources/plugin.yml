@@ -3,7 +3,7 @@ name: SilverstoneGlobal
 description: Designed for the Silverstone network backend servers
 version: %VERSION%
 author: JasonHorkles
-api-version: '1.20'
+api-version: '1.21.1'
 softdepend:
   - DiscordSRV
   - Matrix

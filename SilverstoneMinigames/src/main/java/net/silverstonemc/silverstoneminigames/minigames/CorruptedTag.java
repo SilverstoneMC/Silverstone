@@ -250,7 +250,7 @@ public class CorruptedTag implements CommandExecutor, Listener {
                     ItemStack crossbow = new ItemStack(Material.CROSSBOW);
                     ItemStack arrow = new ItemStack(Material.TIPPED_ARROW, 64);
                     PotionMeta arrowMeta = (PotionMeta) arrow.getItemMeta();
-                    arrowMeta.setBasePotionType(PotionType.INSTANT_HEAL);
+                    arrowMeta.setBasePotionType(PotionType.HEALING);
                     arrow.setItemMeta(arrowMeta);
 
                     player.getInventory().setItem(0, bow);
@@ -362,7 +362,7 @@ public class CorruptedTag implements CommandExecutor, Listener {
         if (item == Material.POTION) {
             PotionMeta potionMeta = (PotionMeta) meta;
             potionMeta.setColor(Color.RED);
-            potionMeta.addItemFlags(ItemFlag.HIDE_ITEM_SPECIFICS);
+            potionMeta.addItemFlags(ItemFlag.HIDE_ADDITIONAL_TOOLTIP);
         }
 
         // Title

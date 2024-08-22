@@ -192,11 +192,11 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
                     SoundCategory.PLAYERS,
                     2,
                     0);
-                player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 3, 0, false, false, false));
+                player.addPotionEffect(new PotionEffect(PotionEffectType.SLOWNESS, 3, 0, false, false, false));
                 new BukkitRunnable() {
                     @Override
                     public void run() {
-                        player.removePotionEffect(PotionEffectType.SLOW);
+                        player.removePotionEffect(PotionEffectType.SLOWNESS);
                     }
                 }.runTaskLater(plugin, 2);
 
@@ -208,7 +208,7 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
                             SoundCategory.PLAYERS,
                             2,
                             0);
-                        player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW,
+                        player.addPotionEffect(new PotionEffect(PotionEffectType.SLOWNESS,
                             3,
                             1,
                             false,
@@ -218,7 +218,7 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
                         new BukkitRunnable() {
                             @Override
                             public void run() {
-                                player.removePotionEffect(PotionEffectType.SLOW);
+                                player.removePotionEffect(PotionEffectType.SLOWNESS);
                             }
                         }.runTaskLater(plugin, 2);
                     }
@@ -526,7 +526,7 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
         for (String customLore : lore)
             parsedLore.add(MiniMessage.miniMessage().deserialize("<!i>" + customLore));
         meta.lore(parsedLore);
-        meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ITEM_SPECIFICS);
+        meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ADDITIONAL_TOOLTIP);
         itemStack.setItemMeta(meta);
 
         return itemStack;
@@ -575,7 +575,7 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
             SoundCategory.MASTER,
             3.5f,
             0.7f);
-        player.getWorld().spawnParticle(Particle.EXPLOSION_HUGE,
+        player.getWorld().spawnParticle(Particle.EXPLOSION,
             player.getLocation().add(0, 0.5, 0),
             2,
             0.0f,
@@ -589,7 +589,7 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
     // Fireworks / Rocket
     private void fireworks(Player player) {
         Location loc = player.getLocation();
-        Firework fw = (Firework) loc.getWorld().spawnEntity(loc, EntityType.FIREWORK);
+        Firework fw = (Firework) loc.getWorld().spawnEntity(loc, EntityType.FIREWORK_ROCKET);
         FireworkMeta fwm = fw.getFireworkMeta();
 
         fwm.setPower(0);
@@ -606,7 +606,7 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
             SoundCategory.MASTER,
             4.0f,
             0.75f);
-        player.getWorld().spawnParticle(Particle.TOTEM,
+        player.getWorld().spawnParticle(Particle.TOTEM_OF_UNDYING,
             player.getLocation().add(0, 0.5, 0),
             1000,
             -2.0f,

@@ -6,7 +6,7 @@
 
     <groupId>net.silverstonemc</groupId>
     <artifactId>SilverstoneProxy</artifactId>
-    <version>3.5.1</version>
+    <version>3.5.2</version>
 
     <properties>
         <maven.compiler.source>21</maven.compiler.source>
@@ -151,7 +151,7 @@
         <dependency>
             <groupId>net.dv8tion</groupId>
             <artifactId>JDA</artifactId>
-            <version>5.0.0</version>
+            <version>5.1.0</version>
         </dependency>
 
         <dependency>
@@ -171,7 +171,7 @@
         <dependency>
             <groupId>de.hexaoxi</groupId>
             <artifactId>carbonchat-api</artifactId>
-            <version>3.0.0-beta.26</version>
+            <version>3.0.0-beta.27</version>
             <scope>provided</scope>
         </dependency>
 
