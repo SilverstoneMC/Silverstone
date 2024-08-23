@@ -81,12 +81,12 @@ public class ConsoleErrors extends AbstractAppender {
 
     private void sendDisconnectMessage(String log, String reason) {
         // Run the task after 1 second to help with ordering issues
-        SilverstoneProxy.getInstance().server.getScheduler().buildTask(SilverstoneProxy.getInstance(), () -> {
+        SilverstoneProxy i = SilverstoneProxy.getInstance();
+        i.server.getScheduler().buildTask(SilverstoneProxy.getInstance(), () -> {
             String username = log.replaceAll(".*\\[connected player] ", "").replaceAll(" \\(.*", "");
             UUID uuid = Leave.recentlyQuit.get(username);
+            // The player will be null if they're vanished too
             if (uuid == null) return;
-
-            SilverstoneProxy i = SilverstoneProxy.getInstance();
 
             TextComponent.Builder message = Component.text().decorate(TextDecoration.ITALIC).color(
                 NamedTextColor.GRAY).append(new NicknameUtils(i).getDisplayName(uuid)).colorIfAbsent(
