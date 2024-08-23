@@ -92,6 +92,7 @@ public class ConsoleErrors extends AbstractAppender {
                 NamedTextColor.GRAY).append(new NicknameUtils(i).getDisplayName(uuid)).colorIfAbsent(
                 NamedTextColor.GRAY).append(Component.text(" " + reason));
 
+            i.logger.info(message.build().content());
             for (Player players : i.server.getAllPlayers()) players.sendMessage(message);
         }).delay(1, TimeUnit.SECONDS).schedule();
     }
