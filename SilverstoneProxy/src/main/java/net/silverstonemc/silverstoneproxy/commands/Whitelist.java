@@ -47,6 +47,7 @@ public class Whitelist implements SimpleCommand {
                 invocation.source().sendMessage(Component.text("The proxy whitelist has been enabled.",
                     NamedTextColor.GOLD));
             }
+            i.fileManager.save(WHITELIST);
 
         } catch (SerializationException e) {
             throw new RuntimeException(e);
