@@ -35,6 +35,9 @@ public class Leave {
     @Subscribe
     public void onQuit(DisconnectEvent event) {
         if (event.getLoginStatus() == DisconnectEvent.LoginStatus.CONFLICTING_LOGIN) return;
+        if (event.getLoginStatus() == DisconnectEvent.LoginStatus.PRE_SERVER_JOIN) return;
+        if (event.getLoginStatus() == DisconnectEvent.LoginStatus.CANCELLED_BY_PROXY) return;
+        if (event.getLoginStatus() == DisconnectEvent.LoginStatus.CANCELLED_BY_USER_BEFORE_COMPLETE) return;
 
         Player player = event.getPlayer();
         boolean isVanished = player.hasPermission("silverstone.vanished");
