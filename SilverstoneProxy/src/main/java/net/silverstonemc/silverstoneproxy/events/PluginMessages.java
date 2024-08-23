@@ -14,7 +14,6 @@ import net.luckperms.api.model.group.Group;
 import net.luckperms.api.model.user.User;
 import net.luckperms.api.node.Node;
 import net.luckperms.api.node.types.InheritanceNode;
-import net.luckperms.api.node.types.SuffixNode;
 import net.silverstonemc.silverstoneproxy.SilverstoneProxy;
 import net.silverstonemc.silverstoneproxy.WarnPlayer;
 
@@ -39,21 +38,6 @@ public class PluginMessages {
         String subchannel = in.readUTF();
 
         switch (subchannel) {
-            case "chatcolor" -> {
-                User user = luckPerms.getPlayerAdapter(Player.class).getUser(sender);
-                char value = in.readChar();
-
-                if (value == 'r') luckPerms.getUserManager().modifyUser(user.getUniqueId(), u -> {
-                    Node node = SuffixNode.builder().priority(500).build();
-                    u.data().remove(node);
-                });
-
-                else luckPerms.getUserManager().modifyUser(user.getUniqueId(), u -> {
-                    Node node = SuffixNode.builder("&" + value, 500).build();
-                    u.data().add(node);
-                });
-            }
-
             case "warn" -> new WarnPlayer(i).warn(sender.getUniqueId(), in.readUTF());
 
             case "rules" -> i.server.getCommandManager().executeAsync(sender, "rules");

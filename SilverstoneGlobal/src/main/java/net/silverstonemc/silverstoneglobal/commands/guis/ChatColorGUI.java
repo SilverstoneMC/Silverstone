@@ -1,7 +1,5 @@
 package net.silverstonemc.silverstoneglobal.commands.guis;
 
-import com.google.common.io.ByteArrayDataOutput;
-import com.google.common.io.ByteStreams;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextColor;
@@ -67,137 +65,77 @@ public class ChatColorGUI implements CommandExecutor, Listener {
 
         switch (event.getRawSlot()) {
             case 10 -> {
-                ByteArrayDataOutput out = ByteStreams.newDataOutput();
-                out.writeUTF("chatcolor");
-                out.writeChar('4');
-                player.sendPluginMessage(plugin, "silverstone:pluginmsg", out.toByteArray());
-
+                setChatColor(player, '4');
                 player.sendMessage(Component.text("Chat color changed.", NamedTextColor.DARK_RED));
             }
 
             case 11 -> {
-                ByteArrayDataOutput out = ByteStreams.newDataOutput();
-                out.writeUTF("chatcolor");
-                out.writeChar('c');
-                player.sendPluginMessage(plugin, "silverstone:pluginmsg", out.toByteArray());
-
+                setChatColor(player, 'c');
                 player.sendMessage(Component.text("Chat color changed.", NamedTextColor.RED));
             }
 
             case 12 -> {
-                ByteArrayDataOutput out = ByteStreams.newDataOutput();
-                out.writeUTF("chatcolor");
-                out.writeChar('6');
-                player.sendPluginMessage(plugin, "silverstone:pluginmsg", out.toByteArray());
-
+                setChatColor(player, '6');
                 player.sendMessage(Component.text("Chat color changed.", NamedTextColor.GOLD));
             }
 
             case 13 -> {
-                ByteArrayDataOutput out = ByteStreams.newDataOutput();
-                out.writeUTF("chatcolor");
-                out.writeChar('e');
-                player.sendPluginMessage(plugin, "silverstone:pluginmsg", out.toByteArray());
-
+                setChatColor(player, 'e');
                 player.sendMessage(Component.text("Chat color changed.", NamedTextColor.YELLOW));
             }
 
             case 14 -> {
-                ByteArrayDataOutput out = ByteStreams.newDataOutput();
-                out.writeUTF("chatcolor");
-                out.writeChar('a');
-                player.sendPluginMessage(plugin, "silverstone:pluginmsg", out.toByteArray());
-
+                setChatColor(player, 'a');
                 player.sendMessage(Component.text("Chat color changed.", NamedTextColor.GREEN));
             }
 
             case 15 -> {
-                ByteArrayDataOutput out = ByteStreams.newDataOutput();
-                out.writeUTF("chatcolor");
-                out.writeChar('2');
-                player.sendPluginMessage(plugin, "silverstone:pluginmsg", out.toByteArray());
-
+                setChatColor(player, '2');
                 player.sendMessage(Component.text("Chat color changed.", NamedTextColor.DARK_GREEN));
             }
 
             case 16 -> {
-                ByteArrayDataOutput out = ByteStreams.newDataOutput();
-                out.writeUTF("chatcolor");
-                out.writeChar('3');
-                player.sendPluginMessage(plugin, "silverstone:pluginmsg", out.toByteArray());
-
+                setChatColor(player, '3');
                 player.sendMessage(Component.text("Chat color changed.", NamedTextColor.DARK_AQUA));
             }
 
             case 19 -> {
-                ByteArrayDataOutput out = ByteStreams.newDataOutput();
-                out.writeUTF("chatcolor");
-                out.writeChar('9');
-                player.sendPluginMessage(plugin, "silverstone:pluginmsg", out.toByteArray());
-
+                setChatColor(player, '9');
                 player.sendMessage(Component.text("Chat color changed.", NamedTextColor.BLUE));
             }
 
             case 20 -> {
-                ByteArrayDataOutput out = ByteStreams.newDataOutput();
-                out.writeUTF("chatcolor");
-                out.writeChar('1');
-                player.sendPluginMessage(plugin, "silverstone:pluginmsg", out.toByteArray());
-
+                setChatColor(player, '1');
                 player.sendMessage(Component.text("Chat color changed.", NamedTextColor.DARK_BLUE));
             }
 
             case 21 -> {
-                ByteArrayDataOutput out = ByteStreams.newDataOutput();
-                out.writeUTF("chatcolor");
-                out.writeChar('5');
-                player.sendPluginMessage(plugin, "silverstone:pluginmsg", out.toByteArray());
-
+                setChatColor(player, '5');
                 player.sendMessage(Component.text("Chat color changed.", NamedTextColor.DARK_PURPLE));
             }
 
             case 22 -> {
-                ByteArrayDataOutput out = ByteStreams.newDataOutput();
-                out.writeUTF("chatcolor");
-                out.writeChar('d');
-                player.sendPluginMessage(plugin, "silverstone:pluginmsg", out.toByteArray());
-
+                setChatColor(player, 'd');
                 player.sendMessage(Component.text("Chat color changed.", NamedTextColor.LIGHT_PURPLE));
             }
 
             case 23 -> {
-                ByteArrayDataOutput out = ByteStreams.newDataOutput();
-                out.writeUTF("chatcolor");
-                out.writeChar('8');
-                player.sendPluginMessage(plugin, "silverstone:pluginmsg", out.toByteArray());
-
+                setChatColor(player, '8');
                 player.sendMessage(Component.text("Chat color changed.", NamedTextColor.DARK_GRAY));
             }
 
             case 24 -> {
-                ByteArrayDataOutput out = ByteStreams.newDataOutput();
-                out.writeUTF("chatcolor");
-                out.writeChar('7');
-                player.sendPluginMessage(plugin, "silverstone:pluginmsg", out.toByteArray());
-
+                setChatColor(player, '7');
                 player.sendMessage(Component.text("Chat color changed.", NamedTextColor.GRAY));
             }
 
             case 25 -> {
-                ByteArrayDataOutput out = ByteStreams.newDataOutput();
-                out.writeUTF("chatcolor");
-                out.writeChar('f');
-                player.sendPluginMessage(plugin, "silverstone:pluginmsg", out.toByteArray());
-
+                setChatColor(player, 'f');
                 player.sendMessage(Component.text("Chat color changed."));
             }
 
             case 31 -> {
-                ByteArrayDataOutput out = ByteStreams.newDataOutput();
-                out.writeUTF("chatcolor");
-                out.writeChar('r');
-                player.sendPluginMessage(plugin, "silverstone:pluginmsg", out.toByteArray());
-
+                setChatColor(player, 'r');
                 player.sendMessage(Component.text("Chat color reset to default."));
             }
 
@@ -207,6 +145,15 @@ public class ChatColorGUI implements CommandExecutor, Listener {
         }
 
         closeInv(player);
+    }
+
+    private void setChatColor(Player player, char value) {
+        // Tried using the API but this just works much better lol
+        if (value == 'r') Bukkit.dispatchCommand(Bukkit.getConsoleSender(),
+            "lp user " + player.getName() + " meta removeprefix 500");
+        
+        else Bukkit.dispatchCommand(Bukkit.getConsoleSender(),
+            "lp user " + player.getName() + " meta setprefix 500 &" + value);
     }
 
     public void createInv() {
