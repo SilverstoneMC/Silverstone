@@ -42,8 +42,8 @@ public class Leave {
         if (!isVanished) {
             // Maybe send message only if player's not vanished
             recentlyQuit.put(player.getUsername(), player.getUniqueId());
-            // Then remove them from the cache after 3 seconds
-            i.server.getScheduler().buildTask(i, () -> recentlyQuit.remove(player.getUsername())).delay(3,
+            // Then remove them from the cache after 5 seconds
+            i.server.getScheduler().buildTask(i, () -> recentlyQuit.remove(player.getUsername())).delay(5,
                 TimeUnit.SECONDS).schedule();
 
             TextComponent.Builder message = Component.text().append(Component.text("- ",
