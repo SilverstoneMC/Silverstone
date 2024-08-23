@@ -150,10 +150,10 @@ public class ChatColorGUI implements CommandExecutor, Listener {
     private void setChatColor(Player player, char value) {
         // Tried using the API but this just works much better lol
         if (value == 'r') Bukkit.dispatchCommand(Bukkit.getConsoleSender(),
-            "lp user " + player.getName() + " meta removeprefix 500");
+            "lp user " + player.getName() + " meta removesuffix 500");
         
         else Bukkit.dispatchCommand(Bukkit.getConsoleSender(),
-            "lp user " + player.getName() + " meta setprefix 500 &" + value);
+            "lp user " + player.getName() + " meta setsuffix 500 &" + value);
     }
 
     public void createInv() {
