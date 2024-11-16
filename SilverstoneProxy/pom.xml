@@ -6,7 +6,7 @@
 
     <groupId>net.silverstonemc</groupId>
     <artifactId>SilverstoneProxy</artifactId>
-    <version>3.5.5</version>
+    <version>3.5.6</version>
 
     <properties>
         <maven.compiler.source>21</maven.compiler.source>
@@ -23,7 +23,7 @@
                 <artifactId>maven-jar-plugin</artifactId>
                 <version>3.3.0</version>
                 <configuration>
-                    <outputDirectory>C:\Users\jason\OneDrive\MC Server Plugins\Proxy</outputDirectory>
+                    <outputDirectory>C:\Users\jason\OneDrive\Documents\MC Server Plugins\All Plugins</outputDirectory>
                 </configuration>
             </plugin>
 
@@ -151,7 +151,7 @@
         <dependency>
             <groupId>net.dv8tion</groupId>
             <artifactId>JDA</artifactId>
-            <version>5.1.2</version>
+            <version>5.2.1</version>
         </dependency>
 
         <dependency>

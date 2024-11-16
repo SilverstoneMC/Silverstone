@@ -6,7 +6,7 @@
 
     <groupId>net.silverstonemc</groupId>
     <artifactId>SilverstoneMinigames</artifactId>
-    <version>3.3.14</version>
+    <version>3.3.15</version>
 
     <properties>
         <maven.compiler.source>21</maven.compiler.source>
@@ -23,7 +23,7 @@
                 <artifactId>maven-jar-plugin</artifactId>
                 <version>3.3.0</version>
                 <configuration>
-                    <outputDirectory>C:\Users\jason\OneDrive\MC Server Plugins\Minigames</outputDirectory>
+                    <outputDirectory>C:\Users\jason\OneDrive\Documents\MC Server Plugins\All Plugins</outputDirectory>
                 </configuration>
             </plugin>
 
@@ -122,7 +122,7 @@
         <dependency>
             <groupId>de.oliver</groupId>
             <artifactId>FancyHolograms</artifactId>
-            <version>2.3.3</version>
+            <version>2.4.0</version>
             <scope>provided</scope>
         </dependency>
 

@@ -6,7 +6,7 @@
 
     <groupId>net.silverstonemc</groupId>
     <artifactId>SilverstoneGlobal</artifactId>
-    <version>7.3.4</version>
+    <version>7.3.5</version>
 
     <properties>
         <maven.compiler.source>21</maven.compiler.source>
@@ -23,7 +23,7 @@
                 <artifactId>maven-jar-plugin</artifactId>
                 <version>3.3.0</version>
                 <configuration>
-                    <outputDirectory>C:\Users\jason\OneDrive\MC Server Plugins\Global (Backend)
+                    <outputDirectory>C:\Users\jason\OneDrive\Documents\MC Server Plugins\All Plugins
                     </outputDirectory>
                 </configuration>
             </plugin>
@@ -139,7 +139,7 @@
         <dependency>
             <groupId>net.dv8tion</groupId>
             <artifactId>JDA</artifactId>
-            <version>5.1.2</version>
+            <version>5.2.1</version>
         </dependency>
 
         <dependency>
@@ -147,7 +147,7 @@
             <artifactId>Matrix</artifactId>
             <version>0</version>
             <scope>system</scope>
-            <systemPath>C:/Users/jason/OneDrive/MC Server Plugins/Non-Survival/Matrix.jar</systemPath>
+            <systemPath>C:/Users/jason/OneDrive/Documents/MC Server Plugins/All Plugins/Matrix.jar</systemPath>
         </dependency>
 
         <dependency>
