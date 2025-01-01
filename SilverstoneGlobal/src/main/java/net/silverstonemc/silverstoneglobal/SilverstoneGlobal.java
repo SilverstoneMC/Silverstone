@@ -178,7 +178,7 @@ public class SilverstoneGlobal extends JavaPlugin implements Listener {
             public void run() {
                 heartbeat.sendHeartbeat();
             }
-        }.runTaskTimerAsynchronously(this, 20, 1200);
+        }.runTaskTimerAsynchronously(this, 200, 1200);
     }
 
     @Override
