@@ -23,7 +23,7 @@
                 <artifactId>maven-jar-plugin</artifactId>
                 <version>3.3.0</version>
                 <configuration>
-                    <outputDirectory>C:\Users\jason\OneDrive\Documents\MC Server Plugins\All Plugins
+                    <outputDirectory>C:\Users\jason\OneDrive\Documents\MC Server Plugins\Plugins
                     </outputDirectory>
                 </configuration>
             </plugin>
