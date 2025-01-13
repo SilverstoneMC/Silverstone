@@ -3,7 +3,7 @@ name: SilverstoneMinigames
 description: Designed for the Minigames server
 version: %VERSION%
 author: JasonHorkles
-api-version: '1.21.1'
+api-version: '1.21.4'
 
 commands:
   doublejump:

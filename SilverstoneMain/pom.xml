@@ -6,7 +6,7 @@
 
     <groupId>net.silverstonemc</groupId>
     <artifactId>SilverstoneMain</artifactId>
-    <version>4.0.4</version>
+    <version>4.0.5</version>
 
     <properties>
         <maven.compiler.source>21</maven.compiler.source>
@@ -21,7 +21,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
-                <version>3.3.0</version>
+                <version>3.4.2</version>
                 <configuration>
                     <outputDirectory>C:\Users\jason\OneDrive\Documents\MC Server Plugins\Plugins</outputDirectory>
                 </configuration>
@@ -55,7 +55,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-clean-plugin</artifactId>
-                <version>3.3.2</version>
+                <version>3.4.0</version>
                 <executions>
                     <execution>
                         <id>auto-clean</id>
@@ -70,7 +70,7 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>versions-maven-plugin</artifactId>
-                <version>2.16.2</version>
+                <version>2.18.0</version>
                 <configuration>
                     <generateBackupPoms>false</generateBackupPoms>
                     <allowMinorUpdates>true</allowMinorUpdates>
@@ -97,7 +97,7 @@
         <dependency>
             <groupId>io.papermc.paper</groupId>
             <artifactId>paper-api</artifactId>
-            <version>1.21.1-R0.1-SNAPSHOT</version>
+            <version>1.21.4-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
 
