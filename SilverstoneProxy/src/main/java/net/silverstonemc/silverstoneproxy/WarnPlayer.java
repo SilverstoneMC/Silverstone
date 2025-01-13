@@ -79,7 +79,7 @@ public class WarnPlayer {
 
             // Grab the amount of punishments in the config
             ConfigurationNode punishments = i.fileManager.files.get(CONFIG).node("reasons", reason, "add");
-            int punishmentCount = punishments.childrenMap().values().size();
+            int punishmentCount = punishments.childrenMap().size();
 
             // Get the correct warning number
             int punishmentNumber = warningCount % punishmentCount;

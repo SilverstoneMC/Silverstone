@@ -108,7 +108,7 @@ public class BaseCommand implements SimpleCommand {
                         .set(count - 1);
                     i.fileManager.save(WARNDATA);
 
-                    if (i.fileManager.files.get(WARNDATA).node("data", uuid.toString()).childrenMap().values()
+                    if (i.fileManager.files.get(WARNDATA).node("data", uuid.toString()).childrenMap()
                         .isEmpty()) {
                         i.fileManager.files.get(WARNDATA).node("data", uuid.toString()).set(null);
                         i.fileManager.save(WARNDATA);

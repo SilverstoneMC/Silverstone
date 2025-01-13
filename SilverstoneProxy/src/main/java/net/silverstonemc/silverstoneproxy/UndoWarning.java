@@ -24,7 +24,7 @@ public class UndoWarning {
         if (currentWarningCount != null) {
             // Grab the amount of un-punishments in the config
             int unpunishmentCount = i.fileManager.files.get(CONFIG).node("reasons", reason, "remove")
-                .childrenMap().values().size();
+                .childrenMap().size();
 
             // Get the correct warning number
             int unpunishmentNumber = currentWarningCount % unpunishmentCount;
