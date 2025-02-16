@@ -126,7 +126,6 @@ public class SilverstoneProxy {
         commandManager.register(commandManager.metaBuilder("relay").build(), new Relay());
         commandManager.register(commandManager.metaBuilder("rules").build(), new Rules(this));
         commandManager.register(commandManager.metaBuilder("shrug").build(), new Shrug());
-        commandManager.register(commandManager.metaBuilder("socialspy").build(), new SocialSpy(this));
         commandManager.register(
             commandManager.metaBuilder("ssp").aliases("ssw").build(),
             new BaseCommand(this));

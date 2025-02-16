@@ -52,7 +52,7 @@ public class PluginMessages {
                 User user = luckPerms.getPlayerAdapter(Player.class).getUser(sender);
 
                 if (sender.hasPermission("silverstone.live")) {
-                    i.server.getCommandManager().executeAsync(sender, "socialspy enabled");
+                    i.server.getCommandManager().executeAsync(sender, "socialspy true");
 
                     luckPerms.getUserManager().modifyUser(user.getUniqueId(), u -> {
                         Node node = InheritanceNode.builder(liveGroup).value(true).build();
@@ -62,7 +62,7 @@ public class PluginMessages {
                     sender.sendMessage(Component.text("You are no longer live.", NamedTextColor.GRAY));
 
                 } else {
-                    i.server.getCommandManager().executeAsync(sender, "socialspy disable");
+                    i.server.getCommandManager().executeAsync(sender, "socialspy false");
 
                     luckPerms.getUserManager().modifyUser(user.getUniqueId(), u -> {
                         Node node = InheritanceNode.builder(liveGroup).value(true).build();
