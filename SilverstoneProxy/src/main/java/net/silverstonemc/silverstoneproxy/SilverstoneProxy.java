@@ -28,9 +28,6 @@ import net.kyori.adventure.text.format.TextDecoration;
 import net.luckperms.api.LuckPerms;
 import net.luckperms.api.LuckPermsProvider;
 import net.silverstonemc.silverstoneproxy.commands.*;
-import net.silverstonemc.silverstoneproxy.commands.chatemotes.FacePalm;
-import net.silverstonemc.silverstoneproxy.commands.chatemotes.Shrug;
-import net.silverstonemc.silverstoneproxy.commands.chatemotes.TableFlip;
 import net.silverstonemc.silverstoneproxy.events.*;
 import org.slf4j.Logger;
 import org.spongepowered.configurate.ConfigurationNode;
@@ -100,7 +97,6 @@ public class SilverstoneProxy {
         commandManager.register(commandManager.metaBuilder("bcnetworkrestart").build(), new Restart(this));
         commandManager.register(commandManager.metaBuilder("chatsounds").build(), new ChatSounds(this));
         commandManager.register(commandManager.metaBuilder("discord").build(), new Discord());
-        commandManager.register(commandManager.metaBuilder("facepalm").build(), new FacePalm());
         commandManager.register(
             commandManager.metaBuilder("forums").aliases(
                 "site",
@@ -125,11 +121,9 @@ public class SilverstoneProxy {
         commandManager.register(commandManager.metaBuilder("realname").build(), new Realname(this));
         commandManager.register(commandManager.metaBuilder("relay").build(), new Relay());
         commandManager.register(commandManager.metaBuilder("rules").build(), new Rules(this));
-        commandManager.register(commandManager.metaBuilder("shrug").build(), new Shrug());
         commandManager.register(
             commandManager.metaBuilder("ssp").aliases("ssw").build(),
             new BaseCommand(this));
-        commandManager.register(commandManager.metaBuilder("tableflip").build(), new TableFlip());
         commandManager.register(commandManager.metaBuilder("warn").build(), new Warn(this));
         commandManager.register(commandManager.metaBuilder("warnings").build(), new Warnings(this));
         commandManager.register(commandManager.metaBuilder("warnlist").build(), new WarnList(this));
