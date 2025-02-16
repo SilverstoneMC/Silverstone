@@ -34,7 +34,8 @@ public class Chat {
         if (!player.hasPermission("silverstone.chatspam.bypass")) {
             if (lastMessages.containsKey(player.uuid()))
                 if (lastMessages.get(player.uuid()).equals(event.message())) {
-                    player.sendMessage(Component.text("Please don't spam the same message!",
+                    player.sendMessage(Component.text(
+                        "Please don't spam the same message!",
                         NamedTextColor.RED));
                     event.cancelled(true);
                     return;
@@ -42,7 +43,8 @@ public class Chat {
 
             lastMessages.put(player.uuid(), event.message());
 
-            i.server.getScheduler().buildTask(i, () -> lastMessages.remove(player.uuid())).delay(15,
+            i.server.getScheduler().buildTask(i, () -> lastMessages.remove(player.uuid())).delay(
+                15,
                 TimeUnit.SECONDS).schedule();
         }
 
