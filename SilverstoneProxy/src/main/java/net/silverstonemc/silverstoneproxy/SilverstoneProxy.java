@@ -79,54 +79,66 @@ public class SilverstoneProxy {
             UserManager.playerMap.put(uuid, username);
         }
 
-        new Thread(() -> {
-            logger.info("Starting Discord bot...");
-            JDABuilder builder = JDABuilder.createDefault(new Secrets().botToken());
-            builder.disableIntents(GatewayIntent.GUILD_MESSAGE_TYPING);
-            builder.disableCache(CacheFlag.ACTIVITY, CacheFlag.VOICE_STATE);
-            builder.setMemberCachePolicy(MemberCachePolicy.NONE);
-            builder.setStatus(OnlineStatus.ONLINE);
-            builder.setActivity(Activity.watching("over Silverstone"));
-            builder.setEnableShutdownHook(false);
-            builder.addEventListeners(new DiscordButtons(this));
-            jda = builder.build();
+        new Thread(
+            () -> {
+                logger.info("Starting Discord bot...");
+                JDABuilder builder = JDABuilder.createDefault(new Secrets().botToken());
+                builder.disableIntents(GatewayIntent.GUILD_MESSAGE_TYPING);
+                builder.disableCache(CacheFlag.ACTIVITY, CacheFlag.VOICE_STATE);
+                builder.setMemberCachePolicy(MemberCachePolicy.NONE);
+                builder.setStatus(OnlineStatus.ONLINE);
+                builder.setActivity(Activity.watching("over Silverstone"));
+                builder.setEnableShutdownHook(false);
+                builder.addEventListeners(new DiscordButtons(this));
+                jda = builder.build();
 
-            errors = new ConsoleErrors(this);
-            errors.start();
-        }, "Discord Bot").start();
+                errors = new ConsoleErrors(this);
+                errors.start();
+            }, "Discord Bot").start();
 
         CommandManager commandManager = server.getCommandManager();
-        commandManager.register("bcnetworkrestart", new Restart(this));
-        commandManager.register("chatsounds", new ChatSounds(this));
-        commandManager.register("discord", new Discord());
-        commandManager.register("facepalm", new FacePalm(), "ssw");
-        commandManager.register("forums",
-            new Forums(),
-            "site",
-            "bugreport",
-            "reportbug",
-            "report",
-            "reportplayer",
-            "playerreport",
-            "builder");
-        commandManager.register("joinleavesounds", new JoinLeaveSounds(this));
-        commandManager.register("mmotd", new MiniMOTDControls(this));
-        commandManager.register("nickname", new Nickname(this), "nick");
-        commandManager.register("prefixes", new Prefixes(this));
-        commandManager.register("prestartwhenempty", new RestartWhenEmpty(this));
-        commandManager.register("pwhitelisttoggle", new Whitelist(this));
-        commandManager.register("realname", new Realname(this));
-        commandManager.register("relay", new Relay());
-        commandManager.register("rules", new Rules(this));
-        commandManager.register("shrug", new Shrug());
-        commandManager.register("socialspy", new SocialSpy(this));
-        commandManager.register("ssp", new BaseCommand(this), "ssw");
-        commandManager.register("tableflip", new TableFlip());
-        commandManager.register("warn", new Warn(this));
-        commandManager.register("warnings", new Warnings(this));
-        commandManager.register("warnlist", new WarnList(this));
-        commandManager.register("warnqueue", new WarnQueue(this));
-        commandManager.register("warnreasons", new WarnReasons(this), "categories", "reasons");
+        commandManager.register(commandManager.metaBuilder("bcnetworkrestart").build(), new Restart(this));
+        commandManager.register(commandManager.metaBuilder("chatsounds").build(), new ChatSounds(this));
+        commandManager.register(commandManager.metaBuilder("discord").build(), new Discord());
+        commandManager.register(commandManager.metaBuilder("facepalm").build(), new FacePalm());
+        commandManager.register(
+            commandManager.metaBuilder("forums").aliases(
+                "site",
+                "bugreport",
+                "reportbug",
+                "report",
+                "reportplayer",
+                "playerreport",
+                "builder").build(), new Forums());
+        commandManager.register(
+            commandManager.metaBuilder("joinleavesounds").build(),
+            new JoinLeaveSounds(this));
+        commandManager.register(commandManager.metaBuilder("mmotd").build(), new MiniMOTDControls(this));
+        commandManager.register(
+            commandManager.metaBuilder("nickname").aliases("nick").build(),
+            new Nickname(this));
+        commandManager.register(commandManager.metaBuilder("prefixes").build(), new Prefixes(this));
+        commandManager.register(
+            commandManager.metaBuilder("prestartwhenempty").build(),
+            new RestartWhenEmpty(this));
+        commandManager.register(commandManager.metaBuilder("pwhitelisttoggle").build(), new Whitelist(this));
+        commandManager.register(commandManager.metaBuilder("realname").build(), new Realname(this));
+        commandManager.register(commandManager.metaBuilder("relay").build(), new Relay());
+        commandManager.register(commandManager.metaBuilder("rules").build(), new Rules(this));
+        commandManager.register(commandManager.metaBuilder("shrug").build(), new Shrug());
+        commandManager.register(commandManager.metaBuilder("socialspy").build(), new SocialSpy(this));
+        commandManager.register(
+            commandManager.metaBuilder("ssp").aliases("ssw").build(),
+            new BaseCommand(this));
+        commandManager.register(commandManager.metaBuilder("tableflip").build(), new TableFlip());
+        commandManager.register(commandManager.metaBuilder("warn").build(), new Warn(this));
+        commandManager.register(commandManager.metaBuilder("warnings").build(), new Warnings(this));
+        commandManager.register(commandManager.metaBuilder("warnlist").build(), new WarnList(this));
+        commandManager.register(commandManager.metaBuilder("warnqueue").build(), new WarnQueue(this));
+        commandManager.register(
+            commandManager.metaBuilder("warnreasons").aliases("categories", "reasons")
+                .build(),
+            new WarnReasons(this));
 
         EventManager eventManager = server.getEventManager();
         eventManager.register(this, new Chat(this));
@@ -135,11 +147,13 @@ public class SilverstoneProxy {
         eventManager.register(this, new Leave(this));
         eventManager.register(this, new PluginMessages(this));
 
-        CarbonChatProvider.carbonChat().eventHandler().subscribe(CarbonChatEvent.class,
+        CarbonChatProvider.carbonChat().eventHandler().subscribe(
+            CarbonChatEvent.class,
             0,
             false,
             chatEvent -> new Chat(this).onChat(chatEvent));
-        CarbonChatProvider.carbonChat().eventHandler().subscribe(CarbonPrivateChatEvent.class,
+        CarbonChatProvider.carbonChat().eventHandler().subscribe(
+            CarbonPrivateChatEvent.class,
             0,
             false,
             chatEvent -> new Chat(this).onPrivateChat(chatEvent));
@@ -149,19 +163,21 @@ public class SilverstoneProxy {
         new AutoBroadcast(this).scheduleBroadcasts();
 
         // Check whitelist
-        server.getScheduler().buildTask(this, () -> {
-            if (fileManager.files.get(WHITELIST).node("enabled").getBoolean()) {
-                logger.warn("Whitelist is on");
+        server.getScheduler().buildTask(
+            this, () -> {
+                if (fileManager.files.get(WHITELIST).node("enabled").getBoolean()) {
+                    logger.warn("Whitelist is on");
 
-                Player jason = server.getPlayer(UUID.fromString("a28173af-f0a9-47fe-8549-19c6bccf68da"))
-                    .orElse(null);
-                if (jason == null) return;
+                    Player jason = server.getPlayer(UUID.fromString("a28173af-f0a9-47fe-8549-19c6bccf68da"))
+                        .orElse(null);
+                    if (jason == null) return;
 
-                jason.sendActionBar(Component.text("Proxy whitelist is on",
-                    NamedTextColor.GOLD,
-                    TextDecoration.BOLD));
-            }
-        }).delay(5, TimeUnit.SECONDS).repeat(5, TimeUnit.MINUTES).schedule();
+                    jason.sendActionBar(Component.text(
+                        "Proxy whitelist is on",
+                        NamedTextColor.GOLD,
+                        TextDecoration.BOLD));
+                }
+            }).delay(5, TimeUnit.SECONDS).repeat(5, TimeUnit.MINUTES).schedule();
     }
 
     @Subscribe
@@ -173,7 +189,8 @@ public class SilverstoneProxy {
             // Initating the shutdown, this closes the gateway connection and subsequently closes the requester queue
             jda.shutdown();
             // Allow at most 10 seconds for remaining requests to finish
-            if (!jda.awaitShutdown(10,
+            if (!jda.awaitShutdown(
+                10,
                 TimeUnit.SECONDS)) { // returns true if shutdown is graceful, false if timeout exceeded
                 jda.shutdownNow(); // Cancel all remaining requests, and stop thread-pools
                 jda.awaitShutdown(); // Wait until shutdown is complete (indefinitely)
