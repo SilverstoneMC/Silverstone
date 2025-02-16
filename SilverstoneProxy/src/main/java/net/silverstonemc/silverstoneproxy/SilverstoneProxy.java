@@ -45,15 +45,6 @@ import static net.silverstonemc.silverstoneproxy.ConfigurationManager.FileType.W
 @Plugin(id = "silverstoneproxy", name = "SilverstoneProxy", version = "%VERSION%", description = "Features for the Silverstone proxy, including warnings", authors = {"JasonHorkles"}, dependencies = {@Dependency(id = "luckperms"), @Dependency(id = "carbonchat"), @Dependency(id = "libertybans")})
 
 public class SilverstoneProxy {
-    @Inject
-    public SilverstoneProxy(ProxyServer server, Logger logger, @DataDirectory Path dataDirectory) {
-        this.server = server;
-        this.logger = logger;
-        fileManager = new ConfigurationManager(dataDirectory);
-
-        fileManager.loadFiles();
-    }
-
     public static JDA jda;
     public final Logger logger;
     public final ProxyServer server;
@@ -64,6 +55,15 @@ public class SilverstoneProxy {
     private ConsoleErrors errors;
     private LuckPerms luckPerms;
     private static SilverstoneProxy instance;
+
+    @Inject
+    public SilverstoneProxy(ProxyServer server, Logger logger, @DataDirectory Path dataDirectory) {
+        this.server = server;
+        this.logger = logger;
+        fileManager = new ConfigurationManager(dataDirectory);
+
+        fileManager.loadFiles();
+    }
 
     @Subscribe
     public void onProxyInitialize(ProxyInitializeEvent event) {
