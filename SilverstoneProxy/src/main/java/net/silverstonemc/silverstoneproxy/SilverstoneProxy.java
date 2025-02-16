@@ -93,45 +93,7 @@ public class SilverstoneProxy {
                 errors.start();
             }, "Discord Bot").start();
 
-        CommandManager commandManager = server.getCommandManager();
-        commandManager.register(commandManager.metaBuilder("bcnetworkrestart").build(), new Restart(this));
-        commandManager.register(commandManager.metaBuilder("chatsounds").build(), new ChatSounds(this));
-        commandManager.register(commandManager.metaBuilder("discord").build(), new Discord());
-        commandManager.register(
-            commandManager.metaBuilder("forums").aliases(
-                "site",
-                "bugreport",
-                "reportbug",
-                "report",
-                "reportplayer",
-                "playerreport",
-                "builder").build(), new Forums());
-        commandManager.register(
-            commandManager.metaBuilder("joinleavesounds").build(),
-            new JoinLeaveSounds(this));
-        commandManager.register(commandManager.metaBuilder("mmotd").build(), new MiniMOTDControls(this));
-        commandManager.register(
-            commandManager.metaBuilder("nickname").aliases("nick").build(),
-            new Nickname(this));
-        commandManager.register(commandManager.metaBuilder("prefixes").build(), new Prefixes(this));
-        commandManager.register(
-            commandManager.metaBuilder("prestartwhenempty").build(),
-            new RestartWhenEmpty(this));
-        commandManager.register(commandManager.metaBuilder("pwhitelisttoggle").build(), new Whitelist(this));
-        commandManager.register(commandManager.metaBuilder("realname").build(), new Realname(this));
-        commandManager.register(commandManager.metaBuilder("relay").build(), new Relay());
-        commandManager.register(commandManager.metaBuilder("rules").build(), new Rules(this));
-        commandManager.register(
-            commandManager.metaBuilder("ssp").aliases("ssw").build(),
-            new BaseCommand(this));
-        commandManager.register(commandManager.metaBuilder("warn").build(), new Warn(this));
-        commandManager.register(commandManager.metaBuilder("warnings").build(), new Warnings(this));
-        commandManager.register(commandManager.metaBuilder("warnlist").build(), new WarnList(this));
-        commandManager.register(commandManager.metaBuilder("warnqueue").build(), new WarnQueue(this));
-        commandManager.register(
-            commandManager.metaBuilder("warnreasons").aliases("categories", "reasons")
-                .build(),
-            new WarnReasons(this));
+        registerCommands();
 
         EventManager eventManager = server.getEventManager();
         eventManager.register(this, new Chat(this));
@@ -171,6 +133,48 @@ public class SilverstoneProxy {
                         TextDecoration.BOLD));
                 }
             }).delay(5, TimeUnit.SECONDS).repeat(5, TimeUnit.MINUTES).schedule();
+    }
+
+    private void registerCommands() {
+        CommandManager commandManager = server.getCommandManager();
+        commandManager.register(commandManager.metaBuilder("bcnetworkrestart").build(), new Restart(this));
+        commandManager.register(commandManager.metaBuilder("chatsounds").build(), new ChatSounds(this));
+        commandManager.register(commandManager.metaBuilder("discord").build(), new Discord());
+        commandManager.register(
+            commandManager.metaBuilder("forums").aliases(
+                "site",
+                "bugreport",
+                "reportbug",
+                "report",
+                "reportplayer",
+                "playerreport",
+                "builder").build(), new Forums());
+        commandManager.register(
+            commandManager.metaBuilder("joinleavesounds").build(),
+            new JoinLeaveSounds(this));
+        commandManager.register(commandManager.metaBuilder("mmotd").build(), new MiniMOTDControls(this));
+        commandManager.register(
+            commandManager.metaBuilder("nickname").aliases("nick").build(),
+            new Nickname(this));
+        commandManager.register(commandManager.metaBuilder("prefixes").build(), new Prefixes(this));
+        commandManager.register(
+            commandManager.metaBuilder("prestartwhenempty").build(),
+            new RestartWhenEmpty(this));
+        commandManager.register(commandManager.metaBuilder("pwhitelisttoggle").build(), new Whitelist(this));
+        commandManager.register(commandManager.metaBuilder("realname").build(), new Realname(this));
+        commandManager.register(commandManager.metaBuilder("relay").build(), new Relay());
+        commandManager.register(commandManager.metaBuilder("rules").build(), new Rules(this));
+        commandManager.register(
+            commandManager.metaBuilder("ssp").aliases("ssw").build(),
+            new BaseCommand(this));
+        commandManager.register(commandManager.metaBuilder("warn").build(), new Warn(this));
+        commandManager.register(commandManager.metaBuilder("warnings").build(), new Warnings(this));
+        commandManager.register(commandManager.metaBuilder("warnlist").build(), new WarnList(this));
+        commandManager.register(commandManager.metaBuilder("warnqueue").build(), new WarnQueue(this));
+        commandManager.register(
+            commandManager.metaBuilder("warnreasons").aliases("categories", "reasons")
+                .build(),
+            new WarnReasons(this));
     }
 
     @Subscribe
