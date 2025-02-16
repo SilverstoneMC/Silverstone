@@ -63,7 +63,7 @@ public class Join {
 
         // Don't allow players in if whitelist is on
         if (i.fileManager.files.get(WHITELIST).node("enabled").getBoolean() && !event.getPlayer()
-            .hasPermission("silverstone.admin")) {
+            .hasPermission("silverstone.whitelistbypass")) {
             event.setResult(ServerPreConnectEvent.ServerResult.denied());
 
             event.getPlayer().disconnect(Component
