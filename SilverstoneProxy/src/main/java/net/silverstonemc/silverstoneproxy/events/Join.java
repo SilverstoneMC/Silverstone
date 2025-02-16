@@ -160,11 +160,12 @@ public class Join {
 
             // Non-same client/server version message
             if (event.getPlayer().getProtocolVersion().getProtocol() != i.fileManager.files.get(CONFIG).node(
-                "current-protocol-version").getInt()) event.getPlayer().sendMessage(Component.text(
+                "current-protocol-version").getInt()) 
+                i.server.getScheduler().buildTask(i, () -> event.getPlayer().sendMessage(Component.text(
                 "The server is currently built using Minecraft " + i.fileManager.files.get(CONFIG)
                     .node("current-version")
                     .getString() + " and is recommended to use this version to avoid any issues.",
-                NamedTextColor.RED));
+                NamedTextColor.RED))).delay(2, TimeUnit.SECONDS).schedule();
 
             // Add the user if they don't exist and send a notification
             if (!userExists) {
