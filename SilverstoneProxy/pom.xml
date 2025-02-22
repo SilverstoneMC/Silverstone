@@ -41,7 +41,6 @@
                 </executions>
                 <configuration>
                     <includes>
-                        <include>${project.build.directory}\classes\plugin.yml</include>
                         <include>${project.build.directory}\classes\velocity-plugin.json</include>
                     </includes>
                     <replacements>
