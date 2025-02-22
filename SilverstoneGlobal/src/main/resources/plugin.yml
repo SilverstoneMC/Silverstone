@@ -6,6 +6,7 @@ author: JasonHorkles
 api-version: '1.21.4'
 softdepend:
   - DiscordSRV
+  - Essentials
   - Matrix
 depend:
   - LuckPerms

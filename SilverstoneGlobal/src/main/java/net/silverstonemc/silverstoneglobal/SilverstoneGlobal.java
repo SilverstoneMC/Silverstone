@@ -10,6 +10,7 @@ import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.utils.MemberCachePolicy;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
+import net.ess3.api.IEssentials;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.luckperms.api.LuckPerms;
@@ -41,13 +42,15 @@ public class SilverstoneGlobal extends JavaPlugin implements Listener {
     public static JDA jda;
     public static MatrixAPI matrix;
 
-    private Errors errors;
-    private LuckPerms luckPerms;
     private static SilverstoneGlobal instance;
+    private Errors errors;
+    private IEssentials essentials;
+    private LuckPerms luckPerms;
 
     @Override
     public void onEnable() {
         instance = this;
+        essentials = (IEssentials) getServer().getPluginManager().getPlugin("Essentials");
         luckPerms = getServer().getServicesManager().load(LuckPerms.class);
 
         RegisteredServiceProvider<LuckPerms> provider = Bukkit.getServicesManager()
@@ -132,6 +135,7 @@ public class SilverstoneGlobal extends JavaPlugin implements Listener {
         getCommand("watch").setExecutor(new Spectate(this));
 
         PluginManager pluginManager = getServer().getPluginManager();
+        pluginManager.registerEvents(new AFK(this), this);
         pluginManager.registerEvents(new BuyGUI(this), this);
         pluginManager.registerEvents(new ChatColorGUI(this), this);
         pluginManager.registerEvents(new CancelChat(), this);
@@ -212,6 +216,10 @@ public class SilverstoneGlobal extends JavaPlugin implements Listener {
 
     public static SilverstoneGlobal getInstance() {
         return instance;
+    }
+
+    public IEssentials getEssentials() {
+        return essentials;
     }
 
     public LuckPerms getLuckPerms() {
