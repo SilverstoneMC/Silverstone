@@ -178,9 +178,9 @@ public class Minigames implements CommandExecutor, Listener {
                 """
                     The number of bells in a hider's hotbar corresponds to the amount of Taunt Points they currently have, with a maximum display limit of 125 (there is no internal Taunt Point limit, however).""",
                 """
-                    <b>The goal (hiders):</b> Avoid getting caught and killed by the seeker(s). If there are hiders remaining when the 10 minutes is up, the hiders will win.""",
+                    <b>The goal (hiders):</b> Avoid getting caught and killed by the seeker(s). If there are hiders remaining when the 10 minutes are up, the hiders will win.""",
                 """
-                    <b>The goal (seekers):</b> Kill every hider. If there are no more hiders before the 10 minutes is up, the seekers will win.""");
+                    <b>The goal (seekers):</b> Kill every hider. If there are no more hiders before the 10 minutes are up, the seekers will win.""");
 
             case 15 -> openBook(player, "Mazes", """
                 A random maze that has no players in it will be assigned to a random player in the maze lobby. There are 8 different mazes.
