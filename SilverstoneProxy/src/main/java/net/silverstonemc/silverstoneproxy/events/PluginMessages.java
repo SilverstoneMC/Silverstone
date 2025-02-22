@@ -67,7 +67,7 @@ public class PluginMessages {
                     if (player == sender) continue;
 
                     player.sendMessage(Component.text(
-                        "* " + sender.getUsername() + " message " + message,
+                        "* " + sender.getUsername() + " is now AFK " + message,
                         NamedTextColor.GRAY,
                         TextDecoration.ITALIC));
                 }
