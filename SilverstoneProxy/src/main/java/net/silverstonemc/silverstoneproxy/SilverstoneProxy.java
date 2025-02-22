@@ -179,10 +179,11 @@ public class SilverstoneProxy {
 
     @Subscribe
     public void onProxyShutdown(ProxyShutdownEvent event) {
-        errors.remove();
-
-        logger.info("Shutting down Discord bot...");
         try {
+            logger.info("Shutting down Discord bot...");
+
+            Class.forName("net.silverstonemc.silverstoneproxy.shaded.jda.events.session.ShutdownEvent");
+
             // Initating the shutdown, this closes the gateway connection and subsequently closes the requester queue
             jda.shutdown();
             // Allow at most 10 seconds for remaining requests to finish
@@ -192,8 +193,12 @@ public class SilverstoneProxy {
                 jda.shutdownNow(); // Cancel all remaining requests, and stop thread-pools
                 jda.awaitShutdown(); // Wait until shutdown is complete (indefinitely)
             }
-        } catch (NoClassDefFoundError | InterruptedException ignored) {
+        } catch (InterruptedException ignored) {
+        } catch (NoClassDefFoundError | ClassNotFoundException ignored) {
+            logger.warn("Skipping Discord bot shutdown due to hotswap...");
         }
+
+        errors.remove();
     }
 
     public static SilverstoneProxy getInstance() {
