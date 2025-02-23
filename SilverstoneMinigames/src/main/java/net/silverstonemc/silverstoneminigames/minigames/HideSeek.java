@@ -58,7 +58,8 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
                 @Override
                 public void run() {
                     if (player.hasPermission("silverstone.minigames.hideseek.taunt"))
-                        player.showTitle(Title.title(Component.empty(),
+                        player.showTitle(Title.title(
+                            Component.empty(),
                             Component.text("You may now taunt again.", NamedTextColor.RED),
                             Title.DEFAULT_TIMES));
                 }
@@ -66,65 +67,88 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
         }
     }
 
-    public boolean onCommand(@NotNull CommandSender sender, Command cmd, @NotNull String label, String[] args) {
-        if (cmd.getName().equalsIgnoreCase("hsresettauntpoints")) {
-            points.clear();
-            sender.sendMessage(Component.text("Points reset!", NamedTextColor.GREEN));
-            return true;
-        }
-
-        if (cmd.getName().equalsIgnoreCase("hsrandomtaunt")) {
-            if (args.length > 0) {
-                List<Entity> player = Bukkit.selectEntities(sender, args[0]);
-                Player randomPlayer;
-                try {
-                    randomPlayer = (Player) player.getFirst();
-                } catch (IndexOutOfBoundsException e) {
-                    sender.sendMessage(Component.text("Please provide a valid selector!",
-                        NamedTextColor.RED));
-                    return true;
-                }
-
-                Random r = new Random();
-                int randomTaunt = r.nextInt(7) + 1;
-
-                switch (randomTaunt) {
-                    case 1 -> bark(randomPlayer);
-                    case 2 -> ding(randomPlayer);
-                    case 3 -> scream(randomPlayer);
-                    case 4 -> roar(randomPlayer);
-                    case 5 -> explosion(randomPlayer);
-                    case 6 -> fireworks(randomPlayer);
-                    case 7 -> boom(randomPlayer);
-                }
-            } else sender.sendMessage(Component.text("Please provide a valid selector!", NamedTextColor.RED));
-            return true;
-        }
-
-        if (cmd.getName().equalsIgnoreCase("hsheartbeat")) {
-            if (args.length > 0) for (Entity players : Bukkit.selectEntities(sender, args[0])) {
-                if (!(players instanceof Player player)) continue;
-                // 0-5 sec
-                playHeartbeat(player, 24, 8, 5);
-
-                // 6-10 sec
-                new BukkitRunnable() {
-                    @Override
-                    public void run() {
-                        playHeartbeat(player, 20, 6, 3);
-                    }
-                }.runTaskLater(plugin, 6 * 20L);
-
-                // 11-15 sec
-                new BukkitRunnable() {
-                    @Override
-                    public void run() {
-                        playHeartbeat(player, 16, 5, 3);
-                    }
-                }.runTaskLater(plugin, 11 * 20L);
+    public boolean onCommand(@NotNull CommandSender sender, Command cmd, @NotNull String label, String @NotNull [] args) {
+        switch (cmd.getName().toLowerCase()) {
+            case "hsresettauntpoints" -> {
+                points.clear();
+                sender.sendMessage(Component.text("Points reset!", NamedTextColor.GREEN));
+                return true;
             }
-            else sender.sendMessage(Component.text("Please provide a valid selector!", NamedTextColor.RED));
-            return true;
+
+            case "hsrandomtaunt" -> {
+                if (args.length > 0) {
+                    List<Entity> player = Bukkit.selectEntities(sender, args[0]);
+                    Player randomPlayer;
+                    try {
+                        randomPlayer = (Player) player.getFirst();
+                    } catch (IndexOutOfBoundsException e) {
+                        sender.sendMessage(Component.text(
+                            "Please provide a valid selector!",
+                            NamedTextColor.RED));
+                        return true;
+                    }
+
+                    Random r = new Random();
+                    int randomTaunt = r.nextInt(7) + 1;
+
+                    switch (randomTaunt) {
+                        case 1 -> bark(randomPlayer);
+                        case 2 -> ding(randomPlayer);
+                        case 3 -> scream(randomPlayer);
+                        case 4 -> roar(randomPlayer);
+                        case 5 -> explosion(randomPlayer);
+                        case 6 -> fireworks(randomPlayer);
+                        case 7 -> boom(randomPlayer);
+                    }
+                } else sender.sendMessage(Component.text(
+                    "Please provide a valid selector!",
+                    NamedTextColor.RED));
+                return true;
+            }
+
+            case "hsheartbeat" -> {
+                if (args.length > 0) for (Entity players : Bukkit.selectEntities(sender, args[0])) {
+                    if (!(players instanceof Player player)) continue;
+                    // 0-5 sec
+                    playHeartbeat(player, 24, 8, 5);
+
+                    // 6-10 sec
+                    new BukkitRunnable() {
+                        @Override
+                        public void run() {
+                            playHeartbeat(player, 20, 6, 3);
+                        }
+                    }.runTaskLater(plugin, 6 * 20L);
+
+                    // 11-15 sec
+                    new BukkitRunnable() {
+                        @Override
+                        public void run() {
+                            playHeartbeat(player, 16, 5, 3);
+                        }
+                    }.runTaskLater(plugin, 11 * 20L);
+                }
+                else sender.sendMessage(Component.text(
+                    "Please provide a valid selector!",
+                    NamedTextColor.RED));
+                return true;
+            }
+
+            case "hsassignblock" -> {
+                if (args.length > 0) for (Entity players : Bukkit.selectEntities(sender, args[0])) {
+                    if (!(players instanceof Player player)) continue;
+
+                    // Assign random tag to each player
+                    Random r = new Random();
+                    int randomTag = r.nextInt(7);
+                    String[] tags = {"HSCornflower", "HSPoppy", "HSOak", "HSSpruce", "HSPrismarine", "HSStone", "HSGrass"};
+                    player.addScoreboardTag(tags[randomTag]);
+                }
+                else sender.sendMessage(Component.text(
+                    "Please provide a valid selector!",
+                    NamedTextColor.RED));
+                return true;
+            }
         }
         return false;
     }
@@ -168,7 +192,8 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
             if (cooldowns.containsKey(player)) if (cooldowns.get(player) > System.currentTimeMillis()) {
                 // Still on cooldown
                 player.sendMessage(Component.text("You may use a taunt again in ", NamedTextColor.RED)
-                    .append(Component.text((cooldowns.get(player) - System.currentTimeMillis()) / 1000,
+                    .append(Component.text(
+                        (cooldowns.get(player) - System.currentTimeMillis()) / 1000,
                         NamedTextColor.GRAY)).append(Component.text(" seconds.", NamedTextColor.RED)));
                 return;
             }
@@ -187,12 +212,19 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
                     return;
                 }
 
-                player.playSound(player.getLocation(),
+                player.playSound(
+                    player.getLocation(),
                     Sound.BLOCK_NOTE_BLOCK_BASEDRUM,
                     SoundCategory.PLAYERS,
                     2,
                     0);
-                player.addPotionEffect(new PotionEffect(PotionEffectType.SLOWNESS, 3, 0, false, false, false));
+                player.addPotionEffect(new PotionEffect(
+                    PotionEffectType.SLOWNESS,
+                    3,
+                    0,
+                    false,
+                    false,
+                    false));
                 new BukkitRunnable() {
                     @Override
                     public void run() {
@@ -203,12 +235,14 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
                 new BukkitRunnable() {
                     @Override
                     public void run() {
-                        player.playSound(player.getLocation(),
+                        player.playSound(
+                            player.getLocation(),
                             Sound.BLOCK_NOTE_BLOCK_BASEDRUM,
                             SoundCategory.PLAYERS,
                             2,
                             0);
-                        player.addPotionEffect(new PotionEffect(PotionEffectType.SLOWNESS,
+                        player.addPotionEffect(new PotionEffect(
+                            PotionEffectType.SLOWNESS,
                             3,
                             1,
                             false,
@@ -264,7 +298,8 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
                 bark(player);
                 closeInv(player);
                 if (player.getGameMode() == GameMode.ADVENTURE && player.getWorld().getName()
-                    .equalsIgnoreCase(plugin.getConfig().getString("minigame-world"))) points.put(player,
+                    .equalsIgnoreCase(plugin.getConfig().getString("minigame-world"))) points.put(
+                    player,
                     currentPoints + 1);
                 tauntTimer(player);
             }
@@ -274,7 +309,8 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
                 ding(player);
                 closeInv(player);
                 if (player.getGameMode() == GameMode.ADVENTURE && player.getWorld().getName()
-                    .equalsIgnoreCase(plugin.getConfig().getString("minigame-world"))) points.put(player,
+                    .equalsIgnoreCase(plugin.getConfig().getString("minigame-world"))) points.put(
+                    player,
                     currentPoints + 2);
                 tauntTimer(player);
             }
@@ -284,7 +320,8 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
                 scream(player);
                 closeInv(player);
                 if (player.getGameMode() == GameMode.ADVENTURE && player.getWorld().getName()
-                    .equalsIgnoreCase(plugin.getConfig().getString("minigame-world"))) points.put(player,
+                    .equalsIgnoreCase(plugin.getConfig().getString("minigame-world"))) points.put(
+                    player,
                     currentPoints + 3);
                 tauntTimer(player);
             }
@@ -294,7 +331,8 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
                 roar(player);
                 closeInv(player);
                 if (player.getGameMode() == GameMode.ADVENTURE && player.getWorld().getName()
-                    .equalsIgnoreCase(plugin.getConfig().getString("minigame-world"))) points.put(player,
+                    .equalsIgnoreCase(plugin.getConfig().getString("minigame-world"))) points.put(
+                    player,
                     currentPoints + 5);
                 tauntTimer(player);
             }
@@ -304,7 +342,8 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
                 explosion(player);
                 closeInv(player);
                 if (player.getGameMode() == GameMode.ADVENTURE && player.getWorld().getName()
-                    .equalsIgnoreCase(plugin.getConfig().getString("minigame-world"))) points.put(player,
+                    .equalsIgnoreCase(plugin.getConfig().getString("minigame-world"))) points.put(
+                    player,
                     currentPoints + 7);
                 tauntTimer(player);
             }
@@ -314,7 +353,8 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
                 fireworks(player);
                 closeInv(player);
                 if (player.getGameMode() == GameMode.ADVENTURE && player.getWorld().getName()
-                    .equalsIgnoreCase(plugin.getConfig().getString("minigame-world"))) points.put(player,
+                    .equalsIgnoreCase(plugin.getConfig().getString("minigame-world"))) points.put(
+                    player,
                     currentPoints + 9);
                 tauntTimer(player);
             }
@@ -324,7 +364,8 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
                 boom(player);
                 closeInv(player);
                 if (player.getGameMode() == GameMode.ADVENTURE && player.getWorld().getName()
-                    .equalsIgnoreCase(plugin.getConfig().getString("minigame-world"))) points.put(player,
+                    .equalsIgnoreCase(plugin.getConfig().getString("minigame-world"))) points.put(
+                    player,
                     currentPoints + 10);
                 tauntTimer(player);
             }
@@ -334,13 +375,16 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
                 if (currentPoints >= 45) {
                     closeInv(player);
                     if (player.getGameMode() == GameMode.ADVENTURE && player.getWorld().getName()
-                        .equalsIgnoreCase(plugin.getConfig().getString("minigame-world"))) points.put(player,
+                        .equalsIgnoreCase(plugin.getConfig().getString("minigame-world"))) points.put(
+                        player,
                         currentPoints - 45);
-                    Location loc = new Location(Bukkit.getWorld(plugin.getConfig()
-                        .getString("minigame-world")), -372, 9, -65);
+                    Location loc = new Location(
+                        Bukkit.getWorld(plugin.getConfig()
+                            .getString("minigame-world")), -372, 9, -65);
                     loc.getBlock().setType(Material.REDSTONE_BLOCK);
                     tauntTimer(player);
-                } else player.sendMessage(Component.text("You don't have enough points to do that!",
+                } else player.sendMessage(Component.text(
+                    "You don't have enough points to do that!",
                     NamedTextColor.RED));
             }
 
@@ -349,13 +393,16 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
                 if (currentPoints >= 60) {
                     closeInv(player);
                     if (player.getGameMode() == GameMode.ADVENTURE && player.getWorld().getName()
-                        .equalsIgnoreCase(plugin.getConfig().getString("minigame-world"))) points.put(player,
+                        .equalsIgnoreCase(plugin.getConfig().getString("minigame-world"))) points.put(
+                        player,
                         currentPoints - 60);
-                    Location loc = new Location(Bukkit.getWorld(plugin.getConfig()
-                        .getString("minigame-world")), -372, 9, -61);
+                    Location loc = new Location(
+                        Bukkit.getWorld(plugin.getConfig()
+                            .getString("minigame-world")), -372, 9, -61);
                     loc.getBlock().setType(Material.REDSTONE_BLOCK);
                     tauntTimer(player);
-                } else player.sendMessage(Component.text("You don't have enough points to do that!",
+                } else player.sendMessage(Component.text(
+                    "You don't have enough points to do that!",
                     NamedTextColor.RED));
             }
 
@@ -364,13 +411,16 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
                 if (currentPoints >= 60) {
                     closeInv(player);
                     if (player.getGameMode() == GameMode.ADVENTURE && player.getWorld().getName()
-                        .equalsIgnoreCase(plugin.getConfig().getString("minigame-world"))) points.put(player,
+                        .equalsIgnoreCase(plugin.getConfig().getString("minigame-world"))) points.put(
+                        player,
                         currentPoints - 60);
-                    Location loc = new Location(Bukkit.getWorld(plugin.getConfig()
-                        .getString("minigame-world")), -374, 9, -62);
+                    Location loc = new Location(
+                        Bukkit.getWorld(plugin.getConfig()
+                            .getString("minigame-world")), -374, 9, -62);
                     loc.getBlock().setType(Material.REDSTONE_BLOCK);
                     tauntTimer(player);
-                } else player.sendMessage(Component.text("You don't have enough points to do that!",
+                } else player.sendMessage(Component.text(
+                    "You don't have enough points to do that!",
                     NamedTextColor.RED));
             }
 
@@ -379,13 +429,16 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
                 if (currentPoints >= 90) {
                     closeInv(player);
                     if (player.getGameMode() == GameMode.ADVENTURE && player.getWorld().getName()
-                        .equalsIgnoreCase(plugin.getConfig().getString("minigame-world"))) points.put(player,
+                        .equalsIgnoreCase(plugin.getConfig().getString("minigame-world"))) points.put(
+                        player,
                         currentPoints - 90);
-                    Location loc = new Location(Bukkit.getWorld(plugin.getConfig()
-                        .getString("minigame-world")), -376, 9, -62);
+                    Location loc = new Location(
+                        Bukkit.getWorld(plugin.getConfig()
+                            .getString("minigame-world")), -376, 9, -62);
                     loc.getBlock().setType(Material.REDSTONE_BLOCK);
                     tauntTimer(player);
-                } else player.sendMessage(Component.text("You don't have enough points to do that!",
+                } else player.sendMessage(Component.text(
+                    "You don't have enough points to do that!",
                     NamedTextColor.RED));
             }
 
@@ -394,13 +447,16 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
                 if (currentPoints >= 120) {
                     closeInv(player);
                     if (player.getGameMode() == GameMode.ADVENTURE && player.getWorld().getName()
-                        .equalsIgnoreCase(plugin.getConfig().getString("minigame-world"))) points.put(player,
+                        .equalsIgnoreCase(plugin.getConfig().getString("minigame-world"))) points.put(
+                        player,
                         currentPoints - 120);
-                    Location loc = new Location(Bukkit.getWorld(plugin.getConfig()
-                        .getString("minigame-world")), -372, 13, -61);
+                    Location loc = new Location(
+                        Bukkit.getWorld(plugin.getConfig()
+                            .getString("minigame-world")), -372, 13, -61);
                     loc.getBlock().setType(Material.REDSTONE_BLOCK);
                     tauntTimer(player);
-                } else player.sendMessage(Component.text("You don't have enough points to do that!",
+                } else player.sendMessage(Component.text(
+                    "You don't have enough points to do that!",
                     NamedTextColor.RED));
             }
         }
@@ -429,7 +485,8 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
 
     // Inventory items
     public void createInventory() {
-        Inventory inventory = Bukkit.createInventory(null,
+        Inventory inventory = Bukkit.createInventory(
+            null,
             45,
             Component.text("Taunts", NamedTextColor.DARK_RED, TextDecoration.BOLD));
 
@@ -442,15 +499,20 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
 
         inventory.setItem(10, getItem(Material.BONE, "Bark", "<dark_aqua><b>1</b> <dark_green>Taunt Point"));
         inventory.setItem(11, getItem(Material.BELL, "Ding", "<dark_aqua><b>2</b> <dark_green>Taunt Points"));
-        inventory.setItem(12,
+        inventory.setItem(
+            12,
             getItem(Material.GHAST_TEAR, "Scream", "<dark_aqua><b>3</b> <dark_green>Taunt Points"));
-        inventory.setItem(13,
+        inventory.setItem(
+            13,
             getItem(Material.DRAGON_HEAD, "Roar", "<dark_aqua><b>5</b> <dark_green>Taunt Points"));
-        inventory.setItem(14,
+        inventory.setItem(
+            14,
             getItem(Material.TNT, "Explosion", "<dark_aqua><b>7</b> <dark_green>Taunt Points"));
-        inventory.setItem(15,
+        inventory.setItem(
+            15,
             getItem(Material.FIREWORK_ROCKET, "Fireworks", "<dark_aqua><b>9</b> <dark_green>Taunt Points"));
-        inventory.setItem(16,
+        inventory.setItem(
+            16,
             getItem(Material.TOTEM_OF_UNDYING, "Boom", "<dark_aqua><b>10</b> <dark_green>Taunt Points"));
 
         // Random taunt
@@ -473,7 +535,8 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
             .decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE));
         skullLore.add(Component.text("to a random hider", NamedTextColor.GRAY)
             .decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE));
-        skullLore.add(Component.text("(This can include yourself!)",
+        skullLore.add(Component.text(
+            "(This can include yourself!)",
             TextColor.fromHexString("#858585"),
             TextDecoration.ITALIC));
 
@@ -483,35 +546,43 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
         inventory.setItem(29, skullItem);
 
         // Darkness
-        inventory.setItem(30, getItem(Material.TINTED_GLASS,
-            "Give seekers darkness",
-            "<dark_aqua>Costs <dark_green><b>60</b> <dark_aqua>Taunt Points",
-            "",
-            "<gray>Gives all seekers",
-            "<gray>darkness for 10 seconds"));
+        inventory.setItem(
+            30, getItem(
+                Material.TINTED_GLASS,
+                "Give seekers darkness",
+                "<dark_aqua>Costs <dark_green><b>60</b> <dark_aqua>Taunt Points",
+                "",
+                "<gray>Gives all seekers",
+                "<gray>darkness for 10 seconds"));
 
         // Slowness
-        inventory.setItem(31, getItem(Material.NETHERITE_BOOTS,
-            "Give seekers slowness",
-            "<dark_aqua>Costs <dark_green><b>60</b> <dark_aqua>Taunt Points",
-            "",
-            "<gray>Slows all seekers",
-            "<gray>down for 15 seconds"));
+        inventory.setItem(
+            31, getItem(
+                Material.NETHERITE_BOOTS,
+                "Give seekers slowness",
+                "<dark_aqua>Costs <dark_green><b>60</b> <dark_aqua>Taunt Points",
+                "",
+                "<gray>Slows all seekers",
+                "<gray>down for 15 seconds"));
 
         // Blindness
-        inventory.setItem(32, getItem(Material.NETHERITE_HELMET,
-            "Give seekers blindness",
-            "<dark_aqua>Costs <dark_green><b>90</b> <dark_aqua>Taunt Points",
-            "",
-            "<gray>Gives all seekers",
-            "<gray>blindness for 10 seconds"));
+        inventory.setItem(
+            32, getItem(
+                Material.NETHERITE_HELMET,
+                "Give seekers blindness",
+                "<dark_aqua>Costs <dark_green><b>90</b> <dark_aqua>Taunt Points",
+                "",
+                "<gray>Gives all seekers",
+                "<gray>blindness for 10 seconds"));
 
         // Kill
-        inventory.setItem(33, getItem(Material.NETHERITE_SWORD,
-            "Insta-kill a random seeker",
-            "<dark_aqua>Costs <dark_green><b>120</b> <dark_aqua>Taunt Points",
-            "",
-            "<gray>Instantly kills a random seeker"));
+        inventory.setItem(
+            33, getItem(
+                Material.NETHERITE_SWORD,
+                "Insta-kill a random seeker",
+                "<dark_aqua>Costs <dark_green><b>120</b> <dark_aqua>Taunt Points",
+                "",
+                "<gray>Instantly kills a random seeker"));
 
         inv = inventory;
     }
@@ -534,7 +605,8 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
 
     // Bark / Bone
     private void bark(Player player) {
-        player.getWorld().playSound(player.getLocation(),
+        player.getWorld().playSound(
+            player.getLocation(),
             Sound.ENTITY_WOLF_AMBIENT,
             SoundCategory.MASTER,
             2.0f,
@@ -543,7 +615,8 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
 
     // Ding / Bell
     private void ding(Player player) {
-        player.getWorld().playSound(player.getLocation(),
+        player.getWorld().playSound(
+            player.getLocation(),
             Sound.BLOCK_BELL_USE,
             SoundCategory.MASTER,
             2.25f,
@@ -552,7 +625,8 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
 
     // Scream / Tear
     private void scream(Player player) {
-        player.getWorld().playSound(player.getLocation(),
+        player.getWorld().playSound(
+            player.getLocation(),
             Sound.ENTITY_GHAST_HURT,
             SoundCategory.MASTER,
             2.5f,
@@ -561,7 +635,8 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
 
     // Roar / Dragon Head
     private void roar(Player player) {
-        player.getWorld().playSound(player.getLocation(),
+        player.getWorld().playSound(
+            player.getLocation(),
             Sound.ENTITY_ENDER_DRAGON_GROWL,
             SoundCategory.MASTER,
             3.0f,
@@ -570,12 +645,14 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
 
     // Explosion / TNT
     private void explosion(Player player) {
-        player.getWorld().playSound(player.getLocation(),
+        player.getWorld().playSound(
+            player.getLocation(),
             Sound.ENTITY_GENERIC_EXPLODE,
             SoundCategory.MASTER,
             3.5f,
             0.7f);
-        player.getWorld().spawnParticle(Particle.EXPLOSION,
+        player.getWorld().spawnParticle(
+            Particle.EXPLOSION,
             player.getLocation().add(0, 0.5, 0),
             2,
             0.0f,
@@ -601,12 +678,14 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
 
     // Boom / Totem
     private void boom(Player player) {
-        player.getWorld().playSound(player.getLocation(),
+        player.getWorld().playSound(
+            player.getLocation(),
             Sound.ITEM_TOTEM_USE,
             SoundCategory.MASTER,
             4.0f,
             0.75f);
-        player.getWorld().spawnParticle(Particle.TOTEM_OF_UNDYING,
+        player.getWorld().spawnParticle(
+            Particle.TOTEM_OF_UNDYING,
             player.getLocation().add(0, 0.5, 0),
             1000,
             -2.0f,

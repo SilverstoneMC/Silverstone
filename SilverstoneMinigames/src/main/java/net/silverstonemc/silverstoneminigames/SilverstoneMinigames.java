@@ -27,6 +27,7 @@ public class SilverstoneMinigames extends JavaPlugin implements CommandExecutor 
         getCommand("corruptedtag").setExecutor(new CorruptedTag(this));
         getCommand("fcfinish").setExecutor(new FlyingCourse(this));
         getCommand("flyingcourse").setExecutor(new FlyingCourse(this));
+        getCommand("hsassignblock").setExecutor(new HideSeek(this));
         getCommand("hsheartbeat").setExecutor(new HideSeek(this));
         getCommand("hsrandomtaunt").setExecutor(new HideSeek(this));
         getCommand("hsresettauntpoints").setExecutor(new HideSeek(this));

@@ -13,6 +13,8 @@ commands:
     description: "Reset the player if they touch an illegal block"
     permission: silverstone.owner
     usage: "/flyingcourse <player>"
+  hsassignblock:
+    permission: silverstone.owner
   hsheartbeat:
     permission: silverstone.owner
   hsrandomtaunt:
