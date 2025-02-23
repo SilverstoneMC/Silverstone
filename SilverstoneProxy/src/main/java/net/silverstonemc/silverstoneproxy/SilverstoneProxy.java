@@ -51,6 +51,7 @@ public class SilverstoneProxy {
 
     private ConsoleErrors errors;
     private LuckPerms luckPerms;
+    private Thread jdaThread;
     private static SilverstoneProxy instance;
 
     @Inject
@@ -76,23 +77,7 @@ public class SilverstoneProxy {
             UserManager.playerMap.put(uuid, username);
         }
 
-        new Thread(
-            () -> {
-                logger.info("Starting Discord bot...");
-                JDABuilder builder = JDABuilder.createDefault(new Secrets().botToken());
-                builder.disableIntents(GatewayIntent.GUILD_MESSAGE_TYPING);
-                builder.disableCache(CacheFlag.ACTIVITY, CacheFlag.VOICE_STATE);
-                builder.setMemberCachePolicy(MemberCachePolicy.NONE);
-                builder.setStatus(OnlineStatus.ONLINE);
-                builder.setActivity(Activity.watching("over Silverstone"));
-                builder.setEnableShutdownHook(false);
-                builder.addEventListeners(new DiscordButtons(this));
-                jda = builder.build();
-
-                errors = new ConsoleErrors(this);
-                errors.start();
-            }, "Discord Bot").start();
-
+        startJDA();
         registerCommands();
 
         EventManager eventManager = server.getEventManager();
@@ -149,6 +134,7 @@ public class SilverstoneProxy {
                 "reportplayer",
                 "playerreport",
                 "builder").build(), new Forums());
+        commandManager.register(commandManager.metaBuilder("jdamanager").build(), new JDAManager(this));
         commandManager.register(
             commandManager.metaBuilder("joinleavesounds").build(),
             new JoinLeaveSounds(this));
@@ -179,10 +165,33 @@ public class SilverstoneProxy {
 
     @Subscribe
     public void onProxyShutdown(ProxyShutdownEvent event) {
+        shutdownJDA();
+        errors.remove();
+    }
+
+    public void startJDA() {
+        jdaThread = new Thread(
+            () -> {
+                logger.info("Starting Discord bot...");
+                JDABuilder builder = JDABuilder.createDefault(new Secrets().botToken());
+                builder.disableIntents(GatewayIntent.GUILD_MESSAGE_TYPING);
+                builder.disableCache(CacheFlag.ACTIVITY, CacheFlag.VOICE_STATE);
+                builder.setMemberCachePolicy(MemberCachePolicy.NONE);
+                builder.setStatus(OnlineStatus.ONLINE);
+                builder.setActivity(Activity.watching("over Silverstone"));
+                builder.setEnableShutdownHook(false);
+                builder.addEventListeners(new DiscordButtons(this));
+                jda = builder.build();
+
+                errors = new ConsoleErrors(this);
+                errors.start();
+            }, "Discord Bot");
+        jdaThread.start();
+    }
+
+    public void shutdownJDA() {
         try {
             logger.info("Shutting down Discord bot...");
-
-            Class.forName("net.silverstonemc.silverstoneproxy.shaded.jda.events.session.ShutdownEvent");
 
             // Initating the shutdown, this closes the gateway connection and subsequently closes the requester queue
             jda.shutdown();
@@ -194,11 +203,9 @@ public class SilverstoneProxy {
                 jda.awaitShutdown(); // Wait until shutdown is complete (indefinitely)
             }
         } catch (InterruptedException ignored) {
-        } catch (NoClassDefFoundError | ClassNotFoundException ignored) {
-            logger.warn("Skipping Discord bot shutdown due to hotswap...");
+        } finally {
+            jdaThread = null;
         }
-
-        errors.remove();
     }
 
     public static SilverstoneProxy getInstance() {
@@ -207,5 +214,9 @@ public class SilverstoneProxy {
 
     public LuckPerms getLuckPerms() {
         return luckPerms;
+    }
+
+    public Thread getJdaThread() {
+        return jdaThread;
     }
 }
