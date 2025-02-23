@@ -86,10 +86,13 @@ public class SilverstoneGlobal extends JavaPlugin implements Listener {
                     if (getConfig().getString("server").equalsIgnoreCase("minigames")) {
                         TextChannel channel = jda.getTextChannelById(1075640285083734067L);
                         //noinspection DataFlowIssue
-                        if (channel.getIterableHistory().takeAsync(1).thenApply(ArrayList::new).get(30,
+                        if (channel.getIterableHistory().takeAsync(1).thenApply(ArrayList::new).get(
+                            30,
                             TimeUnit.SECONDS).isEmpty())
-                            channel.sendMessage("## Select a vanish state").setActionRow(Button.success("vanish-on",
-                                "Vanish"), Button.danger("vanish-off", "Un-vanish")).queue();
+                            channel.sendMessage("## Select a vanish state").setActionRow(
+                                Button.success("vanish-on",
+                                    "Vanish"),
+                                Button.danger("vanish-off", "Un-vanish")).queue();
                     }
 
                 } catch (InterruptedException | ExecutionException | TimeoutException e) {
@@ -135,7 +138,7 @@ public class SilverstoneGlobal extends JavaPlugin implements Listener {
         getCommand("watch").setExecutor(new Spectate(this));
 
         PluginManager pluginManager = getServer().getPluginManager();
-        pluginManager.registerEvents(new AFK(this), this);
+        if (essentials != null) pluginManager.registerEvents(new AFK(this), this);
         pluginManager.registerEvents(new BuyGUI(this), this);
         pluginManager.registerEvents(new ChatColorGUI(this), this);
         pluginManager.registerEvents(new CancelChat(), this);
@@ -148,7 +151,8 @@ public class SilverstoneGlobal extends JavaPlugin implements Listener {
         new BuyGUI(this).createInv();
         new ChatColorGUI(this).createInv();
 
-        getServer().getMessenger().registerIncomingPluginChannel(this,
+        getServer().getMessenger().registerIncomingPluginChannel(
+            this,
             "silverstone:pluginmsg",
             new PluginMessages());
         getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
@@ -197,7 +201,8 @@ public class SilverstoneGlobal extends JavaPlugin implements Listener {
             // Initating the shutdown, this closes the gateway connection and subsequently closes the requester queue
             jda.shutdown();
             // Allow at most 10 seconds for remaining requests to finish
-            if (!jda.awaitShutdown(10,
+            if (!jda.awaitShutdown(
+                10,
                 TimeUnit.SECONDS)) { // returns true if shutdown is graceful, false if timeout exceeded
                 jda.shutdownNow(); // Cancel all remaining requests, and stop thread-pools
                 jda.awaitShutdown(); // Wait until shutdown is complete (indefinitely)
@@ -206,7 +211,7 @@ public class SilverstoneGlobal extends JavaPlugin implements Listener {
         }
     }
 
-    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String @NotNull [] args) {
         saveDefaultConfig();
         reloadConfig();
         new BuyGUI(this).createInv();
