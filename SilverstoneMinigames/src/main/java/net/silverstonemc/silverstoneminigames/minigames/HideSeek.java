@@ -607,7 +607,8 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
         for (String customLore : lore)
             parsedLore.add(MiniMessage.miniMessage().deserialize("<!i>" + customLore));
         meta.lore(parsedLore);
-        meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ADDITIONAL_TOOLTIP);
+        // Hide all item flags
+        meta.addItemFlags(ItemFlag.values());
         itemStack.setItemMeta(meta);
 
         return itemStack;
