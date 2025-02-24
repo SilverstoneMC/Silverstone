@@ -478,26 +478,10 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
             }
         }
 
-        // Set bell points if in adventure
         if (player.getGameMode() == GameMode.ADVENTURE && player.getWorld().getName().equalsIgnoreCase(plugin
             .getConfig().getString("minigame-world"))) {
             // Get the player's updated points
             int newPoints = points.get(player);
-
-            // Limited to 99 items in stack due to entity NBT data limits
-            if (newPoints > 0 && newPoints <= 99) {
-                item.setAmount(newPoints);
-                item.getItemMeta().displayName(itemName);
-                player.getInventory().setItem(0, item);
-            } else if (newPoints == 0) {
-                item.setAmount(1);
-                item.getItemMeta().displayName(itemName);
-                player.getInventory().setItem(0, item);
-            } else if (newPoints > 99) {
-                item.setAmount(99);
-                item.getItemMeta().displayName(itemName);
-                player.getInventory().setItem(0, item);
-            }
 
             player.sendMessage(Component.text("You now have ", NamedTextColor.DARK_GREEN)
                 .append(Component.text(newPoints, NamedTextColor.DARK_AQUA))
