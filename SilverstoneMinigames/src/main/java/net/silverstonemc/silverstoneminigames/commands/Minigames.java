@@ -176,7 +176,7 @@ public class Minigames implements CommandExecutor, Listener {
                     The amount of remaining hiders correspond to the block(s) displayed in your hotbar.
                     Hiders may use taunts to play sounds and effects at their location once every 15 seconds. Each taunt will provide a different number of Taunt Points.""",
                 """
-                    The number of bells in a hider's hotbar corresponds to the amount of Taunt Points they currently have, with a maximum display limit of 125 (there is no internal Taunt Point limit, however).""",
+                    The number of bells in a hider's hotbar corresponds to the amount of Taunt Points they currently have, with a maximum display limit of 99 (there is no internal Taunt Point limit, however).""",
                 """
                     <b>The goal (hiders):</b> Avoid getting caught and killed by the seeker(s). If there are hiders remaining when the 10 minutes are up, the hiders will win.""",
                 """

@@ -469,10 +469,11 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
         // Set bell points if in adventure
         if (player.getGameMode() == GameMode.ADVENTURE && player.getWorld().getName().equalsIgnoreCase(plugin
             .getConfig().getString("minigame-world"))) {
-            int newPoints = 0;
-            // Check if they have points already, and if so, save it
-            if (points.containsKey(player)) newPoints = points.get(player);
-            if (newPoints > 0 && newPoints <= 125) {
+            // Get the player's points, defaulting to 0
+            int newPoints = points.getOrDefault(player, 0);
+
+            // Limited to 99 items in stack due to entity NBT data limits
+            if (newPoints > 0 && newPoints <= 99) {
                 item.setAmount(newPoints);
                 item.getItemMeta().displayName(itemName);
                 player.getInventory().setItem(0, item);
@@ -480,11 +481,15 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
                 item.setAmount(1);
                 item.getItemMeta().displayName(itemName);
                 player.getInventory().setItem(0, item);
-            } else if (newPoints > 125) {
-                item.setAmount(125);
+            } else if (newPoints > 99) {
+                item.setAmount(99);
                 item.getItemMeta().displayName(itemName);
                 player.getInventory().setItem(0, item);
             }
+
+            player.sendMessage(Component.text("You now have ", NamedTextColor.DARK_GREEN)
+                .append(Component.text(newPoints, NamedTextColor.DARK_AQUA))
+                .append(Component.text(" taunt points.", NamedTextColor.DARK_GREEN)));
         }
     }
 
