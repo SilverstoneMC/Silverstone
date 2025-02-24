@@ -142,7 +142,12 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
                     Random r = new Random();
                     int randomTag = r.nextInt(7);
                     String[] tags = {"HSCornflower", "HSPoppy", "HSOak", "HSSpruce", "HSPrismarine", "HSStone", "HSGrass"};
-                    player.addScoreboardTag(tags[randomTag]);
+                    if (player.addScoreboardTag(tags[randomTag])) sender.sendMessage(Component.text("Assigned " + tags[randomTag] + " to " + player.getName(),
+                        NamedTextColor.GREEN));
+                    else
+                        sender.sendMessage(Component.text(
+                            "Failed to assign " + tags[randomTag] + " to " + player.getName(),
+                            NamedTextColor.RED));
                 }
                 else sender.sendMessage(Component.text(
                     "Please provide a valid selector!",
