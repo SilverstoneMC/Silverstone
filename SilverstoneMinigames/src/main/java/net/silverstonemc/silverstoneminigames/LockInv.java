@@ -16,27 +16,24 @@ public class LockInv implements Listener {
 
         if (event.getCurrentItem() == null) return;
         if (event.getCurrentItem().getItemMeta() == null) return;
-        if (player.getGameMode() != GameMode.ADVENTURE) return;
-        if (player.getInventory().getItem(22) == null) return;
-        if (!player.getInventory().getItem(22).hasItemMeta()) return;
-        if (player.getInventory().getItem(22).getItemMeta().displayName() == null) return;
-        if (!PlainTextComponentSerializer.plainText().serialize(player.getInventory().getItem(22)
-            .getItemMeta().displayName()).equals("☺")) return;
+        if (shouldReturn(player)) return;
 
         event.setCancelled(true);
     }
 
     @EventHandler
     public void onSwap(PlayerSwapHandItemsEvent event) {
-        Player player = event.getPlayer();
-
-        if (player.getGameMode() != GameMode.ADVENTURE) return;
-        if (player.getInventory().getItem(22) == null) return;
-        if (!player.getInventory().getItem(22).hasItemMeta()) return;
-        if (player.getInventory().getItem(22).getItemMeta().displayName() == null) return;
-        if (!PlainTextComponentSerializer.plainText().serialize(player.getInventory().getItem(22)
-            .getItemMeta().displayName()).equals("☺")) return;
+        if (shouldReturn(event.getPlayer())) return;
 
         event.setCancelled(true);
+    }
+
+    private boolean shouldReturn(Player player) {
+        if (player.getGameMode() != GameMode.ADVENTURE) return true;
+        if (player.getInventory().getItem(22) == null) return true;
+        if (!player.getInventory().getItem(22).hasItemMeta()) return true;
+        if (player.getInventory().getItem(22).getItemMeta().displayName() == null) return true;
+        return !PlainTextComponentSerializer.plainText().serialize(player.getInventory().getItem(22)
+            .getItemMeta().displayName()).equals("☺");
     }
 }
