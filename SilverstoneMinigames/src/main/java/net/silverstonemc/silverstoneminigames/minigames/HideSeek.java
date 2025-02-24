@@ -1,6 +1,7 @@
 package net.silverstonemc.silverstoneminigames.minigames;
 
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.text.format.TextDecoration;
@@ -292,10 +293,12 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
         meta.displayName(itemName);
         item.setItemMeta(meta);
 
-        int currentPoints = 0;
+        // Get the player's points, defaulting to 0
+        int currentPoints = points.getOrDefault(player, 0);
 
-        // Check if they have points already, and if so, save it
-        if (points.containsKey(player)) currentPoints = points.get(player);
+        TextComponent notEnough = Component.text(
+            "You don't have enough points to do that!",
+            NamedTextColor.RED);
 
         switch (event.getRawSlot()) {
             case 10 -> {
@@ -388,9 +391,10 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
                             .getString("minigame-world")), -372, 9, -65);
                     loc.getBlock().setType(Material.REDSTONE_BLOCK);
                     tauntTimer(player);
-                } else player.sendMessage(Component.text(
-                    "You don't have enough points to do that!",
-                    NamedTextColor.RED));
+                } else {
+                    player.sendMessage(notEnough);
+                    return;
+                }
             }
 
             case 30 -> {
@@ -406,9 +410,10 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
                             .getString("minigame-world")), -372, 9, -61);
                     loc.getBlock().setType(Material.REDSTONE_BLOCK);
                     tauntTimer(player);
-                } else player.sendMessage(Component.text(
-                    "You don't have enough points to do that!",
-                    NamedTextColor.RED));
+                } else {
+                    player.sendMessage(notEnough);
+                    return;
+                }
             }
 
             case 31 -> {
@@ -424,9 +429,10 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
                             .getString("minigame-world")), -374, 9, -62);
                     loc.getBlock().setType(Material.REDSTONE_BLOCK);
                     tauntTimer(player);
-                } else player.sendMessage(Component.text(
-                    "You don't have enough points to do that!",
-                    NamedTextColor.RED));
+                } else {
+                    player.sendMessage(notEnough);
+                    return;
+                }
             }
 
             case 32 -> {
@@ -442,9 +448,10 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
                             .getString("minigame-world")), -376, 9, -62);
                     loc.getBlock().setType(Material.REDSTONE_BLOCK);
                     tauntTimer(player);
-                } else player.sendMessage(Component.text(
-                    "You don't have enough points to do that!",
-                    NamedTextColor.RED));
+                } else {
+                    player.sendMessage(notEnough);
+                    return;
+                }
             }
 
             case 33 -> {
@@ -460,17 +467,22 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
                             .getString("minigame-world")), -372, 13, -61);
                     loc.getBlock().setType(Material.REDSTONE_BLOCK);
                     tauntTimer(player);
-                } else player.sendMessage(Component.text(
-                    "You don't have enough points to do that!",
-                    NamedTextColor.RED));
+                } else {
+                    player.sendMessage(notEnough);
+                    return;
+                }
+            }
+
+            default -> {
+                return;
             }
         }
 
         // Set bell points if in adventure
         if (player.getGameMode() == GameMode.ADVENTURE && player.getWorld().getName().equalsIgnoreCase(plugin
             .getConfig().getString("minigame-world"))) {
-            // Get the player's points, defaulting to 0
-            int newPoints = points.getOrDefault(player, 0);
+            // Get the player's updated points
+            int newPoints = points.get(player);
 
             // Limited to 99 items in stack due to entity NBT data limits
             if (newPoints > 0 && newPoints <= 99) {
