@@ -32,6 +32,8 @@ import net.silverstonemc.silverstoneproxy.events.*;
 import org.slf4j.Logger;
 import org.spongepowered.configurate.ConfigurationNode;
 
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
@@ -118,6 +120,15 @@ public class SilverstoneProxy {
                         TextDecoration.BOLD));
                 }
             }).delay(5, TimeUnit.SECONDS).repeat(5, TimeUnit.MINUTES).schedule();
+
+        // Uptime heartbeat
+        try {
+            Heartbeat heartbeat = new Heartbeat(new Secrets().heartbeatUrl());
+            server.getScheduler().buildTask(this, heartbeat::sendHeartbeat).repeat(1, TimeUnit.MINUTES).delay(10,
+                TimeUnit.SECONDS).schedule();
+        } catch (MalformedURLException | URISyntaxException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private void registerCommands() {
