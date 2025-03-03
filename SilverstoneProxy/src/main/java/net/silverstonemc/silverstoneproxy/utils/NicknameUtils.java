@@ -66,37 +66,42 @@ public class NicknameUtils {
     public void changeDisplayName(Player player, Component nickname) {
         if (player == null) return;
 
-        TabPlayer tabPlayer = TabAPI.getInstance().getPlayer(player.getUniqueId());
-        if (nickname == null) {
-            TabAPI.getInstance().getTabListFormatManager().setName(tabPlayer, null);
-            try {
-                CarbonChatProvider.carbonChat().userManager().user(player.getUniqueId()).get().nickname(null);
-            } catch (ExecutionException | InterruptedException e) {
-                throw new RuntimeException(e);
-            }
+        // Delay name change to let player finish loading
+        i.server.getScheduler().buildTask(
+            i, () -> {
+                TabPlayer tabPlayer = TabAPI.getInstance().getPlayer(player.getUniqueId());
+                if (nickname == null) {
+                    TabAPI.getInstance().getTabListFormatManager().setName(tabPlayer, null);
+                    try {
+                        CarbonChatProvider.carbonChat().userManager().user(player.getUniqueId()).get()
+                            .nickname(null);
+                    } catch (ExecutionException | InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
 
-            return;
-        }
-        ConfigurationNode config = i.fileManager.files.get(CONFIG);
+                    return;
+                }
+                ConfigurationNode config = i.fileManager.files.get(CONFIG);
 
-        Component prefix = MiniMessage.miniMessage().deserialize(config.node("nicknames", "prefix")
-            .getString());
-        Component suffix = MiniMessage.miniMessage().deserialize(config.node("nicknames", "suffix")
-            .getString());
+                Component prefix = MiniMessage.miniMessage().deserialize(config.node("nicknames", "prefix")
+                    .getString());
+                Component suffix = MiniMessage.miniMessage().deserialize(config.node("nicknames", "suffix")
+                    .getString());
 
-        Component displayName = Component.text().append(prefix).append(nickname).append(suffix).build();
-        // Delay name change to let player finish loading and prevent IllegalStateException
-        i.server.getScheduler().buildTask(i, () -> TabAPI.getInstance().getTabListFormatManager().setName(
-            tabPlayer,
-            LegacyComponentSerializer.builder().useUnusualXRepeatedCharacterHexFormat().hexColors().build()
-                .serialize(displayName))).delay(1, TimeUnit.SECONDS).schedule();
+                Component displayName = Component.text().append(prefix).append(nickname).append(suffix)
+                    .build();
+                TabAPI.getInstance().getTabListFormatManager().setName(
+                    tabPlayer,
+                    LegacyComponentSerializer.builder().useUnusualXRepeatedCharacterHexFormat().hexColors()
+                        .build().serialize(displayName));
 
-        try {
-            CarbonChatProvider.carbonChat().userManager().user(player.getUniqueId()).get().nickname(
-                displayName);
-        } catch (ExecutionException | InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+                try {
+                    CarbonChatProvider.carbonChat().userManager().user(player.getUniqueId()).get().nickname(
+                        displayName);
+                } catch (ExecutionException | InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }).delay(1, TimeUnit.SECONDS).schedule();
     }
 
     public Component getDisplayName(UUID uuid) {
