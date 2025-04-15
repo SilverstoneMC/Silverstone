@@ -150,7 +150,7 @@
         <dependency>
             <groupId>net.dv8tion</groupId>
             <artifactId>JDA</artifactId>
-            <version>5.3.0</version>
+            <version>5.3.2</version>
         </dependency>
 
         <dependency>
@@ -177,7 +177,7 @@
         <dependency>
             <groupId>com.github.NEZNAMY</groupId>
             <artifactId>TAB-API</artifactId>
-            <version>5.0.7</version>
+            <version>5.2.0</version>
             <scope>provided</scope>
         </dependency>
 
