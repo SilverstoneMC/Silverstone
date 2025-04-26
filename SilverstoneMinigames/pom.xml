@@ -88,7 +88,7 @@
         <repository>
             <id>fancyplugins-releases</id>
             <name>FancyPlugins Repository</name>
-            <url>https://repo.fancyplugins.de/releases</url>
+            <url>https://repo.fancyinnovations.com/releases</url>
         </repository>
 
         <!-- FancyHolograms Dependency -->
@@ -127,9 +127,9 @@
         </dependency>
 
         <dependency>
-            <groupId>LibsDisguises</groupId>
-            <artifactId>LibsDisguises</artifactId>
-            <version>10.0.44</version>
+            <groupId>me.libraryaddict.disguises</groupId>
+            <artifactId>libsdisguises</artifactId>
+            <version>11.0.0</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
