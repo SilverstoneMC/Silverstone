@@ -32,7 +32,7 @@ public class Errors extends AbstractAppender {
             public void run() {
                 dumpQueue();
             }
-        }.runTaskTimer(plugin, 100, 100);
+        }.runTaskTimerAsynchronously(plugin, 100, 100);
     }
 
     @Override
