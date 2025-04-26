@@ -2,6 +2,7 @@ package net.silverstonemc.silverstoneproxy;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.SocketException;
 import java.net.URL;
 
 public class Heartbeat {
@@ -15,6 +16,7 @@ public class Heartbeat {
         try {
             InputStream url = heartbeatUrl.openStream();
             url.close();
+        } catch (SocketException ignored) {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

@@ -4,6 +4,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.SocketException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
@@ -25,6 +26,7 @@ public class Heartbeat {
             InputStream url = new URI(heartbeatUrl).toURL().openStream();
             url.close();
 
+        } catch (SocketException ignored) {
         } catch (URISyntaxException | IOException e) {
             throw new RuntimeException(e);
         }
