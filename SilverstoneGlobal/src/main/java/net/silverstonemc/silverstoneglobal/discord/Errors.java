@@ -14,14 +14,14 @@ import java.time.Instant;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 
 @Plugin(name = "SilverstoneErrorLogger", category = "Core", elementType = "appender", printObject = true)
 public class Errors extends AbstractAppender {
     private final List<String> errorQueue = new ArrayList<>();
+    private final Deque<Long> messageTimestamps = new ArrayDeque<>();
     private boolean isErrorGroup;
+    private boolean sendRateLimited = true;
 
     public Errors(JavaPlugin plugin) {
         super("SilverstoneErrorLogger", null, null, false, null);
@@ -68,7 +68,7 @@ public class Errors extends AbstractAppender {
         List<String> finalErrorQueue = new ArrayList<>(errorQueue);
         for (String error : finalErrorQueue) {
             if (builder.length() + error.length() >= 1997) {
-                sendDiscordMessage(builder);
+                if (canSendMessage()) sendDiscordMessage(builder);
                 builder = new StringBuilder("```accesslog\n");
             }
 
@@ -77,7 +77,31 @@ public class Errors extends AbstractAppender {
 
         errorQueue.removeAll(finalErrorQueue);
         finalErrorQueue.clear();
-        sendDiscordMessage(builder);
+        if (canSendMessage()) sendDiscordMessage(builder);
+    }
+
+    private boolean canSendMessage() {
+        long now = System.currentTimeMillis();
+
+        // Measured in milliseconds
+        long timeWindow = 10000;
+        // Remove timestamps outside the time window
+        while (!messageTimestamps.isEmpty() && now - messageTimestamps.peekFirst() > timeWindow)
+            messageTimestamps.pollFirst();
+
+        // Max messages allowed per time window
+        int rateLimit = 3;
+        if (messageTimestamps.size() < rateLimit) {
+            messageTimestamps.addLast(now);
+            sendRateLimited = true;
+            return true;
+        } else {
+            if (sendRateLimited) //noinspection DataFlowIssue
+                SilverstoneGlobal.jda.getTextChannelById(1076713224612880404L).sendMessage(
+                    "-# Limiting error output...").setSuppressedNotifications(true).queue();
+            sendRateLimited = false;
+            return false;
+        }
     }
 
     private void sendDiscordMessage(StringBuilder builder) {

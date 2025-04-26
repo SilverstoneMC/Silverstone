@@ -19,23 +19,23 @@ import java.time.Instant;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 @Plugin(name = "SilverstoneErrorLogger", category = "Core", elementType = "appender", printObject = true)
 public class ConsoleErrors extends AbstractAppender {
-    private boolean isErrorGroup;
     private final List<String> errorQueue = new ArrayList<>();
+    private final Deque<Long> messageTimestamps = new ArrayDeque<>();
     private final ScheduledTask dumpTask;
+    private boolean isErrorGroup;
+    private boolean sendRateLimited = true;
 
     public ConsoleErrors(SilverstoneProxy instance) {
         super("SilverstoneErrorLogger", null, null, false, null);
         ((Logger) LogManager.getRootLogger()).addAppender(this);
 
-        dumpTask = instance.server.getScheduler().buildTask(instance, this::dumpQueue).delay(5,
+        dumpTask = instance.server.getScheduler().buildTask(instance, this::dumpQueue).delay(
+            5,
             TimeUnit.SECONDS).repeat(5, TimeUnit.SECONDS).schedule();
     }
 
@@ -82,19 +82,20 @@ public class ConsoleErrors extends AbstractAppender {
     private void sendDisconnectMessage(String log, String reason) {
         // Run the task after 1 second to help with ordering issues
         SilverstoneProxy i = SilverstoneProxy.getInstance();
-        i.server.getScheduler().buildTask(SilverstoneProxy.getInstance(), () -> {
-            String username = log.replaceAll(".*\\[connected player] ", "").replaceAll(" \\(.*", "");
-            UUID uuid = Leave.recentlyQuit.get(username);
-            // The player will be null if they're vanished too
-            if (uuid == null) return;
+        i.server.getScheduler().buildTask(
+            SilverstoneProxy.getInstance(), () -> {
+                String username = log.replaceAll(".*\\[connected player] ", "").replaceAll(" \\(.*", "");
+                UUID uuid = Leave.recentlyQuit.get(username);
+                // The player will be null if they're vanished too
+                if (uuid == null) return;
 
-            TextComponent.Builder message = Component.text().decorate(TextDecoration.ITALIC).color(
-                NamedTextColor.GRAY).append(new NicknameUtils(i).getDisplayName(uuid)).colorIfAbsent(
-                NamedTextColor.GRAY).append(Component.text(" " + reason));
+                TextComponent.Builder message = Component.text().decorate(TextDecoration.ITALIC).color(
+                    NamedTextColor.GRAY).append(new NicknameUtils(i).getDisplayName(uuid)).colorIfAbsent(
+                    NamedTextColor.GRAY).append(Component.text(" " + reason));
 
-            i.logger.info(message.build().content());
-            for (Player players : i.server.getAllPlayers()) players.sendMessage(message);
-        }).delay(1, TimeUnit.SECONDS).schedule();
+                i.logger.info(message.build().content());
+                for (Player players : i.server.getAllPlayers()) players.sendMessage(message);
+            }).delay(1, TimeUnit.SECONDS).schedule();
     }
 
     public void remove() {
@@ -110,7 +111,7 @@ public class ConsoleErrors extends AbstractAppender {
         StringBuilder builder = new StringBuilder("```accesslog\n");
         for (String error : errorQueue) {
             if (builder.length() + error.length() >= 1997) {
-                sendDiscordMessage(builder);
+                if (canSendMessage()) sendDiscordMessage(builder);
                 builder = new StringBuilder("```accesslog\n");
             }
 
@@ -118,7 +119,31 @@ public class ConsoleErrors extends AbstractAppender {
         }
 
         errorQueue.clear();
-        sendDiscordMessage(builder);
+        if (canSendMessage()) sendDiscordMessage(builder);
+    }
+
+    private boolean canSendMessage() {
+        long now = System.currentTimeMillis();
+
+        // Measured in milliseconds
+        long timeWindow = 10000;
+        // Remove timestamps outside the time window
+        while (!messageTimestamps.isEmpty() && now - messageTimestamps.peekFirst() > timeWindow)
+            messageTimestamps.pollFirst();
+
+        // Max messages allowed per time window
+        int rateLimit = 3;
+        if (messageTimestamps.size() < rateLimit) {
+            messageTimestamps.addLast(now);
+            sendRateLimited = true;
+            return true;
+        } else {
+            if (sendRateLimited) //noinspection DataFlowIssue
+                SilverstoneProxy.jda.getTextChannelById(1076713224612880404L).sendMessage(
+                    "-# Limiting error output...").setSuppressedNotifications(true).queue();
+            sendRateLimited = false;
+            return false;
+        }
     }
 
     private void sendDiscordMessage(StringBuilder builder) {
