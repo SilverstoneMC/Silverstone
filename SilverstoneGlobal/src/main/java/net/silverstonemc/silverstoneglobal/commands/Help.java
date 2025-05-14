@@ -16,7 +16,9 @@ public record Help(JavaPlugin plugin) implements CommandExecutor {
         // #serverSpecific
         switch (plugin.getConfig().getString("server").toLowerCase()) {
             case "minigames" -> plugin.getServer().dispatchCommand(sender, "htp");
-            case "creative" -> sender.sendMessage(Component.empty().append(Component.text("\nCommands:",
+
+            case "creative" -> sender.sendMessage(Component.empty().append(Component.text(
+                    "\nCommands:",
                     NamedTextColor.GREEN,
                     TextDecoration.BOLD))
 
@@ -52,11 +54,14 @@ public record Help(JavaPlugin plugin) implements CommandExecutor {
                     .clickEvent(ClickEvent.clickEvent(ClickEvent.Action.RUN_COMMAND, "/wesui toggle")))
                 .append(Component.text("to toggle the selection particles", NamedTextColor.GREEN))
 
-                .append(Component.text("\nLow-effort plots are deleted after 60 days of inactivity.",
+                .append(Component.text(
+                    "\nLow-effort plots are deleted after 60 days of inactivity.",
                     NamedTextColor.RED,
                     TextDecoration.BOLD)));
 
             case "survival" -> plugin.getServer().dispatchCommand(sender, "tips");
+
+            case "events" -> sender.sendMessage(Component.text("Have fun!", NamedTextColor.AQUA));
         }
         return true;
     }

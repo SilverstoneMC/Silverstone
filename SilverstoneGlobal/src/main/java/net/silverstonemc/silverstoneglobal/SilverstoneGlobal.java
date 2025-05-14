@@ -63,6 +63,11 @@ public class SilverstoneGlobal extends JavaPlugin implements Listener {
         new BukkitRunnable() {
             @Override
             public void run() {
+                if (getConfig().getString("discord-token").isBlank()) {
+                    getLogger().warning("Token is empty! Skipping Discord bot...");
+                    return;
+                }
+                
                 getLogger().info("Starting Discord bot...");
                 JDABuilder builder = JDABuilder.createDefault(getConfig().getString("discord-token"));
                 builder.disableIntents(GatewayIntent.GUILD_MESSAGE_TYPING);
@@ -71,6 +76,7 @@ public class SilverstoneGlobal extends JavaPlugin implements Listener {
                 builder.setStatus(OnlineStatus.ONLINE);
                 builder.setEnableShutdownHook(false);
                 // #serverSpecific
+                // Set vanish button listener
                 if (getConfig().getString("server").equalsIgnoreCase("minigames")) builder.addEventListeners(
                     new Vanish(instance));
                 switch (getConfig().getString("server")) {
@@ -83,6 +89,8 @@ public class SilverstoneGlobal extends JavaPlugin implements Listener {
                 try {
                     jda.awaitReady();
 
+                    // #serverSpecific
+                    // Send vanish buttons if not already sent
                     if (getConfig().getString("server").equalsIgnoreCase("minigames")) {
                         TextChannel channel = jda.getTextChannelById(1075640285083734067L);
                         //noinspection DataFlowIssue
@@ -159,7 +167,9 @@ public class SilverstoneGlobal extends JavaPlugin implements Listener {
         getServer().getMessenger().registerOutgoingPluginChannel(this, "silverstone:pluginmsg");
 
         // #serverSpecific
-        if (!getConfig().getString("server").equalsIgnoreCase("survival")) {
+        // Don't run security checks on survival or events servers
+        String serverName = getConfig().getString("server");
+        if (!serverName.equalsIgnoreCase("survival") && !serverName.equalsIgnoreCase("events")) {
             new Security(this).check();
 
             new BukkitRunnable() {
@@ -170,6 +180,10 @@ public class SilverstoneGlobal extends JavaPlugin implements Listener {
             }.runTaskTimer(this, 100, 18000);
         }
 
+        // #serverSpecific
+        // Don't run these methods on the events server
+        if (serverName.equalsIgnoreCase("events")) return;
+        
         new BukkitRunnable() {
             final TPS tps = new TPS();
 
@@ -192,6 +206,10 @@ public class SilverstoneGlobal extends JavaPlugin implements Listener {
     @Override
     public void onDisable() {
         getServer().getMessenger().unregisterOutgoingPluginChannel(this);
+        
+        // #serverSpecific
+        // Don't stop the following on the events server (it doesn't have a bot)
+        if (getConfig().getString("server").equalsIgnoreCase("events")) return;
 
         errors.dumpQueue();
         errors.remove();

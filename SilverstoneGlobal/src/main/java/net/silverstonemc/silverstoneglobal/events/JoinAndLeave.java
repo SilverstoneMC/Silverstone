@@ -31,6 +31,7 @@ public class JoinAndLeave implements Listener {
         event.joinMessage(null);
 
         // #serverSpecific
+        // Notify new creative join
         //noinspection DataFlowIssue
         if (plugin.getConfig().getString("server").equalsIgnoreCase("creative") && !event.getPlayer()
             .hasPlayedBefore()) {
@@ -72,6 +73,7 @@ public class JoinAndLeave implements Listener {
         event.quitMessage(null);
 
         // #serverSpecific
+        // Update creative join message on quit
         if (plugin.getConfig().getString("server").equalsIgnoreCase("creative")) if (newPlayers.containsKey(
             event.getPlayer())) {
             Player player = event.getPlayer();
