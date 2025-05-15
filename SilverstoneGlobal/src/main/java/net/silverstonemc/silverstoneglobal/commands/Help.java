@@ -59,9 +59,7 @@ public record Help(JavaPlugin plugin) implements CommandExecutor {
                     NamedTextColor.RED,
                     TextDecoration.BOLD)));
 
-            case "survival" -> plugin.getServer().dispatchCommand(sender, "tips");
-
-            case "events" -> sender.sendMessage(Component.text("Have fun!", NamedTextColor.AQUA));
+            case "survival", "events" -> plugin.getServer().dispatchCommand(sender, "tips");
         }
         return true;
     }
