@@ -384,7 +384,7 @@ public class CorruptedTag implements CommandExecutor, Listener {
         if (item == Material.POTION) {
             PotionMeta potionMeta = (PotionMeta) meta;
             potionMeta.setColor(Color.RED);
-            potionMeta.addItemFlags(ItemFlag.HIDE_ADDITIONAL_TOOLTIP);
+            potionMeta.addItemFlags(ItemFlag.values());
         }
 
         // Title

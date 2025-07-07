@@ -22,7 +22,7 @@ import java.util.*;
 
 @SuppressWarnings("DataFlowIssue")
 public record FlyingCourse(JavaPlugin plugin) implements CommandExecutor {
-    public boolean onCommand(@NotNull CommandSender sender, Command cmd, @NotNull String label, String[] args) {
+    public boolean onCommand(@NotNull CommandSender sender, Command cmd, @NotNull String label, String @NotNull [] args) {
         if (cmd.getName().equalsIgnoreCase("fcfinish")) {
             Player player = Bukkit.getPlayer(args[0]);
             if (player == null) {

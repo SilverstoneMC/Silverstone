@@ -12,7 +12,7 @@ import org.jetbrains.annotations.NotNull;
 
 public record Help(JavaPlugin plugin) implements CommandExecutor {
     @SuppressWarnings("DataFlowIssue")
-    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String @NotNull [] args) {
         // #serverSpecific
         switch (plugin.getConfig().getString("server").toLowerCase()) {
             case "minigames" -> plugin.getServer().dispatchCommand(sender, "htp");

@@ -22,7 +22,7 @@ import org.jetbrains.annotations.NotNull;
 public record Restart(JavaPlugin plugin) implements CommandExecutor {
     private static boolean restarting;
 
-    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String @NotNull [] args) {
         // #serverSpecific
         // Send to minigames server if anything but the minigames server
         String server;
@@ -54,7 +54,7 @@ public record Restart(JavaPlugin plugin) implements CommandExecutor {
 
                             if (Bukkit.getOnlinePlayers().isEmpty()) {
                                 cancel();
-                                plugin.getServer().spigot().restart();
+                                plugin.getServer().restart();
                                 return;
                             }
 
@@ -126,7 +126,7 @@ public record Restart(JavaPlugin plugin) implements CommandExecutor {
                                 }
                                 case -10 -> {
                                     cancel();
-                                    plugin.getServer().spigot().restart();
+                                    plugin.getServer().restart();
                                 }
                             }
                             sec[0] -= 1;
@@ -136,10 +136,10 @@ public record Restart(JavaPlugin plugin) implements CommandExecutor {
                 }
             }
 
-            case "forcerestart" -> plugin.getServer().spigot().restart();
+            case "forcerestart" -> plugin.getServer().restart();
 
             case "quickrestart" -> {
-                if (Bukkit.getOnlinePlayers().isEmpty()) plugin.getServer().spigot().restart();
+                if (Bukkit.getOnlinePlayers().isEmpty()) plugin.getServer().restart();
                 else {
                     plugin.getLogger().info("Restarting...");
                     for (Player player : Bukkit.getOnlinePlayers()) {
@@ -153,7 +153,7 @@ public record Restart(JavaPlugin plugin) implements CommandExecutor {
                     new BukkitRunnable() {
                         @Override
                         public void run() {
-                            plugin.getServer().spigot().restart();
+                            plugin.getServer().restart();
                         }
                     }.runTaskLater(plugin, 100);
                 }
@@ -170,7 +170,7 @@ public record Restart(JavaPlugin plugin) implements CommandExecutor {
                 new BukkitRunnable() {
                     @Override
                     public void run() {
-                        if (Bukkit.getOnlinePlayers().isEmpty()) plugin.getServer().spigot().restart();
+                        if (Bukkit.getOnlinePlayers().isEmpty()) plugin.getServer().restart();
                     }
                 }.runTaskTimer(plugin, 0, 300);
             }

@@ -11,7 +11,7 @@ import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
 public class GettingStarted implements CommandExecutor {
-    public boolean onCommand(CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
+    public boolean onCommand(CommandSender sender, @NotNull Command cmd, @NotNull String label, String @NotNull [] args) {
         sender.sendMessage(Component.text(
             "\nGETTING STARTED",
             TextColor.fromHexString("#18d958"),

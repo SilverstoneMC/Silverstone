@@ -13,7 +13,7 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 public class Broadcasts implements CommandExecutor {
-    public boolean onCommand(@NotNull CommandSender sender, Command cmd, @NotNull String label, String[] args) {
+    public boolean onCommand(@NotNull CommandSender sender, Command cmd, @NotNull String label, String @NotNull [] args) {
         switch (cmd.getName().toLowerCase()) {
             case "bclag" -> {
                 sendBroadcast("WARNING", "The server may experience lag for a moment!");

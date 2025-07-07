@@ -12,7 +12,7 @@ import java.util.Collection;
 import java.util.List;
 
 public class TabComplete implements TabCompleter {
-    public List<String> onTabComplete(@NotNull CommandSender sender, Command cmd, @NotNull String label, String[] args) {
+    public List<String> onTabComplete(@NotNull CommandSender sender, Command cmd, @NotNull String label, String @NotNull [] args) {
         List<String> result = new ArrayList<>();
 
         switch (cmd.getName().toLowerCase()) {

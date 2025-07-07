@@ -7,7 +7,7 @@ import org.jetbrains.annotations.NotNull;
 
 @SuppressWarnings("unused")
 public class Glist implements CommandExecutor {
-    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String @NotNull [] args) {
         return true;
     }
 }

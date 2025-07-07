@@ -61,7 +61,7 @@ public class SilverstoneMinigames extends JavaPlugin implements CommandExecutor 
         new Minigames(this).createInventories();
     }
 
-    public boolean onCommand(CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
+    public boolean onCommand(CommandSender sender, @NotNull Command cmd, @NotNull String label, String @NotNull [] args) {
         saveDefaultConfig();
         reloadConfig();
         data.saveDefaultConfig();

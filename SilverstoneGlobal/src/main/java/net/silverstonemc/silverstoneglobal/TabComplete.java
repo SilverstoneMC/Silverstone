@@ -14,7 +14,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class TabComplete implements TabCompleter, Listener {
-    public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
+    public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String @NotNull [] args) {
         //noinspection SwitchStatementWithTooFewBranches
         switch (cmd.getName().toLowerCase()) {
             case "ggamerule" -> {

@@ -23,7 +23,7 @@ public class Tips implements CommandExecutor {
     private final JavaPlugin plugin;
 
     @SuppressWarnings("DataFlowIssue")
-    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String @NotNull [] args) {
         List<Component> pages = new ArrayList<>();
         for (String page : plugin.getConfig().getConfigurationSection("tips").getKeys(false)) {
             // Header

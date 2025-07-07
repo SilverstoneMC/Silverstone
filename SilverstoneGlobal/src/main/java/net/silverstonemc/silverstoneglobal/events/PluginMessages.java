@@ -14,7 +14,7 @@ import java.util.UUID;
 
 public class PluginMessages implements PluginMessageListener {
     @Override
-    public void onPluginMessageReceived(String channel, @NotNull Player messenger, byte[] bytes) {
+    public void onPluginMessageReceived(String channel, @NotNull Player messenger, byte @NotNull [] bytes) {
         if (!channel.equals("silverstone:pluginmsg")) return;
 
         ByteArrayDataInput in = ByteStreams.newDataInput(bytes);
