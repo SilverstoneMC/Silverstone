@@ -94,14 +94,16 @@ public class Rules implements SimpleCommand {
                     .append(Component.text(targetName, NamedTextColor.GRAY)));
         } else {
             target.sendMessage(MiniMessage.miniMessage()
-                .deserialize("<dark_green>Rule " + i.fileManager.files.get(CONFIG).node("rules",
+                .deserialize("<dark_green>Rule " + i.fileManager.files.get(CONFIG).node(
+                        "rules",
                         "rule-prefix").getString("null")
                     .replace("{#}", String.valueOf(rule)) + i.fileManager.files.get(CONFIG)
                     .node("rules", "rules", rule).getString()));
 
             // Tell mod+
             if (!silent) for (Player online : i.server.getAllPlayers())
-                if (online.hasPermission("silverstone.moderator")) online.sendMessage(Component.text("Rule ",
+                if (online.hasPermission("silverstone.moderator")) online.sendMessage(Component.text(
+                        "Rule ",
                         NamedTextColor.RED).append(Component.text(rule, NamedTextColor.GRAY))
                     .append(Component.text(" has been sent to ", NamedTextColor.RED))
                     .append(Component.text(targetName, NamedTextColor.GRAY)));

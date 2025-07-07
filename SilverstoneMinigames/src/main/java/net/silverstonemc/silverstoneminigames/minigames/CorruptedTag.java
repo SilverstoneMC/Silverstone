@@ -55,8 +55,10 @@ public class CorruptedTag implements CommandExecutor, Listener {
                             if (player == null) continue;
 
                             // Create the boss bar
-                            new BossBarManager().createBossBar(player,
-                                Component.text("Corruption",
+                            new BossBarManager().createBossBar(
+                                player,
+                                Component.text(
+                                    "Corruption",
                                     NamedTextColor.LIGHT_PURPLE,
                                     TextDecoration.BOLD),
                                 0.0f,
@@ -64,7 +66,8 @@ public class CorruptedTag implements CommandExecutor, Listener {
                                 BossBar.Overlay.NOTCHED_10);
                         }
                     } catch (IndexOutOfBoundsException e) {
-                        sender.sendMessage(Component.text("Please provide a valid selector!",
+                        sender.sendMessage(Component.text(
+                            "Please provide a valid selector!",
                             NamedTextColor.RED));
                     }
 
@@ -98,7 +101,8 @@ public class CorruptedTag implements CommandExecutor, Listener {
                             player.openInventory(kitInv);
                         }
                     } catch (IndexOutOfBoundsException e) {
-                        sender.sendMessage(Component.text("Please provide a valid selector!",
+                        sender.sendMessage(Component.text(
+                            "Please provide a valid selector!",
                             NamedTextColor.RED));
                     }
                 }
@@ -111,11 +115,13 @@ public class CorruptedTag implements CommandExecutor, Listener {
 
                             closeInv(player);
                             player.addScoreboardTag("CorruptedNinja");
-                            player.sendMessage(Component.text("Time's up! You have the Ninja kit.",
+                            player.sendMessage(Component.text(
+                                "Time's up! You have the Ninja kit.",
                                 NamedTextColor.RED));
                         }
                     } catch (IndexOutOfBoundsException e) {
-                        sender.sendMessage(Component.text("Please provide a valid selector!",
+                        sender.sendMessage(Component.text(
+                            "Please provide a valid selector!",
                             NamedTextColor.RED));
                     }
                 }
@@ -126,13 +132,15 @@ public class CorruptedTag implements CommandExecutor, Listener {
                             Player player = Bukkit.getPlayer(entity.getName());
                             if (player == null) continue;
 
-                            new BossBarManager().setBossBarColor(player,
+                            new BossBarManager().setBossBarColor(
+                                player,
                                 BossBar.Color.RED,
                                 NamedTextColor.RED);
                             player.addScoreboardTag("CorruptedHunter");
                         }
                     } catch (IndexOutOfBoundsException e) {
-                        sender.sendMessage(Component.text("Please provide a valid selector!",
+                        sender.sendMessage(Component.text(
+                            "Please provide a valid selector!",
                             NamedTextColor.RED));
                     }
                 }
@@ -143,13 +151,15 @@ public class CorruptedTag implements CommandExecutor, Listener {
                             Player player = Bukkit.getPlayer(entity.getName());
                             if (player == null) continue;
 
-                            new BossBarManager().setBossBarColor(player,
+                            new BossBarManager().setBossBarColor(
+                                player,
                                 BossBar.Color.PURPLE,
                                 NamedTextColor.LIGHT_PURPLE);
                             player.removeScoreboardTag("CorruptedHunter");
                         }
                     } catch (IndexOutOfBoundsException e) {
-                        sender.sendMessage(Component.text("Please provide a valid selector!",
+                        sender.sendMessage(Component.text(
+                            "Please provide a valid selector!",
                             NamedTextColor.RED));
                     }
                 }
@@ -164,7 +174,8 @@ public class CorruptedTag implements CommandExecutor, Listener {
                             new BossBarManager().removeBossBar(player);
                         }
                     } catch (IndexOutOfBoundsException e) {
-                        sender.sendMessage(Component.text("Please provide a valid selector!",
+                        sender.sendMessage(Component.text(
+                            "Please provide a valid selector!",
                             NamedTextColor.RED));
                     }
 
@@ -264,7 +275,8 @@ public class CorruptedTag implements CommandExecutor, Listener {
 
                 player.addScoreboardTag("Corrupted" + type);
                 player.addScoreboardTag("Ready");
-                player.sendMessage(Component.text("You have selected the " + type + " kit!",
+                player.sendMessage(Component.text(
+                    "You have selected the " + type + " kit!",
                     NamedTextColor.GREEN));
                 closeInv(player);
             }
@@ -294,27 +306,34 @@ public class CorruptedTag implements CommandExecutor, Listener {
 
     public void createInventories() {
         // Kits
-        kitInv = Bukkit.createInventory(null,
+        kitInv = Bukkit.createInventory(
+            null,
             9,
             Component.text("Select a Kit", NamedTextColor.BLACK, TextDecoration.BOLD));
 
-        kitInv.setItem(2, createKitItem(Material.IRON_CHESTPLATE,
-            "Tank",
-            "Pickaxe",
-            List.of("20% corruption resistance", "10 hearts"),
-            List.of("Much slower health regeneration")));
+        kitInv.setItem(
+            2, createKitItem(
+                Material.IRON_CHESTPLATE,
+                "Tank",
+                "Pickaxe",
+                List.of("20% corruption resistance", "10 hearts"),
+                List.of("Much slower health regeneration")));
 
-        kitInv.setItem(4, createKitItem(Material.IRON_SWORD,
-            "Ninja",
-            "Sword",
-            List.of("3 jump boosts per life", "40% speed boost when Hunter"),
-            List.of("7 hearts")));
+        kitInv.setItem(
+            4, createKitItem(
+                Material.IRON_SWORD,
+                "Ninja",
+                "Sword",
+                List.of("3 jump boosts per life", "40% speed boost when Hunter"),
+                List.of("7 hearts")));
 
-        kitInv.setItem(6, createKitItem(Material.BOW,
-            "Ranged",
-            "Bow",
-            List.of("Ranged attack"),
-            List.of("No melee attack", "Limited arrows per life", "5 hearts")));
+        kitInv.setItem(
+            6, createKitItem(
+                Material.BOW,
+                "Ranged",
+                "Bow",
+                List.of("Ranged attack"),
+                List.of("No melee attack", "Limited arrows per life", "5 hearts")));
 
         // Confirm button
         ItemStack confirm = new CustomSkull().createCustomSkull(
@@ -333,21 +352,24 @@ public class CorruptedTag implements CommandExecutor, Listener {
         cancel.setItemMeta(cancelMeta);
 
         // Tank
-        confirmTankInv = Bukkit.createInventory(null,
+        confirmTankInv = Bukkit.createInventory(
+            null,
             9,
             Component.text("Confirm Tank Kit?", NamedTextColor.BLACK, TextDecoration.BOLD));
         confirmTankInv.setItem(3, confirm);
         confirmTankInv.setItem(5, cancel);
 
         // Ninja
-        confirmNinjaInv = Bukkit.createInventory(null,
+        confirmNinjaInv = Bukkit.createInventory(
+            null,
             9,
             Component.text("Confirm Ninja Kit?", NamedTextColor.BLACK, TextDecoration.BOLD));
         confirmNinjaInv.setItem(3, confirm);
         confirmNinjaInv.setItem(5, cancel);
 
         // Ranged
-        confirmRangedInv = Bukkit.createInventory(null,
+        confirmRangedInv = Bukkit.createInventory(
+            null,
             9,
             Component.text("Confirm Ranged Kit?", NamedTextColor.BLACK, TextDecoration.BOLD));
         confirmRangedInv.setItem(3, confirm);

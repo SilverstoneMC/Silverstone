@@ -37,10 +37,21 @@ public record TNTRun(JavaPlugin plugin) implements CommandExecutor {
                     if (player == null) continue;
                     if (player.getGameMode() != GameMode.ADVENTURE) continue;
 
-                    int[] xOffset = {-1, 1, -1, 1};
-                    int[] zOffset = {-1, -1, 1, 1};
+                    int[] xOffset = {
+                        -1,
+                        1,
+                        -1,
+                        1
+                    };
+                    int[] zOffset = {
+                        -1,
+                        -1,
+                        1,
+                        1
+                    };
                     for (int i = 0; i < 4; i++) {
-                        Block block = player.getLocation().subtract(player.getWidth() / 2 * xOffset[i],
+                        Block block = player.getLocation().subtract(
+                            player.getWidth() / 2 * xOffset[i],
                             1,
                             player.getWidth() / 2 * zOffset[i]).getBlock();
                         switch (block.getType()) {

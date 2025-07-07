@@ -32,20 +32,22 @@ public class DiscordButtons extends ListenerAdapter {
             player = player.substring(0, player.indexOf(' '));
             String finalPlayer = player;
 
-            i.server.getCommandManager().executeAsync(i.server.getConsoleCommandSource(),
+            i.server.getCommandManager().executeAsync(
+                i.server.getConsoleCommandSource(),
                 "warn " + finalPlayer + " skin");
 
             event.deferEdit().queue();
             Button button = event.getButton().asDisabled();
             message.editMessageComponents(ActionRow.of(button)).queue();
 
-            Executors.newSingleThreadScheduledExecutor().schedule(() -> {
-                Message latestMessage = event.getChannel().retrieveMessageById(event.getMessageId())
-                    .complete();
-                EmbedBuilder embed = new EmbedBuilder(latestMessage.getEmbeds().getFirst());
-                embed.setDescription("Warned by " + event.getUser().getAsMention());
-                latestMessage.editMessageEmbeds(embed.build()).queue();
-            }, 3, TimeUnit.SECONDS);
+            Executors.newSingleThreadScheduledExecutor().schedule(
+                () -> {
+                    Message latestMessage = event.getChannel().retrieveMessageById(event.getMessageId())
+                        .complete();
+                    EmbedBuilder embed = new EmbedBuilder(latestMessage.getEmbeds().getFirst());
+                    embed.setDescription("Warned by " + event.getUser().getAsMention());
+                    latestMessage.editMessageEmbeds(embed.build()).queue();
+                }, 3, TimeUnit.SECONDS);
 
             return;
         }
@@ -57,25 +59,29 @@ public class DiscordButtons extends ListenerAdapter {
         String type = event.getComponentId().replaceFirst(":.*", "");
         switch (type) {
             case "removewarning" -> {
-                i.server.getCommandManager().executeAsync(i.server.getConsoleCommandSource(),
+                i.server.getCommandManager().executeAsync(
+                    i.server.getConsoleCommandSource(),
                     "ssw remove " + warning + " " + username);
                 disableButtons(event, 1);
             }
 
             case "removewarningsilently" -> {
-                i.server.getCommandManager().executeAsync(i.server.getConsoleCommandSource(),
+                i.server.getCommandManager().executeAsync(
+                    i.server.getConsoleCommandSource(),
                     "ssw remove " + warning + " " + username + " -s");
                 disableButtons(event, 1);
             }
 
             case "clearwarning" -> {
-                i.server.getCommandManager().executeAsync(i.server.getConsoleCommandSource(),
+                i.server.getCommandManager().executeAsync(
+                    i.server.getConsoleCommandSource(),
                     "ssw clear " + warning + " " + username);
                 disableButtons(event, 2);
             }
 
             case "clearallwarnings" -> {
-                i.server.getCommandManager().executeAsync(i.server.getConsoleCommandSource(),
+                i.server.getCommandManager().executeAsync(
+                    i.server.getConsoleCommandSource(),
                     "ssw clear all " + username);
                 disableButtons(event, 3);
             }

@@ -13,7 +13,7 @@ import org.jetbrains.annotations.NotNull;
 @SuppressWarnings("DataFlowIssue")
 public class TP implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
-        if (!(sender instanceof Player)) {
+        if (!(sender instanceof Player player)) {
             sender.sendMessage(Component.text("Sorry, but only players can do that.", NamedTextColor.RED));
             return true;
         }
@@ -23,14 +23,14 @@ public class TP implements CommandExecutor {
         if (cmd.getName().equalsIgnoreCase("tpregion")) multiplier = 512;
 
         if (args.length > 1) {
-            Player player = (Player) sender;
 
             player.sendMessage(Component.text("Teleporting...", NamedTextColor.DARK_AQUA));
 
             // If player specifies world
             if (args.length > 2) if (Bukkit.getWorld(args[2]) != null) {
                 Location loc = Bukkit.getWorld(args[2])
-                    .getHighestBlockAt(Integer.parseInt(args[0]) * multiplier,
+                    .getHighestBlockAt(
+                        Integer.parseInt(args[0]) * multiplier,
                         Integer.parseInt(args[1]) * multiplier).getLocation().add(0, 1, 0);
 
                 if (player.isFlying()) player.teleportAsync(loc.add(0, 3, 0));
@@ -39,7 +39,8 @@ public class TP implements CommandExecutor {
             } else player.sendMessage(Component.text("That world doesn't exist!", NamedTextColor.RED));
 
             else {
-                Location loc = player.getWorld().getHighestBlockAt(Integer.parseInt(args[0]) * multiplier,
+                Location loc = player.getWorld().getHighestBlockAt(
+                    Integer.parseInt(args[0]) * multiplier,
                     Integer.parseInt(args[1]) * multiplier).getLocation().add(0, 1, 0);
 
                 if (player.isFlying()) player.teleportAsync(loc.add(0, 3, 0));

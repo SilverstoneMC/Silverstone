@@ -43,7 +43,8 @@ public class Nickname implements SimpleCommand {
             if (sender.hasPermission("silverstone.nickname.others")) if (sender.hasPermission(
                 "silverstone.nickname.colors")) sender.sendMessage(Component.text("Usage: /nick <nickname | reset | colors> [player]",
                 NamedTextColor.RED));
-            else sender.sendMessage(Component.text("Usage: /nick <nickname | reset> [player]",
+            else sender.sendMessage(Component.text(
+                    "Usage: /nick <nickname | reset> [player]",
                     NamedTextColor.RED));
             else if (sender.hasPermission("silverstone.nickname.colors")) sender.sendMessage(Component.text("Usage: /nick <nickname | reset | colors>",
                 NamedTextColor.RED));
@@ -87,7 +88,8 @@ public class Nickname implements SimpleCommand {
 
         // Whether or not to allow colors/decorations
         TagResolver.Builder allowedTags = TagResolver.builder();
-        if (sender.hasPermission("silverstone.nickname.colors")) allowedTags.resolvers(StandardTags.color(),
+        if (sender.hasPermission("silverstone.nickname.colors")) allowedTags.resolvers(
+            StandardTags.color(),
             StandardTags.rainbow(),
             StandardTags.gradient());
         if (sender.hasPermission("silverstone.nickname.decorations"))
@@ -108,7 +110,8 @@ public class Nickname implements SimpleCommand {
         if (!sender.hasPermission("silverstone.nickname.bypass.length")) {
             int maxLength = i.fileManager.files.get(CONFIG).node("nicknames", "max-length").getInt();
             if (strippedName.length() > maxLength) {
-                sender.sendMessage(Component.text("Nicknames cannot be longer than " + maxLength + " characters!",
+                sender.sendMessage(Component.text(
+                    "Nicknames cannot be longer than " + maxLength + " characters!",
                     NamedTextColor.RED));
                 return;
             }
@@ -116,7 +119,8 @@ public class Nickname implements SimpleCommand {
 
         Component nickname = miniMessage.deserialize(args[0]);
 
-        if (new NicknameUtils(i).setNickname(player,
+        if (new NicknameUtils(i).setNickname(
+            player,
             sender,
             nickname,
             MiniMessage.miniMessage().stripTags(args[0]))) return;

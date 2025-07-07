@@ -35,7 +35,8 @@ public class WirelessButtons implements Listener {
 
                     ByteArrayDataOutput out = ByteStreams.newDataOutput();
                     out.writeUTF("rules");
-                    player.sendPluginMessage(SilverstoneMain.getInstance(),
+                    player.sendPluginMessage(
+                        SilverstoneMain.getInstance(),
                         "silverstone:pluginmsg",
                         out.toByteArray());
 

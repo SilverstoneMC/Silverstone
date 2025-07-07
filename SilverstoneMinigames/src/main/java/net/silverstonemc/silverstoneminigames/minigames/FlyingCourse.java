@@ -35,8 +35,8 @@ public record FlyingCourse(JavaPlugin plugin) implements CommandExecutor {
             new BukkitRunnable() {
                 @Override
                 public void run() {
-                    Location location = new Location(Bukkit.getWorld(plugin.getConfig()
-                        .getString("flying-course-world")),
+                    Location location = new Location(
+                        Bukkit.getWorld(plugin.getConfig().getString("flying-course-world")),
                         23.5,
                         132,
                         88.5,
@@ -64,7 +64,8 @@ public record FlyingCourse(JavaPlugin plugin) implements CommandExecutor {
                             addToTopScores("extended");
                             player.teleportAsync(location);
                         }
-                        default -> sender.sendMessage(Component.text("Please provide a valid difficulty!",
+                        default -> sender.sendMessage(Component.text(
+                            "Please provide a valid difficulty!",
                             NamedTextColor.RED));
                     }
                 }
@@ -110,7 +111,8 @@ public record FlyingCourse(JavaPlugin plugin) implements CommandExecutor {
                             .getString("flying-course-world"))) players.sendMessage(Component.text().append(
                                 Component.text("NOTICE", NamedTextColor.RED, TextDecoration.BOLD)).append(
                                 Component.text(" > ", NamedTextColor.AQUA, TextDecoration.BOLD))
-                            .append(Component.text(player.getName() + " just finished the ",
+                            .append(Component.text(
+                                player.getName() + " just finished the ",
                                 NamedTextColor.GREEN)).append(Component.text(difficultyType, namedTextColor))
                             .append(Component.text(" course!", NamedTextColor.GREEN)).build());
                 }
@@ -157,7 +159,8 @@ public record FlyingCourse(JavaPlugin plugin) implements CommandExecutor {
                             // If speed is greater than 0.05 or -0.05
                             if (((speed.getX() > 0.05) || (speed.getX() < -0.05)) || ((speed.getZ() > 0.05) || (speed.getZ() < -0.05))) {
                                 player.setVelocity(speed.multiply(1.075));
-                                player.playSound(player.getLocation(),
+                                player.playSound(
+                                    player.getLocation(),
                                     Sound.BLOCK_BEACON_ACTIVATE,
                                     SoundCategory.BLOCKS,
                                     10,
@@ -166,7 +169,8 @@ public record FlyingCourse(JavaPlugin plugin) implements CommandExecutor {
                         }
                     }
                 } catch (IndexOutOfBoundsException e) {
-                    sender.sendMessage(Component.text("Please provide a valid selector!",
+                    sender.sendMessage(Component.text(
+                        "Please provide a valid selector!",
                         NamedTextColor.RED));
                 }
                 return true;
@@ -198,19 +202,23 @@ public record FlyingCourse(JavaPlugin plugin) implements CommandExecutor {
         }
         for (String uuid : config.getConfigurationSection("data").getKeys(false)) {
             if (config.contains("data." + uuid + ".flyingcourse.easy"))
-                easyScores.put(Bukkit.getOfflinePlayer(UUID.fromString(uuid)),
+                easyScores.put(
+                    Bukkit.getOfflinePlayer(UUID.fromString(uuid)),
                     config.getInt("data." + uuid + ".flyingcourse.easy"));
 
             if (config.contains("data." + uuid + ".flyingcourse.medium"))
-                mediumScores.put(Bukkit.getOfflinePlayer(UUID.fromString(uuid)),
+                mediumScores.put(
+                    Bukkit.getOfflinePlayer(UUID.fromString(uuid)),
                     config.getInt("data." + uuid + ".flyingcourse.medium"));
 
             if (config.contains("data." + uuid + ".flyingcourse.hard"))
-                hardScores.put(Bukkit.getOfflinePlayer(UUID.fromString(uuid)),
+                hardScores.put(
+                    Bukkit.getOfflinePlayer(UUID.fromString(uuid)),
                     config.getInt("data." + uuid + ".flyingcourse.hard"));
 
             if (config.contains("data." + uuid + ".flyingcourse.extended"))
-                extendedScores.put(Bukkit.getOfflinePlayer(UUID.fromString(uuid)),
+                extendedScores.put(
+                    Bukkit.getOfflinePlayer(UUID.fromString(uuid)),
                     config.getInt("data." + uuid + ".flyingcourse.extended"));
         }
 

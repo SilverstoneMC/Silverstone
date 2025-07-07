@@ -30,7 +30,8 @@ public class WarnPlayer {
             "e70a4622-85b6-417d-9201-7322e5094465") || uuid.toString().equals(
             "75fb05a2-9d9e-49cb-be34-6bd5215548ba") || uuid.toString().equals(
             "5c3d3b7c-aa02-4751-ae4b-60b277da9c35")) {
-            i.logger.error("Cancelled warning {} for reason: {}",
+            i.logger.error(
+                "Cancelled warning {} for reason: {}",
                 new UserManager(i).getUsername(uuid),
                 reason);
             return;
@@ -49,7 +50,9 @@ public class WarnPlayer {
 
                 Component offlinePlayerWarned = Component.text("Offline player ", NamedTextColor.RED).append(
                     Component.text(username, NamedTextColor.GRAY)).append(Component.text(" has been warned for reason: ",
-                    NamedTextColor.RED)).append(Component.text(reason, NamedTextColor.GRAY));
+                    NamedTextColor.RED)).append(Component.text(
+                    reason,
+                    NamedTextColor.GRAY));
 
                 i.server.getConsoleCommandSource().sendMessage(offlinePlayerWarned);
                 // Message staff
@@ -58,7 +61,8 @@ public class WarnPlayer {
                         online.sendMessage(offlinePlayerWarned);
 
                 EmbedBuilder embed = new EmbedBuilder();
-                embed.setAuthor(username + " has a warning queued: " + reason,
+                embed.setAuthor(
+                    username + " has a warning queued: " + reason,
                     null,
                     "https://mc-heads.net/avatar/" + uuid);
                 embed.setColor(new Color(255, 217, 0));
@@ -66,7 +70,8 @@ public class WarnPlayer {
                 return;
             }
 
-            ConfigurationNode warnData = i.fileManager.files.get(WARNDATA).node("data",
+            ConfigurationNode warnData = i.fileManager.files.get(WARNDATA).node(
+                "data",
                 uuid.toString(),
                 reason);
             // If player doesn't have the reason in their data, add it
@@ -91,10 +96,11 @@ public class WarnPlayer {
                 null,
                 "https://mc-heads.net/avatar/" + uuid);
             embed.setColor(new Color(204, 27, 53));
-            warningChannel.sendMessageEmbeds(embed.build()).setActionRow(Button
-                    .success("removewarning: " + reason + " :" + uuid, "Undo '" + reason + "' warning")
+            warningChannel.sendMessageEmbeds(embed.build()).setActionRow(
+                Button.success("removewarning: " + reason + " :" + uuid, "Undo '" + reason + "' warning")
                     .withEmoji(Emoji.fromUnicode("↩")),
-                Button.primary("removewarningsilently: " + reason + " :" + uuid,
+                Button.primary(
+                    "removewarningsilently: " + reason + " :" + uuid,
                     "Undo '" + reason + "' warning silently").withEmoji(Emoji.fromUnicode("↩")),
                 Button
                     .secondary("clearwarning: " + reason + " :" + uuid, "Clear all '" + reason + "' warnings")
@@ -110,7 +116,8 @@ public class WarnPlayer {
                 throw new RuntimeException(e);
             }
             for (String cmd : cmdList)
-                i.server.getCommandManager().executeAsync(i.server.getConsoleCommandSource(),
+                i.server.getCommandManager().executeAsync(
+                    i.server.getConsoleCommandSource(),
                     cmd.replace("{player}", username));
 
         } catch (SerializationException e) {

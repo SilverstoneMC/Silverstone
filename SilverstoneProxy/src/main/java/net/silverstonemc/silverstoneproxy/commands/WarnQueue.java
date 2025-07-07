@@ -33,7 +33,8 @@ public class WarnQueue implements SimpleCommand {
 
         for (ConfigurationNode uuid : i.fileManager.files.get(WARNQUEUE).node("queue").childrenMap().values())
             //noinspection DataFlowIssue
-            sender.sendMessage(Component.text(new UserManager(i).getUsername(UUID.fromString(uuid.key()
-                .toString())) + " - " + uuid.getString(), NamedTextColor.GRAY));
+            sender.sendMessage(Component.text(
+                new UserManager(i).getUsername(UUID.fromString(uuid.key()
+                    .toString())) + " - " + uuid.getString(), NamedTextColor.GRAY));
     }
 }

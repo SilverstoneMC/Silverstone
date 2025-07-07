@@ -149,15 +149,18 @@ public class ChatColorGUI implements CommandExecutor, Listener {
 
     private void setChatColor(Player player, char value) {
         // Tried using the API but this just works much better lol
-        if (value == 'r') Bukkit.dispatchCommand(Bukkit.getConsoleSender(),
+        if (value == 'r') Bukkit.dispatchCommand(
+            Bukkit.getConsoleSender(),
             "lp user " + player.getName() + " meta removesuffix 500");
-        
-        else Bukkit.dispatchCommand(Bukkit.getConsoleSender(),
+
+        else Bukkit.dispatchCommand(
+            Bukkit.getConsoleSender(),
             "lp user " + player.getName() + " meta setsuffix 500 &" + value);
     }
 
     public void createInv() {
-        Inventory inventory = Bukkit.createInventory(null,
+        Inventory inventory = Bukkit.createInventory(
+            null,
             45,
             Component.text("Chat Colors", TextColor.fromHexString("#a62828"), TextDecoration.BOLD));
 

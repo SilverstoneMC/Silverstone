@@ -53,10 +53,12 @@ public class Minigames implements CommandExecutor, Listener {
     }
 
     public void createInventories() {
-        gameInv = Bukkit.createInventory(null,
+        gameInv = Bukkit.createInventory(
+            null,
             9,
             Component.text("Select Player Count", NamedTextColor.DARK_GRAY, TextDecoration.BOLD));
-        htpInv = Bukkit.createInventory(null,
+        htpInv = Bukkit.createInventory(
+            null,
             36,
             Component.text("Select a Minigame", NamedTextColor.DARK_GRAY, TextDecoration.BOLD));
 
@@ -134,12 +136,14 @@ public class Minigames implements CommandExecutor, Listener {
         Player player = (Player) event.getWhoClicked();
 
         switch (event.getRawSlot()) {
-            case 10 -> openBook(player, "Boat Racing", """
-                Race your boat to reach the finish line before the other players. 1 of the 4 available maps will be randomly selected.
-                                
-                <b>The goal:</b> Get to the finish line first.""");
+            case 10 -> openBook(
+                player, "Boat Racing", """
+                    Race your boat to reach the finish line before the other players. 1 of the 4 available maps will be randomly selected.
+                    
+                    <b>The goal:</b> Get to the finish line first.""");
 
-            case 11 -> openBook(player,
+            case 11 -> openBook(
+                player,
                 "Corrupted Tag",
                 """
                     A random player is selected to be the hunter. Their job is to try and kill another player to transfer the corruption to them.""",
@@ -150,7 +154,8 @@ public class Minigames implements CommandExecutor, Listener {
                 """
                     <b>The goal (hunter):</b> Kill any player to stop your corruption.""");
 
-            case 12 -> openBook(player,
+            case 12 -> openBook(
+                player,
                 "Death Run",
                 """
                     A random person is selected to choose a map. Once the map is chosen, another random person is selected to be the killer.""",
@@ -159,12 +164,14 @@ public class Minigames implements CommandExecutor, Listener {
                 """
                     <b>The goal (killer):</b> Slow everyone down as much as possible. Killing players will give you a temporary speed boost. If the timer finishes before anyone makes it to the end, you win!""");
 
-            case 13 -> openBook(player, "Flying Course", """
-                Fly through the rings in the correct order without touching anything. The arrows on the ground are boost pads, and the arrows on the rings point to the next ring.
+            case 13 -> openBook(
+                player, "Flying Course", """
+                    Fly through the rings in the correct order without touching anything. The arrows on the ground are boost pads, and the arrows on the rings point to the next ring.
+                    
+                    <b>The goal:</b> Reach the finish area.""");
 
-                <b>The goal:</b> Reach the finish area.""");
-
-            case 14 -> openBook(player,
+            case 14 -> openBook(
+                player,
                 "Hide & Seek",
                 """
                     A random player is selected to be the seeker. An additional seeker will be selected if there are 5 or more players, and a third seeker will be chosen if there are 7 or more players.""",
@@ -180,16 +187,18 @@ public class Minigames implements CommandExecutor, Listener {
                 """
                     <b>The goal (seekers):</b> Kill every hider. If there are no more hiders before the 10 minutes are up, the seekers will win.""");
 
-            case 15 -> openBook(player, "Mazes", """
-                A random maze that has no players in it will be assigned to a random player in the maze lobby. There are 8 different mazes.
+            case 15 -> openBook(
+                player, "Mazes", """
+                    A random maze that has no players in it will be assigned to a random player in the maze lobby. There are 8 different mazes.
+                    
+                    <b>The goal:</b> Find the golden pressure plate at the end of the maze.""");
 
-                <b>The goal:</b> Find the golden pressure plate at the end of the maze.""");
-
-            case 16 -> openBook(player,
+            case 16 -> openBook(
+                player,
                 "Mini Golf",
                 """
                     Select your ball.
-
+                    
                     Stand on the <b>black</b> carpet and press <b><key:key.drop></b> to throw the ball towards the hole or the next checkpoint.
                     Checkpoints are <b><gray>gray</gray></b> carpet.""",
                 """
@@ -197,47 +206,51 @@ public class Minigames implements CommandExecutor, Listener {
                 """
                     <b>The goal:</b> Complete the final hole and finish the game in as few strokes as possible.""");
 
-            case 19 -> openBook(player, "Parkour", """
-                <b>The goal:</b> Get to the end without rage quitting.""");
+            case 19 -> openBook(
+                player, "Parkour", """
+                    <b>The goal:</b> Get to the end without rage quitting.""");
 
-            case 21 -> openBook(player,
+            case 21 -> openBook(
+                player,
                 "PvP",
                 """
-                                        
+                    
                     <b>1v1</b>
                     Kill the other player with your fist!
-
+                    
                     <b>The goal:</b> Be the last person standing.""",
                 """
-                                        
+                    
                     <b>FFA</b>
                     Kill the other players with your fist! Killing others will result in you being healed.
-
+                    
                     <b>The goal:</b> Don't die.""",
                 """
-                                        
+                    
                     <b>Sumo</b>
                     Hit the other player off the edge of the map. If nobody has died after 1 minute, you will get Knockback Sticks (Knockback I).""",
                 """
-                                        
+                    
                     <b>Sumo (Continued)</b>
                     If everyone is still alive after an additional 1 minute, you will get Knockback Rods (Knockback II).
-
+                    
                     <b>The goal:</b> Be the last person standing.""");
 
-            case 23 -> openBook(player,
+            case 23 -> openBook(
+                player,
                 "Spleef",
                 """
                     When the game begins, you will be given a shovel, bow, and some arrows. The the shovel has Efficiency V, the bow has Punch I, and the arrows have Knockback I. You will receive 9 arrows per layer, with 1 layer for each person (max 5 layers).""",
                 """
                     You can override this by choosing <b>FORCE 5 LAYERS</b> instead of <b>START DEFAULT</b>.
-
+                    
                     <b>The goal:</b> Get the other players out by making them fall into the water at the bottom. The last person standing is the winner.""");
 
-            case 25 -> openBook(player, "TNT Run", """
-                You will start with 5 double jumps. Click with the feather in hand to consume a double jump.
-
-                <b>The goal:</b> Get the other players out by making them drop through the bottom layer.""");
+            case 25 -> openBook(
+                player, "TNT Run", """
+                    You will start with 5 double jumps. Click with the feather in hand to consume a double jump.
+                    
+                    <b>The goal:</b> Get the other players out by making them drop through the bottom layer.""");
         }
     }
 

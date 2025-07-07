@@ -12,11 +12,13 @@ import org.jetbrains.annotations.NotNull;
 
 public class GettingStarted implements CommandExecutor {
     public boolean onCommand(CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
-        sender.sendMessage(Component.text("\nGETTING STARTED",
+        sender.sendMessage(Component.text(
+            "\nGETTING STARTED",
             TextColor.fromHexString("#18d958"),
             TextDecoration.BOLD));
 
-        sender.sendMessage(Component.text("                         ",
+        sender.sendMessage(Component.text(
+            "                         ",
             NamedTextColor.DARK_GRAY,
             TextDecoration.STRIKETHROUGH));
 

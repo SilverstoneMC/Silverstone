@@ -67,18 +67,21 @@ public class Warnings implements SimpleCommand {
                 return;
             }
 
-        sender.sendMessage(Component.text(username + "'s warnings:",
+        sender.sendMessage(Component.text(
+            username + "'s warnings:",
             NamedTextColor.RED,
             TextDecoration.BOLD));
 
         // If any warnings already exist
         if (!warnData.virtual()) for (ConfigurationNode reasonList : warnData.childrenMap().values())
             //noinspection DataFlowIssue
-            sender.sendMessage(Component.text(reasonList.key().toString() + " - " + reasonList.getInt(),
+            sender.sendMessage(Component.text(
+                reasonList.key().toString() + " - " + reasonList.getInt(),
                 NamedTextColor.GRAY));
 
         // If in queue
-        if (!warnQueue.virtual()) sender.sendMessage(Component.text(warnQueue.getString() + " (Queued)",
+        if (!warnQueue.virtual()) sender.sendMessage(Component.text(
+            warnQueue.getString() + " (Queued)",
             NamedTextColor.GRAY));
     }
 

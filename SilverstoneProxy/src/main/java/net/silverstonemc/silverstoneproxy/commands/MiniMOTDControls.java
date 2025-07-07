@@ -42,7 +42,8 @@ public class MiniMOTDControls implements SimpleCommand {
                 editMotdFiles("/home/container/plugins/minimotd-velocity/main.conf", true);
                 editMotdFiles("/home/container/plugins/minimotd-velocity/extra-configs/survival.conf", true);
                 editMotdFiles("/home/container/plugins/minimotd-velocity/extra-configs/events.conf", true);
-                i.server.getCommandManager().executeAsync(i.server.getConsoleCommandSource(),
+                i.server.getCommandManager().executeAsync(
+                    i.server.getConsoleCommandSource(),
                     "minimotd reload");
                 sender.sendMessage(Component.text("MiniMOTD enabled.", NamedTextColor.GREEN));
             }
@@ -51,12 +52,14 @@ public class MiniMOTDControls implements SimpleCommand {
                 editMotdFiles("/home/container/plugins/minimotd-velocity/main.conf", false);
                 editMotdFiles("/home/container/plugins/minimotd-velocity/extra-configs/survival.conf", false);
                 editMotdFiles("/home/container/plugins/minimotd-velocity/extra-configs/events.conf", false);
-                i.server.getCommandManager().executeAsync(i.server.getConsoleCommandSource(),
+                i.server.getCommandManager().executeAsync(
+                    i.server.getConsoleCommandSource(),
                     "minimotd reload");
                 sender.sendMessage(Component.text("MiniMOTD disabled.", NamedTextColor.RED));
             }
 
-            default -> sender.sendMessage(Component.text("Usage: /mmotd <enable | disable>",
+            default -> sender.sendMessage(Component.text(
+                "Usage: /mmotd <enable | disable>",
                 NamedTextColor.RED));
         }
     }

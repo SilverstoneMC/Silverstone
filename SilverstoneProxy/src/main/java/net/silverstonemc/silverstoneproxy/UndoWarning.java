@@ -31,13 +31,15 @@ public class UndoWarning {
             if (unpunishmentNumber == 0) unpunishmentNumber = unpunishmentCount;
 
             // Un-warn the player
-            Iterable<String> cmdList = new ArrayList<>(i.fileManager.files.get(CONFIG).node("reasons",
+            Iterable<String> cmdList = new ArrayList<>(i.fileManager.files.get(CONFIG).node(
+                    "reasons",
                     reason,
                     "remove",
                     unpunishmentNumber).childrenMap().values().stream().map(ConfigurationNode::toString)
                 .toList());
             for (String cmd : cmdList)
-                i.server.getCommandManager().executeAsync(i.server.getConsoleCommandSource(),
+                i.server.getCommandManager().executeAsync(
+                    i.server.getConsoleCommandSource(),
                     cmd.replace("{player}", username));
 
         } else if (reason.equals("all")) {
@@ -60,7 +62,8 @@ public class UndoWarning {
                                 commands.add(configReasonCommands.replace("{player}", username));
 
                     for (String command : commands)
-                        i.server.getCommandManager().executeAsync(i.server.getConsoleCommandSource(),
+                        i.server.getCommandManager().executeAsync(
+                            i.server.getConsoleCommandSource(),
                             command);
 
                     Thread.sleep(100);
@@ -92,7 +95,8 @@ public class UndoWarning {
                             commands.add(configReasonCommands.replace("{player}", username));
 
                         for (String command : commands)
-                            i.server.getCommandManager().executeAsync(i.server.getConsoleCommandSource(),
+                            i.server.getCommandManager().executeAsync(
+                                i.server.getConsoleCommandSource(),
                                 command);
 
                         Thread.sleep(100);

@@ -8,7 +8,10 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
-@SuppressWarnings({"DataFlowIssue", "unused"})
+@SuppressWarnings({
+    "DataFlowIssue",
+    "unused"
+})
 public class SilverstoneMain extends JavaPlugin implements Listener {
     public static SilverstoneMain getInstance() {
         return instance;

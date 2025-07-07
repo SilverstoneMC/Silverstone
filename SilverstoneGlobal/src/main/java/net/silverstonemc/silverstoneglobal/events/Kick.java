@@ -16,7 +16,8 @@ public class Kick implements Listener {
         ByteArrayDataOutput out = ByteStreams.newDataOutput();
         out.writeUTF("kick");
         out.writeUTF(GsonComponentSerializer.gson().serialize(event.reason()));
-        event.getPlayer().sendPluginMessage(SilverstoneGlobal.getInstance(),
+        event.getPlayer().sendPluginMessage(
+            SilverstoneGlobal.getInstance(),
             "silverstone:pluginmsg",
             out.toByteArray());
     }

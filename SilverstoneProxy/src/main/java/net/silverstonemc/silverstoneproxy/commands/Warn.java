@@ -75,13 +75,15 @@ public class Warn implements SimpleCommand {
         }
         else // If console does the command
             switch (args.length) {
-                case 0, 1 -> sender.sendMessage(Component.text("/warn <player> <reason>",
+                case 0, 1 -> sender.sendMessage(Component.text(
+                    "/warn <player> <reason>",
                     NamedTextColor.RED));
 
                 case 2 -> {
                     // Warn the targeted player
                     if (checkIfValidReason(args[1])) {
-                        i.server.getCommandManager().executeAsync(i.server.getConsoleCommandSource(),
+                        i.server.getCommandManager().executeAsync(
+                            i.server.getConsoleCommandSource(),
                             "reasons");
                         return;
                     }

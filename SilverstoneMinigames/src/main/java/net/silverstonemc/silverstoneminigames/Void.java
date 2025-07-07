@@ -11,7 +11,8 @@ public class Void implements Listener {
     public void onMove(PlayerMoveEvent event) {
         Player player = event.getPlayer();
         if (player.getLocation().getBlockY() <= -90)
-            if (!player.isFlying()) Bukkit.dispatchCommand(Bukkit.getConsoleSender(),
+            if (!player.isFlying()) Bukkit.dispatchCommand(
+                Bukkit.getConsoleSender(),
                 "spawn " + player.getName());
     }
 }

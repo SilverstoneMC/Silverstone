@@ -41,7 +41,11 @@ import java.util.concurrent.TimeUnit;
 import static net.silverstonemc.silverstoneproxy.ConfigurationManager.FileType.USERCACHE;
 import static net.silverstonemc.silverstoneproxy.ConfigurationManager.FileType.WHITELIST;
 
-@Plugin(id = "silverstoneproxy", name = "SilverstoneProxy", version = "%VERSION%", description = "Features for the Silverstone proxy, including warnings", authors = {"JasonHorkles"}, dependencies = {@Dependency(id = "luckperms"), @Dependency(id = "carbonchat"), @Dependency(id = "libertybans")})
+@Plugin(id = "silverstoneproxy", name = "SilverstoneProxy", version = "%VERSION%", description = "Features for the Silverstone proxy, including warnings", authors = {"JasonHorkles"}, dependencies = {
+    @Dependency(id = "luckperms"),
+    @Dependency(id = "carbonchat"),
+    @Dependency(id = "libertybans")
+})
 
 public class SilverstoneProxy {
     public static JDA jda;

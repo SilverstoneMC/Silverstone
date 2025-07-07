@@ -33,7 +33,8 @@ public class GlobalGameRule implements CommandExecutor {
     private <T> void setGameRule(GameRule<T> rule, String value, CommandSender sender) {
         T parsedValue = parseValue(rule.getType(), value);
         for (World world : Bukkit.getWorlds())
-            sendMessage(sender,
+            sendMessage(
+                sender,
                 world.setGameRule(rule, parsedValue),
                 rule,
                 String.valueOf(parsedValue),

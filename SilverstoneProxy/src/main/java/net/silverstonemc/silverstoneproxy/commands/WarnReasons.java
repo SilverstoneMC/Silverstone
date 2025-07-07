@@ -39,7 +39,8 @@ public class WarnReasons implements SimpleCommand {
         if (isWarning) header = "Warn " + username + ":";
 
         Builder footer = Component.text();
-        if (isWarning) footer.append(Component.text("\n\nClick to warn " + username,
+        if (isWarning) footer.append(Component.text(
+            "\n\nClick to warn " + username,
             NamedTextColor.GRAY,
             TextDecoration.ITALIC));
 
@@ -56,7 +57,8 @@ public class WarnReasons implements SimpleCommand {
         // Loop through the reasonList in increments of 3
         for (int x = 0; x < reasonList.size(); x += 3) {
             // Get the current reasons to display on this line, up to 3 reasons
-            List<String> currentReasons = new ArrayList<>(reasonList.subList(x,
+            List<String> currentReasons = new ArrayList<>(reasonList.subList(
+                x,
                 Math.min(x + 3, reasonList.size())));
 
             // Append a new line to the message
@@ -77,7 +79,8 @@ public class WarnReasons implements SimpleCommand {
                     .hoverEvent(createHoverEvent(currentReason, footer)));
 
                 // If this is not the last reason, add a separator to the message
-                if (y < currentReasons.size() - 1) message.append(Component.text(" | ",
+                if (y < currentReasons.size() - 1) message.append(Component.text(
+                    " | ",
                     NamedTextColor.DARK_GRAY,
                     TextDecoration.BOLD));
             }
@@ -87,10 +90,13 @@ public class WarnReasons implements SimpleCommand {
     }
 
     private HoverEvent<?> createHoverEvent(String reason, Builder footer) {
-        return HoverEvent.hoverEvent(HoverEvent.Action.SHOW_TEXT, Component.text().append(Component.text(reason + ":",
+        return HoverEvent.hoverEvent(
+            HoverEvent.Action.SHOW_TEXT, Component.text().append(Component.text(
+                reason + ":",
                 NamedTextColor.RED,
-                TextDecoration.BOLD)).append(Component.text("\n" + i.fileManager.files.get(CONFIG)
-                .node("reasons", reason, "description").getString(), NamedTextColor.GRAY)).append(footer)
-            .build());
+                TextDecoration.BOLD)).append(Component.text(
+                "\n" + i.fileManager.files.get(CONFIG)
+                    .node("reasons", reason, "description").getString(),
+                NamedTextColor.GRAY)).append(footer).build());
     }
 }

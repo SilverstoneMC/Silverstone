@@ -33,7 +33,8 @@ public class WarnList implements SimpleCommand {
         for (ConfigurationNode uuid : i.fileManager.files.get(WARNDATA).node("data").childrenMap().values())
             for (ConfigurationNode warning : uuid.childrenMap().values())
                 //noinspection DataFlowIssue
-                sender.sendMessage(Component.text(new UserManager(i).getUsername(UUID.fromString(uuid.key()
-                    .toString())) + " - " + warning + " - " + warning.getInt(), NamedTextColor.GRAY));
+                sender.sendMessage(Component.text(
+                    new UserManager(i).getUsername(UUID.fromString(uuid.key()
+                        .toString())) + " - " + warning + " - " + warning.getInt(), NamedTextColor.GRAY));
     }
 }

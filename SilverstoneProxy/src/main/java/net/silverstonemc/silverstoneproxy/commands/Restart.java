@@ -28,7 +28,8 @@ public class Restart implements SimpleCommand {
         CommandSource sender = invocation.source();
 
         for (Player player : i.server.getAllPlayers())
-            player.sendMessage(Component.text().append(Component.text("WARNING ",
+            player.sendMessage(Component.text().append(Component.text(
+                    "WARNING ",
                     NamedTextColor.RED,
                     TextDecoration.BOLD)).append(Component.text("> ", NamedTextColor.AQUA, TextDecoration.BOLD))
                 .append(Component.text("The network will restart soon!", NamedTextColor.GREEN)));
@@ -38,7 +39,8 @@ public class Restart implements SimpleCommand {
         for (RegisteredServer servers : i.server.getAllServers())
             servers.sendPluginMessage(SilverstoneProxy.IDENTIFIER, out.toByteArray());
 
-        if (!(sender instanceof Player)) sender.sendMessage(Component.text("Restart broadcast sent!",
+        if (!(sender instanceof Player)) sender.sendMessage(Component.text(
+            "Restart broadcast sent!",
             NamedTextColor.GREEN));
     }
 }

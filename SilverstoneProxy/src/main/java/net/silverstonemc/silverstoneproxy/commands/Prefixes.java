@@ -31,7 +31,8 @@ public class Prefixes implements SimpleCommand {
 
         ComponentBuilder<TextComponent, TextComponent.Builder> prefixList = Component.text();
         prefixList.append(Component.text("\nPrefixes\n", NamedTextColor.AQUA, TextDecoration.BOLD));
-        prefixList.append(Component.text("             ",
+        prefixList.append(Component.text(
+            "             ",
             NamedTextColor.DARK_AQUA,
             TextDecoration.STRIKETHROUGH));
 
@@ -45,8 +46,11 @@ public class Prefixes implements SimpleCommand {
             if (rawPrefix == null) return;
 
             TextComponent prefix = LegacyComponentSerializer.legacy('&').deserialize(rawPrefix);
-            prefixList.append(Component.text("\n")).append(prefix).append(Component.text("- ",
-                NamedTextColor.DARK_AQUA)).append(Component.text(group.getName(), NamedTextColor.DARK_GREEN));
+            prefixList.append(Component.text("\n")).append(prefix).append(Component.text(
+                "- ",
+                NamedTextColor.DARK_AQUA)).append(Component.text(
+                group.getName(),
+                NamedTextColor.DARK_GREEN));
         }
 
         sender.sendMessage(prefixList.build());

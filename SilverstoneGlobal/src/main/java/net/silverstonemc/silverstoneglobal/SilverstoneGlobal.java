@@ -67,7 +67,7 @@ public class SilverstoneGlobal extends JavaPlugin implements Listener {
                     getLogger().warning("Token is empty! Skipping Discord bot...");
                     return;
                 }
-                
+
                 getLogger().info("Starting Discord bot...");
                 JDABuilder builder = JDABuilder.createDefault(getConfig().getString("discord-token"));
                 builder.disableIntents(GatewayIntent.GUILD_MESSAGE_TYPING);
@@ -183,7 +183,7 @@ public class SilverstoneGlobal extends JavaPlugin implements Listener {
         // #serverSpecific
         // Don't run these methods on the events server
         if (serverName.equalsIgnoreCase("events")) return;
-        
+
         new BukkitRunnable() {
             final TPS tps = new TPS();
 
@@ -206,7 +206,7 @@ public class SilverstoneGlobal extends JavaPlugin implements Listener {
     @Override
     public void onDisable() {
         getServer().getMessenger().unregisterOutgoingPluginChannel(this);
-        
+
         // #serverSpecific
         // Don't stop the following on the events server (it doesn't have a bot)
         if (getConfig().getString("server").equalsIgnoreCase("events")) return;

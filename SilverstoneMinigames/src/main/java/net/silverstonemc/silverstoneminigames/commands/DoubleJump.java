@@ -93,7 +93,8 @@ public class DoubleJump implements CommandExecutor, Listener {
         Vector vector = player.getLocation().getDirection().multiply(0.5).setY(0.85);
         player.setVelocity(vector);
         jumps.put(player, jumpCount - 1);
-        player.sendMessage(Component.text("You have " + (jumpCount - 1) + " double jumps remaining.",
+        player.sendMessage(Component.text(
+            "You have " + (jumpCount - 1) + " double jumps remaining.",
             NamedTextColor.RED));
     }
 }

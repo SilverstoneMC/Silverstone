@@ -67,11 +67,13 @@ public class BaseCommand implements SimpleCommand {
 
                 // Update nicknames
                 for (Player player : i.server.getAllPlayers())
-                    new NicknameUtils(i).changeDisplayName(player,
+                    new NicknameUtils(i).changeDisplayName(
+                        player,
                         new NicknameUtils(i).getDisplayName(player.getUniqueId()));
 
                 sender.sendMessage(Component.text("SilverstoneProxy reloaded!", NamedTextColor.GREEN));
-            } else sender.sendMessage(Component.text("You don't have permission to do that!",
+            } else sender.sendMessage(Component.text(
+                "You don't have permission to do that!",
                 NamedTextColor.RED));
 
 
@@ -101,7 +103,8 @@ public class BaseCommand implements SimpleCommand {
                 else {
                     new UndoWarning(i).undoWarning(uuid, args[1], count);
 
-                    if ((count - 1) == 0) i.fileManager.files.get(WARNDATA).node("data",
+                    if ((count - 1) == 0) i.fileManager.files.get(WARNDATA).node(
+                        "data",
                         uuid.toString(),
                         args[1]).set(null);
                     else i.fileManager.files.get(WARNDATA).node("data", uuid.toString(), args[1])
@@ -115,10 +118,12 @@ public class BaseCommand implements SimpleCommand {
                     }
 
                     Component warningRemovedStaff = Component.text(senderName, NamedTextColor.GRAY).append(
-                        Component.text(" removed a(n) ", NamedTextColor.RED)).append(Component.text(args[1],
-                        NamedTextColor.GRAY)).append(Component.text(
-                        " warning from ",
-                        NamedTextColor.RED)).append(Component.text(username, NamedTextColor.GRAY));
+                            Component.text(" removed a(n) ", NamedTextColor.RED)).append(Component.text(
+                            args[1],
+                            NamedTextColor.GRAY)).append(Component.text(" warning from ", NamedTextColor.RED))
+                        .append(Component.text(
+                            username,
+                            NamedTextColor.GRAY));
 
                     i.server.getConsoleCommandSource().sendMessage(warningRemovedStaff);
                     // Message staff
@@ -127,8 +132,10 @@ public class BaseCommand implements SimpleCommand {
                             warningRemovedStaff);
 
                     Component warningRemovedPlayer = Component.text(senderName, NamedTextColor.GRAY).append(
-                        Component.text(" removed a(n) ", NamedTextColor.RED)).append(Component.text(args[1],
-                        NamedTextColor.GRAY)).append(Component.text(" warning from you.",
+                        Component.text(" removed a(n) ", NamedTextColor.RED)).append(Component.text(
+                        args[1],
+                        NamedTextColor.GRAY)).append(Component.text(
+                        " warning from you.",
                         NamedTextColor.RED));
 
                     // Message player if online and command not silent
@@ -140,7 +147,8 @@ public class BaseCommand implements SimpleCommand {
                     }
 
                     EmbedBuilder embed = new EmbedBuilder();
-                    embed.setAuthor(senderName + " removed a(n) '" + args[1] + "' warning from " + username,
+                    embed.setAuthor(
+                        senderName + " removed a(n) '" + args[1] + "' warning from " + username,
                         null,
                         "https://mc-heads.net/avatar/" + uuid);
                     embed.setColor(new Color(42, 212, 85));
@@ -151,7 +159,8 @@ public class BaseCommand implements SimpleCommand {
                 // clear <[reason]|all> <player>
             } else if (args[0].equalsIgnoreCase("clear")) {
                 if (args.length < 3) {
-                    sender.sendMessage(Component.text("/ssp clear <[reason]|all> <player>",
+                    sender.sendMessage(Component.text(
+                        "/ssp clear <[reason]|all> <player>",
                         NamedTextColor.RED));
                     return;
                 }
@@ -195,7 +204,8 @@ public class BaseCommand implements SimpleCommand {
                     }
 
                     EmbedBuilder embed = new EmbedBuilder();
-                    embed.setAuthor(senderName + " cleared all of " + username + "'s warnings",
+                    embed.setAuthor(
+                        senderName + " cleared all of " + username + "'s warnings",
                         null,
                         "https://mc-heads.net/avatar/" + uuid);
                     embed.setColor(new Color(42, 212, 85));
@@ -209,10 +219,12 @@ public class BaseCommand implements SimpleCommand {
                     i.fileManager.save(WARNDATA);
 
                     Component warningsClearedStaff = Component.text(senderName, NamedTextColor.GRAY).append(
-                        Component.text(" cleared all ", NamedTextColor.RED)).append(Component.text(args[1],
-                        NamedTextColor.GRAY)).append(Component.text(
-                        " warnings from ",
-                        NamedTextColor.RED)).append(Component.text(username, NamedTextColor.GRAY));
+                            Component.text(" cleared all ", NamedTextColor.RED)).append(Component.text(
+                            args[1],
+                            NamedTextColor.GRAY)).append(Component.text(" warnings from ", NamedTextColor.RED))
+                        .append(Component.text(
+                            username,
+                            NamedTextColor.GRAY));
 
                     i.server.getConsoleCommandSource().sendMessage(warningsClearedStaff);
                     // Message staff
@@ -234,7 +246,8 @@ public class BaseCommand implements SimpleCommand {
                     }
 
                     EmbedBuilder embed = new EmbedBuilder();
-                    embed.setAuthor(senderName + " cleared all '" + args[1] + "' warnings from " + username,
+                    embed.setAuthor(
+                        senderName + " cleared all '" + args[1] + "' warnings from " + username,
                         null,
                         "https://mc-heads.net/avatar/" + uuid);
                     embed.setColor(new Color(42, 212, 85));

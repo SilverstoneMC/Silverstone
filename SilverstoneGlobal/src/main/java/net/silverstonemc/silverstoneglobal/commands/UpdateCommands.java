@@ -27,10 +27,12 @@ public class UpdateCommands implements CommandExecutor {
 
             player.updateCommands();
             String username = player.getName();
-            sender.sendMessage(Component.text("Commands updated for " + username + "!",
+            sender.sendMessage(Component.text(
+                "Commands updated for " + username + "!",
                 NamedTextColor.GREEN));
 
-        } else sender.sendMessage(Component.text("You don't have permission to do that!",
+        } else sender.sendMessage(Component.text(
+            "You don't have permission to do that!",
             NamedTextColor.RED));
 
         else {
@@ -43,9 +45,11 @@ public class UpdateCommands implements CommandExecutor {
             if (cooldowns.containsKey(player.getName()))
                 if (cooldowns.get(player.getName()) > System.currentTimeMillis()) {
                     // Still on cooldown
-                    player.sendMessage(Component.text("You may update your commands again in ",
+                    player.sendMessage(Component.text(
+                            "You may update your commands again in ",
                             NamedTextColor.RED)
-                        .append(Component.text((cooldowns.get(player.getName()) - System.currentTimeMillis()) / 1000,
+                        .append(Component.text(
+                            (cooldowns.get(player.getName()) - System.currentTimeMillis()) / 1000,
                             NamedTextColor.GRAY)).append(Component.text(" seconds.", NamedTextColor.RED)));
                     return true;
                 }

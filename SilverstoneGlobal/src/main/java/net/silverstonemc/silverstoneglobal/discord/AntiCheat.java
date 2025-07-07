@@ -23,7 +23,8 @@ public class AntiCheat implements Listener {
         if (SilverstoneGlobal.matrix.isBypass(player)) return;
         if (SilverstoneGlobal.matrix.getLatency(player) >= 750) return;
         if (SilverstoneGlobal.matrix.getTPS() <= 17) return;
-        if (event.getHackType() == HackType.KILLAURA && SilverstoneGlobal.matrix.getViolations(player,
+        if (event.getHackType() == HackType.KILLAURA && SilverstoneGlobal.matrix.getViolations(
+            player,
             HackType.KILLAURA) < 30) return;
 
         int x = 0;

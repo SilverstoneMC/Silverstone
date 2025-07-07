@@ -31,7 +31,7 @@ public class Holograms implements CommandExecutor {
             sender.sendMessage(Component.text("Hologram not text!", NamedTextColor.RED));
             return true;
         }
-        
+
         String text = null;
         switch (args[1]) {
             case "open" -> text = "<green><bold>Open";

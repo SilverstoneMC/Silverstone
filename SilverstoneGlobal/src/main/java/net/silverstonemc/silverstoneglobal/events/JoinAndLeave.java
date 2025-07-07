@@ -44,18 +44,19 @@ public class JoinAndLeave implements Listener {
             String username = player.getName();
             UUID uuid = player.getUniqueId();
 
-            new Thread(() -> {
-                TextChannel channel = SilverstoneGlobal.jda.getTextChannelById(1160724667817017414L);
+            new Thread(
+                () -> {
+                    TextChannel channel = SilverstoneGlobal.jda.getTextChannelById(1160724667817017414L);
 
-                EmbedBuilder embed = new EmbedBuilder();
-                embed.setAuthor(username + " is new", null, "https://mc-heads.net/avatar/" + uuid);
-                embed.setFooter(finalStaff + " staff members online");
-                embed.setColor(new Color(36, 197, 19));
+                    EmbedBuilder embed = new EmbedBuilder();
+                    embed.setAuthor(username + " is new", null, "https://mc-heads.net/avatar/" + uuid);
+                    embed.setFooter(finalStaff + " staff members online");
+                    embed.setColor(new Color(36, 197, 19));
 
-                //noinspection DataFlowIssue
-                Message message = channel.sendMessageEmbeds(embed.build()).complete();
-                newPlayers.put(player, message);
-            }, "New Player Discord").start();
+                    //noinspection DataFlowIssue
+                    Message message = channel.sendMessageEmbeds(embed.build()).complete();
+                    newPlayers.put(player, message);
+                }, "New Player Discord").start();
         }
 
         // #serverSpecific
