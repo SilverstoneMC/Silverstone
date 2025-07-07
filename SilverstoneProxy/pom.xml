@@ -6,7 +6,7 @@
 
     <groupId>net.silverstonemc</groupId>
     <artifactId>SilverstoneProxy</artifactId>
-    <version>3.9.4</version>
+    <version>3.9.5</version>
 
     <properties>
         <maven.compiler.source>21</maven.compiler.source>
@@ -143,14 +143,14 @@
         <dependency>
             <groupId>net.luckperms</groupId>
             <artifactId>api</artifactId>
-            <version>5.4</version>
+            <version>5.5</version>
             <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>net.dv8tion</groupId>
             <artifactId>JDA</artifactId>
-            <version>5.6.0</version>
+            <version>5.6.1</version>
         </dependency>
 
         <dependency>
@@ -170,14 +170,14 @@
         <dependency>
             <groupId>de.hexaoxi</groupId>
             <artifactId>carbonchat-api</artifactId>
-            <version>3.0.0-beta.28</version>
+            <version>3.0.0-beta.32</version>
             <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>com.github.NEZNAMY</groupId>
             <artifactId>TAB-API</artifactId>
-            <version>5.2.0</version>
+            <version>5.2.4</version>
             <scope>provided</scope>
         </dependency>
 

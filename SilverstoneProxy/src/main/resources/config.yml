@@ -2,7 +2,7 @@
 # Kick the player if protocol version is below this value
 minimum-protocol-version: 763
 minimum-version: '1.20'
-# Send warning message to the player if protocol version is below this value
+# Send warning message to the player if protocol version is not this value
 current-protocol-version: 767
 current-version: '1.21'
 

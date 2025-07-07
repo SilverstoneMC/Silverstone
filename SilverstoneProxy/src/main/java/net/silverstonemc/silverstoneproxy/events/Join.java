@@ -24,8 +24,8 @@ import org.geysermc.floodgate.api.FloodgateApi;
 import org.spongepowered.configurate.serialize.SerializationException;
 
 import java.awt.*;
-import java.util.List;
 import java.util.*;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import static net.silverstonemc.silverstoneproxy.ConfigurationManager.FileType.*;
@@ -79,16 +79,18 @@ public class Join {
         int version = event.getPlayer().getProtocolVersion().getProtocol();
         i.logger.info("{} is joining with protocol version {}", event.getPlayer().getUsername(), version);
 
-        // Anything less than current version and not with perm
-        if (version < i.fileManager.files.get(CONFIG).node("current-protocol-version").getInt() && !event
-            .getPlayer().hasPermission("silverstone.bypassversion")) {
-            incompatibleClient(event, false, "current-version");
+        // Anything less than minimum version and with perm
+        if (version < i.fileManager.files.get(CONFIG).node("minimum-protocol-version").getInt()) {
+            incompatibleClient(event, true, "minimum-version");
             return;
         }
 
-        // Anything less than minimum version and with perm
-        if (version < i.fileManager.files.get(CONFIG).node("minimum-protocol-version").getInt())
-            incompatibleClient(event, true, "minimum-version");
+        // Anything other than current version and not with perm
+        if (version != i.fileManager.files.get(CONFIG).node("current-protocol-version").getInt() && !event
+            .getPlayer().hasPermission("silverstone.bypassversion")) incompatibleClient(
+            event,
+            false,
+            "current-version");
     }
 
     private void incompatibleClient(ServerPreConnectEvent event, boolean atLeast, String versionPath) {
