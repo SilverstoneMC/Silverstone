@@ -6,7 +6,7 @@
 
     <groupId>net.silverstonemc</groupId>
     <artifactId>SilverstoneGlobal</artifactId>
-    <version>7.6.1</version>
+    <version>7.7.0</version>
 
     <properties>
         <maven.compiler.source>21</maven.compiler.source>
@@ -87,6 +87,11 @@
                                     <shadedPattern>net.silverstonemc.silverstoneglobal.shaded.jda
                                     </shadedPattern>
                                 </relocation>
+                                <relocation>
+                                    <pattern>dev.triumphteam.gui</pattern>
+                                    <shadedPattern>net.silverstonemc.silverstoneglobal.shaded.gui
+                                    </shadedPattern>
+                                </relocation>
                             </relocations>
                         </configuration>
                     </execution>
@@ -124,6 +129,13 @@
         <repository>
             <id>essentials-releases</id>
             <url>https://repo.essentialsx.net/releases/</url>
+        </repository>
+
+        <!-- Triumph GUI -->
+        <repository>
+            <id>repo</id>
+            <name>TriumphTeam</name>
+            <url>https://repo.triumphteam.dev/snapshots</url>
         </repository>
     </repositories>
 
@@ -175,6 +187,12 @@
             <artifactId>EssentialsX</artifactId>
             <version>2.21.1</version>
             <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>dev.triumphteam</groupId>
+            <artifactId>triumph-gui-paper</artifactId>
+            <version>4.0.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
 

@@ -1,6 +1,12 @@
 package net.silverstonemc.silverstoneglobal.commands.guis;
 
+import dev.triumphteam.gui.click.ClickContext;
+import dev.triumphteam.gui.layout.GuiLayout;
+import dev.triumphteam.gui.paper.Gui;
+import dev.triumphteam.gui.paper.builder.item.ItemBuilder;
+import dev.triumphteam.gui.slot.Slot;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.text.format.TextDecoration;
@@ -11,256 +17,190 @@ import org.bukkit.SoundCategory;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
-import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.stream.IntStream;
+import java.util.Map;
 
-public class ChatColorGUI implements CommandExecutor, Listener {
-    public ChatColorGUI(JavaPlugin plugin) {
-        this.plugin = plugin;
-    }
-
-    private final JavaPlugin plugin;
-    private static Inventory inv;
-
-    public void closeInv(Player player) {
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                player.closeInventory();
-                player.playSound(player.getLocation(), Sound.UI_BUTTON_CLICK, SoundCategory.MASTER, 1, 1);
-            }
-        }.runTask(plugin);
-    }
-
+public class ChatColorGUI implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String @NotNull [] args) {
         if (!(sender instanceof Player player)) {
             sender.sendMessage(Component.text("Sorry, but only players can do that.", NamedTextColor.RED));
             return true;
         }
-        // Open GUI
-        player.openInventory(inv);
+
+        // Create the inventory and open it
+        inventory().open(player);
         return true;
     }
 
-    // On item click
-    @EventHandler
-    public void onClick(InventoryClickEvent event) {
-        Player player = (Player) event.getWhoClicked();
+    private Gui inventory() {
+        final int rows = 5;
 
-        if (!event.getInventory().equals(inv)) return;
-        if (event.getCurrentItem() == null) return;
-        if (event.getCurrentItem().getItemMeta() == null) return;
+        return Gui.of(rows).title(Component.text(
+            "Chat Colors",
+            TextColor.fromHexString("#a62828"),
+            TextDecoration.BOLD)).statelessComponent(container -> {
+            container.fill(
+                GuiLayout.box(Slot.min(1), Slot.max(rows)),
+                ItemBuilder.from(Material.BLACK_STAINED_GLASS_PANE).name(Component.empty()).asGuiItem());
 
-        event.setCancelled(true);
+            container.setItem(
+                10,
+                ItemBuilder.from(Material.RED_CONCRETE).name(getItemName("Dark Red", NamedTextColor.DARK_RED))
+                    .asGuiItem((player, context) -> setChatColor(
+                        player,
+                        '4',
+                        NamedTextColor.DARK_RED,
+                        context)));
 
-        switch (event.getRawSlot()) {
-            case 10 -> {
-                setChatColor(player, '4');
-                player.sendMessage(Component.text("Chat color changed.", NamedTextColor.DARK_RED));
-            }
+            container.setItem(
+                11,
+                ItemBuilder.from(Material.RED_TERRACOTTA).name(getItemName("Red", NamedTextColor.RED))
+                    .asGuiItem((player, context) -> setChatColor(player, 'c', NamedTextColor.RED, context)));
 
-            case 11 -> {
-                setChatColor(player, 'c');
-                player.sendMessage(Component.text("Chat color changed.", NamedTextColor.RED));
-            }
+            container.setItem(
+                12,
+                ItemBuilder.from(Material.ORANGE_CONCRETE).name(getItemName("Gold", NamedTextColor.GOLD))
+                    .asGuiItem((player, context) -> setChatColor(player, '6', NamedTextColor.GOLD, context)));
 
-            case 12 -> {
-                setChatColor(player, '6');
-                player.sendMessage(Component.text("Chat color changed.", NamedTextColor.GOLD));
-            }
+            container.setItem(
+                13,
+                ItemBuilder.from(Material.YELLOW_CONCRETE).name(getItemName("Yellow", NamedTextColor.YELLOW))
+                    .asGuiItem((player, context) -> setChatColor(
+                        player,
+                        'e',
+                        NamedTextColor.YELLOW,
+                        context)));
 
-            case 13 -> {
-                setChatColor(player, 'e');
-                player.sendMessage(Component.text("Chat color changed.", NamedTextColor.YELLOW));
-            }
+            container.setItem(
+                14,
+                ItemBuilder.from(Material.LIME_CONCRETE).name(getItemName("Green", NamedTextColor.GREEN))
+                    .asGuiItem((player, context) -> setChatColor(
+                        player,
+                        'a',
+                        NamedTextColor.GREEN,
+                        context)));
 
-            case 14 -> {
-                setChatColor(player, 'a');
-                player.sendMessage(Component.text("Chat color changed.", NamedTextColor.GREEN));
-            }
+            container.setItem(
+                15,
+                ItemBuilder.from(Material.GREEN_CONCRETE)
+                    .name(getItemName("Dark Green", NamedTextColor.DARK_GREEN))
+                    .asGuiItem((player, context) -> setChatColor(
+                        player,
+                        '2',
+                        NamedTextColor.DARK_GREEN,
+                        context)));
 
-            case 15 -> {
-                setChatColor(player, '2');
-                player.sendMessage(Component.text("Chat color changed.", NamedTextColor.DARK_GREEN));
-            }
+            container.setItem(
+                16,
+                ItemBuilder.from(Material.LIGHT_BLUE_TERRACOTTA)
+                    .name(getItemName("Dark Aqua", NamedTextColor.DARK_AQUA))
+                    .asGuiItem((player, context) -> setChatColor(
+                        player,
+                        '3',
+                        NamedTextColor.DARK_AQUA,
+                        context)));
 
-            case 16 -> {
-                setChatColor(player, '3');
-                player.sendMessage(Component.text("Chat color changed.", NamedTextColor.DARK_AQUA));
-            }
+            container.setItem(
+                19,
+                ItemBuilder.from(Material.BLUE_CONCRETE).name(getItemName("Blue", NamedTextColor.BLUE))
+                    .asGuiItem((player, context) -> setChatColor(player, '9', NamedTextColor.BLUE, context)));
 
-            case 19 -> {
-                setChatColor(player, '9');
-                player.sendMessage(Component.text("Chat color changed.", NamedTextColor.BLUE));
-            }
+            container.setItem(
+                20,
+                ItemBuilder.from(Material.BLUE_TERRACOTTA)
+                    .name(getItemName("Dark Blue", NamedTextColor.DARK_BLUE))
+                    .asGuiItem((player, context) -> setChatColor(
+                        player,
+                        '1',
+                        NamedTextColor.DARK_BLUE,
+                        context)));
 
-            case 20 -> {
-                setChatColor(player, '1');
-                player.sendMessage(Component.text("Chat color changed.", NamedTextColor.DARK_BLUE));
-            }
+            container.setItem(
+                21,
+                ItemBuilder.from(Material.PURPLE_CONCRETE)
+                    .name(getItemName("Dark Purple", NamedTextColor.DARK_PURPLE))
+                    .asGuiItem((player, context) -> setChatColor(
+                        player,
+                        '5',
+                        NamedTextColor.DARK_PURPLE,
+                        context)));
 
-            case 21 -> {
-                setChatColor(player, '5');
-                player.sendMessage(Component.text("Chat color changed.", NamedTextColor.DARK_PURPLE));
-            }
+            container.setItem(
+                22,
+                ItemBuilder.from(Material.MAGENTA_CONCRETE)
+                    .name(getItemName("Purple", NamedTextColor.LIGHT_PURPLE))
+                    .asGuiItem((player, context) -> setChatColor(
+                        player,
+                        'd',
+                        NamedTextColor.LIGHT_PURPLE,
+                        context)));
 
-            case 22 -> {
-                setChatColor(player, 'd');
-                player.sendMessage(Component.text("Chat color changed.", NamedTextColor.LIGHT_PURPLE));
-            }
+            container.setItem(
+                23,
+                ItemBuilder.from(Material.GRAY_TERRACOTTA)
+                    .name(getItemName("Dark Gray", NamedTextColor.DARK_GRAY))
+                    .asGuiItem((player, context) -> setChatColor(
+                        player,
+                        '8',
+                        NamedTextColor.DARK_GRAY,
+                        context)));
 
-            case 23 -> {
-                setChatColor(player, '8');
-                player.sendMessage(Component.text("Chat color changed.", NamedTextColor.DARK_GRAY));
-            }
+            container.setItem(
+                24,
+                ItemBuilder.from(Material.LIGHT_GRAY_CONCRETE).name(getItemName("Gray", NamedTextColor.GRAY))
+                    .asGuiItem((player, context) -> setChatColor(player, '7', NamedTextColor.GRAY, context)));
 
-            case 24 -> {
-                setChatColor(player, '7');
-                player.sendMessage(Component.text("Chat color changed.", NamedTextColor.GRAY));
-            }
+            container.setItem(
+                25,
+                ItemBuilder.from(Material.WHITE_CONCRETE).name(getItemName("White", NamedTextColor.WHITE))
+                    .asGuiItem((player, context) -> setChatColor(
+                        player,
+                        'f',
+                        NamedTextColor.WHITE,
+                        context)));
 
-            case 25 -> {
-                setChatColor(player, 'f');
-                player.sendMessage(Component.text("Chat color changed."));
-            }
+            container.setItem(
+                31,
+                ItemBuilder.from(Material.BARRIER).name(getItemName("Reset to Default", NamedTextColor.WHITE))
+                    .asGuiItem((player, context) -> setChatColor(
+                        player,
+                        'r',
+                        NamedTextColor.WHITE,
+                        context)));
+        }).build();
+    }
 
-            case 31 -> {
-                setChatColor(player, 'r');
-                player.sendMessage(Component.text("Chat color reset to default."));
-            }
+    private TextComponent getItemName(String name, NamedTextColor color) {
+        Map<TextDecoration, TextDecoration.State> noItalic = Map.of(
+            TextDecoration.ITALIC,
+            TextDecoration.State.FALSE);
 
-            default -> {
-                return;
-            }
+        return Component.text(name, color, TextDecoration.BOLD).decorations(noItalic);
+    }
+
+    private void setChatColor(HumanEntity player, char value, NamedTextColor color, ClickContext context) {
+        // Tried using the API but this just works much easier lol
+        if (value == 'r') {
+            Bukkit.dispatchCommand(
+                Bukkit.getConsoleSender(),
+                "lp user " + player.getName() + " meta removesuffix 500");
+
+            player.sendMessage(Component.text("Chat color reset to default."));
+
+        } else {
+            Bukkit.dispatchCommand(
+                Bukkit.getConsoleSender(),
+                "lp user " + player.getName() + " meta setsuffix 500 &" + value);
+
+            player.sendMessage(Component.text("Chat color changed.", color));
         }
 
-        closeInv(player);
-    }
+        context.guiView().close();
 
-    private void setChatColor(Player player, char value) {
-        // Tried using the API but this just works much better lol
-        if (value == 'r') Bukkit.dispatchCommand(
-            Bukkit.getConsoleSender(),
-            "lp user " + player.getName() + " meta removesuffix 500");
-
-        else Bukkit.dispatchCommand(
-            Bukkit.getConsoleSender(),
-            "lp user " + player.getName() + " meta setsuffix 500 &" + value);
-    }
-
-    public void createInv() {
-        Inventory inventory = Bukkit.createInventory(
-            null,
-            45,
-            Component.text("Chat Colors", TextColor.fromHexString("#a62828"), TextDecoration.BOLD));
-
-        // Filler
-        ItemStack item = new ItemStack(Material.BLACK_STAINED_GLASS_PANE);
-        ItemMeta meta = item.getItemMeta();
-        meta.displayName(Component.empty());
-        item.setItemMeta(meta);
-        IntStream.rangeClosed(0, 44).boxed().toList().forEach(slot -> inventory.setItem(slot, item));
-
-        item.setType(Material.RED_CONCRETE);
-        meta.displayName(Component.text("Dark Red", NamedTextColor.DARK_RED, TextDecoration.BOLD)
-            .decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE));
-        item.setItemMeta(meta);
-        inventory.setItem(10, item);
-
-        item.setType(Material.RED_TERRACOTTA);
-        meta.displayName(Component.text("Red", NamedTextColor.RED, TextDecoration.BOLD)
-            .decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE));
-        item.setItemMeta(meta);
-        inventory.setItem(11, item);
-
-        item.setType(Material.ORANGE_CONCRETE);
-        meta.displayName(Component.text("Gold", NamedTextColor.GOLD, TextDecoration.BOLD)
-            .decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE));
-        item.setItemMeta(meta);
-        inventory.setItem(12, item);
-
-        item.setType(Material.YELLOW_CONCRETE);
-        meta.displayName(Component.text("Yellow", NamedTextColor.YELLOW, TextDecoration.BOLD)
-            .decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE));
-        item.setItemMeta(meta);
-        inventory.setItem(13, item);
-
-        item.setType(Material.LIME_CONCRETE);
-        meta.displayName(Component.text("Green", NamedTextColor.GREEN, TextDecoration.BOLD)
-            .decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE));
-        item.setItemMeta(meta);
-        inventory.setItem(14, item);
-
-        item.setType(Material.GREEN_CONCRETE);
-        meta.displayName(Component.text("Dark Green", NamedTextColor.DARK_GREEN, TextDecoration.BOLD)
-            .decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE));
-        item.setItemMeta(meta);
-        inventory.setItem(15, item);
-
-        item.setType(Material.LIGHT_BLUE_TERRACOTTA);
-        meta.displayName(Component.text("Dark Aqua", NamedTextColor.DARK_AQUA, TextDecoration.BOLD)
-            .decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE));
-        item.setItemMeta(meta);
-        inventory.setItem(16, item);
-
-        item.setType(Material.BLUE_CONCRETE);
-        meta.displayName(Component.text("Blue", NamedTextColor.BLUE, TextDecoration.BOLD)
-            .decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE));
-        item.setItemMeta(meta);
-        inventory.setItem(19, item);
-
-        item.setType(Material.BLUE_TERRACOTTA);
-        meta.displayName(Component.text("Dark Blue", NamedTextColor.DARK_BLUE, TextDecoration.BOLD)
-            .decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE));
-        item.setItemMeta(meta);
-        inventory.setItem(20, item);
-
-        item.setType(Material.PURPLE_CONCRETE);
-        meta.displayName(Component.text("Dark Purple", NamedTextColor.DARK_PURPLE, TextDecoration.BOLD)
-            .decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE));
-        item.setItemMeta(meta);
-        inventory.setItem(21, item);
-
-        item.setType(Material.MAGENTA_CONCRETE);
-        meta.displayName(Component.text("Purple", NamedTextColor.LIGHT_PURPLE, TextDecoration.BOLD)
-            .decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE));
-        item.setItemMeta(meta);
-        inventory.setItem(22, item);
-
-        item.setType(Material.GRAY_TERRACOTTA);
-        meta.displayName(Component.text("Dark Gray", NamedTextColor.DARK_GRAY, TextDecoration.BOLD)
-            .decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE));
-        item.setItemMeta(meta);
-        inventory.setItem(23, item);
-
-        item.setType(Material.LIGHT_GRAY_CONCRETE);
-        meta.displayName(Component.text("Gray", NamedTextColor.GRAY, TextDecoration.BOLD)
-            .decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE));
-        item.setItemMeta(meta);
-        inventory.setItem(24, item);
-
-        item.setType(Material.WHITE_CONCRETE);
-        meta.displayName(Component.text("White", NamedTextColor.WHITE, TextDecoration.BOLD)
-            .decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE));
-        item.setItemMeta(meta);
-        inventory.setItem(25, item);
-
-        item.setType(Material.BARRIER);
-        meta.displayName(Component.text("Reset to Default", NamedTextColor.WHITE, TextDecoration.BOLD)
-            .decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE));
-        item.setItemMeta(meta);
-        inventory.setItem(31, item);
-
-        inv = inventory;
+        Player player2 = (Player) player;
+        player2.playSound(player2.getLocation(), Sound.UI_BUTTON_CLICK, SoundCategory.MASTER, 1, 1);
     }
 }

@@ -1,167 +1,141 @@
 package net.silverstonemc.silverstoneglobal.commands.guis;
 
+import dev.triumphteam.gui.click.ClickContext;
+import dev.triumphteam.gui.layout.GuiLayout;
+import dev.triumphteam.gui.paper.Gui;
+import dev.triumphteam.gui.paper.builder.item.ItemBuilder;
+import dev.triumphteam.gui.slot.Slot;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.event.ClickEvent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.kyori.adventure.text.minimessage.MiniMessage;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.Sound;
-import org.bukkit.SoundCategory;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.IntStream;
 
 public class BuyGUI implements CommandExecutor, Listener {
     public BuyGUI(JavaPlugin plugin) {
         this.plugin = plugin;
     }
-
+    
     private final JavaPlugin plugin;
-    private static Inventory inv;
-
-    public void closeInv(Player player) {
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                player.closeInventory();
-                player.playSound(player.getLocation(), Sound.UI_BUTTON_CLICK, SoundCategory.MASTER, 1, 1);
-            }
-        }.runTask(plugin);
-    }
 
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String @NotNull [] args) {
         if (!(sender instanceof Player player)) {
             sender.sendMessage(Component.text("Sorry, but only players can do that.", NamedTextColor.RED));
             return true;
         }
-        // Open GUI
-        player.openInventory(inv);
+
+        // Create the inventory and open it
+        inventory().open(player);
         return true;
     }
 
-    // On item click
-    @EventHandler
-    public void onClick(InventoryClickEvent event) {
-        Player player = (Player) event.getWhoClicked();
-        Inventory inventory = event.getInventory();
+    private Gui inventory() {
+        final int rows = 3;
 
-        if (!inventory.equals(inv)) return;
-        if (event.getCurrentItem() == null) return;
-        if (event.getCurrentItem().getItemMeta() == null) return;
+        return Gui.of(rows).title(Component.text(
+            "Available Ranks",
+            TextColor.fromHexString("#048a3e"),
+            TextDecoration.BOLD)).statelessComponent(container -> {
+            container.fill(
+                GuiLayout.box(Slot.min(1), Slot.max(rows)),
+                ItemBuilder.from(Material.BLACK_STAINED_GLASS_PANE).name(Component.empty()).asGuiItem());
 
-        event.setCancelled(true);
+            container.setItem(
+                11,
+                ItemBuilder.from(Material.IRON_INGOT).name(getItemName(Rank.MEMBER))
+                    .lore(getItemLore(Rank.MEMBER)).asGuiItem((player, context) -> sendMessage(
+                        player,
+                        "Member",
+                        "https://silverstone.craftingstore.net/category/261250",
+                        context)));
 
-        switch (event.getRawSlot()) {
-            case 11 -> {
-                // Member
-                player.sendMessage(Component.text("\nPurchase the ", NamedTextColor.GREEN)
-                    .append(Component.text("Member ", NamedTextColor.AQUA))
-                    .append(Component.text("rank ", NamedTextColor.GREEN))
-                    .append(Component.text("here", NamedTextColor.AQUA)
-                        .clickEvent(ClickEvent.openUrl("https://silverstone.craftingstore.net/category/261250"))));
-                closeInv(player);
-            }
+            container.setItem(
+                12,
+                ItemBuilder.from(Material.EMERALD).name(getItemName(Rank.VIP)).lore(getItemLore(Rank.VIP))
+                    .asGuiItem((player, context) -> sendMessage(
+                        player,
+                        "VIP",
+                        "https://silverstone.craftingstore.net/category/261250",
+                        context)));
 
-            case 12 -> {
-                // VIP
-                player.sendMessage(Component.text("\nPurchase the ", NamedTextColor.GREEN)
-                    .append(Component.text("VIP ", NamedTextColor.AQUA))
-                    .append(Component.text("rank ", NamedTextColor.GREEN))
-                    .append(Component.text("here", NamedTextColor.AQUA)
-                        .clickEvent(ClickEvent.openUrl("https://silverstone.craftingstore.net/category/261250"))));
-                closeInv(player);
-            }
+            container.setItem(
+                13,
+                ItemBuilder.from(Material.DIAMOND).name(getItemName(Rank.VIP_PLUS))
+                    .lore(getItemLore(Rank.VIP_PLUS)).asGuiItem((player, context) -> sendMessage(
+                        player,
+                        "VIP+",
+                        "https://silverstone.craftingstore.net/category/261250",
+                        context)));
 
-            case 13 -> {
-                // VIP+
-                player.sendMessage(Component.text("\nPurchase the ", NamedTextColor.GREEN)
-                    .append(Component.text("VIP+ ", NamedTextColor.AQUA))
-                    .append(Component.text("rank ", NamedTextColor.GREEN))
-                    .append(Component.text("here", NamedTextColor.AQUA)
-                        .clickEvent(ClickEvent.openUrl("https://silverstone.craftingstore.net/category/261250"))));
-                closeInv(player);
-            }
+            container.setItem(
+                14,
+                ItemBuilder.from(Material.NETHERITE_INGOT).name(getItemName(Rank.MVP))
+                    .lore(getItemLore(Rank.MVP)).asGuiItem((player, context) -> sendMessage(
+                        player,
+                        "MVP",
+                        "https://silverstone.craftingstore.net/category/261250",
+                        context)));
 
-            case 14 -> {
-                // MVP
-                player.sendMessage(Component.text("\nPurchase the ", NamedTextColor.GREEN)
-                    .append(Component.text("MVP ", NamedTextColor.AQUA))
-                    .append(Component.text("rank ", NamedTextColor.GREEN))
-                    .append(Component.text("here", NamedTextColor.AQUA)
-                        .clickEvent(ClickEvent.openUrl("https://silverstone.craftingstore.net/category/261250"))));
-                closeInv(player);
-            }
+            container.setItem(
+                15,
+                ItemBuilder.from(Material.WRITABLE_BOOK).name(getItemName(Rank.DONATE))
+                    .lore(getItemLore(Rank.DONATE)).asGuiItem((player, context) -> sendMessage(
+                        player,
+                        "Donate",
+                        "https://silverstone.craftingstore.net/category/261655",
+                        context)));
+        }).build();
+    }
 
-            case 15 -> {
-                // Donate
-                player.sendMessage(Component.text("\nDonate to the server ", NamedTextColor.GREEN)
-                    .append(Component.text("here", NamedTextColor.AQUA)
-                        .clickEvent(ClickEvent.openUrl("https://silverstone.craftingstore.net/category/261655"))));
-                closeInv(player);
-            }
+    private enum Rank {
+        MEMBER("Member"), VIP("VIP"), VIP_PLUS("VIP+"), MVP("MVP"), DONATE("Donate");
+
+        private final String name;
+
+        Rank(String name) {
+            this.name = name;
+        }
+
+        public String getName() {
+            return name;
         }
     }
 
-    public void createInv() {
-        Inventory inventory = Bukkit.createInventory(
-            null,
-            27,
-            Component.text("Available Ranks", TextColor.fromHexString("#048a3e"), TextDecoration.BOLD));
-
-        // Filler
-        ItemStack item = new ItemStack(Material.BLACK_STAINED_GLASS_PANE);
-        ItemMeta meta = item.getItemMeta();
-        meta.displayName(Component.empty());
-        item.setItemMeta(meta);
-        IntStream.rangeClosed(0, 26).boxed().toList().forEach(slot -> inventory.setItem(slot, item));
-
-        inventory.setItem(11, getItem(Material.IRON_INGOT, "Member"));
-        inventory.setItem(12, getItem(Material.EMERALD, "VIP"));
-        inventory.setItem(13, getItem(Material.DIAMOND, "VIP+"));
-        inventory.setItem(14, getItem(Material.NETHERITE_INGOT, "MVP"));
-        inventory.setItem(15, getItem(Material.WRITABLE_BOOK, "Donate"));
-
-        inv = inventory;
-    }
-
-    private ItemStack getItem(Material item, String rank) {
-        ItemStack itemStack = new ItemStack(item);
-        ItemMeta meta = itemStack.getItemMeta();
-        List<Component> lore = new ArrayList<>();
-
-        // Title
+    private TextComponent getItemName(Rank rank) {
         NamedTextColor color = switch (rank) {
-            case "VIP" -> NamedTextColor.GREEN;
-            case "VIP+" -> NamedTextColor.GOLD;
-            case "MVP" -> NamedTextColor.LIGHT_PURPLE;
+            case VIP -> NamedTextColor.GREEN;
+            case VIP_PLUS -> NamedTextColor.GOLD;
+            case MVP -> NamedTextColor.LIGHT_PURPLE;
             default -> NamedTextColor.DARK_GREEN;
         };
-        meta.displayName(Component.text(rank, color, TextDecoration.BOLD)
-            .decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE));
 
-        // Contents
-        for (String customLore : plugin.getConfig().getStringList("buy-gui." + rank.toLowerCase()))
-            lore.add(MiniMessage.miniMessage().deserialize("<!i>" + customLore));
-        meta.lore(lore);
-        itemStack.setItemMeta(meta);
+        return Component.text(rank.getName(), color, TextDecoration.BOLD)
+            .decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE);
+    }
 
-        return itemStack;
+    private List<Component> getItemLore(Rank rank) {
+        return plugin.getConfig().getStringList("buy-gui." + rank.getName().toLowerCase()).stream().map(
+            customLore -> MiniMessage.miniMessage().deserialize("<!i>" + customLore)).toList();
+    }
+
+    private void sendMessage(Player player, String rank, String url, ClickContext context) {
+        player.sendMessage(Component.text("\nPurchase the ", NamedTextColor.GREEN)
+            .append(Component.text(rank + " ", NamedTextColor.AQUA))
+            .append(Component.text("rank ", NamedTextColor.GREEN))
+            .append(Component.text("here", NamedTextColor.AQUA).clickEvent(ClickEvent.openUrl(url))));
+
+        context.guiView().close();
     }
 }

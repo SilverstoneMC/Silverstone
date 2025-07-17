@@ -119,7 +119,7 @@ public class SilverstoneGlobal extends JavaPlugin implements Listener {
         getCommand("buy").setExecutor(new BuyGUI(this));
         getCommand("bwarn").setExecutor(new BackendWarn());
         getCommand("centeronblock").setExecutor(new CenterOnBlock());
-        getCommand("chatcolor").setExecutor(new ChatColorGUI(this));
+        getCommand("chatcolor").setExecutor(new ChatColorGUI());
         getCommand("effects").setExecutor(new Effects());
         getCommand("exit").setExecutor(new Exit(this));
         getCommand("forcerestart").setExecutor(new Restart(this));
@@ -147,17 +147,12 @@ public class SilverstoneGlobal extends JavaPlugin implements Listener {
 
         PluginManager pluginManager = getServer().getPluginManager();
         if (essentials != null) pluginManager.registerEvents(new AFK(this), this);
-        pluginManager.registerEvents(new BuyGUI(this), this);
-        pluginManager.registerEvents(new ChatColorGUI(this), this);
         pluginManager.registerEvents(new CancelChat(), this);
         pluginManager.registerEvents(new Gamemode(), this);
         pluginManager.registerEvents(new JoinAndLeave(this), this);
         pluginManager.registerEvents(new Kick(), this);
         pluginManager.registerEvents(new ServerLoad(this), this);
         pluginManager.registerEvents(new TabComplete(), this);
-
-        new BuyGUI(this).createInv();
-        new ChatColorGUI(this).createInv();
 
         getServer().getMessenger().registerIncomingPluginChannel(
             this,
@@ -216,6 +211,8 @@ public class SilverstoneGlobal extends JavaPlugin implements Listener {
 
         getLogger().info("Shutting down Discord bot...");
         try {
+            if (jda == null) return; // The bot was never started
+
             // Initating the shutdown, this closes the gateway connection and subsequently closes the requester queue
             jda.shutdown();
             // Allow at most 10 seconds for remaining requests to finish
@@ -232,7 +229,6 @@ public class SilverstoneGlobal extends JavaPlugin implements Listener {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String @NotNull [] args) {
         saveDefaultConfig();
         reloadConfig();
-        new BuyGUI(this).createInv();
         sender.sendMessage(Component.text("SilverstoneGlobal reloaded!", NamedTextColor.GREEN));
         return true;
     }
