@@ -3,6 +3,7 @@ package net.silverstonemc.silverstoneproxy.events;
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
 import com.velocitypowered.api.event.Subscribe;
+import com.velocitypowered.api.event.player.PlayerChooseInitialServerEvent;
 import com.velocitypowered.api.event.player.ServerConnectedEvent;
 import com.velocitypowered.api.event.player.ServerPreConnectEvent;
 import com.velocitypowered.api.proxy.Player;
@@ -38,6 +39,35 @@ public class Join {
     public static final Map<Player, Message> newPlayers = new HashMap<>();
 
     private final SilverstoneProxy i;
+
+    @Subscribe
+    public void setServer(PlayerChooseInitialServerEvent event) {
+        if (event.getInitialServer().isEmpty()) return;
+
+        // Should be minigames if not a forced host
+        String serverName = event.getInitialServer().get().getServerInfo().getName();
+        if (!serverName.equals("minigames")) return;
+
+        // Get the server the player should be sent to, if any
+        String forcedServerName = i.fileManager.files.get(PREVIOUS).node(
+            "servers",
+            event.getPlayer().getUniqueId().toString()).getString("default");
+        if (forcedServerName.equals("default")) return;
+
+        // If the forced server no longer exists, gracefully delete it
+        Optional<RegisteredServer> forcedServer = i.server.getServer(forcedServerName);
+        if (forcedServer.isEmpty()) {
+            try {
+                i.fileManager.files.get(PREVIOUS).node("servers", event.getPlayer().getUniqueId().toString())
+                    .set(null);
+                i.fileManager.save(PREVIOUS);
+            } catch (SerializationException e) {
+                throw new RuntimeException(e);
+            }
+            return;
+        }
+        event.setInitialServer(forcedServer.get());
+    }
 
     @Subscribe
     public void onServerConnect(ServerPreConnectEvent event) {

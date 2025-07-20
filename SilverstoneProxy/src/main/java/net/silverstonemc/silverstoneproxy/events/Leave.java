@@ -13,8 +13,10 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
+import net.silverstonemc.silverstoneproxy.ConfigurationManager;
 import net.silverstonemc.silverstoneproxy.SilverstoneProxy;
 import net.silverstonemc.silverstoneproxy.utils.NicknameUtils;
+import org.spongepowered.configurate.serialize.SerializationException;
 
 import java.awt.*;
 import java.util.HashMap;
@@ -40,8 +42,22 @@ public class Leave {
         if (event.getLoginStatus() == DisconnectEvent.LoginStatus.CANCELLED_BY_USER_BEFORE_COMPLETE) return;
 
         Player player = event.getPlayer();
-        boolean isVanished = player.hasPermission("silverstone.vanished");
 
+        // Save player's previous server, assuming it's not the default (minigames)
+        if (player.getCurrentServer().isPresent()) {
+            String serverName = player.getCurrentServer().get().getServerInfo().getName();
+
+            if (!serverName.equals("minigames")) try {
+                i.fileManager.files.get(ConfigurationManager.FileType.PREVIOUS).node(
+                    "servers",
+                    player.getUniqueId().toString()).set(serverName);
+                i.fileManager.save(ConfigurationManager.FileType.PREVIOUS);
+            } catch (SerializationException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        boolean isVanished = player.hasPermission("silverstone.vanished");
         if (!isVanished) {
             // Maybe send message only if player's not vanished
             recentlyQuit.put(player.getUsername(), player.getUniqueId());

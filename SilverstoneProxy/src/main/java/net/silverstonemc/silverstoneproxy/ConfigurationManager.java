@@ -25,8 +25,8 @@ public class ConfigurationManager {
     private final Path dataDirectory;
 
     public enum FileType {
-        CONFIG("config.yml"), NICKNAMES("nicknames.yml"), USERCACHE("usercache.yml"), WARNDATA("warndata.yml"), WARNQUEUE(
-            "warnqueue.yml"), WHITELIST("whitelist.yml");
+        CONFIG("config.yml"), NICKNAMES("nicknames.yml"), PREVIOUS("previous-servers.yml"), USERCACHE(
+            "usercache.yml"), WARNDATA("warndata.yml"), WARNQUEUE("warnqueue.yml"), WHITELIST("whitelist.yml");
 
         private final String fileName;
 
@@ -48,6 +48,7 @@ public class ConfigurationManager {
 
         files.put(FileType.CONFIG, loadFile(FileType.CONFIG));
         files.put(FileType.NICKNAMES, loadFile(FileType.NICKNAMES));
+        files.put(FileType.PREVIOUS, loadFile(FileType.PREVIOUS));
         files.put(FileType.USERCACHE, loadFile(FileType.USERCACHE));
         files.put(FileType.WARNDATA, loadFile(FileType.WARNDATA));
         files.put(FileType.WARNQUEUE, loadFile(FileType.WARNQUEUE));
