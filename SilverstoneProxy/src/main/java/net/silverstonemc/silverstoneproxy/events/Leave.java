@@ -13,7 +13,6 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
-import net.silverstonemc.silverstoneproxy.ConfigurationManager;
 import net.silverstonemc.silverstoneproxy.SilverstoneProxy;
 import net.silverstonemc.silverstoneproxy.utils.NicknameUtils;
 import org.spongepowered.configurate.serialize.SerializationException;
@@ -23,6 +22,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
+
+import static net.silverstonemc.silverstoneproxy.ConfigurationManager.FileType.PREVIOUS;
 
 @SuppressWarnings("DataFlowIssue")
 public class Leave {
@@ -47,11 +48,15 @@ public class Leave {
         if (player.getCurrentServer().isPresent()) {
             String serverName = player.getCurrentServer().get().getServerInfo().getName();
 
-            if (!serverName.equals("minigames")) try {
-                i.fileManager.files.get(ConfigurationManager.FileType.PREVIOUS).node(
+            try {
+                // Remove the previous server if it was minigames - we like clean files :)
+                if (serverName.equals("minigames")) i.fileManager.files.get(PREVIOUS).node(
                     "servers",
-                    player.getUniqueId().toString()).set(serverName);
-                i.fileManager.save(ConfigurationManager.FileType.PREVIOUS);
+                    event.getPlayer().getUniqueId().toString()).set(null);
+                else i.fileManager.files.get(PREVIOUS).node("servers", player.getUniqueId().toString()).set(
+                    serverName);
+
+                i.fileManager.save(PREVIOUS);
             } catch (SerializationException e) {
                 throw new RuntimeException(e);
             }
