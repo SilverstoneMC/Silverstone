@@ -6,7 +6,7 @@
 
     <groupId>net.silverstonemc</groupId>
     <artifactId>SilverstoneProxy</artifactId>
-    <version>3.10.1</version>
+    <version>3.11.0</version>
 
     <properties>
         <maven.compiler.source>21</maven.compiler.source>

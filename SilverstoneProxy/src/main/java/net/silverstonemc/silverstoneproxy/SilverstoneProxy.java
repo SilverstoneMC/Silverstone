@@ -153,7 +153,6 @@ public class SilverstoneProxy {
         commandManager.register(
             commandManager.metaBuilder("joinleavesounds").build(),
             new JoinLeaveSounds(this));
-        commandManager.register(commandManager.metaBuilder("mmotd").build(), new MiniMOTDControls(this));
         commandManager.register(
             commandManager.metaBuilder("nickname").aliases("nick").build(),
             new Nickname(this));
@@ -161,7 +160,6 @@ public class SilverstoneProxy {
         commandManager.register(
             commandManager.metaBuilder("prestartwhenempty").build(),
             new RestartWhenEmpty(this));
-        commandManager.register(commandManager.metaBuilder("pwhitelisttoggle").build(), new Whitelist(this));
         commandManager.register(commandManager.metaBuilder("realname").build(), new Realname(this));
         commandManager.register(commandManager.metaBuilder("relay").build(), new Relay());
         commandManager.register(commandManager.metaBuilder("rules").build(), new Rules(this));
