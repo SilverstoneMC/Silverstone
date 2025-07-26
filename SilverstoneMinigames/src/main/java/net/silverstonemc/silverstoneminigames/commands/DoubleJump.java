@@ -3,6 +3,7 @@ package net.silverstonemc.silverstoneminigames.commands;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
+import net.silverstonemc.silverstoneminigames.SilverstoneMinigames;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
@@ -68,7 +69,7 @@ public class DoubleJump implements CommandExecutor, Listener {
 
         if (event.getAction() != Action.RIGHT_CLICK_AIR && event.getAction() != Action.RIGHT_CLICK_BLOCK && event.getAction() != Action.LEFT_CLICK_AIR && event.getAction() != Action.LEFT_CLICK_BLOCK)
             return;
-        if (!player.getWorld().getName().equalsIgnoreCase(plugin.getConfig().getString("minigame-world")))
+        if (!player.getWorld().getName().equalsIgnoreCase(SilverstoneMinigames.MINIGAME_WORLD))
             return;
         if (player.getInventory().getItemInMainHand().getType() != Material.FEATHER) return;
         if (!player.getInventory().getItemInMainHand().getItemMeta().hasDisplayName()) return;

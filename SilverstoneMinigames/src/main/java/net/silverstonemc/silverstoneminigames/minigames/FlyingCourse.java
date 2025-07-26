@@ -21,7 +21,14 @@ import org.jetbrains.annotations.NotNull;
 import java.util.*;
 
 @SuppressWarnings("DataFlowIssue")
-public record FlyingCourse(JavaPlugin plugin) implements CommandExecutor {
+public class FlyingCourse implements CommandExecutor {
+    public FlyingCourse(JavaPlugin plugin) {
+        this.plugin = plugin;
+    }
+    
+    private final JavaPlugin plugin;
+    private static final String FLYING_COURSE_WORLD = "flying_course";
+    
     public boolean onCommand(@NotNull CommandSender sender, Command cmd, @NotNull String label, String @NotNull [] args) {
         if (cmd.getName().equalsIgnoreCase("fcfinish")) {
             Player player = Bukkit.getPlayer(args[0]);
@@ -36,7 +43,7 @@ public record FlyingCourse(JavaPlugin plugin) implements CommandExecutor {
                 @Override
                 public void run() {
                     Location location = new Location(
-                        Bukkit.getWorld(plugin.getConfig().getString("flying-course-world")),
+                        Bukkit.getWorld(FLYING_COURSE_WORLD),
                         23.5,
                         132,
                         88.5,
@@ -107,8 +114,7 @@ public record FlyingCourse(JavaPlugin plugin) implements CommandExecutor {
                     }
 
                     for (Player players : Bukkit.getOnlinePlayers())
-                        if (players.getWorld().getName().equalsIgnoreCase(plugin.getConfig()
-                            .getString("flying-course-world"))) players.sendMessage(Component.text().append(
+                        if (players.getWorld().getName().equalsIgnoreCase(FLYING_COURSE_WORLD)) players.sendMessage(Component.text().append(
                                 Component.text("NOTICE", NamedTextColor.RED, TextDecoration.BOLD)).append(
                                 Component.text(" > ", NamedTextColor.AQUA, TextDecoration.BOLD))
                             .append(Component.text(

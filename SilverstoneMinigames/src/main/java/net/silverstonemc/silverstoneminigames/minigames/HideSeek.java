@@ -1,58 +1,46 @@
 package net.silverstonemc.silverstoneminigames.minigames;
 
+import dev.triumphteam.gui.click.ClickContext;
+import dev.triumphteam.gui.layout.GuiLayout;
+import dev.triumphteam.gui.paper.Gui;
+import dev.triumphteam.gui.paper.builder.item.ItemBuilder;
+import dev.triumphteam.gui.slot.Slot;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.NamedTextColor;
-import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.title.Title;
-import net.silverstonemc.silverstoneminigames.CustomSkull;
+import net.silverstonemc.silverstoneminigames.SilverstoneMinigames;
 import org.bukkit.*;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Firework;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
-import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemFlag;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.FireworkMeta;
-import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.jetbrains.annotations.NotNull;
 
-import java.util.*;
-import java.util.stream.IntStream;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-@SuppressWarnings("DataFlowIssue")
-public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
-    private static final Map<Player, Long> cooldowns = new HashMap<>();
-    private static final Map<Player, Integer> points = new HashMap<>();
-    private static final Map<Player, Long> spamCooldown = new HashMap<>();
-    private static Inventory inv;
-
-    public void closeInv(Player player) {
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                player.closeInventory();
-            }
-        }.runTask(plugin);
+public class HideSeek implements Listener {
+    public HideSeek(JavaPlugin plugin) {
+        this.plugin = plugin;
     }
 
-    public void tauntTimer(Player player) {
+    public static final Map<Player, Integer> points = new HashMap<>();
+
+    private final JavaPlugin plugin;
+    private static final Map<Player, Long> cooldowns = new HashMap<>();
+    private static final Map<Player, Long> spamCooldown = new HashMap<>();
+
+    public void tauntTimer(Player player, ClickContext context) {
         if (!player.hasPermission("silverstone.minigames.hideseek.taunt.bypasscooldown")) {
             cooldowns.put(player, System.currentTimeMillis() + 15000);
             new BukkitRunnable() {
@@ -65,118 +53,30 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
                             Title.DEFAULT_TIMES));
                 }
             }.runTaskLater(plugin, 300);
+
+            context.guiView().close();
         }
     }
 
-    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String @NotNull [] args) {
-        if (args.length == 0) return false;
-
-        if (args[0].equalsIgnoreCase("reset_taunt_points")) {
-            points.clear();
-            sender.sendMessage(Component.text("Points reset!", NamedTextColor.GREEN));
-            return true;
-        }
-
-        // All other subcommands require a selector
-        if (args.length == 1) {
-            sender.sendMessage(Component.text("Please provide a valid selector!", NamedTextColor.RED));
-            return true;
-        }
-
-        switch (args[0].toLowerCase()) {
-            case "assign_block" -> {
-                for (Entity players : Bukkit.selectEntities(sender, args[1])) {
-                    if (!(players instanceof Player player)) continue;
-
-                    // Assign random tag to each player
-                    Random r = new Random();
-                    int randomTag = r.nextInt(7);
-                    String[] tags = {
-                        "HSCornflower",
-                        "HSPoppy",
-                        "HSOak",
-                        "HSSpruce",
-                        "HSPrismarine",
-                        "HSStone",
-                        "HSGrass"
-                    };
-                    if (player.addScoreboardTag(tags[randomTag])) sender.sendMessage(Component.text("Assigned " + tags[randomTag] + " to " + player.getName(),
-                        NamedTextColor.GREEN));
-                    else
-                        sender.sendMessage(Component.text(
-                            "Failed to assign " + tags[randomTag] + " to " + player.getName(),
-                            NamedTextColor.RED));
-                }
-                return true;
-            }
-
-            case "heartbeat" -> {
-                for (Entity players : Bukkit.selectEntities(sender, args[1])) {
-                    if (!(players instanceof Player player)) continue;
-                    // 0-5 sec
-                    playHeartbeat(player, 24, 8, 5);
-
-                    // 6-10 sec
-                    new BukkitRunnable() {
-                        @Override
-                        public void run() {
-                            playHeartbeat(player, 20, 6, 3);
-                        }
-                    }.runTaskLater(plugin, 6 * 20L);
-
-                    // 11-15 sec
-                    new BukkitRunnable() {
-                        @Override
-                        public void run() {
-                            playHeartbeat(player, 16, 5, 3);
-                        }
-                    }.runTaskLater(plugin, 11 * 20L);
-                }
-                return true;
-            }
-            
-            case "random_taunt" -> {
-                List<Entity> player = Bukkit.selectEntities(sender, args[1]);
-                if (player.isEmpty()) {
-                    sender.sendMessage(Component.text(
-                        "No players found with that selector!",
-                        NamedTextColor.RED));
-                    return true;
-                }
-                // Assumes @r in the selector
-                Player randomPlayer = (Player) player.getFirst();
-
-                Random r = new Random();
-                int randomTaunt = r.nextInt(7) + 1;
-
-                switch (randomTaunt) {
-                    case 1 -> bark(randomPlayer);
-                    case 2 -> ding(randomPlayer);
-                    case 3 -> scream(randomPlayer);
-                    case 4 -> roar(randomPlayer);
-                    case 5 -> explosion(randomPlayer);
-                    case 6 -> fireworks(randomPlayer);
-                    case 7 -> boom(randomPlayer);
-                }
-                return true;
-            }
-        }
-        return false;
-    }
-
-    // On bell click
     @EventHandler
-    public void onClick(PlayerInteractEvent event) {
+    public void onBellClick(PlayerInteractEvent event) {
+        System.out.println("EVENT FIRED");
         Player player = event.getPlayer();
 
+        System.out.println(1);
         if (event.getAction() != Action.RIGHT_CLICK_AIR && event.getAction() != Action.RIGHT_CLICK_BLOCK)
             return;
+        System.out.println(2);
         if (player.getInventory().getItemInMainHand().getType() != Material.BELL) return;
+        System.out.println(3);
         if (!player.getInventory().getItemInMainHand().hasItemMeta()) return;
+        System.out.println(4);
         if (!player.getInventory().getItemInMainHand().getItemMeta().hasDisplayName()) return;
-        if (!player.getWorld().getName().equalsIgnoreCase(plugin.getConfig().getString("minigame-world")))
-            return;
+        System.out.println(5);
+        if (!player.getWorld().getName().equalsIgnoreCase(SilverstoneMinigames.MINIGAME_WORLD)) return;
+        System.out.println(6);
 
+        //noinspection DataFlowIssue
         if (player.getInventory().getItemInMainHand().getItemMeta().displayName().equals(Component
             .text("Click to Taunt", NamedTextColor.AQUA, TextDecoration.BOLD)
             .decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE))) {
@@ -210,413 +110,254 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
             }
 
         // Open GUI
-        player.openInventory(inv);
+        System.out.println(7);
+        inventory().open(player);
     }
 
-    private void playHeartbeat(Player player, int speed1, int speed2, int stopAfter) {
-        BukkitRunnable task = new BukkitRunnable() {
-            @Override
-            public void run() {
-                if (!Bukkit.getServer().getScoreboardManager().getMainScoreboard().getTeam("Hiders")
-                    .getEntries().contains(player.getName())) {
-                    cancel();
-                    return;
-                }
+    private Gui inventory() {
+        final int rows = 5;
 
-                player.playSound(
-                    player.getLocation(),
-                    Sound.BLOCK_NOTE_BLOCK_BASEDRUM,
-                    SoundCategory.PLAYERS,
-                    2,
-                    0);
-                player.addPotionEffect(new PotionEffect(
-                    PotionEffectType.SLOWNESS,
-                    3,
-                    0,
-                    false,
-                    false,
-                    false));
-                new BukkitRunnable() {
-                    @Override
-                    public void run() {
-                        player.removePotionEffect(PotionEffectType.SLOWNESS);
-                    }
-                }.runTaskLater(plugin, 2);
+        return Gui.of(rows).title(Component.text("Taunts", NamedTextColor.DARK_RED, TextDecoration.BOLD))
+            .statelessComponent(container -> {
+                container.fill(
+                    GuiLayout.box(Slot.min(1), Slot.max(rows)),
+                    ItemBuilder.from(Material.BLACK_STAINED_GLASS_PANE).name(Component.empty()).asGuiItem());
 
-                new BukkitRunnable() {
-                    @Override
-                    public void run() {
-                        player.playSound(
-                            player.getLocation(),
-                            Sound.BLOCK_NOTE_BLOCK_BASEDRUM,
-                            SoundCategory.PLAYERS,
-                            2,
-                            0);
-                        player.addPotionEffect(new PotionEffect(
-                            PotionEffectType.SLOWNESS,
-                            3,
-                            1,
-                            false,
-                            false,
-                            false));
+                container.setItem(
+                    10, ItemBuilder.from(Material.BONE).name(Component.text(
+                            "Bark",
+                            NamedTextColor.AQUA,
+                            TextDecoration.BOLD)).lore(getItemLore("<dark_aqua><b>1</b> Taunt Point"))
+                        .asGuiItem((player, context) -> {
+                            bark(player);
+                            addPoints(player, 1);
+                            tauntTimer(player, context);
+                        }));
 
-                        new BukkitRunnable() {
-                            @Override
-                            public void run() {
-                                player.removePotionEffect(PotionEffectType.SLOWNESS);
-                            }
-                        }.runTaskLater(plugin, 2);
-                    }
-                }.runTaskLater(plugin, speed2);
-            }
-        };
-        task.runTaskTimer(plugin, 0, speed1);
+                container.setItem(
+                    11, ItemBuilder.from(Material.BELL).name(Component.text(
+                            "Ding",
+                            NamedTextColor.AQUA,
+                            TextDecoration.BOLD))
+                        .lore(getItemLore("<dark_aqua><b>2</b> <dark_green>Taunt Points"))
+                        .asGuiItem((player, context) -> {
+                            ding(player);
+                            addPoints(player, 2);
+                            tauntTimer(player, context);
+                        }));
 
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                task.cancel();
-            }
-        }.runTaskLater(plugin, (stopAfter * 20L) + 20L);
-    }
+                container.setItem(
+                    12, ItemBuilder.from(Material.GHAST_TEAR).name(Component.text(
+                            "Scream",
+                            NamedTextColor.AQUA,
+                            TextDecoration.BOLD))
+                        .lore(getItemLore("<dark_aqua><b>3</b> <dark_green>Taunt Points"))
+                        .asGuiItem((player, context) -> {
+                            scream(player);
+                            addPoints(player, 3);
+                            tauntTimer(player, context);
+                        }));
 
-    // On item click
-    @EventHandler
-    public void onInventoryClick(InventoryClickEvent event) {
-        if (!event.getInventory().equals(inv)) return;
-        if (event.getCurrentItem() == null) return;
-        if (event.getCurrentItem().getItemMeta() == null) return;
+                container.setItem(
+                    13, ItemBuilder.from(Material.DRAGON_HEAD).name(Component.text(
+                            "Roar",
+                            NamedTextColor.AQUA,
+                            TextDecoration.BOLD))
+                        .lore(getItemLore("<dark_aqua><b>5</b> <dark_green>Taunt Points"))
+                        .asGuiItem((player, context) -> {
+                            roar(player);
+                            addPoints(player, 5);
+                            tauntTimer(player, context);
+                        }));
 
-        event.setCancelled(true);
+                container.setItem(
+                    14, ItemBuilder.from(Material.TNT).name(Component.text(
+                            "Explosion",
+                            NamedTextColor.AQUA,
+                            TextDecoration.BOLD))
+                        .lore(getItemLore("<dark_aqua><b>7</b> <dark_green>Taunt Points"))
+                        .asGuiItem((player, context) -> {
+                            explosion(player);
+                            addPoints(player, 7);
+                            tauntTimer(player, context);
+                        }));
 
-        Component itemName = Component.text("Click to Taunt", NamedTextColor.AQUA, TextDecoration.BOLD)
-            .decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE);
+                container.setItem(
+                    15, ItemBuilder.from(Material.FIREWORK_ROCKET).name(Component.text(
+                            "Fireworks",
+                            NamedTextColor.AQUA,
+                            TextDecoration.BOLD))
+                        .lore(getItemLore("<dark_aqua><b>9</b> <dark_green>Taunt Points"))
+                        .asGuiItem((player, context) -> {
+                            fireworks(player);
+                            addPoints(player, 9);
+                            tauntTimer(player, context);
+                        }));
 
-        Player player = (Player) event.getWhoClicked();
-        ItemStack item = new ItemStack(Material.BELL);
-        ItemMeta meta = item.getItemMeta();
-        meta.displayName(itemName);
-        item.setItemMeta(meta);
+                container.setItem(
+                    16, ItemBuilder.from(Material.TOTEM_OF_UNDYING).name(Component.text(
+                            "Boom",
+                            NamedTextColor.AQUA,
+                            TextDecoration.BOLD))
+                        .lore(getItemLore("<dark_aqua><b>10</b> <dark_green>Taunt Points"))
+                        .asGuiItem((player, context) -> {
+                            boom(player);
+                            addPoints(player, 10);
+                            tauntTimer(player, context);
+                        }));
 
-        // Get the player's points, defaulting to 0
-        int currentPoints = points.getOrDefault(player, 0);
+                TextComponent notEnough = Component.text(
+                    "You don't have enough points to do that!",
+                    NamedTextColor.RED);
 
-        TextComponent notEnough = Component.text(
-            "You don't have enough points to do that!",
-            NamedTextColor.RED);
+                // Random taunt
+                container.setItem(
+                    29, ItemBuilder.skull().texture(
+                            "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDZiYTYzMzQ0ZjQ5ZGQxYzRmNTQ4OGU5MjZiZjNkOWUyYjI5OTE2YTZjNTBkNjEwYmI0MGE1MjczZGM4YzgyIn19fQ==")
+                        .name(Component
+                            .text("Taunt at random player", NamedTextColor.AQUA, TextDecoration.BOLD)
+                            .decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE))
+                        .lore(getItemLore(
+                            "<dark_aqua>Costs <dark_green>45</dark_green> Taunt Points",
+                            "",
+                            "<gray>Sends a random taunt",
+                            "<gray>to a random hider",
+                            "<#858585><i>(This can include yourself!)")).asGuiItem((player, context) -> {
 
-        switch (event.getRawSlot()) {
-            case 10 -> {
-                // Bark / Bone
-                bark(player);
-                closeInv(player);
-                if (player.getGameMode() == GameMode.ADVENTURE && player.getWorld().getName()
-                    .equalsIgnoreCase(plugin.getConfig().getString("minigame-world"))) points.put(
-                    player,
-                    currentPoints + 1);
-                tauntTimer(player);
-            }
+                            if (getPoints(player) >= 45) {
+                                Location loc = new Location(
+                                    Bukkit.getWorld(SilverstoneMinigames.MINIGAME_WORLD),
+                                    -372,
+                                    9,
+                                    -65);
+                                loc.getBlock().setType(Material.REDSTONE_BLOCK);
 
-            case 11 -> {
-                // Ding / Bell
-                ding(player);
-                closeInv(player);
-                if (player.getGameMode() == GameMode.ADVENTURE && player.getWorld().getName()
-                    .equalsIgnoreCase(plugin.getConfig().getString("minigame-world"))) points.put(
-                    player,
-                    currentPoints + 2);
-                tauntTimer(player);
-            }
+                                addPoints(player, -45);
+                                tauntTimer(player, context);
+                            } else player.sendMessage(notEnough);
+                        }));
 
-            case 12 -> {
-                // Scream / Tear
-                scream(player);
-                closeInv(player);
-                if (player.getGameMode() == GameMode.ADVENTURE && player.getWorld().getName()
-                    .equalsIgnoreCase(plugin.getConfig().getString("minigame-world"))) points.put(
-                    player,
-                    currentPoints + 3);
-                tauntTimer(player);
-            }
+                // Darkness
+                container.setItem(
+                    30, ItemBuilder.from(Material.TINTED_GLASS).name(Component.text(
+                        "Give seekers darkness",
+                        NamedTextColor.AQUA,
+                        TextDecoration.BOLD)).lore(getItemLore(
+                        "<dark_aqua>Costs <dark_green><b>60</b></dark_green> Taunt Points",
+                        "",
+                        "<gray>Gives all seekers",
+                        "<gray>darkness for 10 seconds")).asGuiItem((player, context) -> {
+                        if (getPoints(player) >= 60) {
+                            Location loc = new Location(
+                                Bukkit.getWorld(SilverstoneMinigames.MINIGAME_WORLD),
+                                -372,
+                                9,
+                                -61);
+                            loc.getBlock().setType(Material.REDSTONE_BLOCK);
 
-            case 13 -> {
-                // Roar / Dragon Head
-                roar(player);
-                closeInv(player);
-                if (player.getGameMode() == GameMode.ADVENTURE && player.getWorld().getName()
-                    .equalsIgnoreCase(plugin.getConfig().getString("minigame-world"))) points.put(
-                    player,
-                    currentPoints + 5);
-                tauntTimer(player);
-            }
+                            addPoints(player, -60);
+                            tauntTimer(player, context);
+                        } else player.sendMessage(notEnough);
+                    }));
 
-            case 14 -> {
-                // Explosion / TNT
-                explosion(player);
-                closeInv(player);
-                if (player.getGameMode() == GameMode.ADVENTURE && player.getWorld().getName()
-                    .equalsIgnoreCase(plugin.getConfig().getString("minigame-world"))) points.put(
-                    player,
-                    currentPoints + 7);
-                tauntTimer(player);
-            }
+                // Slowness
+                container.setItem(
+                    31,
+                    ItemBuilder.from(Material.NETHERITE_BOOTS).name(Component.text(
+                        "Give seekers slowness",
+                        NamedTextColor.AQUA,
+                        TextDecoration.BOLD)).lore(getItemLore(
+                        "<dark_aqua>Costs <dark_green><b>60</b></dark_green> Taunt Points",
+                        "",
+                        "<gray>Slows all seekers",
+                        "<gray>down for 15 seconds")).asGuiItem((player, context) -> {
+                        if (getPoints(player) >= 60) {
+                            Location loc = new Location(
+                                Bukkit.getWorld(SilverstoneMinigames.MINIGAME_WORLD),
+                                -374,
+                                9,
+                                -62);
+                            loc.getBlock().setType(Material.REDSTONE_BLOCK);
 
-            case 15 -> {
-                // Fireworks / Firework Rocket
-                fireworks(player);
-                closeInv(player);
-                if (player.getGameMode() == GameMode.ADVENTURE && player.getWorld().getName()
-                    .equalsIgnoreCase(plugin.getConfig().getString("minigame-world"))) points.put(
-                    player,
-                    currentPoints + 9);
-                tauntTimer(player);
-            }
+                            addPoints(player, -60);
+                            tauntTimer(player, context);
+                        } else player.sendMessage(notEnough);
+                    }));
 
-            case 16 -> {
-                // Boom / Totem
-                boom(player);
-                closeInv(player);
-                if (player.getGameMode() == GameMode.ADVENTURE && player.getWorld().getName()
-                    .equalsIgnoreCase(plugin.getConfig().getString("minigame-world"))) points.put(
-                    player,
-                    currentPoints + 10);
-                tauntTimer(player);
-            }
+                // Blindness
+                container.setItem(
+                    32, ItemBuilder.from(Material.NETHERITE_HELMET).name(Component.text("Give seekers blindness",
+                        NamedTextColor.AQUA,
+                        TextDecoration.BOLD)).lore(getItemLore(
+                        "<dark_aqua>Costs <dark_green><b>90</b></dark_green> Taunt Points",
+                        "",
+                        "<gray>Blinds all seekers",
+                        "<gray>for 10 seconds")).asGuiItem((player, context) -> {
+                        if (getPoints(player) >= 90) {
+                            Location loc = new Location(
+                                Bukkit.getWorld(SilverstoneMinigames.MINIGAME_WORLD),
+                                -376,
+                                9,
+                                -62);
+                            loc.getBlock().setType(Material.REDSTONE_BLOCK);
 
-            case 29 -> {
-                // Random taunt random player
-                if (currentPoints >= 45) {
-                    closeInv(player);
-                    if (player.getGameMode() == GameMode.ADVENTURE && player.getWorld().getName()
-                        .equalsIgnoreCase(plugin.getConfig().getString("minigame-world"))) points.put(
-                        player,
-                        currentPoints - 45);
-                    Location loc = new Location(
-                        Bukkit.getWorld(plugin.getConfig()
-                            .getString("minigame-world")), -372, 9, -65);
-                    loc.getBlock().setType(Material.REDSTONE_BLOCK);
-                    tauntTimer(player);
-                } else {
-                    player.sendMessage(notEnough);
-                    return;
-                }
-            }
+                            addPoints(player, -90);
+                            tauntTimer(player, context);
+                        } else player.sendMessage(notEnough);
+                    }));
 
-            case 30 -> {
-                // Seekers darkness
-                if (currentPoints >= 60) {
-                    closeInv(player);
-                    if (player.getGameMode() == GameMode.ADVENTURE && player.getWorld().getName()
-                        .equalsIgnoreCase(plugin.getConfig().getString("minigame-world"))) points.put(
-                        player,
-                        currentPoints - 60);
-                    Location loc = new Location(
-                        Bukkit.getWorld(plugin.getConfig()
-                            .getString("minigame-world")), -372, 9, -61);
-                    loc.getBlock().setType(Material.REDSTONE_BLOCK);
-                    tauntTimer(player);
-                } else {
-                    player.sendMessage(notEnough);
-                    return;
-                }
-            }
-
-            case 31 -> {
-                // Seekers slowness
-                if (currentPoints >= 60) {
-                    closeInv(player);
-                    if (player.getGameMode() == GameMode.ADVENTURE && player.getWorld().getName()
-                        .equalsIgnoreCase(plugin.getConfig().getString("minigame-world"))) points.put(
-                        player,
-                        currentPoints - 60);
-                    Location loc = new Location(
-                        Bukkit.getWorld(plugin.getConfig()
-                            .getString("minigame-world")), -374, 9, -62);
-                    loc.getBlock().setType(Material.REDSTONE_BLOCK);
-                    tauntTimer(player);
-                } else {
-                    player.sendMessage(notEnough);
-                    return;
-                }
-            }
-
-            case 32 -> {
-                // Seekers blindness
-                if (currentPoints >= 90) {
-                    closeInv(player);
-                    if (player.getGameMode() == GameMode.ADVENTURE && player.getWorld().getName()
-                        .equalsIgnoreCase(plugin.getConfig().getString("minigame-world"))) points.put(
-                        player,
-                        currentPoints - 90);
-                    Location loc = new Location(
-                        Bukkit.getWorld(plugin.getConfig()
-                            .getString("minigame-world")), -376, 9, -62);
-                    loc.getBlock().setType(Material.REDSTONE_BLOCK);
-                    tauntTimer(player);
-                } else {
-                    player.sendMessage(notEnough);
-                    return;
-                }
-            }
-
-            case 33 -> {
                 // Instant kill seeker
-                if (currentPoints >= 120) {
-                    closeInv(player);
-                    if (player.getGameMode() == GameMode.ADVENTURE && player.getWorld().getName()
-                        .equalsIgnoreCase(plugin.getConfig().getString("minigame-world"))) points.put(
-                        player,
-                        currentPoints - 120);
-                    Location loc = new Location(
-                        Bukkit.getWorld(plugin.getConfig()
-                            .getString("minigame-world")), -372, 13, -61);
-                    loc.getBlock().setType(Material.REDSTONE_BLOCK);
-                    tauntTimer(player);
-                } else {
-                    player.sendMessage(notEnough);
-                    return;
-                }
-            }
+                container.setItem(
+                    33, ItemBuilder.from(Material.NETHERITE_SWORD).name(Component.text("Insta-kill a random seeker",
+                        NamedTextColor.AQUA,
+                        TextDecoration.BOLD)).lore(getItemLore(
+                        "<dark_aqua>Costs <dark_green><b>120</b></dark_green> Taunt Points",
+                        "",
+                        "<gray>Instantly kills a random seeker")).asGuiItem((player, context) -> {
+                        if (getPoints(player) >= 120) {
+                            Location loc = new Location(
+                                Bukkit.getWorld(SilverstoneMinigames.MINIGAME_WORLD),
+                                -372,
+                                13,
+                                -61);
+                            loc.getBlock().setType(Material.REDSTONE_BLOCK);
 
-            default -> {
-                return;
-            }
-        }
-
-        if (player.getGameMode() == GameMode.ADVENTURE && player.getWorld().getName().equalsIgnoreCase(plugin
-            .getConfig().getString("minigame-world"))) {
-            // Get the player's updated points
-            int newPoints = points.get(player);
-
-            player.sendMessage(Component.text("You now have ", NamedTextColor.DARK_GREEN)
-                .append(Component.text(newPoints, NamedTextColor.DARK_AQUA))
-                .append(Component.text(" taunt points.", NamedTextColor.DARK_GREEN)));
-        }
+                            addPoints(player, -120);
+                            tauntTimer(player, context);
+                        } else player.sendMessage(notEnough);
+                    }));
+            }).build();
     }
 
-    // Inventory items
-    public void createInventory() {
-        Inventory inventory = Bukkit.createInventory(
-            null,
-            45,
-            Component.text("Taunts", NamedTextColor.DARK_RED, TextDecoration.BOLD));
-
-        // Filler
-        ItemStack item = new ItemStack(Material.BLACK_STAINED_GLASS_PANE);
-        ItemMeta meta = item.getItemMeta();
-        meta.displayName(Component.empty());
-        item.setItemMeta(meta);
-        IntStream.rangeClosed(0, 44).boxed().toList().forEach(slot -> inventory.setItem(slot, item));
-
-        inventory.setItem(10, getItem(Material.BONE, "Bark", "<dark_aqua><b>1</b> <dark_green>Taunt Point"));
-        inventory.setItem(11, getItem(Material.BELL, "Ding", "<dark_aqua><b>2</b> <dark_green>Taunt Points"));
-        inventory.setItem(
-            12,
-            getItem(Material.GHAST_TEAR, "Scream", "<dark_aqua><b>3</b> <dark_green>Taunt Points"));
-        inventory.setItem(
-            13,
-            getItem(Material.DRAGON_HEAD, "Roar", "<dark_aqua><b>5</b> <dark_green>Taunt Points"));
-        inventory.setItem(
-            14,
-            getItem(Material.TNT, "Explosion", "<dark_aqua><b>7</b> <dark_green>Taunt Points"));
-        inventory.setItem(
-            15,
-            getItem(Material.FIREWORK_ROCKET, "Fireworks", "<dark_aqua><b>9</b> <dark_green>Taunt Points"));
-        inventory.setItem(
-            16,
-            getItem(Material.TOTEM_OF_UNDYING, "Boom", "<dark_aqua><b>10</b> <dark_green>Taunt Points"));
-
-        // Random taunt
-        ItemStack skullItem = new CustomSkull().createCustomSkull(
-            "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDZiYTYzMzQ0ZjQ5ZGQxYzRmNTQ4OGU5MjZiZjNkOWUyYjI5OTE2YTZjNTBkNjEwYmI0MGE1MjczZGM4YzgyIn19fQ==",
-            "Taunt");
-        SkullMeta skullMeta = (SkullMeta) skullItem.getItemMeta();
-
-        skullMeta.displayName(Component
-            .text("Taunt at random player", NamedTextColor.AQUA, TextDecoration.BOLD)
-            .decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE));
-
-        List<Component> skullLore = new ArrayList<>();
-        skullLore.add(Component.text("Costs ", NamedTextColor.DARK_AQUA)
-            .decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE)
-            .append(Component.text("45", NamedTextColor.DARK_GREEN, TextDecoration.BOLD))
-            .append(Component.text(" Taunt Points", NamedTextColor.DARK_AQUA)));
-        skullLore.add(Component.empty());
-        skullLore.add(Component.text("Sends a random taunt", NamedTextColor.GRAY)
-            .decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE));
-        skullLore.add(Component.text("to a random hider", NamedTextColor.GRAY)
-            .decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE));
-        skullLore.add(Component.text(
-            "(This can include yourself!)",
-            TextColor.fromHexString("#858585"),
-            TextDecoration.ITALIC));
-
-        skullMeta.lore(skullLore);
-        skullItem.setItemMeta(skullMeta);
-
-        inventory.setItem(29, skullItem);
-
-        // Darkness
-        inventory.setItem(
-            30, getItem(
-                Material.TINTED_GLASS,
-                "Give seekers darkness",
-                "<dark_aqua>Costs <dark_green><b>60</b> <dark_aqua>Taunt Points",
-                "",
-                "<gray>Gives all seekers",
-                "<gray>darkness for 10 seconds"));
-
-        // Slowness
-        inventory.setItem(
-            31, getItem(
-                Material.NETHERITE_BOOTS,
-                "Give seekers slowness",
-                "<dark_aqua>Costs <dark_green><b>60</b> <dark_aqua>Taunt Points",
-                "",
-                "<gray>Slows all seekers",
-                "<gray>down for 15 seconds"));
-
-        // Blindness
-        inventory.setItem(
-            32, getItem(
-                Material.NETHERITE_HELMET,
-                "Give seekers blindness",
-                "<dark_aqua>Costs <dark_green><b>90</b> <dark_aqua>Taunt Points",
-                "",
-                "<gray>Gives all seekers",
-                "<gray>blindness for 10 seconds"));
-
-        // Kill
-        inventory.setItem(
-            33, getItem(
-                Material.NETHERITE_SWORD,
-                "Insta-kill a random seeker",
-                "<dark_aqua>Costs <dark_green><b>120</b> <dark_aqua>Taunt Points",
-                "",
-                "<gray>Instantly kills a random seeker"));
-
-        inv = inventory;
+    private List<Component> getItemLore(String... lore) {
+        return Arrays.stream(lore).map(customLore -> MiniMessage.miniMessage()
+            .deserialize("<!i>" + customLore)).toList();
     }
 
-    private ItemStack getItem(Material item, String title, String... lore) {
-        ItemStack itemStack = new ItemStack(item);
-        ItemMeta meta = itemStack.getItemMeta();
-        List<Component> parsedLore = new ArrayList<>();
+    private void addPoints(Player player, int pointsToAdd) {
+        if (player.getGameMode() == GameMode.ADVENTURE && player.getWorld().getName().equalsIgnoreCase(
+            SilverstoneMinigames.MINIGAME_WORLD)) points.put(
+            player,
+            points.getOrDefault(player, 0) + pointsToAdd);
 
-        meta.displayName(Component.text(title, NamedTextColor.AQUA, TextDecoration.BOLD)
-            .decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE));
-        for (String customLore : lore)
-            parsedLore.add(MiniMessage.miniMessage().deserialize("<!i>" + customLore));
-        meta.lore(parsedLore);
-        // Hide all item flags
-        meta.addItemFlags(ItemFlag.values());
-        itemStack.setItemMeta(meta);
+        // Get the player's updated points
+        int newPoints = points.get(player);
 
-        return itemStack;
+        player.sendMessage(Component.text("You now have ", NamedTextColor.DARK_GREEN)
+            .append(Component.text(newPoints, NamedTextColor.DARK_AQUA))
+            .append(Component.text(" taunt points.", NamedTextColor.DARK_GREEN)));
     }
+
+    private int getPoints(Player player) {
+        return points.getOrDefault(player, 0);
+    }
+
+    //
+    // Taunts
+    //
 
     // Bark / Bone
-    private void bark(Player player) {
+    public void bark(Player player) {
         player.getWorld().playSound(
             player.getLocation(),
             Sound.ENTITY_WOLF_AMBIENT,
@@ -626,7 +367,7 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
     }
 
     // Ding / Bell
-    private void ding(Player player) {
+    public void ding(Player player) {
         player.getWorld().playSound(
             player.getLocation(),
             Sound.BLOCK_BELL_USE,
@@ -636,7 +377,7 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
     }
 
     // Scream / Tear
-    private void scream(Player player) {
+    public void scream(Player player) {
         player.getWorld().playSound(
             player.getLocation(),
             Sound.ENTITY_GHAST_HURT,
@@ -646,7 +387,7 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
     }
 
     // Roar / Dragon Head
-    private void roar(Player player) {
+    public void roar(Player player) {
         player.getWorld().playSound(
             player.getLocation(),
             Sound.ENTITY_ENDER_DRAGON_GROWL,
@@ -656,7 +397,7 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
     }
 
     // Explosion / TNT
-    private void explosion(Player player) {
+    public void explosion(Player player) {
         player.getWorld().playSound(
             player.getLocation(),
             Sound.ENTITY_GENERIC_EXPLODE,
@@ -676,7 +417,7 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
     }
 
     // Fireworks / Rocket
-    private void fireworks(Player player) {
+    public void fireworks(Player player) {
         Location loc = player.getLocation();
         Firework fw = (Firework) loc.getWorld().spawnEntity(loc, EntityType.FIREWORK_ROCKET);
         FireworkMeta fwm = fw.getFireworkMeta();
@@ -689,7 +430,7 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
     }
 
     // Boom / Totem
-    private void boom(Player player) {
+    public void boom(Player player) {
         player.getWorld().playSound(
             player.getLocation(),
             Sound.ITEM_TOTEM_USE,

@@ -3,6 +3,7 @@ package net.silverstonemc.silverstoneminigames;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.silverstonemc.silverstoneminigames.commands.*;
+import net.silverstonemc.silverstoneminigames.commands.minigames.HideSeekCmd;
 import net.silverstonemc.silverstoneminigames.minigames.*;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -17,6 +18,7 @@ import org.jetbrains.annotations.NotNull;
 })
 public class SilverstoneMinigames extends JavaPlugin implements CommandExecutor {
     public static DataManager data;
+    public static final String MINIGAME_WORLD = "minigames";
 
     @Override
     public void onEnable() {
@@ -29,7 +31,7 @@ public class SilverstoneMinigames extends JavaPlugin implements CommandExecutor 
         getCommand("corruptedtag").setExecutor(new CorruptedTag(this));
         getCommand("fcfinish").setExecutor(new FlyingCourse(this));
         getCommand("flyingcourse").setExecutor(new FlyingCourse(this));
-        getCommand("hideseek").setExecutor(new HideSeek(this));
+        getCommand("hideseek").setExecutor(new HideSeekCmd(this));
         getCommand("htp").setExecutor(new Minigames(this));
         getCommand("minigame").setExecutor(new Minigames(this));
         getCommand("minigamemanager").setExecutor(new MinigameManager(this));
@@ -54,7 +56,6 @@ public class SilverstoneMinigames extends JavaPlugin implements CommandExecutor 
 
         new CorruptedTag(this).createInventories();
         new FlyingCourse(this).updateFCScoreboard();
-        new HideSeek(this).createInventory();
         new Minigames(this).createInventories();
     }
 
