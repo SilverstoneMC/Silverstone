@@ -23,21 +23,29 @@
                 <artifactId>maven-jar-plugin</artifactId>
                 <version>3.4.2</version>
                 <configuration>
-                    <outputDirectory>C:\Users\jason\OneDrive\Documents\MC Server Plugins\Plugins</outputDirectory>
+                    <outputDirectory>C:\Users\jason\OneDrive\Documents\MC Server Plugins\Plugins
+                    </outputDirectory>
                 </configuration>
             </plugin>
 
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-clean-plugin</artifactId>
-                <version>3.5.0</version>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>3.1.0</version>
                 <executions>
                     <execution>
-                        <id>auto-clean</id>
                         <phase>initialize</phase>
                         <goals>
-                            <goal>clean</goal>
+                            <goal>run</goal>
                         </goals>
+                        <configuration>
+                            <target>
+                                <delete includeemptydirs="true">
+                                    <fileset dir="${project.build.directory}" includes="**/*"
+                                             excludes="**/org/apache/logging/log4j/core/config/plugins/**"/>
+                                </delete>
+                            </target>
+                            <failOnError>false</failOnError>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
