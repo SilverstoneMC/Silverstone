@@ -40,24 +40,6 @@ public class HideSeek implements Listener {
     private static final Map<Player, Long> cooldowns = new HashMap<>();
     private static final Map<Player, Long> spamCooldown = new HashMap<>();
 
-    public void tauntTimer(Player player, ClickContext context) {
-        if (!player.hasPermission("silverstone.minigames.hideseek.taunt.bypasscooldown")) {
-            cooldowns.put(player, System.currentTimeMillis() + 15000);
-            new BukkitRunnable() {
-                @Override
-                public void run() {
-                    if (player.hasPermission("silverstone.minigames.hideseek.taunt"))
-                        player.showTitle(Title.title(
-                            Component.empty(),
-                            Component.text("You may now taunt again.", NamedTextColor.RED),
-                            Title.DEFAULT_TIMES));
-                }
-            }.runTaskLater(plugin, 300);
-
-            context.guiView().close();
-        }
-    }
-
     @EventHandler
     public void onBellClick(PlayerInteractEvent event) {
         System.out.println("EVENT FIRED");
@@ -350,6 +332,24 @@ public class HideSeek implements Listener {
 
     private int getPoints(Player player) {
         return points.getOrDefault(player, 0);
+    }
+
+    public void tauntTimer(Player player, ClickContext context) {
+        if (!player.hasPermission("silverstone.minigames.hideseek.taunt.bypasscooldown")) {
+            cooldowns.put(player, System.currentTimeMillis() + 15000);
+            new BukkitRunnable() {
+                @Override
+                public void run() {
+                    if (player.hasPermission("silverstone.minigames.hideseek.taunt"))
+                        player.showTitle(Title.title(
+                            Component.empty(),
+                            Component.text("You may now taunt again.", NamedTextColor.RED),
+                            Title.DEFAULT_TIMES));
+                }
+            }.runTaskLater(plugin, 300);
+
+            context.guiView().close();
+        }
     }
 
     //
