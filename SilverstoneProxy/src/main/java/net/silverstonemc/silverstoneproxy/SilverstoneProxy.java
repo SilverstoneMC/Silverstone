@@ -9,7 +9,6 @@ import com.velocitypowered.api.event.proxy.ProxyShutdownEvent;
 import com.velocitypowered.api.plugin.Dependency;
 import com.velocitypowered.api.plugin.Plugin;
 import com.velocitypowered.api.plugin.annotation.DataDirectory;
-import com.velocitypowered.api.proxy.Player;
 import com.velocitypowered.api.proxy.ProxyServer;
 import com.velocitypowered.api.proxy.messages.MinecraftChannelIdentifier;
 import net.draycia.carbon.api.CarbonChatProvider;
@@ -22,9 +21,6 @@ import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.utils.MemberCachePolicy;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.NamedTextColor;
-import net.kyori.adventure.text.format.TextDecoration;
 import net.luckperms.api.LuckPerms;
 import net.luckperms.api.LuckPermsProvider;
 import net.silverstonemc.silverstoneproxy.commands.*;
@@ -39,7 +35,6 @@ import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 import static net.silverstonemc.silverstoneproxy.ConfigurationManager.FileType.USERCACHE;
-import static net.silverstonemc.silverstoneproxy.ConfigurationManager.FileType.WHITELIST;
 
 @Plugin(id = "silverstoneproxy", name = "SilverstoneProxy", version = "%VERSION%", description = "Features for the Silverstone proxy, including warnings", authors = {"JasonHorkles"}, dependencies = {
     @Dependency(id = "luckperms"),
@@ -107,23 +102,6 @@ public class SilverstoneProxy {
         server.getChannelRegistrar().register(IDENTIFIER);
 
         new AutoBroadcast(this).scheduleBroadcasts();
-
-        // Check whitelist
-        server.getScheduler().buildTask(
-            this, () -> {
-                if (fileManager.files.get(WHITELIST).node("enabled").getBoolean()) {
-                    logger.warn("Whitelist is on");
-
-                    Player jason = server.getPlayer(UUID.fromString("a28173af-f0a9-47fe-8549-19c6bccf68da"))
-                        .orElse(null);
-                    if (jason == null) return;
-
-                    jason.sendActionBar(Component.text(
-                        "Proxy whitelist is on",
-                        NamedTextColor.GOLD,
-                        TextDecoration.BOLD));
-                }
-            }).delay(5, TimeUnit.SECONDS).repeat(5, TimeUnit.MINUTES).schedule();
 
         // Uptime heartbeat
         try {

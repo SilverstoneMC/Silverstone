@@ -26,7 +26,7 @@ public class ConfigurationManager {
 
     public enum FileType {
         CONFIG("config.yml"), NICKNAMES("nicknames.yml"), PREVIOUS("previous-servers.yml"), USERCACHE(
-            "usercache.yml"), WARNDATA("warndata.yml"), WARNQUEUE("warnqueue.yml"), WHITELIST("whitelist.yml");
+            "usercache.yml"), WARNDATA("warndata.yml"), WARNQUEUE("warnqueue.yml");
 
         private final String fileName;
 
@@ -52,7 +52,6 @@ public class ConfigurationManager {
         files.put(FileType.USERCACHE, loadFile(FileType.USERCACHE));
         files.put(FileType.WARNDATA, loadFile(FileType.WARNDATA));
         files.put(FileType.WARNQUEUE, loadFile(FileType.WARNQUEUE));
-        files.put(FileType.WHITELIST, loadFile(FileType.WHITELIST));
     }
 
     @Nullable

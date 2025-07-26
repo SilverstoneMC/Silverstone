@@ -85,24 +85,11 @@ public class Join {
                         NamedTextColor.GRAY))
                     .append(Component.text("survival.silverstonemc.net", NamedTextColor.AQUA)));
 
-                else event.getPlayer().sendMessage(Component.text("I'm sorry, but Bedrock clients aren't supported on that server!",
+                else event.getPlayer().sendMessage(Component.text("Sorry, but Bedrock clients aren't supported on that server!",
                     NamedTextColor.RED));
 
                 return;
             }
-
-        // Don't allow players in if whitelist is on
-        if (i.fileManager.files.get(WHITELIST).node("enabled").getBoolean() && !event.getPlayer()
-            .hasPermission("silverstone.whitelistbypass")) {
-            event.setResult(ServerPreConnectEvent.ServerResult.denied());
-
-            event.getPlayer().disconnect(Component
-                .text("The server is currently closed for maintenance!", NamedTextColor.RED)
-                .append(Component.text(
-                    "\n\nSee status.silverstonemc.net for more details.",
-                    NamedTextColor.GRAY)));
-            return;
-        }
 
         if (event.getPreviousServer() != null) return;
 
