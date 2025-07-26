@@ -3,7 +3,7 @@ name: SilverstoneMinigames
 description: Designed for the Minigames server
 version: %VERSION%
 author: JasonHorkles
-api-version: '1.21.4'
+api-version: '1.21.8'
 
 commands:
   doublejump:
@@ -13,21 +13,17 @@ commands:
     description: "Reset the player if they touch an illegal block"
     permission: silverstone.owner
     usage: "/flyingcourse <player>"
-  hsassignblock:
+  hideseek:
     permission: silverstone.owner
-  hsheartbeat:
-    permission: silverstone.owner
-  hsrandomtaunt:
-    permission: silverstone.owner
-  hsresettauntpoints:
-    permission: silverstone.owner
+    usage: "/hideseek <<assign_block | heartbeat | random_taunt> [players] | reset_taunt_points>"
   htp:
     aliases: [ howtoplay ]
     description: "GUI for how to play the minigames"
   minigame:
     aliases: [ game, whatminigameshouldiplay ]
-    description: "Choose a random minigame!"
+    description: "Choose a random minigame"
   ssmrl:
+    description: "Reload the plugin"
     permission: silverstone.admin
   tntrun:
     permission: silverstone.owner
@@ -35,15 +31,18 @@ commands:
   fcfinish:
     description: "Ran when the flying course is completed"
     permission: silverstone.owner
-  miniholo:
-    permission: silverstone.admin
-    usage: "/miniholo <hologram> <open | ready | in_session | resetting | closed>"
+#  miniholo:
+#    permission: silverstone.admin
+#    usage: "/miniholo <hologram> <open | ready | in_session | resetting | closed>"
   corruptedtag:
     permission: silverstone.owner
     usage: "/corruptedtag <start | stop | kitselect | corrupt | uncorrupt> <players>"
   clearbossbars:
     permission: silverstone.owner
     usage: "/clearbossbars <player>"
+  minigamemanager:
+    aliases: [ mgm ]
+    permission: silverstone.admin
 
 permissions:
   silverstone.minigames.flyingcourse:

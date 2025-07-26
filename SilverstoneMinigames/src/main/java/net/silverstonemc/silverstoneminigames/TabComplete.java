@@ -16,6 +16,36 @@ public class TabComplete implements TabCompleter {
         List<String> result = new ArrayList<>();
 
         switch (cmd.getName().toLowerCase()) {
+            case "corruptedtag" -> {
+                if (args.length == 1) {
+                    List<String> arguments = new ArrayList<>(List.of(
+                        "start",
+                        "stop",
+                        "corrupt",
+                        "uncorrupt",
+                        "kitselect",
+                        "closeinv"));
+
+                    for (String a : arguments)
+                        if (a.toLowerCase().startsWith(args[0].toLowerCase())) result.add(a);
+                    return result;
+                }
+            }
+
+            case "hideseek" -> {
+                if (args.length == 1) {
+                    List<String> arguments = new ArrayList<>(List.of(
+                        "assign_block",
+                        "heartbeat",
+                        "random_taunt",
+                        "reset_taunt_points"));
+
+                    for (String a : arguments)
+                        if (a.toLowerCase().startsWith(args[0].toLowerCase())) result.add(a);
+                    return result;
+                }
+            }
+
             case "miniholo" -> {
                 if (args.length == 1) {
                     Collection<Hologram> holograms = FancyHologramsPlugin.get().getHologramManager()
@@ -38,22 +68,6 @@ public class TabComplete implements TabCompleter {
 
                     for (String a : arguments)
                         if (a.toLowerCase().startsWith(args[1].toLowerCase())) result.add(a);
-                    return result;
-                }
-            }
-
-            case "corruptedtag" -> {
-                if (args.length == 1) {
-                    List<String> arguments = new ArrayList<>(List.of(
-                        "start",
-                        "stop",
-                        "corrupt",
-                        "uncorrupt",
-                        "kitselect",
-                        "closeinv"));
-
-                    for (String a : arguments)
-                        if (a.toLowerCase().startsWith(args[0].toLowerCase())) result.add(a);
                     return result;
                 }
             }

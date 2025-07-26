@@ -73,11 +73,11 @@ public record FlyingCourse(JavaPlugin plugin) implements CommandExecutor {
                 private void addToTopScores(String difficulty) {
                     int score = 0;
                     if (SilverstoneMinigames.data.getConfig()
-                        .contains("data." + player.getUniqueId() + ".flyingcourse." + difficulty))
+                        .contains("user-data." + player.getUniqueId() + ".flyingcourse." + difficulty))
                         score = SilverstoneMinigames.data.getConfig()
-                            .getInt("data." + player.getUniqueId() + ".flyingcourse." + difficulty);
+                            .getInt("user-data." + player.getUniqueId() + ".flyingcourse." + difficulty);
                     SilverstoneMinigames.data.getConfig()
-                        .set("data." + player.getUniqueId() + ".flyingcourse." + difficulty, ++score);
+                        .set("user-data." + player.getUniqueId() + ".flyingcourse." + difficulty, ++score);
                     SilverstoneMinigames.data.saveConfig();
 
                     updateFCScoreboard();
@@ -201,25 +201,25 @@ public record FlyingCourse(JavaPlugin plugin) implements CommandExecutor {
             return;
         }
         for (String uuid : config.getConfigurationSection("data").getKeys(false)) {
-            if (config.contains("data." + uuid + ".flyingcourse.easy"))
+            if (config.contains("user-data." + uuid + ".flyingcourse.easy"))
                 easyScores.put(
                     Bukkit.getOfflinePlayer(UUID.fromString(uuid)),
-                    config.getInt("data." + uuid + ".flyingcourse.easy"));
+                    config.getInt("user-data." + uuid + ".flyingcourse.easy"));
 
-            if (config.contains("data." + uuid + ".flyingcourse.medium"))
+            if (config.contains("user-data." + uuid + ".flyingcourse.medium"))
                 mediumScores.put(
                     Bukkit.getOfflinePlayer(UUID.fromString(uuid)),
-                    config.getInt("data." + uuid + ".flyingcourse.medium"));
+                    config.getInt("user-data." + uuid + ".flyingcourse.medium"));
 
-            if (config.contains("data." + uuid + ".flyingcourse.hard"))
+            if (config.contains("user-data." + uuid + ".flyingcourse.hard"))
                 hardScores.put(
                     Bukkit.getOfflinePlayer(UUID.fromString(uuid)),
-                    config.getInt("data." + uuid + ".flyingcourse.hard"));
+                    config.getInt("user-data." + uuid + ".flyingcourse.hard"));
 
-            if (config.contains("data." + uuid + ".flyingcourse.extended"))
+            if (config.contains("user-data." + uuid + ".flyingcourse.extended"))
                 extendedScores.put(
                     Bukkit.getOfflinePlayer(UUID.fromString(uuid)),
-                    config.getInt("data." + uuid + ".flyingcourse.extended"));
+                    config.getInt("user-data." + uuid + ".flyingcourse.extended"));
         }
 
         easyScores = sortScores(easyScores);

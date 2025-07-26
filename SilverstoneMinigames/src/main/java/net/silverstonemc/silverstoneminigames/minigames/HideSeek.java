@@ -68,75 +68,24 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
         }
     }
 
-    public boolean onCommand(@NotNull CommandSender sender, Command cmd, @NotNull String label, String @NotNull [] args) {
-        switch (cmd.getName().toLowerCase()) {
-            case "hsresettauntpoints" -> {
-                points.clear();
-                sender.sendMessage(Component.text("Points reset!", NamedTextColor.GREEN));
-                return true;
-            }
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String @NotNull [] args) {
+        if (args.length == 0) return false;
 
-            case "hsrandomtaunt" -> {
-                if (args.length > 0) {
-                    List<Entity> player = Bukkit.selectEntities(sender, args[0]);
-                    Player randomPlayer;
-                    try {
-                        randomPlayer = (Player) player.getFirst();
-                    } catch (IndexOutOfBoundsException e) {
-                        sender.sendMessage(Component.text(
-                            "Please provide a valid selector!",
-                            NamedTextColor.RED));
-                        return true;
-                    }
+        if (args[0].equalsIgnoreCase("reset_taunt_points")) {
+            points.clear();
+            sender.sendMessage(Component.text("Points reset!", NamedTextColor.GREEN));
+            return true;
+        }
 
-                    Random r = new Random();
-                    int randomTaunt = r.nextInt(7) + 1;
+        // All other subcommands require a selector
+        if (args.length == 1) {
+            sender.sendMessage(Component.text("Please provide a valid selector!", NamedTextColor.RED));
+            return true;
+        }
 
-                    switch (randomTaunt) {
-                        case 1 -> bark(randomPlayer);
-                        case 2 -> ding(randomPlayer);
-                        case 3 -> scream(randomPlayer);
-                        case 4 -> roar(randomPlayer);
-                        case 5 -> explosion(randomPlayer);
-                        case 6 -> fireworks(randomPlayer);
-                        case 7 -> boom(randomPlayer);
-                    }
-                } else sender.sendMessage(Component.text(
-                    "Please provide a valid selector!",
-                    NamedTextColor.RED));
-                return true;
-            }
-
-            case "hsheartbeat" -> {
-                if (args.length > 0) for (Entity players : Bukkit.selectEntities(sender, args[0])) {
-                    if (!(players instanceof Player player)) continue;
-                    // 0-5 sec
-                    playHeartbeat(player, 24, 8, 5);
-
-                    // 6-10 sec
-                    new BukkitRunnable() {
-                        @Override
-                        public void run() {
-                            playHeartbeat(player, 20, 6, 3);
-                        }
-                    }.runTaskLater(plugin, 6 * 20L);
-
-                    // 11-15 sec
-                    new BukkitRunnable() {
-                        @Override
-                        public void run() {
-                            playHeartbeat(player, 16, 5, 3);
-                        }
-                    }.runTaskLater(plugin, 11 * 20L);
-                }
-                else sender.sendMessage(Component.text(
-                    "Please provide a valid selector!",
-                    NamedTextColor.RED));
-                return true;
-            }
-
-            case "hsassignblock" -> {
-                if (args.length > 0) for (Entity players : Bukkit.selectEntities(sender, args[0])) {
+        switch (args[0].toLowerCase()) {
+            case "assign_block" -> {
+                for (Entity players : Bukkit.selectEntities(sender, args[1])) {
                     if (!(players instanceof Player player)) continue;
 
                     // Assign random tag to each player
@@ -158,9 +107,57 @@ public record HideSeek(JavaPlugin plugin) implements CommandExecutor, Listener {
                             "Failed to assign " + tags[randomTag] + " to " + player.getName(),
                             NamedTextColor.RED));
                 }
-                else sender.sendMessage(Component.text(
-                    "Please provide a valid selector!",
-                    NamedTextColor.RED));
+                return true;
+            }
+
+            case "heartbeat" -> {
+                for (Entity players : Bukkit.selectEntities(sender, args[1])) {
+                    if (!(players instanceof Player player)) continue;
+                    // 0-5 sec
+                    playHeartbeat(player, 24, 8, 5);
+
+                    // 6-10 sec
+                    new BukkitRunnable() {
+                        @Override
+                        public void run() {
+                            playHeartbeat(player, 20, 6, 3);
+                        }
+                    }.runTaskLater(plugin, 6 * 20L);
+
+                    // 11-15 sec
+                    new BukkitRunnable() {
+                        @Override
+                        public void run() {
+                            playHeartbeat(player, 16, 5, 3);
+                        }
+                    }.runTaskLater(plugin, 11 * 20L);
+                }
+                return true;
+            }
+            
+            case "random_taunt" -> {
+                List<Entity> player = Bukkit.selectEntities(sender, args[1]);
+                if (player.isEmpty()) {
+                    sender.sendMessage(Component.text(
+                        "No players found with that selector!",
+                        NamedTextColor.RED));
+                    return true;
+                }
+                // Assumes @r in the selector
+                Player randomPlayer = (Player) player.getFirst();
+
+                Random r = new Random();
+                int randomTaunt = r.nextInt(7) + 1;
+
+                switch (randomTaunt) {
+                    case 1 -> bark(randomPlayer);
+                    case 2 -> ding(randomPlayer);
+                    case 3 -> scream(randomPlayer);
+                    case 4 -> roar(randomPlayer);
+                    case 5 -> explosion(randomPlayer);
+                    case 6 -> fireworks(randomPlayer);
+                    case 7 -> boom(randomPlayer);
+                }
                 return true;
             }
         }

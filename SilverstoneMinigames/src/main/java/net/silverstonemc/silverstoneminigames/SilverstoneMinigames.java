@@ -22,7 +22,6 @@ public class SilverstoneMinigames extends JavaPlugin implements CommandExecutor 
     public void onEnable() {
         data = new DataManager(this);
 
-        saveDefaultConfig();
         data.saveDefaultConfig();
 
         getCommand("doublejump").setExecutor(new DoubleJump(this));
@@ -30,17 +29,15 @@ public class SilverstoneMinigames extends JavaPlugin implements CommandExecutor 
         getCommand("corruptedtag").setExecutor(new CorruptedTag(this));
         getCommand("fcfinish").setExecutor(new FlyingCourse(this));
         getCommand("flyingcourse").setExecutor(new FlyingCourse(this));
-        getCommand("hsassignblock").setExecutor(new HideSeek(this));
-        getCommand("hsheartbeat").setExecutor(new HideSeek(this));
-        getCommand("hsrandomtaunt").setExecutor(new HideSeek(this));
-        getCommand("hsresettauntpoints").setExecutor(new HideSeek(this));
+        getCommand("hideseek").setExecutor(new HideSeek(this));
         getCommand("htp").setExecutor(new Minigames(this));
         getCommand("minigame").setExecutor(new Minigames(this));
-        getCommand("miniholo").setExecutor(new Holograms());
+        getCommand("minigamemanager").setExecutor(new MinigameManager(this));
         getCommand("tntrun").setExecutor(new TNTRun(this));
 
         getCommand("corruptedtag").setTabCompleter(new TabComplete());
-        getCommand("miniholo").setTabCompleter(new TabComplete());
+        getCommand("hideseek").setTabCompleter(new TabComplete());
+        getCommand("minigamemanager").setTabCompleter(new TabComplete());
 
         PluginManager pluginManager = getServer().getPluginManager();
 
@@ -62,8 +59,6 @@ public class SilverstoneMinigames extends JavaPlugin implements CommandExecutor 
     }
 
     public boolean onCommand(CommandSender sender, @NotNull Command cmd, @NotNull String label, String @NotNull [] args) {
-        saveDefaultConfig();
-        reloadConfig();
         data.saveDefaultConfig();
         data.reloadConfig();
         new FlyingCourse(this).updateFCScoreboard();
