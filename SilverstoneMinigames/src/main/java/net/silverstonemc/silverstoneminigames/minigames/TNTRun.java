@@ -17,7 +17,13 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-public record TNTRun(JavaPlugin plugin) implements CommandExecutor {
+public class TNTRun implements CommandExecutor {
+    public TNTRun(JavaPlugin plugin) {
+        this.plugin = plugin;
+    }
+
+    private final JavaPlugin plugin;
+
     public void deleteBlocks(Block block) {
         new BukkitRunnable() {
             @Override

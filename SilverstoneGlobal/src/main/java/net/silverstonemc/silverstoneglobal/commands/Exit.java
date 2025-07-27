@@ -12,7 +12,13 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 
-public record Exit(JavaPlugin plugin) implements CommandExecutor {
+public class Exit implements CommandExecutor {
+    public Exit(JavaPlugin plugin) {
+        this.plugin = plugin;
+    }
+    
+    private final JavaPlugin plugin;
+    
     private void send(Player player) {
         new BukkitRunnable() {
             @Override

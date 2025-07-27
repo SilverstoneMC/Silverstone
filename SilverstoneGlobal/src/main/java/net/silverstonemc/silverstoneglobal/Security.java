@@ -11,8 +11,12 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
-@SuppressWarnings("DataFlowIssue")
-public record Security(JavaPlugin plugin) {
+public class Security {
+    public Security(JavaPlugin plugin) {
+        this.plugin = plugin;
+    }
+    
+    private final JavaPlugin plugin;
     private static final LuckPerms luckPerms = SilverstoneGlobal.getInstance().getLuckPerms();
 
     public void check() {
@@ -31,7 +35,9 @@ public record Security(JavaPlugin plugin) {
                             Group admin = luckPerms.getGroupManager().getGroup("admin");
                             Group owner = luckPerms.getGroupManager().getGroup("owner");
                             User user = luckPerms.getPlayerAdapter(Player.class).getUser(player);
+                            //noinspection DataFlowIssue
                             user.data().remove(InheritanceNode.builder(admin).build());
+                            //noinspection DataFlowIssue
                             user.data().remove(InheritanceNode.builder(owner).build());
                             luckPerms.getUserManager().saveUser(user);
 

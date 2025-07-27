@@ -8,7 +8,13 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.server.ServerLoadEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public record ServerLoad(JavaPlugin plugin) implements Listener {
+public class ServerLoad implements Listener {
+    public ServerLoad(JavaPlugin plugin) {
+        this.plugin = plugin;
+    }
+    
+    private final JavaPlugin plugin;
+    
     @EventHandler
     public void onLoad(ServerLoadEvent event) {
         if (plugin.getServer().getPluginManager().getPlugin("Matrix") != null) {

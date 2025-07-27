@@ -10,8 +10,12 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 
-@SuppressWarnings("unused")
-public record TPSMonitor(JavaPlugin plugin) implements CommandExecutor {
+public class TPSMonitor implements CommandExecutor {
+    public TPSMonitor(JavaPlugin plugin) {
+        this.plugin = plugin;
+    }
+    
+    private final JavaPlugin plugin;
     private static BukkitRunnable task;
 
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {

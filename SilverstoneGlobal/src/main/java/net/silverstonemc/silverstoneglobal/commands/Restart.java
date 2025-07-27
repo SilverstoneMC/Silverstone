@@ -18,14 +18,20 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 
-@SuppressWarnings({"DataFlowIssue"})
-public record Restart(JavaPlugin plugin) implements CommandExecutor {
+public class Restart implements CommandExecutor {
+    public Restart(JavaPlugin plugin) {
+        this.plugin = plugin;
+    }
+
+    private final JavaPlugin plugin;
     private static boolean restarting;
 
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String @NotNull [] args) {
         // #serverSpecific
         // Send to minigames server if anything but the minigames server
         String server;
+
+        //noinspection DataFlowIssue
         if (plugin.getConfig().getString("server").equals("minigames")) server = "creative";
         else server = "minigames";
 
