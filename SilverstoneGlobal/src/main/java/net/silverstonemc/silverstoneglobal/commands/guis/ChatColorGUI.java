@@ -201,6 +201,6 @@ public class ChatColorGUI implements CommandExecutor {
         context.guiView().close();
 
         Player player2 = (Player) player;
-        player2.playSound(player2.getLocation(), Sound.UI_BUTTON_CLICK, SoundCategory.MASTER, 1, 1);
+        player2.playSound(player2.getLocation(), Sound.UI_BUTTON_CLICK, SoundCategory.UI, 1, 1);
     }
 }
