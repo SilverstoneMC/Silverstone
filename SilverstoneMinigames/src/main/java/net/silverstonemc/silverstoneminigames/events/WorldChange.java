@@ -1,4 +1,4 @@
-package net.silverstonemc.silverstoneminigames;
+package net.silverstonemc.silverstoneminigames.events;
 
 import org.bukkit.GameMode;
 import org.bukkit.event.EventHandler;

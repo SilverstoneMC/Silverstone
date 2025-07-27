@@ -1,4 +1,4 @@
-package net.silverstonemc.silverstoneminigames;
+package net.silverstonemc.silverstoneminigames.events;
 
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.GameMode;

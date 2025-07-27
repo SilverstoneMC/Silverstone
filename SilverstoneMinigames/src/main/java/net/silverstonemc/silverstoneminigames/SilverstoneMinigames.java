@@ -5,6 +5,10 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.silverstonemc.silverstoneminigames.commands.*;
 import net.silverstonemc.silverstoneminigames.commands.minigames.HideSeekCmd;
+import net.silverstonemc.silverstoneminigames.events.Join;
+import net.silverstonemc.silverstoneminigames.events.LockInv;
+import net.silverstonemc.silverstoneminigames.events.Void;
+import net.silverstonemc.silverstoneminigames.events.WorldChange;
 import net.silverstonemc.silverstoneminigames.minigames.*;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -51,6 +55,7 @@ public class SilverstoneMinigames extends JavaPlugin implements CommandExecutor 
         pluginManager.registerEvents(new Disguise(), this);
         pluginManager.registerEvents(new DoubleJump(this), this);
         pluginManager.registerEvents(new HideSeek(this), this);
+        pluginManager.registerEvents(new Join(), this);
         pluginManager.registerEvents(new LockInv(), this);
         pluginManager.registerEvents(new Minigames(this), this);
         pluginManager.registerEvents(new PvP(), this);
