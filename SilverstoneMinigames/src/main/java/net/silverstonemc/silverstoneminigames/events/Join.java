@@ -13,17 +13,11 @@ public class Join implements Listener {
     public void onJoin(PlayerJoinEvent event) {
         String worldName = "utility";
         Player player = event.getPlayer();
-        if (player.getLocation().getWorld().getName().equalsIgnoreCase(worldName))
-            return;
+
+        if (player.getLocation().getWorld().getName().equalsIgnoreCase(worldName)) return;
         if (player.getGameMode() != GameMode.ADVENTURE) return;
 
-        Location spawn = new Location(
-            Bukkit.getWorld(worldName),
-            -87.5,
-            41.0,
-            -26.5,
-            0.0f,
-            -90.0f);
+        Location spawn = new Location(Bukkit.getWorld(worldName), -87.5, 41.0, -26.5, 0.0f, -90.0f);
         player.teleportAsync(spawn);
     }
 }
