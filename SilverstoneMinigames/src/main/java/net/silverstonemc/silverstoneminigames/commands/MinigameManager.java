@@ -1,5 +1,6 @@
 package net.silverstonemc.silverstoneminigames.commands;
 
+import org.apache.commons.lang3.NotImplementedException;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -15,6 +16,6 @@ public class MinigameManager implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String @NotNull [] args) {
-        return false;
+        throw new NotImplementedException("MinigameManager command not implemented yet.");
     }
 }

@@ -37,8 +37,8 @@ public class SilverstoneMinigames extends JavaPlugin implements CommandExecutor 
         getCommand("fcfinish").setExecutor(new FlyingCourse(this));
         getCommand("flyingcourse").setExecutor(new FlyingCourse(this));
         getCommand("hideseek").setExecutor(new HideSeekCmd(this));
-        getCommand("htp").setExecutor(new Minigames(this));
-        getCommand("minigame").setExecutor(new Minigames(this));
+        getCommand("htp").setExecutor(new HowToPlay());
+        getCommand("minigame").setExecutor(new RandomGame(this));
         getCommand("minigamemanager").setExecutor(new MinigameManager(this));
         getCommand("tntrun").setExecutor(new TNTRun(this));
 
@@ -51,19 +51,16 @@ public class SilverstoneMinigames extends JavaPlugin implements CommandExecutor 
         PluginManager pluginManager = getServer().getPluginManager();
 
         pluginManager.registerEvents(new Back(), this);
-        pluginManager.registerEvents(new CorruptedTag(this), this);
         pluginManager.registerEvents(new Disguise(), this);
         pluginManager.registerEvents(new DoubleJump(), this);
         pluginManager.registerEvents(new HideSeek(this), this);
         pluginManager.registerEvents(new Join(), this);
         pluginManager.registerEvents(new LockInv(), this);
-        pluginManager.registerEvents(new Minigames(this), this);
         pluginManager.registerEvents(new PvP(), this);
         pluginManager.registerEvents(new Void(), this);
         pluginManager.registerEvents(new WorldChange(), this);
 
         new FlyingCourse(this).updateFCScoreboard();
-        new Minigames(this).createInventories();
     }
 
     public boolean onCommand(CommandSender sender, @NotNull Command cmd, @NotNull String label, String @NotNull [] args) {
