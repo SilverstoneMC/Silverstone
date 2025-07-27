@@ -1,6 +1,5 @@
 package net.silverstonemc.silverstoneminigames.events;
 
-import net.silverstonemc.silverstoneminigames.SilverstoneMinigames;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -12,13 +11,14 @@ import org.bukkit.event.player.PlayerJoinEvent;
 public class Join implements Listener {
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
+        String worldName = "utility";
         Player player = event.getPlayer();
-        if (player.getLocation().getWorld().getName().equalsIgnoreCase("utility"))
+        if (player.getLocation().getWorld().getName().equalsIgnoreCase(worldName))
             return;
         if (player.getGameMode() != GameMode.ADVENTURE) return;
 
         Location spawn = new Location(
-            Bukkit.getWorld(SilverstoneMinigames.MINIGAME_WORLD),
+            Bukkit.getWorld(worldName),
             -87.5,
             41.0,
             -26.5,
