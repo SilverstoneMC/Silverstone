@@ -8,6 +8,9 @@ import net.silverstonemc.silverstoneminigames.events.Join;
 import net.silverstonemc.silverstoneminigames.events.LockInv;
 import net.silverstonemc.silverstoneminigames.events.Void;
 import net.silverstonemc.silverstoneminigames.events.WorldChange;
+import net.silverstonemc.silverstoneminigames.managers.BossBarManager;
+import net.silverstonemc.silverstoneminigames.managers.DataManager;
+import net.silverstonemc.silverstoneminigames.managers.MinigameManager;
 import net.silverstonemc.silverstoneminigames.minigames.*;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -16,14 +19,11 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
-@SuppressWarnings({
-    "DataFlowIssue",
-    "unused"
-})
 public class SilverstoneMinigames extends JavaPlugin implements CommandExecutor {
     public static DataManager data;
     public static final String MINIGAME_WORLD = "minigames";
 
+    @SuppressWarnings("DataFlowIssue")
     @Override
     public void onEnable() {
         data = new DataManager(this);
