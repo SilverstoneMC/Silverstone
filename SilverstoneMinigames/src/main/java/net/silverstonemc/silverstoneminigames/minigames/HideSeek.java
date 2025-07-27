@@ -20,6 +20,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -38,65 +39,36 @@ public class HideSeek implements Listener {
 
     private final JavaPlugin plugin;
     private static final Map<Player, Long> cooldowns = new HashMap<>();
-    private static final Map<Player, Long> spamCooldown = new HashMap<>();
 
     @EventHandler
     public void onBellClick(PlayerInteractEvent event) {
-        System.out.println("EVENT FIRED");
         Player player = event.getPlayer();
 
-        System.out.println(1);
         if (event.getAction() != Action.RIGHT_CLICK_AIR && event.getAction() != Action.RIGHT_CLICK_BLOCK)
             return;
-        System.out.println(2);
         if (player.getInventory().getItemInMainHand().getType() != Material.BELL) return;
-        System.out.println(3);
         if (!player.getInventory().getItemInMainHand().hasItemMeta()) return;
-        System.out.println(4);
         if (!player.getInventory().getItemInMainHand().getItemMeta().hasDisplayName()) return;
-        System.out.println(5);
         if (!player.getWorld().getName().equalsIgnoreCase(SilverstoneMinigames.MINIGAME_WORLD)) return;
-        System.out.println(6);
 
         //noinspection DataFlowIssue
-        if (player.getInventory().getItemInMainHand().getItemMeta().displayName().equals(Component
+        if (!player.getInventory().getItemInMainHand().getItemMeta().displayName().equals(Component
             .text("Click to Taunt", NamedTextColor.AQUA, TextDecoration.BOLD)
-            .decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE))) {
-            event.setCancelled(true);
+            .decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE))) return;
 
-            // Still on cooldown
-            if (spamCooldown.containsKey(player))
-                if (spamCooldown.get(player) > System.currentTimeMillis()) return;
+        event.setCancelled(true);
 
-            playerTaunt(player);
-            spamCooldown.put(player, System.currentTimeMillis() + 1000);
-        }
-    }
-
-    private void playerTaunt(Player player) {
         // Check if allowed to do command
         if (player.getScoreboardTags().contains("Seeker")) {
             player.sendMessage(Component.text("You must be a hider to use taunts!", NamedTextColor.RED));
             return;
         }
 
-        // Check if on cooldown
-        if (!player.hasPermission("silverstone.minigames.hideseek.taunt.bypasscooldown"))
-            if (cooldowns.containsKey(player)) if (cooldowns.get(player) > System.currentTimeMillis()) {
-                // Still on cooldown
-                player.sendMessage(Component.text("You may use a taunt again in ", NamedTextColor.RED)
-                    .append(Component.text(
-                        (cooldowns.get(player) - System.currentTimeMillis()) / 1000,
-                        NamedTextColor.GRAY)).append(Component.text(" seconds.", NamedTextColor.RED)));
-                return;
-            }
-
         // Open GUI
-        System.out.println(7);
-        inventory().open(player);
+        inventory(getPoints(player)).open(player);
     }
 
-    private Gui inventory() {
+    private Gui inventory(int tauntPoints) {
         final int rows = 5;
 
         return Gui.of(rows).title(Component.text("Taunts", NamedTextColor.DARK_RED, TextDecoration.BOLD))
@@ -106,83 +78,82 @@ public class HideSeek implements Listener {
                     ItemBuilder.from(Material.BLACK_STAINED_GLASS_PANE).name(Component.empty()).asGuiItem());
 
                 container.setItem(
-                    10, ItemBuilder.from(Material.BONE).name(Component.text(
-                            "Bark",
-                            NamedTextColor.AQUA,
-                            TextDecoration.BOLD)).lore(getItemLore("<dark_aqua><b>1</b> Taunt Point"))
-                        .asGuiItem((player, context) -> {
+                    10,
+                    ItemBuilder.from(Material.BONE).name(getItemName("Bark"))
+                        .lore(getItemLore("<dark_aqua><b>1</b> Taunt Point")).asGuiItem((player, context) -> {
+                            if (onCooldown(player)) return;
+
                             bark(player);
                             addPoints(player, 1);
                             tauntTimer(player, context);
                         }));
 
                 container.setItem(
-                    11, ItemBuilder.from(Material.BELL).name(Component.text(
-                            "Ding",
-                            NamedTextColor.AQUA,
-                            TextDecoration.BOLD))
+                    11,
+                    ItemBuilder.from(Material.BELL).name(getItemName("Ding"))
                         .lore(getItemLore("<dark_aqua><b>2</b> <dark_green>Taunt Points"))
                         .asGuiItem((player, context) -> {
+                            if (onCooldown(player)) return;
+
                             ding(player);
                             addPoints(player, 2);
                             tauntTimer(player, context);
                         }));
 
                 container.setItem(
-                    12, ItemBuilder.from(Material.GHAST_TEAR).name(Component.text(
-                            "Scream",
-                            NamedTextColor.AQUA,
-                            TextDecoration.BOLD))
+                    12,
+                    ItemBuilder.from(Material.GHAST_TEAR).name(getItemName("Scream"))
                         .lore(getItemLore("<dark_aqua><b>3</b> <dark_green>Taunt Points"))
                         .asGuiItem((player, context) -> {
+                            if (onCooldown(player)) return;
+
                             scream(player);
                             addPoints(player, 3);
                             tauntTimer(player, context);
                         }));
 
                 container.setItem(
-                    13, ItemBuilder.from(Material.DRAGON_HEAD).name(Component.text(
-                            "Roar",
-                            NamedTextColor.AQUA,
-                            TextDecoration.BOLD))
+                    13,
+                    ItemBuilder.from(Material.DRAGON_HEAD).name(getItemName("Roar"))
                         .lore(getItemLore("<dark_aqua><b>5</b> <dark_green>Taunt Points"))
                         .asGuiItem((player, context) -> {
+                            if (onCooldown(player)) return;
+
                             roar(player);
                             addPoints(player, 5);
                             tauntTimer(player, context);
                         }));
 
                 container.setItem(
-                    14, ItemBuilder.from(Material.TNT).name(Component.text(
-                            "Explosion",
-                            NamedTextColor.AQUA,
-                            TextDecoration.BOLD))
+                    14,
+                    ItemBuilder.from(Material.TNT).name(getItemName("Explosion"))
                         .lore(getItemLore("<dark_aqua><b>7</b> <dark_green>Taunt Points"))
                         .asGuiItem((player, context) -> {
+                            if (onCooldown(player)) return;
+
                             explosion(player);
                             addPoints(player, 7);
                             tauntTimer(player, context);
                         }));
 
                 container.setItem(
-                    15, ItemBuilder.from(Material.FIREWORK_ROCKET).name(Component.text(
-                            "Fireworks",
-                            NamedTextColor.AQUA,
-                            TextDecoration.BOLD))
-                        .lore(getItemLore("<dark_aqua><b>9</b> <dark_green>Taunt Points"))
+                    15, ItemBuilder.from(Material.FIREWORK_ROCKET).name(getItemName("Fireworks")).lore(
+                            getItemLore("<dark_aqua><b>9</b> <dark_green>Taunt Points")).flags(ItemFlag.values())
                         .asGuiItem((player, context) -> {
+                            if (onCooldown(player)) return;
+
                             fireworks(player);
                             addPoints(player, 9);
                             tauntTimer(player, context);
                         }));
 
                 container.setItem(
-                    16, ItemBuilder.from(Material.TOTEM_OF_UNDYING).name(Component.text(
-                            "Boom",
-                            NamedTextColor.AQUA,
-                            TextDecoration.BOLD))
+                    16,
+                    ItemBuilder.from(Material.TOTEM_OF_UNDYING).name(getItemName("Boom"))
                         .lore(getItemLore("<dark_aqua><b>10</b> <dark_green>Taunt Points"))
                         .asGuiItem((player, context) -> {
+                            if (onCooldown(player)) return;
+
                             boom(player);
                             addPoints(player, 10);
                             tauntTimer(player, context);
@@ -194,17 +165,16 @@ public class HideSeek implements Listener {
 
                 // Random taunt
                 container.setItem(
-                    29, ItemBuilder.skull().texture(
+                    28, ItemBuilder.skull().texture(
                             "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDZiYTYzMzQ0ZjQ5ZGQxYzRmNTQ4OGU5MjZiZjNkOWUyYjI5OTE2YTZjNTBkNjEwYmI0MGE1MjczZGM4YzgyIn19fQ==")
-                        .name(Component
-                            .text("Taunt at random player", NamedTextColor.AQUA, TextDecoration.BOLD)
-                            .decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE))
-                        .lore(getItemLore(
+                        .name(getItemName("Taunt at random player")).lore(getItemLore(
                             "<dark_aqua>Costs <dark_green>45</dark_green> Taunt Points",
                             "",
                             "<gray>Sends a random taunt",
                             "<gray>to a random hider",
                             "<#858585><i>(This can include yourself!)")).asGuiItem((player, context) -> {
+                            if (onCooldown(player)) return;
+
 
                             if (getPoints(player) >= 45) {
                                 Location loc = new Location(
@@ -221,99 +191,133 @@ public class HideSeek implements Listener {
 
                 // Darkness
                 container.setItem(
-                    30, ItemBuilder.from(Material.TINTED_GLASS).name(Component.text(
-                        "Give seekers darkness",
-                        NamedTextColor.AQUA,
-                        TextDecoration.BOLD)).lore(getItemLore(
-                        "<dark_aqua>Costs <dark_green><b>60</b></dark_green> Taunt Points",
-                        "",
-                        "<gray>Gives all seekers",
-                        "<gray>darkness for 10 seconds")).asGuiItem((player, context) -> {
-                        if (getPoints(player) >= 60) {
-                            Location loc = new Location(
-                                Bukkit.getWorld(SilverstoneMinigames.MINIGAME_WORLD),
-                                -372,
-                                9,
-                                -61);
-                            loc.getBlock().setType(Material.REDSTONE_BLOCK);
+                    29,
+                    ItemBuilder.from(Material.TINTED_GLASS).name(getItemName("Give seekers darkness"))
+                        .lore(getItemLore(
+                            "<dark_aqua>Costs <dark_green><b>60</b></dark_green> Taunt Points",
+                            "",
+                            "<gray>Gives all seekers",
+                            "<gray>darkness for 10 seconds")).asGuiItem((player, context) -> {
+                            if (onCooldown(player)) return;
 
-                            addPoints(player, -60);
-                            tauntTimer(player, context);
-                        } else player.sendMessage(notEnough);
-                    }));
+                            if (getPoints(player) >= 60) {
+                                Location loc = new Location(
+                                    Bukkit.getWorld(SilverstoneMinigames.MINIGAME_WORLD),
+                                    -372,
+                                    9,
+                                    -61);
+                                loc.getBlock().setType(Material.REDSTONE_BLOCK);
+
+                                addPoints(player, -60);
+                                tauntTimer(player, context);
+                            } else player.sendMessage(notEnough);
+                        }));
 
                 // Slowness
                 container.setItem(
-                    31,
-                    ItemBuilder.from(Material.NETHERITE_BOOTS).name(Component.text(
-                        "Give seekers slowness",
-                        NamedTextColor.AQUA,
-                        TextDecoration.BOLD)).lore(getItemLore(
-                        "<dark_aqua>Costs <dark_green><b>60</b></dark_green> Taunt Points",
-                        "",
-                        "<gray>Slows all seekers",
-                        "<gray>down for 15 seconds")).asGuiItem((player, context) -> {
-                        if (getPoints(player) >= 60) {
-                            Location loc = new Location(
-                                Bukkit.getWorld(SilverstoneMinigames.MINIGAME_WORLD),
-                                -374,
-                                9,
-                                -62);
-                            loc.getBlock().setType(Material.REDSTONE_BLOCK);
+                    30,
+                    ItemBuilder.from(Material.NETHERITE_BOOTS).name(getItemName("Give seekers slowness"))
+                        .lore(getItemLore(
+                            "<dark_aqua>Costs <dark_green><b>60</b></dark_green> Taunt Points",
+                            "",
+                            "<gray>Slows all seekers",
+                            "<gray>down for 15 seconds")).flags(ItemFlag.values())
+                        .asGuiItem((player, context) -> {
+                            if (onCooldown(player)) return;
 
-                            addPoints(player, -60);
-                            tauntTimer(player, context);
-                        } else player.sendMessage(notEnough);
-                    }));
+                            if (getPoints(player) >= 60) {
+                                Location loc = new Location(
+                                    Bukkit.getWorld(SilverstoneMinigames.MINIGAME_WORLD),
+                                    -374,
+                                    9,
+                                    -62);
+                                loc.getBlock().setType(Material.REDSTONE_BLOCK);
+
+                                addPoints(player, -60);
+                                tauntTimer(player, context);
+                            } else player.sendMessage(notEnough);
+                        }));
 
                 // Blindness
                 container.setItem(
-                    32, ItemBuilder.from(Material.NETHERITE_HELMET).name(Component.text("Give seekers blindness",
-                        NamedTextColor.AQUA,
-                        TextDecoration.BOLD)).lore(getItemLore(
-                        "<dark_aqua>Costs <dark_green><b>90</b></dark_green> Taunt Points",
-                        "",
-                        "<gray>Blinds all seekers",
-                        "<gray>for 10 seconds")).asGuiItem((player, context) -> {
-                        if (getPoints(player) >= 90) {
-                            Location loc = new Location(
-                                Bukkit.getWorld(SilverstoneMinigames.MINIGAME_WORLD),
-                                -376,
-                                9,
-                                -62);
-                            loc.getBlock().setType(Material.REDSTONE_BLOCK);
+                    31,
+                    ItemBuilder.from(Material.NETHERITE_HELMET).name(getItemName("Give seekers blindness"))
+                        .lore(getItemLore(
+                            "<dark_aqua>Costs <dark_green><b>90</b></dark_green> Taunt Points",
+                            "",
+                            "<gray>Blinds all seekers",
+                            "<gray>for 10 seconds")).flags(ItemFlag.values()).asGuiItem((player, context) -> {
+                            if (onCooldown(player)) return;
 
-                            addPoints(player, -90);
-                            tauntTimer(player, context);
-                        } else player.sendMessage(notEnough);
-                    }));
+                            if (getPoints(player) >= 90) {
+                                Location loc = new Location(
+                                    Bukkit.getWorld(SilverstoneMinigames.MINIGAME_WORLD),
+                                    -376,
+                                    9,
+                                    -62);
+                                loc.getBlock().setType(Material.REDSTONE_BLOCK);
+
+                                addPoints(player, -90);
+                                tauntTimer(player, context);
+                            } else player.sendMessage(notEnough);
+                        }));
 
                 // Instant kill seeker
                 container.setItem(
-                    33, ItemBuilder.from(Material.NETHERITE_SWORD).name(Component.text("Insta-kill a random seeker",
-                        NamedTextColor.AQUA,
-                        TextDecoration.BOLD)).lore(getItemLore(
-                        "<dark_aqua>Costs <dark_green><b>120</b></dark_green> Taunt Points",
-                        "",
-                        "<gray>Instantly kills a random seeker")).asGuiItem((player, context) -> {
-                        if (getPoints(player) >= 120) {
-                            Location loc = new Location(
-                                Bukkit.getWorld(SilverstoneMinigames.MINIGAME_WORLD),
-                                -372,
-                                13,
-                                -61);
-                            loc.getBlock().setType(Material.REDSTONE_BLOCK);
+                    32, ItemBuilder.from(Material.NETHERITE_SWORD).name(getItemName(
+                            "Insta-kill a random seeker")).lore(getItemLore(
+                            "<dark_aqua>Costs <dark_green><b>120</b></dark_green> Taunt Points",
+                            "",
+                            "<gray>Instantly kills a random seeker")).flags(ItemFlag.values())
+                        .asGuiItem((player, context) -> {
+                            if (onCooldown(player)) return;
 
-                            addPoints(player, -120);
-                            tauntTimer(player, context);
-                        } else player.sendMessage(notEnough);
-                    }));
+                            if (getPoints(player) >= 120) {
+                                Location loc = new Location(
+                                    Bukkit.getWorld(SilverstoneMinigames.MINIGAME_WORLD),
+                                    -372,
+                                    13,
+                                    -61);
+                                loc.getBlock().setType(Material.REDSTONE_BLOCK);
+
+                                addPoints(player, -120);
+                                tauntTimer(player, context);
+                            } else player.sendMessage(notEnough);
+                        }));
+
+                // Taunt points
+                container.setItem(
+                    34,
+                    ItemBuilder.from(Material.PAPER).name(getItemName("Taunt Points"))
+                        .lore(getItemLore("<dark_green>You have <dark_aqua><b>" + tauntPoints + "</b></dark_aqua> Taunt Points"))
+                        .asGuiItem());
             }).build();
+    }
+
+    private TextComponent getItemName(String name) {
+        Map<TextDecoration, TextDecoration.State> noItalic = Map.of(
+            TextDecoration.ITALIC,
+            TextDecoration.State.FALSE);
+
+        return Component.text(name, NamedTextColor.AQUA, TextDecoration.BOLD).decorations(noItalic);
     }
 
     private List<Component> getItemLore(String... lore) {
         return Arrays.stream(lore).map(customLore -> MiniMessage.miniMessage()
             .deserialize("<!i>" + customLore)).toList();
+    }
+
+    private boolean onCooldown(Player player) {
+        if (player.hasPermission("silverstone.minigames.hideseek.taunt.bypasscooldown")) return false;
+        if (!cooldowns.containsKey(player)) return false;
+        if (cooldowns.get(player) < System.currentTimeMillis()) return false;
+
+        // Still on cooldown
+        player.sendMessage(Component.text("You may use a taunt again in ", NamedTextColor.RED)
+            .append(Component.text(
+                (cooldowns.get(player) - System.currentTimeMillis()) / 1000,
+                NamedTextColor.GRAY)).append(Component.text(" seconds.", NamedTextColor.RED)));
+        return true;
     }
 
     private void addPoints(Player player, int pointsToAdd) {

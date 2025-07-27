@@ -1,5 +1,6 @@
 package net.silverstonemc.silverstoneminigames;
 
+import dev.triumphteam.gui.paper.Gui;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.silverstonemc.silverstoneminigames.commands.*;
@@ -40,6 +41,8 @@ public class SilverstoneMinigames extends JavaPlugin implements CommandExecutor 
         getCommand("corruptedtag").setTabCompleter(new TabComplete());
         getCommand("hideseek").setTabCompleter(new TabComplete());
         getCommand("minigamemanager").setTabCompleter(new TabComplete());
+
+        Gui.of(1);
 
         PluginManager pluginManager = getServer().getPluginManager();
 
