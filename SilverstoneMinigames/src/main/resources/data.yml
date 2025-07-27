@@ -1,2 +1,8 @@
 user-data:
 minigame-data:
+  mgame:
+    players: MULTI
+    status: IN_SESSION
+  mgame2:
+    players: SINGLE
+    status: READY

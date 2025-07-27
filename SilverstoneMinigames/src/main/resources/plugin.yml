@@ -6,9 +6,18 @@ author: JasonHorkles
 api-version: '1.21.8'
 
 commands:
+  clearbossbars:
+    permission: silverstone.owner
+    usage: "/clearbossbars <player>"
+  corruptedtag:
+    permission: silverstone.owner
+    usage: "/corruptedtag <start | stop | kitselect | corrupt | uncorrupt> <players>"
   doublejump:
     permission: silverstone.owner
     usage: "§cUsage: /doublejump <player> <count | reset>"
+  fcfinish:
+    description: "Ran when the flying course is completed"
+    permission: silverstone.owner
   flyingcourse:
     description: "Reset the player if they touch an illegal block"
     permission: silverstone.owner
@@ -22,28 +31,16 @@ commands:
   minigame:
     aliases: [ game, whatminigameshouldiplay ]
     description: "Choose a random minigame"
+  mgm:
+    aliases: [ minigamemanager ]
+    permission: silverstone.admin
+    usage: "/mgm <create | delete | list | set> ..."
   ssmrl:
     description: "Reload the plugin"
     permission: silverstone.admin
   tntrun:
     permission: silverstone.owner
     usage: "/tntrun <player>"
-  fcfinish:
-    description: "Ran when the flying course is completed"
-    permission: silverstone.owner
-#  miniholo:
-#    permission: silverstone.admin
-#    usage: "/miniholo <hologram> <open | ready | in_session | resetting | closed>"
-  corruptedtag:
-    permission: silverstone.owner
-    usage: "/corruptedtag <start | stop | kitselect | corrupt | uncorrupt> <players>"
-  clearbossbars:
-    permission: silverstone.owner
-    usage: "/clearbossbars <player>"
-  minigamemanager:
-    aliases: [ mgm ]
-    permission: silverstone.admin
-    usage: "/minigamemanager <create | set | delete | list>"
 
 permissions:
   silverstone.minigames.flyingcourse:
