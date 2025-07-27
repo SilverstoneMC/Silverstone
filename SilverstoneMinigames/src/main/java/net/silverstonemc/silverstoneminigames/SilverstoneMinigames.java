@@ -31,7 +31,7 @@ public class SilverstoneMinigames extends JavaPlugin implements CommandExecutor 
 
         data.saveDefaultConfig();
 
-        getCommand("doublejump").setExecutor(new DoubleJump(this));
+        getCommand("doublejump").setExecutor(new DoubleJump());
         getCommand("clearbossbars").setExecutor(new BossBarManager());
         getCommand("corruptedtag").setExecutor(new CorruptedTag(this));
         getCommand("fcfinish").setExecutor(new FlyingCourse(this));
@@ -53,7 +53,7 @@ public class SilverstoneMinigames extends JavaPlugin implements CommandExecutor 
         pluginManager.registerEvents(new Back(), this);
         pluginManager.registerEvents(new CorruptedTag(this), this);
         pluginManager.registerEvents(new Disguise(), this);
-        pluginManager.registerEvents(new DoubleJump(this), this);
+        pluginManager.registerEvents(new DoubleJump(), this);
         pluginManager.registerEvents(new HideSeek(this), this);
         pluginManager.registerEvents(new Join(), this);
         pluginManager.registerEvents(new LockInv(), this);
@@ -62,7 +62,6 @@ public class SilverstoneMinigames extends JavaPlugin implements CommandExecutor 
         pluginManager.registerEvents(new Void(), this);
         pluginManager.registerEvents(new WorldChange(), this);
 
-        new CorruptedTag(this).createInventories();
         new FlyingCourse(this).updateFCScoreboard();
         new Minigames(this).createInventories();
     }

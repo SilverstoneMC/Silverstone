@@ -17,7 +17,6 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 
@@ -26,11 +25,6 @@ import java.util.List;
 import java.util.Map;
 
 public class DoubleJump implements CommandExecutor, Listener {
-    public DoubleJump(JavaPlugin plugin) {
-        this.plugin = plugin;
-    }
-
-    private final JavaPlugin plugin;
     private final Map<String, Long> cooldowns = new HashMap<>();
     private static final Map<Player, Integer> jumps = new HashMap<>();
 
@@ -69,8 +63,7 @@ public class DoubleJump implements CommandExecutor, Listener {
 
         if (event.getAction() != Action.RIGHT_CLICK_AIR && event.getAction() != Action.RIGHT_CLICK_BLOCK && event.getAction() != Action.LEFT_CLICK_AIR && event.getAction() != Action.LEFT_CLICK_BLOCK)
             return;
-        if (!player.getWorld().getName().equalsIgnoreCase(SilverstoneMinigames.MINIGAME_WORLD))
-            return;
+        if (!player.getWorld().getName().equalsIgnoreCase(SilverstoneMinigames.MINIGAME_WORLD)) return;
         if (player.getInventory().getItemInMainHand().getType() != Material.FEATHER) return;
         if (!player.getInventory().getItemInMainHand().getItemMeta().hasDisplayName()) return;
         //noinspection DataFlowIssue

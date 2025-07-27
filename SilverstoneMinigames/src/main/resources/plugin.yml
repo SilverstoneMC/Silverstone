@@ -43,6 +43,7 @@ commands:
   minigamemanager:
     aliases: [ mgm ]
     permission: silverstone.admin
+    usage: "/minigamemanager <create | set | delete | list>"
 
 permissions:
   silverstone.minigames.flyingcourse:

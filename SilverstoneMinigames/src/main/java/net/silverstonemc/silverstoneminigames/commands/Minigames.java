@@ -255,7 +255,7 @@ public class Minigames implements CommandExecutor, Listener {
     }
 
     private void openBook(Player player, String title, String... pages) {
-        player.playSound(player.getLocation(), Sound.UI_BUTTON_CLICK, SoundCategory.MASTER, 1, 1);
+        player.playSound(player.getLocation(), Sound.UI_BUTTON_CLICK, SoundCategory.UI, 1, 1);
 
         Component newTitle = Component.text(title);
         Component author = Component.text("JasonHorkles");
@@ -308,7 +308,7 @@ public class Minigames implements CommandExecutor, Listener {
             @Override
             public void run() {
                 player.closeInventory();
-                player.playSound(player.getLocation(), Sound.UI_BUTTON_CLICK, SoundCategory.MASTER, 1, 1);
+                player.playSound(player.getLocation(), Sound.UI_BUTTON_CLICK, SoundCategory.UI, 1, 1);
             }
         }.runTask(plugin);
     }

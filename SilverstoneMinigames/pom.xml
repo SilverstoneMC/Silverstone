@@ -107,6 +107,7 @@
                     <generateBackupPoms>false</generateBackupPoms>
                     <allowMinorUpdates>true</allowMinorUpdates>
                     <allowSnapshots>true</allowSnapshots>
+                    <allowRangeMatching>true</allowRangeMatching>
                 </configuration>
             </plugin>
         </plugins>
