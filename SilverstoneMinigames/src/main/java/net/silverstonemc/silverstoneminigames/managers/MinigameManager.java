@@ -55,7 +55,6 @@ public class MinigameManager implements CommandExecutor, TabCompleter {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String @NotNull [] args) {
         //todo:
-        // update randomgame to use the new system
         // implement discord integration
 
         if (args.length == 0) return false;
@@ -73,16 +72,16 @@ public class MinigameManager implements CommandExecutor, TabCompleter {
         return true;
     }
 
-    // mgm create <game_id> <SINGLE|MULTI>
-    // game_id will coincide with the hologram name
     private void createMinigame(CommandSender sender, String[] args) {
-        if (args.length < 3) {
+        if (args.length < 4) {
             sender.sendMessage(Component.text(
-                "Usage: /mgm create <game_id> <SINGLE|MULTI>",
+                "Usage: /mgm create <game_id> <friendly_name> <SINGLE | MULTI>",
                 NamedTextColor.RED));
             return;
         }
 
+
+        // game_id
         String gameId = args[1];
 
         // Validate gameId against existing holograms
@@ -101,9 +100,16 @@ public class MinigameManager implements CommandExecutor, TabCompleter {
             return;
         }
 
+
+        // friendly_name
+        String friendlyName = args[2].replace("_", " ");
+        SilverstoneMinigames.data.getConfig().set("minigame-data." + gameId + ".friendly-name", friendlyName);
+
+
+        // SINGLE | MULTI
         MinigamePlayers players;
         try {
-            players = MinigamePlayers.valueOf(args[2].toUpperCase());
+            players = MinigamePlayers.valueOf(args[3].toUpperCase());
         } catch (IllegalArgumentException e) {
             sender.sendMessage(Component.text("Invalid player count!", NamedTextColor.RED));
             return;
@@ -121,7 +127,6 @@ public class MinigameManager implements CommandExecutor, TabCompleter {
             .append(Component.text(" player(s)!", NamedTextColor.GREEN)));
     }
 
-    // mgm delete <game_id>
     private void deleteMinigame(CommandSender sender, String[] args) {
         if (args.length < 2) {
             sender.sendMessage(Component.text("Usage: /mgm delete <game_id>", NamedTextColor.RED));
@@ -166,17 +171,24 @@ public class MinigameManager implements CommandExecutor, TabCompleter {
                 case CLOSED -> gameColor = NamedTextColor.RED;
             }
             HoverEvent<Component> gameHover = HoverEvent.showText(Component.text(status.name(), gameColor));
+            String gameFriendlyName = SilverstoneMinigames.data.getConfig()
+                .getString("minigame-data." + minigame + ".friendly-name", "Unknown");
 
-            sender.sendMessage(Component.text("⏺", gameColor).hoverEvent(gameHover)
-                .append(Component.text(" " + minigame + " (" + playerCount + ")", NamedTextColor.DARK_AQUA)));
+            sender.sendMessage(Component.empty().append(Component.text("⏺", gameColor).hoverEvent(gameHover)
+                .append(Component.text(
+                    " " + minigame.replaceFirst("^m", "") + " (" + playerCount + ")",
+                    NamedTextColor.DARK_AQUA).hoverEvent(HoverEvent.showText(Component.text(
+                    gameFriendlyName,
+                    NamedTextColor.AQUA))))));
         }
     }
 
-    // mgm set <game_id> status <open|ready|in_session|resetting|closed>
+    // mgm set <game_id> friendlyname <name>
     // mgm set <game_id> players <SINGLE|MULTI>
+    // mgm set <game_id> status <open|ready|in_session|resetting|closed>
     private void setMinigame(CommandSender sender, String[] args) {
         TextComponent usage = Component.text(
-            "/mgm set <game_id> <status|players> <value>",
+            "/mgm set <game_id> <friendly_name | players | status> <value>",
             NamedTextColor.RED);
 
         if (args.length < 4) {
@@ -186,33 +198,27 @@ public class MinigameManager implements CommandExecutor, TabCompleter {
 
         String gameId = args[1];
         if (SilverstoneMinigames.data.getConfig().get("minigame-data." + gameId) == null) {
-            sender.sendMessage(Component.text("Minigame " + gameId + " does not exist!", NamedTextColor.RED));
+            sender.sendMessage(Component.text(
+                "Minigame '" + gameId + "' does not exist!",
+                NamedTextColor.RED));
             return;
         }
 
         String value = args[3].toLowerCase();
 
         switch (args[2].toLowerCase()) {
-            case "status" -> {
-                MinigameStatus status;
-                try {
-                    status = MinigameStatus.valueOf(value.toUpperCase());
-                } catch (IllegalArgumentException e) {
-                    sender.sendMessage(Component.text("Invalid game status!", NamedTextColor.RED));
-                    return;
-                }
+            case "friendlyname" -> {
+                String friendlyName = value.replace("_", " ");
 
-                setHologram(sender, gameId, status);
                 SilverstoneMinigames.data.getConfig().set(
-                    "minigame-data." + gameId + ".status",
-                    status.name());
+                    "minigame-data." + gameId + ".friendly-name",
+                    friendlyName);
                 SilverstoneMinigames.data.saveConfig();
 
-                if (sender instanceof Player) sender.sendMessage(Component.text(
-                    "Reminder: This command is only intended to be run via command blocks!",
-                    NamedTextColor.GRAY,
-                    TextDecoration.ITALIC));
-                sender.sendMessage("Set " + gameId + " status to: " + status.name());
+                sender.sendMessage(Component.text("Set minigame ", NamedTextColor.GREEN)
+                    .append(Component.text(gameId, NamedTextColor.AQUA))
+                    .append(Component.text(" friendly name to ", NamedTextColor.GREEN))
+                    .append(Component.text(friendlyName, NamedTextColor.AQUA)));
             }
 
             case "players" -> {
@@ -233,6 +239,28 @@ public class MinigameManager implements CommandExecutor, TabCompleter {
                     .append(Component.text(gameId, NamedTextColor.AQUA))
                     .append(Component.text(" player count to ", NamedTextColor.GREEN))
                     .append(Component.text(players.getText(), NamedTextColor.AQUA)));
+            }
+
+            case "status" -> {
+                MinigameStatus status;
+                try {
+                    status = MinigameStatus.valueOf(value.toUpperCase());
+                } catch (IllegalArgumentException e) {
+                    sender.sendMessage(Component.text("Invalid game status!", NamedTextColor.RED));
+                    return;
+                }
+
+                setHologram(sender, gameId, status);
+                SilverstoneMinigames.data.getConfig().set(
+                    "minigame-data." + gameId + ".status",
+                    status.name());
+                SilverstoneMinigames.data.saveConfig();
+
+                if (sender instanceof Player) sender.sendMessage(Component.text(
+                    "Reminder: This command is only intended to be run via command blocks!",
+                    NamedTextColor.GRAY,
+                    TextDecoration.ITALIC));
+                sender.sendMessage("Set " + gameId + " status to: " + status.name());
             }
 
             default -> sender.sendMessage(usage);
@@ -266,11 +294,12 @@ public class MinigameManager implements CommandExecutor, TabCompleter {
 
     // game_id will coincide with the hologram name
     // mgm list
-    // mgm delete  <game_id>
-    // mgm create  <game_id> <SINGLE|MULTI>
-    // mgm set     <game_id> players        <SINGLE|MULTI>
-    // mgm set     <game_id> status         <open|ready|in_session|resetting|closed>
-    //      0          1        2                  3
+    // mgm delete <game_id>
+    // mgm create <game_id> <friendly_name> <SINGLE|MULTI>
+    // mgm set    <game_id> friendlyname    <name>
+    // mgm set    <game_id> players         <SINGLE|MULTI>
+    // mgm set    <game_id> status          <open|ready|in_session|resetting|closed>
+    //      0          1        2                   3
     public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String @NotNull [] args) {
         List<String> result = new ArrayList<>();
 
@@ -312,21 +341,37 @@ public class MinigameManager implements CommandExecutor, TabCompleter {
             return result;
         }
 
+        // "<friendly_name>" for "create" and "set <game> friendlyname"
+        List<String> friendlyName = new ArrayList<>(List.of("<friendly_name>"));
+
+        if (args.length == 3 && args[0].equalsIgnoreCase("create")) {
+            for (String a : friendlyName)
+                if (a.toLowerCase().startsWith(args[2].toLowerCase())) result.add(a);
+            return result;
+        }
+
+        if (args.length == 4 && args[0].equalsIgnoreCase("set") && args[2].equalsIgnoreCase("friendlyname")) {
+            for (String a : friendlyName)
+                if (a.toLowerCase().startsWith(args[3].toLowerCase())) result.add(a);
+            return result;
+        }
+
         List<String> minigamePlayerTypes = Stream.of(MinigamePlayers.values()).map(Enum::name).toList();
 
-        // SINGLE/MULTI for "create"
-        if (args.length == 3 && args[0].equalsIgnoreCase("create")) {
-            List<String> arguments = new ArrayList<>(minigamePlayerTypes);
+        // SINGLE/MULTI for "create" and "set <game> players"
+        if (args.length == 4 && (args[0].equalsIgnoreCase("create") || args[0].equalsIgnoreCase("set") && args[2].equalsIgnoreCase(
+            "players"))) {
 
+            List<String> arguments = new ArrayList<>(minigamePlayerTypes);
             for (String gameId : arguments)
-                if (gameId.toLowerCase().startsWith(args[2].toLowerCase())) result.add(gameId);
+                if (gameId.toLowerCase().startsWith(args[3].toLowerCase())) result.add(gameId);
             return result;
         }
 
         if (args[0].equalsIgnoreCase("set")) {
-            // status/players for "set"
+            // friendlyname/players/status for "set"
             if (args.length == 3) {
-                List<String> arguments = new ArrayList<>(List.of("status", "players"));
+                List<String> arguments = new ArrayList<>(List.of("friendlyname", "players", "status"));
 
                 for (String a : arguments)
                     if (a.toLowerCase().startsWith(args[2].toLowerCase())) result.add(a);
@@ -336,14 +381,9 @@ public class MinigameManager implements CommandExecutor, TabCompleter {
             if (args.length == 4) {
                 List<String> arguments = new ArrayList<>();
 
-                switch (args[2].toLowerCase()) {
-                    // SINGLE/MULTI for "set <game> players"
-                    case "players" -> arguments.addAll(minigamePlayerTypes);
-
-                    // Game statuses for "set <game> status"
-                    case "status" -> arguments.addAll(Arrays.stream(MinigameStatus.values()).map(Enum::name)
-                        .toList());
-                }
+                // Game statuses for "set <game> status"
+                if (args[2].equalsIgnoreCase("status")) arguments.addAll(Arrays
+                    .stream(MinigameStatus.values()).map(Enum::name).toList());
 
                 for (String a : arguments)
                     if (a.toLowerCase().startsWith(args[3].toLowerCase())) result.add(a);

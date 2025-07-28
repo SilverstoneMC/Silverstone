@@ -3,6 +3,8 @@ minigame-data:
   mgame:
     players: MULTI
     status: IN_SESSION
+    friendly-name: "Game 1"
   mgame2:
     players: SINGLE
     status: READY
+    friendly-name: "Game 2"

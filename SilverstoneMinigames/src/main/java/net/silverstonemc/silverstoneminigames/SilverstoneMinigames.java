@@ -37,7 +37,7 @@ public class SilverstoneMinigames extends JavaPlugin implements CommandExecutor 
         getCommand("flyingcourse").setExecutor(new FlyingCourse(this));
         getCommand("hideseek").setExecutor(new HideSeekCmd(this));
         getCommand("htp").setExecutor(new HowToPlay());
-        getCommand("minigame").setExecutor(new RandomGame(this));
+        getCommand("minigame").setExecutor(new RandomGame());
         getCommand("minigamemanager").setExecutor(new MinigameManager());
         getCommand("tntrun").setExecutor(new TNTRun(this));
 
