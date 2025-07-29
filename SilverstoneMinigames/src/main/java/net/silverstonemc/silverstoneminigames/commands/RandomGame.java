@@ -6,7 +6,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.silverstonemc.silverstoneminigames.SilverstoneMinigames;
-import net.silverstonemc.silverstoneminigames.managers.MinigameManager;
+import net.silverstonemc.silverstoneminigames.managers.MinigameManager.MinigamePlayers;
 import org.bukkit.Sound;
 import org.bukkit.SoundCategory;
 import org.bukkit.command.Command;
@@ -47,7 +47,7 @@ public class RandomGame implements CommandExecutor {
 
                         player.sendMessage(Component.text("You should play ", NamedTextColor.GREEN)
                             .append(Component.text(
-                                getRandomGame(MinigameManager.MinigamePlayers.SINGLE),
+                                getRandomGame(MinigamePlayers.SINGLE),
                                 NamedTextColor.AQUA)));
 
                         context.guiView().close();
@@ -61,7 +61,7 @@ public class RandomGame implements CommandExecutor {
 
                         player.sendMessage(Component.text("You should play ", NamedTextColor.GREEN)
                             .append(Component.text(
-                                getRandomGame(MinigameManager.MinigamePlayers.MULTI),
+                                getRandomGame(MinigamePlayers.MULTI),
                                 NamedTextColor.AQUA)));
 
                         context.guiView().close();
@@ -76,7 +76,7 @@ public class RandomGame implements CommandExecutor {
     }
 
     @SuppressWarnings("DataFlowIssue")
-    private String getRandomGame(MinigameManager.MinigamePlayers playerCount) {
+    private String getRandomGame(MinigamePlayers playerCount) {
         FileConfiguration config = SilverstoneMinigames.data.getConfig();
         Set<String> minigames = config.getConfigurationSection("minigame-data").getKeys(false);
         ArrayList<String> games = new ArrayList<>();
@@ -84,8 +84,10 @@ public class RandomGame implements CommandExecutor {
         for (String minigame : minigames) {
             String path = "minigame-data." + minigame;
             String status = config.getString(path + ".status");
+            String players = config.getString(path + ".players");
 
-            if (config.getString(path + ".players").equalsIgnoreCase(playerCount.name()) && !status.equals(
+            // Add combo games to both list types, assuming they are not closed
+            if ((players.equals(playerCount.name()) || players.equals(MinigamePlayers.COMBO.name())) && !status.equals(
                 "CLOSED")) games.add(config.getString(path + ".friendly-name"));
         }
 
