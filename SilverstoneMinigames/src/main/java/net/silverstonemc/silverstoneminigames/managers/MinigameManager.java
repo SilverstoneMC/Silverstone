@@ -21,6 +21,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scheduler.BukkitTask;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
@@ -35,6 +36,9 @@ import static net.silverstonemc.silverstoneminigames.SilverstoneMinigames.data;
 import static net.silverstonemc.silverstoneminigames.SilverstoneMinigames.jda;
 
 public class MinigameManager implements CommandExecutor, TabCompleter {
+    private BukkitTask statusUpdateTask;
+    private long lastStatusUpdate;
+
     public enum MinigameStatus {
         OPEN("<green><bold>Open", "Open"),
         READY("<green><bold>Ready", "Ready"),
@@ -75,7 +79,6 @@ public class MinigameManager implements CommandExecutor, TabCompleter {
         }
     }
 
-    //todo make queue system for status changes within 3 seconds
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String @NotNull [] args) {
         if (args.length == 0) return false;
@@ -100,7 +103,6 @@ public class MinigameManager implements CommandExecutor, TabCompleter {
                 NamedTextColor.RED));
             return;
         }
-
 
         // game_id
         String gameId = args[1];
@@ -271,8 +273,7 @@ public class MinigameManager implements CommandExecutor, TabCompleter {
 
                 setHologram(sender, gameId, status);
                 data.getConfig().set("minigame-data." + gameId + ".status", status.name());
-                data.saveConfig();
-                updateDiscordMessage();
+                queueStatusUpdate();
 
                 if (sender instanceof Player) sender.sendMessage(Component.text(
                     "Reminder: This command is only intended to be run via command blocks!",
@@ -307,6 +308,29 @@ public class MinigameManager implements CommandExecutor, TabCompleter {
         textData.setText(holoText);
         hologram.queueUpdate();
         hologram.refreshHologram(Bukkit.getOnlinePlayers());
+    }
+
+    private void queueStatusUpdate() {
+        long currentTime = System.currentTimeMillis();
+        long timeSinceLastUpdate = currentTime - lastStatusUpdate;
+        final int cooldown = 1050;
+
+        // Update immediately if enough time has passed since the last update
+        if (timeSinceLastUpdate >= cooldown && statusUpdateTask == null) {
+            data.saveConfig();
+            updateDiscordMessage();
+            lastStatusUpdate = currentTime;
+
+        } else if (statusUpdateTask == null) statusUpdateTask = new BukkitRunnable() {
+            @Override
+            public void run() {
+                data.saveConfig();
+                updateDiscordMessage();
+
+                lastStatusUpdate = System.currentTimeMillis();
+                statusUpdateTask = null;
+            }
+        }.runTaskLaterAsynchronously(SilverstoneMinigames.getInstance(), cooldown / 50);
     }
 
 
