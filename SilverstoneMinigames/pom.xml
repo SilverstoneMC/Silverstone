@@ -6,7 +6,7 @@
 
     <groupId>net.silverstonemc</groupId>
     <artifactId>SilverstoneMinigames</artifactId>
-    <version>4.0.0</version>
+    <version>4.0.1</version>
 
     <properties>
         <maven.compiler.source>21</maven.compiler.source>

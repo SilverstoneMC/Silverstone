@@ -80,7 +80,8 @@ public class HideSeek implements Listener {
                 container.setItem(
                     10,
                     ItemBuilder.from(Material.BONE).name(getItemName("Bark"))
-                        .lore(getItemLore("<dark_aqua><b>1</b> Taunt Point")).asGuiItem((player, context) -> {
+                        .lore(getItemLore("<dark_aqua><b>1</b> <dark_green>Taunt Point"))
+                        .asGuiItem((player, context) -> {
                             if (onCooldown(player)) return;
 
                             bark(player);
@@ -168,7 +169,7 @@ public class HideSeek implements Listener {
                     28, ItemBuilder.skull().texture(
                             "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDZiYTYzMzQ0ZjQ5ZGQxYzRmNTQ4OGU5MjZiZjNkOWUyYjI5OTE2YTZjNTBkNjEwYmI0MGE1MjczZGM4YzgyIn19fQ==")
                         .name(getItemName("Taunt at random player")).lore(getItemLore(
-                            "<dark_aqua>Costs <dark_green>45</dark_green> Taunt Points",
+                            "<dark_aqua>Costs <dark_green><b>45</b></dark_green> Taunt Points",
                             "",
                             "<gray>Sends a random taunt",
                             "<gray>to a random hider",
