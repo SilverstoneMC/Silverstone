@@ -6,6 +6,10 @@ author: JasonHorkles
 api-version: '1.21.8'
 
 commands:
+  boatbypass:
+    description: "Allow players to ride the same boat when true (default false, only applies to Boat Racing)"
+    permission: silverstone.owner
+    usage: "/boatbypass <true|false>"
   clearbossbars:
     permission: silverstone.owner
     usage: "/clearbossbars <player>"
@@ -43,6 +47,9 @@ commands:
     usage: "/tntrun <player>"
 
 permissions:
+  silverstone.minigames.boatracing:
+    default: false
+    description: Prevent multiple players from riding the same boat
   silverstone.minigames.flyingcourse:
     default: false
     description: Allow using `/zfinish` command

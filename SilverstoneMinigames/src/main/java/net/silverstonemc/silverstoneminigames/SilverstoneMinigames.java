@@ -5,11 +5,10 @@ import net.dv8tion.jda.api.JDABuilder;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.silverstonemc.silverstoneminigames.commands.*;
+import net.silverstonemc.silverstoneminigames.commands.minigames.BoatBypassCmd;
 import net.silverstonemc.silverstoneminigames.commands.minigames.HideSeekCmd;
-import net.silverstonemc.silverstoneminigames.events.Join;
-import net.silverstonemc.silverstoneminigames.events.LockInv;
+import net.silverstonemc.silverstoneminigames.events.*;
 import net.silverstonemc.silverstoneminigames.events.Void;
-import net.silverstonemc.silverstoneminigames.events.WorldChange;
 import net.silverstonemc.silverstoneminigames.managers.BossBarManager;
 import net.silverstonemc.silverstoneminigames.managers.DataManager;
 import net.silverstonemc.silverstoneminigames.managers.MinigameManager;
@@ -57,9 +56,10 @@ public class SilverstoneMinigames extends JavaPlugin implements CommandExecutor 
             }
         }.runTaskAsynchronously(this);
 
-        getCommand("doublejump").setExecutor(new DoubleJump());
+        getCommand("boatbypass").setExecutor(new BoatBypassCmd());
         getCommand("clearbossbars").setExecutor(new BossBarManager());
         getCommand("corruptedtag").setExecutor(new CorruptedTag(this));
+        getCommand("doublejump").setExecutor(new DoubleJump());
         getCommand("fcfinish").setExecutor(new FlyingCourse(this));
         getCommand("flyingcourse").setExecutor(new FlyingCourse(this));
         getCommand("hideseek").setExecutor(new HideSeekCmd(this));
@@ -75,6 +75,7 @@ public class SilverstoneMinigames extends JavaPlugin implements CommandExecutor 
         PluginManager pluginManager = getServer().getPluginManager();
 
         pluginManager.registerEvents(new Back(), this);
+        pluginManager.registerEvents(new BoatMount(), this);
         pluginManager.registerEvents(new Disguise(), this);
         pluginManager.registerEvents(new DoubleJump(), this);
         pluginManager.registerEvents(new HideSeek(this), this);
