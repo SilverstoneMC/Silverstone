@@ -50,9 +50,6 @@ permissions:
   silverstone.minigames.boatracing:
     default: false
     description: Prevent multiple players from riding the same boat
-  silverstone.minigames.flyingcourse:
-    default: false
-    description: Allow using `/zfinish` command
   silverstone.minigames.hideseek.taunt.bypasscooldown:
     default: false
   silverstone.minigames.hideseek.taunt:
