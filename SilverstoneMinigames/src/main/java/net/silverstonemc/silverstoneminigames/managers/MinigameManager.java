@@ -42,8 +42,8 @@ public class MinigameManager implements CommandExecutor, TabCompleter {
     public enum MinigameStatus {
         OPEN("<green><bold>Open", "Open"),
         READY("<green><bold>Ready", "Ready"),
-        IN_SESSION("<yellow><bold>In Session", "In Session"),
-        RESETTING("<gold><bold>Resetting", "Resetting"),
+        IN_SESSION("<yellow><bold>In Session...", "In Session..."),
+        RESETTING("<gold><bold>Resetting...", "Resetting..."),
         CLOSED("<red><bold>Closed", "Closed");
 
         private final String text;
@@ -483,7 +483,7 @@ public class MinigameManager implements CommandExecutor, TabCompleter {
 
                     String statusIcon = "Unknown";
                     switch (status) {
-                        case OPEN -> statusIcon = "🟢";
+                        case OPEN -> statusIcon = "☑️";
                         case READY -> statusIcon = "✅";
                         case IN_SESSION -> statusIcon = "⏳";
                         case RESETTING -> statusIcon = "🔁";
