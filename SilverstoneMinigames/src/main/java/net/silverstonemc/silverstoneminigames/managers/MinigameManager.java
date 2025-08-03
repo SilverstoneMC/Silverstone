@@ -13,6 +13,7 @@ import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.event.ClickEvent;
 import net.kyori.adventure.text.event.HoverEvent;
 import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextColor;
 import net.silverstonemc.silverstoneminigames.SilverstoneMinigames;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
@@ -201,10 +202,10 @@ public class MinigameManager implements CommandExecutor, TabCompleter {
             String playerCount = MinigamePlayers
                 .valueOf(dataFile.getString("minigame-data." + minigame + ".players", "NULL")).getText();
 
-            NamedTextColor gameColor = NamedTextColor.DARK_RED;
+            TextColor gameColor = NamedTextColor.DARK_RED;
             switch (status) {
                 case OPEN -> gameColor = NamedTextColor.AQUA;
-                case READY -> gameColor = NamedTextColor.GREEN;
+                case READY -> gameColor = TextColor.fromHexString("#03fcad");
                 case IN_SESSION -> gameColor = NamedTextColor.YELLOW;
                 case RESETTING -> gameColor = NamedTextColor.GOLD;
                 case CLOSED -> gameColor = NamedTextColor.RED;
