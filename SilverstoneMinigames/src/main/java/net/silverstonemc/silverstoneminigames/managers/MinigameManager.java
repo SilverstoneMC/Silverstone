@@ -40,11 +40,11 @@ public class MinigameManager implements CommandExecutor, TabCompleter {
     private long lastStatusUpdate;
 
     public enum MinigameStatus {
-        OPEN("<green><bold>Open", "Open"),
-        READY("<green><bold>Ready", "Ready"),
-        IN_SESSION("<yellow><bold>In Session...", "In Session..."),
-        RESETTING("<gold><bold>Resetting...", "Resetting..."),
-        CLOSED("<red><bold>Closed", "Closed");
+        OPEN("<green><b>Open", "Open"),
+        READY("<green><b>Ready", "Ready"),
+        IN_SESSION("<yellow><b>In Session...", "In Session..."),
+        RESETTING("<gold><b>Resetting...", "Resetting..."),
+        CLOSED("<red><b>Closed", "Closed");
 
         private final String text;
         private final String strippedText;
