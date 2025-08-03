@@ -11,8 +11,8 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.logging.Level;
 
-public class DataManager {
-    public DataManager(JavaPlugin plugin) {
+public class DataFileManager {
+    public DataFileManager(JavaPlugin plugin) {
         this.plugin = plugin;
         saveDefaultConfig();
     }

@@ -9,8 +9,9 @@ import net.silverstonemc.silverstoneminigames.commands.minigames.BoatBypassCmd;
 import net.silverstonemc.silverstoneminigames.commands.minigames.HideSeekCmd;
 import net.silverstonemc.silverstoneminigames.events.*;
 import net.silverstonemc.silverstoneminigames.events.Void;
+import net.silverstonemc.silverstoneminigames.managers.ActionsFileManager;
 import net.silverstonemc.silverstoneminigames.managers.BossBarManager;
-import net.silverstonemc.silverstoneminigames.managers.DataManager;
+import net.silverstonemc.silverstoneminigames.managers.DataFileManager;
 import net.silverstonemc.silverstoneminigames.managers.MinigameManager;
 import net.silverstonemc.silverstoneminigames.minigames.*;
 import org.bukkit.command.Command;
@@ -24,20 +25,21 @@ import org.jetbrains.annotations.NotNull;
 import java.util.concurrent.TimeUnit;
 
 public class SilverstoneMinigames extends JavaPlugin implements CommandExecutor {
-    public static DataManager data;
+    public static DataFileManager data;
+    public static ActionsFileManager actionsData;
     public static JDA jda;
     public static final String MINIGAME_WORLD = "minigames";
-
-    private static SilverstoneMinigames instance;
 
     @SuppressWarnings("DataFlowIssue")
     @Override
     public void onEnable() {
-        instance = this;
-        data = new DataManager(this);
+        data = new DataFileManager(this);
+        actionsData = new ActionsFileManager(this);
 
         data.saveDefaultConfig();
+        actionsData.saveDefaultConfig();
 
+        SilverstoneMinigames instance = this;
         new BukkitRunnable() {
             @Override
             public void run() {
@@ -48,7 +50,7 @@ public class SilverstoneMinigames extends JavaPlugin implements CommandExecutor 
 
                 try {
                     jda.awaitReady();
-                    new MinigameManager().updateDiscordMessage();
+                    new MinigameManager(instance).updateDiscordMessage();
 
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
@@ -65,12 +67,12 @@ public class SilverstoneMinigames extends JavaPlugin implements CommandExecutor 
         getCommand("hideseek").setExecutor(new HideSeekCmd(this));
         getCommand("htp").setExecutor(new HowToPlay());
         getCommand("minigame").setExecutor(new RandomGame());
-        getCommand("minigamemanager").setExecutor(new MinigameManager());
+        getCommand("minigamemanager").setExecutor(new MinigameManager(this));
         getCommand("tntrun").setExecutor(new TNTRun(this));
 
         getCommand("corruptedtag").setTabCompleter(new TabComplete());
         getCommand("hideseek").setTabCompleter(new TabComplete());
-        getCommand("minigamemanager").setTabCompleter(new MinigameManager());
+        getCommand("minigamemanager").setTabCompleter(new MinigameManager(this));
 
         PluginManager pluginManager = getServer().getPluginManager();
 
@@ -108,14 +110,14 @@ public class SilverstoneMinigames extends JavaPlugin implements CommandExecutor 
     public boolean onCommand(CommandSender sender, @NotNull Command cmd, @NotNull String label, String @NotNull [] args) {
         data.saveDefaultConfig();
         data.reloadConfig();
-        new MinigameManager().updateDiscordMessage();
+
+        actionsData.saveDefaultConfig();
+        actionsData.reloadConfig();
+
+        new MinigameManager(this).updateDiscordMessage();
 
         new FlyingCourse(this).updateFCScoreboard();
         sender.sendMessage(Component.text("SilverstoneMinigames reloaded!", NamedTextColor.GREEN));
         return true;
-    }
-
-    public static SilverstoneMinigames getInstance() {
-        return instance;
     }
 }

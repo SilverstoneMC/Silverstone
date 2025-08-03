@@ -10,16 +10,21 @@ import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.channel.concrete.NewsChannel;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
+import net.kyori.adventure.text.event.ClickEvent;
 import net.kyori.adventure.text.event.HoverEvent;
 import net.kyori.adventure.text.format.NamedTextColor;
-import net.kyori.adventure.text.format.TextDecoration;
 import net.silverstonemc.silverstoneminigames.SilverstoneMinigames;
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
+import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
+import org.bukkit.configuration.Configuration;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 import org.jetbrains.annotations.NotNull;
@@ -32,12 +37,20 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.stream.Stream;
 
-import static net.silverstonemc.silverstoneminigames.SilverstoneMinigames.data;
 import static net.silverstonemc.silverstoneminigames.SilverstoneMinigames.jda;
 
 public class MinigameManager implements CommandExecutor, TabCompleter {
     private BukkitTask statusUpdateTask;
     private long lastStatusUpdate;
+    private final Configuration dataFile;
+    private final Configuration actionsFile;
+    private final JavaPlugin plugin;
+
+    public MinigameManager(JavaPlugin plugin) {
+        dataFile = SilverstoneMinigames.data.getConfig();
+        actionsFile = SilverstoneMinigames.actionsData.getConfig();
+        this.plugin = plugin;
+    }
 
     public enum MinigameStatus {
         OPEN("<green><b>Open", "Open"),
@@ -116,18 +129,15 @@ public class MinigameManager implements CommandExecutor, TabCompleter {
         }
 
         // Validate gameId against existing minigames
-        if (data.getConfig().get("minigame-data." + gameId) != null) {
+        if (dataFile.get("minigame-data." + gameId) != null) {
             sender.sendMessage(Component.text(
                 "Minigame with ID '" + gameId + "' already exists!",
                 NamedTextColor.RED));
             return;
         }
 
-
         // friendly_name
         String friendlyName = args[2].replace("_", " ");
-        data.getConfig().set("minigame-data." + gameId + ".friendly-name", friendlyName);
-
 
         // SINGLE | MULTI
         MinigamePlayers players;
@@ -138,9 +148,10 @@ public class MinigameManager implements CommandExecutor, TabCompleter {
             return;
         }
 
-        data.getConfig().set("minigame-data." + gameId + ".status", MinigameStatus.CLOSED.name());
-        data.getConfig().set("minigame-data." + gameId + ".players", players.name());
-        data.saveConfig();
+        dataFile.set("minigame-data." + gameId + ".friendly-name", friendlyName);
+        dataFile.set("minigame-data." + gameId + ".status", MinigameStatus.CLOSED.name());
+        dataFile.set("minigame-data." + gameId + ".players", players.name());
+        SilverstoneMinigames.data.saveConfig();
         updateDiscordMessage();
 
         sender.sendMessage(Component.text("Created minigame ", NamedTextColor.GREEN).append(Component.text(gameId,
@@ -157,15 +168,15 @@ public class MinigameManager implements CommandExecutor, TabCompleter {
 
         String gameId = args[1];
 
-        if (data.getConfig().get("minigame-data." + gameId) == null) {
+        if (dataFile.get("minigame-data." + gameId) == null) {
             sender.sendMessage(Component.text(
                 "Minigame with ID '" + gameId + "' does not exist!",
                 NamedTextColor.RED));
             return;
         }
 
-        data.getConfig().set("minigame-data." + gameId, null);
-        data.saveConfig();
+        dataFile.set("minigame-data." + gameId, null);
+        SilverstoneMinigames.data.saveConfig();
         updateDiscordMessage();
 
         sender.sendMessage(Component.text("Deleted minigame ", NamedTextColor.GRAY)
@@ -175,16 +186,20 @@ public class MinigameManager implements CommandExecutor, TabCompleter {
     // mgm list
     private void listMinigames(CommandSender sender) {
         //noinspection DataFlowIssue
-        Set<String> minigameSet = data.getConfig().getConfigurationSection("minigame-data").getKeys(false);
-        List<String> minigames = new ArrayList<>(minigameSet);
+        List<String> minigames = new ArrayList<>(dataFile.getConfigurationSection("minigame-data")
+            .getKeys(false));
         Collections.sort(minigames);
 
-        sender.sendMessage(Component.text("Available minigames:", NamedTextColor.GREEN));
+        TextComponent.Builder messageBuilder = Component.text(
+            "\nAvailable minigames:\n",
+            NamedTextColor.GREEN).toBuilder();
+
         for (String minigame : minigames) {
-            MinigameStatus status = MinigameStatus.valueOf(data.getConfig()
-                .getString("minigame-data." + minigame + ".status", "NULL"));
-            String playerCount = MinigamePlayers.valueOf(data.getConfig()
-                .getString("minigame-data." + minigame + ".players", "NULL")).getText();
+            MinigameStatus status = MinigameStatus.valueOf(dataFile.getString(
+                "minigame-data." + minigame + ".status",
+                "NULL"));
+            String playerCount = MinigamePlayers
+                .valueOf(dataFile.getString("minigame-data." + minigame + ".players", "NULL")).getText();
 
             NamedTextColor gameColor = NamedTextColor.DARK_RED;
             switch (status) {
@@ -194,25 +209,42 @@ public class MinigameManager implements CommandExecutor, TabCompleter {
                 case RESETTING -> gameColor = NamedTextColor.GOLD;
                 case CLOSED -> gameColor = NamedTextColor.RED;
             }
-            HoverEvent<Component> gameHover = HoverEvent.showText(Component.text(status.name(), gameColor));
-            String gameFriendlyName = data.getConfig()
-                .getString("minigame-data." + minigame + ".friendly-name", "Unknown");
+            String gameFriendlyName = dataFile.getString(
+                "minigame-data." + minigame + ".friendly-name",
+                "Unknown");
 
-            sender.sendMessage(Component.empty().append(Component.text("⏺", gameColor).hoverEvent(gameHover)
-                .append(Component.text(
-                    " " + minigame.replaceFirst("^m", "") + " (" + playerCount + ")",
-                    NamedTextColor.DARK_AQUA).hoverEvent(HoverEvent.showText(Component.text(
-                    gameFriendlyName,
-                    NamedTextColor.AQUA))))));
+            boolean hasActions = SilverstoneMinigames.actionsData.getConfig().contains(minigame);
+            boolean isOpen = status != MinigameStatus.CLOSED;
+
+            String command = "/mgm set " + minigame + " status " + (isOpen ? "CLOSED" : "OPEN") + " -a";
+
+            TextComponent hoverText;
+            if (hasActions) hoverText = Component.text(
+                "Click to " + (isOpen ? "close" : "open"),
+                (isOpen ? NamedTextColor.RED : NamedTextColor.GREEN));
+
+            else hoverText = Component.text("No toggle actions assigned!", NamedTextColor.RED);
+
+            messageBuilder.appendNewline().append(
+                Component.text("⏺", gameColor)
+                    .hoverEvent(HoverEvent.showText(Component.text(status.name(), gameColor)
+                        .append(Component.text(" | ", NamedTextColor.GRAY), hoverText)))
+                    .clickEvent((hasActions ? ClickEvent.runCommand(command) : null)),
+                Component.text(
+                        " " + minigame.replaceFirst("^m", "") + " (" + playerCount + ")",
+                        NamedTextColor.DARK_AQUA)
+                    .hoverEvent(HoverEvent.showText(Component.text(gameFriendlyName, NamedTextColor.AQUA))));
         }
+
+        sender.sendMessage(messageBuilder.build());
     }
 
     // mgm set <game_id> friendlyname <name>
     // mgm set <game_id> players <SINGLE|MULTI>
-    // mgm set <game_id> status <open|ready|in_session|resetting|closed>
+    // mgm set <game_id> status <open|in_session|resetting|closed> [-a]
     private void setMinigame(CommandSender sender, String[] args) {
         TextComponent usage = Component.text(
-            "/mgm set <game_id> <friendly_name | players | status> <value>",
+            "/mgm set <game_id> <friendlyname | players | status> <value>",
             NamedTextColor.RED);
 
         if (args.length < 4) {
@@ -221,7 +253,7 @@ public class MinigameManager implements CommandExecutor, TabCompleter {
         }
 
         String gameId = args[1];
-        if (data.getConfig().get("minigame-data." + gameId) == null) {
+        if (dataFile.get("minigame-data." + gameId) == null) {
             sender.sendMessage(Component.text(
                 "Minigame '" + gameId + "' does not exist!",
                 NamedTextColor.RED));
@@ -234,8 +266,8 @@ public class MinigameManager implements CommandExecutor, TabCompleter {
             case "friendlyname" -> {
                 String friendlyName = value.replace("_", " ");
 
-                data.getConfig().set("minigame-data." + gameId + ".friendly-name", friendlyName);
-                data.saveConfig();
+                dataFile.set("minigame-data." + gameId + ".friendly-name", friendlyName);
+                SilverstoneMinigames.data.saveConfig();
                 updateDiscordMessage();
 
                 sender.sendMessage(Component.text("Set minigame ", NamedTextColor.GREEN)
@@ -253,8 +285,8 @@ public class MinigameManager implements CommandExecutor, TabCompleter {
                     return;
                 }
 
-                data.getConfig().set("minigame-data." + gameId + ".players", players.name());
-                data.saveConfig();
+                dataFile.set("minigame-data." + gameId + ".players", players.name());
+                SilverstoneMinigames.data.saveConfig();
 
                 sender.sendMessage(Component.text("Set minigame ", NamedTextColor.GREEN)
                     .append(Component.text(gameId, NamedTextColor.AQUA))
@@ -263,27 +295,196 @@ public class MinigameManager implements CommandExecutor, TabCompleter {
             }
 
             case "status" -> {
+                // The status with READY combined into OPEN
                 MinigameStatus status;
+
                 try {
                     status = MinigameStatus.valueOf(value.toUpperCase());
+                    if (status == MinigameStatus.READY) {
+                        plugin.getLogger()
+                            .severe("Minigame '" + gameId + "' cannot be set to READY directly! Use OPEN instead.");
+                        return;
+                    }
                 } catch (IllegalArgumentException e) {
                     sender.sendMessage(Component.text("Invalid game status!", NamedTextColor.RED));
                     return;
                 }
 
+                boolean announce = false;
+                if (args.length > 4) announce = args[4].equalsIgnoreCase("-a");
+
+                // Returns if the game failed to change states
+                boolean stateFailed = false;
+                switch (status) {
+                    case OPEN, CLOSED, IN_SESSION -> stateFailed = !toggleGame(
+                        sender,
+                        gameId,
+                        status,
+                        announce);
+                    case RESETTING -> stateFailed = !evacuateGame(gameId);
+                }
+                if (stateFailed) return;
+
+                // Update the open status to be what the game should be from actions.yml (OPEN or READY)
+                if (status == MinigameStatus.OPEN) status = MinigameStatus.valueOf(actionsFile
+                    .getString(gameId + ".open-state", "NULL").toUpperCase());
+
                 setHologram(sender, gameId, status);
-                data.getConfig().set("minigame-data." + gameId + ".status", status.name());
+                dataFile.set("minigame-data." + gameId + ".status", status.name());
+                SilverstoneMinigames.data.saveConfig();
                 queueStatusUpdate();
 
-                if (sender instanceof Player) sender.sendMessage(Component.text(
-                    "Reminder: This command is only intended to be run via command blocks!",
-                    NamedTextColor.GRAY,
-                    TextDecoration.ITALIC));
-                sender.sendMessage("Set " + gameId + " status to: " + status.name());
+                if (!(sender instanceof Player))
+                    sender.sendMessage("Set " + gameId + " status to: " + status.name());
             }
 
             default -> sender.sendMessage(usage);
         }
+    }
+
+    /// Returns true if the game was toggled successfully, otherwise false
+    private boolean toggleGame(CommandSender sender, String gameId, MinigameStatus newStatus, boolean announce) {
+        // Barrier coordinates
+        int x1 = actionsFile.getInt(gameId + ".barriers.x1");
+        int y1 = actionsFile.getInt(gameId + ".barriers.y1");
+        int z1 = actionsFile.getInt(gameId + ".barriers.z1");
+        int x2 = actionsFile.getInt(gameId + ".barriers.x2");
+        int y2 = actionsFile.getInt(gameId + ".barriers.y2");
+        int z2 = actionsFile.getInt(gameId + ".barriers.z2");
+
+        if (badSettings(
+            sender, gameId, new int[]{
+                x1,
+                y1,
+                z1,
+                x2,
+                y2,
+                z2
+            })) return false;
+
+        // Teleport players out if closed (RESETTING will take care of the OPEN state)
+        if (newStatus == MinigameStatus.CLOSED) evacuateGame(gameId);
+
+        // Fill entrances with barriers/structure voids
+        Bukkit.dispatchCommand(
+            Bukkit.getConsoleSender(), String.format(
+                "execute in minecraft:overworld run fill %d %d %d %d %d %d ",
+                x1,
+                y1,
+                z1,
+                x2,
+                y2,
+                z2) + (newStatus == MinigameStatus.OPEN ? "structure_void replace barrier" : "barrier replace structure_void"));
+
+        if (announce) {
+            String friendlyName = dataFile.getString("minigame-data." + gameId + ".friendly-name");
+
+            if (newStatus == MinigameStatus.OPEN) Bukkit.dispatchCommand(
+                Bukkit.getConsoleSender(),
+                "ebc &3Minigame &a" + friendlyName + " &3has been reopened.");
+            else if (newStatus == MinigameStatus.CLOSED) Bukkit.dispatchCommand(
+                Bukkit.getConsoleSender(),
+                "ebc &cMinigame &7" + friendlyName + " &chas been temporarily closed.");
+        }
+
+        if (sender instanceof Player) new BukkitRunnable() {
+            @Override
+            public void run() {
+                listMinigames(sender);
+            }
+        }.runTask(plugin);
+
+        return true;
+    }
+
+    private boolean badSettings(CommandSender sender, String gameId, int[] barrierCoords) {
+        if (actionsFile.get(gameId) == null) {
+            plugin.getLogger().severe("Minigame '" + gameId + "' is not in actions.yml!");
+            return true;
+        }
+
+        World world = Bukkit.getWorld(actionsFile.getString(gameId + ".world", "null"));
+        if (world == null) {
+            if (sender instanceof Player) sender.sendMessage(Component.text(
+                "World '" + actionsFile.getString(
+                    gameId + ".world") + "' does not exist!",
+                NamedTextColor.RED));
+
+            else plugin.getLogger()
+                .severe("World '" + actionsFile.getString(gameId + ".world") + "' does not exist under game ID '" + gameId + "'!");
+
+            return true;
+        }
+
+        int x1 = barrierCoords[0];
+        int y1 = barrierCoords[1];
+        int z1 = barrierCoords[2];
+        int x2 = barrierCoords[3];
+        int y2 = barrierCoords[4];
+        int z2 = barrierCoords[5];
+
+        if (x1 == 0 && y1 == 0 && z1 == 0 && x2 == 0 && y2 == 0 && z2 == 0) {
+            plugin.getLogger().severe("Minigame '" + gameId + "' does not have any barriers assigned!");
+            return true;
+        }
+
+        // Protect against too large coordinates
+        if (Math.abs(x1 - x2) > 10 || Math.abs(y1 - y2) > 5 || Math.abs(z1 - z2) > 10) {
+            plugin.getLogger().severe("Minigame '" + gameId + "' has too large barrier coordinates!");
+            return true;
+        }
+
+        return false;
+    }
+
+    /// Returns true if the game was evacuated successfully, otherwise false
+    private boolean evacuateGame(String gameId) {
+        World world = Bukkit.getWorld(actionsFile.getString(gameId + ".world", "null"));
+        if (world == null) {
+            plugin.getLogger()
+                .severe("World '" + actionsFile.getString(gameId + ".world") + "' does not exist!");
+            return false;
+        }
+
+        boolean fullWorld = actionsFile.getConfigurationSection(gameId + ".game-cuboids") == null;
+
+        // Teleport players out
+        Location teleportLoc = new Location(Bukkit.getWorld("utility"), -88, 41, -27, 90, 90);
+
+        for (Player player : world.getPlayers()) {
+            if (player.getGameMode() != GameMode.ADVENTURE) continue;
+
+            if (fullWorld) player.teleportAsync(teleportLoc);
+            else //noinspection DataFlowIssue
+                for (String cuboidId : actionsFile.getConfigurationSection(gameId + ".game-cuboids").getKeys(
+                    false)) {
+
+                    // Cuboid(s) of the minigame for teleporting players out
+                    int x1 = actionsFile.getInt(gameId + ".game-cuboids." + cuboidId + ".x1");
+                    int y1 = actionsFile.getInt(gameId + ".game-cuboids." + cuboidId + ".y1");
+                    int z1 = actionsFile.getInt(gameId + ".game-cuboids." + cuboidId + ".z1");
+                    int x2 = actionsFile.getInt(gameId + ".game-cuboids." + cuboidId + ".x2");
+                    int y2 = actionsFile.getInt(gameId + ".game-cuboids." + cuboidId + ".y2");
+                    int z2 = actionsFile.getInt(gameId + ".game-cuboids." + cuboidId + ".z2");
+
+                    Location playerLoc = player.getLocation();
+                    boolean inX = playerLoc.getX() >= Math.min(x1, x2) && playerLoc.getX() <= Math.max(
+                        x1,
+                        x2);
+                    boolean inY = playerLoc.getY() >= Math.min(y1, y2) && playerLoc.getY() <= Math.max(
+                        y1,
+                        y2);
+                    boolean inZ = playerLoc.getZ() >= Math.min(z1, z2) && playerLoc.getZ() <= Math.max(
+                        z1,
+                        z2);
+
+                    if (inX && inY && inZ) {
+                        player.teleportAsync(teleportLoc);
+                        break; // No need to check other cuboids
+                    }
+                }
+        }
+        return true;
     }
 
     private void setHologram(CommandSender sender, String gameId, MinigameStatus status) {
@@ -295,14 +496,14 @@ public class MinigameManager implements CommandExecutor, TabCompleter {
             return;
         }
 
-        HologramData data = optionalHologram.get().getData();
-        if (data.getType() != HologramType.TEXT) {
+        HologramData hologramData = optionalHologram.get().getData();
+        if (hologramData.getType() != HologramType.TEXT) {
             sender.sendMessage(Component.text("Hologram is not of type TEXT!", NamedTextColor.RED));
             return;
         }
 
         Hologram hologram = optionalHologram.get();
-        TextHologramData textData = (TextHologramData) data;
+        TextHologramData textData = (TextHologramData) hologramData;
         List<String> holoText = new ArrayList<>(textData.getText());
         holoText.set(holoText.size() - 1, status.getText());
         textData.setText(holoText);
@@ -313,24 +514,22 @@ public class MinigameManager implements CommandExecutor, TabCompleter {
     private void queueStatusUpdate() {
         long currentTime = System.currentTimeMillis();
         long timeSinceLastUpdate = currentTime - lastStatusUpdate;
-        final int cooldown = 1050;
+        final int cooldown = 2000;
 
         // Update immediately if enough time has passed since the last update
         if (timeSinceLastUpdate >= cooldown && statusUpdateTask == null) {
-            data.saveConfig();
             updateDiscordMessage();
             lastStatusUpdate = currentTime;
 
         } else if (statusUpdateTask == null) statusUpdateTask = new BukkitRunnable() {
             @Override
             public void run() {
-                data.saveConfig();
                 updateDiscordMessage();
 
                 lastStatusUpdate = System.currentTimeMillis();
                 statusUpdateTask = null;
             }
-        }.runTaskLaterAsynchronously(SilverstoneMinigames.getInstance(), cooldown / 50);
+        }.runTaskLaterAsynchronously(plugin, cooldown / 50);
     }
 
 
@@ -340,8 +539,8 @@ public class MinigameManager implements CommandExecutor, TabCompleter {
     // mgm create <game_id> <friendly_name> <SINGLE|MULTI>
     // mgm set    <game_id> friendlyname    <name>
     // mgm set    <game_id> players         <SINGLE|MULTI>
-    // mgm set    <game_id> status          <open|ready|in_session|resetting|closed>
-    //      0          1        2                   3
+    // mgm set    <game_id> status          <open|in_session|resetting|closed> [-a]
+    //      0         1       2               3                                  4
     public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String @NotNull [] args) {
         List<String> result = new ArrayList<>();
 
@@ -360,8 +559,8 @@ public class MinigameManager implements CommandExecutor, TabCompleter {
             List<String> arguments = new ArrayList<>();
 
             //noinspection DataFlowIssue
-            List<String> minigameIds = new ArrayList<>(data.getConfig()
-                .getConfigurationSection("minigame-data").getKeys(false));
+            List<String> minigameIds = new ArrayList<>(dataFile.getConfigurationSection("minigame-data")
+                .getKeys(false));
 
             switch (args[0].toLowerCase()) {
                 case "create" -> {
@@ -394,7 +593,7 @@ public class MinigameManager implements CommandExecutor, TabCompleter {
 
         // Game's friendly name for "set <game> friendlyname"
         if (args.length == 4 && args[0].equalsIgnoreCase("set") && args[2].equalsIgnoreCase("friendlyname")) {
-            List<String> friendlyName = new ArrayList<>(List.of(data.getConfig()
+            List<String> friendlyName = new ArrayList<>(List.of(dataFile
                 .getString("minigame-data." + args[1] + ".friendly-name", "Unknown").replace(" ", "_")));
 
             for (String a : friendlyName)
@@ -428,11 +627,24 @@ public class MinigameManager implements CommandExecutor, TabCompleter {
                 List<String> arguments = new ArrayList<>();
 
                 // Game statuses for "set <game> status"
+                // Don't include READY as it's combined with OPEN when using set (refers to actions.yml)
                 if (args[2].equalsIgnoreCase("status")) arguments.addAll(Arrays
-                    .stream(MinigameStatus.values()).map(Enum::name).toList());
+                    .stream(MinigameStatus.values()).filter(status -> status != MinigameStatus.READY)
+                    .map(Enum::name).toList());
 
                 for (String a : arguments)
                     if (a.toLowerCase().startsWith(args[3].toLowerCase())) result.add(a);
+                return result;
+            }
+
+            if (args.length == 5) {
+                List<String> arguments = new ArrayList<>();
+
+                // Announce flag for "set <game> status"
+                if (args[2].equalsIgnoreCase("status")) arguments = new ArrayList<>(List.of("-a"));
+
+                for (String a : arguments)
+                    if (a.toLowerCase().startsWith(args[4].toLowerCase())) result.add(a);
                 return result;
             }
         }
@@ -449,8 +661,7 @@ public class MinigameManager implements CommandExecutor, TabCompleter {
             public void run() {
                 NewsChannel channel = jda.getNewsChannelById(1395537310694641704L);
                 if (channel == null) {
-                    SilverstoneMinigames.getInstance().getLogger().severe(
-                        "Minigames Discord channel not found!");
+                    plugin.getLogger().severe("Minigames Discord channel not found!");
                     return;
                 }
 
@@ -463,12 +674,13 @@ public class MinigameManager implements CommandExecutor, TabCompleter {
                 Map<String, MinigameStatus> minigames = new HashMap<>();
 
                 //noinspection DataFlowIssue
-                for (String gameId : data.getConfig().getConfigurationSection("minigame-data")
-                    .getKeys(false)) {
-                    String friendlyName = data.getConfig()
-                        .getString("minigame-data." + gameId + ".friendly-name", gameId);
-                    MinigameStatus status = MinigameStatus.valueOf(data.getConfig()
-                        .getString("minigame-data." + gameId + ".status", "NULL"));
+                for (String gameId : dataFile.getConfigurationSection("minigame-data").getKeys(false)) {
+                    String friendlyName = dataFile.getString(
+                        "minigame-data." + gameId + ".friendly-name",
+                        gameId);
+                    MinigameStatus status = MinigameStatus.valueOf(dataFile.getString(
+                        "minigame-data." + gameId + ".status",
+                        "NULL"));
 
                     // Add to the map
                     minigames.put(friendlyName, status);
@@ -511,6 +723,6 @@ public class MinigameManager implements CommandExecutor, TabCompleter {
                 if (latestMessage.isEmpty()) channel.sendMessageEmbeds(embed.build()).queue();
                 else latestMessage.getFirst().editMessageEmbeds(embed.build()).queue();
             }
-        }.runTaskAsynchronously(SilverstoneMinigames.getInstance());
+        }.runTaskAsynchronously(plugin);
     }
 }

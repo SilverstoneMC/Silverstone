@@ -1,0 +1,43 @@
+################################################################################################
+# This file defines where actions should be taken when opening/closing mingiames
+#
+# game_id:
+#   open-state: READY <- The state the minigame should be in when opened (OPEN | READY)
+#   barriers:
+#     x1: 
+#     y1: 
+#     z1: 
+#     x2: 
+#     y2: 
+#     z2: 
+#   world: minigames <- The world where the minigame is (NOT where to teleport players to)
+#   game-cuboids: <- The coordinates of the minigame areas for teleporting players when closed
+#                    Note: set to [] to use the whole world
+#     1:
+#       x1: 
+#       y1: 
+#       z1: 
+#       x2: 
+#       y2: 
+#       z2: 
+#
+################################################################################################
+
+game_id:
+  open-state: READY
+  barriers:
+    x1:
+    y1:
+    z1:
+    x2:
+    y2:
+    z2:
+  world: minigames
+  game-cuboids:
+    1:
+      x1:
+      y1:
+      z1:
+      x2:
+      y2:
+      z2: 
