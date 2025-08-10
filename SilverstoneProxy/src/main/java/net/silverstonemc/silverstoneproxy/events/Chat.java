@@ -9,7 +9,6 @@ import net.draycia.carbon.api.event.events.CarbonPrivateChatEvent;
 import net.draycia.carbon.api.users.CarbonPlayer;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.event.ClickEvent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.silverstonemc.silverstoneproxy.SilverstoneProxy;
 
@@ -53,7 +52,7 @@ public class Chat {
         }
 
         // Filter URLs
-        if (!sender.hasPermission("silverstone.chatfilter.bypass")) {
+        if (!sender.hasPermission("carbon.chatlinks")) {
             Component replacedMessage = replaceUrl(event.message());
             if (!event.message().equals(replacedMessage)) event.message(replacedMessage);
         }
@@ -100,7 +99,7 @@ public class Chat {
         if (event.cancelled()) return;
 
         // Filter URLs
-        if (!event.sender().hasPermission("silverstone.chatfilter.bypass")) {
+        if (!event.sender().hasPermission("carbon.chatlinks")) {
             Component replacedMessage = replaceUrl(event.message());
             if (!event.message().equals(replacedMessage)) event.message(replacedMessage);
         }
@@ -118,7 +117,6 @@ public class Chat {
         Pattern pattern = Pattern.compile(i.fileManager.files.get(CONFIG).node("url-filter").getString());
 
         return message.replaceText(builder -> builder.match(pattern)
-            .replacement(match -> Component.text("[URL REDACTED]", NamedTextColor.DARK_GRAY)
-                .clickEvent(ClickEvent.openUrl(""))));
+            .replacement(match -> Component.text("[URL REDACTED]", NamedTextColor.DARK_GRAY)));
     }
 }
