@@ -29,7 +29,15 @@ public class AutoBroadcast {
         i.server.getScheduler().buildTask(
             i, () -> {
                 if (lastMessage == messages.length) lastMessage = 0;
-                for (Player players : i.server.getAllPlayers()) players.sendMessage(messages[lastMessage]);
+                for (Player players : i.server.getAllPlayers()) {
+                    if (players.getCurrentServer().isEmpty()) continue;
+
+                    String serverName = players.getCurrentServer().get().getServerInfo().getName();
+                    if (serverName.equalsIgnoreCase("survival") || serverName.equalsIgnoreCase("events"))
+                        continue;
+
+                    players.sendMessage(messages[lastMessage]);
+                }
                 lastMessage++;
             }).delay(60, TimeUnit.MINUTES).repeat(60, TimeUnit.MINUTES).schedule();
     }
