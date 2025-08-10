@@ -508,8 +508,7 @@ public class MinigameManager implements CommandExecutor, TabCompleter {
         List<String> holoText = new ArrayList<>(textData.getText());
         holoText.set(holoText.size() - 1, status.getText());
         textData.setText(holoText);
-        hologram.queueUpdate();
-        hologram.refreshHologram(Bukkit.getOnlinePlayers());
+        hologram.forceUpdate();
     }
 
     private void queueStatusUpdate() {
