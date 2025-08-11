@@ -71,12 +71,12 @@ public class Restart implements CommandExecutor {
                             plugin.getLogger().info("Server restarting in: " + sec[0]);
 
                             TextComponent evacuate = Component.text(
-                                    "Click ",
-                                    NamedTextColor.RED,
-                                    TextDecoration.BOLD).append(Component
-                                    .text("here", NamedTextColor.GRAY, TextDecoration.UNDERLINED)
-                                    .clickEvent(ClickEvent.runCommand("/server " + finalServer)))
-                                .append(Component.text(" to evacuate!", NamedTextColor.RED));
+                                "Click ",
+                                NamedTextColor.RED,
+                                TextDecoration.BOLD).append(
+                                Component.text("here", NamedTextColor.GRAY, TextDecoration.UNDERLINED)
+                                    .clickEvent(ClickEvent.runCommand("/server " + finalServer)),
+                                Component.text(" to evacuate!", NamedTextColor.RED));
 
                             switch (sec[0]) {
                                 case 10 -> {
@@ -183,16 +183,12 @@ public class Restart implements CommandExecutor {
 
             case "schedulerestart" -> {
                 for (Player player : Bukkit.getOnlinePlayers()) {
-                    player.sendMessage(Component.text().append(Component.text(
-                            "WARNING",
-                            NamedTextColor.RED,
-                            TextDecoration.BOLD)).append(Component.text(
-                            " > ",
-                            NamedTextColor.AQUA,
-                            TextDecoration.BOLD)).append(Component.text(
-                            "The server is scheduled to restart in ",
-                            NamedTextColor.GREEN)).append(Component.text("5", NamedTextColor.AQUA))
-                        .append(Component.text(" minutes!", NamedTextColor.GREEN)));
+                    player.sendMessage(Component.text().append(
+                        Component.text("WARNING", NamedTextColor.RED, TextDecoration.BOLD),
+                        Component.text(" > ", NamedTextColor.AQUA, TextDecoration.BOLD),
+                        Component.text("The server is scheduled to restart in ", NamedTextColor.GREEN),
+                        Component.text("5", NamedTextColor.AQUA),
+                        Component.text(" minutes!", NamedTextColor.GREEN)));
 
                     player.playSound(
                         player.getLocation(),
@@ -208,15 +204,14 @@ public class Restart implements CommandExecutor {
                     @Override
                     public void run() {
                         for (Player player : Bukkit.getOnlinePlayers()) {
-                            player.sendMessage(Component.text().append(Component.text(
-                                    "WARNING",
-                                    NamedTextColor.RED,
-                                    TextDecoration.BOLD)).append(Component.text(
-                                    " > ",
-                                    NamedTextColor.AQUA,
-                                    TextDecoration.BOLD)).append(Component.text("The server is scheduled to restart in ",
-                                    NamedTextColor.GREEN)).append(Component.text("1", NamedTextColor.AQUA))
-                                .append(Component.text(" minute!", NamedTextColor.GREEN)));
+                            player.sendMessage(Component.text().append(
+                                Component.text("WARNING", NamedTextColor.RED, TextDecoration.BOLD),
+                                Component.text(" > ", NamedTextColor.AQUA, TextDecoration.BOLD),
+                                Component.text(
+                                    "The server is scheduled to restart in ",
+                                    NamedTextColor.GREEN),
+                                Component.text("1", NamedTextColor.AQUA),
+                                Component.text(" minute!", NamedTextColor.GREEN)));
 
                             player.playSound(
                                 player.getLocation(),

@@ -163,7 +163,9 @@ public class CorruptedTag implements CommandExecutor {
     // Kit inventory stuff
 
     private enum KitType {
-        TANK("Tank"), NINJA("Ninja"), RANGED("Ranged");
+        TANK("Tank"),
+        NINJA("Ninja"),
+        RANGED("Ranged");
 
         private final String name;
 

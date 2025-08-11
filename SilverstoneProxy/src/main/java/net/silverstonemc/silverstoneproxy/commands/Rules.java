@@ -102,11 +102,11 @@ public class Rules implements SimpleCommand {
 
             // Tell mod+
             if (!silent) for (Player online : i.server.getAllPlayers())
-                if (online.hasPermission("silverstone.moderator")) online.sendMessage(Component.text(
-                        "Rule ",
-                        NamedTextColor.RED).append(Component.text(rule, NamedTextColor.GRAY))
-                    .append(Component.text(" has been sent to ", NamedTextColor.RED))
-                    .append(Component.text(targetName, NamedTextColor.GRAY)));
+                if (online.hasPermission("silverstone.moderator")) online.sendMessage(Component
+                    .text("Rule ", NamedTextColor.RED).append(
+                        Component.text(rule, NamedTextColor.GRAY),
+                        Component.text(" has been sent to ", NamedTextColor.RED),
+                        Component.text(targetName, NamedTextColor.GRAY)));
         }
     }
 

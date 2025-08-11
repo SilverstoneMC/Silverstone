@@ -71,11 +71,9 @@ public class Leave {
                 5,
                 TimeUnit.SECONDS).schedule();
 
-            TextComponent.Builder message = Component.text().append(Component.text(
-                    "- ",
-                    NamedTextColor.RED,
-                    TextDecoration.BOLD)).append(new NicknameUtils(i).getDisplayName(player.getUniqueId()))
-                .colorIfAbsent(NamedTextColor.AQUA);
+            TextComponent.Builder message = Component.text().append(
+                Component.text("- ", NamedTextColor.RED, TextDecoration.BOLD),
+                new NicknameUtils(i).getDisplayName(player.getUniqueId())).colorIfAbsent(NamedTextColor.AQUA);
 
             for (Player players : i.server.getAllPlayers()) players.sendMessage(message);
 

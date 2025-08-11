@@ -28,11 +28,10 @@ public class Restart implements SimpleCommand {
         CommandSource sender = invocation.source();
 
         for (Player player : i.server.getAllPlayers())
-            player.sendMessage(Component.text().append(Component.text(
-                    "WARNING ",
-                    NamedTextColor.RED,
-                    TextDecoration.BOLD)).append(Component.text("> ", NamedTextColor.AQUA, TextDecoration.BOLD))
-                .append(Component.text("The network will restart soon!", NamedTextColor.GREEN)));
+            player.sendMessage(Component.text().append(
+                Component.text("WARNING ", NamedTextColor.RED, TextDecoration.BOLD),
+                Component.text("> ", NamedTextColor.AQUA, TextDecoration.BOLD),
+                Component.text("The network will restart soon!", NamedTextColor.GREEN)));
 
         ByteArrayDataOutput out = ByteStreams.newDataOutput();
         out.writeUTF("broadcastsound");

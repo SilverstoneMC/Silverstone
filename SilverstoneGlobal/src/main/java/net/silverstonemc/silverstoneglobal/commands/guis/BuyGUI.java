@@ -27,7 +27,7 @@ public class BuyGUI implements CommandExecutor, Listener {
     public BuyGUI(JavaPlugin plugin) {
         this.plugin = plugin;
     }
-    
+
     private final JavaPlugin plugin;
 
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String @NotNull [] args) {
@@ -100,7 +100,11 @@ public class BuyGUI implements CommandExecutor, Listener {
     }
 
     private enum Rank {
-        MEMBER("Member"), VIP("VIP"), VIP_PLUS("VIP+"), MVP("MVP"), DONATE("Donate");
+        MEMBER("Member"),
+        VIP("VIP"),
+        VIP_PLUS("VIP+"),
+        MVP("MVP"),
+        DONATE("Donate");
 
         private final String name;
 
@@ -131,10 +135,10 @@ public class BuyGUI implements CommandExecutor, Listener {
     }
 
     private void sendMessage(Player player, String rank, String url, ClickContext context) {
-        player.sendMessage(Component.text("\nPurchase the ", NamedTextColor.GREEN)
-            .append(Component.text(rank + " ", NamedTextColor.AQUA))
-            .append(Component.text("rank ", NamedTextColor.GREEN))
-            .append(Component.text("here", NamedTextColor.AQUA).clickEvent(ClickEvent.openUrl(url))));
+        player.sendMessage(Component.text("\nPurchase the ", NamedTextColor.GREEN).append(
+            Component.text(rank + " ", NamedTextColor.AQUA),
+            Component.text("rank ", NamedTextColor.GREEN),
+            Component.text("here", NamedTextColor.AQUA).clickEvent(ClickEvent.openUrl(url))));
 
         context.guiView().close();
     }

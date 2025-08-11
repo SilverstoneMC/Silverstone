@@ -34,10 +34,10 @@ public class Effects implements CommandExecutor {
 
             for (PotionEffect effect : player.getActivePotionEffects())
                 sender.sendMessage(Component.text(
-                        effect.getType().getKey().value()
-                            .toUpperCase() + " " + (effect.getAmplifier() + 1),
-                        NamedTextColor.AQUA).append(Component.text(" | ", NamedTextColor.DARK_AQUA))
-                    .append(Component.text((effect.getDuration() / 20) + "s", NamedTextColor.AQUA)));
+                    effect.getType().getKey().value().toUpperCase() + " " + (effect.getAmplifier() + 1),
+                    NamedTextColor.AQUA).append(
+                    Component.text(" | ", NamedTextColor.DARK_AQUA),
+                    Component.text((effect.getDuration() / 20) + "s", NamedTextColor.AQUA)));
 
         } else sender.sendMessage(Component.text("Please provide an online player!", NamedTextColor.RED));
         return true;

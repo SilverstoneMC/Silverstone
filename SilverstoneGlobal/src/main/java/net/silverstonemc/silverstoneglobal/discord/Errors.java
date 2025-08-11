@@ -1,5 +1,6 @@
 package net.silverstonemc.silverstoneglobal.discord;
 
+import net.dv8tion.jda.api.utils.MarkdownUtil;
 import net.silverstonemc.silverstoneglobal.SilverstoneGlobal;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -64,12 +65,12 @@ public class Errors extends AbstractAppender {
     public void dumpQueue() {
         if (errorQueue.isEmpty()) return;
 
-        StringBuilder builder = new StringBuilder("```accesslog\n");
+        StringBuilder builder = new StringBuilder();
         List<String> finalErrorQueue = new ArrayList<>(errorQueue);
         for (String error : finalErrorQueue) {
             if (builder.length() + error.length() >= 1997) {
                 if (canSendMessage()) sendDiscordMessage(builder);
-                builder = new StringBuilder("```accesslog\n");
+                builder = new StringBuilder();
             }
 
             builder.append(error).append("\n");
@@ -105,9 +106,8 @@ public class Errors extends AbstractAppender {
     }
 
     private void sendDiscordMessage(StringBuilder builder) {
-        builder.append("```");
         //noinspection DataFlowIssue
-        SilverstoneGlobal.jda.getTextChannelById(1076713224612880404L).sendMessage(builder.toString())
-            .queue();
+        SilverstoneGlobal.jda.getTextChannelById(1076713224612880404L).sendMessage(MarkdownUtil.codeblock("accesslog",
+            builder.toString())).queue();
     }
 }

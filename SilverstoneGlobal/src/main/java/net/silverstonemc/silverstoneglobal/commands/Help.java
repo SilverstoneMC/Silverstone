@@ -23,44 +23,41 @@ public class Help implements CommandExecutor {
         switch (plugin.getConfig().getString("server").toLowerCase()) {
             case "minigames" -> plugin.getServer().dispatchCommand(sender, "htp");
 
-            case "creative" -> sender.sendMessage(Component.empty().append(Component.text(
-                    "\nCommands:",
-                    NamedTextColor.GREEN,
-                    TextDecoration.BOLD))
+            case "creative" -> sender.sendMessage(Component.empty().append(
+                Component.text("\nCommands:", NamedTextColor.GREEN, TextDecoration.BOLD),
 
-                .append(Component.text("\n/p claim ", NamedTextColor.AQUA)
-                    .clickEvent(ClickEvent.runCommand("/p claim"))).append(Component.text("on an unclaimed plot to get started",
-                    NamedTextColor.GREEN))
+                Component.text("\n/p claim ", NamedTextColor.AQUA)
+                    .clickEvent(ClickEvent.runCommand("/p claim")),
+                Component.text("on an unclaimed plot to get started", NamedTextColor.GREEN),
 
-                .append(Component.text("\n/p home [#] ", NamedTextColor.AQUA)
-                    .clickEvent(ClickEvent.suggestCommand("/p home "))).append(Component.text("to teleport to your plot(s)",
-                    NamedTextColor.GREEN))
+                Component.text("\n/p home [#] ", NamedTextColor.AQUA)
+                    .clickEvent(ClickEvent.suggestCommand("/p home ")),
+                Component.text("to teleport to your plot(s)", NamedTextColor.GREEN),
 
-                .append(Component.text("\n/p set ", NamedTextColor.AQUA)
-                    .clickEvent(ClickEvent.suggestCommand("/p set "))).append(Component.text("to see multiple plot options",
-                    NamedTextColor.GREEN))
+                Component.text("\n/p set ", NamedTextColor.AQUA)
+                    .clickEvent(ClickEvent.suggestCommand("/p set ")),
+                Component.text("to see multiple plot options", NamedTextColor.GREEN),
 
-                .append(Component.text("\n/p merge all ", NamedTextColor.AQUA)
-                    .clickEvent(ClickEvent.suggestCommand("/p merge all"))).append(Component.text("to merge all your plots together",
-                    NamedTextColor.GREEN))
+                Component.text("\n/p merge all ", NamedTextColor.AQUA)
+                    .clickEvent(ClickEvent.suggestCommand("/p merge all")),
+                Component.text("to merge all your plots together", NamedTextColor.GREEN),
 
-                .append(Component.text("\n/p clear ", NamedTextColor.AQUA)
-                    .clickEvent(ClickEvent.suggestCommand("/p clear"))).append(Component.text("to clear your plot",
-                    NamedTextColor.GREEN))
+                Component.text("\n/p clear ", NamedTextColor.AQUA)
+                    .clickEvent(ClickEvent.suggestCommand("/p clear")),
+                Component.text("to clear your plot", NamedTextColor.GREEN),
 
-                .append(Component.text("\n/p delete ", NamedTextColor.AQUA)
-                    .clickEvent(ClickEvent.suggestCommand("/p delete"))).append(Component.text("to delete your plot",
-                    NamedTextColor.GREEN))
+                Component.text("\n/p delete ", NamedTextColor.AQUA)
+                    .clickEvent(ClickEvent.suggestCommand("/p delete")),
+                Component.text("to delete your plot", NamedTextColor.GREEN),
 
-                .append(Component.text("\n/stuck ", NamedTextColor.AQUA)
-                    .clickEvent(ClickEvent.runCommand("/stuck")))
-                .append(Component.text("if trapped in a plot", NamedTextColor.GREEN))
+                Component.text("\n/stuck ", NamedTextColor.AQUA).clickEvent(ClickEvent.runCommand("/stuck")),
+                Component.text("if trapped in a plot", NamedTextColor.GREEN),
 
-                .append(Component.text("\n/wesui toggle ", NamedTextColor.AQUA)
-                    .clickEvent(ClickEvent.runCommand("/wesui toggle")))
-                .append(Component.text("to toggle the selection particles", NamedTextColor.GREEN))
+                Component.text("\n/wesui toggle ", NamedTextColor.AQUA)
+                    .clickEvent(ClickEvent.runCommand("/wesui toggle")),
 
-                .append(Component.text(
+                Component.text("to toggle the selection particles", NamedTextColor.GREEN),
+                Component.text(
                     "\nLow-effort plots are deleted after 60 days of inactivity.",
                     NamedTextColor.RED,
                     TextDecoration.BOLD)));

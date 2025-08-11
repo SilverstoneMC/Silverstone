@@ -15,6 +15,7 @@ import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import net.dv8tion.jda.api.entities.emoji.Emoji;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.silverstonemc.silverstoneproxy.SilverstoneProxy;
@@ -79,13 +80,15 @@ public class Join {
                 event.setResult(ServerPreConnectEvent.ServerResult.denied());
 
                 // Kick if not in a server already
-                if (event.getPreviousServer() == null) event.getPlayer().disconnect(Component.text("Sorry!\n\n",
-                        NamedTextColor.RED).append(Component.text(
-                        "Bedrock clients aren't supported on the server!\nIf you're part of the survival group, join directly via ",
-                        NamedTextColor.GRAY))
-                    .append(Component.text("survival.silverstonemc.net", NamedTextColor.AQUA)));
+                if (event.getPreviousServer() == null) event.getPlayer().disconnect(Component
+                    .text("Sorry!\n\n", NamedTextColor.RED).append(
+                        Component.text(
+                            "Bedrock clients aren't supported on the server!\nIf you're part of the survival group, join directly via ",
+                            NamedTextColor.GRAY),
+                        Component.text("survival.silverstonemc.net", NamedTextColor.AQUA)));
 
-                else event.getPlayer().sendMessage(Component.text("Sorry, but Bedrock clients aren't supported on that server!",
+                else event.getPlayer().sendMessage(Component.text(
+                    "Sorry, but Bedrock clients aren't supported on that server!",
                     NamedTextColor.RED));
 
                 return;
@@ -133,32 +136,27 @@ public class Join {
 
                 if (event.getPreviousServer().isPresent()) {
                     Component displayName = new NicknameUtils(i).getDisplayName(uuid);
+                    TextComponent message = Component.text().append(
+                        displayName.colorIfAbsent(NamedTextColor.AQUA),
+                        Component.text(" has switched to the ", NamedTextColor.GRAY),
+                        Component.text(event.getServer().getServerInfo().getName(), NamedTextColor.AQUA),
+                        Component.text(" server", NamedTextColor.GRAY)).build();
+
                     if (isVanished) {
                         for (Player players : i.server.getAllPlayers())
                             if (players.hasPermission("silverstone.moderator")) players.sendMessage(Component
-                                .text().append(displayName).colorIfAbsent(NamedTextColor.AQUA).append(
-                                    Component.text(" has switched to the ", NamedTextColor.DARK_GRAY))
-                                .append(Component.text(
-                                    event.getServer().getServerInfo().getName(),
-                                    NamedTextColor.DARK_AQUA))
-                                .append(Component.text(" server", NamedTextColor.DARK_GRAY)));
+                                .text().append(
+                                    displayName.colorIfAbsent(NamedTextColor.AQUA),
+                                    Component.text(" has switched to the ", NamedTextColor.DARK_GRAY),
+                                    Component.text(
+                                        event.getServer().getServerInfo().getName(),
+                                        NamedTextColor.DARK_AQUA),
+                                    Component.text(" server", NamedTextColor.DARK_GRAY)));
 
                     } else for (Player players : i.server.getAllPlayers())
-                        players.sendMessage(Component.text().append(displayName)
-                            .colorIfAbsent(NamedTextColor.AQUA).append(Component.text(
-                                " has switched to the ",
-                                NamedTextColor.GRAY))
-                            .append(Component.text(
-                                event.getServer().getServerInfo().getName(),
-                                NamedTextColor.AQUA)).append(Component.text(" server", NamedTextColor.GRAY)));
+                        players.sendMessage(message);
 
-                    i.server.getConsoleCommandSource().sendMessage(Component.text().append(displayName)
-                        .colorIfAbsent(NamedTextColor.AQUA).append(Component.text(
-                            " has switched to the ",
-                            NamedTextColor.GRAY))
-                        .append(Component.text(
-                            event.getServer().getServerInfo().getName(),
-                            NamedTextColor.AQUA)).append(Component.text(" server", NamedTextColor.GRAY)));
+                    i.server.getConsoleCommandSource().sendMessage(message);
 
                     ByteArrayDataOutput out = ByteStreams.newDataOutput();
                     out.writeUTF("switchsound");
@@ -203,8 +201,9 @@ public class Join {
                     int staff = 0;
                     for (Player players : i.server.getAllPlayers()) {
                         players.sendMessage(Component.text("Welcome to Silverstone, ", NamedTextColor.GREEN)
-                            .append(Component.text(username, NamedTextColor.AQUA))
-                            .append(Component.text("!", NamedTextColor.GREEN)));
+                            .append(
+                                Component.text(username, NamedTextColor.AQUA),
+                                Component.text("!", NamedTextColor.GREEN)));
                         if (players.hasPermission("silverstone.moderator")) staff++;
                     }
                     int finalStaff = staff;
@@ -253,14 +252,14 @@ public class Join {
                         .sendMessageEmbeds(embed.build()).queue();
 
                 } else {
-                    for (Player players : i.server.getAllPlayers())
-                        players.sendMessage(Component.text()
-                            .append(Component.text("+ ", NamedTextColor.DARK_GREEN, TextDecoration.BOLD))
-                            .append(displayName.colorIfAbsent(NamedTextColor.AQUA)));
+                    TextComponent message = Component.text().append(
+                        Component.text("+ ", NamedTextColor.DARK_GREEN, TextDecoration.BOLD),
+                        displayName.colorIfAbsent(NamedTextColor.AQUA)).build();
 
-                    i.server.getConsoleCommandSource().sendMessage(Component.text()
-                        .append(Component.text("+ ", NamedTextColor.DARK_GREEN, TextDecoration.BOLD))
-                        .append(displayName.colorIfAbsent(NamedTextColor.AQUA)));
+                    for (Player players : i.server.getAllPlayers())
+                        players.sendMessage(message);
+
+                    i.server.getConsoleCommandSource().sendMessage(message);
                 }
 
                 ByteArrayDataOutput out = ByteStreams.newDataOutput();
@@ -278,9 +277,9 @@ public class Join {
                     if (!isVanished) i.server.getScheduler().buildTask(
                         i, () -> {
                             for (Player players : i.server.getAllPlayers())
-                                players.sendMessage(Component.text(username, NamedTextColor.AQUA)
-                                    .append(Component.text(" was previously known as ", NamedTextColor.GRAY))
-                                    .append(Component.text(oldUsername, NamedTextColor.AQUA)));
+                                players.sendMessage(Component.text(username, NamedTextColor.AQUA).append(
+                                    Component.text(" was previously known as ", NamedTextColor.GRAY),
+                                    Component.text(oldUsername, NamedTextColor.AQUA)));
                         }).delay(1, TimeUnit.SECONDS).schedule();
 
                     // Notify the Discord

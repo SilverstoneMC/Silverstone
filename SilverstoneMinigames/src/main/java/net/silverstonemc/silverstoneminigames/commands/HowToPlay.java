@@ -211,8 +211,9 @@ public class HowToPlay implements CommandExecutor {
         Component newTitle = Component.text(title);
         Component author = Component.text("JasonHorkles");
         List<Component> newPages = new ArrayList<>();
-        newPages.add(Component.text().append(Component.text(title + "\n").decorate(TextDecoration.BOLD))
-            .append(MiniMessage.miniMessage().deserialize(pages[0])).build());
+        newPages.add(Component.text().append(
+            Component.text(title + "\n").decorate(TextDecoration.BOLD),
+            MiniMessage.miniMessage().deserialize(pages[0])).build());
 
         if (pages.length > 1) for (int i = 1; i < pages.length; i++)
             newPages.add(MiniMessage.miniMessage().deserialize("<b>" + title + "</b>\n" + pages[i]));

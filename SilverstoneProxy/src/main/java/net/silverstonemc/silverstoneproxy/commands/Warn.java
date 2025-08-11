@@ -66,9 +66,10 @@ public class Warn implements SimpleCommand {
                 }
 
                 for (int x = 0; x < 50; x++) sender.sendMessage(Component.empty());
-                sender.sendMessage(Component.text("Warning ", NamedTextColor.RED).append(Component.text(username,
-                        NamedTextColor.GRAY)).append(Component.text(" for reason: ", NamedTextColor.RED))
-                    .append(Component.text(args[1], NamedTextColor.GRAY)));
+                sender.sendMessage(Component.text("Warning ", NamedTextColor.RED).append(
+                    Component.text(username, NamedTextColor.GRAY),
+                    Component.text(" for reason: ", NamedTextColor.RED),
+                    Component.text(args[1], NamedTextColor.GRAY)));
 
                 new WarnPlayer(i).warn(uuid, args[1]);
             }
@@ -96,9 +97,10 @@ public class Warn implements SimpleCommand {
                         return;
                     }
 
-                    sender.sendMessage(Component.text("Warning ", NamedTextColor.RED).append(Component.text(username,
-                            NamedTextColor.GRAY)).append(Component.text(" for reason: ", NamedTextColor.RED))
-                        .append(Component.text(args[1], NamedTextColor.GRAY)));
+                    sender.sendMessage(Component.text("Warning ", NamedTextColor.RED).append(
+                        Component.text(username, NamedTextColor.GRAY),
+                        Component.text(" for reason: ", NamedTextColor.RED),
+                        Component.text(args[1], NamedTextColor.GRAY)));
 
                     new WarnPlayer(i).warn(uuid, args[1]);
                 }

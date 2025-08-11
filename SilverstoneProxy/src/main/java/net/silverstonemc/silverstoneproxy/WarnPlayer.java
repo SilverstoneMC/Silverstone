@@ -49,10 +49,9 @@ public class WarnPlayer {
                 i.fileManager.save(WARNQUEUE);
 
                 Component offlinePlayerWarned = Component.text("Offline player ", NamedTextColor.RED).append(
-                    Component.text(username, NamedTextColor.GRAY)).append(Component.text(" has been warned for reason: ",
-                    NamedTextColor.RED)).append(Component.text(
-                    reason,
-                    NamedTextColor.GRAY));
+                    Component.text(username, NamedTextColor.GRAY),
+                    Component.text(" has been warned for reason: ", NamedTextColor.RED),
+                    Component.text(reason, NamedTextColor.GRAY));
 
                 i.server.getConsoleCommandSource().sendMessage(offlinePlayerWarned);
                 // Message staff

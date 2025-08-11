@@ -314,10 +314,9 @@ public class HideSeek implements Listener {
         if (cooldowns.get(player) < System.currentTimeMillis()) return false;
 
         // Still on cooldown
-        player.sendMessage(Component.text("You may use a taunt again in ", NamedTextColor.RED)
-            .append(Component.text(
-                (cooldowns.get(player) - System.currentTimeMillis()) / 1000,
-                NamedTextColor.GRAY)).append(Component.text(" seconds.", NamedTextColor.RED)));
+        player.sendMessage(Component.text("You may use a taunt again in ", NamedTextColor.RED).append(
+            Component.text((cooldowns.get(player) - System.currentTimeMillis()) / 1000, NamedTextColor.GRAY),
+            Component.text(" seconds.", NamedTextColor.RED)));
         return true;
     }
 
@@ -330,9 +329,9 @@ public class HideSeek implements Listener {
         // Get the player's updated points
         int newPoints = points.get(player);
 
-        player.sendMessage(Component.text("You now have ", NamedTextColor.DARK_GREEN)
-            .append(Component.text(newPoints, NamedTextColor.DARK_AQUA))
-            .append(Component.text(" taunt points.", NamedTextColor.DARK_GREEN)));
+        player.sendMessage(Component.text("You now have ", NamedTextColor.DARK_GREEN).append(
+            Component.text(newPoints, NamedTextColor.DARK_AQUA),
+            Component.text(" taunt points.", NamedTextColor.DARK_GREEN)));
     }
 
     private int getPoints(Player player) {

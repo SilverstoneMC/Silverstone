@@ -45,12 +45,12 @@ public class UpdateCommands implements CommandExecutor {
             if (cooldowns.containsKey(player.getName()))
                 if (cooldowns.get(player.getName()) > System.currentTimeMillis()) {
                     // Still on cooldown
-                    player.sendMessage(Component.text(
-                            "You may update your commands again in ",
-                            NamedTextColor.RED)
-                        .append(Component.text(
-                            (cooldowns.get(player.getName()) - System.currentTimeMillis()) / 1000,
-                            NamedTextColor.GRAY)).append(Component.text(" seconds.", NamedTextColor.RED)));
+                    player.sendMessage(Component
+                        .text("You may update your commands again in ", NamedTextColor.RED).append(
+                            Component.text(
+                                (cooldowns.get(player.getName()) - System.currentTimeMillis()) / 1000,
+                                NamedTextColor.GRAY), Component.text(" seconds.", NamedTextColor.RED)));
+
                     return true;
                 }
 

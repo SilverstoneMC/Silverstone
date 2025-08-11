@@ -45,8 +45,8 @@ public class Realname implements SimpleCommand {
 
                 Component nickname = new NicknameUtils(i).getDisplayName(UUID.fromString(uuid.key()
                     .toString()));
-                sender.sendMessage(Component.text().append(nickname)
-                    .append(Component.text(
+                sender.sendMessage(Component.text().append(
+                    nickname, Component.text(
                         "'s real name is " + strippedNickname.replaceFirst(":.*", "") + ".",
                         NamedTextColor.GREEN)));
                 noPlayerFound = false;
@@ -54,8 +54,9 @@ public class Realname implements SimpleCommand {
             }
         }
 
-        if (noPlayerFound) sender.sendMessage(Component.text(
-            "No player found with the nickname " + args[0] + ".",
-            NamedTextColor.RED));
+        if (noPlayerFound)
+            sender.sendMessage(Component.text(
+                "No player found with the nickname " + args[0] + ".",
+                NamedTextColor.RED));
     }
 }

@@ -91,12 +91,9 @@ public class WarnReasons implements SimpleCommand {
 
     private HoverEvent<?> createHoverEvent(String reason, Builder footer) {
         return HoverEvent.hoverEvent(
-            HoverEvent.Action.SHOW_TEXT, Component.text().append(Component.text(
-                reason + ":",
-                NamedTextColor.RED,
-                TextDecoration.BOLD)).append(Component.text(
-                "\n" + i.fileManager.files.get(CONFIG)
-                    .node("reasons", reason, "description").getString(),
-                NamedTextColor.GRAY)).append(footer).build());
+            HoverEvent.Action.SHOW_TEXT, Component.text().append(
+                Component.text(reason + ":", NamedTextColor.RED, TextDecoration.BOLD), Component.text(
+                    "\n" + i.fileManager.files.get(CONFIG).node("reasons", reason, "description").getString(),
+                    NamedTextColor.GRAY), footer).build());
     }
 }

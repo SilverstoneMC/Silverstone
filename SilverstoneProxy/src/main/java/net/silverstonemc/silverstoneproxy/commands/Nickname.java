@@ -70,7 +70,8 @@ public class Nickname implements SimpleCommand {
 
             if (differentTarget) {
                 sender.sendMessage(Component.text("You have reset ", NamedTextColor.GREEN)
-                    .append(Component.text(player.getUsername())).append(Component.text("'s nickname.")));
+                    .append(Component.text(player.getUsername()), Component.text("'s nickname.")));
+
                 player.sendMessage(Component.text("Your nickname was reset.", NamedTextColor.GREEN));
             } else sender.sendMessage(Component.text("Your nickname has been reset.", NamedTextColor.GREEN));
             return;
@@ -79,10 +80,10 @@ public class Nickname implements SimpleCommand {
         // Colors help
         if (args[0].equalsIgnoreCase("colors") && (sender.hasPermission("silverstone.nickname.colors") || sender.hasPermission(
             "silverstone.nickname.formats"))) {
-            sender.sendMessage(Component.text("Click ", NamedTextColor.DARK_GREEN)
-                .append(Component.text("here", NamedTextColor.DARK_AQUA, TextDecoration.UNDERLINED)
-                    .clickEvent(ClickEvent.openUrl("https://docs.advntr.dev/minimessage/format.html#color")))
-                .append(Component.text(" to see available formatting.", NamedTextColor.DARK_GREEN)));
+            sender.sendMessage(Component.text("Click ", NamedTextColor.DARK_GREEN).append(
+                Component.text("here", NamedTextColor.DARK_AQUA, TextDecoration.UNDERLINED)
+                    .clickEvent(ClickEvent.openUrl("https://docs.advntr.dev/minimessage/format.html#color")),
+                Component.text(" to see available formatting.", NamedTextColor.DARK_GREEN)));
             return;
         }
 
@@ -126,11 +127,14 @@ public class Nickname implements SimpleCommand {
             MiniMessage.miniMessage().stripTags(args[0]))) return;
 
         if (differentTarget) {
-            sender.sendMessage(Component.text("You have set ", NamedTextColor.GREEN).append(Component.text(
-                    player.getUsername())).append(Component.text("'s nickname to "))
-                .append(miniMessage.deserialize(args[0])));
+            sender.sendMessage(Component.text("You have set ", NamedTextColor.GREEN).append(
+                Component.text(player.getUsername()),
+                Component.text("'s nickname to "),
+                miniMessage.deserialize(args[0])));
+
             player.sendMessage(Component.text("Your nickname was changed to ", NamedTextColor.GREEN)
                 .append(miniMessage.deserialize(args[0])));
+
         } else sender.sendMessage(Component.text("Your nickname has been set to ", NamedTextColor.GREEN)
             .append(miniMessage.deserialize(args[0])));
     }

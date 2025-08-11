@@ -22,30 +22,30 @@ public class GettingStarted implements CommandExecutor {
             NamedTextColor.DARK_GRAY,
             TextDecoration.STRIKETHROUGH));
 
-        sender.sendMessage(Component.text("/htp", TextColor.fromHexString("#305abf"))
-            .clickEvent(ClickEvent.suggestCommand("/htp"))
+        sender.sendMessage(Component.empty().append(
+            Component.text("/htp", TextColor.fromHexString("#305abf"))
+                .clickEvent(ClickEvent.suggestCommand("/htp")),
+            Component.text(" - Open the How to Play menu\n", TextColor.fromHexString("#18c1c7")),
 
-            .append(Component.text(" - Open the How to Play menu\n", TextColor.fromHexString("#18c1c7")))
-            .append(Component.text("/warp", TextColor.fromHexString("#305abf"))
-                .clickEvent(ClickEvent.runCommand("/warp"))).append(Component.text(" - List all available warps\n",
-                TextColor.fromHexString("#18c1c7")))
+            Component.text("/warp", TextColor.fromHexString("#305abf"))
+                .clickEvent(ClickEvent.runCommand("/warp")),
+            Component.text(" - List all available warps\n", TextColor.fromHexString("#18c1c7")),
 
-            .append(Component.text("/server", TextColor.fromHexString("#305abf"))
-                .clickEvent(ClickEvent.runCommand("/server"))).append(Component.text(" - List all available servers\n",
-                TextColor.fromHexString("#18c1c7")))
+            Component.text("/server", TextColor.fromHexString("#305abf"))
+                .clickEvent(ClickEvent.runCommand("/server")),
+            Component.text(" - List all available servers\n", TextColor.fromHexString("#18c1c7")),
 
-            .append(Component.text("/tips", TextColor.fromHexString("#305abf"))
-                .clickEvent(ClickEvent.runCommand("/tips"))).append(Component.text(" - View tips about the network\n",
-                TextColor.fromHexString("#18c1c7")))
+            Component.text("/tips", TextColor.fromHexString("#305abf"))
+                .clickEvent(ClickEvent.runCommand("/tips")),
+            Component.text(" - View tips about the network\n", TextColor.fromHexString("#18c1c7")),
 
-            .append(Component.text("/game", TextColor.fromHexString("#305abf"))
-                .clickEvent(ClickEvent.runCommand("/game"))).append(Component.text(" - Get a random minigame to play\n",
-                TextColor.fromHexString("#18c1c7")))
+            Component.text("/game", TextColor.fromHexString("#305abf"))
+                .clickEvent(ClickEvent.runCommand("/game")),
+            Component.text(" - Get a random minigame to play\n", TextColor.fromHexString("#18c1c7")),
 
-            .append(Component.text("/prefixes", TextColor.fromHexString("#305abf"))
-                .clickEvent(ClickEvent.runCommand("/prefixes"))).append(Component.text(
-                " - Display what the prefix emojis mean\n",
-                TextColor.fromHexString("#18c1c7"))));
+            Component.text("/prefixes", TextColor.fromHexString("#305abf"))
+                .clickEvent(ClickEvent.runCommand("/prefixes")),
+            Component.text(" - Display what the prefix emojis mean\n", TextColor.fromHexString("#18c1c7"))));
         return true;
     }
 }

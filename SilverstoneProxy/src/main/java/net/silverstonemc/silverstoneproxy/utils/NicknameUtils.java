@@ -88,8 +88,7 @@ public class NicknameUtils {
                 Component suffix = MiniMessage.miniMessage().deserialize(config.node("nicknames", "suffix")
                     .getString());
 
-                Component displayName = Component.text().append(prefix).append(nickname).append(suffix)
-                    .build();
+                Component displayName = Component.text().append(prefix, nickname, suffix).build();
                 TabAPI.getInstance().getTabListFormatManager().setName(
                     tabPlayer,
                     LegacyComponentSerializer.builder().useUnusualXRepeatedCharacterHexFormat().hexColors()

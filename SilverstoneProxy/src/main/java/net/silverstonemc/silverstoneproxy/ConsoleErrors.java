@@ -2,6 +2,7 @@ package net.silverstonemc.silverstoneproxy;
 
 import com.velocitypowered.api.proxy.Player;
 import com.velocitypowered.api.scheduler.ScheduledTask;
+import net.dv8tion.jda.api.utils.MarkdownUtil;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -90,8 +91,10 @@ public class ConsoleErrors extends AbstractAppender {
                 if (uuid == null) return;
 
                 TextComponent.Builder message = Component.text().decorate(TextDecoration.ITALIC).color(
-                    NamedTextColor.GRAY).append(new NicknameUtils(i).getDisplayName(uuid)).colorIfAbsent(
-                    NamedTextColor.GRAY).append(Component.text(" " + reason));
+                    NamedTextColor.GRAY).append(
+                    new NicknameUtils(i).getDisplayName(uuid)
+                        .colorIfAbsent(NamedTextColor.GRAY),
+                    Component.text(" " + reason));
 
                 i.logger.info("Sending {} message for {}", reason, username);
                 for (Player players : i.server.getAllPlayers()) players.sendMessage(message);
@@ -108,11 +111,11 @@ public class ConsoleErrors extends AbstractAppender {
     private void dumpQueue() {
         if (errorQueue.isEmpty()) return;
 
-        StringBuilder builder = new StringBuilder("```accesslog\n");
+        StringBuilder builder = new StringBuilder();
         for (String error : errorQueue) {
             if (builder.length() + error.length() >= 1997) {
                 if (canSendMessage()) sendDiscordMessage(builder);
-                builder = new StringBuilder("```accesslog\n");
+                builder = new StringBuilder();
             }
 
             builder.append(error).append("\n");
@@ -147,8 +150,8 @@ public class ConsoleErrors extends AbstractAppender {
     }
 
     private void sendDiscordMessage(StringBuilder builder) {
-        builder.append("```");
         //noinspection DataFlowIssue
-        SilverstoneProxy.jda.getTextChannelById(1076713224612880404L).sendMessage(builder.toString()).queue();
+        SilverstoneProxy.jda.getTextChannelById(1076713224612880404L).sendMessage(MarkdownUtil.codeblock("accesslog",
+            builder.toString())).queue();
     }
 }

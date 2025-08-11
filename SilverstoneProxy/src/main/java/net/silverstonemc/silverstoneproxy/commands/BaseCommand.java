@@ -97,9 +97,9 @@ public class BaseCommand implements SimpleCommand {
 
                 // Already has 0 warnings
                 if ((count - 1) < 0) sender.sendMessage(Component.text(username, NamedTextColor.GRAY).append(
-                        Component.text(" already has 0 ", NamedTextColor.RED))
-                    .append(Component.text(args[1], NamedTextColor.GRAY))
-                    .append(Component.text(" warnings.", NamedTextColor.RED)));
+                    Component.text(" already has 0 ", NamedTextColor.RED),
+                    Component.text(args[1], NamedTextColor.GRAY),
+                    Component.text(" warnings.", NamedTextColor.RED)));
                 else {
                     new UndoWarning(i).undoWarning(uuid, args[1], count);
 
@@ -118,12 +118,10 @@ public class BaseCommand implements SimpleCommand {
                     }
 
                     Component warningRemovedStaff = Component.text(senderName, NamedTextColor.GRAY).append(
-                            Component.text(" removed a(n) ", NamedTextColor.RED)).append(Component.text(
-                            args[1],
-                            NamedTextColor.GRAY)).append(Component.text(" warning from ", NamedTextColor.RED))
-                        .append(Component.text(
-                            username,
-                            NamedTextColor.GRAY));
+                        Component.text(" removed a(n) ", NamedTextColor.RED),
+                        Component.text(args[1], NamedTextColor.GRAY),
+                        Component.text(" warning from ", NamedTextColor.RED),
+                        Component.text(username, NamedTextColor.GRAY));
 
                     i.server.getConsoleCommandSource().sendMessage(warningRemovedStaff);
                     // Message staff
@@ -132,11 +130,9 @@ public class BaseCommand implements SimpleCommand {
                             warningRemovedStaff);
 
                     Component warningRemovedPlayer = Component.text(senderName, NamedTextColor.GRAY).append(
-                        Component.text(" removed a(n) ", NamedTextColor.RED)).append(Component.text(
-                        args[1],
-                        NamedTextColor.GRAY)).append(Component.text(
-                        " warning from you.",
-                        NamedTextColor.RED));
+                        Component.text(" removed a(n) ", NamedTextColor.RED),
+                        Component.text(args[1], NamedTextColor.GRAY),
+                        Component.text(" warning from you.", NamedTextColor.RED));
 
                     // Message player if online and command not silent
                     try {
@@ -182,9 +178,9 @@ public class BaseCommand implements SimpleCommand {
                     i.fileManager.save(WARNDATA);
 
                     Component warningsClearedStaff = Component.text(senderName, NamedTextColor.GRAY).append(
-                            Component.text(" cleared all of ", NamedTextColor.RED))
-                        .append(Component.text(username, NamedTextColor.GRAY)).append(Component.text("'s warnings.",
-                            NamedTextColor.RED));
+                        Component.text(" cleared all of ", NamedTextColor.RED),
+                        Component.text(username, NamedTextColor.GRAY),
+                        Component.text("'s warnings.", NamedTextColor.RED));
 
                     i.server.getConsoleCommandSource().sendMessage(warningsClearedStaff);
                     // Message staff
@@ -219,12 +215,10 @@ public class BaseCommand implements SimpleCommand {
                     i.fileManager.save(WARNDATA);
 
                     Component warningsClearedStaff = Component.text(senderName, NamedTextColor.GRAY).append(
-                            Component.text(" cleared all ", NamedTextColor.RED)).append(Component.text(
-                            args[1],
-                            NamedTextColor.GRAY)).append(Component.text(" warnings from ", NamedTextColor.RED))
-                        .append(Component.text(
-                            username,
-                            NamedTextColor.GRAY));
+                        Component.text(" cleared all ", NamedTextColor.RED),
+                        Component.text(args[1], NamedTextColor.GRAY),
+                        Component.text(" warnings from ", NamedTextColor.RED),
+                        Component.text(username, NamedTextColor.GRAY));
 
                     i.server.getConsoleCommandSource().sendMessage(warningsClearedStaff);
                     // Message staff
@@ -233,9 +227,9 @@ public class BaseCommand implements SimpleCommand {
                             warningsClearedStaff);
 
                     Component warningsClearedPlayer = Component.text(senderName, NamedTextColor.GRAY).append(
-                            Component.text(" cleared all your ", NamedTextColor.RED))
-                        .append(Component.text(args[1], NamedTextColor.GRAY)).append(Component.text(" warnings.",
-                            NamedTextColor.RED));
+                        Component.text(" cleared all your ", NamedTextColor.RED),
+                        Component.text(args[1], NamedTextColor.GRAY),
+                        Component.text(" warnings.", NamedTextColor.RED));
 
                     // Message player if online and command not silent
                     try {

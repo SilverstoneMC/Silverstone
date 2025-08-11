@@ -155,10 +155,11 @@ public class MinigameManager implements CommandExecutor, TabCompleter {
         SilverstoneMinigames.data.saveConfig();
         updateDiscordMessage();
 
-        sender.sendMessage(Component.text("Created minigame ", NamedTextColor.GREEN).append(Component.text(gameId,
-                NamedTextColor.AQUA)).append(Component.text(" with ", NamedTextColor.GREEN))
-            .append(Component.text(players.getText(), NamedTextColor.AQUA))
-            .append(Component.text(" player(s)!", NamedTextColor.GREEN)));
+        sender.sendMessage(Component.text("Created minigame ", NamedTextColor.GREEN).append(
+            Component.text(gameId, NamedTextColor.AQUA),
+            Component.text(" with ", NamedTextColor.GREEN),
+            Component.text(players.getText(), NamedTextColor.AQUA),
+            Component.text(" player(s)!", NamedTextColor.GREEN)));
     }
 
     private void deleteMinigame(CommandSender sender, String[] args) {
@@ -271,10 +272,10 @@ public class MinigameManager implements CommandExecutor, TabCompleter {
                 SilverstoneMinigames.data.saveConfig();
                 updateDiscordMessage();
 
-                sender.sendMessage(Component.text("Set minigame ", NamedTextColor.GREEN)
-                    .append(Component.text(gameId, NamedTextColor.AQUA))
-                    .append(Component.text(" friendly name to ", NamedTextColor.GREEN))
-                    .append(Component.text(friendlyName, NamedTextColor.AQUA)));
+                sender.sendMessage(Component.text("Set minigame ", NamedTextColor.GREEN).append(
+                    Component.text(gameId, NamedTextColor.AQUA),
+                    Component.text(" friendly name to ", NamedTextColor.GREEN),
+                    Component.text(friendlyName, NamedTextColor.AQUA)));
             }
 
             case "players" -> {
@@ -289,10 +290,10 @@ public class MinigameManager implements CommandExecutor, TabCompleter {
                 dataFile.set("minigame-data." + gameId + ".players", players.name());
                 SilverstoneMinigames.data.saveConfig();
 
-                sender.sendMessage(Component.text("Set minigame ", NamedTextColor.GREEN)
-                    .append(Component.text(gameId, NamedTextColor.AQUA))
-                    .append(Component.text(" player count to ", NamedTextColor.GREEN))
-                    .append(Component.text(players.getText(), NamedTextColor.AQUA)));
+                sender.sendMessage(Component.text("Set minigame ", NamedTextColor.GREEN).append(
+                    Component.text(gameId, NamedTextColor.AQUA),
+                    Component.text(" player count to ", NamedTextColor.GREEN),
+                    Component.text(players.getText(), NamedTextColor.AQUA)));
             }
 
             case "status" -> {

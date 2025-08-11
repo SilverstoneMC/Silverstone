@@ -25,10 +25,10 @@ public class FlyingCourse implements CommandExecutor {
     public FlyingCourse(JavaPlugin plugin) {
         this.plugin = plugin;
     }
-    
+
     private final JavaPlugin plugin;
     private static final String FLYING_COURSE_WORLD = "flying_course";
-    
+
     public boolean onCommand(@NotNull CommandSender sender, Command cmd, @NotNull String label, String @NotNull [] args) {
         if (cmd.getName().equalsIgnoreCase("fcfinish")) {
             Player player = Bukkit.getPlayer(args[0]);
@@ -114,13 +114,15 @@ public class FlyingCourse implements CommandExecutor {
                     }
 
                     for (Player players : Bukkit.getOnlinePlayers())
-                        if (players.getWorld().getName().equalsIgnoreCase(FLYING_COURSE_WORLD)) players.sendMessage(Component.text().append(
-                                Component.text("NOTICE", NamedTextColor.RED, TextDecoration.BOLD)).append(
-                                Component.text(" > ", NamedTextColor.AQUA, TextDecoration.BOLD))
-                            .append(Component.text(
-                                player.getName() + " just finished the ",
-                                NamedTextColor.GREEN)).append(Component.text(difficultyType, namedTextColor))
-                            .append(Component.text(" course!", NamedTextColor.GREEN)).build());
+                        if (players.getWorld().getName().equalsIgnoreCase(FLYING_COURSE_WORLD))
+                            players.sendMessage(Component.text().append(
+                                Component.text("NOTICE", NamedTextColor.RED, TextDecoration.BOLD),
+                                Component.text(" > ", NamedTextColor.AQUA, TextDecoration.BOLD),
+                                Component.text(
+                                    player.getName() + " just finished the ",
+                                    NamedTextColor.GREEN),
+                                Component.text(difficultyType, namedTextColor),
+                                Component.text(" course!", NamedTextColor.GREEN)).build());
                 }
             }.runTaskLater(plugin, 5);
             return true;
@@ -282,6 +284,9 @@ public class FlyingCourse implements CommandExecutor {
     }
 
     private enum Difficulty {
-        EASY, MEDIUM, HARD, EXTENDED
+        EASY,
+        MEDIUM,
+        HARD,
+        EXTENDED
     }
 }
