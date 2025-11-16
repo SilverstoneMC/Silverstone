@@ -38,6 +38,11 @@ public class Errors extends AbstractAppender {
 
     @Override
     public void append(LogEvent event) {
+        String message = event.getMessage().getFormattedMessage();
+        if (message.contains("Tried to load unrecognized recipe")) return;
+        if (message.contains(
+            "[com.fastasyncworldedit.core.queue.implementation.ParallelQueueExtent] Catching error")) return;
+
         if (event.getLevel() != Level.ERROR && event.getLevel() != Level.FATAL && event.getLevel() != Level.TRACE) {
             if (isErrorGroup) {
                 dumpQueue();
