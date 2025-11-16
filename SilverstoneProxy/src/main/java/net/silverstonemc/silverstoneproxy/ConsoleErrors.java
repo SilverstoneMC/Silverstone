@@ -48,6 +48,7 @@ public class ConsoleErrors extends AbstractAppender {
         if (message.contains(
             "exception encountered in com.velocitypowered.proxy.connection.backend.BackendPlaySessionHandler"))
             return;
+        if (message.contains("Failed to renew GUI cache.")) return;
 
         if (message.contains(
             "exception encountered in com.velocitypowered.proxy.connection.client.ClientPlaySessionHandler")) {
