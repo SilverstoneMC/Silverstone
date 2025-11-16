@@ -4,9 +4,10 @@ import me.rerere.matrix.api.MatrixAPI;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.OnlineStatus;
+import net.dv8tion.jda.api.components.actionrow.ActionRow;
+import net.dv8tion.jda.api.components.buttons.Button;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
-import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.utils.MemberCachePolicy;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
@@ -95,12 +96,10 @@ public class SilverstoneGlobal extends JavaPlugin implements Listener {
                         TextChannel channel = jda.getTextChannelById(1075640285083734067L);
                         //noinspection DataFlowIssue
                         if (channel.getIterableHistory().takeAsync(1).thenApply(ArrayList::new).get(
-                            30,
-                            TimeUnit.SECONDS).isEmpty())
-                            channel.sendMessage("## Select a vanish state").setActionRow(
-                                Button.success("vanish-on",
-                                    "Vanish"),
-                                Button.danger("vanish-off", "Un-vanish")).queue();
+                            30, TimeUnit.SECONDS).isEmpty())
+                            channel.sendMessage("## Select a vanish state").addComponents(ActionRow.of(
+                                Button.success("vanish-on", "Vanish"),
+                                Button.danger("vanish-off", "Un-vanish"))).queue();
                     }
 
                 } catch (InterruptedException | ExecutionException | TimeoutException e) {

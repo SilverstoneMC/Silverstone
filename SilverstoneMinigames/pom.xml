@@ -6,7 +6,7 @@
 
     <groupId>net.silverstonemc</groupId>
     <artifactId>SilverstoneMinigames</artifactId>
-    <version>4.2.2</version>
+    <version>4.3.0</version>
 
     <properties>
         <maven.compiler.source>21</maven.compiler.source>
@@ -21,7 +21,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
-                <version>3.4.2</version>
+                <version>3.5.0</version>
                 <configuration>
                     <outputDirectory>C:\Users\jason\OneDrive\Documents\MC Server Plugins\Plugins</outputDirectory>
                 </configuration>
@@ -29,7 +29,7 @@
 
             <plugin>
                 <artifactId>maven-antrun-plugin</artifactId>
-                <version>3.1.0</version>
+                <version>3.2.0</version>
                 <executions>
                     <execution>
                         <phase>initialize</phase>
@@ -77,7 +77,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>3.6.0</version>
+                <version>3.6.1</version>
                 <executions>
                     <execution>
                         <phase>package</phase>
@@ -107,7 +107,7 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>versions-maven-plugin</artifactId>
-                <version>2.18.0</version>
+                <version>2.19.1</version>
                 <configuration>
                     <generateBackupPoms>false</generateBackupPoms>
                     <allowMinorUpdates>true</allowMinorUpdates>
@@ -132,8 +132,9 @@
 
         <!-- Lib's Disguises -->
         <repository>
-            <id>md_5-public</id>
-            <url>https://repo.md-5.net/content/groups/public/</url>
+            <id>libraryaddict-public</id>
+            <name>libraryaddict repo</name>
+            <url>https://mvn.lib.co.nz/public</url>
         </repository>
 
         <!-- Triumph GUI -->
@@ -155,21 +156,21 @@
         <dependency>
             <groupId>io.papermc.paper</groupId>
             <artifactId>paper-api</artifactId>
-            <version>1.21.8-R0.1-SNAPSHOT</version>
+            <version>1.21.10-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>de.oliver</groupId>
             <artifactId>FancyHolograms</artifactId>
-            <version>2.7.0</version>
+            <version>2.8.0</version>
             <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>me.libraryaddict.disguises</groupId>
             <artifactId>libsdisguises</artifactId>
-            <version>11.0.6</version>
+            <version>11.0.13</version>
             <scope>provided</scope>
         </dependency>
 
@@ -182,7 +183,7 @@
         <dependency>
             <groupId>net.dv8tion</groupId>
             <artifactId>JDA</artifactId>
-            <version>5.6.1</version>
+            <version>6.1.1</version>
         </dependency>
     </dependencies>
 

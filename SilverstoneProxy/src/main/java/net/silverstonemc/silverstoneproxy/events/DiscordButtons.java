@@ -1,11 +1,11 @@
 package net.silverstonemc.silverstoneproxy.events;
 
 import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.components.actionrow.ActionRow;
+import net.dv8tion.jda.api.components.buttons.Button;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
-import net.dv8tion.jda.api.interactions.components.ActionRow;
-import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import net.silverstonemc.silverstoneproxy.SilverstoneProxy;
 import net.silverstonemc.silverstoneproxy.UserManager;
 
@@ -90,7 +90,7 @@ public class DiscordButtons extends ListenerAdapter {
 
     private void disableButtons(ButtonInteractionEvent event, int level) {
         event.deferEdit().queue();
-        List<Button> buttons = event.getMessage().getButtons();
+        List<Button> buttons = event.getMessage().getComponents().getFirst().asActionRow().getButtons();
         List<Button> newButtons = new ArrayList<>();
         Message message = event.getMessage();
 

@@ -10,10 +10,11 @@ import com.velocitypowered.api.proxy.Player;
 import com.velocitypowered.api.proxy.server.RegisteredServer;
 import com.velocitypowered.api.util.ServerLink;
 import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.components.actionrow.ActionRow;
+import net.dv8tion.jda.api.components.buttons.Button;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import net.dv8tion.jda.api.entities.emoji.Emoji;
-import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -222,9 +223,10 @@ public class Join {
                             embed.setColor(new Color(36, 197, 19));
 
                             //noinspection DataFlowIssue
-                            Message message = discord.sendMessageEmbeds(embed.build()).setActionRow(Button
-                                .danger("warnskin:" + username, "Warn for inappropriate skin")
-                                .withEmoji(Emoji.fromUnicode("⚠"))).complete();
+                            Message message = discord.sendMessageEmbeds(embed.build())
+                                .addComponents(ActionRow.of((Button
+                                    .danger("warnskin:" + username, "Warn for inappropriate skin")
+                                    .withEmoji(Emoji.fromUnicode("⚠"))))).complete();
                             newPlayers.put(player, message);
                         }, "New Player Discord").start();
 

@@ -2,9 +2,10 @@ package net.silverstonemc.silverstoneproxy;
 
 import com.velocitypowered.api.proxy.Player;
 import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.components.actionrow.ActionRow;
+import net.dv8tion.jda.api.components.buttons.Button;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import net.dv8tion.jda.api.entities.emoji.Emoji;
-import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.spongepowered.configurate.ConfigurationNode;
@@ -95,7 +96,7 @@ public class WarnPlayer {
                 null,
                 "https://mc-heads.net/avatar/" + uuid);
             embed.setColor(new Color(204, 27, 53));
-            warningChannel.sendMessageEmbeds(embed.build()).setActionRow(
+            warningChannel.sendMessageEmbeds(embed.build()).addComponents(ActionRow.of(
                 Button.success("removewarning: " + reason + " :" + uuid, "Undo '" + reason + "' warning")
                     .withEmoji(Emoji.fromUnicode("↩")),
                 Button.primary(
@@ -105,7 +106,7 @@ public class WarnPlayer {
                     .secondary("clearwarning: " + reason + " :" + uuid, "Clear all '" + reason + "' warnings")
                     .withEmoji(Emoji.fromUnicode("➖")),
                 Button.danger("clearallwarnings:" + uuid, "Clear all of " + username + "'s warnings")
-                    .withEmoji(Emoji.fromUnicode("❌"))).queue();
+                    .withEmoji(Emoji.fromUnicode("❌")))).queue();
 
             // Warn the player
             Iterable<String> cmdList;

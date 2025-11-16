@@ -1,8 +1,9 @@
 package net.silverstonemc.silverstoneglobal.discord;
 
+import net.dv8tion.jda.api.components.actionrow.ActionRow;
+import net.dv8tion.jda.api.components.buttons.Button;
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
-import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -41,12 +42,12 @@ public class Vanish extends ListenerAdapter {
                 }
 
                 switch (componentId) {
-                    case "vanish-on" -> event.reply("**Which account?**").addActionRow(
+                    case "vanish-on" -> event.reply("**Which account?**").addComponents(ActionRow.of(
                         Button.primary("vanish-on-main", "Vanish main"),
-                        Button.secondary("vanish-on-alt", "Vanish alt")).setEphemeral(true).queue();
-                    case "vanish-off" -> event.reply("**Which account?**").addActionRow(
+                        Button.secondary("vanish-on-alt", "Vanish alt"))).setEphemeral(true).queue();
+                    case "vanish-off" -> event.reply("**Which account?**").addComponents(ActionRow.of(
                         Button.primary("vanish-off-main", "Un-vanish main"),
-                        Button.secondary("vanish-off-alt", "Un-vanish alt")).setEphemeral(true).queue();
+                        Button.secondary("vanish-off-alt", "Un-vanish alt"))).setEphemeral(true).queue();
                 }
 
                 return;
