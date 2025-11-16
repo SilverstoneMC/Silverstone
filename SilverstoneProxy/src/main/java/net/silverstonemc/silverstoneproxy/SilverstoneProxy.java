@@ -169,7 +169,7 @@ public class SilverstoneProxy {
                 builder.disableCache(CacheFlag.ACTIVITY, CacheFlag.VOICE_STATE);
                 builder.setMemberCachePolicy(MemberCachePolicy.NONE);
                 builder.setStatus(OnlineStatus.ONLINE);
-                builder.setActivity(Activity.watching("over Silverstone"));
+                builder.setActivity(Activity.customStatus("Always watching"));
                 builder.setEnableShutdownHook(false);
                 builder.addEventListeners(new DiscordButtons(this));
                 jda = builder.build();
