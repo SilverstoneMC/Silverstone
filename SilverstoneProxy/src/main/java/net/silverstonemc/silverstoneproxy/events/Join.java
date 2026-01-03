@@ -194,7 +194,7 @@ public class Join {
                     i, () -> event.getPlayer().sendMessage(Component.text(
                         "The server is currently built using Minecraft " + i.fileManager.files.get(CONFIG)
                             .node("current-version")
-                            .getString() + " and is recommended to use this version to avoid any issues.",
+                            .getString() + "; we recommend using that version for the best experience.",
                         NamedTextColor.RED))).delay(2, TimeUnit.SECONDS).schedule();
 
                 // Add the user if they don't exist and send a notification
