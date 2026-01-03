@@ -3,6 +3,6 @@ name: SilverstoneCreative
 description: Designed for the Creative server
 version: %VERSION%
 author: JasonHorkles
-api-version: '1.21.8'
+api-version: '1.21.11'
 depend:
   - PlotSquared
