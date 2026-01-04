@@ -95,7 +95,10 @@ public class MinigameManager implements CommandExecutor, TabCompleter {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String @NotNull [] args) {
-        if (args.length == 0) return false;
+        if (args.length == 0) {
+            listMinigames(sender);
+            return true;
+        }
         switch (args[0].toLowerCase()) {
             case "create" -> createMinigame(sender, args);
             case "delete" -> deleteMinigame(sender, args);
