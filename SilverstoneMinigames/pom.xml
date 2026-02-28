@@ -130,13 +130,6 @@
             <url>https://repo.fancyinnovations.com/releases</url>
         </repository>
 
-        <!-- Lib's Disguises -->
-        <repository>
-            <id>libraryaddict-public</id>
-            <name>libraryaddict repo</name>
-            <url>https://mvn.lib.co.nz/public</url>
-        </repository>
-
         <!-- Triumph GUI -->
         <repository>
             <id>repo</id>
@@ -164,13 +157,6 @@
             <groupId>de.oliver</groupId>
             <artifactId>FancyHolograms</artifactId>
             <version>2.9.0</version>
-            <scope>provided</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>me.libraryaddict.disguises</groupId>
-            <artifactId>libsdisguises</artifactId>
-            <version>11.0.14</version>
             <scope>provided</scope>
         </dependency>
 
