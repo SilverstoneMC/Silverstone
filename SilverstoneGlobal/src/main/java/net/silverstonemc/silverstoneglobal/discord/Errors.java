@@ -41,12 +41,16 @@ public class Errors extends AbstractAppender {
         }.runTaskTimerAsynchronously(plugin, 100, 100);
     }
 
+    private static final Set<String> IGNORED_MESSAGES = Set.of(
+        "Tried to load unrecognized recipe",
+        "[com.fastasyncworldedit.core.queue.implementation.ParallelQueueExtent] Catching error");
+
     @Override
     public void append(LogEvent event) {
         String message = event.getMessage().getFormattedMessage();
-        if (message.contains("Tried to load unrecognized recipe")) return;
-        if (message.contains(
-            "[com.fastasyncworldedit.core.queue.implementation.ParallelQueueExtent] Catching error")) return;
+
+        // Ignore certain messages
+        for (String pattern : IGNORED_MESSAGES) if (message.contains(pattern)) return;
 
         if (event.getLevel() != Level.ERROR && event.getLevel() != Level.FATAL && event.getLevel() != Level.TRACE) {
             if (isErrorGroup) {

@@ -27,13 +27,17 @@ import java.util.concurrent.TimeUnit;
 
 @Plugin(name = "SilverstoneErrorLogger", category = "Core", elementType = "appender", printObject = true)
 public class ConsoleErrors extends AbstractAppender {
-    private static final UUID JASON_UUID = UUID.fromString("a28173af-f0a9-47fe-8549-19c6bccf68da");
-
     private final List<String> errorQueue = new ArrayList<>();
     private final Deque<Long> messageTimestamps = new ArrayDeque<>();
     private final ScheduledTask dumpTask;
     private boolean isErrorGroup;
     private boolean sendRateLimited = true;
+
+    private static final UUID JASON_UUID = UUID.fromString("a28173af-f0a9-47fe-8549-19c6bccf68da");
+
+    private static Optional<Player> getJason() {
+        return SilverstoneProxy.getInstance().server.getPlayer(JASON_UUID);
+    }
 
     public ConsoleErrors(SilverstoneProxy instance) {
         super("SilverstoneErrorLogger", null, null, false, null);
@@ -44,15 +48,21 @@ public class ConsoleErrors extends AbstractAppender {
             TimeUnit.SECONDS).repeat(5, TimeUnit.SECONDS).schedule();
     }
 
+    private static final Set<String> IGNORED_MESSAGES = Set.of(
+        "unable to connect to server",
+        "disconnected while connecting to",
+        "exception encountered in com.velocitypowered.proxy.connection.backend.BackendPlaySessionHandler",
+        "Failed to renew GUI cache.",
+        "Couldn't pass ProxyShutdownEvent to",
+        "DNS resolution failed: discord.com",
+        "RestAction queue returned failure: [ErrorResponseException] -1: java.net.UnknownHostException");
+
     @Override
     public void append(LogEvent event) {
         String message = event.getMessage().getFormattedMessage();
-        if (message.contains("unable to connect to server")) return;
-        if (message.contains("disconnected while connecting to")) return;
-        if (message.contains(
-            "exception encountered in com.velocitypowered.proxy.connection.backend.BackendPlaySessionHandler"))
-            return;
-        if (message.contains("Failed to renew GUI cache.")) return;
+
+        // Ignore certain messages
+        for (String pattern : IGNORED_MESSAGES) if (message.contains(pattern)) return;
 
         if (message.contains(
             "exception encountered in com.velocitypowered.proxy.connection.client.ClientPlaySessionHandler")) {
@@ -74,8 +84,7 @@ public class ConsoleErrors extends AbstractAppender {
         }
 
         // Send message to Jason immediately on Minecraft
-        Optional<Player> jason = SilverstoneProxy.getInstance().server.getPlayer(JASON_UUID);
-        jason.ifPresent(player -> player.sendMessage(Component.text(
+        getJason().ifPresent(player -> player.sendMessage(Component.text(
             "[Proxy Error] " + message,
             NamedTextColor.RED)));
 
@@ -161,10 +170,9 @@ public class ConsoleErrors extends AbstractAppender {
     }
 
     private void sendDiscordMessage(StringBuilder builder) {
-        Optional<Player> jason = SilverstoneProxy.getInstance().server.getPlayer(JASON_UUID);
         // Make message silent if Jason is online
         //noinspection DataFlowIssue
         SilverstoneProxy.jda.getTextChannelById(1076713224612880404L).sendMessage(MarkdownUtil.codeblock("accesslog",
-            builder.toString())).setSuppressedNotifications(jason.isPresent()).queue();
+            builder.toString())).setSuppressedNotifications(getJason().isPresent()).queue();
     }
 }
