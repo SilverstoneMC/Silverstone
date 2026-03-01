@@ -203,29 +203,29 @@ public class FlyingCourse implements CommandExecutor {
         Map<OfflinePlayer, Integer> hardScores = new HashMap<>();
         Map<OfflinePlayer, Integer> extendedScores = new HashMap<>();
 
+        String path = "user-data";
+
         // Stop if there's no data
-        if (!config.isConfigurationSection("user-data")) return;
+        if (!config.isConfigurationSection(path)) return;
 
-        for (String uuid : config.getConfigurationSection("data").getKeys(false)) {
-            if (config.contains("user-data." + uuid + ".flyingcourse.easy"))
-                easyScores.put(
-                    Bukkit.getOfflinePlayer(UUID.fromString(uuid)),
-                    config.getInt("user-data." + uuid + ".flyingcourse.easy"));
+        for (String uuid : config.getConfigurationSection(path).getKeys(false)) {
+            String uuidPath = path + "." + uuid + ".flyingcourse.";
 
-            if (config.contains("user-data." + uuid + ".flyingcourse.medium"))
+            if (config.contains(uuidPath + "easy")) easyScores.put(
+                Bukkit.getOfflinePlayer(UUID.fromString(
+                    uuid)), config.getInt(uuidPath + "easy"));
+
+            if (config.contains(uuidPath + "medium"))
                 mediumScores.put(
-                    Bukkit.getOfflinePlayer(UUID.fromString(uuid)),
-                    config.getInt("user-data." + uuid + ".flyingcourse.medium"));
+                    Bukkit.getOfflinePlayer(UUID.fromString(uuid)), config.getInt(uuidPath + "medium"));
 
-            if (config.contains("user-data." + uuid + ".flyingcourse.hard"))
-                hardScores.put(
-                    Bukkit.getOfflinePlayer(UUID.fromString(uuid)),
-                    config.getInt("user-data." + uuid + ".flyingcourse.hard"));
+            if (config.contains(uuidPath + "hard")) hardScores.put(
+                Bukkit.getOfflinePlayer(UUID.fromString(
+                    uuid)), config.getInt(uuidPath + "hard"));
 
-            if (config.contains("user-data." + uuid + ".flyingcourse.extended"))
+            if (config.contains(uuidPath + "extended"))
                 extendedScores.put(
-                    Bukkit.getOfflinePlayer(UUID.fromString(uuid)),
-                    config.getInt("user-data." + uuid + ".flyingcourse.extended"));
+                    Bukkit.getOfflinePlayer(UUID.fromString(uuid)), config.getInt(uuidPath + "extended"));
         }
 
         easyScores = sortScores(easyScores);
