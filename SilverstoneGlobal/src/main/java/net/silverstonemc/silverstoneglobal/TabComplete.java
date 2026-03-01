@@ -1,6 +1,7 @@
 package net.silverstonemc.silverstoneglobal;
 
 import com.destroystokyo.paper.event.server.AsyncTabCompleteEvent;
+
 import org.bukkit.GameRule;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -14,6 +15,14 @@ import java.util.Arrays;
 import java.util.List;
 
 public class TabComplete implements TabCompleter, Listener {
+    final List<String> argumentsAfk = new ArrayList<>(Arrays.asList(
+        "doing school work",
+        "eating breakfast",
+        "eating lunch",
+        "eating dinner",
+        "getting a drink",
+        "getting a snack"));
+
     public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String @NotNull [] args) {
         //noinspection SwitchStatementWithTooFewBranches
         switch (cmd.getName().toLowerCase()) {
@@ -47,19 +56,9 @@ public class TabComplete implements TabCompleter, Listener {
         return result;
     }
 
-    final List<String> argumentsAfk = new ArrayList<>();
-
     @EventHandler
     public void tabComplete(AsyncTabCompleteEvent event) {
-        if (event.getBuffer().startsWith("/afk"))
-            if (event.getSender().hasPermission("essentials.afk.message")) {
-                if (!argumentsAfk.contains("doing school work")) argumentsAfk.add("doing school work");
-                if (!argumentsAfk.contains("eating breakfast")) argumentsAfk.add("eating breakfast");
-                if (!argumentsAfk.contains("eating lunch")) argumentsAfk.add("eating lunch");
-                if (!argumentsAfk.contains("eating dinner")) argumentsAfk.add("eating dinner");
-                if (!argumentsAfk.contains("getting a drink")) argumentsAfk.add("getting a drink");
-                if (!argumentsAfk.contains("getting a snack")) argumentsAfk.add("getting a snack");
-                event.setCompletions(argumentsAfk);
-            }
+        if (event.getBuffer().startsWith("/afk") && event.getSender().hasPermission("essentials.afk.message"))
+            event.setCompletions(argumentsAfk);
     }
 }
