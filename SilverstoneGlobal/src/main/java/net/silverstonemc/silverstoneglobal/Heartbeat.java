@@ -28,7 +28,7 @@ public class Heartbeat {
 
         } catch (SocketException ignored) {
         } catch (URISyntaxException | IOException e) {
-            throw new RuntimeException(e);
+            plugin.getLogger().warning("Failed to send heartbeat: " + e.getMessage());
         }
     }
 }

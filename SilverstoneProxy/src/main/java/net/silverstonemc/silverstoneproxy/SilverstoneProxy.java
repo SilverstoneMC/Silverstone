@@ -1,5 +1,7 @@
 package net.silverstonemc.silverstoneproxy;
 
+import static net.silverstonemc.silverstoneproxy.ConfigurationManager.FileType.USERCACHE;
+
 import com.google.inject.Inject;
 import com.velocitypowered.api.command.CommandManager;
 import com.velocitypowered.api.event.EventManager;
@@ -11,6 +13,7 @@ import com.velocitypowered.api.plugin.Plugin;
 import com.velocitypowered.api.plugin.annotation.DataDirectory;
 import com.velocitypowered.api.proxy.ProxyServer;
 import com.velocitypowered.api.proxy.messages.MinecraftChannelIdentifier;
+
 import net.draycia.carbon.api.CarbonChatProvider;
 import net.draycia.carbon.api.event.events.CarbonChatEvent;
 import net.draycia.carbon.api.event.events.CarbonPrivateChatEvent;
@@ -25,6 +28,7 @@ import net.luckperms.api.LuckPerms;
 import net.luckperms.api.LuckPermsProvider;
 import net.silverstonemc.silverstoneproxy.commands.*;
 import net.silverstonemc.silverstoneproxy.events.*;
+
 import org.slf4j.Logger;
 import org.spongepowered.configurate.ConfigurationNode;
 
@@ -33,8 +37,6 @@ import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
-
-import static net.silverstonemc.silverstoneproxy.ConfigurationManager.FileType.USERCACHE;
 
 @Plugin(id = "silverstoneproxy", name = "SilverstoneProxy", version = "%VERSION%", description = "Features for the Silverstone proxy, including warnings", authors = {"JasonHorkles"}, dependencies = {
     @Dependency(id = "luckperms"),
@@ -105,7 +107,7 @@ public class SilverstoneProxy {
 
         // Uptime heartbeat
         try {
-            Heartbeat heartbeat = new Heartbeat(new Secrets().heartbeatUrl());
+            Heartbeat heartbeat = new Heartbeat(new Secrets().heartbeatUrl(), logger);
             server.getScheduler().buildTask(this, heartbeat::sendHeartbeat).repeat(1, TimeUnit.MINUTES).delay(10,
                 TimeUnit.SECONDS).schedule();
         } catch (MalformedURLException | URISyntaxException e) {

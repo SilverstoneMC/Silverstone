@@ -1,16 +1,20 @@
 package net.silverstonemc.silverstoneproxy;
 
+import org.slf4j.Logger;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.SocketException;
 import java.net.URL;
 
 public class Heartbeat {
-    public Heartbeat(URL heartbeatUrl) {
-        this.heartbeatUrl = heartbeatUrl;
-    }
-
     private final URL heartbeatUrl;
+    private final Logger logger;
+
+    public Heartbeat(URL heartbeatUrl, Logger logger) {
+        this.heartbeatUrl = heartbeatUrl;
+        this.logger = logger;
+    }
 
     public void sendHeartbeat() {
         try {
@@ -18,7 +22,7 @@ public class Heartbeat {
             url.close();
         } catch (SocketException ignored) {
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            logger.warn("Failed to send heartbeat: {}", e.getMessage());
         }
     }
 }
