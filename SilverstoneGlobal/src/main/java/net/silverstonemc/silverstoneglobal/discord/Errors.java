@@ -1,13 +1,18 @@
 package net.silverstonemc.silverstoneglobal.discord;
 
 import net.dv8tion.jda.api.utils.MarkdownUtil;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.silverstonemc.silverstoneglobal.GetJasonUtil;
 import net.silverstonemc.silverstoneglobal.SilverstoneGlobal;
+
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.LogEvent;
 import org.apache.logging.log4j.core.Logger;
 import org.apache.logging.log4j.core.appender.AbstractAppender;
 import org.apache.logging.log4j.core.config.plugins.Plugin;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -50,6 +55,12 @@ public class Errors extends AbstractAppender {
             }
             return;
         }
+
+        // Send message to Jason immediately on Minecraft
+        Optional<Player> jason = new GetJasonUtil().getJason();
+        jason.ifPresent(player -> player.sendMessage(Component.text(
+            "[Backend Error] " + message,
+            NamedTextColor.RED)));
 
         String loggerName = event.getLoggerName().replaceAll(".*\\.", "");
 
@@ -111,8 +122,10 @@ public class Errors extends AbstractAppender {
     }
 
     private void sendDiscordMessage(StringBuilder builder) {
+        Optional<Player> jason = new GetJasonUtil().getJason();
+        // Make message silent if Jason is online
         //noinspection DataFlowIssue
         SilverstoneGlobal.jda.getTextChannelById(1076713224612880404L).sendMessage(MarkdownUtil.codeblock("accesslog",
-            builder.toString())).queue();
+            builder.toString())).setSuppressedNotifications(jason.isPresent()).queue();
     }
 }

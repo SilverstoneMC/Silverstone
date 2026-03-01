@@ -2,6 +2,7 @@ package net.silverstonemc.silverstoneproxy;
 
 import com.velocitypowered.api.proxy.Player;
 import com.velocitypowered.api.scheduler.ScheduledTask;
+
 import net.dv8tion.jda.api.utils.MarkdownUtil;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
@@ -9,6 +10,7 @@ import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.silverstonemc.silverstoneproxy.events.Leave;
 import net.silverstonemc.silverstoneproxy.utils.NicknameUtils;
+
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.LogEvent;
@@ -25,6 +27,8 @@ import java.util.concurrent.TimeUnit;
 
 @Plugin(name = "SilverstoneErrorLogger", category = "Core", elementType = "appender", printObject = true)
 public class ConsoleErrors extends AbstractAppender {
+    private static final UUID JASON_UUID = UUID.fromString("a28173af-f0a9-47fe-8549-19c6bccf68da");
+
     private final List<String> errorQueue = new ArrayList<>();
     private final Deque<Long> messageTimestamps = new ArrayDeque<>();
     private final ScheduledTask dumpTask;
@@ -68,6 +72,12 @@ public class ConsoleErrors extends AbstractAppender {
             }
             return;
         }
+
+        // Send message to Jason immediately on Minecraft
+        Optional<Player> jason = SilverstoneProxy.getInstance().server.getPlayer(JASON_UUID);
+        jason.ifPresent(player -> player.sendMessage(Component.text(
+            "[Proxy Error] " + message,
+            NamedTextColor.RED)));
 
         String loggerName = event.getLoggerName().replaceAll(".*\\.", "");
 
@@ -151,8 +161,10 @@ public class ConsoleErrors extends AbstractAppender {
     }
 
     private void sendDiscordMessage(StringBuilder builder) {
+        Optional<Player> jason = SilverstoneProxy.getInstance().server.getPlayer(JASON_UUID);
+        // Make message silent if Jason is online
         //noinspection DataFlowIssue
         SilverstoneProxy.jda.getTextChannelById(1076713224612880404L).sendMessage(MarkdownUtil.codeblock("accesslog",
-            builder.toString())).queue();
+            builder.toString())).setSuppressedNotifications(jason.isPresent()).queue();
     }
 }
