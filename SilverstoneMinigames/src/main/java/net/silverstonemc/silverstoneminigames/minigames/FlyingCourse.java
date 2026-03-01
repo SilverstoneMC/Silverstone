@@ -4,6 +4,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.silverstonemc.silverstoneminigames.SilverstoneMinigames;
+
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.command.Command;
@@ -203,11 +204,8 @@ public class FlyingCourse implements CommandExecutor {
         Map<OfflinePlayer, Integer> extendedScores = new HashMap<>();
 
         // Stop if there's no data
-        try {
-            config.getConfigurationSection("data").getKeys(false);
-        } catch (NullPointerException ignored) {
-            return;
-        }
+        if (!config.isConfigurationSection("user-data")) return;
+
         for (String uuid : config.getConfigurationSection("data").getKeys(false)) {
             if (config.contains("user-data." + uuid + ".flyingcourse.easy"))
                 easyScores.put(
