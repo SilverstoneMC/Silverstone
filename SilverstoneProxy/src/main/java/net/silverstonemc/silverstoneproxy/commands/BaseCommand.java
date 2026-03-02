@@ -1,8 +1,11 @@
 package net.silverstonemc.silverstoneproxy.commands;
 
+import static net.silverstonemc.silverstoneproxy.ConfigurationManager.FileType.*;
+
 import com.velocitypowered.api.command.CommandSource;
 import com.velocitypowered.api.command.SimpleCommand;
 import com.velocitypowered.api.proxy.Player;
+
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import net.kyori.adventure.identity.Identity;
@@ -13,6 +16,7 @@ import net.silverstonemc.silverstoneproxy.UndoWarning;
 import net.silverstonemc.silverstoneproxy.UserManager;
 import net.silverstonemc.silverstoneproxy.utils.NicknameUtils;
 import net.silverstonemc.silverstoneproxy.utils.NoPlayerMsg;
+
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.serialize.SerializationException;
 
@@ -21,8 +25,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
-
-import static net.silverstonemc.silverstoneproxy.ConfigurationManager.FileType.*;
 
 @SuppressWarnings("DataFlowIssue")
 public class BaseCommand implements SimpleCommand {
@@ -135,12 +137,8 @@ public class BaseCommand implements SimpleCommand {
                         Component.text(" warning from you.", NamedTextColor.RED));
 
                     // Message player if online and command not silent
-                    try {
-                        if (!args[3].equalsIgnoreCase("-s")) if (player != null) player.sendMessage(
-                            warningRemovedPlayer);
-                    } catch (ArrayIndexOutOfBoundsException ignored) {
+                    if (args.length < 4 || !args[3].equalsIgnoreCase("-s"))
                         if (player != null) player.sendMessage(warningRemovedPlayer);
-                    }
 
                     EmbedBuilder embed = new EmbedBuilder();
                     embed.setAuthor(
@@ -192,12 +190,8 @@ public class BaseCommand implements SimpleCommand {
                         Component.text(" cleared all of your warnings.", NamedTextColor.RED));
 
                     // Message player if online and command not silent
-                    try {
-                        if (!args[3].equalsIgnoreCase("-s")) if (player != null) player.sendMessage(
-                            warningsClearedPlayer);
-                    } catch (ArrayIndexOutOfBoundsException ignored) {
+                    if (args.length < 4 || !args[3].equalsIgnoreCase("-s"))
                         if (player != null) player.sendMessage(warningsClearedPlayer);
-                    }
 
                     EmbedBuilder embed = new EmbedBuilder();
                     embed.setAuthor(
@@ -232,12 +226,8 @@ public class BaseCommand implements SimpleCommand {
                         Component.text(" warnings.", NamedTextColor.RED));
 
                     // Message player if online and command not silent
-                    try {
-                        if (!args[3].equalsIgnoreCase("-s")) if (player != null) player.sendMessage(
-                            warningsClearedPlayer);
-                    } catch (ArrayIndexOutOfBoundsException ignored) {
+                    if (args.length < 4 || !args[3].equalsIgnoreCase("-s"))
                         if (player != null) player.sendMessage(warningsClearedPlayer);
-                    }
 
                     EmbedBuilder embed = new EmbedBuilder();
                     embed.setAuthor(

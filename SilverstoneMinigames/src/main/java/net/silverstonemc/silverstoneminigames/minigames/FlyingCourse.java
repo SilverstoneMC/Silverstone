@@ -129,62 +129,63 @@ public class FlyingCourse implements CommandExecutor {
             return true;
 
         } else if (cmd.getName().equalsIgnoreCase("flyingcourse")) {
-            if (args.length > 0) {
-                // There should only be players in the selector with certain tags
-                List<Entity> selector = Bukkit.selectEntities(sender, args[0]);
-                try {
-                    for (Entity entity : selector) {
-                        Player player = Bukkit.getPlayer(entity.getName());
-                        if (player == null) break;
-                        if (player.getGameMode() != GameMode.ADVENTURE) break;
+            if (args.length == 0) return false;
 
-                        // Check all the blocks around the player
-                        for (int x = 0; x < 6; x++) {
-                            Block block = switch (x) {
-                                case 0 -> player.getLocation().subtract(0, 0.01, 0).getBlock();
-                                case 1 -> player.getLocation().add(0, 0.5, 0).getBlock();
-                                case 2 -> player.getLocation().add(0.5, 0, 0).getBlock();
-                                case 3 -> player.getLocation().subtract(0.5, 0, 0).getBlock();
-                                case 4 -> player.getLocation().add(0, 0, 0.5).getBlock();
-                                case 5 -> player.getLocation().subtract(0, 0, 0.5).getBlock();
-                                default -> null;
-                            };
-                            // If touching a block that's not allowed, send them back
-                            if (block.getType() != Material.AIR && block.getType() != Material.CAVE_AIR && block.getType() != Material.MAGENTA_GLAZED_TERRACOTTA && block.getType() != Material.BLACK_STAINED_GLASS) {
-                                player.teleportAsync(new Location(player.getWorld(), 23.5, 132, 88.5, 0, 10));
-                                break;
-                            }
-                        }
-
-                        // Check if the boost block is anywhere near the player
-                        boolean boostBlockNear = false;
-                        for (int y = -3; y < 0; y++)
-                            if (player.getLocation().add(0, y, 0).getBlock()
-                                .getType() == Material.MAGENTA_GLAZED_TERRACOTTA) boostBlockNear = true;
-
-                        // If near speed boost blocks, give boost
-                        if (boostBlockNear) {
-                            Vector speed = player.getVelocity();
-                            // If speed is greater than 0.05 or -0.05
-                            if (((speed.getX() > 0.05) || (speed.getX() < -0.05)) || ((speed.getZ() > 0.05) || (speed.getZ() < -0.05))) {
-                                player.setVelocity(speed.multiply(1.075));
-                                player.playSound(
-                                    player.getLocation(),
-                                    Sound.BLOCK_BEACON_ACTIVATE,
-                                    SoundCategory.BLOCKS,
-                                    10,
-                                    2);
-                            }
-                        }
-                    }
-                } catch (IndexOutOfBoundsException e) {
-                    sender.sendMessage(Component.text(
-                        "Please provide a valid selector!",
-                        NamedTextColor.RED));
-                }
+            // There should only be players in the selector with certain tags
+            List<Entity> selector;
+            try {
+                selector = Bukkit.selectEntities(sender, args[0]);
+            } catch (IllegalArgumentException e) {
+                sender.sendMessage(Component.text("Please provide a valid selector!", NamedTextColor.RED));
                 return true;
             }
-            return false;
+
+            for (Entity entity : selector) {
+                Player player = Bukkit.getPlayer(entity.getName());
+                if (player == null) break;
+                if (player.getGameMode() != GameMode.ADVENTURE) break;
+
+                // Check all the blocks around the player
+                for (int x = 0; x < 6; x++) {
+                    Block block = switch (x) {
+                        case 0 -> player.getLocation().subtract(0, 0.01, 0).getBlock();
+                        case 1 -> player.getLocation().add(0, 0.5, 0).getBlock();
+                        case 2 -> player.getLocation().add(0.5, 0, 0).getBlock();
+                        case 3 -> player.getLocation().subtract(0.5, 0, 0).getBlock();
+                        case 4 -> player.getLocation().add(0, 0, 0.5).getBlock();
+                        case 5 -> player.getLocation().subtract(0, 0, 0.5).getBlock();
+                        default -> null;
+                    };
+                    // If touching a block that's not allowed, send them back
+                    if (block.getType() != Material.AIR && block.getType() != Material.CAVE_AIR && block.getType() != Material.MAGENTA_GLAZED_TERRACOTTA && block.getType() != Material.BLACK_STAINED_GLASS) {
+                        player.teleportAsync(new Location(player.getWorld(), 23.5, 132, 88.5, 0, 10));
+                        break;
+                    }
+                }
+
+                // Check if the boost block is anywhere near the player
+                boolean boostBlockNear = false;
+                for (int y = -3; y < 0; y++)
+                    if (player.getLocation().add(0, y, 0).getBlock()
+                        .getType() == Material.MAGENTA_GLAZED_TERRACOTTA) boostBlockNear = true;
+
+                // If near speed boost blocks, give boost
+                if (boostBlockNear) {
+                    Vector speed = player.getVelocity();
+                    // If speed is greater than 0.05 or -0.05
+                    if (((speed.getX() > 0.05) || (speed.getX() < -0.05)) || ((speed.getZ() > 0.05) || (speed.getZ() < -0.05))) {
+                        player.setVelocity(speed.multiply(1.075));
+                        player.playSound(
+                            player.getLocation(),
+                            Sound.BLOCK_BEACON_ACTIVATE,
+                            SoundCategory.BLOCKS,
+                            10,
+                            2);
+                    }
+                }
+            }
+
+            return true;
         }
         return true;
     }
@@ -217,7 +218,8 @@ public class FlyingCourse implements CommandExecutor {
 
             if (config.contains(uuidPath + "medium"))
                 mediumScores.put(
-                    Bukkit.getOfflinePlayer(UUID.fromString(uuid)), config.getInt(uuidPath + "medium"));
+                    Bukkit.getOfflinePlayer(UUID.fromString(uuid)),
+                    config.getInt(uuidPath + "medium"));
 
             if (config.contains(uuidPath + "hard")) hardScores.put(
                 Bukkit.getOfflinePlayer(UUID.fromString(
@@ -225,7 +227,8 @@ public class FlyingCourse implements CommandExecutor {
 
             if (config.contains(uuidPath + "extended"))
                 extendedScores.put(
-                    Bukkit.getOfflinePlayer(UUID.fromString(uuid)), config.getInt(uuidPath + "extended"));
+                    Bukkit.getOfflinePlayer(UUID.fromString(uuid)),
+                    config.getInt(uuidPath + "extended"));
         }
 
         easyScores = sortScores(easyScores);
