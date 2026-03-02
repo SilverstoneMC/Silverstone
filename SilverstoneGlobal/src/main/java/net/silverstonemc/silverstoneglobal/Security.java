@@ -22,6 +22,14 @@ public class Security {
 
     private final JavaPlugin plugin;
     private static final LuckPerms luckPerms = SilverstoneGlobal.getInstance().getLuckPerms();
+    // me | alt | gage | panda | dragon
+    private final List<String> allowedUUIDs = List.of(
+        "a28173af-f0a9-47fe-8549-19c6bccf68da", // Me
+        "bc9848dd-5dd9-4141-9790-f023134cbb7d", // Alt
+        "5c3d3b7c-aa02-4751-ae4b-60b277da9c35", // Gage
+        "75fb05a2-9d9e-49cb-be34-6bd5215548ba", // Panda
+        "e70a4622-85b6-417d-9201-7322e5094465" // Dragon
+    );
 
     public void check() {
         new BukkitRunnable() {
@@ -29,14 +37,6 @@ public class Security {
             public void run() {
                 for (Player player : Bukkit.getOnlinePlayers()) {
                     if (!player.hasPermission("silverstone.admin")) continue;
-
-                    // me | alt | gage | panda | dragon
-                    List<String> allowedUUIDs = List.of(
-                        "a28173af-f0a9-47fe-8549-19c6bccf68da",
-                        "bc9848dd-5dd9-4141-9790-f023134cbb7d",
-                        "5c3d3b7c-aa02-4751-ae4b-60b277da9c35",
-                        "75fb05a2-9d9e-49cb-be34-6bd5215548ba",
-                        "e70a4622-85b6-417d-9201-7322e5094465");
 
                     String playerUUID = player.getUniqueId().toString();
                     if (allowedUUIDs.contains(playerUUID)) continue;

@@ -4,6 +4,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.silverstonemc.silverstoneminigames.SilverstoneMinigames;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
@@ -29,32 +30,32 @@ public class DoubleJump implements CommandExecutor, Listener {
     private static final Map<Player, Integer> jumps = new HashMap<>();
 
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
-        if (args.length > 1) {
-            List<Entity> selector = Bukkit.selectEntities(sender, args[0]);
-            try {
-                for (Entity entity : selector) {
-                    Player player = Bukkit.getPlayer(entity.getName());
-                    if (player == null) break;
+        if (args.length < 2) return false;
 
-                    if (args[1].equalsIgnoreCase("reset")) jumps.remove(player);
-                    else {
-                        jumps.put(player, Integer.parseInt(args[1]));
+        List<Entity> selector = Bukkit.selectEntities(sender, args[0]);
+        for (Entity entity : selector) {
+            Player player = Bukkit.getPlayer(entity.getName());
+            if (player == null) break;
 
-                        ItemStack item = new ItemStack(Material.FEATHER);
-                        ItemMeta meta = item.getItemMeta();
-                        meta.displayName(Component
-                            .text("Double Jump", NamedTextColor.RED, TextDecoration.BOLD)
-                            .decoration(TextDecoration.ITALIC, false));
-                        item.setItemMeta(meta);
-                        player.getInventory().addItem(item);
-                    }
+            if (args[1].equalsIgnoreCase("reset")) jumps.remove(player);
+            else {
+                try {
+                    jumps.put(player, Integer.parseInt(args[1]));
+                } catch (NumberFormatException e) {
+                    sender.sendMessage(Component.text("Invalid number!", NamedTextColor.RED));
+                    return true;
                 }
-            } catch (IndexOutOfBoundsException | NumberFormatException e) {
-                sender.sendMessage(Component.text("Please provide a valid selector!", NamedTextColor.RED));
+
+                ItemStack item = new ItemStack(Material.FEATHER);
+                ItemMeta meta = item.getItemMeta();
+                meta.displayName(Component.text("Double Jump", NamedTextColor.RED, TextDecoration.BOLD)
+                    .decoration(TextDecoration.ITALIC, false));
+                item.setItemMeta(meta);
+                player.getInventory().addItem(item);
             }
-            return true;
         }
-        return false;
+
+        return true;
     }
 
     @EventHandler

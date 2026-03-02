@@ -1,14 +1,12 @@
 package net.silverstonemc.silverstoneminigames.minigames;
 
-import dev.triumphteam.gui.paper.Gui;
-import dev.triumphteam.gui.paper.builder.item.ItemBuilder;
-import dev.triumphteam.gui.paper.builder.item.SkullBuilder;
 import net.kyori.adventure.bossbar.BossBar;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.silverstonemc.silverstoneminigames.managers.BossBarManager;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -30,6 +28,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import dev.triumphteam.gui.paper.Gui;
+import dev.triumphteam.gui.paper.builder.item.ItemBuilder;
+import dev.triumphteam.gui.paper.builder.item.SkullBuilder;
+
 public class CorruptedTag implements CommandExecutor {
     public CorruptedTag(JavaPlugin plugin) {
         this.plugin = plugin;
@@ -39,125 +41,123 @@ public class CorruptedTag implements CommandExecutor {
     private static BukkitRunnable bossBarUpdater;
 
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
-        if (args.length > 1) {
-            List<Entity> selector = Bukkit.selectEntities(sender, args[1]);
+        if (args.length < 2) return false;
 
-            switch (args[0].toLowerCase()) {
-                case "start" -> {
-                    for (Entity entity : selector) {
-                        Player player = Bukkit.getPlayer(entity.getName());
-                        if (player == null) continue;
+        List<Entity> selector = Bukkit.selectEntities(sender, args[1]);
+        switch (args[0].toLowerCase()) {
+            case "start" -> {
+                for (Entity entity : selector) {
+                    Player player = Bukkit.getPlayer(entity.getName());
+                    if (player == null) continue;
 
-                        // Create the boss bar
-                        new BossBarManager().createBossBar(
-                            player,
-                            Component.text("Corruption", NamedTextColor.LIGHT_PURPLE, TextDecoration.BOLD),
-                            0.0f,
-                            BossBar.Color.PURPLE,
-                            BossBar.Overlay.NOTCHED_10);
-                    }
+                    // Create the boss bar
+                    new BossBarManager().createBossBar(
+                        player,
+                        Component.text("Corruption", NamedTextColor.LIGHT_PURPLE, TextDecoration.BOLD),
+                        0.0f,
+                        BossBar.Color.PURPLE,
+                        BossBar.Overlay.NOTCHED_10);
+                }
 
-                    if (bossBarUpdater != null) bossBarUpdater.cancel();
+                if (bossBarUpdater != null) bossBarUpdater.cancel();
 
-                    // Start the boss bar updater
-                    bossBarUpdater = new BukkitRunnable() {
-                        @Override
-                        public void run() {
-                            for (Map.Entry<Player, BossBar> entry : BossBarManager.bossBars.entrySet()) {
-                                Player players = entry.getKey();
-                                if (!entry.getValue().name().toString().contains("Corruption")) continue;
+                // Start the boss bar updater
+                bossBarUpdater = new BukkitRunnable() {
+                    @Override
+                    public void run() {
+                        for (Map.Entry<Player, BossBar> entry : BossBarManager.bossBars.entrySet()) {
+                            Player players = entry.getKey();
+                            if (!entry.getValue().name().toString().contains("Corruption")) continue;
 
-                                //noinspection DataFlowIssue
-                                float value = Bukkit.getScoreboardManager().getMainScoreboard().getObjective(
-                                    "mctagcorruption").getScore(players).getScore() / 10000.0f;
-                                new BossBarManager().setBossBarProgress(players, value);
-                            }
+                            //noinspection DataFlowIssue
+                            float value = Bukkit.getScoreboardManager().getMainScoreboard().getObjective(
+                                "mctagcorruption").getScore(players).getScore() / 10000.0f;
+                            new BossBarManager().setBossBarProgress(players, value);
                         }
-                    };
-                    bossBarUpdater.runTaskTimer(plugin, 0, 10);
-                }
-
-                case "kitselect" -> {
-                    for (Entity entity : selector) {
-                        Player player = Bukkit.getPlayer(entity.getName());
-                        if (player == null) continue;
-
-                        mainInventory(player).open(player);
                     }
-                }
+                };
+                bossBarUpdater.runTaskTimer(plugin, 0, 10);
+            }
 
-                case "closeinv" -> {
-                    for (Entity entity : selector) {
-                        Player player = Bukkit.getPlayer(entity.getName());
-                        if (player == null) continue;
+            case "kitselect" -> {
+                for (Entity entity : selector) {
+                    Player player = Bukkit.getPlayer(entity.getName());
+                    if (player == null) continue;
 
-                        player.addScoreboardTag("Ready");
-                        player.addScoreboardTag("CorruptedNinja");
-                        player.sendMessage(Component.text(
-                            "Time's up! You have the Ninja kit.",
-                            NamedTextColor.RED));
-                        player.playSound(
-                            player.getLocation(),
-                            Sound.BLOCK_NOTE_BLOCK_DIDGERIDOO,
-                            SoundCategory.UI,
-                            1,
-                            0.55f);
-
-                        ItemStack item = new ItemStack(Material.IRON_SWORD);
-                        player.getInventory().addItem(item);
-
-                        // Close the inventory in the next tick to ensure the tag is added first
-                        new BukkitRunnable() {
-                            @Override
-                            public void run() {
-                                player.getOpenInventory().close();
-                            }
-                        }.runTask(plugin);
-                    }
-                }
-
-                case "corrupt" -> {
-                    for (Entity entity : selector) {
-                        Player player = Bukkit.getPlayer(entity.getName());
-                        if (player == null) continue;
-
-                        new BossBarManager().setBossBarColor(player, BossBar.Color.RED, NamedTextColor.RED);
-                        player.addScoreboardTag("CorruptedHunter");
-                    }
-                }
-
-                case "uncorrupt" -> {
-                    for (Entity entity : selector) {
-                        Player player = Bukkit.getPlayer(entity.getName());
-                        if (player == null) continue;
-
-                        new BossBarManager().setBossBarColor(
-                            player,
-                            BossBar.Color.PURPLE,
-                            NamedTextColor.LIGHT_PURPLE);
-                        player.removeScoreboardTag("CorruptedHunter");
-                    }
-                }
-
-                case "stop" -> {
-                    for (Entity entity : selector) {
-                        Player player = Bukkit.getPlayer(entity.getName());
-                        if (player == null) continue;
-
-                        // Remove the boss bar
-                        new BossBarManager().removeBossBar(player);
-                    }
-
-                    // Stop the boss bar updater
-                    if (bossBarUpdater != null) {
-                        bossBarUpdater.cancel();
-                        bossBarUpdater = null;
-                    }
+                    mainInventory(player).open(player);
                 }
             }
-            return true;
+
+            case "closeinv" -> {
+                for (Entity entity : selector) {
+                    Player player = Bukkit.getPlayer(entity.getName());
+                    if (player == null) continue;
+
+                    player.addScoreboardTag("Ready");
+                    player.addScoreboardTag("CorruptedNinja");
+                    player.sendMessage(Component.text(
+                        "Time's up! You have the Ninja kit.",
+                        NamedTextColor.RED));
+                    player.playSound(
+                        player.getLocation(),
+                        Sound.BLOCK_NOTE_BLOCK_DIDGERIDOO,
+                        SoundCategory.UI,
+                        1,
+                        0.55f);
+
+                    ItemStack item = new ItemStack(Material.IRON_SWORD);
+                    player.getInventory().addItem(item);
+
+                    // Close the inventory in the next tick to ensure the tag is added first
+                    new BukkitRunnable() {
+                        @Override
+                        public void run() {
+                            player.getOpenInventory().close();
+                        }
+                    }.runTask(plugin);
+                }
+            }
+
+            case "corrupt" -> {
+                for (Entity entity : selector) {
+                    Player player = Bukkit.getPlayer(entity.getName());
+                    if (player == null) continue;
+
+                    new BossBarManager().setBossBarColor(player, BossBar.Color.RED, NamedTextColor.RED);
+                    player.addScoreboardTag("CorruptedHunter");
+                }
+            }
+
+            case "uncorrupt" -> {
+                for (Entity entity : selector) {
+                    Player player = Bukkit.getPlayer(entity.getName());
+                    if (player == null) continue;
+
+                    new BossBarManager().setBossBarColor(
+                        player,
+                        BossBar.Color.PURPLE,
+                        NamedTextColor.LIGHT_PURPLE);
+                    player.removeScoreboardTag("CorruptedHunter");
+                }
+            }
+
+            case "stop" -> {
+                for (Entity entity : selector) {
+                    Player player = Bukkit.getPlayer(entity.getName());
+                    if (player == null) continue;
+
+                    // Remove the boss bar
+                    new BossBarManager().removeBossBar(player);
+                }
+
+                // Stop the boss bar updater
+                if (bossBarUpdater != null) {
+                    bossBarUpdater.cancel();
+                    bossBarUpdater = null;
+                }
+            }
         }
-        return false;
+        return true;
     }
 
     // Kit inventory stuff

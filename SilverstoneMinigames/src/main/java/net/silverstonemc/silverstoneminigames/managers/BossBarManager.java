@@ -2,7 +2,6 @@ package net.silverstonemc.silverstoneminigames.managers;
 
 import net.kyori.adventure.bossbar.BossBar;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextColor;
 
 import org.bukkit.Bukkit;
@@ -21,14 +20,7 @@ public class BossBarManager implements CommandExecutor {
 
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
         if (args.length > 0) {
-            List<Entity> selector;
-            try {
-                selector = Bukkit.selectEntities(sender, args[0]);
-            } catch (IllegalArgumentException e) {
-                sender.sendMessage(Component.text("Please provide a valid selector!", NamedTextColor.RED));
-                return true;
-            }
-
+            List<Entity> selector = Bukkit.selectEntities(sender, args[0]);
             for (Entity entity : selector) {
                 Player player = Bukkit.getPlayer(entity.getName());
                 if (player == null) continue;

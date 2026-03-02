@@ -126,20 +126,12 @@ public class FlyingCourse implements CommandExecutor {
                                 Component.text(" course!", NamedTextColor.GREEN)).build());
                 }
             }.runTaskLater(plugin, 5);
-            return true;
 
         } else if (cmd.getName().equalsIgnoreCase("flyingcourse")) {
             if (args.length == 0) return false;
 
             // There should only be players in the selector with certain tags
-            List<Entity> selector;
-            try {
-                selector = Bukkit.selectEntities(sender, args[0]);
-            } catch (IllegalArgumentException e) {
-                sender.sendMessage(Component.text("Please provide a valid selector!", NamedTextColor.RED));
-                return true;
-            }
-
+            List<Entity> selector = Bukkit.selectEntities(sender, args[0]);
             for (Entity entity : selector) {
                 Player player = Bukkit.getPlayer(entity.getName());
                 if (player == null) break;
@@ -184,8 +176,6 @@ public class FlyingCourse implements CommandExecutor {
                     }
                 }
             }
-
-            return true;
         }
         return true;
     }
@@ -239,41 +229,40 @@ public class FlyingCourse implements CommandExecutor {
         for (String score : fctop.getEntries()) fctop.resetScores(score);
 
         int score = 15;
-
-        int x = 0;
+        int iteration = 0;
         fctop.getObjective("FCTop").getScore("§a§lEasy:").setScore(score);
         for (Map.Entry<OfflinePlayer, Integer> entry : easyScores.entrySet()) {
-            if (x >= 2) break;
+            if (iteration >= 2) break;
             fctop.getObjective("FCTop").getScore("§2" + entry.getKey().getName() + ": §b" + entry.getValue())
                 .setScore(--score);
-            x++;
+            iteration++;
         }
 
-        x = 0;
+        iteration = 0;
         fctop.getObjective("FCTop").getScore("§e§lMedium:").setScore(--score);
         for (Map.Entry<OfflinePlayer, Integer> entry : mediumScores.entrySet()) {
-            if (x >= 3) break;
+            if (iteration >= 3) break;
             fctop.getObjective("FCTop").getScore("§6" + entry.getKey().getName() + ": §b" + entry.getValue())
                 .setScore(--score);
-            x++;
+            iteration++;
         }
 
-        x = 0;
+        iteration = 0;
         fctop.getObjective("FCTop").getScore("§4§lHard:").setScore(--score);
         for (Map.Entry<OfflinePlayer, Integer> entry : hardScores.entrySet()) {
-            if (x >= 3) break;
+            if (iteration >= 3) break;
             fctop.getObjective("FCTop").getScore("§c" + entry.getKey().getName() + ": §b" + entry.getValue())
                 .setScore(--score);
-            x++;
+            iteration++;
         }
 
-        x = 0;
+        iteration = 0;
         fctop.getObjective("FCTop").getScore("§8§lExtended:").setScore(--score);
         for (Map.Entry<OfflinePlayer, Integer> entry : extendedScores.entrySet()) {
-            if (x >= 3) break;
+            if (iteration >= 3) break;
             fctop.getObjective("FCTop").getScore("§7" + entry.getKey().getName() + ": §b" + entry.getValue())
                 .setScore(--score);
-            x++;
+            iteration++;
         }
     }
 

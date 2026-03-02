@@ -1,7 +1,5 @@
 package net.silverstonemc.silverstoneminigames.minigames;
 
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
@@ -35,42 +33,36 @@ public class TNTRun implements CommandExecutor {
     }
 
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
-        if (args.length > 0) {
-            List<Entity> selector = Bukkit.selectEntities(sender, args[0]);
-            try {
-                for (Entity entity : selector) {
-                    Player player = Bukkit.getPlayer(entity.getName());
-                    if (player == null) continue;
-                    if (player.getGameMode() != GameMode.ADVENTURE) continue;
+        if (args.length == 0) return false;
 
-                    int[] xOffset = {
-                        -1,
-                        1,
-                        -1,
-                        1
-                    };
-                    int[] zOffset = {
-                        -1,
-                        -1,
-                        1,
-                        1
-                    };
-                    for (int i = 0; i < 4; i++) {
-                        Block block = player.getLocation().subtract(
-                            player.getWidth() / 2 * xOffset[i],
-                            1,
-                            player.getWidth() / 2 * zOffset[i]).getBlock();
-                        switch (block.getType()) {
-                            case SAND, RED_SAND, GRAVEL, ORANGE_CONCRETE_POWDER -> deleteBlocks(block);
-                        }
-                    }
+        List<Entity> selector = Bukkit.selectEntities(sender, args[0]);
+        for (Entity entity : selector) {
+            Player player = Bukkit.getPlayer(entity.getName());
+            if (player == null) continue;
+            if (player.getGameMode() != GameMode.ADVENTURE) continue;
 
+            int[] xOffset = {
+                -1,
+                1,
+                -1,
+                1
+            };
+            int[] zOffset = {
+                -1,
+                -1,
+                1,
+                1
+            };
+            for (int i = 0; i < 4; i++) {
+                Block block = player.getLocation().subtract(
+                    player.getWidth() / 2 * xOffset[i],
+                    1,
+                    player.getWidth() / 2 * zOffset[i]).getBlock();
+                switch (block.getType()) {
+                    case SAND, RED_SAND, GRAVEL, ORANGE_CONCRETE_POWDER -> deleteBlocks(block);
                 }
-            } catch (IndexOutOfBoundsException e) {
-                sender.sendMessage(Component.text("Please provide a valid selector!", NamedTextColor.RED));
             }
-            return true;
         }
-        return false;
+        return true;
     }
 }

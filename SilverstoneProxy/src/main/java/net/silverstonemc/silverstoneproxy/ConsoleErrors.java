@@ -123,7 +123,6 @@ public class ConsoleErrors extends AbstractAppender {
 
     public void remove() {
         dumpQueue();
-
         dumpTask.cancel();
         ((Logger) LogManager.getRootLogger()).removeAppender(this);
     }

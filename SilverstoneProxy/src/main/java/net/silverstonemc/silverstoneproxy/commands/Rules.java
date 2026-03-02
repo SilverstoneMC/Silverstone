@@ -1,21 +1,23 @@
 package net.silverstonemc.silverstoneproxy.commands;
 
+import static net.silverstonemc.silverstoneproxy.ConfigurationManager.FileType.CONFIG;
+
 import com.velocitypowered.api.command.CommandSource;
 import com.velocitypowered.api.command.SimpleCommand;
 import com.velocitypowered.api.proxy.Player;
+
 import net.kyori.adventure.identity.Identity;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.silverstonemc.silverstoneproxy.SilverstoneProxy;
+
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.serialize.SerializationException;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
-
-import static net.silverstonemc.silverstoneproxy.ConfigurationManager.FileType.CONFIG;
 
 public class Rules implements SimpleCommand {
     public Rules(SilverstoneProxy instance) {
@@ -29,36 +31,33 @@ public class Rules implements SimpleCommand {
         CommandSource sender = invocation.source();
         String[] args = invocation.arguments();
 
-        if (args.length > 0) {
-            if (!sender.hasPermission("silverstone.moderator")) {
-                sendRules(sender, -1, true);
+        if (args.length == 0 || !sender.hasPermission("silverstone.moderator")) {
+            sendRules(sender, -1, true);
+            return;
+        }
+
+        Player target = i.server.getPlayer(args[0]).isPresent() ? i.server.getPlayer(args[0]).get() : null;
+        // If target is null, cancel the command
+        if (target == null) {
+            sender.sendMessage(Component.text("Please provide an online player!", NamedTextColor.RED));
+            return;
+        }
+
+        // If rule number specified
+        if (args.length > 1) {
+            if (args[1].equalsIgnoreCase("all")) args[1] = "-1";
+            int rule;
+            try {
+                rule = Integer.parseInt(args[1]);
+            } catch (NumberFormatException ignored) {
+                sender.sendMessage(Component.text("Not a number!", NamedTextColor.RED));
                 return;
             }
 
-            Player target = i.server.getPlayer(args[0]).isPresent() ? i.server.getPlayer(args[0])
-                .get() : null;
-            // If target is null, cancel the command
-            if (target == null) {
-                sender.sendMessage(Component.text("Please provide an online player!", NamedTextColor.RED));
-                return;
-            }
+            if (args.length > 2) sendRules(target, rule, args[2].equalsIgnoreCase("-s"));
+            else sendRules(target, rule, false);
 
-            // If rule number specified
-            if (args.length > 1) {
-                if (args[1].equalsIgnoreCase("all")) args[1] = "-1";
-                int rule;
-                try {
-                    rule = Integer.parseInt(args[1]);
-                } catch (NumberFormatException ignored) {
-                    sender.sendMessage(Component.text("Not a number!", NamedTextColor.RED));
-                    return;
-                }
-
-                if (args.length > 2) sendRules(target, rule, args[2].equalsIgnoreCase("-s"));
-                else sendRules(target, rule, false);
-
-            } else sendRuleGUI(sender, target);
-        } else sendRules(sender, -1, true);
+        } else sendRuleGUI(sender, target);
     }
 
     private void sendRules(CommandSource target, int rule, boolean silent) {

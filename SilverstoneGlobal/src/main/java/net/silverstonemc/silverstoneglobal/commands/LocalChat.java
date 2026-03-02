@@ -19,7 +19,6 @@ public class LocalChat implements CommandExecutor {
         if (args.length == 0) return false;
 
         StringBuilder message = new StringBuilder();
-
         for (String arg : args) {
             message.append(arg);
             message.append(" ");

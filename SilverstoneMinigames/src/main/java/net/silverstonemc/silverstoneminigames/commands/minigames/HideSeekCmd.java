@@ -3,6 +3,7 @@ package net.silverstonemc.silverstoneminigames.commands.minigames;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.silverstonemc.silverstoneminigames.minigames.HideSeek;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.SoundCategory;
@@ -121,8 +122,11 @@ public class HideSeekCmd implements CommandExecutor {
                 }
                 return true;
             }
+
+            default -> {
+                return false;
+            }
         }
-        return false;
     }
 
     private void playHeartbeat(Player player, int speed1, int speed2, int stopAfter) {

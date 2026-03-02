@@ -96,11 +96,12 @@ public class MinigameManager implements CommandExecutor, TabCompleter {
     }
 
     @Override
-    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String @NotNull [] args) {
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, String @NotNull [] args) {
         if (args.length == 0) {
             listMinigames(sender);
             return true;
         }
+
         switch (args[0].toLowerCase()) {
             case "create" -> createMinigame(sender, args);
             case "delete" -> deleteMinigame(sender, args);
@@ -145,7 +146,7 @@ public class MinigameManager implements CommandExecutor, TabCompleter {
         // friendly_name
         String friendlyName = args[2].replace("_", " ");
 
-        // SINGLE | MULTI
+        // SINGLE | COMBO | MULTI
         MinigamePlayers players;
         try {
             players = MinigamePlayers.valueOf(args[3].toUpperCase());
@@ -197,8 +198,8 @@ public class MinigameManager implements CommandExecutor, TabCompleter {
             .getKeys(false));
         Collections.sort(minigames);
 
-        TextComponent.Builder messageBuilder = Component.text().append(Component.text(
-            "\nAvailable minigames:\n", NamedTextColor.GREEN));
+        TextComponent.Builder messageBuilder = Component.text().append(Component.text("\nAvailable minigames:\n",
+            NamedTextColor.GREEN));
 
         for (String minigame : minigames) {
             MinigameStatus status = MinigameStatus.valueOf(dataFile.getString(
@@ -246,8 +247,8 @@ public class MinigameManager implements CommandExecutor, TabCompleter {
     }
 
     // mgm set <game_id> friendlyname <name>
-    // mgm set <game_id> players <SINGLE|MULTI>
-    // mgm set <game_id> status <open|in_session|resetting|closed> [-a]
+    // mgm set <game_id> players <SINGLE|COMBO|MULTI>
+    // mgm set <game_id> status <OPEN|IN_SESSION|RESETTING|CLOSED> [-a]
     private void setMinigame(CommandSender sender, String[] args) {
         TextComponent usage = Component.text(
             "/mgm set <game_id> <friendlyname | players | status> <value>",
@@ -541,10 +542,10 @@ public class MinigameManager implements CommandExecutor, TabCompleter {
     // game_id will coincide with the hologram name
     // mgm list
     // mgm delete <game_id>
-    // mgm create <game_id> <friendly_name> <SINGLE|MULTI>
+    // mgm create <game_id> <friendly_name> <SINGLE|COMBO|MULTI>
     // mgm set    <game_id> friendlyname    <name>
-    // mgm set    <game_id> players         <SINGLE|MULTI>
-    // mgm set    <game_id> status          <open|in_session|resetting|closed> [-a]
+    // mgm set    <game_id> players         <SINGLE|COMBO|MULTI>
+    // mgm set    <game_id> status          <OPEN|IN_SESSION|RESETTING|CLOSED> [-a]
     //      0         1       2               3                                  4
     public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String @NotNull [] args) {
         List<String> result = new ArrayList<>();

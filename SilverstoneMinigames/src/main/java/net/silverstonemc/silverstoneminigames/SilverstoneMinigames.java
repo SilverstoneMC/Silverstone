@@ -14,6 +14,7 @@ import net.silverstonemc.silverstoneminigames.managers.BossBarManager;
 import net.silverstonemc.silverstoneminigames.managers.DataFileManager;
 import net.silverstonemc.silverstoneminigames.managers.MinigameManager;
 import net.silverstonemc.silverstoneminigames.minigames.*;
+
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -51,7 +52,6 @@ public class SilverstoneMinigames extends JavaPlugin implements CommandExecutor 
                 try {
                     jda.awaitReady();
                     new MinigameManager(instance).updateDiscordMessage();
-
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
