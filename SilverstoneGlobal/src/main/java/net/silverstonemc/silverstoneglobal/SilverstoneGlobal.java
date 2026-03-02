@@ -1,6 +1,5 @@
 package net.silverstonemc.silverstoneglobal;
 
-import me.rerere.matrix.api.MatrixAPI;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.OnlineStatus;
@@ -23,6 +22,7 @@ import net.silverstonemc.silverstoneglobal.discord.Errors;
 import net.silverstonemc.silverstoneglobal.discord.TPS;
 import net.silverstonemc.silverstoneglobal.discord.Vanish;
 import net.silverstonemc.silverstoneglobal.events.*;
+
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -37,6 +37,8 @@ import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+
+import me.rerere.matrix.api.MatrixAPI;
 
 @SuppressWarnings("DataFlowIssue")
 public class SilverstoneGlobal extends JavaPlugin implements Listener {
@@ -96,7 +98,8 @@ public class SilverstoneGlobal extends JavaPlugin implements Listener {
                         TextChannel channel = jda.getTextChannelById(1075640285083734067L);
                         //noinspection DataFlowIssue
                         if (channel.getIterableHistory().takeAsync(1).thenApply(ArrayList::new).get(
-                            30, TimeUnit.SECONDS).isEmpty())
+                            30,
+                            TimeUnit.SECONDS).isEmpty())
                             channel.sendMessage("## Select a vanish state").addComponents(ActionRow.of(
                                 Button.success("vanish-on", "Vanish"),
                                 Button.danger("vanish-off", "Un-vanish"))).queue();
@@ -139,8 +142,6 @@ public class SilverstoneGlobal extends JavaPlugin implements Listener {
         getCommand("spectate").setExecutor(new Spectate(this));
         getCommand("stuck").setExecutor(new Stuck());
         getCommand("tips").setExecutor(new Tips(this));
-        getCommand("tpchunk").setExecutor(new TP());
-        getCommand("tpregion").setExecutor(new TP());
         getCommand("updatecommands").setExecutor(new UpdateCommands());
         getCommand("watch").setExecutor(new Spectate(this));
 

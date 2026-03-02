@@ -61,7 +61,7 @@ public class Errors extends AbstractAppender {
         }
 
         // Send message to Jason immediately on Minecraft
-        Optional<Player> jason = new GetJasonUtil().getJason();
+        Optional<Player> jason = GetJasonUtil.getPlayer();
         jason.ifPresent(player -> player.sendMessage(Component.text(
             "[Backend Error] " + message,
             NamedTextColor.RED)));
@@ -126,10 +126,9 @@ public class Errors extends AbstractAppender {
     }
 
     private void sendDiscordMessage(StringBuilder builder) {
-        Optional<Player> jason = new GetJasonUtil().getJason();
         // Make message silent if Jason is online
         //noinspection DataFlowIssue
         SilverstoneGlobal.jda.getTextChannelById(1076713224612880404L).sendMessage(MarkdownUtil.codeblock("accesslog",
-            builder.toString())).setSuppressedNotifications(jason.isPresent()).queue();
+            builder.toString())).setSuppressedNotifications(GetJasonUtil.getPlayer().isPresent()).queue();
     }
 }

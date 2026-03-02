@@ -2,7 +2,9 @@ package net.silverstonemc.silverstoneglobal.discord;
 
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
+import net.silverstonemc.silverstoneglobal.GetJasonUtil;
 import net.silverstonemc.silverstoneglobal.SilverstoneGlobal;
+
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -56,7 +58,9 @@ public class TPS {
             embed.setColor(new Color(204, 27, 53));
             embed.setFooter(dtf.format(time));
 
-            channel.sendMessage(":warning: <@&667793980318154783>, the server is crashing! :warning:")
+            // Warn the staff if Jason is not online
+            if (GetJasonUtil.getPlayer().isEmpty()) channel.sendMessage(
+                    ":warning: <@&667793980318154783>, the server is crashing! :warning:")
                 .setEmbeds(embed.build()).queue();
             cooldown();
         }

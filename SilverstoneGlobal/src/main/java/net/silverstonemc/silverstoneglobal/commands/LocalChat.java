@@ -2,6 +2,7 @@ package net.silverstonemc.silverstoneglobal.commands;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
+
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -15,17 +16,16 @@ public class LocalChat implements CommandExecutor {
             return true;
         }
 
-        if (args.length > 0) {
-            StringBuilder message = new StringBuilder();
+        if (args.length == 0) return false;
 
-            for (String arg : args) {
-                message.append(arg);
-                message.append(" ");
-            }
+        StringBuilder message = new StringBuilder();
 
-            player.chat(message.toString().trim());
-            return true;
+        for (String arg : args) {
+            message.append(arg);
+            message.append(" ");
         }
-        return false;
+
+        player.chat(message.toString().trim());
+        return true;
     }
 }

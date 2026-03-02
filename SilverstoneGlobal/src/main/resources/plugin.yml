@@ -85,13 +85,8 @@ commands:
     permission: silverstone.stuck
   tips:
     description: "Server tips"
-  tpchunk:
-    permission: silverstone.admin
-    usage: "§cUsage: /tpchunk <x> <z> [world]"
-  tpregion:
-    permission: silverstone.admin
-    usage: "§cUsage: /tpregion <x> <z> [world]"
   updatecommands:
+    permission: silverstone.admin
     description: "Updates available commands"
   watch:
     permission: silverstone.moderator

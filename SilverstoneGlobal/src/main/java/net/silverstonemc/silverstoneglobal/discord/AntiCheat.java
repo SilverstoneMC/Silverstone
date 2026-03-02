@@ -1,10 +1,9 @@
 package net.silverstonemc.silverstoneglobal.discord;
 
-import me.rerere.matrix.api.HackType;
-import me.rerere.matrix.api.events.PlayerViolationCommandEvent;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import net.silverstonemc.silverstoneglobal.SilverstoneGlobal;
+
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -14,6 +13,9 @@ import java.awt.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
+
+import me.rerere.matrix.api.HackType;
+import me.rerere.matrix.api.events.PlayerViolationCommandEvent;
 
 public class AntiCheat implements Listener {
     @SuppressWarnings("DataFlowIssue")
@@ -33,6 +35,9 @@ public class AntiCheat implements Listener {
 
         TextChannel discord = SilverstoneGlobal.jda.getTextChannelById(1075643318265974864L);
 
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("h:mm:ss.SSS a", Locale.US);
+        LocalDateTime time = LocalDateTime.now();
+
         EmbedBuilder embed = new EmbedBuilder();
         embed.setAuthor(
             player.getName() + " may be hacking (" + event.getHackType() + ") | Violations: " + SilverstoneGlobal.matrix.getViolations(
@@ -41,9 +46,8 @@ public class AntiCheat implements Listener {
             null,
             "https://mc-heads.net/avatar/" + player.getUniqueId());
         embed.setColor(new Color(204, 27, 53));
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("h:mm:ss.SSS a", Locale.US);
-        LocalDateTime time = LocalDateTime.now();
         embed.setFooter(dtf.format(time) + " | " + x + " staff members online");
+
         discord.sendMessageEmbeds(embed.build()).queue();
     }
 }

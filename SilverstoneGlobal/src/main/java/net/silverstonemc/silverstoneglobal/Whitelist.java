@@ -13,7 +13,7 @@ public class Whitelist {
         if (Bukkit.getServer().hasWhitelist()) {
             SilverstoneGlobal.getInstance().getLogger().warning("Whitelist is on");
 
-            Optional<Player> jason = new GetJasonUtil().getJason();
+            Optional<Player> jason = GetJasonUtil.getPlayer();
             if (jason.isEmpty()) return;
 
             jason.get().sendActionBar(Component.text("Whitelist is on", NamedTextColor.YELLOW));

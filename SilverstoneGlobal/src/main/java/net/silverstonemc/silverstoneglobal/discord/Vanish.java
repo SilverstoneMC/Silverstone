@@ -4,6 +4,7 @@ import net.dv8tion.jda.api.components.actionrow.ActionRow;
 import net.dv8tion.jda.api.components.buttons.Button;
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
+
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -25,7 +26,7 @@ public class Vanish extends ListenerAdapter {
         String componentId = event.getComponentId();
         UUID uuid = null;
         switch (event.getMember().getId()) {
-            // Ace
+            // Gage
             case "287993228026707971" -> uuid = UUID.fromString("5c3d3b7c-aa02-4751-ae4b-60b277da9c35");
             // Panda
             case "361767232805535746" -> uuid = UUID.fromString("75fb05a2-9d9e-49cb-be34-6bd5215548ba");

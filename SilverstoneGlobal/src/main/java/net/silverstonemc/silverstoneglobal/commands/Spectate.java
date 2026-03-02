@@ -2,6 +2,7 @@ package net.silverstonemc.silverstoneglobal.commands;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
+
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.command.Command;
@@ -20,72 +21,82 @@ public class Spectate implements CommandExecutor {
     private final JavaPlugin plugin;
 
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String @NotNull [] args) {
-        if (!(sender instanceof Player)) {
+        if (!(sender instanceof Player player)) {
             sender.sendMessage(Component.text("Sorry, but only players can do that.", NamedTextColor.RED));
             return true;
         }
 
-        if (cmd.getName().equalsIgnoreCase("spectate")) if (args.length > 0) {
-            Player player = (Player) sender;
-            Player target = Bukkit.getPlayer(args[0]);
+        if (args.length == 0) return false;
 
-            // If player is null
-            if (target == null) {
-                sender.sendMessage(Component.text("Please provide an online player!", NamedTextColor.RED));
-                return true;
-            }
+        switch (cmd.getName().toLowerCase()) {
+            case "spectate" -> {
+                Player target = Bukkit.getPlayer(args[0]);
 
-            player.setGameMode(GameMode.SPECTATOR);
-            player.setSpectatorTarget(null);
-            player.setInvisible(true);
-
-            new BukkitRunnable() {
-                @Override
-                public void run() {
-                    player.teleportAsync(target.getLocation());
+                // If player is null
+                if (target == null) {
+                    sender.sendMessage(Component.text(
+                        "Please provide an online player!",
+                        NamedTextColor.RED));
+                    return true;
                 }
-            }.runTaskLater(plugin, 5);
 
-            new BukkitRunnable() {
-                @Override
-                public void run() {
-                    player.setSpectatorTarget(target);
+                player.setGameMode(GameMode.SPECTATOR);
+                player.setSpectatorTarget(null);
+                player.setInvisible(true);
 
-                    if (player.getGameMode() != GameMode.SPECTATOR) {
-                        player.setGameMode(GameMode.SPECTATOR);
-                        player.setSpectatorTarget(target);
+                new BukkitRunnable() {
+                    @Override
+                    public void run() {
+                        player.teleportAsync(target.getLocation());
                     }
-                    player.setInvisible(false);
-                }
-            }.runTaskLater(plugin, 10);
-            return true;
-        }
+                }.runTaskLater(plugin, 5);
 
-        if (cmd.getName().equalsIgnoreCase("watch")) if (args.length > 0) {
-            Player player = (Player) sender;
-            Player target = Bukkit.getPlayer(args[0]);
+                new BukkitRunnable() {
+                    @Override
+                    public void run() {
+                        player.setSpectatorTarget(target);
 
-            // If player is null
-            if (target == null) {
-                sender.sendMessage(Component.text("Please provide an online player!", NamedTextColor.RED));
-                return true;
+                        if (player.getGameMode() != GameMode.SPECTATOR) {
+                            player.setGameMode(GameMode.SPECTATOR);
+                            player.setSpectatorTarget(target);
+                        }
+                        player.setInvisible(false);
+                    }
+                }.runTaskLater(plugin, 10);
             }
 
-            player.setGameMode(GameMode.SPECTATOR);
-            player.setSpectatorTarget(null);
-            player.setInvisible(true);
+            case "watch" -> {
+                Player target = Bukkit.getPlayer(args[0]);
 
-            new BukkitRunnable() {
-                @Override
-                public void run() {
-                    player.teleportAsync(target.getLocation());
-
-                    if (player.getGameMode() != GameMode.SPECTATOR) player.setGameMode(GameMode.SPECTATOR);
-                    player.setInvisible(false);
+                // If player is null
+                if (target == null) {
+                    sender.sendMessage(Component.text(
+                        "Please provide an online player!",
+                        NamedTextColor.RED));
+                    return true;
                 }
-            }.runTaskLater(plugin, 5);
-            return true;
+
+                player.setGameMode(GameMode.SPECTATOR);
+                player.setSpectatorTarget(null);
+                player.setInvisible(true);
+
+                new BukkitRunnable() {
+                    @Override
+                    public void run() {
+                        player.teleportAsync(target.getLocation());
+
+                        if (player.getGameMode() != GameMode.SPECTATOR)
+                            player.setGameMode(GameMode.SPECTATOR);
+                        player.setInvisible(false);
+                    }
+                }.runTaskLater(plugin, 5);
+            }
+
+            default -> {
+                return false;
+            }
         }
-        return false;
+
+        return true;
     }
 }
