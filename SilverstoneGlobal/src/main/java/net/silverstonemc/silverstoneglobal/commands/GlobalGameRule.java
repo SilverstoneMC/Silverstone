@@ -2,9 +2,8 @@ package net.silverstonemc.silverstoneglobal.commands;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
-import org.bukkit.Bukkit;
-import org.bukkit.GameRule;
-import org.bukkit.World;
+
+import org.bukkit.*;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -14,7 +13,7 @@ public class GlobalGameRule implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
         if (args.length < 2) return false;
 
-        GameRule<?> gameRule = GameRule.getByName(args[0]);
+        GameRule<?> gameRule = Registry.GAME_RULE.get(NamespacedKey.minecraft(args[0]));
         if (gameRule == null) return false;
 
         try {
@@ -49,7 +48,9 @@ public class GlobalGameRule implements CommandExecutor {
     }
 
     private void sendMessage(CommandSender sender, boolean success, GameRule<?> gameRule, String value, World world) {
-        String resultMessage = success ? "Set " + gameRule.getName() + " to " + value + " in world " + world.getName() + "!" : "Failed to set " + gameRule.getName() + " to " + value + " in world " + world.getName() + "!";
+        String resultMessage = success ? "Set " + gameRule.getKey()
+            .getKey() + " to " + value + " in world " + world.getName() + "!" : "Failed to set " + gameRule
+            .getKey().getKey() + " to " + value + " in world " + world.getName() + "!";
 
         NamedTextColor color = success ? NamedTextColor.GREEN : NamedTextColor.RED;
         sender.sendMessage(Component.text(resultMessage, color));

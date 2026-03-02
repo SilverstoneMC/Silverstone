@@ -3,6 +3,8 @@ package net.silverstonemc.silverstoneglobal;
 import com.destroystokyo.paper.event.server.AsyncTabCompleteEvent;
 
 import org.bukkit.GameRule;
+import org.bukkit.NamespacedKey;
+import org.bukkit.Registry;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
@@ -30,11 +32,12 @@ public class TabComplete implements TabCompleter, Listener {
                 if (args.length == 1) return returnResult(
                     args,
                     0,
-                    Arrays.stream(GameRule.values()).map(GameRule::getName).toArray(String[]::new));
+                    Registry.GAME_RULE.stream().map(gameRule -> gameRule.getKey().getKey())
+                        .toArray(String[]::new));
 
                 if (args.length == 2) {
                     List<String> gameRuleValues = new ArrayList<>();
-                    GameRule<?> gameRule = GameRule.getByName(args[0]);
+                    GameRule<?> gameRule = Registry.GAME_RULE.get(NamespacedKey.minecraft(args[0]));
                     if (gameRule == null) return new ArrayList<>();
                     if (gameRule.getType() == Boolean.class) gameRuleValues.addAll(Arrays.asList(
                         "true",

@@ -1,10 +1,7 @@
 package net.silverstonemc.silverstoneminigames.managers;
 
-import de.oliver.fancyholograms.api.FancyHologramsPlugin;
-import de.oliver.fancyholograms.api.data.HologramData;
-import de.oliver.fancyholograms.api.data.TextHologramData;
-import de.oliver.fancyholograms.api.hologram.Hologram;
-import de.oliver.fancyholograms.api.hologram.HologramType;
+import static net.silverstonemc.silverstoneminigames.SilverstoneMinigames.jda;
+
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.channel.concrete.NewsChannel;
@@ -15,6 +12,7 @@ import net.kyori.adventure.text.event.HoverEvent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextColor;
 import net.silverstonemc.silverstoneminigames.SilverstoneMinigames;
+
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -38,7 +36,11 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.stream.Stream;
 
-import static net.silverstonemc.silverstoneminigames.SilverstoneMinigames.jda;
+import de.oliver.fancyholograms.api.FancyHologramsPlugin;
+import de.oliver.fancyholograms.api.data.HologramData;
+import de.oliver.fancyholograms.api.data.TextHologramData;
+import de.oliver.fancyholograms.api.hologram.Hologram;
+import de.oliver.fancyholograms.api.hologram.HologramType;
 
 public class MinigameManager implements CommandExecutor, TabCompleter {
     private BukkitTask statusUpdateTask;
@@ -195,9 +197,8 @@ public class MinigameManager implements CommandExecutor, TabCompleter {
             .getKeys(false));
         Collections.sort(minigames);
 
-        TextComponent.Builder messageBuilder = Component.text(
-            "\nAvailable minigames:\n",
-            NamedTextColor.GREEN).toBuilder();
+        TextComponent.Builder messageBuilder = Component.text().append(Component.text(
+            "\nAvailable minigames:\n", NamedTextColor.GREEN));
 
         for (String minigame : minigames) {
             MinigameStatus status = MinigameStatus.valueOf(dataFile.getString(
