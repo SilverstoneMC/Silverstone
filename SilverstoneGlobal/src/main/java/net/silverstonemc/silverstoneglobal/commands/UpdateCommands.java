@@ -13,10 +13,7 @@ import org.jspecify.annotations.NonNull;
 
 public class UpdateCommands implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String @NonNull [] args) {
-        if (!(sender instanceof Player player)) {
-            sender.sendMessage(Component.text("Sorry, but only players can do that.", NamedTextColor.RED));
-            return true;
-        }
+        if (args.length == 0 && !(sender instanceof Player)) return false;
 
         Player target;
         if (args.length > 0) {
@@ -25,7 +22,7 @@ public class UpdateCommands implements CommandExecutor {
                 sender.sendMessage(Component.text("Please provide an online player!", NamedTextColor.RED));
                 return true;
             }
-        } else target = player;
+        } else target = (Player) sender;
 
         target.updateCommands();
         String username = target.getName();

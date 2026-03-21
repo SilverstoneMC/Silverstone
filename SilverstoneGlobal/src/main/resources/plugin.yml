@@ -88,6 +88,7 @@ commands:
   updatecommands:
     permission: silverstone.admin
     description: "Updates available commands"
+    usage: "§cUsage: /updatecommands [player]"
   watch:
     permission: silverstone.moderator
     usage: "§cUsage: /watch <player>"
