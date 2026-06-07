@@ -76,6 +76,7 @@ public class SilverstoneProxy {
             .values()) {
             //noinspection DataFlowIssue
             UUID uuid = UUID.fromString(users.key().toString());
+            //noinspection DataFlowIssue
             String username = fileManager.files.get(USERCACHE).node("users", users.key()).getString();
             UserManager.playerMap.put(uuid, username);
         }
