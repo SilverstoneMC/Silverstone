@@ -190,7 +190,7 @@ public class CorruptedTag implements CommandExecutor {
                             "Weapon: Pickaxe",
                             List.of("20% corruption resistance", "10 hearts"),
                             List.of("Much slower health regeneration"))).flags(ItemFlag.values())
-                        .asGuiItem((player, context) -> {
+                        .asGuiItem((player, _) -> {
                             playClick(player);
                             isClicked[0] = true;
                             confirmInventory(player, KitType.TANK).open(player);
@@ -200,7 +200,7 @@ public class CorruptedTag implements CommandExecutor {
                     4, ItemBuilder.from(Material.IRON_SWORD).name(getItemName("Ninja")).lore(getItemLore(
                         "Weapon: Sword",
                         List.of("3 jump boosts per life", "40% speed boost when Hunter"),
-                        List.of("7 hearts"))).flags(ItemFlag.values()).asGuiItem((player, context) -> {
+                        List.of("7 hearts"))).flags(ItemFlag.values()).asGuiItem((player, _) -> {
                         playClick(player);
                         isClicked[0] = true;
                         confirmInventory(player, KitType.NINJA).open(player);
@@ -211,7 +211,7 @@ public class CorruptedTag implements CommandExecutor {
                             "Weapon: Bow",
                             List.of("Ranged attack"),
                             List.of("No melee attack", "Limited arrows per life", "5 hearts")))
-                        .flags(ItemFlag.values()).asGuiItem((player, context) -> {
+                        .flags(ItemFlag.values()).asGuiItem((player, _) -> {
                             playClick(player);
                             isClicked[0] = true;
                             confirmInventory(player, KitType.RANGED).open(player);
@@ -284,7 +284,7 @@ public class CorruptedTag implements CommandExecutor {
                 }));
 
             container.setItem(
-                5, cancelItem.asGuiItem((player, context) -> {
+                5, cancelItem.asGuiItem((player, _) -> {
                     playClick(player);
                     isClicked[0] = true;
                     mainInventory(player).open(player);

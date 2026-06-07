@@ -1,8 +1,12 @@
 package net.silverstonemc.silverstoneproxy.commands;
 
+import static net.silverstonemc.silverstoneproxy.ConfigurationManager.FileType.WARNDATA;
+import static net.silverstonemc.silverstoneproxy.ConfigurationManager.FileType.WARNQUEUE;
+
 import com.velocitypowered.api.command.CommandSource;
 import com.velocitypowered.api.command.SimpleCommand;
 import com.velocitypowered.api.proxy.Player;
+
 import net.kyori.adventure.identity.Identity;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -10,15 +14,13 @@ import net.kyori.adventure.text.format.TextDecoration;
 import net.silverstonemc.silverstoneproxy.SilverstoneProxy;
 import net.silverstonemc.silverstoneproxy.UserManager;
 import net.silverstonemc.silverstoneproxy.utils.NoPlayerMsg;
+
 import org.spongepowered.configurate.ConfigurationNode;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
-
-import static net.silverstonemc.silverstoneproxy.ConfigurationManager.FileType.WARNDATA;
-import static net.silverstonemc.silverstoneproxy.ConfigurationManager.FileType.WARNQUEUE;
 
 public class Warnings implements SimpleCommand {
     public Warnings(SilverstoneProxy instance) {

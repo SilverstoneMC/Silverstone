@@ -1,15 +1,12 @@
 package net.silverstonemc.silverstoneminigames.commands;
 
-import dev.triumphteam.gui.layout.GuiLayout;
-import dev.triumphteam.gui.paper.Gui;
-import dev.triumphteam.gui.paper.builder.item.ItemBuilder;
-import dev.triumphteam.gui.slot.Slot;
 import net.kyori.adventure.inventory.Book;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.kyori.adventure.text.minimessage.MiniMessage;
+
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.SoundCategory;
@@ -23,6 +20,11 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import dev.triumphteam.gui.layout.GuiLayout;
+import dev.triumphteam.gui.paper.Gui;
+import dev.triumphteam.gui.paper.builder.item.ItemBuilder;
+import dev.triumphteam.gui.slot.Slot;
 
 public class HowToPlay implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String @NotNull [] args) {
@@ -49,7 +51,7 @@ public class HowToPlay implements CommandExecutor {
             container.setItem(
                 10,
                 ItemBuilder.from(Material.SPRUCE_BOAT).name(getItemName("Boat Racing"))
-                    .asGuiItem((player, context) -> openBook(
+                    .asGuiItem((player, _) -> openBook(
                         player, "Boat Racing", """
                             Race your boat to reach the finish line before the other players. 1 of the 4 available maps will be randomly selected.
                             
@@ -58,7 +60,7 @@ public class HowToPlay implements CommandExecutor {
             container.setItem(
                 11,
                 ItemBuilder.from(Material.SKELETON_SKULL).name(getItemName("Corrupted Tag"))
-                    .asGuiItem((player, context) -> openBook(
+                    .asGuiItem((player, _) -> openBook(
                         player,
                         "Corrupted Tag",
                         """
@@ -73,7 +75,7 @@ public class HowToPlay implements CommandExecutor {
             container.setItem(
                 12,
                 ItemBuilder.from(Material.NETHERITE_BOOTS).name(getItemName("Death Run"))
-                    .flags(ItemFlag.values()).asGuiItem((player, context) -> openBook(
+                    .flags(ItemFlag.values()).asGuiItem((player, _) -> openBook(
                         player,
                         "Death Run",
                         """
@@ -86,7 +88,7 @@ public class HowToPlay implements CommandExecutor {
             container.setItem(
                 13,
                 ItemBuilder.from(Material.ELYTRA).name(getItemName("Flying Course"))
-                    .asGuiItem((player, context) -> openBook(
+                    .asGuiItem((player, _) -> openBook(
                         player, "Flying Course", """
                             Fly through the rings in the correct order without touching anything. The arrows on the ground are boost pads, and the arrows on the rings point to the next ring.
                             
@@ -95,7 +97,7 @@ public class HowToPlay implements CommandExecutor {
             container.setItem(
                 14,
                 ItemBuilder.from(Material.SPYGLASS).name(getItemName("Hide & Seek"))
-                    .asGuiItem((player, context) -> openBook(
+                    .asGuiItem((player, _) -> openBook(
                         player,
                         "Hide & Seek",
                         """
@@ -115,7 +117,7 @@ public class HowToPlay implements CommandExecutor {
             container.setItem(
                 15,
                 ItemBuilder.from(Material.COMPASS).name(getItemName("Mazes"))
-                    .asGuiItem((player, context) -> openBook(
+                    .asGuiItem((player, _) -> openBook(
                         player, "Mazes", """
                             A random maze that has no players in it will be assigned to a random player in the maze lobby. There are 8 different mazes.
                             
@@ -124,7 +126,7 @@ public class HowToPlay implements CommandExecutor {
             container.setItem(
                 16,
                 ItemBuilder.from(Material.SNOWBALL).name(getItemName("Mini Golf"))
-                    .asGuiItem((player, context) -> openBook(
+                    .asGuiItem((player, _) -> openBook(
                         player,
                         "Mini Golf",
                         """
@@ -140,14 +142,14 @@ public class HowToPlay implements CommandExecutor {
             container.setItem(
                 19,
                 ItemBuilder.from(Material.SLIME_BLOCK).name(getItemName("Parkour"))
-                    .asGuiItem((player, context) -> openBook(
+                    .asGuiItem((player, _) -> openBook(
                         player, "Parkour", """
                             <b>The goal:</b> Get to the end without rage quitting.""")));
 
             container.setItem(
                 21,
                 ItemBuilder.from(Material.DIAMOND_SWORD).name(getItemName("PvP")).flags(ItemFlag.values())
-                    .asGuiItem((player, context) -> openBook(
+                    .asGuiItem((player, _) -> openBook(
                         player,
                         "PvP",
                         """
@@ -176,7 +178,7 @@ public class HowToPlay implements CommandExecutor {
             container.setItem(
                 23,
                 ItemBuilder.from(Material.NETHERITE_SHOVEL).name(getItemName("Spleef"))
-                    .flags(ItemFlag.values()).asGuiItem((player, context) -> openBook(
+                    .flags(ItemFlag.values()).asGuiItem((player, _) -> openBook(
                         player,
                         "Spleef",
                         """
@@ -188,12 +190,11 @@ public class HowToPlay implements CommandExecutor {
 
             container.setItem(
                 25,
-                ItemBuilder.from(Material.TNT).name(getItemName("TNT Run"))
-                    .asGuiItem((player, context) -> openBook(
-                        player, "TNT Run", """
-                            You will start with 5 double jumps. Click with the feather in hand to consume a double jump.
-                            
-                            <b>The goal:</b> Get the other players out by making them drop through the bottom layer.""")));
+                ItemBuilder.from(Material.TNT).name(getItemName("TNT Run")).asGuiItem((player, _) -> openBook(
+                    player, "TNT Run", """
+                        You will start with 5 double jumps. Click with the feather in hand to consume a double jump.
+                        
+                        <b>The goal:</b> Get the other players out by making them drop through the bottom layer.""")));
         }).build();
     }
 

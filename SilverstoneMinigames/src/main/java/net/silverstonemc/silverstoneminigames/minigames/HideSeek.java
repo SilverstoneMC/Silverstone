@@ -1,10 +1,5 @@
 package net.silverstonemc.silverstoneminigames.minigames;
 
-import dev.triumphteam.gui.click.ClickContext;
-import dev.triumphteam.gui.layout.GuiLayout;
-import dev.triumphteam.gui.paper.Gui;
-import dev.triumphteam.gui.paper.builder.item.ItemBuilder;
-import dev.triumphteam.gui.slot.Slot;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -12,6 +7,7 @@ import net.kyori.adventure.text.format.TextDecoration;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.title.Title;
 import net.silverstonemc.silverstoneminigames.SilverstoneMinigames;
+
 import org.bukkit.*;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Firework;
@@ -29,6 +25,12 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import dev.triumphteam.gui.click.ClickContext;
+import dev.triumphteam.gui.layout.GuiLayout;
+import dev.triumphteam.gui.paper.Gui;
+import dev.triumphteam.gui.paper.builder.item.ItemBuilder;
+import dev.triumphteam.gui.slot.Slot;
 
 public class HideSeek implements Listener {
     public HideSeek(JavaPlugin plugin) {

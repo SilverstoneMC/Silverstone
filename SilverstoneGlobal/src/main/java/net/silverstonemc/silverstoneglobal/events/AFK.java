@@ -3,9 +3,11 @@ package net.silverstonemc.silverstoneglobal.events;
 import com.earth2me.essentials.User;
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
+
 import net.ess3.api.IEssentials;
 import net.ess3.api.events.AfkStatusChangeEvent;
 import net.silverstonemc.silverstoneglobal.SilverstoneGlobal;
+
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

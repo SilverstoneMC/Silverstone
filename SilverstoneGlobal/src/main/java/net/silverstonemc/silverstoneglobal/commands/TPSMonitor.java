@@ -2,6 +2,7 @@ package net.silverstonemc.silverstoneglobal.commands;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
+
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -14,7 +15,7 @@ public class TPSMonitor implements CommandExecutor {
     public TPSMonitor(JavaPlugin plugin) {
         this.plugin = plugin;
     }
-    
+
     private final JavaPlugin plugin;
     private static BukkitRunnable task;
 

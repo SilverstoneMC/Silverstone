@@ -1,6 +1,7 @@
 package net.silverstonemc.silverstoneproxy;
 
 import com.velocitypowered.api.proxy.Player;
+
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.event.ClickEvent;

@@ -1,5 +1,7 @@
 package net.silverstonemc.silverstoneproxy;
 
+import static net.silverstonemc.silverstoneproxy.ConfigurationManager.FileType.CONFIG;
+
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.serialize.SerializationException;
@@ -8,8 +10,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
-
-import static net.silverstonemc.silverstoneproxy.ConfigurationManager.FileType.CONFIG;
 
 public class UndoWarning {
     public UndoWarning(SilverstoneProxy instance) {

@@ -6,11 +6,11 @@
 
     <groupId>net.silverstonemc</groupId>
     <artifactId>SilverstoneProxy</artifactId>
-    <version>3.12.6</version>
+    <version>3.12.7</version>
 
     <properties>
-        <maven.compiler.source>21</maven.compiler.source>
-        <maven.compiler.target>21</maven.compiler.target>
+        <maven.compiler.source>25</maven.compiler.source>
+        <maven.compiler.target>25</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
@@ -23,7 +23,7 @@
                 <artifactId>maven-jar-plugin</artifactId>
                 <version>3.5.0</version>
                 <configuration>
-                    <outputDirectory>C:\Users\jason\OneDrive\Documents\MC Server Plugins\Plugins
+                    <outputDirectory>C:\Users\jason\Documents\Documents\MC Server Plugins\Plugins
                     </outputDirectory>
                 </configuration>
             </plugin>
@@ -78,7 +78,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>3.6.1</version>
+                <version>3.6.2</version>
                 <executions>
                     <execution>
                         <phase>package</phase>
@@ -107,7 +107,7 @@
                 <configuration>
                     <generateBackupPoms>false</generateBackupPoms>
                     <allowMinorUpdates>true</allowMinorUpdates>
-                    <allowMajorUpdates>false</allowMajorUpdates>
+                    <allowRangeMatching>true</allowRangeMatching>
                 </configuration>
             </plugin>
         </plugins>
@@ -158,7 +158,7 @@
         <dependency>
             <groupId>net.dv8tion</groupId>
             <artifactId>JDA</artifactId>
-            <version>6.3.1</version>
+            <version>6.4.2</version>
         </dependency>
 
         <dependency>
@@ -178,14 +178,14 @@
         <dependency>
             <groupId>de.hexaoxi</groupId>
             <artifactId>carbonchat-api</artifactId>
-            <version>3.0.0-beta.36</version>
+            <version>3.0.0-beta.37</version>
             <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>com.github.NEZNAMY</groupId>
             <artifactId>TAB-API</artifactId>
-            <version>5.5.0</version>
+            <version>6.0.0</version>
             <scope>provided</scope>
         </dependency>
 

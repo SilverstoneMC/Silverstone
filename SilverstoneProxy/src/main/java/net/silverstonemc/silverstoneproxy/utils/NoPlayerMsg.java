@@ -1,6 +1,7 @@
 package net.silverstonemc.silverstoneproxy.utils;
 
 import com.velocitypowered.api.command.CommandSource;
+
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 

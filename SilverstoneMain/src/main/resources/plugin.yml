@@ -3,7 +3,7 @@ name: SilverstoneMain
 description: Designed for whatever the main server is at the time
 version: %VERSION%
 author: JasonHorkles
-api-version: '1.21.11'
+api-version: '26.1.2'
 softdepend:
   - Essentials
 

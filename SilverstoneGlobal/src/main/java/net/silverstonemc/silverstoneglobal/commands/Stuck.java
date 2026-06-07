@@ -2,6 +2,7 @@ package net.silverstonemc.silverstoneglobal.commands;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
+
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.command.Command;

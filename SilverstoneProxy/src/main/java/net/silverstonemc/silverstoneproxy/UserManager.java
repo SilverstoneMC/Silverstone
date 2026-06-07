@@ -1,12 +1,12 @@
 package net.silverstonemc.silverstoneproxy;
 
+import static net.silverstonemc.silverstoneproxy.ConfigurationManager.FileType.USERCACHE;
+
 import org.apache.commons.collections4.BidiMap;
 import org.apache.commons.collections4.bidimap.DualHashBidiMap;
 import org.spongepowered.configurate.serialize.SerializationException;
 
 import java.util.UUID;
-
-import static net.silverstonemc.silverstoneproxy.ConfigurationManager.FileType.USERCACHE;
 
 public class UserManager {
     public UserManager(SilverstoneProxy instance) {

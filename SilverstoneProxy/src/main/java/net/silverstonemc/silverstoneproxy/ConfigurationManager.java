@@ -25,8 +25,12 @@ public class ConfigurationManager {
     private final Path dataDirectory;
 
     public enum FileType {
-        CONFIG("config.yml"), NICKNAMES("nicknames.yml"), PREVIOUS("previous-servers.yml"), USERCACHE(
-            "usercache.yml"), WARNDATA("warndata.yml"), WARNQUEUE("warnqueue.yml");
+        CONFIG("config.yml"),
+        NICKNAMES("nicknames.yml"),
+        PREVIOUS("previous-servers.yml"),
+        USERCACHE("usercache.yml"),
+        WARNDATA("warndata.yml"),
+        WARNQUEUE("warnqueue.yml");
 
         private final String fileName;
 

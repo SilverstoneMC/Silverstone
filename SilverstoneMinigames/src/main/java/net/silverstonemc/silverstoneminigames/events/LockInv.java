@@ -1,6 +1,7 @@
 package net.silverstonemc.silverstoneminigames.events;
 
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
+
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

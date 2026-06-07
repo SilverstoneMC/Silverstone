@@ -4,6 +4,7 @@ import net.ess3.api.IEssentials;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.silverstonemc.silverstonemain.SilverstoneMain;
+
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -35,7 +36,7 @@ public class JHome implements CommandExecutor {
         player.sendMessage(Component.text("Teleporting...", NamedTextColor.DARK_AQUA));
         if (player.getGameMode() == GameMode.SPECTATOR) player.setSpectatorTarget(null);
         essentials.getUser(player).getAsyncTeleport().now(
-            new Location(Bukkit.getWorld("utility"), 79.5, 71, 135.5, 0, 0),
+            new Location(Bukkit.getWorld("main"), 79.5, 71, 135.5, 0, 0),
             false,
             PlayerTeleportEvent.TeleportCause.COMMAND,
             new CompletableFuture<>());

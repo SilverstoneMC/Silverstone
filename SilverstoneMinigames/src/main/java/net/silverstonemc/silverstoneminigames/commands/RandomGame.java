@@ -1,12 +1,11 @@
 package net.silverstonemc.silverstoneminigames.commands;
 
-import dev.triumphteam.gui.paper.Gui;
-import dev.triumphteam.gui.paper.builder.item.ItemBuilder;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.silverstonemc.silverstoneminigames.SilverstoneMinigames;
 import net.silverstonemc.silverstoneminigames.managers.MinigameManager.MinigamePlayers;
+
 import org.bukkit.Sound;
 import org.bukkit.SoundCategory;
 import org.bukkit.command.Command;
@@ -19,6 +18,9 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Set;
+
+import dev.triumphteam.gui.paper.Gui;
+import dev.triumphteam.gui.paper.builder.item.ItemBuilder;
 
 public class RandomGame implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String @NotNull [] args) {

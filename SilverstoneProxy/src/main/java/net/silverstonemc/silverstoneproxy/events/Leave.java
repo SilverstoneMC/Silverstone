@@ -1,11 +1,14 @@
 package net.silverstonemc.silverstoneproxy.events;
 
+import static net.silverstonemc.silverstoneproxy.ConfigurationManager.FileType.PREVIOUS;
+
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
 import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.event.connection.DisconnectEvent;
 import com.velocitypowered.api.proxy.Player;
 import com.velocitypowered.api.proxy.server.RegisteredServer;
+
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageEmbed;
@@ -15,6 +18,7 @@ import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.silverstonemc.silverstoneproxy.SilverstoneProxy;
 import net.silverstonemc.silverstoneproxy.utils.NicknameUtils;
+
 import org.spongepowered.configurate.serialize.SerializationException;
 
 import java.awt.*;
@@ -22,8 +26,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
-
-import static net.silverstonemc.silverstoneproxy.ConfigurationManager.FileType.PREVIOUS;
 
 @SuppressWarnings("DataFlowIssue")
 public class Leave {

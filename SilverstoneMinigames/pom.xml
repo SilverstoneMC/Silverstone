@@ -6,11 +6,11 @@
 
     <groupId>net.silverstonemc</groupId>
     <artifactId>SilverstoneMinigames</artifactId>
-    <version>4.4.2</version>
+    <version>4.4.3</version>
 
     <properties>
-        <maven.compiler.source>21</maven.compiler.source>
-        <maven.compiler.target>21</maven.compiler.target>
+        <maven.compiler.source>25</maven.compiler.source>
+        <maven.compiler.target>25</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
@@ -23,7 +23,8 @@
                 <artifactId>maven-jar-plugin</artifactId>
                 <version>3.5.0</version>
                 <configuration>
-                    <outputDirectory>C:\Users\jason\OneDrive\Documents\MC Server Plugins\Plugins</outputDirectory>
+                    <outputDirectory>C:\Users\jason\Documents\Documents\MC Server Plugins\Plugins
+                    </outputDirectory>
                 </configuration>
             </plugin>
 
@@ -77,7 +78,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>3.6.1</version>
+                <version>3.6.2</version>
                 <executions>
                     <execution>
                         <phase>package</phase>
@@ -111,7 +112,6 @@
                 <configuration>
                     <generateBackupPoms>false</generateBackupPoms>
                     <allowMinorUpdates>true</allowMinorUpdates>
-                    <allowSnapshots>true</allowSnapshots>
                     <allowRangeMatching>true</allowRangeMatching>
                 </configuration>
             </plugin>
@@ -149,14 +149,14 @@
         <dependency>
             <groupId>io.papermc.paper</groupId>
             <artifactId>paper-api</artifactId>
-            <version>1.21.11-R0.1-SNAPSHOT</version>
+            <version>26.1.2.build.69-stable</version>
             <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>de.oliver</groupId>
             <artifactId>FancyHolograms</artifactId>
-            <version>2.9.0</version>
+            <version>2.10.0</version>
             <scope>provided</scope>
         </dependency>
 
@@ -169,7 +169,7 @@
         <dependency>
             <groupId>net.dv8tion</groupId>
             <artifactId>JDA</artifactId>
-            <version>6.3.1</version>
+            <version>6.4.2</version>
         </dependency>
     </dependencies>
 

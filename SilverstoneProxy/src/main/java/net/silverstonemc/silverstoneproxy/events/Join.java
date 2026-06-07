@@ -1,5 +1,7 @@
 package net.silverstonemc.silverstoneproxy.events;
 
+import static net.silverstonemc.silverstoneproxy.ConfigurationManager.FileType.*;
+
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
 import com.velocitypowered.api.event.Subscribe;
@@ -9,6 +11,7 @@ import com.velocitypowered.api.event.player.ServerPreConnectEvent;
 import com.velocitypowered.api.proxy.Player;
 import com.velocitypowered.api.proxy.server.RegisteredServer;
 import com.velocitypowered.api.util.ServerLink;
+
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.components.actionrow.ActionRow;
 import net.dv8tion.jda.api.components.buttons.Button;
@@ -23,6 +26,7 @@ import net.silverstonemc.silverstoneproxy.SilverstoneProxy;
 import net.silverstonemc.silverstoneproxy.UserManager;
 import net.silverstonemc.silverstoneproxy.WarnPlayer;
 import net.silverstonemc.silverstoneproxy.utils.NicknameUtils;
+
 import org.geysermc.floodgate.api.FloodgateApi;
 import org.spongepowered.configurate.serialize.SerializationException;
 
@@ -30,8 +34,6 @@ import java.awt.*;
 import java.util.*;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-
-import static net.silverstonemc.silverstoneproxy.ConfigurationManager.FileType.*;
 
 public class Join {
     public Join(SilverstoneProxy instance) {

@@ -9,14 +9,26 @@ body:
 
   - type: dropdown
     attributes:
-      label: World the issue occured in
-      description: Your current world can be found in the player tab list
+      label: Server the issue occured in
+      description: Your current server can be found at the bottom of the player tab list
       options:
+        - minigames
         - creative
+        - survival
+    validations:
+      required: true
+
+  - type: dropdown
+    attributes:
+      label: World the issue occured in
+      description: Your current world can be found at the bottom of the player tab list
+      options:
+        - main
+        - main_nether
+        - main_the_end
+        - minigames
         - flying_course
         - mini_golf
-        - minigames
-        - utility
     validations:
       required: true
 

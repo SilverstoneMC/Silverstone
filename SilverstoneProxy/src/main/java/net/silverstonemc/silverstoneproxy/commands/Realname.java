@@ -1,16 +1,18 @@
 package net.silverstonemc.silverstoneproxy.commands;
 
+import static net.silverstonemc.silverstoneproxy.ConfigurationManager.FileType.NICKNAMES;
+
 import com.velocitypowered.api.command.CommandSource;
 import com.velocitypowered.api.command.SimpleCommand;
+
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.silverstonemc.silverstoneproxy.SilverstoneProxy;
 import net.silverstonemc.silverstoneproxy.utils.NicknameUtils;
+
 import org.spongepowered.configurate.ConfigurationNode;
 
 import java.util.UUID;
-
-import static net.silverstonemc.silverstoneproxy.ConfigurationManager.FileType.NICKNAMES;
 
 public class Realname implements SimpleCommand {
     public Realname(SilverstoneProxy instance) {

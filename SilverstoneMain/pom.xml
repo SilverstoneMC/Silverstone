@@ -6,11 +6,11 @@
 
     <groupId>net.silverstonemc</groupId>
     <artifactId>SilverstoneMain</artifactId>
-    <version>4.0.9</version>
+    <version>4.0.10</version>
 
     <properties>
-        <maven.compiler.source>21</maven.compiler.source>
-        <maven.compiler.target>21</maven.compiler.target>
+        <maven.compiler.source>25</maven.compiler.source>
+        <maven.compiler.target>25</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
@@ -23,7 +23,8 @@
                 <artifactId>maven-jar-plugin</artifactId>
                 <version>3.5.0</version>
                 <configuration>
-                    <outputDirectory>C:\Users\jason\OneDrive\Documents\MC Server Plugins\Plugins</outputDirectory>
+                    <outputDirectory>C:\Users\jason\Documents\Documents\MC Server Plugins\Plugins
+                    </outputDirectory>
                 </configuration>
             </plugin>
 
@@ -81,6 +82,7 @@
                 <configuration>
                     <generateBackupPoms>false</generateBackupPoms>
                     <allowMinorUpdates>true</allowMinorUpdates>
+                    <allowRangeMatching>true</allowRangeMatching>
                 </configuration>
             </plugin>
         </plugins>
@@ -104,7 +106,7 @@
         <dependency>
             <groupId>io.papermc.paper</groupId>
             <artifactId>paper-api</artifactId>
-            <version>1.21.11-R0.1-SNAPSHOT</version>
+            <version>26.1.2.build.69-stable</version>
             <scope>provided</scope>
         </dependency>
 

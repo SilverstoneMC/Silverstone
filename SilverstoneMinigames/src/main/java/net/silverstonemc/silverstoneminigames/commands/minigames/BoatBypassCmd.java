@@ -1,6 +1,7 @@
 package net.silverstonemc.silverstoneminigames.commands.minigames;
 
 import net.silverstonemc.silverstoneminigames.events.BoatMount;
+
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;

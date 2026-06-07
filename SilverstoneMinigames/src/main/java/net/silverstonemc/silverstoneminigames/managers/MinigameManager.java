@@ -456,7 +456,13 @@ public class MinigameManager implements CommandExecutor, TabCompleter {
         boolean fullWorld = actionsFile.getConfigurationSection(gameId + ".game-cuboids") == null;
 
         // Teleport players out
-        Location teleportLoc = new Location(Bukkit.getWorld("utility"), -88, 41, -27, 90, 90);
+        Location teleportLoc = new Location(
+            Bukkit.getWorld(SilverstoneMinigames.MAIN_WORLD),
+            -88,
+            41,
+            -27,
+            90,
+            90);
 
         for (Player player : world.getPlayers()) {
             if (player.getGameMode() != GameMode.ADVENTURE) continue;

@@ -1,8 +1,11 @@
 package net.silverstonemc.silverstoneproxy.commands;
 
+import static net.silverstonemc.silverstoneproxy.ConfigurationManager.FileType.CONFIG;
+
 import com.velocitypowered.api.command.CommandSource;
 import com.velocitypowered.api.command.SimpleCommand;
 import com.velocitypowered.api.proxy.Player;
+
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.ClickEvent;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -16,8 +19,6 @@ import net.silverstonemc.silverstoneproxy.utils.NicknameUtils;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
-
-import static net.silverstonemc.silverstoneproxy.ConfigurationManager.FileType.CONFIG;
 
 public class Nickname implements SimpleCommand {
     public Nickname(SilverstoneProxy instance) {

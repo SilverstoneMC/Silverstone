@@ -2,7 +2,9 @@ package net.silverstonemc.silverstonemain.events;
 
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
+
 import net.silverstonemc.silverstonemain.SilverstoneMain;
+
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -23,7 +25,7 @@ public class WirelessButtons implements Listener {
         if (event.getClickedBlock() == null) return;
 
         if (event.getClickedBlock().getType() == Material.STONE_BUTTON)
-            if (event.getClickedBlock().getLocation().getWorld().getName().equalsIgnoreCase("utility")) {
+            if (event.getClickedBlock().getLocation().getWorld().getName().equalsIgnoreCase("main")) {
                 Location loc = event.getClickedBlock().getLocation();
                 Player player = event.getPlayer();
 

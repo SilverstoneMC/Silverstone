@@ -1,7 +1,10 @@
 package net.silverstonemc.silverstoneproxy.commands;
 
+import static net.silverstonemc.silverstoneproxy.ConfigurationManager.FileType.CONFIG;
+
 import com.velocitypowered.api.command.CommandSource;
 import com.velocitypowered.api.command.SimpleCommand;
+
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent.Builder;
 import net.kyori.adventure.text.event.ClickEvent;
@@ -9,13 +12,12 @@ import net.kyori.adventure.text.event.HoverEvent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.silverstonemc.silverstoneproxy.SilverstoneProxy;
+
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.configurate.ConfigurationNode;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static net.silverstonemc.silverstoneproxy.ConfigurationManager.FileType.CONFIG;
 
 public class WarnReasons implements SimpleCommand {
     public WarnReasons(SilverstoneProxy instance) {

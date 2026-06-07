@@ -4,7 +4,10 @@ import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
-import net.silverstonemc.silverstoneminigames.commands.*;
+import net.silverstonemc.silverstoneminigames.commands.Back;
+import net.silverstonemc.silverstoneminigames.commands.DoubleJump;
+import net.silverstonemc.silverstoneminigames.commands.HowToPlay;
+import net.silverstonemc.silverstoneminigames.commands.RandomGame;
 import net.silverstonemc.silverstoneminigames.commands.minigames.BoatBypassCmd;
 import net.silverstonemc.silverstoneminigames.commands.minigames.HideSeekCmd;
 import net.silverstonemc.silverstoneminigames.events.*;
@@ -29,6 +32,7 @@ public class SilverstoneMinigames extends JavaPlugin implements CommandExecutor 
     public static DataFileManager data;
     public static ActionsFileManager actionsData;
     public static JDA jda;
+    public static final String MAIN_WORLD = "main";
     public static final String MINIGAME_WORLD = "minigames";
 
     @SuppressWarnings("DataFlowIssue")
@@ -78,7 +82,6 @@ public class SilverstoneMinigames extends JavaPlugin implements CommandExecutor 
 
         pluginManager.registerEvents(new Back(), this);
         pluginManager.registerEvents(new BoatMount(), this);
-        pluginManager.registerEvents(new Disguise(), this);
         pluginManager.registerEvents(new DoubleJump(), this);
         pluginManager.registerEvents(new HideSeek(this), this);
         pluginManager.registerEvents(new Join(), this);

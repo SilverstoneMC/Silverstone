@@ -1,10 +1,5 @@
 package net.silverstonemc.silverstoneglobal.commands.guis;
 
-import dev.triumphteam.gui.click.ClickContext;
-import dev.triumphteam.gui.layout.GuiLayout;
-import dev.triumphteam.gui.paper.Gui;
-import dev.triumphteam.gui.paper.builder.item.ItemBuilder;
-import dev.triumphteam.gui.slot.Slot;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.event.ClickEvent;
@@ -12,6 +7,7 @@ import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.kyori.adventure.text.minimessage.MiniMessage;
+
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -22,6 +18,12 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
+
+import dev.triumphteam.gui.click.ClickContext;
+import dev.triumphteam.gui.layout.GuiLayout;
+import dev.triumphteam.gui.paper.Gui;
+import dev.triumphteam.gui.paper.builder.item.ItemBuilder;
+import dev.triumphteam.gui.slot.Slot;
 
 public class BuyGUI implements CommandExecutor, Listener {
     public BuyGUI(JavaPlugin plugin) {

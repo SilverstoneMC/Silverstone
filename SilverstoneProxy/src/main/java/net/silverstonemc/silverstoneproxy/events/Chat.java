@@ -1,9 +1,12 @@
 package net.silverstonemc.silverstoneproxy.events;
 
+import static net.silverstonemc.silverstoneproxy.ConfigurationManager.FileType.CONFIG;
+
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
 import com.velocitypowered.api.proxy.Player;
 import com.velocitypowered.api.proxy.server.RegisteredServer;
+
 import net.draycia.carbon.api.event.events.CarbonChatEvent;
 import net.draycia.carbon.api.event.events.CarbonPrivateChatEvent;
 import net.draycia.carbon.api.users.CarbonPlayer;
@@ -18,8 +21,6 @@ import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
-
-import static net.silverstonemc.silverstoneproxy.ConfigurationManager.FileType.CONFIG;
 
 public class Chat {
     public Chat(SilverstoneProxy instance) {
@@ -117,6 +118,6 @@ public class Chat {
         Pattern pattern = Pattern.compile(i.fileManager.files.get(CONFIG).node("url-filter").getString());
 
         return message.replaceText(builder -> builder.match(pattern)
-            .replacement(match -> Component.text("[URL REDACTED]", NamedTextColor.DARK_GRAY)));
+            .replacement(_ -> Component.text("[URL REDACTED]", NamedTextColor.DARK_GRAY)));
     }
 }

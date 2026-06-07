@@ -1,9 +1,11 @@
 package net.silverstonemc.silverstoneproxy.utils;
 
+import static net.silverstonemc.silverstoneproxy.ConfigurationManager.FileType.CONFIG;
+import static net.silverstonemc.silverstoneproxy.ConfigurationManager.FileType.NICKNAMES;
+
 import com.velocitypowered.api.command.CommandSource;
 import com.velocitypowered.api.proxy.Player;
-import me.neznamy.tab.api.TabAPI;
-import me.neznamy.tab.api.TabPlayer;
+
 import net.draycia.carbon.api.CarbonChatProvider;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -11,6 +13,7 @@ import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.silverstonemc.silverstoneproxy.SilverstoneProxy;
 import net.silverstonemc.silverstoneproxy.UserManager;
+
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.serialize.SerializationException;
@@ -19,8 +22,8 @@ import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
-import static net.silverstonemc.silverstoneproxy.ConfigurationManager.FileType.CONFIG;
-import static net.silverstonemc.silverstoneproxy.ConfigurationManager.FileType.NICKNAMES;
+import me.neznamy.tab.api.TabAPI;
+import me.neznamy.tab.api.TabPlayer;
 
 public class NicknameUtils {
     public NicknameUtils(SilverstoneProxy instance) {
