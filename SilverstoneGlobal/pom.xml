@@ -21,7 +21,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
-                <version>3.5.0</version>
+                <version>3.5.1</version>
                 <configuration>
                     <outputDirectory>C:\Users\jason\Documents\Documents\MC Server Plugins\Plugins
                     </outputDirectory>
@@ -150,7 +150,7 @@
         <dependency>
             <groupId>io.papermc.paper</groupId>
             <artifactId>paper-api</artifactId>
-            <version>26.1.2.build.69-stable</version>
+            <version>26.2.build.116-stable</version>
             <scope>provided</scope>
         </dependency>
 
