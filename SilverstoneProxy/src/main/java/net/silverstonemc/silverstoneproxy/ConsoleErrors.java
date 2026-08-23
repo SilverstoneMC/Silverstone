@@ -162,7 +162,7 @@ public class ConsoleErrors extends AbstractAppender {
         } else {
             if (sendRateLimited) //noinspection DataFlowIssue
                 SilverstoneProxy.jda.getTextChannelById(1076713224612880404L).sendMessage(
-                    "-# Limiting error output...").queue();
+                    "-# Limiting error output...").setSuppressedNotifications(true).queue();
             sendRateLimited = false;
             return false;
         }
