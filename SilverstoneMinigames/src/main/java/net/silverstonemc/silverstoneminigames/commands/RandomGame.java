@@ -29,7 +29,8 @@ public class RandomGame implements CommandExecutor {
             return true;
         }
 
-        inventory(player).open(player);
+        sender.sendMessage(Component.text("Sorry, but that command is temporarily disabled.", NamedTextColor.RED));
+//        inventory(player).open(player);
         return true;
     }
 
